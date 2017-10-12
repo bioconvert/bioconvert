@@ -1,5 +1,5 @@
-from biokit.converters.bam2bed import Bam2Bed
-from biokit import biokit_data
+from bioconvert.bam2bed import Bam2Bed
+#from biokit import biokit_data
 from easydev import TempFile, md5
 
 def test_conv():
