@@ -43,7 +43,7 @@ with open('README.rst') as f:
 #sequence = Extension('sequence', sources=['biokit/sequence/sequence.c'])
 
 setup(
-    name             = 'biokit',
+    name             = 'bioconvert',
     version          = version,
     maintainer       = metainfo['authors']['Cokelaer'][0],
     maintainer_email = metainfo['authors']['Cokelaer'][1],
@@ -67,12 +67,12 @@ setup(
 
     package_data = {
         '': ['*.csv'],
-        'biokit.data' : ['*'],
+        'bioconvert.data' : ['*'],
         },
 
     entry_points = {
         'console_scripts':[
-           'converter=biokit.scripts.bioconvert:main'
+           'converter=bioconvert.scripts.bioconvert:main'
         ]
     }
 
