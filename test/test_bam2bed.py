@@ -1,9 +1,9 @@
 from bioconvert.bam2bed import Bam2Bed
-#from biokit import biokit_data
+from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 
 def test_conv():
-    infile = biokit_data("converters/measles.sorted.bam")
+    infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".bed") as tempfile:
         convert = Bam2Bed(infile, tempfile.name)
         convert()
