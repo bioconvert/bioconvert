@@ -1,5 +1,5 @@
 """Convert :term:`BAM` format to :term:`BED` formats"""
-from .base import ConvBase
+from bioconvert import ConvBase
 
 __all__ = ["Bam2Bed"]
 
