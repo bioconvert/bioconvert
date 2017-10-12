@@ -1,0 +1,52 @@
+language: python
+cache:
+  directories:
+    - $HOME/.cache/pip
+
+matrix:
+  include:
+    - python: 3.5
+    - python: 3.6
+
+
+# solution based on https://gist.github.com/dan-blanchard/7045057
+# setup anaconda to install scipy and numpy easily and quickly
+before_install:
+    - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    - chmod +x miniconda.sh
+    - ./miniconda.sh -b
+    - export PATH=$HOME/miniconda3/bin:$PATH
+    - hash -r
+    - conda update --yes conda
+    - conda config --add channels r
+    - conda config --add channels defaults
+    - conda config --add channels conda-forge
+    - conda config --add channels bioconda
+    # are not specific to using mini
+    - sudo rm -rf /dev/shm
+    - sudo ln -s /run/shm /dev/shm
+    # This help testing code with pylab
+    - "export DISPLAY=:99.0"
+    - "sh -e /etc/init.d/xvfb start"
+    # some useful libraries to compile numpy/scipy
+    # - "sudo apt-get install -q libatlas3gf-base libatlas-dev liblapack-dev gfortran"
+
+# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+install:
+  - echo $TRAVIS_PYTHON_VERSION
+  - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements.txt
+
+  - conda install --yes python=$TRAVIS_PYTHON_VERSION  coverage
+  - conda install --yes samtools bamtools bcftools
+  - pip install pytest pytest-cov pytest-qt pytest-xdist pytest-mock pytest-timeout
+  - pip install coveralls
+  - pip install .
+
+
+# # command to run tests, e.g. python setup.py test
+script:
+  - pytest -v --durations=10  test/ --cov=biokit --cov-report term --timeout 300 
+
+
+after_success:
+  coveralls

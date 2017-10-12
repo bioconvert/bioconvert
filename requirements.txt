@@ -1,0 +1,7 @@
+easydev>=0.9.34
+pandas
+biopython
+matplotlib
+numpydoc
+pyyaml
+pysam
