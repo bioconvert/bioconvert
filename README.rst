@@ -17,8 +17,8 @@ Bioinformatics tools in Python
 
 
 
-:note: Bioconvert is tested with Travis for the following Python version: 2.7.9
-       3.4.2 and 3.5.0
+:note: Bioconvert is tested with Travis for the following Python version: 3.5
+and 3.6. Python 2 won't be provided.
 
 :contributions: Please join https://github.com/biokit/bioconvert
 :issues: Please use https://github.com/biokit/bioconvert/issues
