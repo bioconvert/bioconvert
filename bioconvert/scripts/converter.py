@@ -1,112 +1,96 @@
 # -*- coding: utf-8 -*-
-#
+
+##############################################################################
 #  This file is part of Biokit software
 #
-#  Copyright (c) 2016 - Biokit Development Team
+#  Copyright (c) 2017 - Biokit Development Team
 #
 #  Distributed under the terms of the 3-clause BSD license.
 #  The full license is in the LICENSE file, distributed with this software.
 #
 #  website: https://github.com/biokit/bioconvert
 #  documentation: http://bioconvert.readthedocs.io
-#
 ##############################################################################
-""".. rubric:: Standalone application dedicated to coverage"""
+""".. rubric:: Standalone application dedicated to conversion"""
 import os
-import shutil
-import glob
 import sys
 import argparse
-from optparse import OptionParser
-from argparse import RawTextHelpFormatter
-import importlib
+import colorlog
 
-from bioconvert import logger, bioconvert_debug_level
-from bioconvert.converters.registry import Registry
+import bioconvert
+from bioconvert.core.registry import Registry
 
 
-class Options(argparse.ArgumentParser):
-    def  __init__(self, prog="convertor"):
-        usage = """\nUSAGE
+if __name__ == "__main__":
+    from easydev.console import purple, underline
+    print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
+    mapper = Registry()
 
-        convertor inputfile.bam outputfile.bam
-        convertor inputfile.sam outputfile.bam
-        convertor inputfile.fastq outputfile.fasta
-
-        """
-
-        epilog = """ ----    """
-
-        description = """DESCRIPTION:
+    arg_parser = argparse.ArgumentParser(prog="converter",
+                                         epilog=" ----    ",
+                                         description="""DESCRIPTION:
 
 Convertor infer the formats from the extension name. We do not scan the
 input file. Therefore users must ensure that their input format files are
 properly formatted.
 
-        """
-        super(Options, self).__init__(usage=usage, prog=prog,
-                description=description, epilog=epilog)
+""")
+    arg_parser.add_argument("input_file", help="The path to the file to convert.")
+    arg_parser.add_argument("output_file", help="The path where the result will be stored.")
 
-        # options to fill the config file
-        group = self.add_argument_group("Optional arguments")
-        group.add_argument("-f", "--formats", dest="format",
-            action="store_true", default=False,
-            help=("List available format ."))
-        group.add_argument("-l", "--logging-level", dest="logging_level",
-            default="INFO",
-            help=("List available format ."))
-        group.add_argument("-x", "--input-format", dest="input_format",
-            default=None,
-            help=("Provide the input format. Check the --formats to see valid input name"))
+    arg_parser.add_argument("-f", "--formats",
+                            action="store_true",
+                            default=False,
+                            help="Display available formats and exit.")
+    arg_parser.add_argument("-v", "--verbosity",
+                            action="count",
+                            default=0,
+                            help="Set the outpout verbosity.")
+    arg_parser.add_argument("-x", "--input-format",
+                            default=None,
+                            help="Provide the input format. Check the --formats to see valid input name")
 
-
-def main(args=None):
-    from easydev.console import purple, underline
-    print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
-    mapper = Registry()
-
-    if args is None:
-        args = sys.argv[:]
-
-    user_options = Options(prog="converter")
-
-    # If --help or no options provided, show the help
-    if "-f" in args or "--formats" in args:
-        options = user_options.parse_args(args[1:])
-        if options.format:
-            print("Available mapping:")
-            print("==================")
-            for k in sorted(mapper.get_conversions()):
-                print("{} -> {}".format(k[0], k[1]))
-            sys.exit(0)
-
-    if len(args) < 3:
-        user_options.parse_args(["prog", "--help"])
-    else:
-        infile = args[1]
-        outfile = args[2]
-        options = user_options.parse_args(args[3:])
-
+    args = arg_parser.parse_args()
     # Set the logging level
-    bioconvert_debug_level(options.logging_level)
+    args.verbosity = max(10, 30 - (10 * args.verbosity))
+    bioconvert.logger_set_level(args.verbosity)
+    _log = colorlog.getLogger('bioconvert')
+
+    if args.formats:
+        print("Available mapping:")
+        print("==================")
+        for k in sorted(mapper.get_conversions()):
+            print("{} -> {}".format(k[0], k[1]))
+        sys.exit(0)
+
+    infile = args.input_file
+    outfile = args.output_file
 
     # Users may provide information about the input file.
     # Indeed, the input may be a FastQ file but with an extension
     # that is not standard. For instance fq instead of fastq
     # If so, we can use the --input-format fastq to overwrite the
     # provided filename extension
-    inext = "." + os.path.splitext(infile)[-1][1:]
-    outext = "." + os.path.splitext(outfile)[-1][1:]
+    inext = os.path.splitext(infile)[-1]
+    outext = os.path.splitext(outfile)[-1]
 
-    if options.input_format:
-        inext = options.input_format
-        if inext[0] != ".":
+    if args.input_format:
+        inext = args.input_format
+        if not inext.startswith("."):
             inext = "." + inext
+
+    if not inext:
+        raise RuntimeError("convert infer the format from the extension name."
+                           " So add extension to the input file name or use --input-format option.")
+
+    if not outext:
+        raise RuntimeError("convert infer the format from the extension name."
+                           " So add extension to the output file name.")
 
     # From the input parameters 1 and 2, we get the module name
     try:
-        logger.info("Input: {}".format(inext))
-        logger.info("Output: {}".format(outext))
+        _log.info("Input: {}".format(inext))
+        _log.info("Output: {}".format(outext))
         class_converter = mapper[(inext, outext)]
     except KeyError:
         print(mapper)
@@ -115,20 +99,19 @@ def main(args=None):
 
         # Is the module name available in biokit ? If not, let us tell the user
         msg = "Request input format ({}) to output format (({}) is not available in converters"
-        logger.critical(msg.format(inext, outext))
-        logger.critical("Use --formats to know the available formats")
+        _log.critical(msg.format(inext, outext))
+        _log.critical("Use --formats to know the available formats")
         sys.exit(1)
 
 
     # If the module exists, it is part of the MapperRegitry dictionary and
     # we should be able to import it dynamically, create the class and call
     # the instance
-    logger.info("Converting from {} to {}".format(inext, outext))
+    _log.info("Converting from {} to {}".format(inext, outext))
     convert = class_converter(infile, outfile)
     convert()
-    logger.info("Done")
+    _log.info("Done")
 
 
-if __name__ == "__main__":
-   main()
+
 
