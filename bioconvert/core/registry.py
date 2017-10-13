@@ -34,7 +34,7 @@ class Registry(object):
             obj_name, obj = item
             if not inspect.isclass(obj):
                 return False
-            return issubclass(obj, bioconvert.core.base.ConvBase) and not inspect.isabstract(obj)
+            return issubclass(obj, bioconvert.ConvBase) and not inspect.isabstract(obj)
 
         modules = pkgutil.iter_modules(path=path)
         for _, module_name, *_ in modules:
