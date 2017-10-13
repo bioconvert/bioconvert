@@ -49,8 +49,7 @@ class ConvAction(argparse.Action):
             print("{} -> {}".format(k[0], k[1]))
         sys.exit(0)
 
-
-if __name__ == "__main__":
+def main():
     from easydev.console import purple, underline
     print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
 
@@ -126,7 +125,6 @@ properly formatted.
         _log.critical("Use --formats to know the available formats")
         sys.exit(1)
 
-
     # If the module exists, it is part of the MapperRegitry dictionary and
     # we should be able to import it dynamically, create the class and call
     # the instance
@@ -135,6 +133,9 @@ properly formatted.
     convert()
     _log.info("Done")
 
+
+if __name__ == "__main__":
+    main()
 
 
 
