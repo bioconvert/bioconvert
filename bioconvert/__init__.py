@@ -13,7 +13,7 @@ import colorlog
 
 def init_logger():
     handler = colorlog.StreamHandler()
-    formatter = colorlog.ColoredFormatter("%(log_color)s%(levelname)-8s : %(module)s :%(reset)s %(message)s",
+    formatter = colorlog.ColoredFormatter("%(log_color)s%(levelname)-8s : %(reset)s %(message)s",
                                           datefmt=None,
                                           reset=True,
                                           log_colors={
