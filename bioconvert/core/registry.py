@@ -10,8 +10,14 @@ _log = colorlog.getLogger(__name__)
 
 class Registry(object):
     """
+    class to centralise information about available conversions
+
         r = Registry()
         r.conversion_exists("BAM", "BED")
+
+        conv_class = r[(".bam", ".bed")]
+        converter = conv_class(input_file, output_file)
+        converter.convert()
 
     """
 
@@ -55,17 +61,18 @@ class Registry(object):
                         self.set_fmt_conv(converter.input_fmt, converter.output_fmt, converter)
 
 
-    def __setitem__(self, conv_path, value):
+    def __setitem__(self, conv_path, convertor):
         """
-        Set new
+        Register new convertor from input extension to output extension.
+
         :param conv_path: the input extension, the output extension
         :type conv_path: tuple of 2 strings
-        :param value: the convertor which handle the conversion from input_ext -> output_ext
-        :type value: :class:`ConvBase` object
+        :param convertor: the convertor which handle the conversion from input_ext -> output_ext
+        :type convertor: :class:`ConvBase` object
         """
         if conv_path in self._ext_registry:
             raise KeyError('an other converter already exist for {} -> {}'.format(*conv_path))
-        self._ext_registry[conv_path] = value
+        self._ext_registry[conv_path] = convertor
 
 
     def __getitem__(self, conv_path):
@@ -79,8 +86,8 @@ class Registry(object):
 
     def __contains__(self, conv_path):
         """
-        can use membership operation on registry to test if the it exist a converter to
-        go frmo input extension to output extension.
+        Can use membership operation on registry to test if the it exist a converter to
+        go form input extension to output extension.
 
         :param conv_path: the input extension, the output extension
         :type conv_path: tuple of 2 strings
@@ -99,7 +106,7 @@ class Registry(object):
 
     def set_fmt_conv(self, in_fmt, out_fmt, converter):
         """
-        create an entry in the registry for (in_fmt, out_fmt) and the corresponding converter
+        Create an entry in the registry for (in_fmt, out_fmt) and the corresponding converter
 
         :param str in_fmt: the output format
         :param str out_fmt: the output format
