@@ -3,9 +3,6 @@ Bioconvert
 
 Bioinformatics tools in Python
 
-
-
-
 .. image:: https://badge.fury.io/py/bioconvert.svg
     :target: https://pypi.python.org/pypi/bioconvert
 
