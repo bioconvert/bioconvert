@@ -1,0 +1,12 @@
+# This is a useless comments
+fruits:
+  - apple
+  - orange
+# Another comment to say that the names and fruits are lists
+names:
+  - marie
+  - peter
+# While here, we have a section with parameters
+other:
+  do: yes
+  misc: 1

@@ -1,0 +1,14 @@
+{
+    "fruits": [
+        "apple",
+        "orange"
+    ],
+    "names": [
+        "marie",
+        "peter"
+    ],
+    "other": {
+        "do": true,
+        "misc": 1
+    }
+}
