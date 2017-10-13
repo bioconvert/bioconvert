@@ -9,12 +9,57 @@ except:
 from easydev import CustomConfig
 PATH = CustomConfig("bioconvert").user_config_dir
 
-import colorlog as logger
-def bioconvert_debug_level(level="WARNING"):
-    """A deubg level setter at top level of the library"""
-    assert level in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-    logging_level = getattr(logger.logging.logging, level)
-    logger.getLogger().setLevel(logging_level)
+import colorlog
+
+def init_logger():
+    handler = colorlog.StreamHandler()
+    formatter = colorlog.ColoredFormatter("%(log_color)s%(levelname)-8s : %(module)s :%(reset)s %(message)s",
+                                          datefmt=None,
+                                          reset=True,
+                                          log_colors={
+                                              'DEBUG':    'cyan',
+                                              'INFO':     'green',
+                                              'WARNING':  'yellow',
+                                              'ERROR':    'red',
+                                              'CRITICAL': 'red,bg_white',
+                                          },
+                                          secondary_log_colors={},
+                                          style='%'
+                                          )
+    handler.setFormatter(formatter)
+    logger = colorlog.getLogger('bioconvert')
+    logger.addHandler(handler)
+    logger.setLevel(colorlog.logging.logging.WARNING)
+
+init_logger()
+
+def logger_set_level(level=colorlog.logging.logging.WARNING):
+    assert level in (colorlog.logging.logging.DEBUG,
+                     colorlog.logging.logging.INFO,
+                     colorlog.logging.logging.WARNING,
+                     colorlog.logging.logging.ERROR,
+                     colorlog.logging.logging.CRITICAL)
+    logger = colorlog.getLogger('bioconvert')
+    if level == "DEBUG":
+        formatter = colorlog.ColoredFormatter(
+            "%(log_color)s%(levelname)-8s : %(module)s: L %(lineno)d :%(reset)s %(message)s",
+            datefmt=None,
+            reset=True,
+            log_colors={
+                'DEBUG': 'cyan',
+                'INFO': 'green',
+                'WARNING': 'yellow',
+                'ERROR': 'red',
+                'CRITICAL': 'red,bg_white',
+            },
+            secondary_log_colors={},
+            style='%'
+            )
+        handler = logger.handlers[0]
+        handler.setFormatter(formatter)
+
+    logger.setLevel(level)
+
 
 def bioconvert_data(filename, where=None):
     """Simple utilities to retrieve data sets from bioconvert/data directory"""
