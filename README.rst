@@ -9,8 +9,8 @@ Bioinformatics tools in Python
 .. image:: https://badge.fury.io/py/bioconvert.svg
     :target: https://pypi.python.org/pypi/bioconvert
 
-.. image:: https://secure.travis-ci.org/bioconvert/bioconvert.png
-    :target: http://travis-ci.org/bioconvert/bioconvert
+.. image:: https://secure.travis-ci.org/biokit/bioconvert.png
+    :target: http://travis-ci.org/biokit/bioconvert
 
 .. image:: https://coveralls.io/repos/cokelaer/bioconvert/badge.png?branch=master 
    :target: https://coveralls.io/r/cokelaer/bioconvert?branch=master 
