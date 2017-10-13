@@ -20,11 +20,39 @@ import colorlog
 import bioconvert
 from bioconvert.core.registry import Registry
 
+class ConvAction(argparse.Action):
+
+    def __init__(self,
+                 option_strings,
+                 dest=argparse.SUPPRESS,
+                 default=argparse.SUPPRESS,
+                 help="show all formats available and exit"):
+        super(ConvAction, self).__init__(option_strings=option_strings,
+                                         dest=dest,
+                                         default=default,
+                                         nargs=0,
+                                         help=help)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        # the -v --verbosity options may not be parsed yet (if located after -f on command line)
+        # So I do it myself
+        v_nb = ''.join([opt for opt in sys.argv if opt.startswith("-v")]).count('v')
+        verbo_nb = sum([1 for opt in sys.argv if opt.startswith('--verb')])
+        verbosity = v_nb + verbo_nb
+
+        bioconvert.logger_set_level(max(10, 30 - (10 * verbosity)))
+
+        mapper = Registry()
+        print("Available mapping:")
+        print("==================")
+        for k in sorted(mapper.get_conversions()):
+            print("{} -> {}".format(k[0], k[1]))
+        sys.exit(0)
+
 
 if __name__ == "__main__":
     from easydev.console import purple, underline
     print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
-    mapper = Registry()
 
     arg_parser = argparse.ArgumentParser(prog="converter",
                                          epilog=" ----    ",
@@ -39,7 +67,7 @@ properly formatted.
     arg_parser.add_argument("output_file", help="The path where the result will be stored.")
 
     arg_parser.add_argument("-f", "--formats",
-                            action="store_true",
+                            action=ConvAction,
                             default=False,
                             help="Display available formats and exit.")
     arg_parser.add_argument("-v", "--verbosity",
@@ -56,12 +84,7 @@ properly formatted.
     bioconvert.logger_set_level(args.verbosity)
     _log = colorlog.getLogger('bioconvert')
 
-    if args.formats:
-        print("Available mapping:")
-        print("==================")
-        for k in sorted(mapper.get_conversions()):
-            print("{} -> {}".format(k[0], k[1]))
-        sys.exit(0)
+    mapper = Registry()
 
     infile = args.input_file
     outfile = args.output_file
