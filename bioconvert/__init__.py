@@ -21,7 +21,7 @@ def init_logger():
                                               'INFO':     'green',
                                               'WARNING':  'yellow',
                                               'ERROR':    'red',
-                                              'CRITICAL': 'red,bg_white',
+                                              'CRITICAL': 'bold_red',
                                           },
                                           secondary_log_colors={},
                                           style='%'
@@ -40,7 +40,7 @@ def logger_set_level(level=colorlog.logging.logging.WARNING):
                      colorlog.logging.logging.ERROR,
                      colorlog.logging.logging.CRITICAL)
     logger = colorlog.getLogger('bioconvert')
-    if level == "DEBUG":
+    if level <= colorlog.logging.logging.DEBUG:
         formatter = colorlog.ColoredFormatter(
             "%(log_color)s%(levelname)-8s : %(module)s: L %(lineno)d :%(reset)s %(message)s",
             datefmt=None,
@@ -50,7 +50,7 @@ def logger_set_level(level=colorlog.logging.logging.WARNING):
                 'INFO': 'green',
                 'WARNING': 'yellow',
                 'ERROR': 'red',
-                'CRITICAL': 'red,bg_white',
+                'CRITICAL': 'bold_red',
             },
             secondary_log_colors={},
             style='%'
