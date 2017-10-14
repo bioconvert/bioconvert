@@ -26,7 +26,7 @@ Bioconvert
 
 
 
-:note: BioKit is tested with Travis for the following Python version: 3.5, 3.6
+:note: Bioconvert is tested with Travis for the following Python version: 3.5, 3.6
 :contributions: Please join https://github.com/biokit/bioconvert
 :issues: Please use https://github.com/biokit/bioconvert/issues
 
@@ -60,11 +60,6 @@ Overview
     glossary
     ChangeLog.rst
 
-
-Examples in notebooks
-########################
-
-Set of `Notebooks <http://nbviewer.ipython.org/github/biokit/biokit/tree/master/notebooks/>`_
 
 
 
