@@ -5,11 +5,15 @@ try:
 except:
     version = __version__
 
-# Creates the data directory if it does not exist
-from easydev import CustomConfig
-PATH = CustomConfig("bioconvert").user_config_dir
-
 import colorlog
+#from easydev import CustomConfig
+
+# Creates the data directory if it does not exist
+#PATH = CustomConfig("bioconvert").user_config_dir
+
+# The API
+
+from bioconvert.core.base import ConvBase
 
 def init_logger():
     handler = colorlog.StreamHandler()
@@ -77,4 +81,3 @@ def bioconvert_data(filename, where=None):
     return filename
 
 
-from bioconvert.core.base import ConvBase

@@ -1,11 +1,14 @@
 """Convert :term:`VCF` file to :term:`BCF` file"""
-from biokit.converters.convbase import ConvBase
+from bioconvert import ConvBase
 
 
 class VCF2BCF(ConvBase):
     """
 
     """
+    input_ext = [".vcf"]
+    output_ext = [".bcf"]
+
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 

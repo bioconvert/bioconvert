@@ -49,11 +49,15 @@ class ConvAction(argparse.Action):
             print("{} -> {}".format(k[0], k[1]))
         sys.exit(0)
 
-def main():
+def main(args=None):
+
+    if args is None:
+        args = sys.argv[:]
+
     from easydev.console import purple, underline
     print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
 
-    arg_parser = argparse.ArgumentParser(prog="converter",
+    arg_parser = argparse.ArgumentParser(prog="bioconvert",
                                          epilog=" ----    ",
                                          description="""DESCRIPTION:
 

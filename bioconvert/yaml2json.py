@@ -1,6 +1,6 @@
 """Convert :term:`YAML` to :term:`JSON` format"""
 import yaml, json
-from biokit.converters.base import ConvBase
+from bioconvert import ConvBase
 
 __all__ = ["YAML2JSON"]
 

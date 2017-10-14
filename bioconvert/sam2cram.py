@@ -1,9 +1,11 @@
 """Convert :term:`SAM` file to :term:`CRAM` file"""
 import os
 
-from biokit.converters.base import ConvBase
-from biokit import logger
+from bioconvert import ConvBase
 from easydev.multicore import cpu_count
+
+import colorlog
+logger = colorlog.getLogger(__name__)
 
 
 class SAM2CRAM(ConvBase):
@@ -24,7 +26,7 @@ class SAM2CRAM(ConvBase):
 
         :param str infile: input SAM file
         :param str outfile: output filename
-        :param str referece: reference file in :trm:`FASTA` format
+        :param str reference: reference file in :term:`FASTA` format
 
         command used::
 
