@@ -20,6 +20,14 @@ Glossary
         The index file for a file generated in the BAM format. (This is a
         non-standard file type.)
 
+    BCF
+
+        TODO
+
+    CRAM
+
+        TODO
+
     DSRC
 
         A compression tool dedicated to FastQ files
