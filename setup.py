@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import os
 from setuptools import setup, find_packages
 
 _MAJOR = 0
@@ -38,6 +38,16 @@ metainfo = {
 with open('README.rst') as f:
     readme = f.read()
 
+requirements = open("requirements.txt").read().split()
+
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+if on_rtd:
+    # pillow, sphinx, numpydoc are  for the doc only
+    extra_packages = ["pillow", "numpydoc", "sphinx", "sphinx_gallery"]
+    requirements += extra_packages
+
+
+
 setup(
     name='bioconvert',
     version=version,
@@ -55,7 +65,7 @@ setup(
     classifiers=metainfo['classifiers'],
     zip_safe=False,
     packages=find_packages(),
-    install_requires=open('requirements.txt').read().split(),
+    install_requires=requirements,
 
     # This is recursive include of data files
     exclude_package_data={"": ["__pycache__"]},
