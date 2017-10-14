@@ -11,8 +11,18 @@ Bioconvert
 .. image:: https://secure.travis-ci.org/biokit/bioconvert.png
        :target: http://travis-ci.org/biokit/bioconvert
 
-.. image:: https://coveralls.io/repos/cokelaer/bioconvert/badge.png?branch=master 
-      :target: https://coveralls.io/r/cokelaer/bioconvert?branch=master 
+.. image::
+   https://coveralls.io/repos/github/biokit/bioconvert/badge.svg?branch=master
+    :target: https://coveralls.io/github/biokit/bioconvert?branch=master
+
+.. image:: http://readthedocs.org/projects/bioconvert/badge/?version=master
+       :target: http://bioconvert.readthedocs.org/en/latest/?badge=master
+    :alt: Documentation Status
+
+.. image:: https://badges.gitter.im/biokit/bioconvert.svg
+       :target: https://gitter.im/bioconvert/Lobby?source=orgpage
+
+
 
 
 
