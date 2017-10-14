@@ -19,6 +19,7 @@ Bioinformatics tools in Python
 .. image:: https://badges.gitter.im/biokit/bioconvert.svg
     :target: https://gitter.im/bioconvert/Lobby?source=orgpage
 
+
 :note: Bioconvert is tested with Travis for the following Python version: 3.5 and 3.6. Python 2 won't be provided.
 
 :contributions: Please join https://github.com/biokit/bioconvert
