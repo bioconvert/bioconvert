@@ -18,4 +18,5 @@ dependencies:
 - easydev>=0.9.34
 - pip
 - ruamel.yaml<=0.15.0
+- graphviz
 - python-graphviz
