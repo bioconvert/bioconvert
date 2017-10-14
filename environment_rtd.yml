@@ -12,6 +12,7 @@ dependencies:
 - biopython
 - numpy
 - matplotlib
+- pandas
 - scipy
 - pysam
 - pillow
