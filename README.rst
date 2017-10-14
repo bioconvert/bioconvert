@@ -12,6 +12,13 @@ Bioinformatics tools in Python
 .. image:: https://coveralls.io/repos/github/biokit/bioconvert/badge.svg?branch=master
     :target: https://coveralls.io/github/biokit/bioconvert?branch=master
 
+.. image:: http://readthedocs.org/projects/bioconvert/badge/?version=master
+    :target: http://bioconvert.readthedocs.org/en/latest/?badge=master
+    :alt: Documentation Status
+
+.. image:: https://badges.gitter.im/biokit/bioconvert.svg
+    :target: https://gitter.im/biokit/bioconvert?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+
 
 :note: Bioconvert is tested with Travis for the following Python version: 3.5 and 3.6. Python 2 won't be provided.
 
