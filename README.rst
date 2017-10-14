@@ -9,9 +9,8 @@ Bioinformatics tools in Python
 .. image:: https://secure.travis-ci.org/biokit/bioconvert.png
     :target: http://travis-ci.org/biokit/bioconvert
 
-.. image:: https://coveralls.io/repos/cokelaer/bioconvert/badge.png?branch=master 
-   :target: https://coveralls.io/r/cokelaer/bioconvert?branch=master 
-
+.. image:: https://coveralls.io/repos/github/biokit/bioconvert/badge.svg?branch=master
+    :target: https://coveralls.io/github/biokit/bioconvert?branch=master
 
 
 :note: Bioconvert is tested with Travis for the following Python version: 3.5 and 3.6. Python 2 won't be provided.

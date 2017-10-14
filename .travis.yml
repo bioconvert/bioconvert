@@ -37,7 +37,7 @@ install:
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements.txt
 
   - conda install --yes python=$TRAVIS_PYTHON_VERSION  coverage
-  - conda install --yes samtools bamtools bcftools
+  - conda install --yes samtools bamtools bcftools python-graphviz
   - pip install pytest pytest-cov pytest-qt pytest-xdist pytest-mock pytest-timeout
   - pip install coveralls
   - pip install .

@@ -1,0 +1,21 @@
+name: bioconvert
+
+channels:
+- bioconda
+- conda-forge
+- defaults
+- r
+
+dependencies:
+- python=3.5.0
+- colorlog
+- biopython
+- numpy
+- matplotlib
+- scipy
+- pysam
+- pillow
+- easydev>=0.9.34
+- pip
+- ruamel.yaml<=0.15.0
+- python-graphviz
