@@ -26,27 +26,26 @@ Bioinformatics tools in Python
 :issues: Please use https://github.com/biokit/bioconvert/issues
 
 
-Usage
-===============
-
-
-::
-
-    bioconvert input.fastq output.fasta
-    
-
-:: 
-
-    bioconvert --formats 
-
-to see all possible conversion
-
-
 Installation
-==============
+###############
 
-::
+In order to install bioconvert, you can use **pip**::
 
     pip install bioconvert
+
+.. Or using bioconda channel from the Anaconda project::
+
+..    conda install bioconvert
+
+Usage
+##########
+
+::
+
+    convert input.fastq output.fasta
+    convert input.fq output.fasta
+    convert input.mybam output.bed --input-format bam
+    convert --formats
+    convert --help
 
 

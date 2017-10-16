@@ -31,20 +31,31 @@ Bioconvert
 :issues: Please use https://github.com/biokit/bioconvert/issues
 
 
-Overview
+Installation
 ###############
 
 In order to install bioconvert, you can use **pip**::
 
     pip install bioconvert
 
-Or using bioconda channel from the Anaconda project::
+.. Or using bioconda channel from the Anaconda project::
 
-    conda install bioconvert
+..    conda install bioconvert
+
+Usage
+##########
+
+::
+
+    convert input.fastq output.fasta
+    convert input.fq output.fasta
+    convert input.mybam output.bed --input-format bam
+    convert --formats
+    convert --help
 
 
-Overview
-#############
+User and Developer Guides
+#############################
 
 .. autosummary::
 
