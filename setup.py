@@ -42,8 +42,10 @@ requirements = open("requirements.txt").read().split()
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if on_rtd:
-    # pillow, sphinx, numpydoc are  for the doc only
+    # pillow, sphinx, numpydoc are  for the doc only seem to be installed by RTD
+    # now
     #extra_packages = ["pillow", "numpydoc", "sphinx", "sphinx_gallery"]
+    extra_packages = []
     requirements += extra_packages
 
 
