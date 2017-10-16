@@ -147,7 +147,7 @@ modindex_common_prefix = ["bioconvert."]
 plot_gallery = True
 sphinx_gallery_conf = {
     "doc_module": "bioconvert",
-    #'backreferences_dir': True
+    'backreferences_dir': "False"
 
 #    "examples_dirs": "examples",
 #    "gallery_dirs": "auto_examples",
