@@ -59,8 +59,9 @@ User and Developer Guides
 
 .. autosummary::
 
-    bioconvert.bioconvert
     bioconvert.core
+    bioconvert.bam2bed
+    bioconvert.bam2sam
 
 .. toctree::
     :maxdepth: 2 
