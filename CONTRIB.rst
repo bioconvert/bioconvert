@@ -7,3 +7,4 @@ People are listed alphabetically,
 
 - Bertrand Néron <https://github.com/bneron>
 - Thomas Cokelaer <homas.cokelaer@pasteur.fr>
+- Pierre LECHAT  <plechat@pasteur.fr>
