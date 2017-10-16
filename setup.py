@@ -45,7 +45,7 @@ if on_rtd:
     # pillow, sphinx, numpydoc are  for the doc only seem to be installed by RTD
     # now
     #extra_packages = ["pillow", "numpydoc", "sphinx", "sphinx_gallery"]
-    extra_packages = []
+    extra_packages = ["sphinx_gallery"]
     requirements += extra_packages
 
 
