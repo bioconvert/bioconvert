@@ -67,6 +67,8 @@ User and Developer Guides
     :maxdepth: 2 
     :numbered:
 
+    user_guide
+    developer_guide
     auto_examples/index
     references
     glossary
