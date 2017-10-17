@@ -37,8 +37,8 @@ import matplotlib
 import matplotlib.sphinxext
 
 release = version
-author = "BioKit developers"
-title = "BioKit"
+author = "Bioconvet developers"
+title = "Bioconvert"
 copyright = author + ", 2017"
 project = 'bioconvert'
 
@@ -55,23 +55,19 @@ project = 'bioconvert'
 
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.coverage',
-    'sphinx.ext.graphviz',
-    'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',
-    'sphinx.ext.coverage',
-    'sphinx.ext.ifconfig',
-    'sphinx.ext.viewcode',
-    "numpydoc.numpydoc",
-    'easydev.copybutton',
-    'matplotlib.sphinxext.plot_directive',
-    'matplotlib.sphinxext.only_directives',
     ('sphinx.ext.imgmath'  # only available for sphinx >= 1.4
                   if sphinx.version_info[:2] >= (1, 4)
                   else 'sphinx.ext.pngmath'),
-    'sphinx_gallery.gen_gallery'
+    'sphinx.ext.coverage',
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
+    'sphinx.ext.ifconfig',
+    'sphinx.ext.viewcode',
+    "numpydoc.numpydoc",
+    'matplotlib.sphinxext.plot_directive',
+    'sphinx.ext.autosummary',
+    'sphinx_gallery.gen_gallery',
     ]
 # note that the numpy directives is buggy. Example: class and init are not recognised as two entities for the autoclass_content=both here below
 
@@ -121,6 +117,7 @@ release = release
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
+exclude_trees = ['_build']
 exclude_patterns = []
 
 # The reST default role (used for this markup: `text`) to use for all documents.
@@ -147,8 +144,6 @@ modindex_common_prefix = ["bioconvert."]
 plot_gallery = True
 sphinx_gallery_conf = {
     "doc_module": "bioconvert",
-    'backreferences_dir': "False"
-
 #    "examples_dirs": "examples",
 #    "gallery_dirs": "auto_examples",
 }
@@ -210,7 +205,7 @@ else:
 #html_title = None
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-html_short_title = "BioKit"
+html_short_title = "Bioconvert"
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
@@ -226,7 +221,7 @@ html_short_title = "BioKit"
 # so a file named "default.css" will overwrite the builtin "default.css".
 
 # the copybutton.js must be copied there: 
-html_static_path = ['source/_static']
+html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -240,10 +235,10 @@ html_last_updated_fmt = '%b %d, %Y'
 html_index = 'index.html'
 
 #Custom sidebar templates, maps page names to templates.
-html_sidebars = {
-                    'index': [ 'indexsidebar.html'], 
-                    'contents':'indexsidebar.html',
-}
+#html_sidebars = {
+#                    'index': [ 'indexsidebar.html'], 
+#                    'contents':'indexsidebar.html',
+#}
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
 #html_additional_pages = {   'index': 'index.html'}
