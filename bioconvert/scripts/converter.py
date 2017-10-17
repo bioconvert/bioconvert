@@ -77,9 +77,15 @@ properly formatted.
                             action="count",
                             default=0,
                             help="Set the outpout verbosity.")
-    arg_parser.add_argument("-x", "--input-format",
+    arg_parser.add_argument("-i", "--input-format",
                             default=None,
                             help="Provide the input format. Check the --formats to see valid input name")
+    arg_parser.add_argument("-o", "--output-format",
+                            default=None,
+                            help="Provide the output format. Check the --formats to see valid input name")
+    arg_parser.add_argument("-x", "--threads",
+                            default=None,
+                            help="Number of threads. Depends on the underlying tool")
 
     args = arg_parser.parse_args()
     # Set the logging level
@@ -134,7 +140,7 @@ properly formatted.
     # the instance
     _log.info("Converting from {} to {}".format(inext, outext))
     convert = class_converter(infile, outfile)
-    convert()
+    convert(threads=args.threads)
     _log.info("Done")
 
 
