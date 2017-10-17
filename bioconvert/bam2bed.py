@@ -31,3 +31,22 @@ class Bam2Bed(ConvBase):
         cmd = "samtools depth -aa {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
+    def _method_samtools(self, *args, **kargs):
+        """
+        do the conversion  sorted :term`BAM` -> :term:'BED` using samtools
+
+        :return: the standard output
+        :rtype: :class:`io.StringIO` object.
+        """
+        cmd = "samtools depth -aa {} > {}".format(self.infile, self.outfile)
+        self.execute(cmd)
+
+    def _method_bedtools(self, *args, **kargs):
+        """
+        do the conversion  sorted :term`BAM` -> :term:'BED` using samtools
+
+        :return: the standard output
+        :rtype: :class:`io.StringIO` object.
+        """
+        cmd = "bedtools bamtobed -i {} > {}".format(self.infile, self.outfile)
+        self.execute(cmd)
