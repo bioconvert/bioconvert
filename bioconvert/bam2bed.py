@@ -48,5 +48,5 @@ class Bam2Bed(ConvBase):
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
         """
-        cmd = "bedtools bamtobed -i {} > {}".format(self.infile, self.outfile)
+        cmd = "bedtools genomecov -d -ibam {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
