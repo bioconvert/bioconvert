@@ -23,6 +23,8 @@ dependencies:
 - graphviz
 - python-graphviz
 
+
+# This is important (October 2017) otherwise the build fails on RTD
 - pip:
   - docutils<0.13.1 # https://github.com/sphinx-doc/sphinx/issues/3212
 
