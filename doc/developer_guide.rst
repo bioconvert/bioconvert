@@ -49,4 +49,30 @@ In this file, copy and paste this example::
 
             self.execute(cmd)
 
+How to add a test
+-----------------------
+
+
+How to add new methods in an existing converter
+---------------------------------------------------
+
+
+How to benchmark your new method vs others
+--------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
