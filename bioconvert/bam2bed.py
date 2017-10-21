@@ -21,6 +21,9 @@ class Bam2Bed(ConvBase):
         """
         super().__init__(infile, outfile)
 
+        self.available_methods = ["samtools", "bedtools"]
+        self.default = "samtools"
+
     def __call__(self, *args, **kwargs):
         """
         do the conversion  sorted :term`BAM` -> :term:'BED`
@@ -28,10 +31,14 @@ class Bam2Bed(ConvBase):
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
         """
-        cmd = "samtools depth -aa {} > {}".format(self.infile, self.outfile)
-        self.execute(cmd)
+        method = kwargs.get("method", self.default)
+        assert method in self.available_methods
+        if method == "samtools":
+            self._method_samtools(*args, **kwargs)
+        elif method == "bedtools":
+            self._method_bedtools(*args, **kwargs)
 
-    def _method_samtools(self, *args, **kargs):
+    def _method_samtools(self, *args, **kwargs):
         """
         do the conversion  sorted :term`BAM` -> :term:'BED` using samtools
 
@@ -41,7 +48,7 @@ class Bam2Bed(ConvBase):
         cmd = "samtools depth -aa {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
-    def _method_bedtools(self, *args, **kargs):
+    def _method_bedtools(self, *args, **kwargs):
         """
         do the conversion  sorted :term`BAM` -> :term:'BED` using samtools
 
