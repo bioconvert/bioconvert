@@ -14,6 +14,7 @@ import colorlog
 # The API
 
 from bioconvert.core.base import ConvBase
+from bioconvert.core.benchmark import Benchmark
 
 def init_logger():
     handler = colorlog.StreamHandler()
@@ -37,14 +38,12 @@ def init_logger():
 
 init_logger()
 
-def logger_set_level(level=colorlog.logging.logging.WARNING):
-    assert level in (colorlog.logging.logging.DEBUG,
-                     colorlog.logging.logging.INFO,
-                     colorlog.logging.logging.WARNING,
-                     colorlog.logging.logging.ERROR,
-                     colorlog.logging.logging.CRITICAL)
+def logger_set_level(level="WARNING"):
+    assert level in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+    logging_level = getattr(colorlog.logging.logging, level)
+
     logger = colorlog.getLogger('bioconvert')
-    if level <= colorlog.logging.logging.DEBUG:
+    if logging_level <= colorlog.logging.logging.DEBUG:
         formatter = colorlog.ColoredFormatter(
             "%(log_color)s%(levelname)-8s : %(module)s: L %(lineno)d :%(reset)s %(message)s",
             datefmt=None,
@@ -62,7 +61,7 @@ def logger_set_level(level=colorlog.logging.logging.WARNING):
         handler = logger.handlers[0]
         handler.setFormatter(formatter)
 
-    logger.setLevel(level)
+    logger.setLevel(logging_level)
 
 
 def bioconvert_data(filename, where=None):
