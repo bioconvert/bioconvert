@@ -90,8 +90,16 @@ class ConvMeta(abc.ABCMeta):
             return True
 
         def is_conversion_method(item):
-            return inspect.isfunction(item) and item.__name__.startswith('_method_')
+            """
+            This method is used as filter of inspect.getmembers func to list all conversion methods implemented
+            in a convertor class.
 
+            :param item: the object to check if it is a conversion method
+            :return: True if item is a function and its name starts with '__method_',
+                     False otherwise.
+            :rtype: boolean
+            """
+            return inspect.isfunction(item) and item.__name__.startswith('_method_')
 
         if name != 'ConvBase':
             if '2' not in name:
@@ -106,7 +114,6 @@ class ConvMeta(abc.ABCMeta):
             available_conv_meth = inspect.getmembers(cls, is_conversion_method)
             setattr(cls, 'available_methods', available_conv_meth)
             _log.debug("class = {}  available_methods = {}".format(cls.__name__, available_conv_meth))
-
 
 
 class ConvBase(metaclass=ConvMeta):
