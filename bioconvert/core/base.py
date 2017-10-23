@@ -105,7 +105,7 @@ class ConvMeta(abc.ABCMeta):
             setattr(cls, 'output_fmt', output_fmt)
             available_conv_meth = inspect.getmembers(cls, is_conversion_method)
             setattr(cls, 'available_methods', available_conv_meth)
-            print("cls =", cls.__name__, "    available_methods =", cls.available_methods)
+            _log.debug("class = {}  available_methods = {}".format(cls.__name__, available_conv_meth))
 
 
 
