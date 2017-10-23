@@ -22,3 +22,4 @@ dependencies:
 - pango
 - graphviz
 - python-graphviz
+- bedtools          # used in gallery and bam2bed
