@@ -24,6 +24,7 @@ from subprocess import Popen, PIPE
 import colorlog
 _log = colorlog.getLogger(__name__)
 
+from bioconvert.core.benchmark import Benchmark
 
 class ConvMeta(abc.ABCMeta):
     """
@@ -90,13 +91,14 @@ class ConvMeta(abc.ABCMeta):
             return True
 
         def is_conversion_method(item):
-            """
-            This method is used as filter of inspect.getmembers func to list all conversion methods implemented
-            in a convertor class.
+            """Return True is method name starts with _method_
 
-            :param item: the object to check if it is a conversion method
-            :return: True if item is a function and its name starts with '__method_',
-                     False otherwise.
+            This method is used to keep methods that starts with _method_.
+            It uses inspect.getmembers func to list
+            all conversion methods implemented in a convertor class.
+
+            :param item: the object to inspect
+            :return: True if method's name starts with '__method_', False otherwise.
             :rtype: boolean
             """
             return inspect.isfunction(item) and item.__name__.startswith('_method_')
@@ -112,8 +114,10 @@ class ConvMeta(abc.ABCMeta):
             setattr(cls, 'input_fmt', input_fmt)
             setattr(cls, 'output_fmt', output_fmt)
             available_conv_meth = inspect.getmembers(cls, is_conversion_method)
-            setattr(cls, 'available_methods', available_conv_meth)
-            _log.debug("class = {}  available_methods = {}".format(cls.__name__, available_conv_meth))
+            setattr(cls, 'available_methods', 
+                [name[0].lstrip("_method_") for name in available_conv_meth])
+            _log.debug("class = {}  available_methods = {}".format(cls.__name__, 
+                                                            available_conv_meth))
 
 
 class ConvBase(metaclass=ConvMeta):
@@ -148,10 +152,8 @@ class ConvBase(metaclass=ConvMeta):
         self.outfile = outfile
         self._check_extension()
 
-
     def _check_extension(self):
         print("FIXME _check_extension")
-
 
     @abc.abstractmethod
     def __call__(self, *args, **kwargs):
@@ -160,11 +162,9 @@ class ConvBase(metaclass=ConvMeta):
         """
         print('args=', args, 'kwargs=', kwargs)
 
-
     def _get_name(self):
         return type(self).__name__
     name = property(_get_name, doc="return the name of the class")
-
 
     def execute(self, cmd, ignore_errors=False, verbose=False):
         t1 = time.time()
@@ -174,7 +174,6 @@ class ConvBase(metaclass=ConvMeta):
         self.last_duration = t2 - t1
         _log.info("Took {} seconds ".format(t2-t1))
         self._last_time = t2 - t1
-
 
     def _execute(self, cmd, ignore_errors=False, verbose=False):
         """
@@ -235,3 +234,8 @@ class ConvBase(metaclass=ConvMeta):
                 raise RuntimeError(errors.getvalue())
         else:
             return output
+
+
+    def boxplot_benchmark(self):
+        b = Benchmark(self)
+        b.plot()
