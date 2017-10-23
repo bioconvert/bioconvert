@@ -16,6 +16,8 @@ import time
 import abc
 import select
 import sys
+import inspect
+
 from io import StringIO
 from subprocess import Popen, PIPE
 
@@ -87,6 +89,10 @@ class ConvMeta(abc.ABCMeta):
                                 "in the class or subclasses".format(cls.__name__, io_name))
             return True
 
+        def is_conversion_method(item):
+            return inspect.isfunction(item) and item.__name__.startswith('_method_')
+
+
         if name != 'ConvBase':
             if '2' not in name:
                 raise TypeError("converter name must follow convention input2output")
@@ -97,6 +103,10 @@ class ConvMeta(abc.ABCMeta):
                 check_ext(output_ext, 'output')
             setattr(cls, 'input_fmt', input_fmt)
             setattr(cls, 'output_fmt', output_fmt)
+            available_conv_meth = inspect.getmembers(cls, is_conversion_method)
+            setattr(cls, 'available_methods', available_conv_meth)
+            print("cls =", cls.__name__, "    available_methods =", cls.available_methods)
+
 
 
 class ConvBase(metaclass=ConvMeta):
