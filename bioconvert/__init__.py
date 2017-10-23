@@ -14,6 +14,7 @@ import colorlog
 # The API
 
 from bioconvert.core.base import ConvBase
+from bioconvert.core.benchmark import Benchmark
 
 def init_logger():
     handler = colorlog.StreamHandler()

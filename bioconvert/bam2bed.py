@@ -20,6 +20,7 @@ class Bam2Bed(ConvBase):
         :param str outfile: The path to the output file
         """
         super().__init__(infile, outfile)
+        self.default = "samtools"
 
     def __call__(self, *args, **kwargs):
         """
@@ -28,6 +29,27 @@ class Bam2Bed(ConvBase):
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
         """
+        method_name = kwargs.get("method", self.default)
+        assert method_name in self.available_methods
+        method_reference = getattr(self, "_method_{}".format(method_name))
+        method_reference(*args, **kwargs)
+
+    def _method_samtools(self, *args, **kwargs):
+        """
+        do the conversion  sorted :term`BAM` -> :term:'BED` using samtools
+
+        :return: the standard output
+        :rtype: :class:`io.StringIO` object.
+        """
         cmd = "samtools depth -aa {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
+    def _method_bedtools(self, *args, **kwargs):
+        """
+        do the conversion  sorted :term`BAM` -> :term:'BED` using samtools
+
+        :return: the standard output
+        :rtype: :class:`io.StringIO` object.
+        """
+        cmd = "bedtools genomecov -d -ibam {} > {}".format(self.infile, self.outfile)
+        self.execute(cmd)
