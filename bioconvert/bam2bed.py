@@ -20,8 +20,6 @@ class Bam2Bed(ConvBase):
         :param str outfile: The path to the output file
         """
         super().__init__(infile, outfile)
-
-        self.available_methods = ["samtools", "bedtools"]
         self.default = "samtools"
 
     def __call__(self, *args, **kwargs):
@@ -31,12 +29,10 @@ class Bam2Bed(ConvBase):
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
         """
-        method = kwargs.get("method", self.default)
-        assert method in self.available_methods
-        if method == "samtools":
-            self._method_samtools(*args, **kwargs)
-        elif method == "bedtools":
-            self._method_bedtools(*args, **kwargs)
+        method_name = kwargs.get("method", self.default)
+        assert method_name in self.available_methods
+        method_reference = getattr(self, "_method_{}".format(method_name))
+        method_reference(*args, **kwargs)
 
     def _method_samtools(self, *args, **kwargs):
         """
