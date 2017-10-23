@@ -21,9 +21,7 @@ import bioconvert
 from bioconvert.core.registry import Registry
 
 class ConvAction(argparse.Action):
-    """Print converters formats
 
-    """
     def __init__(self,
                  option_strings,
                  dest=argparse.SUPPRESS,
@@ -42,11 +40,11 @@ class ConvAction(argparse.Action):
         verbo_nb = sum([1 for opt in sys.argv if opt.startswith('--verb')])
         verbosity = v_nb + verbo_nb
 
-        #bioconvert.logger_set_level(max(10, 30 - (10 * verbosity)))
+        bioconvert.logger_set_level(max(10, 30 - (10 * verbosity)))
 
         mapper = Registry()
-        print("Available conversion:")
-        print("=====================")
+        print("Available mapping:")
+        print("==================")
         for k in sorted(mapper.get_conversions()):
             print("{} -> {}".format(k[0], k[1]))
         sys.exit(0)
@@ -68,10 +66,8 @@ input file. Therefore users must ensure that their input format files are
 properly formatted.
 
 """)
-    arg_parser.add_argument("input_file",
-            help="The path to the file to convert.")
-    arg_parser.add_argument("output_file",
-            help="The path where the result will be stored.")
+    arg_parser.add_argument("input_file", help="The path to the file to convert.")
+    arg_parser.add_argument("output_file", help="The path where the result will be stored.")
 
     arg_parser.add_argument("-f", "--formats",
                             action=ConvAction,
@@ -87,11 +83,8 @@ properly formatted.
 
     args = arg_parser.parse_args()
     # Set the logging level
-    #args.verbosity = max(10, 30 - (10 * args.verbosity))
-    if args.verbosity.
-        bioconvert.logger_set_level("INFO")
-    else:
-        bioconvert.logger_set_level("WARNING")
+    args.verbosity = max(10, 30 - (10 * args.verbosity))
+    bioconvert.logger_set_level(args.verbosity)
     _log = colorlog.getLogger('bioconvert')
 
     mapper = Registry()
