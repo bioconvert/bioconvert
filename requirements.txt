@@ -7,4 +7,3 @@ numpydoc
 pyyaml
 pysam
 graphviz
-graphviz-python
