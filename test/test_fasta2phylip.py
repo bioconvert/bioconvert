@@ -3,7 +3,7 @@ import pytest
 from easydev import TempFile, md5
 
 from bioconvert import bioconvert_data
-from fasta2phylip import FASTA2PHYLIP, PHYLIP2FASTA
+from bioconvert.fasta2phylip import FASTA2PHYLIP, PHYLIP2FASTA
 
 skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
                                 and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
