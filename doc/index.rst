@@ -44,23 +44,28 @@ In order to install bioconvert, you can use **pip**::
 Usage
 ##########
 
-::
+From the command line::
 
-    convert input.fastq output.fasta
-    convert input.fq output.fasta
-    convert input.mybam output.bed --input-format bam
-    convert --formats
-    convert --help
+    bioconvert input.fastq output.fasta
+    bioconvert input.fq output.fasta
+    bioconvert input.mybam output.bed --input-format bam
+    bioconvert --formats
+    bioconvert --help
+
+From Python shell::
+
+    # import a converter
+    from bioconvert import Fastq2Fasta
+
+    # Instanciate with infile/outfile names
+    convert = Fastq2Fasta(infile, outfile)
+
+    # the conversion itself
+    convert()
 
 
 User and Developer Guides
 #############################
-
-.. autosummary::
-
-    bioconvert.core
-    bioconvert.bam2bed
-    bioconvert.bam2sam
 
 .. toctree::
     :maxdepth: 2 

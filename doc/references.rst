@@ -4,12 +4,24 @@
 References
 ==========
 
+.. autosummary::
+
+    bioconvert.core
+    bioconvert.bam2bed
+    bioconvert.bam2sam
+    bioconvert.fasta2phylip
+
+
 .. automodule:: bioconvert.core.base
 
 NGS bioconverters
 -------------------
 
 .. automodule:: bioconvert.bam2bed
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.bam2sam
     :members:
     :synopsis:
 

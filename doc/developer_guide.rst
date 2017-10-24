@@ -5,30 +5,26 @@ Developer guide
 How to add a new converter ?
 -----------------------------------
 
-What is accepted as a converter a simple conversion from one foramt to another
-one without third-party file. For instance, if you need a reference file, this
-is not part of the API for the moment. 
+For now, converters are simple conversion from one format to another one.
+There is no third-party file. For instance, if you need a reference file, this
+is not part of the API for the moment.
 
 Now, let us take a simple example such as a fastq to fasta conversion. 
 
-
 First, you need to create a module (Python file). We use the convention::
-
 
     input2output.py
 
-all in small caps if possible.
-
-In this file, copy and paste this example::
+all in small caps ! In this file, copy and paste this example::
 
 
     """Convert :term:`FastQ` format to :term:`Fasta` formats"""
     from bioconvert import ConvBase
 
-    __all__ = ["Fastq2FastQ"]
+    __all__ = ["Fastq2Fasta"]
 
 
-    class Fastq2FastQ(ConvBase):
+    class Fastq2Fasta(ConvBase):
         """
 
         """
@@ -41,34 +37,98 @@ In this file, copy and paste this example::
             :param str outfile: information
             """
             super().__init__(infile, outfile)
+            self._default_method = "v1" 
 
-        def __call__(self, *args, **kwargs):
+        def _method_v1(self, *args, **kwargs):
             Conversion is made here. 
             You can use self.infile and  self.outfile
             If you use an external command, you can use:
-
             self.execute(cmd)
+
+        def _method_v2(self, *args, **kwargs):
+            another method
 
 How to add a test
 -----------------------
 
+Go to  ./test and add a file named **test_fastq2fasta.py**
 
-How to add new methods in an existing converter
----------------------------------------------------
+
+::
+
+    import pytest
+    from bioconvert.fastq2fasta import Fastq2Fasta
+
+    def test_fastq2fasta():
+        #your code here 
+        # you will need data for instance "mydata". 
+        # Put it in bioconvert/bioconvert/data
+        # you can then use ::
+        from bioconvert import bioconvert_data
+        bioconvert_data("mydata")
 
 
 How to benchmark your new method vs others
 --------------------------------------------------
 
+::
+
+    from bioconvert import Benchmark
+    from bioconvert import Fastq2Fasta
+    converter = Fastq2Fasta(infile, outfile)
+    b = Benchmark(converter)
+    b.plot()
 
 
 
+How to add you new converter to the main documentation ?
+-----------------------------------------------------------
+
+Edit the doc/references.rst and add those lines ::
+
+    .. automodule:: bioconverter.fastq2fasta
+        :members:
+        :synopsis:
 
 
+pep8 and conventions
+-------------------------
+
+In order to write your Python code, use PEP8 convention as much as possible.
+Follow the conventions used in the code. For instance, 
+
+::
+
+    class A():
+        """Some documentation"""
+
+        def __init__(self):
+            """some doc"""
+            pass
+
+        def another_method(self):
+            """some doc"""
+            c = 1 + 2
 
 
+    class B():
+        """Another class"""
+
+        def __init__(self, *args, **kwargs):
+            """some doc"""
+            pass
 
 
+     def AFunction(x):
+        """some doc"""
+        return x
+
+
+- 2 blank lines between  classes and functions
+- 1 blank lines between methods
+- spaces around operators (e.g. =, +)
+- Try to have 80 characters max on one line
+- Add documentation in triple quotes
 
 
 
