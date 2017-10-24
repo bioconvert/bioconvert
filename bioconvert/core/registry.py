@@ -12,6 +12,9 @@ class Registry(object):
     """
     class to centralise information about available conversions
 
+    ::
+    
+        from bioconvert.core.registry import Registry
         r = Registry()
         r.conversion_exists("BAM", "BED")
 
@@ -20,12 +23,10 @@ class Registry(object):
         converter.convert()
 
     """
-
     def __init__(self):
         self._ext_registry = {}
         self._fmt_registry = {}
         self._fill_registry(bioconvert.__path__)
-
 
     def _fill_registry(self, path):
         """
@@ -35,12 +36,17 @@ class Registry(object):
 
         :param str path: the path of a directory to explore (not recursive)
         """
-
         def is_converter(item):
             obj_name, obj = item
             if not inspect.isclass(obj):
                 return False
-            return issubclass(obj, bioconvert.ConvBase) and not inspect.isabstract(obj)
+
+            # Note that on some Python version, the isabstract is buggy . 
+            # Therefore, the isastract does not return False for ConvBase
+            # hence the additional check (obj_name in ["ConvBase"])
+            return issubclass(obj, bioconvert.ConvBase) \
+                    and not inspect.isabstract(obj) \
+                    and obj_name not in ["ConvBase"]
 
         modules = pkgutil.iter_modules(path=path)
         for _, module_name, *_ in modules:
@@ -50,6 +56,7 @@ class Registry(object):
                 except (ImportError, TypeError) as err:
                     _log.warning("skip module '{}': {}".format(module_name, err))
                     continue
+
                 converters = inspect.getmembers(module)
                 converters = [c for c in converters if is_converter(c)]
                 for converter_name, converter in converters:
@@ -57,9 +64,8 @@ class Registry(object):
                         all_conv_path = itertools.product(converter.input_ext, converter.output_ext)
                         for conv_path in all_conv_path:
                             self[conv_path] = converter
-                        _log.debug("add converter '{}' for {} -> {}".format(converter.name, *conv_path))
+                        _log.debug("add converter '{}' for {} -> {}".format(converter_name, *conv_path))
                         self.set_fmt_conv(converter.input_fmt, converter.output_fmt, converter)
-
 
     def __setitem__(self, conv_path, convertor):
         """
@@ -74,7 +80,6 @@ class Registry(object):
             raise KeyError('an other converter already exist for {} -> {}'.format(*conv_path))
         self._ext_registry[conv_path] = convertor
 
-
     def __getitem__(self, conv_path):
         """
         :param conv_path: the input extension, the output extension
@@ -82,7 +87,6 @@ class Registry(object):
         :return: an object of subclass o :class:`ConvBase`
         """
         return self._ext_registry[conv_path]
-
 
     def __contains__(self, conv_path):
         """
@@ -95,14 +99,12 @@ class Registry(object):
         """
         return conv_path in self._ext_registry
 
-
     def __iter__(self):
         """
         make registry iterable through conv_path (str input extension, str output extension)
         """
         for path in self._ext_registry:
             yield path
-
 
     def set_fmt_conv(self, in_fmt, out_fmt, converter):
         """
@@ -116,7 +118,6 @@ class Registry(object):
         """
         self._fmt_registry[(in_fmt, out_fmt)] = converter
 
-
     def get_conversions(self):
         """
         :return: a generator which allow to iterate on all available conversions
@@ -125,7 +126,6 @@ class Registry(object):
         """
         for conv in self._fmt_registry:
             yield conv
-
 
     def conversion_exists(self, in_fmt, out_fmt):
         """
