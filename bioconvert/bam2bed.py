@@ -1,14 +1,32 @@
 """Convert :term:`BAM` format to :term:`BED` formats"""
 from bioconvert import ConvBase
 
-__all__ = ["Bam2Bed"]
+__all__ = ["BAM2BED"]
 
 
-class Bam2Bed(ConvBase):
-    """
-    Convert sorted :term:`BAM` file into :term:`BED` file ::
+class BAM2BED(ConvBase):
+    """Convert sorted :term:`BAM` file into :term:`BED` file 
+
+    Available methods:
+
+    - samtools::
 
         samtools depth -aa INPUT > OUTPUT
+
+    - bedtools::
+
+        bedtools genomecov -d -ibam INPUT > OUTPUT
+
+
+    .. plot::
+
+         from bioconvert import BAM2BED, bioconvert_data
+         from easydev import TempFile
+
+         with TempFile(suffix=".bed") as fh:
+             infile = bioconvert_data("test_measles.sorted.bam")
+             convert = BAM2BED(infile, fh.name)
+             convert.boxplot_benchmark()
 
     """
     input_ext = ['.bam']
@@ -20,19 +38,7 @@ class Bam2Bed(ConvBase):
         :param str outfile: The path to the output file
         """
         super().__init__(infile, outfile)
-        self.default = "samtools"
-
-    def __call__(self, *args, **kwargs):
-        """
-        do the conversion  sorted :term`BAM` -> :term:'BED`
-
-        :return: the standard output
-        :rtype: :class:`io.StringIO` object.
-        """
-        method_name = kwargs.get("method", self.default)
-        assert method_name in self.available_methods
-        method_reference = getattr(self, "_method_{}".format(method_name))
-        method_reference(*args, **kwargs)
+        self._default_method = "samtools"
 
     def _method_samtools(self, *args, **kwargs):
         """
