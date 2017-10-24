@@ -6,7 +6,7 @@ Bioconvert
 
 
 .. image:: https://badge.fury.io/py/bioconvert.svg
-    target: https://pypi.python.org/pypi/bioconvert
+    :target: https://pypi.python.org/pypi/bioconvert
 
 .. image:: https://secure.travis-ci.org/biokit/bioconvert.png
     :target: http://travis-ci.org/biokit/bioconvert
