@@ -1,0 +1,7 @@
+pytest
+pillow
+sphinx
+sphinx_rtd_theme
+sphinx_gallery
+numpydoc
+
