@@ -26,6 +26,7 @@ _log = colorlog.getLogger(__name__)
 
 from bioconvert.core.benchmark import Benchmark
 
+
 class ConvMeta(abc.ABCMeta):
     """
     This metaclass checks that the converter classes have 
@@ -137,10 +138,13 @@ class ConvBase(metaclass=ConvMeta):
             do conversion
     """
 
-    """specify the extensions of the input file, can be a sequence (must be overridden in subclasses)"""
+    """specify the extensions of the input file, can be a sequence (must be 
+    overridden in subclasses)"""
     input_ext = None
-    """specify the extensions of the output file, can be a sequence (must be overridden in subclasses)"""
+    """specify the extensions of the output file, can be a sequence (must be 
+    overridden in subclasses)"""
     output_ext = None
+    _default_method = None
 
     def __init__(self, infile, outfile):
         """
@@ -155,12 +159,24 @@ class ConvBase(metaclass=ConvMeta):
     def _check_extension(self):
         print("FIXME _check_extension")
 
-    @abc.abstractmethod
     def __call__(self, *args, **kwargs):
         """
-        must be override in subclasses
+        
         """
-        print('args=', args, 'kwargs=', kwargs)
+        # Any default provided ?
+        method_name = kwargs.get("method", self.default)
+        # If not, we need to check the name
+        if method_name not in self.available_methods:
+            msg = "Method available are {}".format(self.available_methods)
+            _log.error(msg)
+            raise ValueError(msg)
+
+        _log.info("Executing {} method".format(method_name))
+        # reference to the method requested
+        method_reference = getattr(self, "_method_{}".format(method_name))
+
+        # call the method itself
+        method_reference(*args, **kwargs)
 
     def _get_name(self):
         return type(self).__name__
@@ -235,7 +251,15 @@ class ConvBase(metaclass=ConvMeta):
         else:
             return output
 
-
     def boxplot_benchmark(self):
+        """Simple wrapper to call :class:`Benchmark` and plot the results"""
         b = Benchmark(self)
         b.plot()
+
+    
+    def _get_default_method(self):
+        if self._default_method is None:
+            return self.available_methods[0]
+        else:
+            return self._default_method
+    default = property(_get_default_method)
