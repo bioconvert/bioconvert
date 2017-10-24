@@ -18,7 +18,7 @@ metainfo = {
     'url': ['http://pypi.python.org/pypi/bioconvert'],
     'description': 'convert between bioinformatics formats',
     'platforms': ['Linux', 'Unix', 'MacOsX', 'Windows'],
-    "keywords": ["NGS", "bam2bed", "fastq2fasta"],
+    "keywords": ["NGS", "bam2bed", "fastq2fasta", "bam2sam"],
     'classifiers': [
           'Development Status :: 1 - Planning',
           'Intended Audience :: Developers',
@@ -42,10 +42,9 @@ requirements = open("requirements.txt").read().split()
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if on_rtd:
-    # pillow, sphinx, numpydoc are  for the doc only seem to be installed by RTD
-    # now
-    #extra_packages = ["pillow", "numpydoc", "sphinx", "sphinx_gallery"]
-    extra_packages = ["sphinx_gallery"]
+    # mock, pillow, sphinx, sphinx_rtd_theme installed on RTD
+    # but we also need numpydoc and sphinx_gallery
+    extra_packages = ["numpydoc", "sphinx_gallery"]
     requirements += extra_packages
 
 
