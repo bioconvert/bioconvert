@@ -1,4 +1,3 @@
-"""Converts :term:`FASTA` to :term:`PHYLIP` format"""
 import logging
 import os
 
@@ -42,4 +41,31 @@ class FASTA2PHYLIP(ConvBase):
         sequences = list(SeqIO.parse(self.infile, "fasta", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "phylip")
         logging.debug("Converted %d records to phylip" % count)
+
+
+class PHYLIP2FASTA(ConvBase):
+    """Converts a sequence alignment in :term:`PHYLIP` format to :term:`FASTA` format
+
+    Conversion is based on Bio Python modules
+
+    """
+
+    output_ext = ['fa', 'fst', 'fasta', 'fn']
+    input_ext = ['phylip', 'phy']
+
+    def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
+        """.. rubric:: constructor
+
+        :param str infile: input fasta file.
+        :param str outfile: input phylip file
+        """
+        if not outfile:
+            outfile = generate_outfile_name(infile, 'fasta')
+        super(PHYLIP2FASTA, self).__init__(infile, outfile)
+        self.alphabet = alphabet
+
+    def __call__(self):
+        sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
+        count = SeqIO.write(sequences, self.outfile, "fasta")
+        logging.debug("Converted %d records to fasta" % count)
 
