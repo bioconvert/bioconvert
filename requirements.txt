@@ -6,3 +6,5 @@ matplotlib
 numpydoc
 pyyaml
 pysam
+graphviz
+python-graphviz
