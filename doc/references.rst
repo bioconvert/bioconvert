@@ -13,6 +13,10 @@ NGS bioconverters
     :members:
     :synopsis:
 
+.. automodule:: bioconvert.fasta2phylip
+    :members:
+    :synopsis:
+
 
 .. automodule:: bioconvert.yaml2json
     :members:

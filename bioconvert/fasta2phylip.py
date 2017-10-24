@@ -29,8 +29,8 @@ class FASTA2PHYLIP(ConvBase):
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
 
-        :param str infile: input fasta file.
-        :param str outfile: input phylip file
+        :param str infile: input :term:`FASTA` file.
+        :param str outfile: (optional) output :term:`PHYLIP` file
         """
         if not outfile:
             outfile = generate_outfile_name(infile, 'phylip')
@@ -56,8 +56,8 @@ class PHYLIP2FASTA(ConvBase):
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
 
-        :param str infile: input fasta file.
-        :param str outfile: input phylip file
+        :param str infile: input :term:`PHYLIP` file.
+        :param str outfile: (optional) output :term:`FASTA` file
         """
         if not outfile:
             outfile = generate_outfile_name(infile, 'fasta')

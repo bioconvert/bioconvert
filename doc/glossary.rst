@@ -56,6 +56,10 @@ Glossary
         A human-readable data serialization language commonly used in
         configuration files. See https://en.wikipedia.org/wiki/JSON
 
+    PHYLIP
+
+        The PHYLIP file format stores a multiple sequence alignment.
+
     YAML
 
         A human-readable data serialization language commonly used in
