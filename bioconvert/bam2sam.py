@@ -8,7 +8,8 @@ class BAM2SAM(ConvBase):
 
     .. plot::
 
-        from bioconvert import BAM2SAM, bioconvert_data
+        from bioconvert.bam2sam import BAM2SAM
+        from bioconvert import bioconvert_data
         from easydev import TempFile
 
         with TempFile(suffix=".sam") as fh:

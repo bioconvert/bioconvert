@@ -20,7 +20,8 @@ class BAM2BED(ConvBase):
 
     .. plot::
 
-         from bioconvert import BAM2BED, bioconvert_data
+         from bioconvert.bam2bed import BAM2BED
+         from bioconvert import bioconvert_data
          from easydev import TempFile
 
          with TempFile(suffix=".bed") as fh:
