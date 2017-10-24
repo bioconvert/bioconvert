@@ -3,7 +3,6 @@ colorlog
 pandas
 biopython
 matplotlib
-numpydoc
 pyyaml
 pysam
 graphviz
