@@ -14,13 +14,11 @@ def create_graph(filename, layout="dot"):
     from bioconvert.core.registry import Registry
     rr = Registry()
 
-    dg = pgv.AGraph()
+    dg = pgv.AGraph(directed=True)
 
     for a, b in rr.get_conversions():
         dg.add_edge(a, b)
 
-
-    dg = dg.to_directed()
     dg.layout(layout)
     dg.draw(filename)
 
