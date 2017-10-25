@@ -133,6 +133,16 @@ Follow the conventions used in the code. For instance,
 
 
 
+Requirements files
+------------------------
 
-
+- requirements.txt : should contain the packages to be retrieved from Pypi only.
+  Those are downloaded and installed (if missing) when using
+  **python setup.py install**
+- environment_rtd.yml : do not touch. Simple file for readthedocs
+- readthedocs.yml : all conda and pip dependencies to run the example and build
+  the doc
+- requirements_dev.txt : packages required for testing or building the doc (not
+  required to run the bioconvert package
+- requirements_tools.txt : all conda dependencies 
 
