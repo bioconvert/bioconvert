@@ -10,6 +10,7 @@ References
     bioconvert.bam2bed
     bioconvert.bam2sam
     bioconvert.fasta2phylip
+    bioconvert.gfa2fasta
 
 
 .. automodule:: bioconvert.core.base
