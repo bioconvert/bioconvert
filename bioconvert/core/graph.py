@@ -2,17 +2,25 @@ import json
 import glob
 from os.path import join, basename
 # install this with "conda install -c conda-forge python-graphviz"
-import graphviz as gv
+import pygraphviz as pgv
 
 
 
-def create_graph(filename, format="svg"):
+def create_graph(filename, layout="dot"):
+    """
+
+    :param filename: should end in .png or .svg
+    """
     from bioconvert.core.registry import Registry
     rr = Registry()
-    dg = gv.Digraph(filename=filename, format=format)
 
-    for a,b in rr.get_conversions():
-        dg.node(a)
-        dg.node(b)
-        dg.edge(a, b)
-    dg.render()
+    dg = pgv.AGraph()
+
+    for a, b in rr.get_conversions():
+        dg.add_edge(a, b)
+
+
+    dg = dg.to_directed()
+    dg.layout(layout)
+    dg.draw(filename)
+
