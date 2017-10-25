@@ -2,6 +2,7 @@ Whats' new, what has changed
 ================================
 
 
-:Revision 0.0.3: benchmark in place
-:Revision 0.0.2: setup travis, RTD, tests
-:Revision 0.0.1: add bioconvert tree structure
+:Revision 0.0.4: update requirements and MANIFEST; added fastq2fasta, gfa2fasta
+:Revision 0.0.3: benchmark in place; added fastq2fasta, scf2fastq, scf2fastq
+:Revision 0.0.2: setup travis, RTD, tests; added bam2sam
+:Revision 0.0.1: add bioconvert tree structure; added bam2bed, json2yaml... 
