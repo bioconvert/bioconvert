@@ -9,6 +9,7 @@ References
     bioconvert.core
     bioconvert.bam2bed
     bioconvert.bam2sam
+    bioconvert.fastq2fasta
     bioconvert.fasta2phylip
     bioconvert.gfa2fasta
 
@@ -27,6 +28,10 @@ NGS bioconverters
     :synopsis:
 
 .. automodule:: bioconvert.fasta2phylip
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.fastq2fasta
     :members:
     :synopsis:
 
