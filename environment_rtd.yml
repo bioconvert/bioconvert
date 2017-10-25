@@ -18,7 +18,7 @@ dependencies:
 - pillow
 - easydev>=0.9.34
 - pip
-- ruamel.yaml<=0.15.0
+- pyyaml
 - icu=56          # required for dot/graphviz to work correctly
 - graphviz=2.38
 - pygraphviz
