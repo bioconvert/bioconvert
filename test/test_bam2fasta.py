@@ -1,4 +1,4 @@
-from bioconvert.bam2fastq import BAM2Fasta
+from bioconvert.bam2fasta import BAM2Fasta
 from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 
