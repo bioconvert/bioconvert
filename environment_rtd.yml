@@ -19,8 +19,6 @@ dependencies:
 - easydev>=0.9.34
 - pip
 - ruamel.yaml<=0.15.0
-- pango
-- graphviz
 - pygraphviz
 - bedtools          # used in gallery and bam2bed
 
