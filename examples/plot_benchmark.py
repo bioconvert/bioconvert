@@ -15,7 +15,7 @@ framework as follows.
 #
 from bioconvert import Benchmark
 from bioconvert import bioconvert_data
-from bioconvert.bam2bed import BAM2BEB
+from bioconvert.bam2bed import BAM2BED
 
 #####################################################
 # Get the convert you wish to benchmark

@@ -1,6 +1,7 @@
 """Convert :term:`BAM` format to :term:`BED` formats"""
 from bioconvert import ConvBase
 
+
 __all__ = ["BAM2BED"]
 
 
