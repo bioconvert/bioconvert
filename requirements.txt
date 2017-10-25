@@ -5,4 +5,4 @@ biopython
 matplotlib
 pyyaml
 pysam
-graphviz
+pygraphviz
