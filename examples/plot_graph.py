@@ -13,7 +13,7 @@ from bioconvert.core.graph import create_graph
 
 #####################################################
 # Get a data set (BAM file) for testing
-create_graph("conversion", format="png")
+create_graph("conversion.png")
 
 #####################################################
 #  PNG does not work on RTD with graphviz from conda
