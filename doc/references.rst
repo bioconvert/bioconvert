@@ -29,6 +29,9 @@ NGS bioconverters
     :members:
     :synopsis:
 
+.. automodule:: bioconvert.gfa2fasta
+    :members:
+    :synopsis:
 
 .. automodule:: bioconvert.yaml2json
     :members:
