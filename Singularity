@@ -37,7 +37,7 @@ MirrorURL: http://archive.ubuntu.com/ubuntu/
   apt-get install -y python3-pip
 
   ######### install bioconvert ######### 
-  pip3 install bioconvert==0.0.1
+  pip3 install bioconvert==0.0.3
 
   ######## clean image ########
   apt-get autoremove -y

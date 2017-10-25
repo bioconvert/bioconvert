@@ -38,6 +38,10 @@ Glossary
         (such as DNA) or protein sequence information. FASTA files store multiple
         sequences in a single file. 
 
+    GFA
+
+        Graphical Fragment Assembly format. https://github.com/GFA-spec/GFA-spec
+
     GFF
 
         General Feature Format, used for describing genes and other features
