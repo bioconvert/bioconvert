@@ -19,7 +19,7 @@ dependencies:
 - easydev>=0.9.34
 - pip
 - ruamel.yaml<=0.15.0
-- icu=0.56          # required for dot/graphviz to work correctly
+- icu=56          # required for dot/graphviz to work correctly
 - graphviz=2.38
 - pygraphviz
 - bedtools          # used in gallery and bam2bed
