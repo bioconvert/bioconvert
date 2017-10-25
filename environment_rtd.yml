@@ -21,7 +21,7 @@ dependencies:
 - ruamel.yaml<=0.15.0
 - pango
 - graphviz
-- python-graphviz
+- pygraphviz
 - bedtools          # used in gallery and bam2bed
 
 
