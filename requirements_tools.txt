@@ -3,3 +3,4 @@ bamtools
 bcftools
 bedtools
 graphviz
+seqtk
