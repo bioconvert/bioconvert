@@ -35,6 +35,9 @@ class SAM2CRAM(ConvBase):
         .. note:: the API related to the third argument may change in the future.
         """
         super(SAM2CRAM, self).__init__(infile, outfile, *args, **kargs)
+
+        self._default_method = "samtools"
+
         self.reference = reference
         if self.reference is None:
             logger.debug("No reference provided. Infering from input file")
@@ -55,7 +58,7 @@ class SAM2CRAM(ConvBase):
             self.reference = reference
         self.threads = cpu_count()
 
-    def __call__(self):
+    def _method_samtools(self, *args, **kwargs):
         # -S means ignored (input format is auto-detected)
         # -b means output to BAM format
         # -h means include header in SAM output
