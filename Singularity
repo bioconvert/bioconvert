@@ -1,6 +1,10 @@
-Bootstrap: debootstrap
-OSVersion: zesty
-MirrorURL: http://archive.ubuntu.com/ubuntu/
+#Bootstrap: debootstrap
+#OSVersion: zesty
+#MirrorURL: http://archive.ubuntu.com/ubuntu/
+
+
+BootStrap: docker
+From: ubuntu:17.04
 
 
 %labels
