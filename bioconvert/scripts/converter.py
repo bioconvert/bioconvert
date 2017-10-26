@@ -20,6 +20,7 @@ import colorlog
 import bioconvert
 from bioconvert.core.registry import Registry
 
+
 class ConvAction(argparse.Action):
 
     def __init__(self,
@@ -86,6 +87,13 @@ properly formatted.
     arg_parser.add_argument("-x", "--threads",
                             default=None,
                             help="Number of threads. Depends on the underlying tool")
+    arg_parser.add_argument("-m", "--method",
+                            default=None,
+                            help="A converter may have several methods")
+    arg_parser.add_argument("-s", "--show-methods",
+                            default="show_methods",
+                            action="store_true",
+                            help="A converter may have several methods")
 
     args = arg_parser.parse_args()
     # Set the logging level
@@ -139,8 +147,22 @@ properly formatted.
     # we should be able to import it dynamically, create the class and call
     # the instance
     _log.info("Converting from {} to {}".format(inext, outext))
+
+    # Prepare some user arguments
+    params = {"threads": args.threads}
+    if args.method:
+        params["method"] = args.method
+
+    # Call the class method that does the real work
     convert = class_converter(infile, outfile)
-    convert(threads=args.threads)
+
+    if args.show_methods:
+        print(convert.available_methods)
+        print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} for details ".format(class_converter.__name__.lower(),class_converter.__name__))
+        sys.exit(0)
+
+    convert(**params)
+
     _log.info("Done")
 
 
