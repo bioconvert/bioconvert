@@ -91,11 +91,12 @@ properly formatted.
                             default=None,
                             help="A converter may have several methods")
     arg_parser.add_argument("-s", "--show-methods",
-                            default="show_methods",
+                            default=False,
                             action="store_true",
                             help="A converter may have several methods")
 
     args = arg_parser.parse_args()
+
     # Set the logging level
     args.verbosity = max(10, 30 - (10 * args.verbosity))
     bioconvert.logger_set_level(args.verbosity)
@@ -153,14 +154,18 @@ properly formatted.
     if args.method:
         params["method"] = args.method
 
+
+
     # Call the class method that does the real work
     convert = class_converter(infile, outfile)
 
+    # do we want to know the available methods ? If so, print info and quite
     if args.show_methods:
         print(convert.available_methods)
         print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} for details ".format(class_converter.__name__.lower(),class_converter.__name__))
         sys.exit(0)
 
+    
     convert(**params)
 
     _log.info("Done")
