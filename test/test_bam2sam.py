@@ -19,3 +19,6 @@ def test_conv():
         import pysam
         sam = pysam.AlignmentFile(tempfile.name)
         assert sam.count() == 60
+
+
+        convert(method="pysam")
