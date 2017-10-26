@@ -185,6 +185,7 @@ class ConvBase(metaclass=ConvMeta):
     def execute(self, cmd, ignore_errors=False, verbose=False):
         t1 = time.time()
         _log.info("{}> ".format(self.name))
+        _log.info("CMD: {}".format(cmd))
         self._execute(cmd, ignore_errors, verbose)
         t2 = time.time()
         self.last_duration = t2 - t1
