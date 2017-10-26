@@ -21,12 +21,15 @@ class BAM2Fasta(ConvBase):
         self._default_method = "bamtools"
 
     def _method_bamtools(self, *args, **kwargs):
-        # This fails with unknown error
-        #pysam.bam2fq(self.infile, save_stdout=self.outfile)
+        """
 
+        .. note:: fastq are split on several lines (80 characters)
+
+        """
+        # Another idea is to use pysam.bam2fq but it fails with unknown error
+        #pysam.bam2fq(self.infile, save_stdout=self.outfile)
         #cmd = "samtools fastq %s >%s" % (self.infile, self.outfile)
         #self.execute(cmd)
-
         # !!!!!!!!!!!!!!!!!! pysam.bam2fq, samtools fastq and bamtools convert
         # give differnt answers...
 
@@ -41,6 +44,8 @@ class BAM2Fasta(ConvBase):
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
+
+        .. note:: fastq are one on line
         """
         cmd = "samtools fasta {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
