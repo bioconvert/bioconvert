@@ -7,6 +7,7 @@ from easydev.multicore import cpu_count
 import colorlog
 logger = colorlog.getLogger(__name__)
 
+__all__ = ["SAM2CRAM"]
 
 class SAM2CRAM(ConvBase):
     """Convert :term:`SAM` file to :term:`CRAM` file
@@ -49,7 +50,7 @@ class SAM2CRAM(ConvBase):
                 logger.debug("No reference found.")
                 msg = "Please enter the reference corresponding "
                 msg += "to the input SAM file:"
-                reference = raw_input(msg)
+                reference = input(msg)
                 if os.path.exists(reference) is False:
                     raise IOError("Reference required")
                 else:
