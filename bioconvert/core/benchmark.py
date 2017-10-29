@@ -33,10 +33,11 @@ class Benchmark():
         self.N = N
         self.results = None
 
+
     def run_methods(self):
         results = {}
         for method in self.converter.available_methods:
-            _log.info("Evaluating method %s" % method)
+            print("Evaluating method %s" % method)
             times = []
             pb = Progress(self.N)
             for i in range(self.N):
