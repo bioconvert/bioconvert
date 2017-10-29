@@ -2,7 +2,6 @@
 import os
 
 from bioconvert import ConvBase
-from easydev.multicore import cpu_count
 
 import colorlog
 logger = colorlog.getLogger(__name__)
@@ -57,7 +56,6 @@ class SAM2CRAM(ConvBase):
                     logger.debug("Reference exist ({}).".format(reference))
 
             self.reference = reference
-        self.threads = cpu_count()
 
     def _method_samtools(self, *args, **kwargs):
         # -S means ignored (input format is auto-detected)
