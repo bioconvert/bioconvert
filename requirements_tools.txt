@@ -2,5 +2,8 @@ samtools
 bamtools
 bcftools
 bedtools
-graphviz
+graphviz==2.38
 seqtk
+pbzip2
+pigz
+dsrc
