@@ -1,7 +1,7 @@
 Bioconvert
 ==========
 
-Bioinformatics tools in Python
+Bioconvert is a project to facilitate the interconversion of life science data from one format to another.
 
 .. image:: https://badge.fury.io/py/bioconvert.svg
     :target: https://pypi.python.org/pypi/bioconvert
