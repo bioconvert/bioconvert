@@ -131,3 +131,9 @@ doctest:
 
 publish:
 	scp -r build/html/* cokelaer@ebi1-001.ebi.ac.uk:/homes/cokelaer/public_html/cnolab/wrapper
+
+html-noplot:
+	$(SPHINXBUILD) -D plot_gallery=0 -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	@echo
+	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
