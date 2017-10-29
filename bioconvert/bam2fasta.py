@@ -49,3 +49,9 @@ class BAM2Fasta(ConvBase):
         """
         cmd = "samtools fasta {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
+
+    def _method_sambamba(self, *args, **kwargs):
+        cmd = "sambamba view {} -o {}".format(self.infile, self.outfile)
+        self.execute(cmd)
+
+
