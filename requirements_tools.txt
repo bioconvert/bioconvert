@@ -2,6 +2,7 @@ samtools
 bamtools
 bcftools
 bedtools
+sambamba
 graphviz==2.38
 seqtk
 pbzip2
