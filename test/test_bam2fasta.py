@@ -16,6 +16,12 @@ def test_conv():
 
         convert = BAM2Fasta(infile, tempfile.name)
         convert(method="samtools")
-        assert md5(tempfile.name) == "cc9afcef458f3402fbdef1a091e05c39"
+        # samtools 1.6 / hstlib 1.6
+        assert md5(tempfile.name) == "0924d2a11b43094680d1a7374aaaa45e"
+        "cc9afcef458f3402fbdef1a091e05c39"
 
         # md5 are different but differences is just due to a split of the fastq on several lines
+
+        convert = BAM2Fasta(infile, tempfile.name)
+        convert(method="sambamba")
+        assert md5(tempfile.name) == "ad83af4d159005a77914c5503bc43802"
