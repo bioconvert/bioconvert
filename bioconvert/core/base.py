@@ -26,7 +26,6 @@ _log = colorlog.getLogger(__name__)
 
 from bioconvert.core.benchmark import Benchmark
 
-
 class ConvMeta(abc.ABCMeta):
     """
     This metaclass checks that the converter classes have 
@@ -102,7 +101,9 @@ class ConvMeta(abc.ABCMeta):
             :return: True if method's name starts with '__method_', False otherwise.
             :rtype: boolean
             """
-            return inspect.isfunction(item) and item.__name__.startswith('_method_')
+            return inspect.isfunction(item) and \
+                    item.__name__.startswith('_method_') and \
+                    item.__name__ != "_method_dummy"
 
         if name != 'ConvBase':
             if '2' not in name:
@@ -115,9 +116,11 @@ class ConvMeta(abc.ABCMeta):
             setattr(cls, 'input_fmt', input_fmt)
             setattr(cls, 'output_fmt', output_fmt)
             available_conv_meth = inspect.getmembers(cls, is_conversion_method)
-            setattr(cls, 'available_methods', 
-                [name[0].lstrip("_method_") for name in available_conv_meth])
-            _log.debug("class = {}  available_methods = {}".format(cls.__name__, 
+
+            # do not use strip() but split()
+            setattr(cls, 'available_methods',
+                [name[0].split("_method_")[1] for name in available_conv_meth])
+            _log.debug("class = {}  available_methods = {}".format(cls.__name__,
                                                             available_conv_meth))
 
 
@@ -154,17 +157,23 @@ class ConvBase(metaclass=ConvMeta):
         """
         self.infile = infile
         self.outfile = outfile
-        self._check_extension()
-
-    def _check_extension(self):
-        print("FIXME _check_extension")
+        from easydev.multicore import cpu_count
+        self.threads = cpu_count()
 
     def __call__(self, *args, **kwargs):
         """
-        
+
         """
-        # Any default provided ?
-        method_name = kwargs.get("method", self.default)
+        # If method provided, use it 
+        method_name = kwargs.get("method", None)
+
+        # If not, but there is one argument, presumably this is 
+        # the method
+        if method_name is None and len(args) == 1:
+            method_name = args[0]
+        elif method_name is None and len(args) == 0:
+            method_name = self.default
+
         # If not, we need to check the name
         if method_name not in self.available_methods:
             msg = "Method available are {}".format(self.available_methods)
@@ -181,6 +190,9 @@ class ConvBase(metaclass=ConvMeta):
     def _get_name(self):
         return type(self).__name__
     name = property(_get_name, doc="return the name of the class")
+
+    def _method_dummy(self, *args, **kwargs):
+        self.execute("")
 
     def execute(self, cmd, ignore_errors=False, verbose=False):
         t1 = time.time()
