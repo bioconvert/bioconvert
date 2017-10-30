@@ -1,5 +1,5 @@
 """Convert :term:`SAM` file to :term:`BAM` file"""
-from .base import ConvBase
+from bioconvert import ConvBase
 
 
 class SAM2BAM(ConvBase):
@@ -10,7 +10,7 @@ class SAM2BAM(ConvBase):
     input_ext = '.sam'
     output_ext ='.bam'
 
-    def __call__(self):
+    def _method_samtools(self, *args, **kwargs):
         """
         Do the conversion  sorted :term`SAM` -> :term:'BAM`
         The result of the conversion is stored in the outputfile 
