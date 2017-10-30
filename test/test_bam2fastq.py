@@ -13,3 +13,7 @@ def test_conv():
         # on the original data. This check sum was computed
         # fro the unzipped version of biokit/data/converters/measles.bed
         assert md5(tempfile.name) == "8683ad696e52e4af67670d2631af6d1f"
+
+
+        for method in convert.available_methods:
+            convert(method=method)

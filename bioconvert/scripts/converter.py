@@ -20,6 +20,7 @@ import colorlog
 import bioconvert
 from bioconvert.core.registry import Registry
 
+
 class ConvAction(argparse.Action):
 
     def __init__(self,
@@ -59,15 +60,37 @@ def main(args=None):
 
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
                                          epilog=" ----    ",
-                                         description="""DESCRIPTION:
+                                         description="""Convertor infer the
+                                         formats from the extension name. We do
+                                         not scan the input file. Therefore
+                                         users must ensure that their input
+                                         format files are properly
+                                         formatted.""",
+                                         usage="""
+    # convert fastq to fasta
+    converter test.fastq test.fasta
 
-Convertor infer the formats from the extension name. We do not scan the
-input file. Therefore users must ensure that their input format files are
-properly formatted.
+    # if input extension is not standard, use -i to specify it
+    converter test.FASTQ test.fasta -i fastq
+
+    converter test.fastq -o fasta
+
+    # You may have several inputs, in which case wildcards are possible
+    # Note, however, the quotes that are required
+    converter "test*.fastq" -o fasta
+
+    # batch is also possible. 
+    converter "test*.fastq" -o fasta -m 
+
+    Note the difference between the two previous commands !!
 
 """)
-    arg_parser.add_argument("input_file", help="The path to the file to convert.")
-    arg_parser.add_argument("output_file", help="The path where the result will be stored.")
+    arg_parser.add_argument("input_file",
+            default=None,
+            help="The path to the file to convert.")
+    arg_parser.add_argument("output_file", nargs="?",
+            default=None,
+            help="The path where the result will be stored.")
 
     arg_parser.add_argument("-f", "--formats",
                             action=ConvAction,
@@ -86,17 +109,63 @@ properly formatted.
     arg_parser.add_argument("-x", "--threads",
                             default=None,
                             help="Number of threads. Depends on the underlying tool")
+    arg_parser.add_argument("-m", "--batch",
+                            default=False, action="store_true",
+                            help="for batch effect")
+
+    arg_parser.add_argument("-c", "--method",
+                            default=None,
+                            help="A converter may have several methods")
+
+    arg_parser.add_argument("-s", "--show-methods",
+                            default=False,
+                            action="store_true",
+                            help="A converter may have several methods")
 
     args = arg_parser.parse_args()
+
     # Set the logging level
     args.verbosity = max(10, 30 - (10 * args.verbosity))
     bioconvert.logger_set_level(args.verbosity)
     _log = colorlog.getLogger('bioconvert')
 
-    mapper = Registry()
 
+    # Figure out whether we have several input files or not
+    # Are we in batch mode ? 
+    import glob
+    if args.batch:
+        filenames = glob.glob(args.input_file)
+    else:
+        print(args)
+        filenames = [args.input_file]
+    print("-----------")
+    print(filenames)
+
+    for filename in filenames:
+        print(filename)
+        args.input_file = filename
+        analysis(args)
+
+
+    #_log.info("Done")
+
+
+def analysis(args):
+    mapper = Registry()
+    _log = colorlog.getLogger('bioconvert')
+
+    # Input and output filename
     infile = args.input_file
-    outfile = args.output_file
+    if args.output_file is None:
+        if args.output_format is None:
+            raise ValueError("Extension of the output format unknown."
+                    " You must either provide an output file name (with"
+                    " extension) or provide it zith the --output-format"
+                    " argument")
+        else:
+            outfile = infile.rsplit(".",1)[0] + "." + args.output_format
+    else:
+        outfile = args.output_file
 
     # Users may provide information about the input file.
     # Indeed, the input may be a FastQ file but with an extension
@@ -113,11 +182,13 @@ properly formatted.
 
     if not inext:
         raise RuntimeError("convert infer the format from the extension name."
-                           " So add extension to the input file name or use --input-format option.")
+                           " So add extension to the input file name or use"
+                           " --input-format option.")
 
     if not outext:
         raise RuntimeError("convert infer the format from the extension name."
-                           " So add extension to the output file name.")
+                           " So add extension to the output file name or use"
+                           " --outut-format option.")
 
     # From the input parameters 1 and 2, we get the module name
     try:
@@ -139,9 +210,24 @@ properly formatted.
     # we should be able to import it dynamically, create the class and call
     # the instance
     _log.info("Converting from {} to {}".format(inext, outext))
+
+    # Prepare some user arguments
+    params = {"threads": args.threads}
+    if args.method:
+        params["method"] = args.method
+
+
+    # Call the class method that does the real work
     convert = class_converter(infile, outfile)
-    convert(threads=args.threads)
-    _log.info("Done")
+
+    # do we want to know the available methods ? If so, print info and quite
+    if args.show_methods:
+        print(convert.available_methods)
+        print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} for details ".format(class_converter.__name__.lower(),class_converter.__name__))
+        sys.exit(0)
+
+    convert(**params)
+
 
 
 if __name__ == "__main__":

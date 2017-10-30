@@ -48,6 +48,16 @@ all in small caps ! In this file, copy and paste this example::
         def _method_v2(self, *args, **kwargs):
             another method
 
+You may also use this standalone to create the bioconvert_init standalone. For
+instance to create the bz2 to gz convertm redirect the output of this command in
+the correct file::
+
+    bioconvert_init -i bz2 -o gz > bz22gz.py
+
+Of course, you will need to edit the file to add the conversion itself in the
+appropriate method (e.g. _method_gz).
+
+
 How to add a test
 -----------------------
 

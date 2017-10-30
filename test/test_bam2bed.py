@@ -13,3 +13,7 @@ def test_conv():
         # on the original data. This check sum was computed
         # fro the unzipped version of biokit/data/converters/measles.bed
         assert md5(tempfile.name) == "84702e19ba3a27900f271990e0cc72a0"
+
+        convert = BAM2BED(infile, tempfile.name)
+        convert(method="bedtools")
+        assert md5(tempfile.name) == "84702e19ba3a27900f271990e0cc72a0"

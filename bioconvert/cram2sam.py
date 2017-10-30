@@ -1,15 +1,14 @@
 """Convert :term:`SAM` file to :term:`CRAM` file"""
 import os
-
 from bioconvert import ConvBase
+from easydev.multicore import cpu_count
 
 import colorlog
 logger = colorlog.getLogger(__name__)
 
-__all__ = ["SAM2CRAM"]
 
-class SAM2CRAM(ConvBase):
-    """Convert :term:`SAM` file to :term:`CRAM` file
+class CRAM2SAM(ConvBase):
+    """Convert :term:`CRAM` file to :term:`SAM` file
 
     The conversion requires the reference corresponding to the input file
     It can be provided as an argument in the constructor. Otherwise, 
@@ -18,8 +17,8 @@ class SAM2CRAM(ConvBase):
     useful for the standalone application.
 
     """
-    input_ext = [".sam"]
-    output_ext = [".cram"]
+    input_ext = [".cram"]
+    output_ext = ".sam"
 
     def __init__(self, infile, outfile, reference=None, *args, **kargs):
         """.. rubric:: constructor
@@ -30,11 +29,11 @@ class SAM2CRAM(ConvBase):
 
         command used::
 
-            samtools view -SCh
+            samtools view -@ <thread> -Sh -T <reference> in.cram > out.sam
 
         .. note:: the API related to the third argument may change in the future.
         """
-        super(SAM2CRAM, self).__init__(infile, outfile, *args, **kargs)
+        super(CRAM2SAM, self).__init__(infile, outfile, *args, **kargs)
 
         self._default_method = "samtools"
 
@@ -42,7 +41,7 @@ class SAM2CRAM(ConvBase):
         if self.reference is None:
             logger.debug("No reference provided. Infering from input file")
             # try to find the local file replacing .sam by .fa
-            reference = infile.replace(".sam", ".fa")
+            reference = infile.replace(".cram", ".fa")
             if os.path.exists(reference):
                 logger.debug("Reference found from inference ({})".format(reference))
             else:
@@ -56,14 +55,16 @@ class SAM2CRAM(ConvBase):
                     logger.debug("Reference exist ({}).".format(reference))
 
             self.reference = reference
+        self.threads = cpu_count()
 
     def _method_samtools(self, *args, **kwargs):
         # -S means ignored (input format is auto-detected)
-        # -b means output to BAM format
         # -h means include header in SAM output
-        cmd = "samtools view -@ {} -SCh {} -T {} > {}".format(self.threads, 
-            self.infile, self.reference, self.outfile)
-        try:
-            self.execute(cmd)
-        except:
-            logger.debug("FIXME. The ouput message from samtools is on stderr...")
+        cmd = "samtools view -@ {} -Sh -T {} {} > {}".format(self.threads, 
+            self.reference, self.infile, self.outfile)
+        self.execute(cmd)
+
+
+
+
+

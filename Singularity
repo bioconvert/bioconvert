@@ -67,7 +67,7 @@ From: ubuntu:17.04
 
 
   ######### install bioconvert #########
-  pip install bioconvert==0.0.4
+  pip install bioconvert==0.0.5
 
 
   # Uses agg as backend instead of qt (less dependencies)

@@ -4,6 +4,8 @@
 Bioconvert
 ####################
 
+Bioconvert is a project to facilitate the interconversion of life science data from one format to another.
+
 
 .. image:: https://badge.fury.io/py/bioconvert.svg
     :target: https://pypi.python.org/pypi/bioconvert
@@ -20,9 +22,6 @@ Bioconvert
 
 .. image:: https://badges.gitter.im/biokit/bioconvert.svg
     :target: https://gitter.im/bioconvert/Lobby?source=orgpage
-
-
-
 
 
 :note: Bioconvert is tested with Travis for the following Python version: 3.5, 3.6

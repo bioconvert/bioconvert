@@ -27,6 +27,10 @@ NGS bioconverters
     :members:
     :synopsis:
 
+.. automodule:: bioconvert.bam2fasta
+    :members:
+    :synopsis:
+
 .. automodule:: bioconvert.fasta2phylip
     :members:
     :synopsis:
