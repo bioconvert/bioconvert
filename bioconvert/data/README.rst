@@ -1,5 +1,15 @@
+CONVENTION
+---------------
+test_<convertNAME>_vXX.<input_extension> 
+test_vcf2bcf_v1.vcf
 
-Keep track of the files added to this directory (how they are created)
+
+bcf2vcf and vcf2bcf
+--------------------
+
+test_vcf2bcf_v1.vcf  origin unknown
+test_vcf2bcf_v1.bcf  created using bcftools view -O b test_vcf2bcf_v1.vcf
+
 
 
 json2yaml and yaml2json
