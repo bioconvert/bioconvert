@@ -45,3 +45,7 @@ class BAM2SAM(ConvBase):
         import pysam
         pysam.sort("-o", self.outfile, self.infile)
 
+    def _method_sambamba(self, *args, **kwargs):
+        cmd = "sambamba view {} -o {}".format(self.infile, self.outfile)
+        self.execute(cmd)
+
