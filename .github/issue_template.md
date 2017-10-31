@@ -1,6 +1,7 @@
 
-For bug reporting, please fill the form here below, otherwise, just remove this
-content.
+For bug reporting, please fill the form here below and set the label to "bug" in
+the right hand side. Otherwise, just remove this content and fill your issue as
+normal. 
 
 ## Version of bioconvert
 
