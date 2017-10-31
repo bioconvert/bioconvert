@@ -19,6 +19,10 @@ def test_conv():
         import pysam
         sam = pysam.AlignmentFile(tempfile.name)
         assert sam.count() == 60
-
-
         convert(method="pysam")
+
+
+        convert = BAM2SAM(infile, tempfile.name)
+        convert(method="sambamba")
+        assert md5(tempfile.name) == "ad83af4d159005a77914c5503bc43802"
+

@@ -26,3 +26,16 @@ def test_converter2():
                     "--method" , "bedtools"]
         converter.main()
 
+def test_converter_formats():
+    infile = bioconvert_data("test_measles.sorted.bam")
+    with TempFile(suffix=".bed") as tempfile:
+        import sys
+        sys.argv = ["bioconvert", "--formats"]
+        try:
+            converter.main()
+            assert False
+        except SystemExit:
+            assert True
+        except:
+            assert False
+

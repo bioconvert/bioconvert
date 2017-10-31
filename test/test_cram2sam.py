@@ -8,7 +8,7 @@ def test_conv():
     infile = bioconvert_data("test_measles.cram")
     outfile = bioconvert_data("test_measles.sam")
     reference = bioconvert_data("test_measles.fa")
+
     with TempFile(suffix=".sam") as tempfile:
         convert = CRAM2SAM(infile, tempfile.name, reference)
-        convert()
-
+        convert(method="samtools")
