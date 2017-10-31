@@ -62,6 +62,11 @@ From Python shell::
     # the conversion itself
     convert()
 
+Available conversion:
+---------------------------
+
+.. image:: conversion.png
+   :width: 80%
 
 User and Developer Guides
 #############################
