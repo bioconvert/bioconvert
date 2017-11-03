@@ -236,6 +236,8 @@ class ConvBase(metaclass=ConvMeta):
             raise RuntimeError(msg)
 
         inputs = [process_.stdout, process_.stderr]
+        output = StringIO()
+        errors = StringIO()
         while process_.poll() is None:
             # select has 3 parameters, 3 lists, the sockets, the fileobject to watch
             # in reading, writing, the errors
@@ -245,8 +247,6 @@ class ConvBase(metaclass=ConvMeta):
             # in reading, writing, errors.
             readable, writable, exceptional = select.select(inputs, [], [], 1)
 
-            output = StringIO()
-            errors = StringIO()
             while readable and inputs:
                 for flow in readable:
                     data = flow.read()
