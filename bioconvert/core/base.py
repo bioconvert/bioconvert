@@ -118,10 +118,9 @@ class ConvMeta(abc.ABCMeta):
             available_conv_meth = inspect.getmembers(cls, is_conversion_method)
 
             # do not use strip() but split()
-            setattr(cls, 'available_methods',
-                [name[0].split("_method_")[1] for name in available_conv_meth])
-            _log.debug("class = {}  available_methods = {}".format(cls.__name__,
-                                                            available_conv_meth))
+            available_conv_meth = [name[0].split("_method_")[1] for name in available_conv_meth]
+            setattr(cls, 'available_methods', available_conv_meth)
+            _log.debug("class = {}  available_methods = {}".format(cls.__name__, available_conv_meth))
 
 
 class ConvBase(metaclass=ConvMeta):
@@ -187,12 +186,18 @@ class ConvBase(metaclass=ConvMeta):
         # call the method itself
         method_reference(*args, **kwargs)
 
-    def _get_name(self):
+
+    @property
+    def name(self):
+        """
+        The name of the class
+        """
         return type(self).__name__
-    name = property(_get_name, doc="return the name of the class")
+
 
     def _method_dummy(self, *args, **kwargs):
         self.execute("")
+
 
     def execute(self, cmd, ignore_errors=False, verbose=False):
         t1 = time.time()
@@ -203,6 +208,7 @@ class ConvBase(metaclass=ConvMeta):
         self.last_duration = t2 - t1
         _log.info("Took {} seconds ".format(t2-t1))
         self._last_time = t2 - t1
+
 
     def _execute(self, cmd, ignore_errors=False, verbose=False):
         """
@@ -263,6 +269,7 @@ class ConvBase(metaclass=ConvMeta):
                 raise RuntimeError(errors.getvalue())
         else:
             return output
+
 
     def boxplot_benchmark(self):
         """Simple wrapper to call :class:`Benchmark` and plot the results"""
