@@ -5,6 +5,7 @@ try:
 except:
     version = __version__
 
+import os
 import colorlog
 #from easydev import CustomConfig
 
@@ -68,7 +69,6 @@ def logger_set_level(level=colorlog.logging.logging.WARNING):
 
 def bioconvert_data(filename, where=None):
     """Simple utilities to retrieve data sets from bioconvert/data directory"""
-    import os
     import easydev
     bioconvert_path = easydev.get_package_location('bioconvert')
     share = os.sep.join([bioconvert_path , "bioconvert", 'data'])
