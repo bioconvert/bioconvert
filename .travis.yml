@@ -42,14 +42,8 @@ install:
   - pip install .
 
   # install squizz which is a dependency but which is not packaged in conda
-  - wget ftp://ftp.pasteur.fr/pub/gensoft/projects/squizz/squizz-0.99d.tar.gz
-  - tar -xzf squizz-0.99d.tar.gz
-  - cd squizz-0.99d
-  - ./configure
-  - make
-  - make install
-  - cd ..
-
+  - apt-get update -y
+  - apt-get install squizz
 
 # # command to run tests, e.g. python setup.py test
 script:
