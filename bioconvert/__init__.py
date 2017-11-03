@@ -68,16 +68,21 @@ def logger_set_level(level=colorlog.logging.logging.WARNING):
 
 
 def bioconvert_data(filename, where=None):
-    """Simple utilities to retrieve data sets from bioconvert/data directory"""
-    import easydev
-    bioconvert_path = easydev.get_package_location('bioconvert')
-    share = os.sep.join([bioconvert_path , "bioconvert", 'data'])
+    """
+    Simple utilities to retrieve data sets from bioconvert/data directory
+
+    :param str filename: the name of the data file to get the path
+    :param str where:
+    """
+    import bioconvert
+    bioconvert_path = bioconvert.__path__[0]
+    share = os.path.join(bioconvert_path, 'data')
     # in the code one may use / or \ 
     if where:
-        filename = os.sep.join([share, where, filename])
+        filename = os.path.join(share, where, filename)
     else:
-        filename = os.sep.join([share, filename])
-    if os.path.exists(filename) is False:
+        filename = os.path.join(share, filename)
+    if not os.path.exists(filename):
         raise FileNotFoundError('unknown file %s' % filename)
     return filename
 
