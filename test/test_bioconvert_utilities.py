@@ -5,7 +5,13 @@ from bioconvert import generate_outfile_name, bioconvert_data
 
 
 def test_bioconvert_data():
+    import sys
     file_name = 'squizz.phylip'
+    print("####### interpreter", sys.executable, file=sys.stderr)
+    print("####### bioconvert_data(file_name)", bioconvert_data(file_name), file=sys.stderr)
+    print("####### bioconvert.__path__[0]    ", os.path.join(bioconvert.__path__[0], 'data', file_name), file=sys.stderr)
+    sys.stderr.flush()
+    raise Exception()
     assert bioconvert_data(file_name) == os.path.join(bioconvert.__path__[0], 'data', file_name)
     with pytest.raises(FileNotFoundError, message="Excepting FileNotFoundError"):
         file_name = 'foo.bar'
