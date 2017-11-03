@@ -42,6 +42,7 @@ install:
   - pip install .
 
   # install squizz which is a dependency but which is not packaged in conda
+  -
   - mkdir -p ${HOME}/dependencies/src
   - cd ${HOME}/dependencies/src
   - wget ftp://ftp.pasteur.fr/pub/gensoft/projects/squizz/squizz-0.99d.tar.gz
@@ -51,7 +52,7 @@ install:
   - make
   - make install
   - export PATH=${PATH}:${HOME}/dependencies/bin/
-  - cd
+  - cd ${TRAVIS_BUILD_DIR}
 
 
 # # command to run tests, e.g. python setup.py test
