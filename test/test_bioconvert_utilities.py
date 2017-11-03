@@ -13,13 +13,12 @@ def test_bioconvert_data():
     print("####### sys.path                  \n",
           '\n'.join(['#######                           {}'.format(p) for p in sys.path]), sep='')
     sys.stderr.flush()
-    raise Exception()
+
     assert bioconvert_data(file_name) == os.path.join(bioconvert.__path__[0], 'data', file_name)
     with pytest.raises(FileNotFoundError, message="Excepting FileNotFoundError"):
         file_name = 'foo.bar'
         assert bioconvert_data(file_name) == os.path.join(bioconvert.__path__[0], 'data', file_name)
-
-
+    raise Exception()
 
 
 def test_generate_outfile_name():
