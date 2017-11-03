@@ -136,7 +136,6 @@ def main(args=None):
     if args.batch:
         filenames = glob.glob(args.input_file)
     else:
-        print(args)
         filenames = [args.input_file]
     print("-----------")
     print(filenames)
@@ -223,7 +222,8 @@ def analysis(args):
     # do we want to know the available methods ? If so, print info and quite
     if args.show_methods:
         print(convert.available_methods)
-        print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} for details ".format(class_converter.__name__.lower(),class_converter.__name__))
+        print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} "
+              "for details ".format(class_converter.__name__.lower(),class_converter.__name__))
         sys.exit(0)
 
     convert(**params)
