@@ -261,14 +261,14 @@ class ConvBase(metaclass=ConvMeta):
                         errors.write(data.decode("utf-8"))
                 readable, writable, exceptional = select.select(inputs, [], [], 1)
 
+        errors = errors.getvalue().strip()
         if verbose:
-            errors = errors.getvalue().strip()
             if errors:
                 print(errors, file=sys.stderr)
 
         if process_.returncode != 0:
             if not ignore_errors:
-                raise RuntimeError(errors.getvalue())
+                raise RuntimeError(errors)
         else:
             return output
 
