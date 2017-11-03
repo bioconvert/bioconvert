@@ -1,0 +1,190 @@
+CLUSTAL X (1.81) multiple sequence alignment
+
+
+50233                               CCTCAGATCACTCTTTGGCAACGACCCCTTGTCACAGTAAAGATAGGAGG
+11887                               CCTCAGATCACTCTTTGGCAACGACCCCTCGTCACAATAAAGGTAGGGGG
+76383                               CCTCAAATCACTCTTTGGCAACGACCCCTAGTTACAATAAAGATAGGAGG
+69267                               CCTCAAATCACTCTTTGGCAACGACCCCTCGTCACAATAAGATTAGGAGG
+73947                               CCTCAGATCACTCTTTGGCAACGACCCCTCGTCACAATAAAGATAGGGGG
+
+50233                               GCAGCTAAAGGAAGCTGATACAGGAGCAGATACGTTAGAAGAAATGAATT
+11887                               ACAACTAAAGGAAGCTGATACAGGAGCAGATACATTAGAAGACATGGATT
+76383                               GCAACTAAAGGAAGCTGATACAGGAGCAGATACATTAGAAGACATAGCTT
+69267                               GCAACTAAAGGAAGCTGATACAGGAGCAGATACATTAGAAGAAATGAGTC
+73947                               GCAACTAAAGGAAGCCGATACAGGAGCAGATACATTAGAGGACATAAATT
+
+50233                               TGCCAGGAAGATGGAAACCAAAAGGAGGAGGTAAAGTAAGACAGTATGAT
+11887                               TGCCGGGAAGATGGAARCCAAAAGGAGGAGGTAAAGTAAGACAATATGAT
+76383                               TACCAGGAAGGTGGAAACCAAAAGGAGGGGGTAAAGTAAGACAATATGAT
+69267                               TGCCAGGAAAATGGAAACCAAAAGGAGGAGGTAAAGTAAGACAGTATGAT
+73947                               TACCAGGAAGATGGAAACCAAAAGGAGGAGGTAAAGTAAAACAGTATGAT
+
+50233                               CAGATACCCATAGAAATCTGTGGACATAAAGCTATAACAGTAGTAGGACC
+11887                               CAGATACCCATAGAAATTTGTGGCCATAAAGCTATAACAGTCGTAGGACC
+76383                               CAGGTACCCATAGAAATCTGTGGACAGAAAGCTATAACAGTGGTAGGACC
+69267                               CAGGTACMCATAGAAATCTGTGGACATAAAGCTATAACAGTAGTAGGACC
+73947                               CAAGTACCCATAGACATCTGTGGGCGTAAAGCTATAACAGTGGTAGGACC
+
+50233                               TACACCTGGAAGACTGACCCAGCTTGGTTGTACTTTAAATTTTCCCATTA
+11887                               TACACCTGGAAGACTGACTCAGCTTGGKTGCACTTTAAATTTTCCCATTA
+76383                               TACACCTGGAAGATTGACTCAGATTGGCTGCACTTTAAATTTT-------
+69267                               TACACCAGGAAGACTGACTCAGATTGGTTGCACTTTAAATTTTCCTATAA
+73947                               TACACCTGGAAGGATGACTCAGCTTGGTTGCACTTTAAATTTTCCCATTA
+
+50233                               GTCCTATTGAMACTGTACCAGTAAAATTAAARCCAGGAATGGATGGCCCA
+11887                               GTCCTATTGAAACTGTACCAGTAAAATTGAAGCCAGGAATGGATGGCCCA
+76383                               --------------------------------------------------
+69267                               GTCCTATTGAGACTGTACCAGTAAAATTAAAGCCAGGAATGGATGGCCCA
+73947                               GTCCTATTGACACTGTACCAGTAAAATTAAAGCCAGGAATGGATGGTCCA
+
+50233                               ARAGTTAAACAATGGCCACTGACAGAAGAAAAAATAAAAGCATTAGTAGA
+11887                               AAAGTTAAACARTGGCCATTGACAGAAGAAAAGATAAAAGCATTAGTAGA
+76383                               --------------------------------------------------
+69267                               AAAGTTAAACAATGGCCATTGACAGAAGAAAAAATAAAAGCATTAGTAGA
+73947                               AAAGTCAAACAATGGCCATTGACAGAAGAAAAAATAAAAGCATTAGTAGA
+
+50233                               AATTTGTACAGARGAAAAGGAAGGAAAAATTTCAAAAATTGGGCCTGAAA
+11887                               AATTTGTACAGAAGAAAAGGAGGGAAAAATTTCAAAAATTGGGCCTGAAA
+76383                               -------------GAAAAGGAAGGAAAAATTTCAAAAATTGGGCCTGAAA
+69267                               AATCTGTACAGAAGAAAAGGAAGGAAAAATTTCAAAAATTGGGCCTGAAA
+73947                               AATTTGCACAGAGGAAAAGGAAGGGAAAATTTCAAAAATTGGGCCTGAAA
+
+50233                               ATCCATACAATACTCCAGTGTTTGCCATAAAGAAAAGTTGGAGAAAAGAT
+11887                               ATCCATATAATACTCCAGTATTTGCCATAAAGAAGAGTTGGAGAAAAGAT
+76383                               ATCCATACAATACTCCAGTATTTGCTATAAAGAAAAGTTGGAGAAAAGAT
+69267                               ATCCATACAATACTCCAGTATTTGCCATAAAGAAAAGTTGGAGAAAAGAT
+73947                               ACCCATACAATACTCCAGTATTTGCCATAAAGAAAAGTTGGAGAAAAGAT
+
+50233                               AGAGAACTTAATAAGAGAACTCAAGACTTCTGGGAAGTTCAAYTRGGAAT
+11887                               AGGGAACTTAATAAGAAAACTCAAGACTTCTGGGAAATTCAATTAGGAAT
+76383                               AGAGAACTTAATAAAAGAACTCAAGACTTTTGGGAAGTTCAATTAGGAAT
+69267                               AGAGAACTTAATAAAAGAACTCAAGAATTCTGGGAAGTTCAATTAGGGAT
+73947                               AGAGAGCTTAATAAGAGAACTCAAGAATTCTGGGAAGTTCAATTAGGAAT
+
+50233                               ACCACATCCCGCAGGGAAGAAATCAACAGTACTRGAYGTGGGYGATGCAT
+11887                               ACCACATCCTGCAGGGAAGAAATCAACAGTACTGGATGTGGGTGATGCCT
+76383                               ACCACATCCTGCAGGAAAGAAATCAACAGTATTGGATGTGGGTGATGCAT
+69267                               ACCACATCCCGCAGGGAAGAAATCAACAGTACTGGATGTGGGGGATGCAT
+73947                               ACCACATCCTGCAGGGAAGAAATCAACAGTATTGGATGTGGGTGATGCAT
+
+50233                               CAGTTCCCTTAGATRAARRMTTCAGGAAGTATACTGCATTTACTATACCT
+11887                               CAGTCCCCTTAGATAAGGAGTTCAGAAAGTATACTGCATTTACCATACCT
+76383                               CAGTTCCCTTAGATAAAGAATTCAGAAAGTATACTGCATTTACCATACCT
+69267                               CAGTTCCCTTASATRAAGACTTCAGGAAGTACACTGCATTTACCATACCT
+73947                               CAGTTCCCTTAGATAAAGATTTCAGGAAGTATACTGCATTTACCATACCT
+
+50233                               AGTACAAACAATGAGACACCAGGGATTAGATATCAGTACAATGTGCTYCC
+11887                               AGTATAAACAATGAGACACCAGGGATTAGGTATCAGTACAATGTGCTCCC
+76383                               AGTAGAAACAATGAAACACCAGGGATTAGATATCAGTACAATGTACTTCC
+69267                               AGTACAAACAATGAGACCCCAGGGGTAAGATATCAGTACAATGTGCTTCC
+73947                               AGTATAAACAATGAGACACCAGGGGTTAGATATCAGTACAATGTACTTCC
+
+50233                               AGGRTGGAAAGGATCACCAGCAATATTCCAAWGTAGYATGACAAAAATCT
+11887                               AGGATGGAAAGGATCACCAGCAATATTCCAAWGTAGCATGACAAAAATCT
+76383                               AGGATGGAAAGGATCACCAGCAATATTTCAATGCAGCATGACAAAAATCT
+69267                               AGGATGGAAAGGATCACCAGCAATATTCCAATTTAGCATGACAAAAATCT
+73947                               AGGATGGAAAGGATCACCAGCAATATTCCAATGTAGCATGACAAAAATAC
+
+50233                               TAGAGCCTTTTAGRAARCAWAATCCAGAMATAATCCAATAYGATGATTTG
+11887                               TAGAGCCTTTTAGAAAACAAAATCCAGACATAATCCAATACGATGATTTG
+76383                               TAGAGCCTTTTAGAAAGCAAAATCCAGACATAATCCAATACGATGACTTA
+69267                               TAGAGCCATTTAGGAAACAAAATCCAGACATAATCCAATACGATGATTTG
+73947                               TAGAACCTTTTAGAAAGCAAAATCCAGACATAATCCAATACGATGATTTA
+
+50233                               GTRTCTGACTTAGAAATAGGGCARCATAGARYAAAAATAGARGAACTAAG
+11887                               GTATCTGACTTAGAAATAGGGCAGCATAGAGAAAAAATAGAAGAACTGAG
+76383                               GTATCTGACTTAGAAATAGGGCAGCATAGAACAAAAATAGAAGAACTGAG
+69267                               GTATCTGACTTAGAAATAGGGCAGCATAGAACAAAAGTGGAGGAACTAAG
+73947                               GTATCTGACTTAGAAATAGGGCAGCATAGAACAAAAATAGAGGAATTAAG
+
+50233                               AGAACATCTGAARTGGGGRTTTACACCAGAYAAACATCAGAAAGAACCAT
+11887                               ACAACATCTGCAGTGGGGATTTACACCAGACAAACATCAGAAAGAACCAT
+76383                               AGAACATCTGAGGTGGGGATTTACACCAGACAAACATCAGAAAGAACCAT
+69267                               ACAACATCTGAGGTGGGGATTCACACCAGATAAACATCAGAAAGAACCAT
+73947                               GAATCATCTGAGGTGGGGGTTTACACCTGACAAGCATCAGAAAGAACCAT
+
+50233                               TCCTTTGGGGTTATGAACTCCATCCTGATAAATGGACA------------
+11887                               TCCTTTGGGGTTATGAACTCCATCCTGATAARTGGACAGTACAGCCTATA
+76383                               TCCTTTGGGGTTATGAACTCCATCCTGATAAATGGACAGTACAGCCTATA
+69267                               TCCTTTGGGGTTATGAACTCCATCCTGATAAATGGACAGTACAGCCTATA
+73947                               TCCTTTGGGGTTATGAACTCCATCCTGATAAATGGACAGTACAGCCTATA
+
+50233                               --------------------------------------------------
+11887                               GTGCTGCCAGAAAAAGACAGCTGGACTGTCAATGACATACAGAAGTTAGT
+76383                               GTGCTGCCAGAAAAGGACAGCTGGACTGTCAATGACATACAGAAGTTAGT
+69267                               GTGCTGCCAGAAAAGGAAAGCTGGACTGTCAATGACATACAGAAGTTAGT
+73947                               GAGCTGCCAGAAAAAGACAGTTGGACAGTTAATGACATACAGAAGTTAGT
+
+50233                               --------------------------------------------------
+11887                               GGGAAAATTGAATTGGGCAAGTCAGATTTATGCAGGGATTAAAGTAAGGC
+76383                               GGGAAAATTGAATTGGGCAAGTCAGATTTATCCAGGGATTAAAGTAAAAC
+69267                               GGGAAAATTAAATTGGGCAAGTCAGATTTATCCAGGAATTAAAGTAAGGC
+73947                               GGGAAAATTGAATTGGGCAAGTCAGATTTATCCAGGGATTAAAGTAAAGC
+
+50233                               --------------------------------------------------
+11887                               AATTATGTAAGCTCCTTAGGGGGGCCAAAKCACTAACAGAAGTAATACCA
+76383                               AACTATGTAAACTCCTTAGGGGAACCAAAGCACTAACAGAAGTAGTACCA
+69267                               AATTATGTAAACTCCTTAGGGGAACCAAAGCGCTAACAGAGATAATACCA
+73947                               AATTATGTAAACTCCTTAGGGGAGCCAAAGCACTAACAGAAGTAGTACCA
+
+50233                               --------------------------------------------------
+11887                               CTAACACAAGAAGCAGAGCTAGAACTGGCAGAAAACAGGGAAATTCTAAA
+76383                               CTAACAGAAGAAGCAGAGCTAGAATTGGCAGAAAACAGGGAGATTCTAAA
+69267                               CTAACAGAAGAAGCAGAGCTAGAAYTGGCAGAAAACAGGGAAATTCTAAA
+73947                               CTAACAGCAGAAGCAGAGCTAGAGTTGGCAGAAAACAGGGAGATTCTAAG
+
+50233                               --------------------------------------------------
+11887                               AGAACCAGTACATGGAGTGTATTATGACCCATCAAAAGACTTAATAGCAG
+76383                               AGAACCAGTACATGGAGTGTATTATGACCCATCAAAAGACTTAGTAGCAG
+69267                               AGAACCAGTACATGGAGCATATTATGACCCATCAAAAGACTTAATAGCAG
+73947                               AGAACCAGTACATGGGGTATATTATGACCCATCAAAAGACTTAATAGCAG
+
+50233                               --------------------------------------------------
+11887                               AAATACAGAAACAAGGGGATGGC---------------------------
+76383                               AAATACAGAAGCAGGGGCAAGGC---------------------------
+69267                               AAATACAGAAGCAGGGGCTAGGCCAGTGGACATATCAGATTTATCAGGAG
+73947                               AAATACAGAAGCAAGAACAAGGCCAATGGACA------------------
+
+50233                               --------------------------------------------------
+11887                               --------------------------------------------------
+76383                               --------------------------------------------------
+69267                               CCATTTAAAAATCTGAAAACAGGAAAATATGCAAGAATGAGGGGTGCCCA
+73947                               --------------------------------------------------
+
+50233                               --------------------------------------------------
+11887                               --------------------------------------------------
+76383                               --------------------------------------------------
+69267                               CACTAATGATGTAAAACAA-------------------------------
+73947                               --------------------------------------------------
+
+50233                               --------------------------------------------------
+11887                               --------------------------------------------------
+76383                               --------------------------------------------------
+69267                               --------------------------------------------------
+73947                               --------------------------------------------------
+
+50233                               --------------------------------------------------
+11887                               --------------------------------------------------
+76383                               --------------------------------------------------
+69267                               --------------------------------------------------
+73947                               --------------------------------------------------
+
+50233                               --------------------------------------------------
+11887                               --------------------------------------------------
+76383                               --------------------------------------------------
+69267                               --------------------------------------------------
+73947                               --------------------------------------------------
+
+50233                               --------------------------------------------------
+11887                               --------------------------------------------------
+76383                               --------------------------------------------------
+69267                               --------------------------------------------------
+73947                               --------------------------------------------------
+
+50233                               ------------------------------
+11887                               ------------------------------
+76383                               ------------------------------
+69267                               ------------------------------
+73947                               ------------------------------
+
+
