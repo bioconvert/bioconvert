@@ -1,21 +1,17 @@
 __version__ = "0.1.2"
 import pkg_resources
 try:
-    version = pkg_resources.require(bioconvert)[0].version
+    version = pkg_resources.require('bioconvert')[0].version
 except:
     version = __version__
 
 import os
 import colorlog
-#from easydev import CustomConfig
 
-# Creates the data directory if it does not exist
-#PATH = CustomConfig("bioconvert").user_config_dir
-
-# The API
-
+import bioconvert
 from bioconvert.core.base import ConvBase
 from bioconvert.core.benchmark import Benchmark
+
 
 def init_logger():
     handler = colorlog.StreamHandler()
@@ -37,7 +33,9 @@ def init_logger():
     logger.addHandler(handler)
     logger.setLevel(colorlog.logging.logging.WARNING)
 
+
 init_logger()
+
 
 def logger_set_level(level=colorlog.logging.logging.WARNING):
     assert level in (colorlog.logging.logging.DEBUG,
@@ -74,7 +72,6 @@ def bioconvert_data(filename, where=None):
     :param str filename: the name of the data file to get the path
     :param str where:
     """
-    import bioconvert
     bioconvert_path = bioconvert.__path__[0]
     share = os.path.join(bioconvert_path, 'data')
     # in the code one may use / or \ 
