@@ -42,7 +42,7 @@ install:
   - pip install .
 
   # install squizz which is a dependency but which is not packaged in conda
-  - mkdir ${HOME}/dependencies/src
+  - mkdir -p ${HOME}/dependencies/src
   - cd ${HOME}/dependencies/src
   - wget ftp://ftp.pasteur.fr/pub/gensoft/projects/squizz/squizz-0.99d.tar.gz
   - tar -xzf squizz-0.99d.tar.gz
