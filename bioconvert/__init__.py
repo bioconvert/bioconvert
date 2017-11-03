@@ -78,7 +78,7 @@ def bioconvert_data(filename, where=None):
     else:
         filename = os.sep.join([share, filename])
     if os.path.exists(filename) is False:
-        raise Exception('unknown file %s' % filename)
+        raise FileNotFoundError('unknown file %s' % filename)
     return filename
 
 
