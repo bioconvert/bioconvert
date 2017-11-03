@@ -82,3 +82,13 @@ def bioconvert_data(filename, where=None):
     return filename
 
 
+def generate_outfile_name(infile, out_extension):
+    """
+    simple utility to replace the file extension with the given one.
+    :param str infile: the path to the Input file
+    :param str out_extension: Desired extension
+    :return: The file path with the given extension
+    :rtype: str
+    """
+    return '{}.{}'.format(os.path.splitext(infile)[0], out_extension)
+
