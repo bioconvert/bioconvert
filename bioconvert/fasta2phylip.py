@@ -1,10 +1,10 @@
-import logging
 import os
-
+import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
 
+_log = colorlog.getLogger(__name__)
 
 def generate_outfile_name(infile, out_extension):
     """
@@ -34,13 +34,14 @@ class FASTA2PHYLIP(ConvBase):
         """
         if not outfile:
             outfile = generate_outfile_name(infile, 'phylip')
-        super(FASTA2PHYLIP, self).__init__(infile, outfile)
+        super().__init__(infile, outfile)
         self.alphabet = alphabet
+        self._default_method = 'biopython'
 
-    def __call__(self):
+    def _method_biopython(self):
         sequences = list(SeqIO.parse(self.infile, "fasta", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "phylip")
-        logging.debug("Converted %d records to phylip" % count)
+        _log.debug("Converted %d records to phylip" % count)
 
 
 class PHYLIP2FASTA(ConvBase):
@@ -61,11 +62,12 @@ class PHYLIP2FASTA(ConvBase):
         """
         if not outfile:
             outfile = generate_outfile_name(infile, 'fasta')
-        super(PHYLIP2FASTA, self).__init__(infile, outfile)
+        super().__init__(infile, outfile)
         self.alphabet = alphabet
-
-    def __call__(self):
+        self._default_method = 'biopython'
+        
+    def _method_biopython(self):
         sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "fasta")
-        logging.debug("Converted %d records to fasta" % count)
+        _log.debug("Converted %d records to fasta" % count)
 
