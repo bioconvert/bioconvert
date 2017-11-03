@@ -41,6 +41,15 @@ install:
   - conda install --yes python=$TRAVIS_PYTHON_VERSION  coverage
   - pip install .
 
+  # install squizz which is a dependency but which is not packaged in conda
+  - wget ftp://ftp.pasteur.fr/pub/gensoft/projects/squizz/squizz-0.99d.tar.gz
+  - tar -xzf squizz-0.99d.tar.gz
+  - cd squizz-0.99d
+  - ./configure
+  - make
+  - make install
+  - cd ..
+
 
 # # command to run tests, e.g. python setup.py test
 script:
