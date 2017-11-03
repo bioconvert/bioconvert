@@ -6,8 +6,8 @@ This is a list of people who have made contributions.
 People are listed alphabetically,
 
 - Amandine Perrin
-- Anne Biton
 - Anna Zhukova
+- Anne Biton
 - Bertrand Néron <https://github.com/bneron>
 - Kenzo-Hugo Hillion <kehillio@pasteur.fr>
 - Nicolas MAILLET
