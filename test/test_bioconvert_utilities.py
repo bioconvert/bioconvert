@@ -10,6 +10,8 @@ def test_bioconvert_data():
     print("####### interpreter", sys.executable, file=sys.stderr)
     print("####### bioconvert_data(file_name)", bioconvert_data(file_name), file=sys.stderr)
     print("####### bioconvert.__path__[0]    ", os.path.join(bioconvert.__path__[0], 'data', file_name), file=sys.stderr)
+    print("####### sys.path                  \n",
+          '\n'.join(['#######                           {}'.format(p) for p in sys.path]), sep='')
     sys.stderr.flush()
     raise Exception()
     assert bioconvert_data(file_name) == os.path.join(bioconvert.__path__[0], 'data', file_name)
