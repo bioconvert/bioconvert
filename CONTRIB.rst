@@ -5,7 +5,12 @@ This is a list of people who have made contributions.
 
 People are listed alphabetically,
 
-- Thomas Cokelaer <thomas.cokelaer@pasteur.fr>
-- Kenzo-Hugo Hillion <kehillio@pasteur.fr>
-- Pierre LECHAT  <plechat@pasteur.fr>
+- Amandine Perrin
+- Anne Biton
+- Anna Zhukova
 - Bertrand Néron <https://github.com/bneron>
+- Kenzo-Hugo Hillion <kehillio@pasteur.fr>
+- Nicolas MAILLET
+- Pierre LECHAT  <plechat@pasteur.fr>
+- Rachelle Legendre
+- Thomas Cokelaer <thomas.cokelaer@pasteur.fr>
