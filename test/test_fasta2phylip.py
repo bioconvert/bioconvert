@@ -10,24 +10,47 @@ skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
 
 
 @skiptravis
-def test_conv_fa2phy():
-    infile = bioconvert_data("fa2phy.fasta")
-    outfile = bioconvert_data("fa2phy_desired_output.phylip")
+def test_fa2phy_biopython():
+    infile = bioconvert_data("fa2phy_biopython.fasta")
+    outfile = bioconvert_data("fa2phy_biopython.phylip")
     with TempFile(suffix=".phylip") as tempfile:
-        convert = FASTA2PHYLIP(infile, tempfile.name)
-        convert()
+        converter = FASTA2PHYLIP(infile, tempfile.name)
+        converter(method='biopython')
 
         # Check that the output is correct with a checksum
         assert md5(tempfile.name) == md5(outfile)
 
 
 @skiptravis
-def test_conv_phy2fa():
-    infile = bioconvert_data("fa2phy_desired_output.phylip")
-    outfile = bioconvert_data("fa2phy.fasta")
+def test_phy2fa_biopython():
+    infile = bioconvert_data("fa2phy_biopython.phylip")
+    outfile = bioconvert_data("fa2phy_biopython.fasta")
     with TempFile(suffix=".fasta") as tempfile:
-        convert = PHYLIP2FASTA(infile, tempfile.name)
-        convert()
+        converter = PHYLIP2FASTA(infile, tempfile.name)
+        converter(method='biopython')
+
+        # Check that the output is correct with a checksum
+        assert md5(tempfile.name) == md5(outfile)
+
+@skiptravis
+def test_fa2phy_squizz():
+    infile = bioconvert_data("fa2phy_squizz.fasta")
+    outfile = bioconvert_data("fa2phy_squizz.phylip")
+    with TempFile(suffix=".phylip") as tempfile:
+        converter = FASTA2PHYLIP(infile, tempfile.name)
+        converter(method='squizz')
+
+        # Check that the output is correct with a checksum
+        assert md5(tempfile.name) == md5(outfile)
+
+
+@skiptravis
+def test_phy2fa_squizz():
+    infile = bioconvert_data("fa2phy_squizz.phylip")
+    outfile = bioconvert_data("fa2phy_squizz.fasta")
+    with TempFile(suffix=".fasta") as tempfile:
+        converter = PHYLIP2FASTA(infile, tempfile.name)
+        converter(method='squizz')
 
         # Check that the output is correct with a checksum
         assert md5(tempfile.name) == md5(outfile)
