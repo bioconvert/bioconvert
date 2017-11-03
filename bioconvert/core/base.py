@@ -159,14 +159,14 @@ class ConvBase(metaclass=ConvMeta):
         from easydev.multicore import cpu_count
         self.threads = cpu_count()
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args, threads=None, **kwargs):
         """
 
         """
         # If method provided, use it 
         method_name = kwargs.get("method", None)
-
-        # If not, but there is one argument, presumably this is 
+            
+        # If not, but there is one argument, presumably this is
         # the method
         if method_name is None and len(args) == 1:
             method_name = args[0]
@@ -184,7 +184,7 @@ class ConvBase(metaclass=ConvMeta):
         method_reference = getattr(self, "_method_{}".format(method_name))
 
         # call the method itself
-        method_reference(*args, **kwargs)
+        method_reference(*args, threads=None, **kwargs)
 
 
     @property
