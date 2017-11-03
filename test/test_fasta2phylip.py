@@ -11,8 +11,8 @@ skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
 
 @skiptravis
 def test_fa2phy_biopython():
-    infile = bioconvert_data("fa2phy_biopython.fasta")
-    outfile = bioconvert_data("fa2phy_biopython.phylip")
+    infile = bioconvert_data("biopython.fasta")
+    outfile = bioconvert_data("biopython.phylip")
     with TempFile(suffix=".phylip") as tempfile:
         converter = FASTA2PHYLIP(infile, tempfile.name)
         converter(method='biopython')
@@ -23,8 +23,8 @@ def test_fa2phy_biopython():
 
 @skiptravis
 def test_phy2fa_biopython():
-    infile = bioconvert_data("fa2phy_biopython.phylip")
-    outfile = bioconvert_data("fa2phy_biopython.fasta")
+    infile = bioconvert_data("biopython.phylip")
+    outfile = bioconvert_data("biopython.fasta")
     with TempFile(suffix=".fasta") as tempfile:
         converter = PHYLIP2FASTA(infile, tempfile.name)
         converter(method='biopython')
@@ -34,8 +34,8 @@ def test_phy2fa_biopython():
 
 @skiptravis
 def test_fa2phy_squizz():
-    infile = bioconvert_data("fa2phy_squizz.fasta")
-    outfile = bioconvert_data("fa2phy_squizz.phylip")
+    infile = bioconvert_data("squizz.fasta")
+    outfile = bioconvert_data("squizz.phylip")
     with TempFile(suffix=".phylip") as tempfile:
         converter = FASTA2PHYLIP(infile, tempfile.name)
         converter(method='squizz')
@@ -46,8 +46,8 @@ def test_fa2phy_squizz():
 
 @skiptravis
 def test_phy2fa_squizz():
-    infile = bioconvert_data("fa2phy_squizz.phylip")
-    outfile = bioconvert_data("fa2phy_squizz.fasta")
+    infile = bioconvert_data("squizz.phylip")
+    outfile = bioconvert_data("squizz.fasta")
     with TempFile(suffix=".fasta") as tempfile:
         converter = PHYLIP2FASTA(infile, tempfile.name)
         converter(method='squizz')
