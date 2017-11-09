@@ -1,6 +1,6 @@
 from Bio import SeqIO
 from bioconvert import ConvBase
-
+from gatb import Bank
 
 class Fastq2Fasta(ConvBase):
     """
@@ -32,3 +32,10 @@ class Fastq2Fasta(ConvBase):
     def _method_seqtk(self, *args, **kwargs):
         cmd = "seqtk seq -A {} > {}".format(self.inputfile, self.outputfile)
         self.execute(cmd)
+
+    def _method_GATB(self, *args, **kwargs):
+        with open(self.outputfile, "w") as fasta:
+            for record in Bank(self.inputfile):
+                fasta.write(">{}\n{}\n".format(
+                    record.comment.decode("utf-8"),
+                    record.sequence.decode("utf-8")))
