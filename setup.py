@@ -47,11 +47,10 @@ if on_rtd:
     extra_packages = ["numpydoc", "sphinx_gallery"]
     requirements += extra_packages
 
-# pygatb name on pypi is pygatb (lower case) while on bioconda it is pyGATB.
-# Since the requirements.txt is used to store the package name and is used both
-# by this file and .travis (bioconda), one will fail. We decided to provide 
-# pyGATB in the requirements_tools.txt for bioconda, while we hard-code pygatb
-# in this setup.py
+# pygatb name on pypi is pygatb (lower case) but is not in bioconda.
+# Since the requirements.txt is used both by this file and .travis (bioconda),
+# travis will fail. So, we must hard-code remove pygatb from the
+# requirements.txt Consequently, we have to hard-code it in this script.
 requirements += ["pygatb"]
 
 setup(
