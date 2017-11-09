@@ -5,7 +5,7 @@ from easydev import TempFile, md5
 
 def test_gz2dsrc():
     """
-    Test that fasta gz file is converted as expected to a fasta .dsrc file
+    Test that fastq gz file is converted as expected to a fastq .dsrc file
     """
     from bioconvert import bioconvert_data
     in_gz = bioconvert_data("SP1.fq.gz")
