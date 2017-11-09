@@ -5,4 +5,5 @@ biopython
 matplotlib
 pyyaml
 pysam
+pyGATB
 pygraphviz

@@ -84,7 +84,7 @@ How to benchmark your new method vs others
 ::
 
     from bioconvert import Benchmark
-    from bioconvert import Fastq2Fasta
+    from bioconvert.fastq2fasta import Fastq2Fasta
     converter = Fastq2Fasta(infile, outfile)
     b = Benchmark(converter)
     b.plot()
