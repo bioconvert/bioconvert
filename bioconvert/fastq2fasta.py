@@ -37,11 +37,6 @@ class Fastq2Fasta(ConvBase):
         records = SeqIO.parse(self.inputfile, 'fastq')
         SeqIO.write(records, self.outputfile, 'fasta')
 
-    """def _method_python(self):
-        with open(self.infile, "r") as fin:
-            with open(self.outfile, "w") as fout:
-    """
-
     def _method_seqtk(self, *args, **kwargs):
         cmd = "seqtk seq -A {} > {}".format(self.inputfile, self.outputfile)
         self.execute(cmd)
