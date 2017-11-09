@@ -13,8 +13,8 @@ class Fastq2Fasta(ConvBase):
 
     def __init__(self, inputfile, outputfile):
         """
-        :param str infile: The path to the input FASTA file. 
-        :param str outfile: The path to the output file
+        :param str infile: The path to the input FASTQ file. 
+        :param str outfile: The path to the output FASTA file
         """
         self.inputfile = inputfile
         self.outputfile = outputfile
