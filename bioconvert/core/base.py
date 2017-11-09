@@ -167,7 +167,7 @@ class ConvBase(metaclass=ConvMeta):
         method_name = kwargs.get("method", None)
         if method_name:
             del kwargs["method"]
-            
+
         # If not, but there is one argument, presumably this is
         # the method
         if method_name is None and len(args) == 1:
@@ -176,7 +176,9 @@ class ConvBase(metaclass=ConvMeta):
             method_name = self.default
 
         # If not, we need to check the name
-        if method_name not in self.available_methods:
+        # "dummy" is a method used to evaluate the cost of the
+        # execute() method for the benchmark
+        if method_name not in self.available_methods + ['dummy']:
             msg = "Method available are {}".format(self.available_methods)
             _log.error(msg)
             raise ValueError(msg)
@@ -188,7 +190,6 @@ class ConvBase(metaclass=ConvMeta):
         # call the method itself
         method_reference(*args, threads=None, **kwargs)
 
-
     @property
     def name(self):
         """
@@ -196,10 +197,10 @@ class ConvBase(metaclass=ConvMeta):
         """
         return type(self).__name__
 
-
     def _method_dummy(self, *args, **kwargs):
+        # The execute commands has a large initialisation cost (about a second)
+        # This commands does not and can be used to evaluate that cost
         self.execute("")
-
 
     def execute(self, cmd, ignore_errors=False, verbose=False):
         t1 = time.time()
@@ -210,7 +211,6 @@ class ConvBase(metaclass=ConvMeta):
         self.last_duration = t2 - t1
         _log.info("Took {} seconds ".format(t2-t1))
         self._last_time = t2 - t1
-
 
     def _execute(self, cmd, ignore_errors=False, verbose=False):
         """
@@ -272,13 +272,12 @@ class ConvBase(metaclass=ConvMeta):
         else:
             return output
 
-
-    def boxplot_benchmark(self, N=5, rerun=True):
+    def boxplot_benchmark(self, N=5, rerun=True, include_dummy=False):
         """Simple wrapper to call :class:`Benchmark` and plot the results"""
         b = Benchmark(self, N=N)
+        b.include_dummy = include_dummy
         b.plot(rerun=rerun)
 
-    
     def _get_default_method(self):
         if self._default_method is None:
             return self.available_methods[0]

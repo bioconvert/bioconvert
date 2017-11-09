@@ -46,11 +46,16 @@ class Benchmark():
         self.converter = obj
         self.N = N
         self.results = None
+        self.include_dummy = False
 
     def run_methods(self):
         results = {}
-        for method in self.converter.available_methods:
-            print("Evaluating method %s" % method)
+        methods = self.converter.available_methods
+        if self.include_dummy:
+            methods += ['dummy']
+
+        for method in methods:
+            print("\nEvaluating method %s" % method)
             times = []
             pb = Progress(self.N)
             for i in range(self.N):
