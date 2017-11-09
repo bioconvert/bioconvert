@@ -1,6 +1,8 @@
 from Bio import SeqIO
+from Bio.SeqIO import FastaIO
 from bioconvert import ConvBase
 from gatb import Bank
+
 
 class Fastq2Fasta(ConvBase):
     """
@@ -10,14 +12,25 @@ class Fastq2Fasta(ConvBase):
     input_ext = ['.fastq', '.fq']
     output_ext = '.fasta'
 
+    @staticmethod
+    def unwrap_fasta(infile, outfile):
+        """
+        This method reads fasta sequences from *infile*
+        and writes them unwrapped in *outfile*.
+        :param str infile: The path to the input FASTA file.
+        :param str outfile: The path to the output file.
+        """
+        with open(outfile, "w") as fasta_out:
+            FastaIO.FastaWriter(fasta_out, wrap=None).write_file(
+                SeqIO.parse(infile, 'fasta'))
 
-    def __init__(self, inputfile, outputfile):
+    def __init__(self, infile, outfile):
         """
-        :param str infile: The path to the input FASTA file. 
-        :param str outfile: The path to the output file
+        :param str infile: The path to the input FASTA file.
+        :param str outfile: The path to the output file.
         """
-        self.inputfile = inputfile
-        self.outputfile = outputfile
+        self.inputfile = infile
+        self.outputfile = outfile
         self._default_method = "biopython"
 
     def _method_biopython(self, *args, **kwargs):
