@@ -8,3 +8,4 @@ seqtk
 pbzip2
 pigz
 dsrc
+pyGATB
