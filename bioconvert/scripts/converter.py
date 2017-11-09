@@ -68,19 +68,19 @@ def main(args=None):
                                          formatted.""",
                                          usage="""
     # convert fastq to fasta
-    converter test.fastq test.fasta
+    bioconvert test.fastq test.fasta
 
     # if input extension is not standard, use -i to specify it
-    converter test.FASTQ test.fasta -i fastq
+    bioconvert test.FASTQ test.fasta -i fastq
 
-    converter test.fastq -o fasta
+    bioconvert test.fastq -o fasta
 
     # You may have several inputs, in which case wildcards are possible
     # Note, however, the quotes that are required
-    converter "test*.fastq" -o fasta
+    bioconvert "test*.fastq" -o fasta
 
     # batch is also possible. 
-    converter "test*.fastq" -o fasta -m 
+    bioconvert "test*.fastq" -o fasta -m 
 
     Note the difference between the two previous commands !!
 

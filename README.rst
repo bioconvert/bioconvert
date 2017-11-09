@@ -42,10 +42,10 @@ Usage
 
 ::
 
-    convert input.fastq output.fasta
-    convert input.fq output.fasta
-    convert input.mybam output.bed --input-format bam
-    convert --formats
-    convert --help
+    bioconvert input.fastq output.fasta
+    bioconvert input.fq output.fasta
+    bioconvert input.mybam output.bed --input-format bam
+    bioconvert --formats
+    bioconvert --help
 
 
