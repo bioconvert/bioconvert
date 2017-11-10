@@ -57,7 +57,7 @@ install:
 
 # # command to run tests, e.g. python setup.py test
 script:
-  - pytest -v --durations=10  test/ --cov=biokit --cov-report term --timeout 300 
+  - pytest -v --durations=10  test/ --cov=bioconvert --cov-report term --timeout 300 
 
 
 after_success:
