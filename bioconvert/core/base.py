@@ -274,9 +274,9 @@ class ConvBase(metaclass=ConvMeta):
 
     def boxplot_benchmark(self, N=5, rerun=True, include_dummy=False):
         """Simple wrapper to call :class:`Benchmark` and plot the results"""
-        b = Benchmark(self, N=N)
-        b.include_dummy = include_dummy
-        b.plot(rerun=rerun)
+        self._benchmark = Benchmark(self, N=N)
+        self._benchmark.include_dummy = include_dummy
+        self._benchmark.plot(rerun=rerun)
 
     def _get_default_method(self):
         if self._default_method is None:
