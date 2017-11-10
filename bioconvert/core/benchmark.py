@@ -73,7 +73,7 @@ class Benchmark():
 
         methods = sorted(data, key=lambda x: pylab.mean(data[x]))
         pylab.boxplot([data[x] for x in methods])
-        pylab.xticks([1+this for this in range(self.N)], methods)
+        pylab.xticks([1+this for this in range(len(methods))], methods)
         pylab.grid(True)
         pylab.ylabel("Time (seconds)")
         pylab.xlim([0, len(methods)+1])
