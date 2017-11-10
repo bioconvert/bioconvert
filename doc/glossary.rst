@@ -40,10 +40,15 @@ Glossary
 
     FASTA
 
-        FASTA-formatted sequence files contains either nucleic acid sequence
+        FASTA-formatted sequence files contain either nucleic acid sequence
         (such as DNA) or protein sequence information. FASTA files store multiple
         sequences in a single file. http://en.wikipedia.org/wiki/FASTA_format
 
+    FASTQ
+
+        FASTQ-formatted sequence files are used to represent high-throughput
+        sequencing data, where each read is described by a name, its sequence,
+        and its qualities. https://en.wikipedia.org/wiki/FASTQ_format
 
     GFA
 
