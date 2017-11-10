@@ -77,6 +77,7 @@ User and Developer Guides
 
     user_guide
     developer_guide
+    benchmarking
     auto_examples/index
     references
     glossary
