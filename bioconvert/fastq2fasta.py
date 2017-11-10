@@ -29,21 +29,32 @@ class Fastq2Fasta(ConvBase):
         :param str infile: The path to the input FASTA file.
         :param str outfile: The path to the output file.
         """
-        self.inputfile = infile
-        self.outputfile = outfile
+        super().__init__(infile, outfile)
         self._default_method = "biopython"
 
     def _method_biopython(self, *args, **kwargs):
-        records = SeqIO.parse(self.inputfile, 'fastq')
-        SeqIO.write(records, self.outputfile, 'fasta')
+        records = SeqIO.parse(self.infile, 'fastq')
+        SeqIO.write(records, self.outfile, 'fasta')
 
     def _method_seqtk(self, *args, **kwargs):
-        cmd = "seqtk seq -A {} > {}".format(self.inputfile, self.outputfile)
+        cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
     def _method_GATB(self, *args, **kwargs):
-        with open(self.outputfile, "w") as fasta:
-            for record in Bank(self.inputfile):
+        with open(self.outfile, "w") as fasta:
+            for record in Bank(self.infile):
                 fasta.write(">{}\n{}\n".format(
                     record.comment.decode("utf-8"),
                     record.sequence.decode("utf-8")))
+
+    def _method_awk(self, *args, **kwargs):
+        # Note1: since we use .format, we need to escape the { and } characters
+        # Note2: the \n need to be escaped for Popen to work
+        awkcmd = """awk '{{if(NR%4==1) {{printf(">%s\\n",substr($0,2));}} else if(NR%4==2) print;}}' """
+        cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
+        self.execute(cmd)
+
+
+
+
+
