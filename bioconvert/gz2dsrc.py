@@ -46,7 +46,7 @@ class GZ2DSRC(ConvBase):
         super(GZ2DSRC, self).__init__(infile, outfile, *args, **kargs)
         self._default_method = "pigzdsrc"
 
-    def _method_pigzdscrc(self, *args, **kwargs):
+    def _method_pigzdsrc(self, *args, **kwargs):
         """
         do the conversion gz -> :term:'DSRC`
 
