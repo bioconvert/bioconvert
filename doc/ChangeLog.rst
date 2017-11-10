@@ -1,7 +1,8 @@
 Whats' new, what has changed
 ================================
 
-:Revision 0.0.6: added bcf2vcf; fixed vcf2bcf; added bam2json; more tests
+:Revision 0.0.6: added converters: bcf2vcf; vcf2bcf; bam2json; gz2bz2, bz22gz,
+    gz2dsrc, .... benchmarking implemented.
 :Revision 0.0.5: added bioconvert_init standalone to help developers. 
                  added gz2bz2 converter. switch default of bam2fasta with
                  sambamba
