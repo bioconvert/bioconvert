@@ -9,3 +9,5 @@ seqtk
 pbzip2
 pigz
 dsrc
+mawk
+bioawk
