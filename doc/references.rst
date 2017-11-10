@@ -12,12 +12,13 @@ References
     bioconvert.fastq2fasta
     bioconvert.fasta2phylip
     bioconvert.gfa2fasta
+    bioconvert.gz2dsrc
 
 
 .. automodule:: bioconvert.core.base
 
 NGS bioconverters
--------------------
+-----------------
 
 .. automodule:: bioconvert.bam2bed
     :members:
@@ -59,5 +60,9 @@ NGS bioconverters
 
 
 .. automodule:: bioconvert.vcf2bcf
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.gz2dsrc
     :members:
     :synopsis:

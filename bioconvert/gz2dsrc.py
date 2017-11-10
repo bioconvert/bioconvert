@@ -10,16 +10,27 @@
 #  website: https://github.com/biokit/bioconvert
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
-""" description """
+#
+""" Convert a compressed fastq.gz file to :term:`DSRC` compression format """
+
 from bioconvert import ConvBase
 
 __all__ = ["GZ2DSRC"]
 
 
 class GZ2DSRC(ConvBase):
-    """Convert :term:`GZ` file to :term:`BZ2` file
+    """Convert compressed fastq.gz file into `DSRC` compressed file
 
-    Some description.
+    .. plot::
+
+         from bioconvert.gz2dsrc import GZ2DSRC
+         from bioconvert import bioconvert_data
+         from easydev import TempFile
+
+         with TempFile(suffix=".dsrc") as fh:
+             infile = bioconvert_data("test_SP1.fq.gz")
+             convert = GZ2DSRC(infile, fh.name)
+             convert.boxplot_benchmark()
 
     """
     input_ext = [".gz"]
@@ -28,28 +39,24 @@ class GZ2DSRC(ConvBase):
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile: input GZ file
-        :param str outfile: output BZ2 filename
+        :param str infile: input GZ filename
+        :param str outfile: output DSRC filename
 
         """
         super(GZ2DSRC, self).__init__(infile, outfile, *args, **kargs)
+        self._default_method = "pigzdsrc"
 
-    def _method_pigz_dscrc(self, *args, **kwargs):
-        """some description"""
-        # check integrity
-        # cmd = "pigz -p{threads} --test {input}"
-        # shell(cmd)
+    def _method_pigzdscrc(self, *args, **kwargs):
+        """
+        do the conversion gz -> :term:'DSRC`
 
-        # conversion
+        :return: the standard output
+        :rtype: :class:`io.StringIO` object.
+        """
         cmd = "pigz -d -c -p {threads} {input} | dsrc c -s -t{threads} {output}"
         self.execute(cmd.format(
             threads=self.threads,
             input=self.infile,
             output=self.outfile))
 
-        # integrity output
-        #cmd = "pbzip2 {output} -p{threads} --test"
-        #shell(cmd)
-
-        # use self.infile, self.outfile
 
