@@ -52,7 +52,7 @@ You may also use this standalone to create the bioconvert_init standalone. For
 instance to create the bz2 to gz convertm redirect the output of this command in
 the correct file::
 
-    bioconvert_init -i bz2 -o gz > bz22gz.py
+    $ bioconvert_init -i bz2 -o gz > bz22gz.py
 
 Of course, you will need to edit the file to add the conversion itself in the
 appropriate method (e.g. _method_gz).
@@ -159,7 +159,10 @@ Follow the conventions used in the code. For instance,
 - Add documentation in triple quotes
 
 
+To check PEP8 compliance of a python source code file, you can run ``flake8`` on it.
+For instance::
 
+    $ flake8 bioconvert/fastq2fasta.py
 
 Requirements files
 ------------------------
