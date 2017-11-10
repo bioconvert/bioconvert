@@ -9,8 +9,8 @@ def test_gz2dsrc():
     Test that fastq gz file is converted as expected to a fastq .dsrc file
     """
     from bioconvert import bioconvert_data
-    in_gz = bioconvert_data("SP1.fq.gz")
-    exp_fq = bioconvert_data("SP1.fq")
+    in_gz = bioconvert_data("test_SP1.fq.gz")
+    exp_fq = bioconvert_data("exp_SP1.fq")
     with TempFile(suffix=".dsrc") as tempfile:
         converter = GZ2DSRC(in_gz, tempfile.name)
         converter()
