@@ -1,10 +1,6 @@
 Developer guide
 =================
 
-Tools you will need
--------------------
-
-You need to install all python packages listed in **requirements_dev.txt**.
 
 How to add a new converter ?
 -----------------------------------
@@ -80,10 +76,6 @@ Go to  ./test and add a file named **test_fastq2fasta.py**
         # you can then use ::
         from bioconvert import bioconvert_data
         bioconvert_data("mydata")
-
-To run the test file::
-
-    $ pytest test/test_fastq2fasta.py -v
 
 
 How to locally run the tests
