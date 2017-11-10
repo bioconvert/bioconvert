@@ -24,6 +24,34 @@ class Fastq2Fasta(ConvBase):
             FastaIO.FastaWriter(fasta_out, wrap=None).write_file(
                 SeqIO.parse(infile, 'fasta'))
 
+    # Adapted from the readfq code by Heng Li
+    # (https://raw.githubusercontent.com/lh3/readfq/master/readfq.py)
+    @staticmethod
+    def readfq(fp):  # this is a generator function
+        last = None  # this is a buffer keeping the last unprocessed line
+        while True:  # mimic closure; is it a bad idea?
+            if not last:  # the first record or a record following a fastq
+                for l in fp:  # search for the start of the next record
+                    if l[0] == "@":  # fastq header line
+                        last = l[:-1]  # save this line
+                        break
+            if not last:
+                break
+            header, seqs, last = last[1:], [], None
+            for l in fp:  # read the sequence
+                if l[0] in '@+':
+                    last = l[:-1]
+                    break
+                seqs.append(l[:-1])
+            seq, leng, seqs = ''.join(seqs), 0, []
+            for l in fp:  # read the quality
+                seqs.append(l[:-1])
+                leng += len(l) - 1
+                if leng >= len(seq):  # have read enough quality
+                    last = None
+                    yield header, seq, ''.join(seqs)  # yield a fastq record
+                    break
+
     def __init__(self, infile, outfile):
         """
         :param str infile: The path to the input FASTA file.
@@ -47,6 +75,11 @@ class Fastq2Fasta(ConvBase):
                     record.comment.decode("utf-8"),
                     record.sequence.decode("utf-8")))
 
+    def _method_readfq(self, *args, **kwargs):
+        with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
+            for (name, seq, _) in Fastq2Fasta.readfq(fastq):
+                fasta.write(">{}\n{}\n".format(name, seq))
+
     def _method_awk(self, *args, **kwargs):
         # Note1: since we use .format, we need to escape the { and } characters
         # Note2: the \n need to be escaped for Popen to work
@@ -55,7 +88,8 @@ class Fastq2Fasta(ConvBase):
         self.execute(cmd)
 
     def _method_mawk(self, *args, **kwargs):
-        """This variant of the awk method uses mawk, a lighter and faster implementation of awk."""
+        """This variant of the awk method uses mawk, a lighter and faster
+        implementation of awk."""
         # Note1: since we use .format, we need to escape the { and } characters
         # Note2: the \n need to be escaped for Popen to work
         awkcmd = """mawk '{{if(NR%4==1) {{printf(">%s\\n",substr($0,2));}} else if(NR%4==2) print;}}' """
@@ -63,7 +97,8 @@ class Fastq2Fasta(ConvBase):
         self.execute(cmd)
 
     def _method_bioawk(self, *args, **kwargs):
-        """This method uses bioawk, an implementation with convenient bioinformatics parsing features."""
+        """This method uses bioawk, an implementation with convenient
+        bioinformatics parsing features."""
         awkcmd = """bioawk -c fastx '{{print ">"$name" "$comment"\\n"$seq}}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
