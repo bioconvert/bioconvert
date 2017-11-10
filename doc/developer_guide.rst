@@ -9,7 +9,7 @@ For now, converters are simple conversion from one format to another one.
 There is no third-party file. For instance, if you need a reference file, this
 is not part of the API for the moment.
 
-Now, let us take a simple example such as a fastq to fasta conversion. 
+Now, let us take a simple example such as a fastq to fasta conversion.
 
 First, you need to create a module (Python file). We use the convention::
 
@@ -37,10 +37,10 @@ all in small caps ! In this file, copy and paste this example::
             :param str outfile: information
             """
             super().__init__(infile, outfile)
-            self._default_method = "v1" 
+            self._default_method = "v1"
 
         def _method_v1(self, *args, **kwargs):
-            Conversion is made here. 
+            Conversion is made here.
             You can use self.infile and  self.outfile
             If you use an external command, you can use:
             self.execute(cmd)
@@ -70,12 +70,30 @@ Go to  ./test and add a file named **test_fastq2fasta.py**
     from bioconvert.fastq2fasta import Fastq2Fasta
 
     def test_fastq2fasta():
-        #your code here 
-        # you will need data for instance "mydata". 
+        #your code here
+        # you will need data for instance "mydata".
         # Put it in bioconvert/bioconvert/data
         # you can then use ::
         from bioconvert import bioconvert_data
         bioconvert_data("mydata")
+
+
+How to locally run the tests
+----------------------------
+
+Go to root directory. If not already done, install all packages listed in ``requirements_dev.txt``.
+You can do so by running::
+
+    pip3 install -r requirements_dev.txt
+
+Then, run the tests using::
+
+    pytest test/ -v
+
+Or, to run a specific test file, for example for your new convertor fastq2fasta::
+
+    pytest test/test_fastq2fasta.py -v
+
 
 
 How to benchmark your new method vs others
@@ -105,7 +123,7 @@ pep8 and conventions
 -------------------------
 
 In order to write your Python code, use PEP8 convention as much as possible.
-Follow the conventions used in the code. For instance, 
+Follow the conventions used in the code. For instance,
 
 ::
 
@@ -154,5 +172,5 @@ Requirements files
   the doc
 - requirements_dev.txt : packages required for testing or building the doc (not
   required to run the bioconvert package
-- requirements_tools.txt : all conda dependencies 
+- requirements_tools.txt : all conda dependencies
 
