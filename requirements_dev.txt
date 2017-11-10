@@ -7,5 +7,6 @@ pytest-runner
 pillow
 sphinx
 sphinx_rtd_theme
+sphinx_gallery
 numpydoc
 coveralls
