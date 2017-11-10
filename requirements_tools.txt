@@ -1,5 +1,6 @@
 samtools
 bamtools
+bioawk
 bcftools
 bedtools
 sambamba

@@ -54,7 +54,16 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    def _method_mawk(self, *args, **kwargs):
+        """This variant of the awk method uses mawk, a lighter and faster implementation of awk."""
+        # Note1: since we use .format, we need to escape the { and } characters
+        # Note2: the \n need to be escaped for Popen to work
+        awkcmd = """mawk '{{if(NR%4==1) {{printf(">%s\\n",substr($0,2));}} else if(NR%4==2) print;}}' """
+        cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
+        self.execute(cmd)
 
-
-
-
+    def _method_bioawk(self, *args, **kwargs):
+        """This method uses bioawk, an implementation with convenient bioinformatics parsing features."""
+        awkcmd = """bioawk -c fastx '{{print ">"$name" "$comment"\\n"$seq}}'"""
+        cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
+        self.execute(cmd)
