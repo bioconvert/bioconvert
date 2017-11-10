@@ -50,7 +50,7 @@ class Benchmark():
 
     def run_methods(self):
         results = {}
-        methods = self.converter.available_methods
+        methods = self.converter.available_methods[:] # a copy !
         if self.include_dummy:
             methods += ['dummy']
 
