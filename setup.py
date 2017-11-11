@@ -51,7 +51,10 @@ if on_rtd:
 # Since the requirements.txt is used both by this file and .travis (bioconda),
 # travis will fail. So, we must hard-code remove pygatb from the
 # requirements.txt Consequently, we have to hard-code it in this script.
-requirements += ["pygatb"]
+if on_rtd:
+    pass # somehow pygatb cannot be installed on RTD 
+else:
+    requirements += ["pygatb"]
 
 setup(
     name='bioconvert',
