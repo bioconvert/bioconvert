@@ -8,7 +8,10 @@ References
 
     bioconvert.core
     bioconvert.bam2bed
+    bioconvert.bam2cram
     bioconvert.bam2sam
+    bioconvert.cram2bam
+    bioconvert.cram2sam
     bioconvert.fastq2fasta
     bioconvert.fasta2phylip
     bioconvert.gfa2fasta
