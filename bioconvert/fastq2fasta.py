@@ -58,7 +58,9 @@ class Fastq2Fasta(ConvBase):
         :param str outfile: The path to the output file.
         """
         super().__init__(infile, outfile)
-        self._default_method = "biopython"
+        # use readfq for now because pure python and fast enough
+        # for production, could use seqtk which seems the fastest method
+        self._default_method = "readfq"
 
     def _method_biopython(self, *args, **kwargs):
         records = SeqIO.parse(self.infile, 'fastq')
@@ -102,3 +104,21 @@ class Fastq2Fasta(ConvBase):
         awkcmd = """bioawk -c fastx '{{print ">"$name" "$comment"\\n"$seq}}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
+
+
+    def _method_awk_v2(self, *args, **kwargs):
+
+        awkcmd = """awk '{{print ">"substr($0,2);getline;print;getline;getline}}'"""
+        cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
+        self.execute(cmd)
+
+    def _method_sed(self, *args, **kwargs):
+        cmd = """sed -n '1~4s/^@/>/p;2~4p' """
+        cmd = "{} {} > {}".format(cmd, self.infile, self.outfile)
+        self.execute(cmd)
+
+
+
+
+
+
