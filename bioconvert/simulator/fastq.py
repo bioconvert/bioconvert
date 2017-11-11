@@ -15,7 +15,7 @@ class FastqSim():
         RL = self.read_length
         with open(self.outfile, "w") as fout:
             for i in range(self.nreads):
-                fout.write(">identifier whatever it means but long enough\n")
+                fout.write("@identifier whatever it means but long enough\n")
                 fout.write("ACGT" * (RL // 4) + "A" * (RL % 4) + "\n")
                 fout.write("+\n")
                 fout.write("C" * RL + "\n")
