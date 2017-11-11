@@ -110,7 +110,6 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
-
     def _method_awk_v2(self, *args, **kwargs):
 
         awkcmd = """awk '{{print ">"substr($0,2);getline;print;getline;getline}}'"""
