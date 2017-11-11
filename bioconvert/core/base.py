@@ -272,9 +272,14 @@ class ConvBase(metaclass=ConvMeta):
         else:
             return output
 
-    def boxplot_benchmark(self, N=5, rerun=True, include_dummy=False):
-        """Simple wrapper to call :class:`Benchmark` and plot the results"""
-        self._benchmark = Benchmark(self, N=N)
+    def boxplot_benchmark(self, N=5, rerun=True, include_dummy=False,
+            to_exclude=[]):
+        """Simple wrapper to call :class:`Benchmark` and plot the results
+
+        see :class:`~bioconvert.core.benchmark.Benchmark` for details.
+
+        """
+        self._benchmark = Benchmark(self, N=N, to_exclude=to_exclude)
         self._benchmark.include_dummy = include_dummy
         self._benchmark.plot(rerun=rerun)
 
