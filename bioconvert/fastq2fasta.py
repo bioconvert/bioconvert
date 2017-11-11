@@ -1,7 +1,12 @@
 from Bio import SeqIO
 from Bio.SeqIO import FastaIO
 from bioconvert import ConvBase
-from gatb import Bank
+try:
+    # Let us make this optional for now because
+    # GATB cannot be install on RTD
+    from gatb import Bank
+except:
+    pass
 
 
 class Fastq2Fasta(ConvBase):
