@@ -29,7 +29,7 @@ For the moment, only FastQ dummy generator is provided.
     # Perfrm the benchmarking
     from bioconvert.fastq2fasta import Fastq2Fasta
     c = Fastq2Fasta(infile.name, outfile.name)
-    c.boxplot_benchmark()
+    c.boxplot_benchmark(to_exclude=["gatb"])
 
     infile.delete()
     outfile.delete()
@@ -44,7 +44,7 @@ second cost. Therefore, it is essntial to use large data sets for testing.
 We have a dummy method, which does nothing else that calling a subprocess that
 does ... nothing. You could use it that way::
 
-    c.boxplot_benchmark(include_dummy)
+    c.boxplot_benchmark(include_dummy=True)
 
 and see that indeed this takes 1 second like seqtk. So we need more data.
 
