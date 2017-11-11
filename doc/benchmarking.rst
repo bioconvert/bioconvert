@@ -32,7 +32,7 @@ In practice, you could use the following code to generate the boxplot:
     # Perfrm the benchmarking
     from bioconvert.fastq2fasta import Fastq2Fasta
     c = Fastq2Fasta(infile.name, outfile.name)
-    c.boxplot_benchmark(to_exclude=["gatb"])
+    c.boxplot_benchmark(to_exclude=["GATB"])
 
     infile.delete()
     outfile.delete()
@@ -57,7 +57,7 @@ If we use 1,000,000 reads instead of just 2,000, we would get this results
 If we substract the subprocess cost from methods that use it (issue that should
 be solved soon), then we would get this result
 
-.. image:: benchmark.png
+.. image:: benchmark2.png
 
 Here, what you see is that readfq and GATB methods (pure python) in this image
 and the previous image give similar results. On the contrary, other methods (e.g., seqtk) 
