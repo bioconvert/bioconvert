@@ -34,10 +34,12 @@ class Benchmark():
         b.plot()
 
     """
-    def __init__(self, obj, N=5):
-        """
+    def __init__(self, obj, N=5, to_exclude=[]):
+        """.. rubric:: constructor
 
         :param obj: can be an instance of a converter class or a class name
+        :param int N: number of replicates
+        :param list to_exclude: method to exclude from the benchmark
 
         """
         if isinstance(obj, str):
@@ -47,6 +49,7 @@ class Benchmark():
         self.N = N
         self.results = None
         self.include_dummy = False
+        self.to_exclude = to_exclude
 
     def run_methods(self):
         results = {}
@@ -55,6 +58,8 @@ class Benchmark():
             methods += ['dummy']
 
         for method in methods:
+            if method in self.to_exclude:
+                continue
             print("\nEvaluating method %s" % method)
             times = []
             pb = Progress(self.N)
