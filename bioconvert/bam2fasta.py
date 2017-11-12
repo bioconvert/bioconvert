@@ -6,16 +6,18 @@ class BAM2Fasta(ConvBase):
     """Bam2Fasta converter
 
     Wrapper of bamtools to convert bam file to fasta file.
+
     """
     input_ext = ['.bam']
     output_ext = ['fasta', 'fa']
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
+
         :param str infile:
         :param str outfile:
-        library used::
-            pysam (samtools)
+
+        library used: pysam (samtools)
         """
         super().__init__(infile, outfile)
         self._default_method = "bamtools"
