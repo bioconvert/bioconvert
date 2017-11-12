@@ -72,7 +72,7 @@ User and Developer Guides
 #############################
 
 .. toctree::
-    :maxdepth: 2 
+    :maxdepth: 2
     :numbered:
 
     user_guide
