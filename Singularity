@@ -10,8 +10,8 @@ From: ubuntu:17.04
 %labels
   maintainer Bertrand Neron <bneron@pasteur.fr>
   package.name
-  package.version 0.0.4
-  package.homepage https://pypi.python.org/pypi/bioconvert/0.0.4
+  package.version 0.0.6
+  package.homepage https://pypi.python.org/pypi/bioconvert/0.0.6
   package.source.url
   package.source.mdm5
   package.license GPLv3
@@ -67,7 +67,7 @@ From: ubuntu:17.04
 
 
   ######### install bioconvert #########
-  pip install bioconvert==0.0.5
+  pip install bioconvert==0.0.6
 
 
   # Uses agg as backend instead of qt (less dependencies)
