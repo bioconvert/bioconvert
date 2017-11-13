@@ -1,0 +1,28 @@
+# This Snakefile read all Fastq files in the current directory
+# and convert them into Fasta; 
+#
+# How to run ? If you have 8 cores:
+#
+#     snakemake -s Snakefile --cores 8
+#
+# on a SLURM framework, :
+#
+#     snakemake -s Snakefile --cluster "-j 8 --mem 1000"
+
+from pylab import savefig
+
+inext = "fastq"
+outext = "fasta"
+
+import glob
+samples = glob.glob("*%s" % inext)
+samples = [this.replace("." + inext, "") for this in samples]
+
+rule all:
+    input: expand("{dataset}" + "." + outext, dataset=samples)
+
+rule bioconvert:
+    input: "{dataset}.%s" % inext
+    output: "{dataset}.%s" % outext
+    shell: "bioconvert {input} {output}"
+

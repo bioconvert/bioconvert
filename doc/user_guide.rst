@@ -59,8 +59,6 @@ bioconvert as follows::
     conda install --file requirements_dev.txt
     python setup.py install
 
-    
-
 
 Singularity
 ------------
@@ -92,6 +90,35 @@ First, download the container::
 You can then create an alias::
 
     alias bioconvert="singularity run bioconvert.simg bioconvert"
+
+
+
+
+Parallelization
+--------------------
+
+
+Some converters can use several threads, but if you have hundreds of files and
+wish to use several CPUs, or run bioconvert on a cluster, we provide here below
+a simple Snakefile (snakemake) that can be run easily as follows.
+
+You can download the following file :download:`Snakefile` 
+
+.. literalinclude:: Snakefile
+    :language: python
+    :lines: 12-28
+
+and execute it locally as follows (assuming you have 4 CPUs)::
+
+    snakemake -s Snakefile --cores 4
+
+or on a cluster::
+
+    snakemake -s Snakefile --cluster "--mem=1000 -j 10"
+
+
+
+
 
 
 
