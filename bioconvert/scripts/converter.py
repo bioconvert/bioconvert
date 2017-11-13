@@ -19,7 +19,7 @@ import colorlog
 
 import bioconvert
 from bioconvert.core.registry import Registry
-from bioconvert.core.converter import Converter
+from bioconvert.core.converter import BioConvert
 
 _log = colorlog.getLogger('bioconvert')
 
@@ -160,7 +160,7 @@ def analysis(args):
         outfile = args.output_file
 
     # Call a generic wrapper of all available conversion
-    conv = Converter(infile, outfile)
+    conv = BioConvert(infile, outfile)
 
     # Users may provide information about the input file.
     # Indeed, the input may be a FastQ file but with an extension
