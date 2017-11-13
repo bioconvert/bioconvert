@@ -19,7 +19,9 @@ import colorlog
 
 import bioconvert
 from bioconvert.core.registry import Registry
+from bioconvert.core.converter import Converter
 
+_log = colorlog.getLogger('bioconvert')
 
 class ConvAction(argparse.Action):
 
@@ -56,7 +58,8 @@ def main(args=None):
         args = sys.argv[:]
 
     from easydev.console import purple, underline
-    print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
+    if "-v" in args or "--verbosity" in args:
+        print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
 
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
                                          epilog=" ----    ",
@@ -127,8 +130,6 @@ def main(args=None):
     # Set the logging level
     args.verbosity = max(10, 30 - (10 * args.verbosity))
     bioconvert.logger_set_level(args.verbosity)
-    _log = colorlog.getLogger('bioconvert')
-
 
     # Figure out whether we have several input files or not
     # Are we in batch mode ? 
@@ -137,21 +138,13 @@ def main(args=None):
         filenames = glob.glob(args.input_file)
     else:
         filenames = [args.input_file]
-    print("-----------")
-    print(filenames)
 
     for filename in filenames:
-        print(filename)
         args.input_file = filename
         analysis(args)
 
 
-    #_log.info("Done")
-
-
 def analysis(args):
-    mapper = Registry()
-    _log = colorlog.getLogger('bioconvert')
 
     # Input and output filename
     infile = args.input_file
@@ -159,74 +152,51 @@ def analysis(args):
         if args.output_format is None:
             raise ValueError("Extension of the output format unknown."
                     " You must either provide an output file name (with"
-                    " extension) or provide it zith the --output-format"
+                    " extension) or provide it with the --output-format"
                     " argument")
         else:
             outfile = infile.rsplit(".",1)[0] + "." + args.output_format
     else:
         outfile = args.output_file
 
+    # Call a generic wrapper of all available conversion
+    conv = Converter(infile, outfile)
+
     # Users may provide information about the input file.
     # Indeed, the input may be a FastQ file but with an extension
     # that is not standard. For instance fq instead of fastq
     # If so, we can use the --input-format fastq to overwrite the
     # provided filename extension
-    inext = os.path.splitext(infile)[-1]
-    outext = os.path.splitext(outfile)[-1]
 
     if args.input_format:
         inext = args.input_format
-        if not inext.startswith("."):
-            inext = "." + inext
+        if not conv.inext.startswith("."):
+            conv.inext = "." + inext
 
-    if not inext:
+    if not conv.inext:
         raise RuntimeError("convert infer the format from the extension name."
                            " So add extension to the input file name or use"
                            " --input-format option.")
 
-    if not outext:
+    if not conv.outext:
         raise RuntimeError("convert infer the format from the extension name."
                            " So add extension to the output file name or use"
                            " --outut-format option.")
 
-    # From the input parameters 1 and 2, we get the module name
-    try:
-        _log.info("Input: {}".format(inext))
-        _log.info("Output: {}".format(outext))
-        class_converter = mapper[(inext, outext)]
-    except KeyError:
-        print(mapper)
-        print(inext)
-        print(outext)
+    # do we want to know the available methods ? If so, print info and quite
+    if args.show_methods:
+        print(conv.converter.available_methods)
+        print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} "
+              "for details ".format(conv.name.lower(),conv.name))
+        sys.exit(0)
 
-        # Is the module name available in biokit ? If not, let us tell the user
-        msg = "Request input format ({}) to output format (({}) is not available in converters"
-        _log.critical(msg.format(inext, outext))
-        _log.critical("Use --formats to know the available formats")
-        sys.exit(1)
-
-    # If the module exists, it is part of the MapperRegitry dictionary and
-    # we should be able to import it dynamically, create the class and call
-    # the instance
-    _log.info("Converting from {} to {}".format(inext, outext))
-
-    # Prepare some user arguments
     params = {"threads": args.threads}
     if args.method:
         params["method"] = args.method
 
+    _log.info("Converting from {} to {}".format(conv.inext, conv.outext))
 
-    # Call the class method that does the real work
-    convert = class_converter(infile, outfile)
-
-    # do we want to know the available methods ? If so, print info and quite
-    if args.show_methods:
-        print(convert.available_methods)
-        print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} "
-              "for details ".format(class_converter.__name__.lower(),class_converter.__name__))
-        sys.exit(0)
-
-    convert(**params)
+    conv.converter(**params)
 
 
 
