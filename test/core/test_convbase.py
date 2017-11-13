@@ -4,7 +4,6 @@ from bioconvert import bioconvert_data
 from easydev import TempFile
 
 
-
 def test_convbase():
     infile = bioconvert_data("test_measles.fa")
 
@@ -22,7 +21,7 @@ def test_convbase():
     except:
         assert True
 
-    # add dot  
+    # add dot
     class in2out(ConvBase):
         input_ext = "in"
         output_ext = "out"
@@ -62,8 +61,8 @@ def test_convbase():
         output_ext = [".fq"]
         def __call__(self):
             self.execute("ls")
-    this = in2out("test.fa", "test.fq")
-    assert this.name== "in2out"
+    this = in2out(infile, "test.fq")
+    assert this.name == "in2out"
     this()
 
 
