@@ -42,12 +42,12 @@ class BAM2Fasta(ConvBase):
 
     def _method_samtools(self, *args, **kwargs):
         """
-        do the conversion :term`BAM` -> :term:'Fastq` using samtools
+        do the conversion :term`BAM` -> :term:'Fasta` using samtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
 
-        .. note:: fastq are one on line
+        .. note:: fasta are on one line
         """
         cmd = "samtools fasta {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
