@@ -69,6 +69,8 @@ From: ubuntu:17.04
   ######### install bioconvert #########
   pip install bioconvert==0.0.6
 
+  # add this directory for Institut Pasteur cluster usage
+  if [ ! -d /pasteur ]; then mkdir /pasteur; fi
 
   # Uses agg as backend instead of qt (less dependencies)
   echo "backend:tkagg" > matplotlibrc

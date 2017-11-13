@@ -88,9 +88,10 @@ For other version, or to install singularity on windows or Mac, please check out
 First, download the container::
 
     singularity pull --name bioconvert.img shub://biokit/bioconvert:latest
+    
+You can then create an alias::
 
-
-
+    alias bioconvert="singularity run bioconvert.simg bioconvert"
 
 
 
