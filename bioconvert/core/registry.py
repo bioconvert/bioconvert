@@ -13,7 +13,7 @@ class Registry(object):
     class to centralise information about available conversions
 
     ::
-    
+
         from bioconvert.core.registry import Registry
         r = Registry()
         r.conversion_exists("BAM", "BED")
