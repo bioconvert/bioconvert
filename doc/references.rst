@@ -6,16 +6,21 @@ References
 
 .. autosummary::
 
-    bioconvert.core
+    bioconvert.core.convbase
+    bioconvert.core.registry
+    bioconvert.core.benchmark
+
     bioconvert.bam2bed
     bioconvert.bam2cram
     bioconvert.bam2sam
+    bioconvert.bcf2vcf
     bioconvert.cram2bam
     bioconvert.cram2sam
     bioconvert.fastq2fasta
     bioconvert.fasta2phylip
     bioconvert.gfa2fasta
     bioconvert.gz2dsrc
+    bioconvert.vcf2bcf
 
 
 .. automodule:: bioconvert.core.base
@@ -32,6 +37,10 @@ NGS bioconverters
     :synopsis:
 
 .. automodule:: bioconvert.bam2fasta
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.bcf2vcf
     :members:
     :synopsis:
 
@@ -67,5 +76,27 @@ NGS bioconverters
     :synopsis:
 
 .. automodule:: bioconvert.gz2dsrc
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.vcf2bcf
+    :members:
+    :synopsis:
+
+
+
+Core functions of Bioconvert
+-----------------------------
+
+
+.. automodule:: bioconvert.core.convbase
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.core.registry
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.core.benchmark
     :members:
     :synopsis:
