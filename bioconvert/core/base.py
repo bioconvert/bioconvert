@@ -12,6 +12,7 @@
 #  documentation: http://sequana.readthedocs.io
 #
 ##############################################################################
+import os
 import time
 import abc
 import select
@@ -24,7 +25,9 @@ from subprocess import Popen, PIPE
 import colorlog
 _log = colorlog.getLogger(__name__)
 
+
 from bioconvert.core.benchmark import Benchmark
+
 
 class ConvMeta(abc.ABCMeta):
     """
@@ -149,18 +152,29 @@ class ConvBase(metaclass=ConvMeta):
     _default_method = None
 
     def __init__(self, infile, outfile):
-        """
+        """.. rubric:: constructor
 
         :param str infile: The path of the input file.
         :param str outfile: The path of The output file
         """
+        if os.path.exists(infile) is False:
+            msg = "Incorrect input file: %s" % infile
+            _log.error(msg)
+            raise ValueError(msg)
+
         self.infile = infile
         self.outfile = outfile
         from easydev.multicore import cpu_count
         self.threads = cpu_count()
+        self._execute_mode = "subprocess"  # set to shell to call shell() method
 
     def __call__(self, *args, threads=None, **kwargs):
         """
+
+        :param int threads:
+        :param str method: the method to be found in :attr:`available_methods`
+        :param *args: positional arguments
+        :param *kwargs: keyword arguments
 
         """
         # If method provided, use it 
@@ -202,7 +216,24 @@ class ConvBase(metaclass=ConvMeta):
         # This commands does not and can be used to evaluate that cost
         self.execute("")
 
-    def execute(self, cmd, ignore_errors=False, verbose=False):
+    def shell(self, cmd):
+        from bioconvert.core.shell import shell
+        t1 = time.time()
+        _log.info("{}> ".format(self.name))
+        _log.info("CMD: {}".format(cmd))
+
+        shell(cmd)
+
+        t2 = time.time()
+        self.last_duration = t2 - t1
+        _log.info("Took {} seconds ".format(t2-t1))
+        self._last_time = t2 - t1
+
+    def execute(self, cmd, ignore_errors=False, verbose=False, shell=False):
+        if shell is True or self._execute_mode == "shell":
+            self.shell(cmd)
+            return 
+
         t1 = time.time()
         _log.info("{}> ".format(self.name))
         _log.info("CMD: {}".format(cmd))
