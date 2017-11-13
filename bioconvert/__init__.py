@@ -11,6 +11,7 @@ import colorlog
 import bioconvert
 from bioconvert.core.base import ConvBase
 from bioconvert.core.benchmark import Benchmark
+from bioconvert.core.converter import Bioconvert
 
 
 def init_logger():
