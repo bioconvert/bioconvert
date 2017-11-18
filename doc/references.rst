@@ -4,11 +4,18 @@
 References
 ==========
 
+Core functions
+---------------
 .. autosummary::
 
     bioconvert.core.convbase
     bioconvert.core.registry
     bioconvert.core.benchmark
+
+Converters
+-------------
+
+.. autosummary::
 
     bioconvert.bam2bed
     bioconvert.bam2cram
@@ -22,6 +29,13 @@ References
     bioconvert.gz2dsrc
     bioconvert.vcf2bcf
 
+simulators
+-------------
+.. autosummary::
+
+    bioconvert.simulator.fasta
+    bioconvert.simulator.fastq
+    bioconvert.simulator.gfa
 
 .. automodule:: bioconvert.core.base
 
@@ -98,5 +112,22 @@ Core functions of Bioconvert
     :synopsis:
 
 .. automodule:: bioconvert.core.benchmark
+    :members:
+    :synopsis:
+
+
+Simulators
+-------------------
+
+
+.. automodule:: bioconvert.simulator.fasta
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.simulator.fastq
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.simulator.gfa
     :members:
     :synopsis:
