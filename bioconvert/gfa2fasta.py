@@ -1,4 +1,19 @@
-"""Convert :term:`BAM` format to :term:`BED` formats"""
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+""" description """
+
+"""Convert :term:`GFA` format to :term:`FASTA` formats"""
 from bioconvert import ConvBase
 
 
@@ -32,7 +47,7 @@ class GFA2FASTA(ConvBase):
         :param str outfile: The path to the output file
         """
         super().__init__(infile, outfile)
-        self._default_method = "awk"
+        self._default_method = "python"
 
     def _method_awk(self, *args, **kwargs):
         """
@@ -40,9 +55,19 @@ class GFA2FASTA(ConvBase):
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
+
+        .. note:: this method fold the sequence to 80 characters
         """
         # Note1: since we use .format, we need to escape the { and } characters
         # Note2: the \n need to be escaped for Popen to work
         cmd = """awk '/^S/{{print ">"$2"\\n"$3}}' {} | fold > {}""".format(self.infile, self.outfile)
         self.execute(cmd)
+
+    def _method_python(self, *args, **kwargs):
+        with open(self.infile, "r") as fin:
+            with open(self.outfile, "w") as fout:
+                for line in fin.readlines():
+                    if line.startswith("S"):
+                        field, name, sequence = line.split()
+                        fout.write(">{}\n{}\n".format(name, sequence))
 
