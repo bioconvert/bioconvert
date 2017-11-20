@@ -2,6 +2,7 @@ easydev>=0.9.34
 colorlog
 pandas
 biopython
+mappy
 matplotlib
 pyyaml
 pysam

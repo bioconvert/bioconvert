@@ -7,6 +7,7 @@ try:
     from gatb import Bank
 except:
     pass
+from mappy import fastx_read
 
 
 class Fastq2Fasta(ConvBase):
@@ -18,7 +19,15 @@ class Fastq2Fasta(ConvBase):
     output_ext = '.fasta'
 
     @staticmethod
-    def unwrap_fasta(infile, outfile):
+    def just_name(record):
+        """
+        This method takes a Biopython sequence record *record*
+        and returns its name. The comment part is not included.
+        """
+        return record.id
+
+    @staticmethod
+    def unwrap_fasta(infile, outfile, strip_comment=False):
         """
         This method reads fasta sequences from *infile*
         and writes them unwrapped in *outfile*.
@@ -26,8 +35,15 @@ class Fastq2Fasta(ConvBase):
         :param str outfile: The path to the output file.
         """
         with open(outfile, "w") as fasta_out:
-            FastaIO.FastaWriter(fasta_out, wrap=None).write_file(
-                SeqIO.parse(infile, 'fasta'))
+            if strip_comment:
+                FastaIO.FastaWriter(
+                    fasta_out,
+                    wrap=None,
+                    record2title=Fastq2Fasta.just_name).write_file(
+                        SeqIO.parse(infile, 'fasta'))
+            else:
+                FastaIO.FastaWriter(fasta_out, wrap=None).write_file(
+                    SeqIO.parse(infile, 'fasta'))
 
     # Adapted from the readfq code by Heng Li
     # (https://raw.githubusercontent.com/lh3/readfq/master/readfq.py)
@@ -87,6 +103,12 @@ class Fastq2Fasta(ConvBase):
             for (name, seq, _) in Fastq2Fasta.readfq(fastq):
                 fasta.write(">{}\n{}\n".format(name, seq))
 
+    # Does not give access to the comment part of the header
+    def _method_mappy(self, *args, **kwargs):
+        with open(self.outfile, "w") as fasta:
+            for (name, seq, _) in fastx_read(self.infile):
+                fasta.write(">{}\n{}\n".format(name, seq))
+
     def _method_awk(self, *args, **kwargs):
         # Note1: since we use .format, we need to escape the { and } characters
         # Note2: the \n need to be escaped for Popen to work
@@ -120,9 +142,3 @@ class Fastq2Fasta(ConvBase):
         cmd = """sed -n '1~4s/^@/>/p;2~4p' """
         cmd = "{} {} > {}".format(cmd, self.infile, self.outfile)
         self.execute(cmd)
-
-
-
-
-
-
