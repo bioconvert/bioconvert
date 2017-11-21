@@ -1,12 +1,12 @@
 from Bio import SeqIO
 from Bio.SeqIO import FastaIO
 from bioconvert import ConvBase
-try:
-    # Let us make this optional for now because
-    # GATB cannot be install on RTD
-    from gatb import Bank
-except:
-    pass
+# try:
+#     # Let us make this optional for now because
+#     # GATB cannot be install on RTD
+#     from gatb import Bank
+# except:
+#     pass
 from mappy import fastx_read
 
 
@@ -135,6 +135,12 @@ class Fastq2Fasta(ConvBase):
     def _method_awk_v2(self, *args, **kwargs):
 
         awkcmd = """awk '{{print ">"substr($0,2);getline;print;getline;getline}}'"""
+        cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
+        self.execute(cmd)
+
+    def _method_mawk_v2(self, *args, **kwargs):
+
+        awkcmd = """mawk '{{print ">"substr($0,2);getline;print;getline;getline}}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
