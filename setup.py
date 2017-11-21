@@ -47,14 +47,6 @@ if on_rtd:
     extra_packages = ["numpydoc", "sphinx_gallery"]
     requirements += extra_packages
 
-# pygatb name on pypi is pygatb (lower case) but is not in bioconda.
-# Since the requirements.txt is used both by this file and .travis (bioconda),
-# travis will fail. So, we must hard-code remove pygatb from the
-# requirements.txt Consequently, we have to hard-code it in this script.
-if on_rtd:
-    pass # somehow pygatb cannot be installed on RTD 
-else:
-    requirements += ["pygatb"]
 
 setup(
     name='bioconvert',
