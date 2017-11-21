@@ -3,7 +3,6 @@ bcftools
 bedtools
 bioawk
 dsrc
-graphviz==2.38
 mawk
 pbzip2
 pigz
