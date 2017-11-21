@@ -11,8 +11,6 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-""" description """
-
 """Convert :term:`GFA` format to :term:`FASTA` formats"""
 from bioconvert import ConvBase
 
@@ -23,7 +21,7 @@ __all__ = ["GFA2FASTA"]
 class GFA2FASTA(ConvBase):
     """Convert sorted :term:`GFA` file into :term:`FASTA` file 
 
-    Available methods:
+    Available methods: awk, python
 
     .. plot::
 
@@ -32,11 +30,14 @@ class GFA2FASTA(ConvBase):
          from easydev import TempFile
 
          with TempFile(suffix=".fasta") as fh:
-             infile = bioconvert_data("test_v1.gfa")
+             infile = bioconvert_data("test_gfa2fasta.gfa")
              convert = GFA2FASTA(infile, fh.name)
              convert.boxplot_benchmark()
 
     :reference: https://github.com/GFA-spec/GFA-spec/blob/master/GFA-spec.md
+
+    .. seealso:: bioconvert.simulator.gfa
+
     """
     input_ext = ['.gfa']
     output_ext = ['.fasta', ".fa"]
@@ -51,7 +52,6 @@ class GFA2FASTA(ConvBase):
 
     def _method_awk(self, *args, **kwargs):
         """
-        do the conversion  sorted :term`BAM` -> :term:'BED` using samtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
