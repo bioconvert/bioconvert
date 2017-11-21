@@ -15,7 +15,11 @@ from bioconvert.core.graph import create_graph
 # Get a data set (BAM file) for testing
 import matplotlib as mpl
 mpl.rcParams['figure.dpi']= 250
-create_graph("conversion.png")
+
+############################################################
+# If you have dot available, set use_singularity to False
+create_graph("conversion.png", use_singularity=True)
+
 
 #####################################################
 #  PNG does not work on RTD with graphviz from conda
