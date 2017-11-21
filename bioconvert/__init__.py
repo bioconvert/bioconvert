@@ -8,11 +8,17 @@ except:
 import os
 import colorlog
 
+# This will create a HOME/.config/bioconvert where files (e.g., executables)
+# can be downloaded
+from easydev import CustomConfig
+configuration = CustomConfig("bioconvert", verbose=True)
+
+
 import bioconvert
 from bioconvert.core.base import ConvBase
 from bioconvert.core.benchmark import Benchmark, Benchmark_multiconvert
 from bioconvert.core.converter import Bioconvert
-
+from bioconvert.core.shell import shell
 
 def init_logger():
     handler = colorlog.StreamHandler()
