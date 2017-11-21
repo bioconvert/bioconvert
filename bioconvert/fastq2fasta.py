@@ -91,12 +91,12 @@ class Fastq2Fasta(ConvBase):
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
-    def _method_GATB(self, *args, **kwargs):
-        with open(self.outfile, "w") as fasta:
-            for record in Bank(self.infile):
-                fasta.write(">{}\n{}\n".format(
-                    record.comment.decode("utf-8"),
-                    record.sequence.decode("utf-8")))
+#     def _method_GATB(self, *args, **kwargs):
+#         with open(self.outfile, "w") as fasta:
+#             for record in Bank(self.infile):
+#                 fasta.write(">{}\n{}\n".format(
+#                     record.comment.decode("utf-8"),
+#                     record.sequence.decode("utf-8")))
 
     def _method_readfq(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
