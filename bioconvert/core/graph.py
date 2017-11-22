@@ -70,7 +70,9 @@ strict digraph{
             # download singularity
             from bioconvert import configuration as config
             from easydev import md5
-            singfile = "{}/graphviz.img".format(config.user_config_dir)
+            # note that in singularity v2.4, whatever extension you put, it is
+            # replaced by simg
+            singfile = "{}/graphviz.simg".format(config.user_config_dir)
 
             print(singfile)
 
@@ -78,7 +80,7 @@ strict digraph{
                 print("Found singularity (graphviz) image")
             else:
                 print("Downloading singularity. Please wait")
-                cmd = "singularity pull {} --name shub://cokelaer/graphviz4all:v1"
+                cmd = "singularity pull --name {}  shub://cokelaer/graphviz4all:v1"
                 cmd = cmd.format(singfile)
                 shell(cmd)
 
