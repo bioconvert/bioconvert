@@ -54,9 +54,9 @@ strict digraph{
         nodes =  set([item for items in rr.get_conversions() for item in items])
 
         for node in nodes:
-            dot += "{};\n".format(node)
+            dot += "\"{}\";\n".format(node)
         for a, b in rr.get_conversions():
-            dot+="{} -> {};\n".format(a, b)
+            dot+="\"{}\" -> \"{}\";\n".format(a, b)
         dot += "}\n"
 
         from easydev import TempFile
@@ -75,7 +75,7 @@ strict digraph{
             singfile = "{}/graphviz.simg".format(config.user_config_dir)
 
             print(singfile)
-
+            import os
             if os.path.exists(singfile) and md5(singfile) == "4288088d91c848e5e3a327282a1ab3d1":
                 print("Found singularity (graphviz) image")
             else:
@@ -97,7 +97,7 @@ strict digraph{
         except:
             import os
             os.system(cmd)
-        dotfile.delete()
+        #dotfile.delete()
 
 
 
