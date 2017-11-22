@@ -34,12 +34,16 @@ class Benchmark():
         b.plot()
 
     """
-    def __init__(self, obj, N=5, to_exclude=[]):
+    def __init__(self, obj, N=5, to_exclude=[], to_include=[]):
         """.. rubric:: constructor
 
         :param obj: can be an instance of a converter class or a class name
         :param int N: number of replicates
-        :param list to_exclude: method to exclude from the benchmark
+        :param list to_exclude: methods to exclude from the benchmark
+        :param list to_include: methods to include ONLY
+
+        Use one of to_exclude or to_include. If both are provided, only, to_include
+        is used.
 
         """
         if isinstance(obj, str):
@@ -50,16 +54,22 @@ class Benchmark():
         self.results = None
         self.include_dummy = False
         self.to_exclude = to_exclude
+        self.to_include = to_include
+
 
     def run_methods(self):
         results = {}
         methods = self.converter.available_methods[:]  # a copy !
+
         if self.include_dummy:
             methods += ['dummy']
 
+        if self.to_include:
+            methods = [x for x in methods if x in self.to_include]
+        elif self.to_exclude:
+            methods = [x for x in methods if x not in self.to_exclude]
+
         for method in methods:
-            if method in self.to_exclude:
-                continue
             print("\nEvaluating method %s" % method)
             times = []
             pb = Progress(self.N)
