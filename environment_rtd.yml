@@ -22,6 +22,10 @@ dependencies:
 - pillow=4.0
 - bedtools          # used in gallery and bam2bed
 - singularity
+- pigz
+- dsrc
+- sambamba
+- bioawk
 
 - pip:
   - docutils<0.13.1 # https://github.com/sphinx-doc/sphinx/issues/3212
