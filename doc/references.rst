@@ -103,7 +103,7 @@ Core functions of Bioconvert
 -----------------------------
 
 
-.. automodule:: bioconvert.core.convbase
+.. automodule:: bioconvert.core.base
     :members:
     :synopsis:
 
