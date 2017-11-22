@@ -181,7 +181,7 @@ def analysis(args):
     if not conv.outext:
         raise RuntimeError("convert infer the format from the extension name."
                            " So add extension to the output file name or use"
-                           " --outut-format option.")
+                           " --output-format option.")
 
     # do we want to know the available methods ? If so, print info and quite
     if args.show_methods:
