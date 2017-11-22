@@ -78,7 +78,7 @@ strict digraph{
                 print("Found singularity (graphviz) image")
             else:
                 print("Downloading singularity. Please wait")
-                cmd = "singularity pull {} shub://cokelaer/graphviz4all:v1"
+                cmd = "singularity pull {} --name shub://cokelaer/graphviz4all:v1"
                 cmd = cmd.format(singfile)
                 shell(cmd)
 
