@@ -89,6 +89,10 @@ strict digraph{
                     os.system(cmd)
 
             dotpath = "singularity run {} ".format(singfile)
+            on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+            if on_rtd:
+                dotpath = ""
+
 
         ext = filename.rsplit(".", 1)[1]
         cmd = "{}dot -T{} {} -o {}".format(dotpath, ext, dotfile.name, filename)
