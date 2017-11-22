@@ -8,7 +8,7 @@ Core functions
 ---------------
 .. autosummary::
 
-    bioconvert.core.convbase
+    bioconvert.core.base
     bioconvert.core.registry
     bioconvert.core.benchmark
 
