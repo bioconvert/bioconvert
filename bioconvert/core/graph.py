@@ -82,13 +82,21 @@ strict digraph{
                 print("Downloading singularity. Please wait")
                 cmd = "singularity pull --name {}  shub://cokelaer/graphviz4all:v1"
                 cmd = cmd.format(singfile)
-                shell(cmd)
+                try:
+                    shell(cmd)
+                except:
+                    import os
+                    os.system(cmd)
 
             dotpath = "singularity run {} ".format(singfile)
 
         ext = filename.rsplit(".", 1)[1]
         cmd = "{}dot -T{} {} -o {}".format(dotpath, ext, dotfile.name, filename)
-        shell(cmd)
+        try:
+            shell(cmd)
+        except:
+            import os
+            os.system(cmd)
         dotfile.delete()
 
 
