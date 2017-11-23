@@ -16,6 +16,7 @@ import os
 import json
 import glob
 from os.path import join, basename
+from os import environ
 
 
 def create_graph(filename, layout="dot", use_singularity=False):
@@ -74,7 +75,7 @@ strict digraph{
                 "4288088d91c848e5e3a327282a1ab3d1")
 
             dotpath = "singularity run {} ".format(singfile)
-            on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+            on_rtd = environ.get('READTHEDOCS', None) == 'True'
             if on_rtd:
                 dotpath = ""
 
