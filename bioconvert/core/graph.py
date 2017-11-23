@@ -67,26 +67,11 @@ strict digraph{
 
         dotpath = ""
         if use_singularity:
-            # download singularity
-            from bioconvert import configuration as config
-            from easydev import md5
-            # note that in singularity v2.4, whatever extension you put, it is
-            # replaced by simg
-            singfile = "{}/graphviz.simg".format(config.user_config_dir)
-
-            print(singfile)
-            import os
-            if os.path.exists(singfile) and md5(singfile) == "4288088d91c848e5e3a327282a1ab3d1":
-                print("Found singularity (graphviz) image")
-            else:
-                print("Downloading singularity. Please wait")
-                cmd = "singularity pull --name {}  shub://cokelaer/graphviz4all:v1"
-                cmd = cmd.format(singfile)
-                try:
-                    shell(cmd)
-                except:
-                    import os
-                    os.system(cmd)
+            from bioconvert.core.downloader import download_singularity_image
+            singfile = download_singularity_image(
+                "graphviz.simg",
+                "shub://cokelaer/graphviz4all:v1",
+                "4288088d91c848e5e3a327282a1ab3d1")
 
             dotpath = "singularity run {} ".format(singfile)
             on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
