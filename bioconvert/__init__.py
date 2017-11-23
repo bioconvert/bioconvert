@@ -72,6 +72,18 @@ def logger_set_level(level=colorlog.logging.logging.WARNING):
     logger.setLevel(level)
 
 
+def bioconvert_script(filename, where=None):
+    bioconvert_path = bioconvert.__path__[0]
+    share = os.path.join(bioconvert_path, 'misc')
+    if where:
+        filename = os.path.join(share, where, filename)
+    else:
+        filename = os.path.join(share, filename)
+    if not os.path.exists(filename):
+        raise FileNotFoundError('unknown file %s' % filename)
+    return filename
+
+
 def bioconvert_data(filename, where=None):
     """
     Simple utilities to retrieve data sets from bioconvert/data directory
