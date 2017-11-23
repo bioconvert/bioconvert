@@ -27,8 +27,8 @@ dependencies:
 - sambamba
 - bioawk
 - seqtk
-- graphviz==2.38   # provides dot for RTD
-- icu==56
+- graphviz=2.38   # provides dot for RTD
+- icu=56
 
 - pip:
   - docutils<0.13.1 # https://github.com/sphinx-doc/sphinx/issues/3212
