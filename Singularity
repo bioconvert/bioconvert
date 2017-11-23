@@ -39,6 +39,7 @@ From: ubuntu:17.04
 
   apt-get update -y
   apt-get install -y wget bzip2
+  apt-get install -y libgl1-mesa-glx
 
   # install anaconda
   if [ ! -d /usr/local/anaconda ]; then
@@ -64,8 +65,9 @@ From: ubuntu:17.04
   # The main packages for sequana:
   conda install --file https://raw.githubusercontent.com/biokit/bioconvert/master/requirements.txt
   conda install --file https://raw.githubusercontent.com/biokit/bioconvert/master/requirements_tools.txt
-  conda install -y graphviz==2.38 pygraphviz
+  #conda install -y graphviz==2.38 pygraphviz
 
+  
 
   ######### install bioconvert #########
   pip install bioconvert==0.0.7
