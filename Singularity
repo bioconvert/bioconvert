@@ -64,7 +64,7 @@ From: ubuntu:17.04
   # The main packages for sequana:
   conda install --file https://raw.githubusercontent.com/biokit/bioconvert/master/requirements.txt
   conda install --file https://raw.githubusercontent.com/biokit/bioconvert/master/requirements_tools.txt
-  conda install -y graphiz==2.38 pygraphviz
+  conda install -y graphviz==2.38 pygraphviz
 
 
   ######### install bioconvert #########
