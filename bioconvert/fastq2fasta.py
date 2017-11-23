@@ -1,6 +1,6 @@
 from Bio import SeqIO
 from Bio.SeqIO import FastaIO
-from bioconvert import ConvBase
+from bioconvert import ConvBase, bioconvert_script
 # try:
 #     # Let us make this optional for now because
 #     # GATB cannot be install on RTD
@@ -159,8 +159,8 @@ class Fastq2Fasta(ConvBase):
         self.execute(cmd)
 
     def _method_perl(self, *args, **kwargs):
-        awkcmd = """perl bioconvert/misc/fastqToFasta.pl"""
-        cmd = "{} {} {}".format(awkcmd, self.infile, self.outfile)
+        perlcmd = "perl {}".format(bioconvert_script("fastqToFasta.pl"))
+        cmd = "{} {} {}".format(perlcmd, self.infile, self.outfile)
         self.execute(cmd)
 
     def _method_python_internal(self, *args, **kwargs):
@@ -178,6 +178,6 @@ class Fastq2Fasta(ConvBase):
                 mapp.close()
 
     def _method_python_external(self, *args, **kwargs):
-        awkcmd = """python bioconvert/misc/fastqToFasta.py"""
-        cmd = "{} {} {}".format(awkcmd, self.infile, self.outfile)
+        pycmd = "python {}".format(bioconvert_script("fastqToFasta.py"))
+        cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)
         self.execute(cmd)
