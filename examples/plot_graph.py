@@ -12,18 +12,21 @@ from bioconvert.core.graph import create_graph
 
 
 #####################################################
-# Get a data set (BAM file) for testing
+# If you use pygraphviz, you can have a good quality 
+# image using:
 import matplotlib as mpl
 mpl.rcParams['figure.dpi']= 250
 
 ############################################################
-# If you have dot available, set use_singularity to False
+# In order to create the following image, you need graphviz
+# and pygraphviz. 
+# If you cannot install those packages, you may use a singularity
+# image like in the following exmaple by setting the use_singularity
+# parameter to True. 
 create_graph("conversion.png", use_singularity=True)
 
-
 #####################################################
-#  PNG does not work on RTD with graphviz from conda
-#  SVG cannot be shown 
+#  
 from pylab import imshow, imread, xticks, yticks, gca
 imshow(imread("conversion.png"), interpolation="nearest")
 xticks([])
