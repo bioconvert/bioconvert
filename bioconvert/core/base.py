@@ -12,6 +12,7 @@
 #  documentation: http://sequana.readthedocs.io
 #
 ##############################################################################
+import os
 import time
 import abc
 import select
@@ -24,7 +25,9 @@ from subprocess import Popen, PIPE
 import colorlog
 _log = colorlog.getLogger(__name__)
 
+
 from bioconvert.core.benchmark import Benchmark
+
 
 class ConvMeta(abc.ABCMeta):
     """
@@ -149,25 +152,36 @@ class ConvBase(metaclass=ConvMeta):
     _default_method = None
 
     def __init__(self, infile, outfile):
-        """
+        """.. rubric:: constructor
 
         :param str infile: The path of the input file.
         :param str outfile: The path of The output file
         """
+        if os.path.exists(infile) is False:
+            msg = "Incorrect input file: %s" % infile
+            _log.error(msg)
+            raise ValueError(msg)
+
         self.infile = infile
         self.outfile = outfile
         from easydev.multicore import cpu_count
         self.threads = cpu_count()
+        self._execute_mode = "subprocess"  # set to shell to call shell() method
 
     def __call__(self, *args, threads=None, **kwargs):
         """
+
+        :param int threads:
+        :param str method: the method to be found in :attr:`available_methods`
+        :param *args: positional arguments
+        :param *kwargs: keyword arguments
 
         """
         # If method provided, use it 
         method_name = kwargs.get("method", None)
         if method_name:
             del kwargs["method"]
-            
+
         # If not, but there is one argument, presumably this is
         # the method
         if method_name is None and len(args) == 1:
@@ -176,7 +190,9 @@ class ConvBase(metaclass=ConvMeta):
             method_name = self.default
 
         # If not, we need to check the name
-        if method_name not in self.available_methods:
+        # "dummy" is a method used to evaluate the cost of the
+        # execute() method for the benchmark
+        if method_name not in self.available_methods + ['dummy']:
             msg = "Method available are {}".format(self.available_methods)
             _log.error(msg)
             raise ValueError(msg)
@@ -188,7 +204,6 @@ class ConvBase(metaclass=ConvMeta):
         # call the method itself
         method_reference(*args, threads=None, **kwargs)
 
-
     @property
     def name(self):
         """
@@ -196,12 +211,29 @@ class ConvBase(metaclass=ConvMeta):
         """
         return type(self).__name__
 
-
     def _method_dummy(self, *args, **kwargs):
+        # The execute commands has a large initialisation cost (about a second)
+        # This commands does not and can be used to evaluate that cost
         self.execute("")
 
+    def shell(self, cmd):
+        from bioconvert.core.shell import shell
+        t1 = time.time()
+        _log.info("{}> ".format(self.name))
+        _log.info("CMD: {}".format(cmd))
 
-    def execute(self, cmd, ignore_errors=False, verbose=False):
+        shell(cmd)
+
+        t2 = time.time()
+        self.last_duration = t2 - t1
+        _log.info("Took {} seconds ".format(t2-t1))
+        self._last_time = t2 - t1
+
+    def execute(self, cmd, ignore_errors=False, verbose=False, shell=False):
+        if shell is True or self._execute_mode == "shell":
+            self.shell(cmd)
+            return 
+
         t1 = time.time()
         _log.info("{}> ".format(self.name))
         _log.info("CMD: {}".format(cmd))
@@ -210,7 +242,6 @@ class ConvBase(metaclass=ConvMeta):
         self.last_duration = t2 - t1
         _log.info("Took {} seconds ".format(t2-t1))
         self._last_time = t2 - t1
-
 
     def _execute(self, cmd, ignore_errors=False, verbose=False):
         """
@@ -272,13 +303,18 @@ class ConvBase(metaclass=ConvMeta):
         else:
             return output
 
+    def boxplot_benchmark(self, N=5, rerun=True, include_dummy=False,
+            to_exclude=[], to_include=[]):
+        """Simple wrapper to call :class:`Benchmark` and plot the results
 
-    def boxplot_benchmark(self):
-        """Simple wrapper to call :class:`Benchmark` and plot the results"""
-        b = Benchmark(self)
-        b.plot()
+        see :class:`~bioconvert.core.benchmark.Benchmark` for details.
 
-    
+        """
+        self._benchmark = Benchmark(self, N=N, to_exclude=to_exclude,
+                                    to_include=to_include)
+        self._benchmark.include_dummy = include_dummy
+        self._benchmark.plot(rerun=rerun)
+
     def _get_default_method(self):
         if self._default_method is None:
             return self.available_methods[0]

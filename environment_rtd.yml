@@ -19,12 +19,16 @@ dependencies:
 - easydev>=0.9.34
 - pip
 - pyyaml
-- icu=56          # required for dot/graphviz to work correctly
 - pillow=4.0
-- graphviz=2.38
-- pygraphviz
 - bedtools          # used in gallery and bam2bed
-
+- singularity
+- pigz
+- dsrc
+- sambamba
+- bioawk
+- seqtk
+- graphviz=2.38   # provides dot for RTD
+- icu=56
 
 - pip:
   - docutils<0.13.1 # https://github.com/sphinx-doc/sphinx/issues/3212

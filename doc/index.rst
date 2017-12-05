@@ -72,11 +72,12 @@ User and Developer Guides
 #############################
 
 .. toctree::
-    :maxdepth: 2 
+    :maxdepth: 2
     :numbered:
 
     user_guide
     developer_guide
+    benchmarking
     auto_examples/index
     references
     glossary

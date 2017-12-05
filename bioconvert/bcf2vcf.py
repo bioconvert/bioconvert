@@ -3,7 +3,7 @@ from bioconvert import ConvBase
 
 
 class BCF2VCF(ConvBase):
-    """
+    """Convert :term:`BCF` file to :term:`VCF` file
 
     """
     input_ext = [".bcf"]
@@ -12,8 +12,8 @@ class BCF2VCF(ConvBase):
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile:
-        :param str outfile:
+        :param str infile: input BCF file
+        :param str outfile: output VCF file
 
         command used::
 

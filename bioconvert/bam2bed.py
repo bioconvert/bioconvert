@@ -30,6 +30,16 @@ class BAM2BED(ConvBase):
              convert = BAM2BED(infile, fh.name)
              convert.boxplot_benchmark()
 
+
+    Note that this BED format is of the form::
+
+        chr1    1   0
+        chr1    2   0
+        chr1    3   0
+        chr1    4   0
+        chr1    5   0
+
+    that is contig name, position, coverage
     """
     input_ext = ['.bam']
     output_ext = '.bed'

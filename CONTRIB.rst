@@ -8,6 +8,7 @@ People are listed alphabetically,
 - Amandine Perrin
 - Anna Zhukova
 - Anne Biton
+- Blaise Li <https://github.com/blaiseli>
 - Bertrand Néron <https://github.com/bneron>
 - Kenzo-Hugo Hillion <kehillio@pasteur.fr>
 - Nicolas MAILLET

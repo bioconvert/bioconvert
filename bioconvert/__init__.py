@@ -8,10 +8,17 @@ except:
 import os
 import colorlog
 
+# This will create a HOME/.config/bioconvert where files (e.g., executables)
+# can be downloaded
+from easydev import CustomConfig
+configuration = CustomConfig("bioconvert", verbose=True)
+
+
 import bioconvert
 from bioconvert.core.base import ConvBase
-from bioconvert.core.benchmark import Benchmark
-
+from bioconvert.core.benchmark import Benchmark, Benchmark_multiconvert
+from bioconvert.core.converter import Bioconvert
+from bioconvert.core.shell import shell
 
 def init_logger():
     handler = colorlog.StreamHandler()
@@ -63,6 +70,18 @@ def logger_set_level(level=colorlog.logging.logging.WARNING):
         handler.setFormatter(formatter)
 
     logger.setLevel(level)
+
+
+def bioconvert_script(filename, where=None):
+    bioconvert_path = bioconvert.__path__[0]
+    share = os.path.join(bioconvert_path, 'misc')
+    if where:
+        filename = os.path.join(share, where, filename)
+    else:
+        filename = os.path.join(share, filename)
+    if not os.path.exists(filename):
+        raise FileNotFoundError('unknown file %s' % filename)
+    return filename
 
 
 def bioconvert_data(filename, where=None):

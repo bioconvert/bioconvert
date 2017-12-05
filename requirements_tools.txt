@@ -1,10 +1,11 @@
-samtools
 bamtools
 bcftools
 bedtools
-sambamba
-graphviz==2.38
-seqtk
+bioawk
+dsrc
+mawk
 pbzip2
 pigz
-dsrc
+sambamba
+samtools
+seqtk
