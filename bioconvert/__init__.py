@@ -16,7 +16,7 @@ configuration = CustomConfig("bioconvert", verbose=True)
 
 import bioconvert
 from bioconvert.core.base import ConvBase
-from bioconvert.core.benchmark import Benchmark, Benchmark_multiconvert
+from bioconvert.core.benchmark import Benchmark, BenchmarkMulticonvert
 from bioconvert.core.converter import Bioconvert
 from bioconvert.core.shell import shell
 
