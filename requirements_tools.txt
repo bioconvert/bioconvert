@@ -9,3 +9,4 @@ pigz
 sambamba
 samtools
 seqtk
+squizz
