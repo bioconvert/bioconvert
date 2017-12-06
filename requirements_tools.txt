@@ -2,6 +2,7 @@ bamtools
 bcftools
 bedtools
 bioawk
+deeptools
 dsrc
 mawk
 pbzip2
