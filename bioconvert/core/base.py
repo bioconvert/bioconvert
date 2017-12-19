@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 #
-#  This file is part of BioKit software
+#  This file is part of Bioconvert software
 #
-#  Copyright (c) 2016 - BioKit Development Team
+#  Copyright (c) 2016 - Bioconvert Development Team
 #
 #
 #  Distributed under the terms of the 3-clause BSD license.
 #  The full license is in the LICENSE file, distributed with this software.
 #
-#  website: https://github.com/sequana/sequana
-#  documentation: http://sequana.readthedocs.io
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
 import os
@@ -22,6 +22,8 @@ import inspect
 from io import StringIO
 from subprocess import Popen, PIPE
 
+from easydev.multicore import cpu_count
+
 import colorlog
 _log = colorlog.getLogger(__name__)
 
@@ -31,7 +33,7 @@ from bioconvert.core.benchmark import Benchmark
 
 class ConvMeta(abc.ABCMeta):
     """
-    This metaclass checks that the converter classes have 
+    This metaclass checks that the converter classes have
 
        * an attribute input_ext
        * an attribute output_ext
@@ -147,14 +149,15 @@ class ConvBase(metaclass=ConvMeta):
         __call__(self, *args, **kwargs):
             do conversion
     """
-
-    """specify the extensions of the input file, can be a sequence (must be 
-    overridden in subclasses)"""
+    # specify the extensions of the input file, can be a sequence (must be
+    # overridden in subclasses)
     input_ext = None
-    """specify the extensions of the output file, can be a sequence (must be 
-    overridden in subclasses)"""
+
+    # specify the extensions of the output file, can be a sequence (must be
+    # overridden in subclasses)
     output_ext = None
     _default_method = None
+    _is_compressor = False
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
@@ -169,7 +172,6 @@ class ConvBase(metaclass=ConvMeta):
 
         self.infile = infile
         self.outfile = outfile
-        from easydev.multicore import cpu_count
         self.threads = cpu_count()
         self._execute_mode = "subprocess"  # set to shell to call shell() method
 
@@ -182,7 +184,7 @@ class ConvBase(metaclass=ConvMeta):
         :param *kwargs: keyword arguments
 
         """
-        # If method provided, use it 
+        # If method provided, use it
         method_name = kwargs.get("method", None)
         if method_name:
             del kwargs["method"]
@@ -207,7 +209,7 @@ class ConvBase(metaclass=ConvMeta):
         method_reference = getattr(self, "_method_{}".format(method_name))
 
         # call the method itself
-        method_reference(*args, threads=None, **kwargs)
+        method_reference(*args, threads=threads, **kwargs)
 
     @property
     def name(self):
@@ -235,9 +237,10 @@ class ConvBase(metaclass=ConvMeta):
         self._last_time = t2 - t1
 
     def execute(self, cmd, ignore_errors=False, verbose=False, shell=False):
+
         if shell is True or self._execute_mode == "shell":
             self.shell(cmd)
-            return 
+            return
 
         t1 = time.time()
         _log.info("{}> ".format(self.name))
