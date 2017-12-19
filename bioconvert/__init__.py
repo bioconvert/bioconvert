@@ -13,56 +13,39 @@ import colorlog
 from easydev import CustomConfig
 configuration = CustomConfig("bioconvert", verbose=True)
 
+colors = {
+    'DEBUG':    'cyan',
+    'INFO':     'green',
+    'WARNING':  'yellow',
+    'ERROR':    'red',
+    'CRITICAL': 'bold_red'}
 
-import bioconvert
-from bioconvert.core.base import ConvBase
-from bioconvert.core.benchmark import Benchmark, BenchmarkMulticonvert
-from bioconvert.core.converter import Bioconvert
-from bioconvert.core.shell import shell
-
-def init_logger():
+def init_logger(level="WARNING"):
     handler = colorlog.StreamHandler()
     formatter = colorlog.ColoredFormatter("%(log_color)s%(levelname)-8s : %(reset)s %(message)s",
                                           datefmt=None,
                                           reset=True,
-                                          log_colors={
-                                              'DEBUG':    'cyan',
-                                              'INFO':     'green',
-                                              'WARNING':  'yellow',
-                                              'ERROR':    'red',
-                                              'CRITICAL': 'bold_red',
-                                          },
+                                          log_colors=colors,
                                           secondary_log_colors={},
                                           style='%'
                                           )
     handler.setFormatter(formatter)
     logger = colorlog.getLogger('bioconvert')
     logger.addHandler(handler)
-    logger.setLevel(colorlog.logging.logging.WARNING)
-
+    logger.setLevel(level)
 
 init_logger()
 
-
-def logger_set_level(level=colorlog.logging.logging.WARNING):
-    assert level in (colorlog.logging.logging.DEBUG,
-                     colorlog.logging.logging.INFO,
-                     colorlog.logging.logging.WARNING,
-                     colorlog.logging.logging.ERROR,
-                     colorlog.logging.logging.CRITICAL)
+def logger_set_level(level="WARNING"):
+    assert level in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
     logger = colorlog.getLogger('bioconvert')
-    if level <= colorlog.logging.logging.DEBUG:
+
+    if level == "DEBUG":
         formatter = colorlog.ColoredFormatter(
             "%(log_color)s%(levelname)-8s : %(module)s: L %(lineno)d :%(reset)s %(message)s",
             datefmt=None,
             reset=True,
-            log_colors={
-                'DEBUG': 'cyan',
-                'INFO': 'green',
-                'WARNING': 'yellow',
-                'ERROR': 'red',
-                'CRITICAL': 'bold_red',
-            },
+            log_colors=colors,
             secondary_log_colors={},
             style='%'
             )
@@ -70,6 +53,10 @@ def logger_set_level(level=colorlog.logging.logging.WARNING):
         handler.setFormatter(formatter)
 
     logger.setLevel(level)
+
+
+logger = colorlog.getLogger('bioconvert')
+
 
 
 def bioconvert_script(filename, where=None):
@@ -85,8 +72,7 @@ def bioconvert_script(filename, where=None):
 
 
 def bioconvert_data(filename, where=None):
-    """
-    Simple utilities to retrieve data sets from bioconvert/data directory
+    """Simple utilities to retrieve data sets from bioconvert/data directory
 
     :param str filename: the name of the data file to get the path
     :param str where:
@@ -104,8 +90,8 @@ def bioconvert_data(filename, where=None):
 
 
 def generate_outfile_name(infile, out_extension):
-    """
-    simple utility to replace the file extension with the given one.
+    """simple utility to replace the file extension with the given one.
+
     :param str infile: the path to the Input file
     :param str out_extension: Desired extension
     :return: The file path with the given extension
@@ -113,3 +99,9 @@ def generate_outfile_name(infile, out_extension):
     """
     return '{}.{}'.format(os.path.splitext(infile)[0], out_extension)
 
+
+import bioconvert
+from bioconvert.core.base import ConvBase
+from bioconvert.core.benchmark import Benchmark, BenchmarkMulticonvert
+from bioconvert.core.converter import Bioconvert
+from bioconvert.core.shell import shell
