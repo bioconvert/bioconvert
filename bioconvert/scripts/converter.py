@@ -23,6 +23,7 @@ from bioconvert.core.converter import Bioconvert
 
 _log = colorlog.getLogger('bioconvert')
 
+
 class ConvAction(argparse.Action):
 
     def __init__(self,
@@ -40,10 +41,10 @@ class ConvAction(argparse.Action):
         # the -v --verbosity options may not be parsed yet (if located after -f on command line)
         # So I do it myself
         v_nb = ''.join([opt for opt in sys.argv if opt.startswith("-v")]).count('v')
-        verbo_nb = sum([1 for opt in sys.argv if opt.startswith('--verb')])
-        verbosity = v_nb + verbo_nb
+        #verbo_nb = sum([1 for opt in sys.argv if opt.startswith('--verb')])
+        #verbosity = v_nb + verbo_nb
 
-        bioconvert.logger_set_level(max(10, 30 - (10 * verbosity)))
+        #bioconvert.logger_set_level(max(10, 30 - (10 * verbosity)))
 
         mapper = Registry()
         print("Available mapping:")
@@ -100,9 +101,8 @@ def main(args=None):
                             default=False,
                             help="Display available formats and exit.")
     arg_parser.add_argument("-v", "--verbosity",
-                            action="count",
-                            default=0,
-                            help="Set the outpout verbosity.")
+                            default="INFO",
+                            help="Set the outpout verbosity. Should be one of DEBUG, INFO, WARNING, ERROR, CRITICAL")
     arg_parser.add_argument("-i", "--input-format",
                             default=None,
                             help="Provide the input format. Check the --formats to see valid input name")
@@ -111,6 +111,7 @@ def main(args=None):
                             help="Provide the output format. Check the --formats to see valid input name")
     arg_parser.add_argument("-x", "--threads",
                             default=None,
+                            type=int,
                             help="Number of threads. Depends on the underlying tool")
     arg_parser.add_argument("-m", "--batch",
                             default=False, action="store_true",
@@ -120,19 +121,33 @@ def main(args=None):
                             default=None,
                             help="A converter may have several methods")
 
+    arg_parser.add_argument("-F", "--force",
+                            action="store_true",
+                            help="if outfile exists, it is overwritten with this option")
+
     arg_parser.add_argument("-s", "--show-methods",
                             default=False,
                             action="store_true",
                             help="A converter may have several methods")
 
+    arg_parser.add_argument("-b", "--benchmark",
+                            default=False,
+                            action="store_true",
+                            help="Running all available methods")
+
+    arg_parser.add_argument("-N", "--benchmark-N",
+                            default=5,
+                            type=int,
+                            help="Number of trials for each methods")
+
+
     args = arg_parser.parse_args()
 
     # Set the logging level
-    args.verbosity = max(10, 30 - (10 * args.verbosity))
     bioconvert.logger_set_level(args.verbosity)
 
     # Figure out whether we have several input files or not
-    # Are we in batch mode ? 
+    # Are we in batch mode ?
     import glob
     if args.batch:
         filenames = glob.glob(args.input_file)
@@ -160,7 +175,7 @@ def analysis(args):
         outfile = args.output_file
 
     # Call a generic wrapper of all available conversion
-    conv = Bioconvert(infile, outfile)
+    conv = Bioconvert(infile, outfile, force=args.force)
 
     # Users may provide information about the input file.
     # Indeed, the input may be a FastQ file but with an extension
@@ -190,15 +205,18 @@ def analysis(args):
               "for details ".format(conv.name.lower(),conv.name))
         sys.exit(0)
 
-    params = {"threads": args.threads}
-    if args.method:
-        params["method"] = args.method
-
     _log.info("Converting from {} to {}".format(conv.inext, conv.outext))
 
-    conv.converter(**params)
+    params = {"threads": args.threads}
 
 
+    if args.benchmark: 
+        conv.boxplot_benchmark(N=args.benchmark_N)
+        import pylab
+        pylab.savefig("benchmark_{}.png".format(conv.name))
+    else:
+        params["method"] = args.method
+        conv(**params)
 
 if __name__ == "__main__":
     main()
