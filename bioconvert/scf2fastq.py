@@ -173,6 +173,7 @@ class Scf2Fastq(ConvBase):
                     output_file.write(chr(126))
                 else:
                     output_file.write(chr(i+34))
+            output_file.write("\n")
 
         """
         print(sequence)

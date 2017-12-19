@@ -166,7 +166,7 @@ class Scf2Fasta(ConvBase):
         # Wrinting output file
         with open(self.outfile, "w") as output_file:
             output_file.write(">" + comments.replace("\n", "-").replace(" ", "_") + "\n")
-            output_file.write(sequence)
+            output_file.write(sequence + "\n")
 
         """
         print(sequence)
