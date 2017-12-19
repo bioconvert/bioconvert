@@ -15,16 +15,24 @@
 import os
 
 
-def get_extension(filename):
+def get_extension(filename, remove_compression=False):
     """Return extension of a filename
 
     ::
 
         >>> get_extension("test.fastq")
         fastq
-
+        >>> get_extension("test.fastq.gz")
+        fastq
 
     """
+    compression = [".gz", ".bz2", ".bzip2", ".dsrc"]
+    if remove_compression is True:
+        # remove the .gz, .bz2, ..., extensions
+        for this in compression:
+            if filename.endswith(this):
+                filename = filename.rsplit(".", 1)[0]
+
     if len(filename.split(".")) == 1:
         return None
     else:
