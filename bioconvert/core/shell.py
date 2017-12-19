@@ -9,6 +9,7 @@ import _io
 import sys
 import os
 import subprocess as sp
+from bioconvert import logger
 
 
 STDOUT = sys.stdout
@@ -44,6 +45,7 @@ class shell:
 
         close_fds = sys.platform != 'win32'
 
+        logger.info(cmd)
         proc = sp.Popen("{} {} {}".format(
                             cls._process_prefix,
                             cmd.rstrip(),
@@ -72,6 +74,3 @@ class shell:
         retcode = proc.wait()
         if retcode:
             raise sp.CalledProcessError(retcode, cmd)
-
-#if "SHELL" in os.environ:
-#    shell.executable(os.environ["SHELL"])
