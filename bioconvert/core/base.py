@@ -111,7 +111,12 @@ class ConvMeta(abc.ABCMeta):
         if name != 'ConvBase':
             if '2' not in name:
                 raise TypeError("converter name must follow convention input2output")
-            input_fmt, output_fmt = name.upper().split('2', 1)
+            # for BZ2 2 GZ
+            if "22" in name:
+                input_fmt, output_fmt = name.upper().split('22', 1)
+                input_fmt += "2"
+            else:
+                input_fmt, output_fmt = name.upper().split('2', 1)
             input_ext = getattr(cls, 'input_ext')
             if check_ext(input_ext, 'input'):
                 output_ext = getattr(cls, 'output_ext')
