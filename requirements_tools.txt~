@@ -3,7 +3,7 @@ bcftools
 bedtools
 bioawk
 deeptools
-dsrc
+mawk
 pbzip2
 pigz
 sambamba
