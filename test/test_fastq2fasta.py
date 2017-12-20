@@ -29,7 +29,7 @@ def test_conv(method):
             "{} failed".format(method)
 
 @pytest.mark.parametrize("method", Fastq2Fasta.available_methods)
-def test_more_samples(method):
+def _test_more_samples(method):
     for sample_name in ["sample_v2", "sample_v3", "sample_v4"]:
         infile = bioconvert_data("{}.fastq".format(sample_name))
 
