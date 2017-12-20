@@ -1,6 +1,15 @@
 Whats' new, what has changed
 ================================
 
+
+:Revision 0.0.8:
+
+    - added compressor decorator
+    - update bioconvert main script with several options 
+    - new converters: dsrc2gz, bam2bigwig draft
+    - provided squizz on bioconda and added as dependencies
+    
+
 :Revision 0.0.7:
 
     - added converters: bam2cram and cram2bam, vcf2bed
