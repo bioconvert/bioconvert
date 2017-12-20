@@ -13,47 +13,46 @@
 ##############################################################################
 """Provides a general tool to perform pre/post compression"""
 from functools import wraps
+from os.path import splitext
 from bioconvert import logger
 
 
 def compressor(func):
-    """Decompress/compress input file without pipes 
+    """Decompress/compress input file without pipes
 
     Does not use pipe: we decompress and compress back the input file.
     The advantage is that it should work for any files (even very large).
 
     This decorator should be used by method that uses pure python code
     """
+    # https://stackoverflow.com/a/309000/1878788
     @wraps(func)
     def wrapped(inst, *args, **kwargs):
         infile_name = inst.infile
 
         output_compressed = None
         if inst.outfile.endswith(".gz"):
-            output_compressed = ".gz"
-            inst.outfile = inst.outfile.split(".gz")[0]
+            (inst.outfile, output_compressed) = splitext(inst.outfile)
         elif inst.outfile.endswith(".bz2"):
-            output_compressed = ".bz2"
-            inst.outfile = inst.outfile.split(".bz2")[0]
-        elif inst.outfile.endswith(".dsrc"): # !!! only for fastq files
-            output_compressed = ".dsrc"
-            inst.outfile = inst.outfile.split(".dsrc")[0]
+            (inst.outfile, output_compressed) = splitext(inst.outfile)
+        elif inst.outfile.endswith(".dsrc"):  # !!! only for fastq files
+            (inst.outfile, output_compressed) = splitext(inst.outfile)
+        # Now inst has the uncompressed output file name
 
-        if inst.infile.endswith(".gz"):
+        if infile_name.endswith(".gz"):
             # decompress input
-            logger.info("Decompressing %s " % inst.infile)
-            newinfile = inst.infile.split(".gz")[0]
-            inst.shell("unpigz -p {} {}".format(inst.threads, inst.infile))
-            inst.infile = newinfile
+            # TODO: https://stackoverflow.com/a/29371584/1878788
+            logger.info("Generating uncompressed version of %s " % infile_name)
+            (inst.infile, _) = splitext(inst.infile)
+            inst.shell("unpigz -c -p {} {} > {}".format(
+                inst.threads, infile_name, inst.infile))
             # computation
             results = func(inst, *args, **kwargs)
-            logger.info("Compressing back %s" % inst.infile)
-            # compress back the input
-            inst.shell("pigz -p {} {}".format(inst.threads, inst.infile))
             inst.infile = infile_name
         else:
             results = func(inst, *args, **kwargs)
 
+        # Compress output and restore inst output file name
         if output_compressed == ".gz":
             # TODO: this uses -f ; should be a
             logger.info("Compressing output into .gz")
@@ -63,11 +62,10 @@ def compressor(func):
             logger.info("Compressing output into .bz2")
             inst.shell("pbzip2 -f -p{} {}".format(inst.threads, inst.outfile))
             inst.outfile = inst.outfile + ".bz2"
-        elif output_compressed == ".dsrc":   # !!! only for FastQ files
+        elif output_compressed == ".dsrc":  # !!! only for FastQ files
             logger.info("Compressing output into .dsrc")
-            inst.shell("dsrc c  -t{} {} {}.dsrc".format(inst.threads,
-                inst.outfile, inst.outfile))
+            inst.shell("dsrc c -t{} {} {}.dsrc".format(
+                inst.threads, inst.outfile, inst.outfile))
             inst.outfile = inst.outfile + ".dsrc"
         return results
     return wrapped
-
