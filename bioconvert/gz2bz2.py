@@ -25,7 +25,7 @@ class GZ2BZ2(ConvBase):
     """
     input_ext = [".gz"]
     output_ext = [".bz2"]
-    _is_compressor = True
+    #_is_compressor = True
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
