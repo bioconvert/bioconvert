@@ -39,7 +39,7 @@ install:
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_dev.txt
   - conda install --yes python=$TRAVIS_PYTHON_VERSION  coverage
   - pip install .
-  - pip install pygatb --yes --no-deps
+  - pip install pygatb --no-deps
 
   # install squizz which is a dependency but which is not packaged in conda
   -
