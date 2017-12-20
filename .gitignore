@@ -102,3 +102,5 @@ ENV/
 
 #mac file
 .DS_Store
+# vim backups
+*~
