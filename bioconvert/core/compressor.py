@@ -16,6 +16,10 @@ from functools import wraps
 from os.path import splitext
 from bioconvert import logger
 
+def in_gz(func):
+    """Marks a function as accepting gzipped input."""
+    func.in_gz = True
+    return func
 
 def compressor(func):
     """Decompress/compress input file without pipes
@@ -51,6 +55,44 @@ def compressor(func):
             inst.infile = infile_name
         else:
             results = func(inst, *args, **kwargs)
+
+        # Compress output and restore inst output file name
+        if output_compressed == ".gz":
+            # TODO: this uses -f ; should be a
+            logger.info("Compressing output into .gz")
+            inst.shell("pigz -f -p {} {}".format(inst.threads, inst.outfile))
+            inst.outfile = inst.outfile + ".gz"
+        elif output_compressed == ".bz2":
+            logger.info("Compressing output into .bz2")
+            inst.shell("pbzip2 -f -p{} {}".format(inst.threads, inst.outfile))
+            inst.outfile = inst.outfile + ".bz2"
+        elif output_compressed == ".dsrc":  # !!! only for FastQ files
+            logger.info("Compressing output into .dsrc")
+            inst.shell("dsrc c -t{} {} {}.dsrc".format(
+                inst.threads, inst.outfile, inst.outfile))
+            inst.outfile = inst.outfile + ".dsrc"
+        return results
+    return in_gz(wrapped)
+
+def out_compressor(func):
+    """Compress output file without pipes
+
+    This decorator should be used by method that uses pure python code
+    """
+    # https://stackoverflow.com/a/309000/1878788
+    @wraps(func)
+    def wrapped(inst, *args, **kwargs):
+        output_compressed = None
+        if inst.outfile.endswith(".gz"):
+            (inst.outfile, output_compressed) = splitext(inst.outfile)
+        elif inst.outfile.endswith(".bz2"):
+            (inst.outfile, output_compressed) = splitext(inst.outfile)
+        elif inst.outfile.endswith(".dsrc"):  # !!! only for fastq files
+            (inst.outfile, output_compressed) = splitext(inst.outfile)
+        # Now inst has the uncompressed output file name
+
+        # computation
+        results = func(inst, *args, **kwargs)
 
         # Compress output and restore inst output file name
         if output_compressed == ".gz":

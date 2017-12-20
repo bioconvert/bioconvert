@@ -25,9 +25,8 @@ except:
     pass
 from mappy import fastx_read
 import mmap
-from functools import wraps
 
-from bioconvert.core.compressor import compressor
+from bioconvert.core.compressor import compressor, out_compressor, in_gz
 
 class Fastq2Fasta(ConvBase):
     """Convert :term:`FASTQ` to :term:`FASTA`"""
@@ -111,7 +110,8 @@ class Fastq2Fasta(ConvBase):
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
-    @compressor
+    @in_gz
+    @out_compressor
     def _method_GATB(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta:
             for record in Bank(self.infile):
@@ -148,12 +148,22 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @in_gz
     def _method_bioawk(self, *args, **kwargs):
         """This method uses bioawk, an implementation with convenient
         bioinformatics parsing features."""
         awkcmd = """bioawk -c fastx '{{print ">"$name" "$comment"\\n"$seq}}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
+
+    # Somehow this does not work without specifying
+    # the path to the shared libraries
+    # @in_gz
+    # def _method_fqtools(self, *args, **kwargs):
+    #     """This method uses fqtools."""
+    #     fqtoolscmd = """LD_LIBRARY_PATH="/home/bli/lib" fqtools fasta"""
+    #     cmd = "{} {} > {}".format(fqtoolscmd, self.infile, self.outfile)
+    #     self.execute(cmd)
 
     def _method_awk_v2(self, *args, **kwargs):
         awkcmd = """awk '{{print ">"substr($0,2);getline;print;getline;getline}}'"""
