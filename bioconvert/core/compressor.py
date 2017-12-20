@@ -18,7 +18,7 @@ from bioconvert import logger
 
 
 def compressor(func):
-    """Decompress/compress input file without pipes 
+    """Decompress/compress input file without pipes
 
     Does not use pipe: we decompress and compress back the input file.
     The advantage is that it should work for any files (even very large).
@@ -35,24 +35,19 @@ def compressor(func):
             (inst.outfile, output_compressed) = splitext(inst.outfile)
         elif inst.outfile.endswith(".bz2"):
             (inst.outfile, output_compressed) = splitext(inst.outfile)
-        elif inst.outfile.endswith(".dsrc"): # !!! only for fastq files
+        elif inst.outfile.endswith(".dsrc"):  # !!! only for fastq files
             (inst.outfile, output_compressed) = splitext(inst.outfile)
         # Now inst has the uncompressed output file name
 
         if infile_name.endswith(".gz"):
             # decompress input
-            logger.info("Decompressing %s " % infile_name)
+            # TODO: https://stackoverflow.com/a/29371584/1878788
+            logger.info("Generating uncompressed version of %s " % infile_name)
             (inst.infile, _) = splitext(inst.infile)
-            # FIXME: shouldn't we keep the real input file unmodified?
-            # What if this file is used by another process?
-            # Maybe using:
-            # "unpigz -c -p {} {} > {}".format(inst.threads, infile_name, inst.infile)
-            inst.shell("unpigz -p {} {}".format(inst.threads, infile_name))
+            inst.shell("unpigz -c -p {} {} > {}".format(
+                inst.threads, infile_name, inst.infile))
             # computation
             results = func(inst, *args, **kwargs)
-            logger.info("Compressing back %s" % inst.infile)
-            # compress back the input
-            inst.shell("pigz -p {} {}".format(inst.threads, inst.infile))
             inst.infile = infile_name
         else:
             results = func(inst, *args, **kwargs)
@@ -67,11 +62,10 @@ def compressor(func):
             logger.info("Compressing output into .bz2")
             inst.shell("pbzip2 -f -p{} {}".format(inst.threads, inst.outfile))
             inst.outfile = inst.outfile + ".bz2"
-        elif output_compressed == ".dsrc":   # !!! only for FastQ files
+        elif output_compressed == ".dsrc":  # !!! only for FastQ files
             logger.info("Compressing output into .dsrc")
-            inst.shell("dsrc c -t{} {} {}.dsrc".format(inst.threads,
-                inst.outfile, inst.outfile))
+            inst.shell("dsrc c -t{} {} {}.dsrc".format(
+                inst.threads, inst.outfile, inst.outfile))
             inst.outfile = inst.outfile + ".dsrc"
         return results
     return wrapped
-
