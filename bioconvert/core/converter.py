@@ -14,8 +14,9 @@
 """.. rubric:: Standalone application dedicated to conversion"""
 import os
 import sys
-import colorlog
-_log = colorlog.getLogger('bioconvert')
+from bioconvert import logger as _log
+
+#_log = colorlog.getLogger('bioconvert')
 
 from bioconvert.core.registry import Registry
 from bioconvert.core.utils import get_extension as getext
@@ -31,12 +32,13 @@ class Bioconvert(object):
 
 
     """
-
-    def __init__(self, infile, outfile):
+    def __init__(self, infile, outfile, force=False):
         """.. rubric:: constructor
 
         :param str infile: The path of the input file.
         :param str outfile: The path of The output file
+        :param bool force: overwrite output file if it exists already
+            otherwise raises an error
 
         """
         if os.path.exists(infile) is False:
@@ -44,8 +46,45 @@ class Bioconvert(object):
             _log.error(msg)
             raise ValueError(msg)
 
-        self.inext = getext(infile)
-        self.outext = getext(outfile)
+        # check existence of output file. If it exists, 
+        # fails except if force argument is set to True
+        if os.path.exists(outfile) is True:
+            msg = "output file {} exists already".format(outfile)
+            _log.warning("output file exists already")
+            if force is False:
+                _log.critical("output file exists. If you are using bioconvert, use --force ")
+                raise ValueError(msg)
+            else:
+                _log.warning("output file will be overwritten")
+
+        # Only fastq files can be compressed with dsrc
+        if outfile.endswith(".dsrc"):
+            # only valid for FastQ files extension 
+            # dsrc accepts only .fastq file extension 
+            if outfile.endswith(".fastq.dsrc") is False:
+                msg = "When compressing with .dsrc extension, " +\
+                    "only files ending with .fastq extension are " +\
+                    "accepted. This is due to the way dsrc executable +"\
+                    "is implemented."
+                _log.critical(msg)
+                raise IOError 
+
+        # case1: fastq.gz to fasta.bz2
+        # Here, we want to decompress, convert, compress.
+        # so we need the extension without .gz or .bz2
+        # We should have inext set to fastq and outext 
+        # set to fasta.bz2
+        self.inext = getext(infile, remove_compression=True)
+        self.outext = getext(outfile, remove_compression=True)
+
+        # Case 2, fastq.gz to fastq.bz2
+        # data is not changed, just the type of compression, so we want
+        # to keep the original extensions, here inext and outext  will contain
+        # .gz and .bz2
+        if self.inext == self.outext:
+            _log.info("decompression/compression mode")
+            self.inext = getext(infile)
+            self.outext = getext(outfile)
 
         self.mapper = Registry()
 
@@ -56,20 +95,17 @@ class Bioconvert(object):
             class_converter = self.mapper[(self.inext, self.outext)]
             self.name = class_converter.__name__
         except KeyError:
-            print(self.mapper)
-            print(self.inext)
-            print(self.outext)
-
-            # Is the module name available in bioconvert ? If not, let us tell the user
-            msg = "Requested input format ({}) to output format (({}) is not available in bioconvert"
+            # This module name was not found
+            msg = "Requested input format ({}) to output format ({}) is not available in bioconvert"
             _log.critical(msg.format(self.inext, self.outext))
-            _log.critical("Use --formats to know the available formats")
+            _log.critical("Use --formats to know the available formats and --help for examples")
             sys.exit(1)
 
         self.converter = class_converter(infile, outfile)
+        _log.info("Using {} class".format(self.converter.name))
 
     def __call__(self, *args, **kwargs):
         self.converter(*args, **kwargs)
 
     def boxplot_benchmark(self, *args, **kwargs):
-        self.converter.boxplot_benchmark(*args,**kwargs)
+        self.converter.boxplot_benchmark(*args, **kwargs)
