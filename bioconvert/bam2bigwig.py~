@@ -37,6 +37,8 @@ class BAM2BIGWIG(ConvBase):
         command used::
             bamCoverage -bam {} –-outFileFormat bigwig --outFileName {}
 
+        bioconvert test_measles.sorted.bam test_measles.bigwig
+
 
         """
         super(BAM2BIGWIG, self).__init__(infile, outfile, *args, **kargs)
