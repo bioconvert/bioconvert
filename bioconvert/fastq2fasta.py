@@ -1,21 +1,36 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+"""Convert :term:`FASTQ` to :term:`FASTA`"""
 from Bio import SeqIO
 from Bio.SeqIO import FastaIO
 from bioconvert import ConvBase, bioconvert_script
-# try:
-#     # Let us make this optional for now because
-#     # GATB cannot be install on RTD
-#     from gatb import Bank
-# except:
-#     pass
+from bioconvert import logger
+
+try:
+    # Let us make this optional for now because
+    # GATB cannot be install on RTD
+    from gatb import Bank
+except:
+    pass
 from mappy import fastx_read
 import mmap
+from functools import wraps
 
+from bioconvert.core.compressor import compressor
 
 class Fastq2Fasta(ConvBase):
-    """
-    Convert :term:`FASTQ` to :term:`FASTA`
-    """
-
+    """Convert :term:`FASTQ` to :term:`FASTA`"""
     input_ext = ['.fastq', '.fq']
     output_ext = '.fasta'
 
@@ -80,25 +95,32 @@ class Fastq2Fasta(ConvBase):
         :param str outfile: The path to the output file.
         """
         super().__init__(infile, outfile)
-        # use readfq for now because pure python and fast enough
-        # for production, could use seqtk which seems the fastest method
+        # use readfq for now because pure python are fast enough
+        # for production, could use seqtk which seems the fastest method though
+        # Make sure that the default handles also the compresssion
         self._default_method = "readfq"
 
+    @compressor
     def _method_biopython(self, *args, **kwargs):
+        logger.info("Executing biopython")
         records = SeqIO.parse(self.infile, 'fastq')
         SeqIO.write(records, self.outfile, 'fasta')
 
     def _method_seqtk(self, *args, **kwargs):
+        # support gz files natively
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
-#     def _method_GATB(self, *args, **kwargs):
-#         with open(self.outfile, "w") as fasta:
-#             for record in Bank(self.infile):
-#                 fasta.write(">{}\n{}\n".format(
-#                     record.comment.decode("utf-8"),
-#                     record.sequence.decode("utf-8")))
+    @compressor
+    def _method_GATB(self, *args, **kwargs):
+        with open(self.outfile, "w") as fasta:
+            for record in Bank(self.infile):
+                fasta.write(">{}\n{}\n".format(
+                    record.comment.decode("utf-8"),
+                    record.sequence.decode("utf-8")))
+        print("test")
 
+    @compressor
     def _method_readfq(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
             for (name, seq, _) in Fastq2Fasta.readfq(fastq):
@@ -163,6 +185,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} {}".format(perlcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @compressor
     def _method_python_internal(self, *args, **kwargs):
         with open(self.infile, "r+") as inp:
             with open(self.outfile, "wb") as out:
