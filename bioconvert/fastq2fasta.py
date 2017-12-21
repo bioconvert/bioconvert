@@ -28,6 +28,7 @@ import mmap
 
 from bioconvert.core.compressor import compressor, out_compressor, in_gz
 
+
 class Fastq2Fasta(ConvBase):
     """Convert :term:`FASTQ` to :term:`FASTA`"""
     input_ext = ['.fastq', '.fq']
@@ -132,6 +133,7 @@ class Fastq2Fasta(ConvBase):
             for (name, seq, _) in fastx_read(self.infile):
                 fasta.write(">{}\n{}\n".format(name, seq))
 
+    @compressor
     def _method_awk(self, *args, **kwargs):
         # Note1: since we use .format, we need to escape the { and } characters
         # Note2: the \n need to be escaped for Popen to work
@@ -139,6 +141,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @compressor
     def _method_mawk(self, *args, **kwargs):
         """This variant of the awk method uses mawk, a lighter and faster
         implementation of awk."""
