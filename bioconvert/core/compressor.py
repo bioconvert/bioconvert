@@ -14,12 +14,23 @@
 """Provides a general tool to perform pre/post compression"""
 from functools import wraps
 from os.path import splitext
+from easydev import TempFile
 from bioconvert import logger
 
 def in_gz(func):
     """Marks a function as accepting gzipped input."""
     func.in_gz = True
     return func
+
+def make_in_gz_tester(converter):
+    """Generates a function testing whether a conversion method of *converter*
+    has the *in_gz* tag."""
+    def is_in_gz(method):
+        """Accesses the function corresponding to *method* and tells whether it
+        has the *in_gz* tag."""
+        return hasattr(getattr(
+            converter, "_method_{}".format(method)), "in_gz")
+    return is_in_gz
 
 def compressor(func):
     """Decompress/compress input file without pipes
@@ -47,11 +58,14 @@ def compressor(func):
             # decompress input
             # TODO: https://stackoverflow.com/a/29371584/1878788
             logger.info("Generating uncompressed version of %s " % infile_name)
-            (inst.infile, _) = splitext(inst.infile)
-            inst.shell("unpigz -c -p {} {} > {}".format(
-                inst.threads, infile_name, inst.infile))
-            # computation
-            results = func(inst, *args, **kwargs)
+            (ungz_name, _) = splitext(infile_name)
+            (_, base_suffix) = splitext(ungz_name)
+            with TempFile(suffix=base_suffix) as ungz_infile:
+                inst.infile = ungz_infile.name
+                inst.shell("unpigz -c -p {} {} > {}".format(
+                    inst.threads, infile_name, inst.infile))
+                # computation
+                results = func(inst, *args, **kwargs)
             inst.infile = infile_name
         else:
             results = func(inst, *args, **kwargs)
