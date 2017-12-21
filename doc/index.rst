@@ -54,7 +54,7 @@ From the command line::
 From Python shell::
 
     # import a converter
-    from bioconvert import Fastq2Fasta
+    from bioconvert.fastq2fasta import Fastq2Fasta
 
     # Instanciate with infile/outfile names
     convert = Fastq2Fasta(infile, outfile)
