@@ -60,10 +60,58 @@ Of course, you will need to edit the file to add the conversion itself in the
 appropriate method (e.g. _method_gz).
 
 
+Method decorators
+~~~~~~~~~~~~~~~~~
+
+`Decorators
+<https://en.wikipedia.org/wiki/Python_syntax_and_semantics#Decorators>`_ have
+been defined in ``bioconvert/core/compressor.py`` that can be used to "flag" or
+"modify" conversion methods (actually, a new method is usually returned):
+
+- ``@in_gz`` can be used to indicate that the method is able to transparenly
+  handle input files that are compressed in ``.gz`` format. This is done by
+  adding an ``in_gz`` attribute (set to ``True``) to the method.
+
+- ``@compressor`` will wrap the method in code that handles input decompression
+  from ``.gz`` format and output compression to ``.gz``, ``.bz2`` or ``.dsrc``.
+  This automatically applies ``@in_gz``. Example:
+
+::
+
+    @compressor
+    def _method_noncompressor(self, *args, **kwargs):
+        """This method does not handle compressed input or output."""
+        pass
+    # This results in a method that handles compressed input and output
+    # The method has an in_gz attribute (which is set to True)
+
+
+- ``@out_compressor`` will wrap the method in code that handles output
+  compression to ``.gz``, ``.bz2`` or ``.dsrc``. It is intended to be used on
+  methods that already handle compressed input transparently, and therefore do
+  not need the input decompression provided by ``@compressor``. Typically, one
+  would also apply ``@in_gz`` to such methods. In that case, ``@in_gz`` should
+  be applied "on top" of ``@out_compressor``. The reason is that decorators
+  closest to the function are applied first, and applying another decorator on
+  top of ``@in_gz`` would typically not preserve the ``in_gz`` attribute.
+  Example:
+
+::
+
+    @in_gz
+    @out_compressor
+    def _method_incompressor(self, *args, **kwargs):
+        """This method already handles compressed .gz input."""
+        pass
+    # This results in a method that handles compressed input and output
+    # This method is further modified to have an in_gz attribute
+    # (which is set to True)
+
+
 How to add a test
 -----------------------
 
-Go to  ./test and add a file named **test_fastq2fasta.py**
+Go to  ./test and add a file named ``test_fastq2fasta.py``
 
 
 ::
