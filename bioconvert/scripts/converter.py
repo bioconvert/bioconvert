@@ -56,7 +56,7 @@ class ConvAction(argparse.Action):
 def main(args=None):
 
     if args is None:
-        args = sys.argv[:]
+        args = sys.argv[1:]
 
     from easydev.console import purple, underline
     if "-v" in args or "--verbosity" in args:
