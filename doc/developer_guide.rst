@@ -108,6 +108,9 @@ been defined in ``bioconvert/core/compressor.py`` that can be used to "flag" or
     # (which is set to True)
 
 
+(For more general explanations about decorators, see
+https://stackoverflow.com/a/1594484/1878788.)
+
 How to add a test
 -----------------------
 
