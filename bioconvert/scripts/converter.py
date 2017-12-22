@@ -141,7 +141,7 @@ def main(args=None):
                             help="Number of trials for each methods")
 
 
-    args = arg_parser.parse_args()
+    args = arg_parser.parse_args(args)
 
     # Set the logging level
     bioconvert.logger_set_level(args.verbosity)
