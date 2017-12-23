@@ -80,6 +80,7 @@ User and Developer Guides
     benchmarking
     auto_examples/index
     references
+    formats
     faqs
     glossary
     ChangeLog.rst
