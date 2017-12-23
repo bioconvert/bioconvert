@@ -33,7 +33,6 @@ class CLUSTAL2STOCKHOLM(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'biopython'
 
-
     def _method_biopython(self, threads=None):
         """
         Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using biopython.
@@ -43,7 +42,6 @@ class CLUSTAL2STOCKHOLM(ConvBase):
         sequences = list(SeqIO.parse(self.infile, "clustal", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "stockholm")
         _log.info("Converted %d records to stockholm" % count)
-
 
     def _method_squizz(self, threads=None):
         """
@@ -83,7 +81,6 @@ class STOCKHOLM2CLUSTAL(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'biopython'
 
-
     def _method_biopython(self, threads=None):
         """
         Convert :term:`STOCKHOLM` interleaved file in :term:`CLUSTAL` format using biopython.
@@ -93,7 +90,6 @@ class STOCKHOLM2CLUSTAL(ConvBase):
         sequences = list(SeqIO.parse(self.infile, "stockholm", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "clustal")
         _log.info("Converted %d records to clustal" % count)
-
 
     def _method_squizz(self, threads=None):
         """

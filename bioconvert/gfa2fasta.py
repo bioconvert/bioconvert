@@ -13,6 +13,9 @@
 ##############################################################################
 """Convert :term:`GFA` format to :term:`FASTA` formats"""
 from bioconvert import ConvBase
+import colorlog
+logger = colorlog.getLogger(__name__)
+
 
 
 __all__ = ["GFA2FASTA"]

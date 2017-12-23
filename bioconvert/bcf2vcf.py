@@ -1,5 +1,8 @@
 """Convert :term:`BCF` file to :term:`VCF` file"""
 from bioconvert import ConvBase
+import colorlog
+logger = colorlog.getLogger(__name__)
+
 
 
 class BCF2VCF(ConvBase):

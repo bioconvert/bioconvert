@@ -12,6 +12,9 @@
 ##############################################################################
 """ description """
 from bioconvert import ConvBase
+import colorlog
+logger = colorlog.getLogger(__name__)
+
 
 __all__ = ["BZ22GZ"]
 

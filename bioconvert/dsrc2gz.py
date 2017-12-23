@@ -10,10 +10,12 @@
 #  website: https://github.com/biokit/bioconvert
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
-#
 """ Convert a compressed fastq.gz file to :term:`DSRC` compression format """
 
 from bioconvert import ConvBase
+import colorlog
+logger = colorlog.getLogger(__name__)
+
 
 __all__ = ["DSRC2GZ"]
 

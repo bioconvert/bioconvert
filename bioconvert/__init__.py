@@ -13,50 +13,13 @@ import colorlog
 from easydev import CustomConfig
 configuration = CustomConfig("bioconvert", verbose=True)
 
-colors = {
-    'DEBUG':    'cyan',
-    'INFO':     'green',
-    'WARNING':  'yellow',
-    'ERROR':    'red',
-    'CRITICAL': 'bold_red'}
 
-def init_logger(level="WARNING"):
-    handler = colorlog.StreamHandler()
-    formatter = colorlog.ColoredFormatter("%(log_color)s%(levelname)-8s : %(reset)s %(message)s",
-                                          datefmt=None,
-                                          reset=True,
-                                          log_colors=colors,
-                                          secondary_log_colors={},
-                                          style='%'
-                                          )
-    handler.setFormatter(formatter)
-    logger = colorlog.getLogger('bioconvert')
-    logger.addHandler(handler)
-    logger.setLevel(level)
-
-init_logger()
-
-def logger_set_level(level="WARNING"):
-    assert level in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-    logger = colorlog.getLogger('bioconvert')
-
-    if level == "DEBUG":
-        formatter = colorlog.ColoredFormatter(
-            "%(log_color)s%(levelname)-8s : %(module)s: L %(lineno)d :%(reset)s %(message)s",
-            datefmt=None,
-            reset=True,
-            log_colors=colors,
-            secondary_log_colors={},
-            style='%'
-            )
-        handler = logger.handlers[0]
-        handler.setFormatter(formatter)
-
-    logger.setLevel(level)
-
-
-logger = colorlog.getLogger('bioconvert')
-
+try:
+    from easydev.logging_tools import Logging
+    logger = Logging("bioconvert", "INFO")
+except:
+    import colorlog
+    logger = colorlog.getLogger("bioconvert")
 
 
 def bioconvert_script(filename, where=None):

@@ -9,7 +9,9 @@ import _io
 import sys
 import os
 import subprocess as sp
-from bioconvert import logger
+
+import colorlog
+_log = colorlog.getLogger(__name__)
 
 
 STDOUT = sys.stdout
@@ -45,7 +47,7 @@ class shell:
 
         close_fds = sys.platform != 'win32'
 
-        logger.info(cmd)
+        _log.info(cmd)
         proc = sp.Popen("{} {} {}".format(
                             cls._process_prefix,
                             cmd.rstrip(),

@@ -1,5 +1,8 @@
 """Convert :term:`BAM` format to :term:`JSON` file"""
 from bioconvert import ConvBase
+import colorlog
+logger = colorlog.getLogger(__name__)
+
 
 
 class BAM2JSON(ConvBase):

@@ -1,5 +1,10 @@
 """Convert :term:`VCF` file to :term:`BED` file"""
 from bioconvert import ConvBase
+import colorlog
+logger = colorlog.getLogger(__name__)
+
+
+__all__ = ["VCF2BED"]
 
 
 class VCF2BED(ConvBase):

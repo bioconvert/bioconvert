@@ -29,6 +29,7 @@ _log = colorlog.getLogger(__name__)
 
 
 from bioconvert.core.benchmark import Benchmark
+from bioconvert import logger
 
 
 class ConvMeta(abc.ABCMeta):
@@ -174,6 +175,7 @@ class ConvBase(metaclass=ConvMeta):
         self.outfile = outfile
         self.threads = cpu_count()
         self._execute_mode = "subprocess"  # set to shell to call shell() method
+        self.logger = logger
 
     def __call__(self, *args, threads=None, **kwargs):
         """

@@ -33,7 +33,6 @@ class CLUSTAL2FASTA(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'biopython'
 
-
     def _method_biopython(self, threads=None):
         """
         Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using biopython.
@@ -43,7 +42,6 @@ class CLUSTAL2FASTA(ConvBase):
         sequences = list(SeqIO.parse(self.infile, "clustal", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "fasta")
         _log.info("Converted %d records to fasta" % count)
-
 
     def _method_squizz(self, threads=None):
         """
@@ -83,7 +81,6 @@ class FASTA2CLUSTAL(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'biopython'
 
-
     def _method_biopython(self, threads=None):
         """
         Convert :term:`FASTA` interleaved file in :term:`CLUSTAL` format using biopython.
@@ -93,7 +90,6 @@ class FASTA2CLUSTAL(ConvBase):
         sequences = list(SeqIO.parse(self.infile, "fasta", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "clustal")
         _log.info("Converted %d records to clustal" % count)
-
 
     def _method_squizz(self, threads=None):
         """

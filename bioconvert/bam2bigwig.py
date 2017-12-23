@@ -1,5 +1,3 @@
-
-
 # -*- coding: utf-8 -*-
 ##############################################################################
 #  This file is part of Bioconvert software
@@ -13,8 +11,10 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """ description """
-
+import colorlog
 from bioconvert import ConvBase
+
+_log = colorlog.getLogger(__name__)
 
 __all__ = ["BAM2BIGWIG"]
 

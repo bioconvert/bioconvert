@@ -1,5 +1,8 @@
 """Convert :term:`SAM` file to :term:`BAM` file"""
 from bioconvert import ConvBase
+import colorlog
+logger = colorlog.getLogger(__name__)
+
 
 
 class BAM2SAM(ConvBase):

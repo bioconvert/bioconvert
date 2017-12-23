@@ -15,7 +15,7 @@
 from Bio import SeqIO
 from Bio.SeqIO import FastaIO
 from bioconvert import ConvBase, bioconvert_script
-from bioconvert import logger
+
 
 try:
     # Let us make this optional for now because
@@ -102,7 +102,6 @@ class Fastq2Fasta(ConvBase):
 
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        logger.info("Executing biopython")
         records = SeqIO.parse(self.infile, 'fastq')
         SeqIO.write(records, self.outfile, 'fasta')
 

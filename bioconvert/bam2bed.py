@@ -1,5 +1,8 @@
 """Convert :term:`BAM` format to :term:`BED` formats"""
 from bioconvert import ConvBase
+import colorlog
+
+_log = colorlog.getLogger(__name__)
 
 
 __all__ = ["BAM2BED"]

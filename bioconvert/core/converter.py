@@ -14,7 +14,9 @@
 """.. rubric:: Standalone application dedicated to conversion"""
 import os
 import sys
-from bioconvert import logger as _log
+
+import colorlog
+_log = colorlog.getLogger(__name__)
 
 #_log = colorlog.getLogger('bioconvert')
 

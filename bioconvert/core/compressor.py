@@ -15,12 +15,15 @@
 from functools import wraps
 from os.path import splitext
 from easydev import TempFile
-from bioconvert import logger
+
+import colorlog
+_log = colorlog.getLogger(__name__)
 
 def in_gz(func):
     """Marks a function as accepting gzipped input."""
     func.in_gz = True
     return func
+
 
 def make_in_gz_tester(converter):
     """Generates a function testing whether a conversion method of *converter*
@@ -31,6 +34,7 @@ def make_in_gz_tester(converter):
         return hasattr(getattr(
             converter, "_method_{}".format(method)), "in_gz")
     return is_in_gz
+
 
 def compressor(func):
     """Decompress/compress input file without pipes
@@ -57,7 +61,7 @@ def compressor(func):
         if infile_name.endswith(".gz"):
             # decompress input
             # TODO: https://stackoverflow.com/a/29371584/1878788
-            logger.info("Generating uncompressed version of %s " % infile_name)
+            _log.info("Generating uncompressed version of %s " % infile_name)
             (ungz_name, _) = splitext(infile_name)
             (_, base_suffix) = splitext(ungz_name)
             with TempFile(suffix=base_suffix) as ungz_infile:
@@ -73,20 +77,21 @@ def compressor(func):
         # Compress output and restore inst output file name
         if output_compressed == ".gz":
             # TODO: this uses -f ; should be a
-            logger.info("Compressing output into .gz")
+            _log.info("Compressing output into .gz")
             inst.shell("pigz -f -p {} {}".format(inst.threads, inst.outfile))
             inst.outfile = inst.outfile + ".gz"
         elif output_compressed == ".bz2":
-            logger.info("Compressing output into .bz2")
+            _log.info("Compressing output into .bz2")
             inst.shell("pbzip2 -f -p{} {}".format(inst.threads, inst.outfile))
             inst.outfile = inst.outfile + ".bz2"
         elif output_compressed == ".dsrc":  # !!! only for FastQ files
-            logger.info("Compressing output into .dsrc")
+            _log.info("Compressing output into .dsrc")
             inst.shell("dsrc c -t{} {} {}.dsrc".format(
                 inst.threads, inst.outfile, inst.outfile))
             inst.outfile = inst.outfile + ".dsrc"
         return results
     return in_gz(wrapped)
+
 
 def out_compressor(func):
     """Compress output file without pipes
@@ -111,15 +116,15 @@ def out_compressor(func):
         # Compress output and restore inst output file name
         if output_compressed == ".gz":
             # TODO: this uses -f ; should be a
-            logger.info("Compressing output into .gz")
+            _log.info("Compressing output into .gz")
             inst.shell("pigz -f -p {} {}".format(inst.threads, inst.outfile))
             inst.outfile = inst.outfile + ".gz"
         elif output_compressed == ".bz2":
-            logger.info("Compressing output into .bz2")
+            _log.info("Compressing output into .bz2")
             inst.shell("pbzip2 -f -p{} {}".format(inst.threads, inst.outfile))
             inst.outfile = inst.outfile + ".bz2"
         elif output_compressed == ".dsrc":  # !!! only for FastQ files
-            logger.info("Compressing output into .dsrc")
+            _log.info("Compressing output into .dsrc")
             inst.shell("dsrc c -t{} {} {}.dsrc".format(
                 inst.threads, inst.outfile, inst.outfile))
             inst.outfile = inst.outfile + ".dsrc"

@@ -21,7 +21,6 @@ import bioconvert
 from bioconvert.core.registry import Registry
 from bioconvert.core.converter import Bioconvert
 
-_log = colorlog.getLogger('bioconvert')
 
 
 class ConvAction(argparse.Action):
@@ -41,10 +40,6 @@ class ConvAction(argparse.Action):
         # the -v --verbosity options may not be parsed yet (if located after -f on command line)
         # So I do it myself
         v_nb = ''.join([opt for opt in sys.argv if opt.startswith("-v")]).count('v')
-        #verbo_nb = sum([1 for opt in sys.argv if opt.startswith('--verb')])
-        #verbosity = v_nb + verbo_nb
-
-        #bioconvert.logger_set_level(max(10, 30 - (10 * verbosity)))
 
         mapper = Registry()
         print("Available mapping:")
@@ -144,7 +139,7 @@ def main(args=None):
     args = arg_parser.parse_args()
 
     # Set the logging level
-    bioconvert.logger_set_level(args.verbosity)
+    bioconvert.logger.level = args.verbosity
 
     # Figure out whether we have several input files or not
     # Are we in batch mode ?
@@ -205,7 +200,7 @@ def analysis(args):
               "for details ".format(conv.name.lower(),conv.name))
         sys.exit(0)
 
-    _log.info("Converting from {} to {}".format(conv.inext, conv.outext))
+    bioconvert.logger.info("Converting from {} to {}".format(conv.inext, conv.outext))
 
     params = {"threads": args.threads}
 
