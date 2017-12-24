@@ -1,21 +1,22 @@
-
+Formats
+==========
 
 BAM format
-================
+---------------
 
 :reference: http://samtools.github.io/hts-specs/SAMv1.pdf
 
 
 
 BED format
-====================
+---------------
 
 :reference: http://genome.ucsc.edu/FAQ/FAQformat.html#format1
 
 BED file must has at least 3 columns (chrom, start, end).
 
 Wiggle Track format (WIG)
-============================
+---------------
 
 :reference: http://genome.ucsc.edu/goldenPath/help/wiggle.html
 
