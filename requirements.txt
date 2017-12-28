@@ -6,3 +6,4 @@ mappy
 matplotlib
 pyyaml
 pysam
+scipy
