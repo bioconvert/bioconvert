@@ -15,7 +15,6 @@
 from collections import defaultdict
 from itertools import chain
 from pandas import np
-from scipy.stats.mstats import gmean
 from easydev import Timer, Progress
 import pylab
 
@@ -24,6 +23,22 @@ _log = colorlog.getLogger(__name__)
 
 
 __all__ = ["Benchmark", "BenchmarkMulticonvert"]
+
+def gmean(a, axis=0, dtype=None):
+    # A copy/paste of scipy.stats.mstats.gmean function to 
+    # avoid the scipy dependency
+    if not isinstance(a, np.ndarray):
+        # if not an ndarray object attempt to convert it
+        log_a = np.log(np.array(a, dtype=dtype))
+    elif dtype:
+        # Must change the default dtype allowing array type
+        if isinstance(a, np.ma.MaskedArray):
+            log_a = np.log(np.ma.asarray(a, dtype=dtype))
+        else:
+            log_a = np.log(np.asarray(a, dtype=dtype))
+    else:
+        log_a = np.log(a)
+    return np.exp(log_a.mean(axis=axis))
 
 
 class Benchmark():
