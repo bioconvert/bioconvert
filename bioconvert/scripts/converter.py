@@ -51,7 +51,7 @@ class ConvAction(argparse.Action):
 def main(args=None):
 
     if args is None:
-        args = sys.argv[:]
+        args = sys.argv[1:]
 
     from easydev.console import purple, underline
     if "-v" in args or "--verbosity" in args:
@@ -136,7 +136,7 @@ def main(args=None):
                             help="Number of trials for each methods")
 
 
-    args = arg_parser.parse_args()
+    args = arg_parser.parse_args(args)
 
     # Set the logging level
     bioconvert.logger.level = args.verbosity
