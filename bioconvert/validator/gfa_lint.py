@@ -2,6 +2,7 @@ import colorlog
 _log = colorlog.getLogger(__name__)
 
 
+__all__ = ['GFALint']
 
 
 class GFALint(object):
