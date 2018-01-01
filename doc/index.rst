@@ -81,6 +81,7 @@ User and Developer Guides
     auto_examples/index
     references
     formats
+    not_provided
     faqs
     glossary
     ChangeLog.rst
