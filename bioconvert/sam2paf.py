@@ -223,7 +223,7 @@ class SAM2PAF(ConvBase):
                                         " CIGAR operations"))
 
                     if (tl + int(t[3]) - 1 > tlen):
-                        logger.warning(prefix_msg.format("alignment end " 
+                        logger.warning(prefix_msg.format("alignment end "
                             "position larger than ref length; skipped"))
                         continue
 
