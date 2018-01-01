@@ -2,13 +2,21 @@ Whats' new, what has changed
 ================================
 
 
+:Revision 0.0.10
+
+    - added samlint validator
+
+:Revision 0.0.9:
+
+    - added sam2paf
+
 :Revision 0.0.8:
 
     - added compressor decorator
     - update bioconvert main script with several options 
     - new converters: dsrc2gz, bam2bigwig draft
     - provided squizz on bioconda and added as dependencies
-    
+    - added paflint validator
 
 :Revision 0.0.7:
 
