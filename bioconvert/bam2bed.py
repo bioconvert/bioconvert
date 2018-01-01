@@ -43,6 +43,9 @@ class BAM2BED(ConvBase):
         chr1    5   0
 
     that is contig name, position, coverage
+
+    .. warning:: the BED file must be sorted. This can be achieved with
+        bamtools.
     """
     input_ext = ['.bam']
     output_ext = '.bed'
