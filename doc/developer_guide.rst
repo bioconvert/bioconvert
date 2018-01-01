@@ -111,8 +111,8 @@ been defined in ``bioconvert/core/compressor.py`` that can be used to "flag" or
 (For more general explanations about decorators, see
 https://stackoverflow.com/a/1594484/1878788.)
 
-How to add a test
------------------------
+How to add a test and test file
+-----------------------------------
 
 Go to  ./test and add a file named ``test_fastq2fasta.py``
 
@@ -129,6 +129,15 @@ Go to  ./test and add a file named ``test_fastq2fasta.py``
         # you can then use ::
         from bioconvert import bioconvert_data
         bioconvert_data("mydata")
+
+
+Files used for testing should be added in
+./bioconvert/data/testing/converter_name. For instance test files for the
+sam2paf converter should be added.
+
+bioconvert/data/testing/sam2paf directory where you should have the test files,
+a __init__.py file, a README.rst file; The latter should contain the name of the
+test files and a short description.
 
 
 How to locally run the tests
