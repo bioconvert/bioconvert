@@ -2,7 +2,7 @@ Whats' new, what has changed
 ================================
 
 
-:Revision 0.0.10
+:Revision 0.0.10:
 
     - added samlint validator
 

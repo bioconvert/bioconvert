@@ -156,6 +156,74 @@ insertions and deletions in the alignment. If alignment is not available, column
 A PAF file may optionally contain SAM-like typed key-value pairs at the end of
 each line.
 
+PLINK flat files (MAP/PED)
+-------------------------------
+
+PLINK is a used application for analyzing genotypic data. It can be considered  the de-facto standard of the field. The MAP files describes the SNPs and contains those fields:
+
+- chromosome number (integer)
+- SNP marker ID (string)
+- SNP generit position (cM) (float)
+- SNP physical position (bp)
+
+So it contains L lines with 4 columns. All SNPs must be ordered by physical
+position. Example::
+
+    X rs3883674 0 32380
+    X rs12218882 0 48172
+    9 rs10904045 0 48426
+    9 rs10751931 0 49949
+
+The PED (pedigree) file describes the individuals and the genetic data. The PED
+file can be spaced or tab delimited. Each line corresponds to a single
+individual. The first 6 columns are:
+
+- family ID (or pedigree name): a unique alpha numeric identifier 
+- individual ID: should be unique within his family
+- father ID: 0 if unknown. If specified, must also appear as an individual in
+the file
+- mother ID: same as above
+- Sex: 1 Male, 2 Female
+- Phenotype
+
+- columns 7 and 8 code for the observed alleles at SNP1
+- comumns 9 and 10 code for the observed alleles at SNP2 and so on
+
+missing data are coded as "0 0". So we havez N lines 2L + 6 columns where N is
+the number of individuals and L the numbers of SNPs
+
+PLINK binary files (BED/BIM/FAM)
+-------------------------------------
+Same information as plink flat files. 
+
+BED for plink
+~~~~~~~~~~~~~~
+This BED format  is the binary PED file. Not to be confused with BED format used
+with BAM files.
+
+BIM files
+~~~~~~~~~~~~~~~~~~~~
+
+The fields are 
+
+- chromosome number (integer)
+- SNP marker ID (string)
+- SNP generit position (cM) (float)
+- SNP physical position (bp)
+- Allele 1
+- Allele 2
+
+So, it is like the MAP with the 2 alleles, and the format is binary.
+
+FAM files
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The first 6 columns of the PED file.
+
+
+
+
+
 
 SAM format
 -------------
