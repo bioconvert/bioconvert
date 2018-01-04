@@ -19,14 +19,15 @@ mpl.rcParams['figure.dpi']= 250
 
 ############################################################
 # In order to create the following image, you need graphviz
-# and pygraphviz. 
+# and pygraphviz.
 # If you cannot install those packages, you may use a singularity
-# image like in the following exmaple by setting the use_singularity
-# parameter to True. 
+# image like in the following example by setting the use_singularity
+# parameter to True. This would work under Linux. Not tested on other systems
+# yet.
 create_graph("conversion.png", use_singularity=True)
 
 #####################################################
-#  
+#
 from pylab import imshow, imread, xticks, yticks, gca
 imshow(imread("conversion.png"), interpolation="nearest")
 xticks([])

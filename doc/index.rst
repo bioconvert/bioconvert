@@ -37,7 +37,7 @@ syntax and converting those formats may be a challenge. **bioconvert** aims at p
 Many convertion tools already exist but they may be dispersed, focused on few
 specific formats, difficult to install, or not optimised. With **bioconvert**, we plan to
 cover a wide spectrum of format convertions; we will re-use existing tools if
-possible and provide facilities to compare different conversion tools or methods via :ref:`benchmarking <benchmaring>`_. New implementations are provided when considered better than existing ones.
+possible and provide facilities to compare different conversion tools or methods via `benchmarking <benchmarking>`_. New implementations are provided when considered better than existing ones.
 
 Installation
 ###############
@@ -48,8 +48,7 @@ In order to install bioconvert, you can use **pip**::
 
 This command installs bioconvert and its Python dependencies. Note, however,
 that bioconvert may need extra non-Python dependencies as indicated in this
-file :download:`https://raw.githubusercontent.com/biokit/bioconvert/master/requirements_tools.txt`
-
+`requirements file <https://raw.githubusercontent.com/biokit/bioconvert/master/requirements_tools.txt>`_.
 
 Since Jan 2018 we also provide some versions on bioconda. If you already have
 bioconda setup on your system, just type::
