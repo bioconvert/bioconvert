@@ -1,6 +1,6 @@
 """
 Available methods per converter
-====================
+=====================================
 
 Plot number of implemented methods per converter.
 
