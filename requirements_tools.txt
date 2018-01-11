@@ -10,3 +10,4 @@ sambamba
 samtools
 seqtk
 squizz
+go
