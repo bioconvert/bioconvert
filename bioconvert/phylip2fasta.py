@@ -2,7 +2,7 @@ import os
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name, check_tool, check_install
+from bioconvert import ConvBase, generate_outfile_name, check_tool, install_tool
 
 _log = colorlog.getLogger(__name__)
 
