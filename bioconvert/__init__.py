@@ -13,6 +13,12 @@ import colorlog
 from easydev import CustomConfig
 configuration = CustomConfig("bioconvert", verbose=True)
 
+if 'TRAVIS_PYTHON_VERSION' in os.environ:
+    os.environ["GOPATH"]= os.environ["HOME"]+"/go"
+if 'GOPATH' not in os.environ:
+    os.environ["GOPATH"] = os.environ["HOME"]+"/go"
+    
+os.environ["PATH"] = os.environ["GOPATH"]+"/bin/:"+os.environ["PATH"]
 
 try:
     from easydev.logging_tools import Logging
@@ -61,7 +67,6 @@ def generate_outfile_name(infile, out_extension):
     :rtype: str
     """
     return '{}.{}'.format(os.path.splitext(infile)[0], out_extension)
-
 
 import bioconvert
 from bioconvert.core.base import ConvBase

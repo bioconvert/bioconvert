@@ -3,7 +3,7 @@ import pytest
 from easydev import TempFile, md5
 
 from bioconvert import bioconvert_data
-from bioconvert.fasta2phylip import FASTA2PHYLIP
+from bioconvert.phyloxml2nexus import PHYLOXML2NEXUS
 import pytest
 
 
@@ -12,15 +12,13 @@ skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
 
 
 @skiptravis
-@pytest.mark.parametrize("method", FASTA2PHYLIP.available_methods)
-def test_fa2phy_biopython(method):
-    infile = bioconvert_data("biopython.fasta")
-    outfile = bioconvert_data("biopython.phylip")
-    with TempFile(suffix=".phylip") as tempfile:
-        converter = FASTA2PHYLIP(infile, tempfile.name)
-        converter(method='biopython')
+@pytest.mark.parametrize("method", PHYLOXML2NEXUS.available_methods)
+def test_xml2nx_biopython(method):
+    infile = bioconvert_data("gotree.xml")
+    outfile = bioconvert_data("gotree.nx")
+    with TempFile(suffix=".nx") as tempfile:
+        converter = PHYLOXML2NEXUS(infile, tempfile.name)
+        converter(method='gotree')
 
         # Check that the output is correct with a checksum
         assert md5(tempfile.name) == md5(outfile)
-
-

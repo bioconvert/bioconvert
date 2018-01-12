@@ -71,7 +71,7 @@ setup(
     exclude_package_data={"": ["__pycache__"]},
 
     package_data={
-        '': ['*.csv'],
+        '': ['*.csv','*.sh'],
         'bioconvert.data': ['*'],
         },
 
