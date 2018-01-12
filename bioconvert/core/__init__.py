@@ -11,10 +11,11 @@ extensions = {
     'embl': ['embl'],
     'fasta': ["fasta", "fa", "fst"],            # sequence
     'fastq': ["fasta", "fq"],                   # sequence
-    'genbank': ['genbank', 'gbk'],              # 
+    'genbank': ['genbank', 'gbk', "gb"],        # 
     'newick': ["newick", "nw", "nhx", "nwk"],   # phylo
     'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo
     'phylip': ['phy', 'ph', 'phylip'],          # phylo
+    'phyloxml': ['phyloxml', 'xml'],            # phylo
     'stockholm': ['sto', 'sth', 'stockholm'],   # alignment
     }
 

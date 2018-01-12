@@ -1,5 +1,3 @@
-
-
 # -*- coding: utf-8 -*-
 ##############################################################################
 #  This file is part of Bioconvert software
@@ -16,22 +14,22 @@
 
 from bioconvert import ConvBase, extensions
 
-__all__ = ["GENBANK2FASTA"]
+__all__ = ["FASTA2GENBANK"]
 
 
-class GENBANK2FASTA(ConvBase):
-    """Convert :term:`GENBANK` file to :term:`FASTA` file"""
-    input_ext = extensions.genbank
-    output_ext = extensions.fasta
+class FASTA2GENBANK(ConvBase):
+    """Convert :term:`FASTA` file to :term:`GENBANK` file"""
+    input_ext = extensions.fasta
+    output_ext = extensions.genbank
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile: input GENBANK file
-        :param str outfile: output EMBL filename
+        :param str infile: input FASTA file
+        :param str outfile: output GENBANK filename
 
         """
-        super(GENBANK2FASTA, self).__init__(infile, outfile, *args, **kargs)
+        super(FASTA2GENBANK, self).__init__(infile, outfile, *args, **kargs)
 
         # squizz works as welll but keeps lower cases while biopython uses upper
         # cases
@@ -39,9 +37,11 @@ class GENBANK2FASTA(ConvBase):
 
     def _method_squizz(self, *args, **kwargs):
         """Header is less informative than the one obtained with biopython"""
-        cmd = "squizz {} -f genbank -c fasta > {} ".format(self.infile, self.outfile)
+        cmd = "squizz {} -f fasta -c genbank > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     def _method_biopython(self, *args, **kwargs):
-        from Bio import SeqIO
-        SeqIO.convert(self.infile, "genbank", self.outfile, "fasta")
+        print("Using DNA alphabet for now")
+        from Bio import SeqIO, Alphabet
+        SeqIO.convert(self.infile, "fasta", self.outfile, "genbank",
+            alphabet=Alphabet.generic_dna)

@@ -17,7 +17,7 @@ import os
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name
+from bioconvert import ConvBase, extensions
 
 _log = colorlog.getLogger(__name__)
 
@@ -29,9 +29,8 @@ class PHYLOXML2NEWICK(ConvBase):
     """
     Converts a tree file from :term:`PHYLOXML` format to :term:`NEWICK` format. ::
     """
-
-    input_ext = ['phyloxml', 'xml']
-    output_ext = ['nw', 'newick','nhx']
+    input_ext = extensions.phyloxml
+    output_ext = extensions.newick 
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -39,8 +38,6 @@ class PHYLOXML2NEWICK(ConvBase):
         :param str infile: input :term:`PHYLOXML` file.
         :param str outfile: (optional) output :term:`NEWICK` file
         """
-        if not outfile:
-            outfile = generate_outfile_name(infile, 'newick')
         super().__init__(infile, outfile)
         self.alphabet = alphabet
         self._default_method = 'gotree'

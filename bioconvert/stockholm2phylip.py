@@ -43,8 +43,6 @@ class STOCKHOLM2PHYLIP(ConvBase):
         :param str infile: input :term:`STOCKHOLM` file.
         :param str outfile: (optional) output :term:`FASTA` file
         """
-        if not outfile:
-            outfile = generate_outfile_name(infile, 'phylip')
         super().__init__(infile, outfile)
         self.alphabet = alphabet
         self._default_method = 'biopython'

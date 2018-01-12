@@ -205,7 +205,7 @@ def analysis(args):
     params = {"threads": args.threads}
 
 
-    if args.benchmark: 
+    if args.benchmark:
         conv.boxplot_benchmark(N=args.benchmark_N)
         import pylab
         pylab.savefig("benchmark_{}.png".format(conv.name))

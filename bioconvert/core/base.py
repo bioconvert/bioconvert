@@ -32,6 +32,7 @@ _log = colorlog.getLogger(__name__)
 
 from bioconvert.core.benchmark import Benchmark
 from bioconvert import logger
+from bioconvert import generate_outfile_name
 
 
 class ConvMeta(abc.ABCMeta):
@@ -173,6 +174,11 @@ class ConvBase(metaclass=ConvMeta):
             _log.error(msg)
             raise ValueError(msg)
 
+        if not outfile:
+            outfile = generate_outfile_name(infile, self.output_ext[0])
+
+
+
         self.infile = infile
         self.outfile = outfile
         self.threads = cpu_count()
@@ -204,7 +210,7 @@ class ConvBase(metaclass=ConvMeta):
         # "dummy" is a method used to evaluate the cost of the
         # execute() method for the benchmark
         if method_name not in self.available_methods + ['dummy']:
-            msg = "Method available are {}".format(self.available_methods)
+            msg = "Methods available are {}".format(self.available_methods)
             _log.error(msg)
             raise ValueError(msg)
 

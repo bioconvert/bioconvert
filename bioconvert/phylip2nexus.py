@@ -17,7 +17,7 @@ import os
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name
+from bioconvert import ConvBase, extensions
 
 _log = colorlog.getLogger(__name__)
 
@@ -29,9 +29,8 @@ class PHYLIP2NEXUS(ConvBase):
     """
     Converts a sequence alignment from :term:`PHYLIP` format to :term:`NEXUS` format. ::
     """
-
-    input_ext = ['phylip', 'phy']
-    output_ext = ['nexus', 'nx']
+    input_ext = extensions.phylip
+    output_ext = extensions.nexus
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -39,12 +38,9 @@ class PHYLIP2NEXUS(ConvBase):
         :param str infile: input :term:`PHYLIP` file.
         :param str outfile: (optional) output :term:`NEXUS` file
         """
-        if not outfile:
-            outfile = generate_outfile_name(infile, 'nexus')
         super().__init__(infile, outfile)
         self.alphabet = alphabet
         self._default_method = 'goalign'
-
 
     def _method_goalign(self, threads=None, *args, **kwargs):
         """

@@ -33,7 +33,7 @@ class NEWICK2NEXUS(ConvBase):
     input_ext = ['nw', 'newick','nhx']
     output_ext = ['nexus', 'nx']
 
-    def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
+    def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
 
         :param str infile: input :term:`NEWICK` file.
@@ -42,7 +42,6 @@ class NEWICK2NEXUS(ConvBase):
         if not outfile:
             outfile = generate_outfile_name(infile, 'nexus')
         super().__init__(infile, outfile)
-        self.alphabet = alphabet
         self._default_method = 'gotree'
 
     def _method_gotree(self, threads=None, *args, **kwargs):
