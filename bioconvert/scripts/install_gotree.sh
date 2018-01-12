@@ -1,4 +1,4 @@
-[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT=$(which conda)/../go && unset GOPATH
+[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT=$(dirname $(which conda))/../go && unset GOPATH
 [ -z "$GOPATH" ] && GOPATH="$HOME/go/"
 PATH=$GOPATH/bin:$GOROOT:$PATH
 go get -u github.com/golang/dep/cmd/dep
