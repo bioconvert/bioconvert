@@ -29,9 +29,3 @@ def test_nx2nw_biopython(method):
             assert md5(tempfile.name) == md5sum
 
 
-
-test_nx2nw_biopython("biopython")
-
-print("----------")
-test_nx2nw_biopython("gotree")
-
