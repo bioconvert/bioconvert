@@ -91,7 +91,7 @@ def main(args=None):
             default=None,
             help="The path where the result will be stored.")
 
-    arg_parser.add_argument("-f", "--formats",
+    arg_parser.add_argument("-F", "--formats",
                             action=ConvAction,
                             default=False,
                             help="Display available formats and exit.")
@@ -116,7 +116,7 @@ def main(args=None):
                             default=None,
                             help="A converter may have several methods")
 
-    arg_parser.add_argument("-F", "--force",
+    arg_parser.add_argument("-f", "--force",
                             action="store_true",
                             help="if outfile exists, it is overwritten with this option")
 
