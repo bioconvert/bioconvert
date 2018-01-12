@@ -53,6 +53,11 @@ def main(args=None):
     if args is None:
         args = sys.argv[1:]
 
+    if "--version" in args:
+        print("Bioconvert version {}".format(bioconvert.version))
+        sys.exit(0)
+
+
     from easydev.console import purple, underline
     if "-v" in args or "--verbosity" in args:
         print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
@@ -135,11 +140,11 @@ def main(args=None):
                             type=int,
                             help="Number of trials for each methods")
 
-
     args = arg_parser.parse_args(args)
 
     # Set the logging level
     bioconvert.logger.level = args.verbosity
+
 
     # Figure out whether we have several input files or not
     # Are we in batch mode ?
