@@ -8,35 +8,27 @@ extensions = {
     'abi': ["abi", "ab1"],                      # sequence
     'cdao': ["cdao"],                           # phylo
     'clustal':["clustal", "aln", "clw"],        # phylo
+    'embl': ['embl'],
+    'fasta': ["fasta", "fa", "fst"],            # sequence
     'fastq': ["fasta", "fq"],                   # sequence
+    'genbank': ['genbank', 'gbk'],              # 
     'newick': ["newick", "nw", "nhx", "nwk"],   # phylo
     'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo
     'phylip': ['phy', 'ph', 'phylip'],          # phylo
     'stockholm': ['sto', 'sth', 'stockholm'],   # alignment
-
     }
 
 extensions = AttrDict(**extensions)
 
 
-# nexml   *.xml   
-# phyloxml    *.xml  
+# nexml   *.xml
+# phyloxml    *.xml
 
 """
 ace     *.ace   1.47    No  1.52    Reads the contig sequences from an ACE assembly file. Uses Bio.Sequencing.Ace internally   
 clustal     *.aln   1.43    1.43    No  The alignment format of Clustal X and
 Clustal W.  CLUSTAL format is recognised by the word CLUSTAL at the beginning of
 the file.
-
-embl    Unspecified (*.txt)     1.43    1.54    1.52    The EMBL flat file
-format. Uses Bio.GenBank internally.    
-fasta   *.fasta, *.fas, *.fa, *.seq, *.fsa, *.fna, *.ffn, *.faa, *.frn  1.43
-1.43    1.52    This refers to the input FASTA file format introduced for Bill
-Pearson's FASTA tool, where each record starts with a ">" line. Resulting
-sequences have a generic alphabet by default.   There is no standard file
-extension for a text file containing FASTA formatted sequences. Although their
-is a plethora of ad-hoc file extensions. See this article for details and
-explanation.
 
 fastq-solexa    *.fq, *.fastq   1.50    1.50    1.52    FASTQ files are a bit
 like FASTA files but also include sequencing qualities. In
@@ -55,12 +47,6 @@ equal, so the "fastq-solexa" and "fastq-illumina" variants are almost
 equivalent.     There is no standard file extension for a FASTQ file, but .fq
 and .fastq, are commonly used. There are different FASTQ formats for different
 sequencing technologies.
-
-genbank or gb   *.gbk, *.gb, *.gpff     1.43    1.48 / 1.51     1.52    The
-GenBank or GenPept flat file format. Uses Bio.GenBank internally for parsing.
-Biopython 1.48 to 1.50 wrote basic GenBank files with only minimal annotation,
-while 1.51 onwards will also write the features table (see Bug 2294).   See this
-article.
 
 ig  Unspecified (*.txt)     1.47    No  1.52    This refers to the
 IntelliGenetics file format, apparently the same as the MASE alignment format.  
