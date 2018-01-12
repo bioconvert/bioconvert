@@ -1,10 +1,29 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+"""PHYLIP2FASTA convertion"""
 import os
+
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase, generate_outfile_name, check_tool, install_tool
 
 _log = colorlog.getLogger(__name__)
+
+
+__all__ = ['PHYLIP2FASTA']
+
 
 class PHYLIP2FASTA(ConvBase):
     """Converts a sequence alignment in :term:`PHYLIP` format to :term:`FASTA` format
@@ -33,7 +52,6 @@ class PHYLIP2FASTA(ConvBase):
         count = SeqIO.write(sequences, self.outfile, "fasta")
         _log.debug("Converted %d records to fasta" % count)
 
-
     def _method_squizz(self, threads=None, *args, **kwargs):
         """
         Convert Phylip inteleaved file in fasta format using squizz tool.
@@ -43,7 +61,7 @@ class PHYLIP2FASTA(ConvBase):
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
-        
+
     def _method_goalign(self, threads=None, *args, **kwargs):
         """
         Convert fasta file in Phylip interleaved format using goalign tool.

@@ -69,7 +69,7 @@ def generate_outfile_name(infile, out_extension):
 
 def check_tool(executable):
     """Checks wether the given executable exists and is in the path
-    
+
     :param str executable: name of the executable
     :return: true if the given executable exists and is in the path
     """
@@ -78,7 +78,7 @@ def check_tool(executable):
 def install_tool(executable):
     """Install the given tool, using the script:
     bioconvert/install_script/install_executable.sh
-    
+
     :param executable to install
     :return: nothing
     """
