@@ -1,6 +1,15 @@
 Formats
 ==========
 
+ABI
+----------
+
+The ABI "Sanger" capillary sequence traces files, including the PHRED
+quality scores for the base calls. This allows ABI to FASTQ conversion. Note
+each ABI file contains one and only one sequence (no need for indexing the file).
+
+
+
 ASQG format
 --------------
 
@@ -48,12 +57,31 @@ BED format
 
 BED file must has at least 3 columns (chrom, start, end).
 
+FastA
+----------
+
+This refers to the input FASTA file format where each record starts 
+with a ">" line. Resulting sequences have a generic alphabet by default.   
+There is no standard file extension for a text file containing FASTA formatted sequences. Although
+their is a plethora of ad-hoc file extensions: fasta, fas, fa, seq, fsa, fna, ffn, faa, frn, we use only fasta, fa and fst. 
+
 
 FastG
 ----------
 
 :type: assembly
 :reference: http://fastg.sourceforge.net/FASTG_Spec_v1.00.pdf
+
+
+
+FastQ
+---------------
+
+FASTQ files include sequences and their qualities. In general, *fastq*
+refers to Sanger style FASTQ files which encode PHRED qualities using an
+ASCII offset of 33. See also the incompatible "fastq-solexa" and "fastq-illumina"
+variants used in early Solexa/Illumina pipelines, Illumina pipeline 1.8 produces Sanger FASTQ.
+Be aware that there are different FASTQ formats for different sequencing technologiess
 
 
 
@@ -119,6 +147,12 @@ other assembly and variation graph types.
 
 Like GFA, GFA2 is tab-delimited in that every lexical token is separated from
 the next by a single tab.
+
+Nexus
+-----------
+
+The NEXUS multiple alignment format, also known as PAUP format. 
+
 
 
 PAF (Pairwise mApping Format)
@@ -287,6 +321,14 @@ Smith-Waterman alignment. These two tags may be inconsistent with the CIGAR
 string. This is not a bug
 
 `SA:Z`: Other canonical alignments in a chimeric alignment, in the format of: (rname,pos,strand,CIGAR,mapQ,NM;)+. Each element in the semi-colon delimited list represents a part of the chimeric alignment. Conventionally, at a supplementary line, the first element points to the primary line.
+
+
+Stockholm
+--------------
+
+The Stockholm alignment format is also known as PFAM format.   
+
+
 
 
 
