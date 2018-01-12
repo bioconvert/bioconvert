@@ -14,11 +14,10 @@
 """NEXUS2NEWICK conversion"""
 import os
 
-import colorlog
-from Bio import SeqIO
-
 from bioconvert import ConvBase, generate_outfile_name
+from bioconvert import extensions
 
+import colorlog
 _log = colorlog.getLogger(__name__)
 
 
@@ -29,9 +28,8 @@ class NEXUS2NEWICK(ConvBase):
     """
     Converts a tree file from :term:`NEXUS` format to :term:`NEWICK` format. ::
     """
-
-    output_ext = ['nw', 'newick','nhx']
-    input_ext = ['nexus', 'nx']
+    input_ext = extensions.nexus
+    output_ext = extensions.newick
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -44,6 +42,11 @@ class NEXUS2NEWICK(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
         self._default_method = 'gotree'
+
+    def _method_biopython(self, *args, **kwargs):
+        _log.warning("biopython methods rounds up values (5 digits)")
+        from Bio import Phylo
+        Phylo.convert(self.infile, "nexus", self.outfile, "newick")
 
     def _method_gotree(self, threads=None, *args, **kwargs):
         """
