@@ -1,10 +1,28 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+"""NEXUS2FASTA conversion"""
 import os
+
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name, check_tool, install_tool
+from bioconvert import ConvBase, generate_outfile_name
 
 _log = colorlog.getLogger(__name__)
+
+
+__all__ = ['NEXUS2FASTA']
 
 
 class NEXUS2FASTA(ConvBase):
@@ -35,8 +53,7 @@ class NEXUS2FASTA(ConvBase):
 
         :param threads: not used.
         """
-        if not check_tool('goalign'):
-            install_tool('goalign')
+        self.install_tool('goalign')
         cmd = 'goalign reformat fasta -i {infile} -o {outfile} -x'.format(
             infile=self.infile,
             outfile=self.outfile)

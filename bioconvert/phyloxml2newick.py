@@ -1,10 +1,28 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+"""PHYLOXML2NEWICK conversion"""
 import os
+
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name, check_tool, install_tool
+from bioconvert import ConvBase, generate_outfile_name
 
 _log = colorlog.getLogger(__name__)
+
+
+__all__ = ['PHYLOXML2NEWICK']
 
 
 class PHYLOXML2NEWICK(ConvBase):
@@ -34,8 +52,7 @@ class PHYLOXML2NEWICK(ConvBase):
 
         :param threads: not used.
         """
-        if not check_tool('gotree'):
-            install_tool('gotree')
+        self.install_tool('gotree')
         cmd = 'gotree reformat newick -i {infile} -o {outfile} -f phyloxml'.format(
             infile=self.infile,
             outfile=self.outfile)

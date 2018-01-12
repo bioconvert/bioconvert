@@ -1,10 +1,28 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+"""FASTA2NEXUS conversion"""
 import os
+
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name, check_tool, install_tool
+from bioconvert import ConvBase, generate_outfile_name
 
 _log = colorlog.getLogger(__name__)
+
+
+__all__ = ['FASTA2NEXUS']
 
 
 class FASTA2NEXUS(ConvBase):
@@ -37,8 +55,7 @@ class FASTA2NEXUS(ConvBase):
         The fasta file must be an alignemnt file, yhis mean all the sequences must
         have the same length (with the gap) otherwise an error will be raised
         """
-        if not check_tool('goalign'):
-            install_tool('goalign')
+        self.install_tool('goalign')
         cmd = 'goalign reformat nexus -i {infile} -o {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)

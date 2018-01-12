@@ -11,12 +11,13 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""Fasta to Phylip conversion """
+"""FASTA2PHYLIP conversion """
 import os
+
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name, check_tool, install_tool
+from bioconvert import ConvBase, generate_outfile_name
 
 _log = colorlog.getLogger(__name__)
 
@@ -68,8 +69,7 @@ class FASTA2PHYLIP(ConvBase):
         The fasta file must be an alignemnt file, yhis mean all the sequences must
         have the same length (with the gap) otherwise an error will be raised
         """
-        if not check_tool('goalign'):
-            install_tool('goalign')
+        self.install_tool('goalign')
         cmd = 'goalign reformat phylip -i {infile} -o {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)

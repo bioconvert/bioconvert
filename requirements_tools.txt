@@ -10,4 +10,4 @@ sambamba
 samtools
 seqtk
 squizz
-go
+go=1.9.2

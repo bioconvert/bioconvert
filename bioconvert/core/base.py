@@ -18,6 +18,8 @@ import abc
 import select
 import sys
 import inspect
+import shutil
+import subprocess
 
 from io import StringIO
 from subprocess import Popen, PIPE
@@ -330,4 +332,22 @@ class ConvBase(metaclass=ConvMeta):
             return self.available_methods[0]
         else:
             return self._default_method
+
+    def install_tool(self, executable):
+        """Install the given tool, using the script:
+        bioconvert/install_script/install_executable.sh
+        if the executable is not already present
+        
+        :param executable to install
+        :return: nothing
+        """
+        import bioconvert
+        from bioconvert import bioconvert_data 
+        
+        if shutil.which(executable) is None:
+            logger.info("Installing tool : "+executable)
+            bioconvert_path = bioconvert.__path__[0]
+            script = bioconvert_data('install_'+executable+'.sh', where="../scripts")
+            subprocess.call(['sh',script])
+        
     default = property(_get_default_method)

@@ -6,8 +6,6 @@ except:
     version = __version__
 
 import os
-import shutil
-import subprocess
 import colorlog
 
 # This will create a HOME/.config/bioconvert where files (e.g., executables)
@@ -66,26 +64,6 @@ def generate_outfile_name(infile, out_extension):
     :rtype: str
     """
     return '{}.{}'.format(os.path.splitext(infile)[0], out_extension)
-
-def check_tool(executable):
-    """Checks wether the given executable exists and is in the path
-
-    :param str executable: name of the executable
-    :return: true if the given executable exists and is in the path
-    """
-    return shutil.which(executable) is not None
-
-def install_tool(executable):
-    """Install the given tool, using the script:
-    bioconvert/install_script/install_executable.sh
-
-    :param executable to install
-    :return: nothing
-    """
-    logger.info("Installing tool : "+executable)
-    bioconvert_path = bioconvert.__path__[0]
-    script = bioconvert_data('install_'+executable+'.sh', where="../scripts")
-    subprocess.call(['sh',script])
 
 import bioconvert
 from bioconvert.core.base import ConvBase
