@@ -47,18 +47,6 @@ install:
   - echo $GOPATH
   - which go
 
-  # install squizz which is a dependency but which is not packaged in conda
-  -
-  #- mkdir -p ${HOME}/dependencies/src
-  #- cd ${HOME}/dependencies/src
-  #- wget ftp://ftp.pasteur.fr/pub/gensoft/projects/squizz/squizz-0.99d.tar.gz
-  #- tar -xzf squizz-0.99d.tar.gz
-  #- cd squizz-0.99d
-  #- ./configure --prefix=${HOME}/dependencies/
-  #- make
-  #- make install
-  #- export PATH=${PATH}:${HOME}/dependencies/bin/
-  #- cd ${TRAVIS_BUILD_DIR}
 
 
 # # command to run tests, e.g. python setup.py test
