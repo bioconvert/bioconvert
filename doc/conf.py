@@ -43,7 +43,8 @@ copyright = author + ", 2017"
 project = 'bioconvert'
 
 
-
+import bioconvert
+bioconvert.logger.level = "WARNING"
 
 # -- General configuration -----------------------------------------------------
 
