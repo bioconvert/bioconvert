@@ -1,3 +1,4 @@
+[ -z "$TRAVIS_PYTHON_VERSION" ] || GOPATH=$(which conda)/../go
 [ -z "$GOPATH" ] && GOPATH="$HOME/go/"
 PATH=$GOPATH/bin:$PATH
 go get -u github.com/golang/dep/cmd/dep
