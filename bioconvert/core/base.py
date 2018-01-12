@@ -176,7 +176,7 @@ class ConvBase(metaclass=ConvMeta):
         self.infile = infile
         self.outfile = outfile
         self.threads = cpu_count()
-        self._execute_mode = "subprocess"  # set to shell to call shell() method
+        self._execute_mode = "shell" #"subprocess"  # set to shell to call shell() method
         self.logger = logger
 
     def __call__(self, *args, threads=None, **kwargs):
