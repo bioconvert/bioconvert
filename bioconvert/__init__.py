@@ -17,7 +17,7 @@ if 'TRAVIS_PYTHON_VERSION' in os.environ:
     os.environ["GOPATH"]= os.environ["HOME"]+"/go"
 if 'GOPATH' not in os.environ:
     os.environ["GOPATH"] = os.environ["HOME"]+"/go"
-    
+
 os.environ["PATH"] = os.environ["GOPATH"]+"/bin/:"+os.environ["PATH"]
 
 try:
@@ -70,6 +70,7 @@ def generate_outfile_name(infile, out_extension):
 
 import bioconvert
 from bioconvert.core.base import ConvBase
+from bioconvert.core import extensions
 from bioconvert.core.benchmark import Benchmark, BenchmarkMulticonvert
 from bioconvert.core.converter import Bioconvert
 from bioconvert.core.shell import shell
