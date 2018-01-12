@@ -3,7 +3,7 @@ import pytest
 from easydev import TempFile, md5
 
 from bioconvert import bioconvert_data
-from bioconvert.fasta2phylip import FASTA2PHYLIP
+from bioconvert.phylip2fasta import PHYLIP2FASTA
 import pytest
 
 
@@ -12,12 +12,12 @@ skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
 
 
 @skiptravis
-@pytest.mark.parametrize("method", FASTA2PHYLIP.available_methods)
+@pytest.mark.parametrize("method", PHYLIP2FASTA.available_methods)
 def test_fa2phy_biopython(method):
-    infile = bioconvert_data("biopython.fasta")
-    outfile = bioconvert_data("biopython.phylip")
+    infile = bioconvert_data("biopython.phylip")
+    outfile = bioconvert_data("biopython.fasta")
     with TempFile(suffix=".phylip") as tempfile:
-        converter = FASTA2PHYLIP(infile, tempfile.name)
+        converter = PHYLIP2FASTA(infile, tempfile.name)
         converter(method='biopython')
 
         # Check that the output is correct with a checksum
