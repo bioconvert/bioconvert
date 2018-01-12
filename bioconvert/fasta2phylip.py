@@ -1,3 +1,17 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+"""Fasta to Phylip conversion """
 import os
 import colorlog
 from Bio import SeqIO
@@ -7,13 +21,15 @@ from bioconvert import ConvBase, generate_outfile_name, check_tool, install_tool
 _log = colorlog.getLogger(__name__)
 
 
+__all__ = ["FASTA2PHYLIP"]
+
+
 class FASTA2PHYLIP(ConvBase):
     """Converts a sequence alignment in :term:`FASTA` format to :term:`PHYLIP` format
 
     Conversion is based on Bio Python modules
 
     """
-
     input_ext = ['fa', 'fst', 'fasta', 'fn']
     output_ext = ['phylip', 'phy']
 
@@ -33,7 +49,6 @@ class FASTA2PHYLIP(ConvBase):
         sequences = list(SeqIO.parse(self.infile, "fasta", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "phylip")
         _log.debug("Converted %d records to phylip" % count)
-
 
     def _method_squizz(self, threads=None, *args, **kwargs):
         """
