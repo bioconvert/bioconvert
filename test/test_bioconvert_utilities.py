@@ -1,7 +1,8 @@
 import os
 import pytest
 import bioconvert
-from bioconvert import generate_outfile_name, bioconvert_data
+from bioconvert import bioconvert_data
+from bioconvert.core.utils import generate_outfile_name
 
 
 def test_bioconvert_data():

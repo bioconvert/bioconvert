@@ -3,7 +3,7 @@ import pytest
 from easydev import TempFile, md5
 
 from bioconvert import bioconvert_data
-from bioconvert.phylip2clustal import PHYLIP2CLUSTAL
+from bioconvert.stockholm2clustal import STOCKHOLM2CLUSTAL
 
 skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
                                 and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
@@ -11,11 +11,11 @@ skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
 
 
 @skiptravis
-def test_phylip2clustal_biopython():
-    infile = bioconvert_data("biopython.phylip")
+def test_stockholm2clustal_biopython():
+    infile = bioconvert_data("biopython.stockholm")
     outfile = bioconvert_data("biopython.clustal")
-    with TempFile(suffix=".fasta") as tempfile:
-        converter = PHYLIP2CLUSTAL(infile, tempfile.name)
+    with TempFile(suffix=".clustal") as tempfile:
+        converter = STOCKHOLM2CLUSTAL(infile, tempfile.name)
         converter(method='biopython')
 
         # Check that the output is correct with a checksum
@@ -23,11 +23,11 @@ def test_phylip2clustal_biopython():
 
 
 @skiptravis
-def test_phylip2clustal_squizz():
-    infile = bioconvert_data("squizz.phylip")
+def test_stockholm2clustal_squizz():
+    infile = bioconvert_data("squizz.stockholm")
     outfile = bioconvert_data("squizz.clustal")
     with TempFile(suffix=".clustal") as tempfile:
-        converter = PHYLIP2CLUSTAL(infile, tempfile.name)
+        converter = STOCKHOLM2CLUSTAL(infile, tempfile.name)
         converter(method='squizz')
 
         # Check that the output is correct with a checksum
