@@ -353,7 +353,7 @@ class ConvBase(metaclass=ConvMeta):
         if shutil.which(executable) is None:
             logger.info("Installing tool : "+executable)
             bioconvert_path = bioconvert.__path__[0]
-            script = bioconvert_data('install_'+executable+'.sh', where="../scripts")
+            script = bioconvert_data('install_'+executable+'.sh', where="../misc")
             subprocess.call(['sh',script])
 
     default = property(_get_default_method)
