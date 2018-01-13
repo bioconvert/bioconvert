@@ -1,5 +1,18 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
 """Convert :term:`BAM` format to :term:`BED` formats"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
 import colorlog
 
 _log = colorlog.getLogger(__name__)
@@ -47,8 +60,8 @@ class BAM2BED(ConvBase):
     .. warning:: the BED file must be sorted. This can be achieved with
         bamtools.
     """
-    input_ext = ['.bam']
-    output_ext = '.bed'
+    input_ext = extensions.bam
+    output_ext = extensions.bed
 
     def __init__(self, infile, outfile):
         """

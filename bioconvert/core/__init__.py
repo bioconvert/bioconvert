@@ -6,6 +6,8 @@ from easydev import AttrDict
 
 extensions = {
     'abi': ["abi", "ab1"],                      # sequence
+    'bam': ["bam"],
+    'bed': ["bed"],
     'cdao': ["cdao"],                           # phylo
     'clustal':["clustal", "aln", "clw"],        # phylo
     'embl': ['embl'],
