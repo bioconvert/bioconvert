@@ -2,11 +2,12 @@ Whats' new, what has changed
 ================================
 
 :Revision 0.0.11:
-     
-     - add abiliy to use go executables (add go to the requirements) 
+
+     - add abiliy to use go executables (add go to the requirements)
      - added converters: fasta2nexux, newick2nexus, newick2phyloxml,
        nexus2fasta, nexus2newick, nexus2phylip, nexus2phyloxml, phylip2nexus,
-       phyloxml2newick, phyloxml2nexus, genbank2embl, genbank2fasta
+       phyloxml2newick, phyloxml2nexus, genbank2embl, genbank2fasta,
+       stockholm2clustal and clustal2phylip
 
 :Revision 0.0.10:
 

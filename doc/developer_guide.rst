@@ -60,6 +60,29 @@ Of course, you will need to edit the file to add the conversion itself in the
 appropriate method (e.g. _method_gz).
 
 
+How to add a new method
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As shown above, use this coding::
+
+    def _method_YOUuniqueMETHODname(self, *args, **kwargs):
+        # from kwargs, you can use any kind of arguments.
+        # threads is an example, reference, another example.
+        Your code here
+
+Then, it will be available in the class and bioconvert standalone !
+
+Would you need a tool, there are different options:
+
+- if the code is pure Python, just write it.
+- if the code is in Python and rely on a third-party library, two options:
+  - if the library is on pypi and is simple, add it to requirements.txt
+  - if the libary is not Python and requires lots of compilation, add it to
+requirements_tools.txt
+- if the code is not on pypi on bioconda (e.g., GO code), use the
+self.install_tool(NAME) and add a script in ./scripts/install_NAME.sh
+
+
 Method decorators
 ~~~~~~~~~~~~~~~~~
 
@@ -157,7 +180,6 @@ Or, to run a specific test file, for example for your new convertor fastq2fasta:
     pytest test/test_fastq2fasta.py -v
 
 
-
 How to benchmark your new method vs others
 --------------------------------------------------
 
@@ -169,6 +191,7 @@ How to benchmark your new method vs others
     b = Benchmark(converter)
     b.plot()
 
+you can also use the **bioconvert** standalone with -b option.
 
 
 How to add you new converter to the main documentation ?
