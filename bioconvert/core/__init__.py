@@ -10,7 +10,7 @@ extensions = {
     'clustal':["clustal", "aln", "clw"],        # phylo
     'embl': ['embl'],
     'fasta': ["fasta", "fa", "fst"],            # sequence
-    'fastq': ["fasta", "fq"],                   # sequence
+    'fastq': ["fastq", "fq"],                   # sequence
     'genbank': ['genbank', 'gbk', "gb"],        # 
     'newick': ["newick", "nw", "nhx", "nwk"],   # phylo
     'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo
