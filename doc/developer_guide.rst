@@ -72,15 +72,17 @@ As shown above, use this coding::
 
 Then, it will be available in the class and bioconvert standalone !
 
-Would you need a tool, there are different options:
+The code that you will add may be of different kind:
 
-- if the code is pure Python, just write it.
-- if the code is in Python and rely on a third-party library, two options:
-  - if the library is on pypi and is simple, add it to requirements.txt
-  - if the libary is not Python and requires lots of compilation, add it to
-requirements_tools.txt
-- if the code is not on pypi on bioconda (e.g., GO code), use the
+- pure Python: just write it.
+- Python code but relying on third-party library, two options:
+
+  - if the Python library is on pypi and is simple, add it to requirements.txt
+  - if the Python library requires lots of compilation, add it to requirements_tools.txt (assuming it is on bioconda).
+- if the code is not on pypi or bioconda (e.g., GO code), use the
 self.install_tool(NAME) and add a script in ./scripts/install_NAME.sh
+
+
 
 
 Method decorators
