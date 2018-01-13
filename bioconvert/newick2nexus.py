@@ -17,7 +17,7 @@ import os
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name
+from bioconvert import ConvBase, generate_outfile_name, extensions
 
 _log = colorlog.getLogger(__name__)
 
@@ -30,8 +30,8 @@ class NEWICK2NEXUS(ConvBase):
     Converts a tree file from :term:`NEWICK` format to :term:`NEXUS` format. ::
     """
 
-    input_ext = ['nw', 'newick','nhx']
-    output_ext = ['nexus', 'nx']
+    input_ext = extensions.newick
+    output_ext = extensions.nexus
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor

@@ -17,7 +17,7 @@ import os
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name
+from bioconvert import ConvBase, generate_outfile_name, extensions
 
 _log = colorlog.getLogger(__name__)
 
@@ -32,8 +32,8 @@ class FASTA2NEXUS(ConvBase):
 
     """
 
-    input_ext = ['fa', 'fst', 'fasta', 'fn']
-    output_ext = ['nexus', 'nx']
+    input_ext = extensions.fasta
+    output_ext = extensions.nexus
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor

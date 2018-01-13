@@ -17,7 +17,7 @@ import os
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name
+from bioconvert import ConvBase, generate_outfile_name, extensions
 
 _log = colorlog.getLogger(__name__)
 
@@ -31,8 +31,8 @@ class FASTA2PHYLIP(ConvBase):
     Conversion is based on Bio Python modules
 
     """
-    input_ext = ['fa', 'fst', 'fasta', 'fn']
-    output_ext = ['phylip', 'phy']
+    input_ext = extensions.fasta
+    output_ext = extensions.phylip
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
