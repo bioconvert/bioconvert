@@ -80,7 +80,7 @@ The code that you will add may be of different kind:
   - if the Python library is on pypi and is simple, add it to requirements.txt
   - if the Python library requires lots of compilation, add it to requirements_tools.txt (assuming it is on bioconda).
 - if the code is not on pypi or bioconda (e.g., GO code), use the
-self.install_tool(NAME) and add a script in ./scripts/install_NAME.sh
+self.install_tool(NAME) and add a script in ./misc/install_NAME.sh
 
 
 
