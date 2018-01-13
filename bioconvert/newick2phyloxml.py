@@ -17,7 +17,7 @@ import os
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name, extensions
+from bioconvert import ConvBase, extensions
 
 _log = colorlog.getLogger(__name__)
 
@@ -29,7 +29,6 @@ class NEWICK2PHYLOXML(ConvBase):
     """
     Converts a tree file from :term:`NEWICK` format to :term:`PHYLOXML` format. ::
     """
-
     input_ext = extensions.newick
     output_ext = extensions.phyloxml
 
@@ -39,8 +38,6 @@ class NEWICK2PHYLOXML(ConvBase):
         :param str infile: input :term:`NEWICK` file.
         :param str outfile: (optional) output :term:`PHYLOXML` file
         """
-        if not outfile:
-            outfile = generate_outfile_name(infile, 'phyloxml')
         super().__init__(infile, outfile)
         self.alphabet = alphabet
         self._default_method = 'gotree'

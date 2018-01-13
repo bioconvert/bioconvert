@@ -31,8 +31,8 @@ _log = colorlog.getLogger(__name__)
 
 
 from bioconvert.core.benchmark import Benchmark
+from bioconvert.core.utils import generate_outfile_name
 from bioconvert import logger
-from bioconvert import generate_outfile_name
 
 
 class ConvMeta(abc.ABCMeta):

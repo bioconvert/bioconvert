@@ -17,7 +17,7 @@ import os
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name, extensions
+from bioconvert import ConvBase, extensions
 
 _log = colorlog.getLogger(__name__)
 
@@ -29,7 +29,6 @@ class NEXUS2PHYLIP(ConvBase):
     """
     Converts a sequence alignment from :term:`NEXUS` format to :term:`PHYLIP` format. ::
     """
-
     input_ext = extensions.nexus
     output_ext = extensions.phylip
 
@@ -39,12 +38,9 @@ class NEXUS2PHYLIP(ConvBase):
         :param str infile: input :term:`NEXUS` file.
         :param str outfile: (optional) output :term:`PHYLIP` file
         """
-        if not outfile:
-            outfile = generate_outfile_name(infile, 'phylip')
         super().__init__(infile, outfile)
         self.alphabet = alphabet
         self._default_method = 'goalign'
-
 
     def _method_goalign(self, threads=None, *args, **kwargs):
         """

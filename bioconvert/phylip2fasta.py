@@ -40,18 +40,16 @@ class PHYLIP2FASTA(ConvBase):
         :param str infile: input :term:`PHYLIP` file.
         :param str outfile: (optional) output :term:`FASTA` file
         """
-        if not outfile:
-            outfile = generate_outfile_name(infile, 'fasta')
         super().__init__(infile, outfile)
         self.alphabet = alphabet
         self._default_method = 'biopython'
 
-    def _method_biopython(self, threads=None, *args, **kwargs):
+    def _method_biopython(self, *args, **kwargs):
         sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "fasta")
         _log.debug("Converted %d records to fasta" % count)
 
-    def _method_squizz(self, threads=None, *args, **kwargs):
+    def _method_squizz(self, *args, **kwargs):
         """
         Convert Phylip inteleaved file in fasta format using squizz tool.
         The fasta file is an alignemnt, that means the gap are conserved.
@@ -61,7 +59,7 @@ class PHYLIP2FASTA(ConvBase):
             outfile=self.outfile)
         self.execute(cmd)
 
-    def _method_goalign(self, threads=None, *args, **kwargs):
+    def _method_goalign(self, *args, **kwargs):
         """
         Convert fasta file in Phylip interleaved format using goalign tool.
         https://github.com/fredericlemoine/goalign

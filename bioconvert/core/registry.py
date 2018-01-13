@@ -8,15 +8,18 @@ import bioconvert
 _log = colorlog.getLogger(__name__)
 
 
+__all__ = ['Registry']
+
+
 class Registry(object):
-    """
-    class to centralise information about available conversions
+    """class to centralise information about available conversions
 
     ::
 
         from bioconvert.core.registry import Registry
         r = Registry()
         r.conversion_exists("BAM", "BED")
+        r.info()  # returns number of available methods for each converter
 
         conv_class = r[(".bam", ".bed")]
         converter = conv_class(input_file, output_file)
@@ -137,3 +140,11 @@ class Registry(object):
         in_fmt = in_fmt.upper()
         out_fmt = out_fmt.upper()
         return (in_fmt, out_fmt) in self._fmt_registry
+
+    def get_info(self):
+        converters = set([self[this] for this in self._ext_registry])
+        data = {}
+        for converter in converters:
+            data[converter] = len(converter.available_methods)
+        return data
+

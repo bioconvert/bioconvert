@@ -1,4 +1,4 @@
-__version__ = "0.1.2"
+__version__ = "0.0.11"
 import pkg_resources
 try:
     version = pkg_resources.require('bioconvert')[0].version
@@ -56,17 +56,6 @@ def bioconvert_data(filename, where=None):
     if not os.path.exists(filename):
         raise FileNotFoundError('unknown file %s' % filename)
     return filename
-
-
-def generate_outfile_name(infile, out_extension):
-    """simple utility to replace the file extension with the given one.
-
-    :param str infile: the path to the Input file
-    :param str out_extension: Desired extension
-    :return: The file path with the given extension
-    :rtype: str
-    """
-    return '{}.{}'.format(os.path.splitext(infile)[0], out_extension)
 
 import bioconvert
 from bioconvert.core.base import ConvBase

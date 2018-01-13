@@ -12,12 +12,11 @@
 #
 ##############################################################################
 """ description """
-
 import os
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name, extensions
+from bioconvert import ConvBase, extensions
 
 _log = colorlog.getLogger(__name__)
 
@@ -41,8 +40,6 @@ class FASTA2CLUSTAL(ConvBase):
         :param str infile: input :term:`FASTA` file.
         :param str outfile: (optional) output :term:`CLUSTAL` file
         """
-        if not outfile:
-            outfile = generate_outfile_name(infile, 'clustal')
         super().__init__(infile, outfile)
         self.alphabet = alphabet
         self._default_method = 'biopython'

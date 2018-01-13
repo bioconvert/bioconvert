@@ -1,3 +1,17 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+""" description """
 import os
 import colorlog
 from Bio import SeqIO
@@ -6,25 +20,27 @@ from bioconvert import ConvBase, extensions
 
 _log = colorlog.getLogger(__name__)
 
+__all__ = ["CLUSTAL2PHYLIP"]
 
-class CLUSTAL2FASTA(ConvBase):
+
+class CLUSTAL2PHYLIP(ConvBase):
     """
-    Converts a sequence alignment from :term:`CLUSTAL` format to :term:`FASTA` format. ::
+    Converts a sequence alignment from :term:`CLUSTAL` format to :term:`PHYLIP` format. ::
 
-        converter = CLUSTAL2FASTA(infile, outfile)
+        converter = CLUSTAL2PHYLIP(infile, outfile)
         converter(method='biopython')
 
     default method = biopython
     available methods = biopython, squizz
     """
     input_ext = extensions.clustal
-    output_ext = extensions.fasta
+    output_ext = extensions.phylip #['phylip', 'phy']
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
 
         :param str infile: input :term:`CLUSTAL` file.
-        :param str outfile: (optional) output :term:`FASTA` file
+        :param str outfile: (optional) output :term:`PHYLIP` file
         """
         super().__init__(infile, outfile)
         self.alphabet = alphabet
@@ -37,18 +53,17 @@ class CLUSTAL2FASTA(ConvBase):
         :param threads: not used.
         """
         sequences = list(SeqIO.parse(self.infile, "clustal", alphabet=self.alphabet))
-        count = SeqIO.write(sequences, self.outfile, "fasta")
-        _log.info("Converted %d records to fasta" % count)
+        count = SeqIO.write(sequences, self.outfile, "phylip")
+        _log.info("Converted %d records to phylip" % count)
 
     def _method_squizz(self, threads=None):
         """
-        Convert :term:`CLUSTAL` file in :term:`FASTA` format using squizz tool.
+        Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using squizz tool.
 
         :param threads: not used.
         """
-        cmd = 'squizz -c FASTA {infile} > {outfile}'.format(
+        cmd = 'squizz -c PHYLIPI {infile} > {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
-
 

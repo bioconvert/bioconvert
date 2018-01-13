@@ -17,7 +17,7 @@ import os
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, generate_outfile_name, extensions
+from bioconvert import ConvBase, extensions
 
 _log = colorlog.getLogger(__name__)
 
@@ -39,8 +39,6 @@ class NEXUS2PHYLOXML(ConvBase):
         :param str infile: input :term:`NEXUS` file.
         :param str outfile: (optional) output :term:`PHYLOXML` file
         """
-        if not outfile:
-            outfile = generate_outfile_name(infile, 'phyloxml')
         super().__init__(infile, outfile)
         self.alphabet = alphabet
         self._default_method = 'gotree'

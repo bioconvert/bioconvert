@@ -14,8 +14,7 @@
 """NEXUS2NEWICK conversion"""
 import os
 
-from bioconvert import ConvBase, generate_outfile_name
-from bioconvert import extensions
+from bioconvert import ConvBase, extensions
 
 import colorlog
 _log = colorlog.getLogger(__name__)
@@ -37,8 +36,6 @@ class NEXUS2NEWICK(ConvBase):
         :param str infile: input :term:`NEXUS` file.
         :param str outfile: (optional) output :term:`NEWICK` file
         """
-        if not outfile:
-            outfile = generate_outfile_name(infile, 'nexus')
         super().__init__(infile, outfile)
         self.alphabet = alphabet
         self._default_method = 'gotree'

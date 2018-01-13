@@ -12,7 +12,8 @@
 #
 ##############################################################################
 """Convert :term:`SAM` file to :term:`BAM` file"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
+
 import colorlog
 logger = colorlog.getLogger(__name__)
 
@@ -24,13 +25,13 @@ class SAM2BAM(ConvBase):
     command used::
         samtools view -Sbh
     """
-    input_ext = '.sam'
-    output_ext ='.bam'
+    input_ext = extensions.sam
+    output_ext = extensions.bam
 
     def _method_samtools(self, *args, **kwargs):
         """
         Do the conversion  sorted :term`SAM` -> :term:'BAM`
-        The result of the conversion is stored in the outputfile 
+        The result of the conversion is stored in the outputfile
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
         """

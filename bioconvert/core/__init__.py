@@ -9,6 +9,7 @@ extensions = {
     'bam': ["bam"],
     'bed': ["bed"],
     'cdao': ["cdao"],                           # phylo
+    'cram': ["cram"],
     'clustal':["clustal", "aln", "clw"],        # phylo
     'embl': ['embl'],
     'fasta': ["fasta", "fa", "fst"],            # sequence
@@ -18,6 +19,7 @@ extensions = {
     'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo
     'phylip': ['phy', 'ph', 'phylip'],          # phylo
     'phyloxml': ['phyloxml', 'xml'],            # phylo
+    'sam': ["sam"],
     'stockholm': ['sto', 'sth', 'stockholm'],   # alignment
     }
 
