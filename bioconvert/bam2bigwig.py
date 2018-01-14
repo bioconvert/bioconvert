@@ -12,7 +12,7 @@
 ##############################################################################
 """ description """
 import colorlog
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
 
 _log = colorlog.getLogger(__name__)
 
@@ -25,8 +25,8 @@ class BAM2BIGWIG(ConvBase):
     Some description.
 
     """
-    input_ext = [".bam"]
-    output_ext = [".bigwig"]
+    input_ext = extensions.bam
+    output_ext = extensions.bigwig
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
