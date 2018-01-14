@@ -1,3 +1,16 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
 """Convert :term:`SAM` file to :term:`BAM` file"""
 from bioconvert import ConvBase
 import colorlog
@@ -20,6 +33,18 @@ class BAM2SAM(ConvBase):
             convert = BAM2SAM(infile, fh.name)
             convert.boxplot_benchmark()
 
+
+    methods available:
+
+    - samtools:
+    - pysam
+    - sambamba
+
+    Could be implemented but not on bioconda:
+
+    - sam-to-bam: Ogasawara T, Cheng Y, Tzeng T-HK (2016) Sam2bam:
+        High-Performance Framework for NGS Data Preprocessing Tools. PLoS ONE
+        11(11): e0167100. doi:10.1371/journal.pone.0167100
 
     """
     input_ext = [".bam"]
