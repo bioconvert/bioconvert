@@ -3,7 +3,6 @@ bcftools
 bedtools
 bioawk
 deeptools
-dsrc
 pbzip2
 pigz
 sambamba
@@ -11,3 +10,5 @@ samtools
 seqtk
 squizz
 go=1.9.2
+ucsc-twobittofa
+ucsc-fatotwobit
