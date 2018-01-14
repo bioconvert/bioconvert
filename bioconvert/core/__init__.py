@@ -21,6 +21,7 @@ extensions = {
     'phyloxml': ['phyloxml', 'xml'],            # phylo
     'sam': ["sam"],
     'stockholm': ['sto', 'sth', 'stockholm'],   # alignment
+    'twobit': ['2bit'],                         # sequence
     }
 
 extensions = AttrDict(**extensions)
