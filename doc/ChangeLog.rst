@@ -1,6 +1,12 @@
 Whats' new, what has changed
 ================================
 
+
+:Revision 0.0.12:
+
+    - new converters: embl2fasta and embl2genbank, fasta2twobit and twobit2fasta
+
+
 :Revision 0.0.11:
 
      - add abiliy to use go executables (add go to the requirements)

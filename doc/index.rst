@@ -62,8 +62,6 @@ you have installed conda)::
 Otherwise, please see the instructions on `bioconda <https://bioconda.github.io/>`_ or
 `Sequana <http://sequana.readthedocs.io/en/master/installation.html#from-bioconda-recommended>`_.
 
-
-
 Usage
 ##########
 
@@ -86,7 +84,7 @@ From Python shell::
     # the conversion itself
     convert()
 
-Available conversion:
+Available conversions:
 ---------------------------
 
 .. image:: conversion.png

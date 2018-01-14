@@ -28,6 +28,11 @@ import matplotlib
 matplotlib.use('Agg')
 
 
+# This creates the conversion.png image automatically
+
+import sys
+sys.path.append('.')
+import create_graph
 
 
 import pkg_resources
