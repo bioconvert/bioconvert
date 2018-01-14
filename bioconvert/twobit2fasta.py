@@ -49,7 +49,7 @@ class TWOBIT2FASTA(ConvBase):
         Convert twobit file in fasta format using ucsc twobittofa.
         https://genome.ucsc.edu/goldenPath/help/twoBit.html
         """
-        cmd = 'twoBitToFa -i {infile} -o {outfile}'.format(
+        cmd = 'twoBitToFa {infile} {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
