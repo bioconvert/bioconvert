@@ -11,8 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """ Convert a compressed fastq.gz file to :term:`DSRC` compression format """
-
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
 import colorlog
 logger = colorlog.getLogger(__name__)
 
@@ -35,8 +34,8 @@ class DSRC2GZ(ConvBase):
              convert.boxplot_benchmark()
 
     """
-    input_ext = [".dsrc"]
-    output_ext = [".gz"]
+    input_ext = extensions.dsrc
+    output_ext = extensions.gz
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

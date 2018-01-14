@@ -12,7 +12,7 @@
 #
 ##############################################################################
 """Convert :term:`GFA` format to :term:`FASTA` formats"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
 import colorlog
 logger = colorlog.getLogger(__name__)
 
@@ -41,8 +41,8 @@ class GFA2FASTA(ConvBase):
     .. seealso:: bioconvert.simulator.gfa
 
     """
-    input_ext = ['.gfa']
-    output_ext = ['.fasta', ".fa"]
+    input_ext = extensions.gfa
+    output_ext = extensions.fasta
 
     def __init__(self, infile, outfile):
         """

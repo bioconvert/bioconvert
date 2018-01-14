@@ -1,5 +1,6 @@
 """Convert :term:`BAM` format to :term:`JSON` file"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
+
 import colorlog
 logger = colorlog.getLogger(__name__)
 
@@ -10,8 +11,8 @@ class BAM2JSON(ConvBase):
 
     Convert bam file to json file.
     """
-    input_ext = ['.bam']
-    output_ext = ['json']
+    input_ext = extensions.bam
+    output_ext = extensions.json
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor

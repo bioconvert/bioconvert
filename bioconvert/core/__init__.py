@@ -6,22 +6,31 @@ from easydev import AttrDict
 
 extensions = {
     'abi': ["abi", "ab1"],                      # sequence
-    'bam': ["bam"],
-    'bed': ["bed"],
+    'bam': ["bam"],                             # alignment
+    'bcf': ["bcf"],                             # variant
+    'bed': ["bed"],                             # misc
+    'bz2': ['bz2'],
     'cdao': ["cdao"],                           # phylo
-    'cram': ["cram"],
+    'cram': ["cram"],                           # alignment
     'clustal':["clustal", "aln", "clw"],        # phylo
-    'embl': ['embl'],
+    'dsrc': ['dsrc'],
+    'embl': ['embl'],                           # annotation/sequence
     'fasta': ["fasta", "fa", "fst"],            # sequence
     'fastq': ["fastq", "fq"],                   # sequence
-    'genbank': ['genbank', 'gbk', "gb"],        # 
+    'genbank': ['genbank', 'gbk', "gb"],        # annotation/sequence
+    'gfa': ['gfa'],                             # assembly
+    'gz': ['gz'],
+    'json': ['json'],                           # misc
     'newick': ["newick", "nw", "nhx", "nwk"],   # phylo
     'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo
+    'paf': ['paf'],                             # assembly
     'phylip': ['phy', 'ph', 'phylip'],          # phylo
     'phyloxml': ['phyloxml', 'xml'],            # phylo
-    'sam': ["sam"],
+    'sam': ["sam"],                             # alignement
     'stockholm': ['sto', 'sth', 'stockholm'],   # alignment
+    'vcf': ['vcf'],                             # variant
     'twobit': ['2bit'],                         # sequence
+    'yaml': ['yaml', 'YAML'],                   # misc
     }
 
 extensions = AttrDict(**extensions)

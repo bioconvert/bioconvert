@@ -13,7 +13,7 @@
 ##############################################################################
 """Convert :term:`JSON` to :term:`YAML` format"""
 import yaml, json
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
 
 __all__ = ["JSON2YAML"]
 
@@ -33,8 +33,8 @@ class JSON2YAML(ConvBase):
             misc: 1
 
     """
-    input_ext = [".json"]
-    output_ext = [".yaml"]
+    input_ext = extensions.json
+    output_ext = extensions.yaml
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

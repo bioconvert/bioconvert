@@ -1,5 +1,18 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
 """Convert :term:`BAM` format to :term:`fastq` file"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
 
 
 class BAM2Fastq(ConvBase):
@@ -9,8 +22,8 @@ class BAM2Fastq(ConvBase):
         there is no check that the read R1 and R2 alternates
 
     """
-    input_ext = ['.bam']
-    output_ext = ['fastq', 'fq']
+    input_ext = extensions.bam
+    output_ext = extensions.fastq
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor

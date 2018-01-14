@@ -1,5 +1,18 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
 """Convert :term:`VCF` file to :term:`BED` file"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
 import colorlog
 logger = colorlog.getLogger(__name__)
 
@@ -22,8 +35,8 @@ class VCF2BED(ConvBase):
         This method report an interval of 1 for SNP, the length of the insertion or the length of 
         the deleted part in case of deletion.
     """
-    input_ext = ['.vcf']
-    output_ext = '.bed'
+    input_ext = extensions.vcf
+    output_ext = extensions.bed
 
     def __init__(self, infile, outfile):
         """

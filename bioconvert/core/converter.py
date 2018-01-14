@@ -18,10 +18,11 @@ import sys
 import colorlog
 _log = colorlog.getLogger(__name__)
 
-#_log = colorlog.getLogger('bioconvert')
-
 from bioconvert.core.registry import Registry
 from bioconvert.core.utils import get_extension as getext
+
+
+__all__ = ['Bioconvert']
 
 
 class Bioconvert(object):

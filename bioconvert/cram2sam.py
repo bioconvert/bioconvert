@@ -1,6 +1,19 @@
-"""Convert :term:`SAM` file to :term:`CRAM` file"""
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+"""Convert :term:`CRAM` file to :term:`SAM` file"""
 import os
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
 from easydev.multicore import cpu_count
 
 import colorlog
@@ -17,8 +30,8 @@ class CRAM2SAM(ConvBase):
     useful for the standalone application.
 
     """
-    input_ext = [".cram"]
-    output_ext = ".sam"
+    input_ext = extensions.cram
+    output_ext = extensions.sam
 
     def __init__(self, infile, outfile, reference=None, *args, **kargs):
         """.. rubric:: constructor

@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """Convert :term:`GZ` file to :term:`BZ2` file"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
 
 
 __all__ = ["GZ2BZ2"]
@@ -23,8 +23,8 @@ class GZ2BZ2(ConvBase):
     unzip input file using pigz and compress using pbzip2
 
     """
-    input_ext = [".gz"]
-    output_ext = [".bz2"]
+    input_ext = extensions.gz
+    output_ext = extensions.bz2
     #_is_compressor = True
 
     def __init__(self, infile, outfile, *args, **kargs):

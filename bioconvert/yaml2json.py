@@ -13,7 +13,7 @@
 ##############################################################################
 """Convert :term:`YAML` to :term:`JSON` format"""
 import yaml, json
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
 import colorlog
 logger = colorlog.getLogger(__name__)
 
@@ -31,8 +31,8 @@ class YAML2JSON(ConvBase):
 
     :reference: http://yaml.org/spec/1.2/spec.html#id2759572
     """
-    input_ext = [".yaml"]
-    output_ext = [".json"]
+    input_ext = extensions.yaml
+    output_ext = extensions.json
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

@@ -88,6 +88,10 @@ def main(args=None):
 
     Note the difference between the two previous commands !!
 
+
+    For more information, please type:
+
+        bioconvert --help
 """)
     arg_parser.add_argument("input_file",
             default=None,
@@ -103,6 +107,9 @@ def main(args=None):
     arg_parser.add_argument("-v", "--verbosity",
                             default="INFO",
                             help="Set the outpout verbosity. Should be one of DEBUG, INFO, WARNING, ERROR, CRITICAL")
+    arg_parser.add_argument("-l", "--level", dest="verbosity", 
+                            default="INFO",
+                            help="same as --verbosity")
     arg_parser.add_argument("-i", "--input-format",
                             default=None,
                             help="Provide the input format. Check the --formats to see valid input name")

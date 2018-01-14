@@ -12,7 +12,8 @@
 #
 ##############################################################################
 """Convert :term:`VCF` file to :term:`BCF` file"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
+
 import colorlog
 logger = colorlog.getLogger(__name__)
 
@@ -24,8 +25,8 @@ class VCF2BCF(ConvBase):
     """
 
     """
-    input_ext = [".vcf"]
-    output_ext = [".bcf"]
+    input_ext = extensions.vcf
+    output_ext = extensions.bcf
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

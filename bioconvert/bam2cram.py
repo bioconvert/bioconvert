@@ -24,9 +24,9 @@ class BAM2CRAM(ConvBase):
     """Convert :term:`BAM` file to :term:`CRAM` file
 
     The conversion requires the reference corresponding to the input file
-    It can be provided as an argument in the constructor. Otherwise, 
+    It can be provided as an argument in the constructor. Otherwise,
     a local file with same name as the input file but an .fa extension is looked
-    for. Otherwise, we ask for the user to provide the input file. This is 
+    for. Otherwise, we ask for the user to provide the input file. This is
     useful for the standalone application.
 
     """

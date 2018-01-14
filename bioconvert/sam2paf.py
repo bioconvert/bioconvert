@@ -1,7 +1,21 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
 """Convert :term:`CRAM` file to :term:`BAM` file"""
 import re
 import os
-from bioconvert import ConvBase
+
+from bioconvert import ConvBase, extensions
 from easydev.multicore import cpu_count
 
 import colorlog
@@ -79,10 +93,9 @@ class SAM2PAF(ConvBase):
     The SAM lines must contains 11 positional element and the NM:i and nn:i
     fields (see example above).
 
-        
     """
-    input_ext = [".sam"]
-    output_ext = ".paf"
+    input_ext = extensions.sam
+    output_ext = extensions.paf
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
