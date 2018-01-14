@@ -3,7 +3,7 @@ bcftools
 bedtools
 bioawk
 deeptools
-dsrc 
+dsrc
 pbzip2
 pigz
 sambamba
@@ -13,3 +13,4 @@ squizz
 go=1.9.2
 ucsc-twobittofa
 ucsc-fatotwobit
+ucsc-bigwigtobedgraph

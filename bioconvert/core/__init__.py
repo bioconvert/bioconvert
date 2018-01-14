@@ -9,6 +9,8 @@ extensions = {
     'bam': ["bam"],                             # alignment
     'bcf': ["bcf"],                             # variant
     'bed': ["bed"],                             # misc
+    'bedgraph': ["bedgraph"],
+    'bigwig': ["bigwig"],
     'bz2': ['bz2'],
     'cdao': ["cdao"],                           # phylo
     'cram': ["cram"],                           # alignment
