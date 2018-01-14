@@ -52,7 +52,7 @@ Available Converters
 #######################
 
 .. image:: https://raw.githubusercontent.com/biokit/bioconvert/master/doc/conversion.png
-
+    :width: 80%
 
 
 
