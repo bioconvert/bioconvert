@@ -48,4 +48,19 @@ Usage
     bioconvert --formats
     bioconvert --help
 
+Available Converters
+#######################
+
+.. image:: https://raw.githubusercontent.com/biokit/bioconvert/master/doc/conversion.png
+
+
+
+
+
+
+
+
+
+
+
 
