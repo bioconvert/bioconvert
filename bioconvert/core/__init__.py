@@ -8,6 +8,8 @@ extensions = {
     'abi': ["abi", "ab1"],                      # sequence
     'bam': ["bam"],
     'bed': ["bed"],
+    'bedgraph': ["bedgraph"],
+    'bigwig': ["bigwig"],
     'cdao': ["cdao"],                           # phylo
     'cram': ["cram"],
     'clustal':["clustal", "aln", "clw"],        # phylo
