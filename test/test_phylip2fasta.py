@@ -6,11 +6,6 @@ from bioconvert.phylip2fasta import PHYLIP2FASTA
 import pytest
 
 
-#skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
-#                                and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
-
-
-#@skiptravis
 @pytest.mark.parametrize("method", PHYLIP2FASTA.available_methods)
 def test_fa2phy_biopython(method):
     infile = bioconvert_data("biopython.phylip")
