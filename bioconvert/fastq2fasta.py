@@ -31,8 +31,6 @@ from bioconvert.core.compressor import compressor, out_compressor, in_gz
 
 class Fastq2Fasta(ConvBase):
     """Convert :term:`FASTQ` to :term:`FASTA`"""
-    input_ext = ['.fastq', '.fq']
-    output_ext = '.fasta'
 
     @staticmethod
     def just_name(record):

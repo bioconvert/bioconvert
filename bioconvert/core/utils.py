@@ -13,7 +13,9 @@
 ##############################################################################
 """misc utility functions """
 import os
-
+import sys
+import bioconvert
+from bioconvert.core import  extensions
 
 def get_extension(filename, remove_compression=False):
     """Return extension of a filename
@@ -49,4 +51,20 @@ def generate_outfile_name(infile, out_extension):
     """
     return '{}.{}'.format(os.path.splitext(infile)[0], out_extension)
 
+def get_format_from_extension(extension):
+    """get format from extension.
 
+    :param extension: the extension
+    :return: the corresponding format
+    :rtype: str
+    """
+    extension = extension.lstrip(".")
+    for fmt, ext_list in extensions.items():
+        if extension in ext_list:
+            return fmt.upper()
+
+    # The extension was not found
+    bioconvert.logger.critical("No format was found for extension '%s'" % extension)
+    bioconvert.logger.critical("Use --formats to know the available formats and --help"
+                               " for examples")
+    sys.exit(1)

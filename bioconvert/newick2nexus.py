@@ -29,8 +29,6 @@ class NEWICK2NEXUS(ConvBase):
     """
     Converts a tree file from :term:`NEWICK` format to :term:`NEXUS` format. ::
     """
-    input_ext = extensions.newick
-    output_ext = extensions.nexus
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor

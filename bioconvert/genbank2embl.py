@@ -25,8 +25,6 @@ class GENBANK2EMBL(ConvBase):
     Some description.
 
     """
-    input_ext = extensions.genbank
-    output_ext = extensions.embl
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

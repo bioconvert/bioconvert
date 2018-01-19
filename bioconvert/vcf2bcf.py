@@ -25,8 +25,6 @@ class VCF2BCF(ConvBase):
     """
 
     """
-    input_ext = extensions.vcf
-    output_ext = extensions.bcf
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

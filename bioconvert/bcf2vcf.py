@@ -23,8 +23,6 @@ class BCF2VCF(ConvBase):
     """Convert :term:`BCF` file to :term:`VCF` file
 
     """
-    input_ext = extensions.bcf
-    output_ext = extensions.vcf
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

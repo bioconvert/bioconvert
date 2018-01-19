@@ -31,8 +31,6 @@ class FASTA2NEXUS(ConvBase):
     Conversion is based on Bio Python modules
 
     """
-    input_ext = extensions.fasta
-    output_ext = extensions.nexus
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor

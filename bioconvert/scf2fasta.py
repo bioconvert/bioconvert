@@ -11,8 +11,6 @@ class Scf2Fasta(ConvBase):
     :param str infile:
     :param str outfile:
     """
-    input_ext = '.scf'
-    output_ext = ['.fa', '.fasta']
 
     def __call__(self, *args, **kwargs):
         sequence = ""

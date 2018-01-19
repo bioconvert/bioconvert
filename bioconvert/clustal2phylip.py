@@ -33,8 +33,6 @@ class CLUSTAL2PHYLIP(ConvBase):
     default method = biopython
     available methods = biopython, squizz
     """
-    input_ext = extensions.clustal
-    output_ext = extensions.phylip #['phylip', 'phy']
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor

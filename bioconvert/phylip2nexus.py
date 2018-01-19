@@ -29,8 +29,6 @@ class PHYLIP2NEXUS(ConvBase):
     """
     Converts a sequence alignment from :term:`PHYLIP` format to :term:`NEXUS` format. ::
     """
-    input_ext = extensions.phylip
-    output_ext = extensions.nexus
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor

@@ -25,8 +25,6 @@ class BAM2BIGWIG(ConvBase):
     Some description.
 
     """
-    input_ext = extensions.bam
-    output_ext = extensions.bigwig
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

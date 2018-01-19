@@ -16,8 +16,6 @@ class STOCKHOLM2CLUSTAL(ConvBase):
     default method = biopython
     available methods = biopython, squizz
     """
-    input_ext = extensions.stockholm
-    output_ext = extensions.clustal
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor

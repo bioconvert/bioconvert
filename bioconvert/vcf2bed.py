@@ -35,8 +35,6 @@ class VCF2BED(ConvBase):
         This method report an interval of 1 for SNP, the length of the insertion or the length of 
         the deleted part in case of deletion.
     """
-    input_ext = extensions.vcf
-    output_ext = extensions.bed
 
     def __init__(self, infile, outfile):
         """

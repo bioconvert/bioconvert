@@ -31,8 +31,6 @@ class FASTA2PHYLIP(ConvBase):
     Conversion is based on Bio Python modules
 
     """
-    input_ext = extensions.fasta
-    output_ext = extensions.phylip
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor

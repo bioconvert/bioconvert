@@ -22,8 +22,6 @@ class BAM2Fastq(ConvBase):
         there is no check that the read R1 and R2 alternates
 
     """
-    input_ext = extensions.bam
-    output_ext = extensions.fastq
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor

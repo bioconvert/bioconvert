@@ -19,8 +19,6 @@ __all__ = ["EMBL2GENBANK"]
 
 class EMBL2GENBANK(ConvBase):
     """Convert :term:`EMBL` file to :term:`GENBANK` file"""
-    input_ext = extensions.embl
-    output_ext = extensions.genbank
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

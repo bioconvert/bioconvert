@@ -20,6 +20,7 @@ import colorlog
 import bioconvert
 from bioconvert.core.registry import Registry
 from bioconvert.core.converter import Bioconvert
+from bioconvert import extensions
 
 
 
@@ -181,34 +182,40 @@ def analysis(args):
     if args.output_file is None:
         if args.output_format is None:
             raise ValueError("Extension of the output format unknown."
-                    " You must either provide an output file name (with"
-                    " extension) or provide it with the --output-format"
-                    " argument")
+                             " You must either provide an output file name (with"
+                             " extension) or provide it with the --output-format"
+                             " argument")
         else:
-            outfile = infile.rsplit(".",1)[0] + "." + args.output_format
+            try:
+                outext = extensions[args.output_format][0].lstrip(".")
+            except KeyError:
+                raise ValueError("No extension found for the format {}".format(args.output_format))
+            outfile = infile.rsplit(".", 1)[0] + "." + outext
     else:
         outfile = args.output_file
 
     # Call a generic wrapper of all available conversion
-    conv = Bioconvert(infile, outfile, force=args.force)
+    conv = Bioconvert(infile, outfile, in_fmt=args.input_format, out_fmt=args.output_format,
+                      force=args.force)
 
-    # Users may provide information about the input file.
-    # Indeed, the input may be a FastQ file but with an extension
-    # that is not standard. For instance fq instead of fastq
-    # If so, we can use the --input-format fastq to overwrite the
-    # provided filename extension
+    # # Users may provide information about the input file.
+    # # Indeed, the input may be a FastQ file but with an extension
+    # # that is not standard. For instance fq instead of fastq
+    # # If so, we can use the --input-format fastq to overwrite the
+    # # provided filename extension
 
-    if args.input_format:
-        inext = args.input_format
-        if not conv.inext.startswith("."):
-            conv.inext = "." + inext
+    # no need to do this
+    # if args.input_format:
+    #     inext = args.input_format
+    #     if not conv.inext.startswith("."):
+    #         conv.inext = "." + inext
 
-    if not conv.inext:
+    if not conv.in_fmt:
         raise RuntimeError("convert infer the format from the extension name."
                            " So add extension to the input file name or use"
                            " --input-format option.")
 
-    if not conv.outext:
+    if not conv.out_fmt:
         raise RuntimeError("convert infer the format from the extension name."
                            " So add extension to the output file name or use"
                            " --output-format option.")
@@ -216,11 +223,11 @@ def analysis(args):
     # do we want to know the available methods ? If so, print info and quite
     if args.show_methods:
         print(conv.converter.available_methods)
-        print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} "
-              "for details ".format(conv.name.lower(),conv.name))
+        print("Please see http://bioconvert.readthedocs.io/en/master/"
+              "references.html#bioconvert.{}.{} for details ".format(conv.name.lower(), conv.name))
         sys.exit(0)
 
-    bioconvert.logger.info("Converting from {} to {}".format(conv.inext, conv.outext))
+    bioconvert.logger.info("Converting from %s to %s" % (conv.in_fmt, conv.out_fmt))
 
     params = {"threads": args.threads}
 
