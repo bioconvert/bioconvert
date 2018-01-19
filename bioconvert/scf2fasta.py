@@ -343,6 +343,7 @@ def delta(rsamples, direction):
                 p_sample2 = samples[i]
 
     else:
-        print("Bad direction in 'delta'. Use\" forward\" or\" backward\".")
-        sys.exit(1)
+        msg="Bad direction in 'delta'. Use\" forward\" or\" backward\"."
+        _log.critical(msg)
+        raise Exception(msg)
     return samples

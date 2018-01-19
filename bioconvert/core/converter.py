@@ -109,10 +109,13 @@ class Bioconvert(object):
             self.name = class_converter.__name__
         except KeyError:
             # This module name was not found
-            _log.critical("Requested input format ('%s') to output format ('%s') is not available"
-                          " in bioconvert", self.in_fmt, self.out_fmt)
+            msg = "Requested input format ('%s') to output format ('%s') is not available in bioconvert" %(
+                self.in_fmt, 
+                self.out_fmt,
+            )
+            _log.critical(msg)
             _log.critical("Use --formats to know the available formats and --help for examples")
-            sys.exit(1)
+            raise Exception(msg)
 
         self.converter = class_converter(infile, outfile)
         _log.info("Using {} class".format(self.converter.name))
