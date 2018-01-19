@@ -51,8 +51,8 @@ class Sra2Fastq(ConvBase):
         if self.isPairedSRA(infile):
            cmd = "fastq-dump --split-files "+infile
            if self.outfile!=outname:
-                   cmd = "mv {0} {1}".format(inbasename+".1.fastq", outbasename+".1.fastq")
-                   cmd = "mv {0} {1}".format(inbasename+".2.fastq", outbasename+".2.fastq")
+                   cmd = "mv {0} {1}".format(inbasename+"_1.fastq", outbasename+"_1.fastq")
+                   cmd = "mv {0} {1}".format(inbasename+"_2.fastq", outbasename+"_2.fastq")
 
         else:
            cmd = "fastq-dump {}".format(infile)
