@@ -107,6 +107,9 @@ def main(args=None):
     arg_parser.add_argument("-v", "--verbosity",
                             default="INFO",
                             help="Set the outpout verbosity. Should be one of DEBUG, INFO, WARNING, ERROR, CRITICAL")
+    arg_parser.add_argument("--raise-exception",
+                            action="store_true",
+                            help="Let exception ending the execution be raised and displayed")
     arg_parser.add_argument("-l", "--level", dest="verbosity", 
                             default="INFO",
                             help="same as --verbosity")
@@ -163,7 +166,12 @@ def main(args=None):
 
     for filename in filenames:
         args.input_file = filename
-        analysis(args)
+        try:
+            analysis(args)
+        except Exception as e:
+            if args.verbosity == "DEBUG" or args.raise_exception:
+                raise e
+            sys.exit(1)
 
 
 def analysis(args):
