@@ -29,6 +29,7 @@ extensions = {
     'phylip': ['phy', 'ph', 'phylip'],          # phylo
     'phyloxml': ['phyloxml', 'xml'],            # phylo
     'sam': ["sam"],                             # alignement
+    'sra': ["sra"],                             # sra format
     'stockholm': ['sto', 'sth', 'stockholm'],   # alignment
     'vcf': ['vcf'],                             # variant
     'twobit': ['2bit'],                         # sequence
