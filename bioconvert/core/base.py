@@ -62,6 +62,8 @@ class ConvMeta(abc.ABCMeta):
     """
     def __init__(cls, name, bases, classdict):
 
+        # do not check extension since modules does not require to specify extension anymore
+
         # def check_ext(ext, io_name):
         #     """
         #     Check if the extension is specified correctly.
@@ -123,6 +125,7 @@ class ConvMeta(abc.ABCMeta):
                 input_fmt += "2"
             else:
                 input_fmt, output_fmt = name.upper().split('2', 1)
+            # modules have no more input_ext and output_ext attributes
             # input_ext = getattr(cls, 'input_ext')
             # if check_ext(input_ext, 'input'):
             #     output_ext = getattr(cls, 'output_ext')

@@ -196,6 +196,7 @@ def analysis(args):
     # # If so, we can use the --input-format fastq to overwrite the
     # # provided filename extension
 
+    # no need to do this
     # if args.input_format:
     #     inext = args.input_format
     #     if not conv.inext.startswith("."):

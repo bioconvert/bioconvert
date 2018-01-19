@@ -66,6 +66,7 @@ class Registry(object):
                 converters = [c for c in converters if is_converter(c)]
                 for converter_name, converter in converters:
                     if converter is not None:
+                        # the registry is no more based on extension but on format
                         # all_conv_path = itertools.product(converter.input_ext, converter.output_ext)
                         # for conv_path in all_conv_path:
                         #     self[conv_path] = converter
@@ -112,6 +113,7 @@ class Registry(object):
         for path in self._fmt_registry:
             yield path
 
+    # this function is no more needed because __setitem__ takes the place
     # def set_fmt_conv(self, in_fmt, out_fmt, converter):
     #     """
     #     Create an entry in the registry for (in_fmt, out_fmt) and the corresponding converter
