@@ -94,8 +94,6 @@ class SAM2PAF(ConvBase):
     fields (see example above).
 
     """
-    input_ext = extensions.sam
-    output_ext = extensions.paf
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

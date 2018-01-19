@@ -19,8 +19,6 @@ __all__ = ["FASTA2GENBANK"]
 
 class FASTA2GENBANK(ConvBase):
     """Convert :term:`FASTA` file to :term:`GENBANK` file"""
-    input_ext = extensions.fasta
-    output_ext = extensions.genbank
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

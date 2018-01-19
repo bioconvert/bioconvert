@@ -21,8 +21,6 @@ class BAM2Fasta(ConvBase):
     Wrapper of bamtools to convert bam file to fasta file.
 
     """
-    input_ext = extensions.bam
-    output_ext = extensions.fasta
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor

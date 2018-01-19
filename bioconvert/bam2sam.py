@@ -47,8 +47,6 @@ class BAM2SAM(ConvBase):
         11(11): e0167100. doi:10.1371/journal.pone.0167100
 
     """
-    input_ext = [".bam"]
-    output_ext = [".sam"]
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

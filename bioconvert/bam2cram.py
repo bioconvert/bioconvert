@@ -30,8 +30,6 @@ class BAM2CRAM(ConvBase):
     useful for the standalone application.
 
     """
-    input_ext = extensions.bam
-    output_ext = extensions.cram
 
     def __init__(self, infile, outfile, reference=None, *args, **kargs):
         """.. rubric:: constructor

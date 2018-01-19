@@ -11,8 +11,6 @@ class BAM2JSON(ConvBase):
 
     Convert bam file to json file.
     """
-    input_ext = extensions.bam
-    output_ext = extensions.json
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor

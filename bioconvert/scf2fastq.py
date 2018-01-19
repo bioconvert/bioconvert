@@ -29,8 +29,6 @@ class Scf2Fastq(ConvBase):
     :param str infile:
     :param str outfile:
     """
-    input_ext = '.scf'
-    output_ext = ['.fq', '.fastq']
 
     def __call__(self, *args, **kwargs):
         sequence = ""

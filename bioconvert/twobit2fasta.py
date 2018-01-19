@@ -31,8 +31,6 @@ class TWOBIT2FASTA(ConvBase):
     Conversion is based on UCSC twobit2fa
 
     """
-    output_ext = extensions.fasta
-    input_ext = extensions.twobit
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor

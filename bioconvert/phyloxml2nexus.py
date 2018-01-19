@@ -30,8 +30,6 @@ class PHYLOXML2NEXUS(ConvBase):
     Converts a tree file from :term:`PHYLOXML` format to :term:`NEXUS` format. ::
     """
 
-    input_ext = extensions.phyloxml # ['phyloxml', 'xml']
-    output_ext = extensions.nexus # ['nexus', 'nx']
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
