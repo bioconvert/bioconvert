@@ -20,8 +20,6 @@ class Sra2Fastq(ConvBase):
     """Converts Sra 2 Fastq file
 
     """
-    input_ext = extensions.sra
-    output_ext = extensions.fastq
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
