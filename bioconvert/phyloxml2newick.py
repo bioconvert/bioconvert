@@ -29,8 +29,6 @@ class PHYLOXML2NEWICK(ConvBase):
     """
     Converts a tree file from :term:`PHYLOXML` format to :term:`NEWICK` format. ::
     """
-    input_ext = extensions.phyloxml
-    output_ext = extensions.newick 
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor

@@ -30,8 +30,6 @@ class CRAM2SAM(ConvBase):
     useful for the standalone application.
 
     """
-    input_ext = extensions.cram
-    output_ext = extensions.sam
 
     def __init__(self, infile, outfile, reference=None, *args, **kargs):
         """.. rubric:: constructor

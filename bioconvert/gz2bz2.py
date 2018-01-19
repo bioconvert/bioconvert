@@ -23,8 +23,6 @@ class GZ2BZ2(ConvBase):
     unzip input file using pigz and compress using pbzip2
 
     """
-    input_ext = extensions.gz
-    output_ext = extensions.bz2
     #_is_compressor = True
 
     def __init__(self, infile, outfile, *args, **kargs):

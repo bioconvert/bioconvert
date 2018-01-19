@@ -34,8 +34,6 @@ class STOCKHOLM2PHYLIP(ConvBase):
     default method = biopython
     available methods = biopython, squizz
     """
-    input_ext = extensions.stockholm
-    output_ext = extensions.phylip
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor

@@ -34,8 +34,6 @@ class DSRC2GZ(ConvBase):
              convert.boxplot_benchmark()
 
     """
-    input_ext = extensions.dsrc
-    output_ext = extensions.gz
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

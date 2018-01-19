@@ -26,8 +26,6 @@ class BZ22GZ(ConvBase):
     Some description.
 
     """
-    input_ext = extensions.bz2
-    output_ext = extensions.gz
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

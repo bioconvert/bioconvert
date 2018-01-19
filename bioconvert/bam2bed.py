@@ -60,8 +60,6 @@ class BAM2BED(ConvBase):
     .. warning:: the BED file must be sorted. This can be achieved with
         bamtools.
     """
-    input_ext = extensions.bam
-    output_ext = extensions.bed
 
     def __init__(self, infile, outfile):
         """

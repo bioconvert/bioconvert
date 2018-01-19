@@ -31,8 +31,6 @@ class BIGWIG2BEDGRAPH(ConvBase):
     Conversion is based on ucsc bigWigToBedGraph tool
 
     """
-    input_ext = extensions.bigwig
-    output_ext = extensions.bedgraph
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor

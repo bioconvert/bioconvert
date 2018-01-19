@@ -33,8 +33,6 @@ class JSON2YAML(ConvBase):
             misc: 1
 
     """
-    input_ext = extensions.json
-    output_ext = extensions.yaml
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

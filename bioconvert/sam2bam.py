@@ -25,8 +25,6 @@ class SAM2BAM(ConvBase):
     command used::
         samtools view -Sbh
     """
-    input_ext = extensions.sam
-    output_ext = extensions.bam
 
     def _method_samtools(self, *args, **kwargs):
         """

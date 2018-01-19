@@ -31,8 +31,6 @@ class YAML2JSON(ConvBase):
 
     :reference: http://yaml.org/spec/1.2/spec.html#id2759572
     """
-    input_ext = extensions.yaml
-    output_ext = extensions.json
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

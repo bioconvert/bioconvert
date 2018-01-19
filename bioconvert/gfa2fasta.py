@@ -41,8 +41,6 @@ class GFA2FASTA(ConvBase):
     .. seealso:: bioconvert.simulator.gfa
 
     """
-    input_ext = extensions.gfa
-    output_ext = extensions.fasta
 
     def __init__(self, infile, outfile):
         """
