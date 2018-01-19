@@ -53,9 +53,9 @@ class Sra2Fastq(ConvBase):
            self.execute(cmd)
            if self.outfile!=outname:
                    cmd = "mv {0} {1}".format(inbasename+"_1.fastq", outbasename+"_1.fastq")
+                   self.execute(cmd)
                    cmd = "mv {0} {1}".format(inbasename+"_2.fastq", outbasename+"_2.fastq")
                    self.execute(cmd)
-
         else:
            cmd = "fastq-dump {}".format(infile)
            self.execute(cmd)
