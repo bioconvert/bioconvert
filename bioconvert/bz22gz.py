@@ -11,7 +11,11 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """ description """
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
+
+import colorlog
+logger = colorlog.getLogger(__name__)
+
 
 __all__ = ["BZ22GZ"]
 
@@ -22,8 +26,6 @@ class BZ22GZ(ConvBase):
     Some description.
 
     """
-    input_ext = [".bz2"]
-    output_ext = [".gz"]
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

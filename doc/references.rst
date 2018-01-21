@@ -27,6 +27,7 @@ Converters
     bioconvert.fasta2phylip
     bioconvert.gfa2fasta
     bioconvert.gz2dsrc
+    bioconvert.sam2paf
     bioconvert.vcf2bcf
 
 simulators
@@ -36,6 +37,14 @@ simulators
     bioconvert.simulator.fasta
     bioconvert.simulator.fastq
     bioconvert.simulator.gfa
+
+Validators
+-------------
+
+.. autosummary::
+
+    bioconvert.validators.paf
+
 
 .. automodule:: bioconvert.core.base
 
@@ -70,26 +79,23 @@ NGS bioconverters
     :members:
     :synopsis:
 
-.. automodule:: bioconvert.yaml2json
+.. automodule:: bioconvert.gz2dsrc
     :members:
     :synopsis:
 
+.. automodule:: bioconvert.yaml2json
+    :members:
+    :synopsis:
 
 .. automodule:: bioconvert.json2yaml
     :members:
     :synopsis:
 
+.. automodule:: bioconvert.sam2paf
+    :members:
+    :synopsis:
 
 .. automodule:: bioconvert.sam2cram
-    :members:
-    :synopsis:
-
-
-.. automodule:: bioconvert.vcf2bcf
-    :members:
-    :synopsis:
-
-.. automodule:: bioconvert.gz2dsrc
     :members:
     :synopsis:
 

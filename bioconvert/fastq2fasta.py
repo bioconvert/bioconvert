@@ -1,23 +1,36 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+"""Convert :term:`FASTQ` to :term:`FASTA`"""
 from Bio import SeqIO
 from Bio.SeqIO import FastaIO
 from bioconvert import ConvBase, bioconvert_script
-# try:
-#     # Let us make this optional for now because
-#     # GATB cannot be install on RTD
-#     from gatb import Bank
-# except:
-#     pass
+
+
+try:
+    # Let us make this optional for now because
+    # GATB cannot be install on RTD
+    from gatb import Bank
+except:
+    pass
 from mappy import fastx_read
 import mmap
 
+from bioconvert.core.compressor import compressor, out_compressor, in_gz
+
 
 class Fastq2Fasta(ConvBase):
-    """
-    Convert :term:`FASTQ` to :term:`FASTA`
-    """
-
-    input_ext = ['.fastq', '.fq']
-    output_ext = '.fasta'
+    """Convert :term:`FASTQ` to :term:`FASTA`"""
 
     @staticmethod
     def just_name(record):
@@ -80,25 +93,32 @@ class Fastq2Fasta(ConvBase):
         :param str outfile: The path to the output file.
         """
         super().__init__(infile, outfile)
-        # use readfq for now because pure python and fast enough
-        # for production, could use seqtk which seems the fastest method
+        # use readfq for now because pure python are fast enough
+        # for production, could use seqtk which seems the fastest method though
+        # Make sure that the default handles also the compresssion
         self._default_method = "readfq"
 
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         records = SeqIO.parse(self.infile, 'fastq')
         SeqIO.write(records, self.outfile, 'fasta')
 
     def _method_seqtk(self, *args, **kwargs):
+        # support gz files natively
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
-#     def _method_GATB(self, *args, **kwargs):
-#         with open(self.outfile, "w") as fasta:
-#             for record in Bank(self.infile):
-#                 fasta.write(">{}\n{}\n".format(
-#                     record.comment.decode("utf-8"),
-#                     record.sequence.decode("utf-8")))
+    @in_gz
+    @out_compressor
+    def _method_GATB(self, *args, **kwargs):
+        with open(self.outfile, "w") as fasta:
+            for record in Bank(self.infile):
+                fasta.write(">{}\n{}\n".format(
+                    record.comment.decode("utf-8"),
+                    record.sequence.decode("utf-8")))
+        print("test")
 
+    @compressor
     def _method_readfq(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
             for (name, seq, _) in Fastq2Fasta.readfq(fastq):
@@ -110,6 +130,7 @@ class Fastq2Fasta(ConvBase):
             for (name, seq, _) in fastx_read(self.infile):
                 fasta.write(">{}\n{}\n".format(name, seq))
 
+    @compressor
     def _method_awk(self, *args, **kwargs):
         # Note1: since we use .format, we need to escape the { and } characters
         # Note2: the \n need to be escaped for Popen to work
@@ -117,6 +138,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @compressor
     def _method_mawk(self, *args, **kwargs):
         """This variant of the awk method uses mawk, a lighter and faster
         implementation of awk."""
@@ -126,12 +148,22 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @in_gz
     def _method_bioawk(self, *args, **kwargs):
         """This method uses bioawk, an implementation with convenient
         bioinformatics parsing features."""
         awkcmd = """bioawk -c fastx '{{print ">"$name" "$comment"\\n"$seq}}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
+
+    # Somehow this does not work without specifying
+    # the path to the shared libraries
+    # @in_gz
+    # def _method_fqtools(self, *args, **kwargs):
+    #     """This method uses fqtools."""
+    #     fqtoolscmd = """LD_LIBRARY_PATH="/home/bli/lib" fqtools fasta"""
+    #     cmd = "{} {} > {}".format(fqtoolscmd, self.infile, self.outfile)
+    #     self.execute(cmd)
 
     def _method_awk_v2(self, *args, **kwargs):
         awkcmd = """awk '{{print ">"substr($0,2);getline;print;getline;getline}}'"""
@@ -163,6 +195,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} {}".format(perlcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @compressor
     def _method_python_internal(self, *args, **kwargs):
         with open(self.infile, "r+") as inp:
             with open(self.outfile, "wb") as out:

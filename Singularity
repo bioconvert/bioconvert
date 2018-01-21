@@ -10,14 +10,15 @@ From: ubuntu:17.04
 %labels
   maintainer Bertrand Neron <bneron@pasteur.fr>
   package.name
-  package.version 0.0.7
-  package.homepage https://pypi.python.org/pypi/bioconvert/0.0.6
+  package.version 0.0.11
+  package.homepage https://pypi.python.org/pypi/bioconvert/0.0.11
   package.source.url
   package.source.mdm5
   package.license GPLv3
 
 %post
   ######### install system #########
+  export BIOCONVERT_VERSION="0.0.11"
 
   echo "deb http://archive.ubuntu.com/ubuntu/ zesty main restricted" > /etc/apt/sources.list
   echo "deb http://archive.ubuntu.com/ubuntu/ zesty-updates main restricted" >> /etc/apt/sources.list
@@ -70,7 +71,7 @@ From: ubuntu:17.04
   
 
   ######### install bioconvert #########
-  pip install bioconvert==0.0.7
+  pip install bioconvert==$BIOCONVERT_VERSION
 
   # add this directory for Institut Pasteur cluster usage
   if [ ! -d /pasteur ]; then mkdir /pasteur; fi

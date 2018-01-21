@@ -1,13 +1,30 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
 """Convert :term:`VCF` file to :term:`BCF` file"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
+
+import colorlog
+logger = colorlog.getLogger(__name__)
+
+
+__all__ = ["VCF2BCF"]
 
 
 class VCF2BCF(ConvBase):
     """
 
     """
-    input_ext = [".vcf"]
-    output_ext = [".bcf"]
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

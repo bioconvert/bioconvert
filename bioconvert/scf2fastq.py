@@ -1,8 +1,26 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
 import sys
 import struct
 import copy
 from collections import defaultdict
 from bioconvert import ConvBase
+import colorlog
+_log = colorlog.getLogger(__name__)
+
+__all__ = ["Scf2Fastq"]
+
 
 class Scf2Fastq(ConvBase):
     """
@@ -11,8 +29,6 @@ class Scf2Fastq(ConvBase):
     :param str infile:
     :param str outfile:
     """
-    input_ext = '.scf'
-    output_ext = ['.fq', '.fastq']
 
     def __call__(self, *args, **kwargs):
         sequence = ""
@@ -173,6 +189,7 @@ class Scf2Fastq(ConvBase):
                     output_file.write(chr(126))
                 else:
                     output_file.write(chr(i+34))
+            output_file.write("\n")
 
         """
         print(sequence)
@@ -351,6 +368,7 @@ def delta(rsamples, direction):
                 p_sample2 = samples[i]
 
     else:
-        print("Bad direction in 'delta'. Use\" forward\" or\" backward\".")
-        sys.exit(1)
+        msg="Bad direction in 'delta'. Use\" forward\" or\" backward\"."
+        _log.critical(msg)
+        raise Exception(msg)
     return samples

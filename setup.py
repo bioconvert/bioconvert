@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 _MAJOR = 0
 _MINOR = 0
-_MICRO = 7
+_MICRO = 12
 version = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
 release = '%d.%d' % (_MAJOR, _MINOR)
 
@@ -71,7 +71,7 @@ setup(
     exclude_package_data={"": ["__pycache__"]},
 
     package_data={
-        '': ['*.csv'],
+        '': ['*.csv','*.sh'],
         'bioconvert.data': ['*'],
         },
 

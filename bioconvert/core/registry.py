@@ -1,22 +1,40 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+"""Main bioconvert registry that fetches automatically the relevant converter"""
 import inspect
 import itertools
 import pkgutil
 import importlib
 import colorlog
+
 import bioconvert
 
 _log = colorlog.getLogger(__name__)
 
 
+__all__ = ['Registry']
+
+
 class Registry(object):
-    """
-    class to centralise information about available conversions
+    """class to centralise information about available conversions
 
     ::
 
         from bioconvert.core.registry import Registry
         r = Registry()
         r.conversion_exists("BAM", "BED")
+        r.info()  # returns number of available methods for each converter
 
         conv_class = r[(".bam", ".bed")]
         converter = conv_class(input_file, output_file)
@@ -24,7 +42,7 @@ class Registry(object):
 
     """
     def __init__(self):
-        self._ext_registry = {}
+        # self._ext_registry = {}
         self._fmt_registry = {}
         self._fill_registry(bioconvert.__path__)
 
@@ -32,16 +50,18 @@ class Registry(object):
         """
         Explore the directory converters to discover all converter classes
         (a concrete class which inherits from :class:`ConvBase`)
-        and fill the register with the all input extensions, output extensions associated to this converter
+        and fill the register with the input format and output format associated to this
+        converter
 
         :param str path: the path of a directory to explore (not recursive)
         """
         def is_converter(item):
+            """Check if a module is a converter"""
             obj_name, obj = item
             if not inspect.isclass(obj):
                 return False
 
-            # Note that on some Python version, the isabstract is buggy . 
+            # Note that on some Python version, the isabstract is buggy.
             # Therefore, the isastract does not return False for ConvBase
             # hence the additional check (obj_name in ["ConvBase"])
             return issubclass(obj, bioconvert.ConvBase) \
@@ -61,62 +81,65 @@ class Registry(object):
                 converters = [c for c in converters if is_converter(c)]
                 for converter_name, converter in converters:
                     if converter is not None:
-                        all_conv_path = itertools.product(converter.input_ext, converter.output_ext)
-                        for conv_path in all_conv_path:
-                            self[conv_path] = converter
-                        _log.debug("add converter '{}' for {} -> {}".format(converter_name, *conv_path))
-                        self.set_fmt_conv(converter.input_fmt, converter.output_fmt, converter)
+                        # the registry is no more based on extension but on format
+                        # all_conv_path = itertools.product(converter.input_ext, converter.output_ext)
+                        # for conv_path in all_conv_path:
+                        #     self[conv_path] = converter
+                        conv_path = (converter.input_fmt, converter.output_fmt)
+                        _log.debug("add converter '%s' for %s -> %s", converter_name, *conv_path)
+                        self[conv_path] = converter
 
     def __setitem__(self, conv_path, convertor):
         """
-        Register new convertor from input extension to output extension.
+        Register new convertor from input format to output format.
 
-        :param conv_path: the input extension, the output extension
+        :param conv_path: the input format, the output format
         :type conv_path: tuple of 2 strings
-        :param convertor: the convertor which handle the conversion from input_ext -> output_ext
+        :param convertor: the convertor which handle the conversion from input_fmt -> output_fmt
         :type convertor: :class:`ConvBase` object
         """
-        if conv_path in self._ext_registry:
+        if conv_path in self._fmt_registry:
             raise KeyError('an other converter already exist for {} -> {}'.format(*conv_path))
-        self._ext_registry[conv_path] = convertor
+        self._fmt_registry[conv_path] = convertor
 
     def __getitem__(self, conv_path):
         """
-        :param conv_path: the input extension, the output extension
+        :param conv_path: the input format, the output format
         :type conv_path: tuple of 2 strings
         :return: an object of subclass o :class:`ConvBase`
         """
-        return self._ext_registry[conv_path]
+        return self._fmt_registry[conv_path]
 
     def __contains__(self, conv_path):
         """
         Can use membership operation on registry to test if the it exist a converter to
-        go form input extension to output extension.
+        go form input format to output format.
 
-        :param conv_path: the input extension, the output extension
+        :param conv_path: the input format, the output format
         :type conv_path: tuple of 2 strings
         :return: True if conv_path is in registry otherwise False.
         """
-        return conv_path in self._ext_registry
+        return conv_path in self._fmt_registry
 
     def __iter__(self):
         """
-        make registry iterable through conv_path (str input extension, str output extension)
+        make registry iterable through conv_path (str input format, str output format)
         """
-        for path in self._ext_registry:
+        for path in self._fmt_registry:
             yield path
 
-    def set_fmt_conv(self, in_fmt, out_fmt, converter):
-        """
-        Create an entry in the registry for (in_fmt, out_fmt) and the corresponding converter
+    # this function is no more needed because __setitem__ takes the place
+    # def set_fmt_conv(self, in_fmt, out_fmt, converter):
+    #     """
+    #     Create an entry in the registry for (in_fmt, out_fmt) and the corresponding converter
 
-        :param str in_fmt: the output format
-        :param str out_fmt: the output format
-        :param converter: the converter able to convert in_fmt into out_fmt
-        :type converter:  :class:`BaseConv` concrete class
-        :return: None
-        """
-        self._fmt_registry[(in_fmt, out_fmt)] = converter
+    #     :param str in_fmt: the output format
+    #     :param str out_fmt: the output format
+    #     :param converter: the converter able to convert in_fmt into out_fmt
+    #     :type converter:  :class:`BaseConv` concrete class
+    #     :return: None
+    #     """
+    #     self._fmt_registry[(in_fmt, out_fmt)] = converter
 
     def get_conversions(self):
         """
@@ -137,3 +160,11 @@ class Registry(object):
         in_fmt = in_fmt.upper()
         out_fmt = out_fmt.upper()
         return (in_fmt, out_fmt) in self._fmt_registry
+
+    def get_info(self):
+        converters = set([self[this] for this in self._fmt_registry])
+        data = {}
+        for converter in converters:
+            data[converter] = len(converter.available_methods)
+        return data
+

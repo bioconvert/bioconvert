@@ -60,24 +60,25 @@ Glossary
         associated with DNA, RNA and Protein sequences. 
         http://genome.ucsc.edu/FAQ/FAQformat#format3
 
-    VCF
-
-        Variant Call Format
-        http://en.wikipedia.org/wiki/Variant_Call_Format
-
-
-    BED
-
-        Format that defines the data lines displayed in an annotation track.
-
     JSON
 
         A human-readable data serialization language commonly used in
         configuration files. See https://en.wikipedia.org/wiki/JSON
 
+    PAF
+
+        PAF is a text format describing the approximate mapping positions
+        between two set of sequences. 
+
+
     PHYLIP
 
         The PHYLIP file format stores a multiple sequence alignment.
+
+    VCF
+
+        Variant Call Format
+        http://en.wikipedia.org/wiki/Variant_Call_Format
 
     YAML
 

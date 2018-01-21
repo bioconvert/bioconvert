@@ -1,3 +1,5 @@
+.. _benchmarking:
+
 Benchmarking
 ============
 

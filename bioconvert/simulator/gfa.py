@@ -15,6 +15,12 @@
 
 
 class GFASim():
+    """Simple GFA simulator
+
+
+
+
+    """
     def __init__(self, outfile):
         self.outfile = outfile
         self.nreads = 1000000

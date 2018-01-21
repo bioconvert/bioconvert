@@ -1,5 +1,18 @@
-"""Convert :term:`BAM` format to :term:`fasta` file"""
-from bioconvert import ConvBase
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+"""Convert :term:`BAM` format to :term:`FASTA` file"""
+from bioconvert import ConvBase, extensions
 
 
 class BAM2Fasta(ConvBase):
@@ -8,8 +21,6 @@ class BAM2Fasta(ConvBase):
     Wrapper of bamtools to convert bam file to fasta file.
 
     """
-    input_ext = ['.bam']
-    output_ext = ['fasta', 'fa']
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor

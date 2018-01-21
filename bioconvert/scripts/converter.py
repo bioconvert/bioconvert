@@ -20,8 +20,9 @@ import colorlog
 import bioconvert
 from bioconvert.core.registry import Registry
 from bioconvert.core.converter import Bioconvert
+from bioconvert import extensions
 
-_log = colorlog.getLogger('bioconvert')
+
 
 class ConvAction(argparse.Action):
 
@@ -40,10 +41,6 @@ class ConvAction(argparse.Action):
         # the -v --verbosity options may not be parsed yet (if located after -f on command line)
         # So I do it myself
         v_nb = ''.join([opt for opt in sys.argv if opt.startswith("-v")]).count('v')
-        verbo_nb = sum([1 for opt in sys.argv if opt.startswith('--verb')])
-        verbosity = v_nb + verbo_nb
-
-        bioconvert.logger_set_level(max(10, 30 - (10 * verbosity)))
 
         mapper = Registry()
         print("Available mapping:")
@@ -55,7 +52,12 @@ class ConvAction(argparse.Action):
 def main(args=None):
 
     if args is None:
-        args = sys.argv[:]
+        args = sys.argv[1:]
+
+    if "--version" in args:
+        print("Bioconvert version {}".format(bioconvert.version))
+        sys.exit(0)
+
 
     from easydev.console import purple, underline
     if "-v" in args or "--verbosity" in args:
@@ -87,6 +89,10 @@ def main(args=None):
 
     Note the difference between the two previous commands !!
 
+
+    For more information, please type:
+
+        bioconvert --help
 """)
     arg_parser.add_argument("input_file",
             default=None,
@@ -95,14 +101,19 @@ def main(args=None):
             default=None,
             help="The path where the result will be stored.")
 
-    arg_parser.add_argument("-f", "--formats",
+    arg_parser.add_argument("-F", "--formats",
                             action=ConvAction,
                             default=False,
                             help="Display available formats and exit.")
     arg_parser.add_argument("-v", "--verbosity",
-                            action="count",
-                            default=0,
-                            help="Set the outpout verbosity.")
+                            default="INFO",
+                            help="Set the outpout verbosity. Should be one of DEBUG, INFO, WARNING, ERROR, CRITICAL")
+    arg_parser.add_argument("--raise-exception",
+                            action="store_true",
+                            help="Let exception ending the execution be raised and displayed")
+    arg_parser.add_argument("-l", "--level", dest="verbosity", 
+                            default="INFO",
+                            help="same as --verbosity")
     arg_parser.add_argument("-i", "--input-format",
                             default=None,
                             help="Provide the input format. Check the --formats to see valid input name")
@@ -111,6 +122,7 @@ def main(args=None):
                             help="Provide the output format. Check the --formats to see valid input name")
     arg_parser.add_argument("-x", "--threads",
                             default=None,
+                            type=int,
                             help="Number of threads. Depends on the underlying tool")
     arg_parser.add_argument("-m", "--batch",
                             default=False, action="store_true",
@@ -120,19 +132,33 @@ def main(args=None):
                             default=None,
                             help="A converter may have several methods")
 
+    arg_parser.add_argument("-f", "--force",
+                            action="store_true",
+                            help="if outfile exists, it is overwritten with this option")
+
     arg_parser.add_argument("-s", "--show-methods",
                             default=False,
                             action="store_true",
                             help="A converter may have several methods")
 
-    args = arg_parser.parse_args()
+    arg_parser.add_argument("-b", "--benchmark",
+                            default=False,
+                            action="store_true",
+                            help="Running all available methods")
+
+    arg_parser.add_argument("-N", "--benchmark-N",
+                            default=5,
+                            type=int,
+                            help="Number of trials for each methods")
+
+    args = arg_parser.parse_args(args)
 
     # Set the logging level
-    args.verbosity = max(10, 30 - (10 * args.verbosity))
-    bioconvert.logger_set_level(args.verbosity)
+    bioconvert.logger.level = args.verbosity
+
 
     # Figure out whether we have several input files or not
-    # Are we in batch mode ? 
+    # Are we in batch mode ?
     import glob
     if args.batch:
         filenames = glob.glob(args.input_file)
@@ -141,7 +167,12 @@ def main(args=None):
 
     for filename in filenames:
         args.input_file = filename
-        analysis(args)
+        try:
+            analysis(args)
+        except Exception as e:
+            if args.verbosity == "DEBUG" or args.raise_exception:
+                raise e
+            sys.exit(1)
 
 
 def analysis(args):
@@ -151,34 +182,40 @@ def analysis(args):
     if args.output_file is None:
         if args.output_format is None:
             raise ValueError("Extension of the output format unknown."
-                    " You must either provide an output file name (with"
-                    " extension) or provide it with the --output-format"
-                    " argument")
+                             " You must either provide an output file name (with"
+                             " extension) or provide it with the --output-format"
+                             " argument")
         else:
-            outfile = infile.rsplit(".",1)[0] + "." + args.output_format
+            try:
+                outext = extensions[args.output_format][0].lstrip(".")
+            except KeyError:
+                raise ValueError("No extension found for the format {}".format(args.output_format))
+            outfile = infile.rsplit(".", 1)[0] + "." + outext
     else:
         outfile = args.output_file
 
     # Call a generic wrapper of all available conversion
-    conv = Bioconvert(infile, outfile)
+    conv = Bioconvert(infile, outfile, in_fmt=args.input_format, out_fmt=args.output_format,
+                      force=args.force)
 
-    # Users may provide information about the input file.
-    # Indeed, the input may be a FastQ file but with an extension
-    # that is not standard. For instance fq instead of fastq
-    # If so, we can use the --input-format fastq to overwrite the
-    # provided filename extension
+    # # Users may provide information about the input file.
+    # # Indeed, the input may be a FastQ file but with an extension
+    # # that is not standard. For instance fq instead of fastq
+    # # If so, we can use the --input-format fastq to overwrite the
+    # # provided filename extension
 
-    if args.input_format:
-        inext = args.input_format
-        if not conv.inext.startswith("."):
-            conv.inext = "." + inext
+    # no need to do this
+    # if args.input_format:
+    #     inext = args.input_format
+    #     if not conv.inext.startswith("."):
+    #         conv.inext = "." + inext
 
-    if not conv.inext:
+    if not conv.in_fmt:
         raise RuntimeError("convert infer the format from the extension name."
                            " So add extension to the input file name or use"
                            " --input-format option.")
 
-    if not conv.outext:
+    if not conv.out_fmt:
         raise RuntimeError("convert infer the format from the extension name."
                            " So add extension to the output file name or use"
                            " --output-format option.")
@@ -186,19 +223,22 @@ def analysis(args):
     # do we want to know the available methods ? If so, print info and quite
     if args.show_methods:
         print(conv.converter.available_methods)
-        print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} "
-              "for details ".format(conv.name.lower(),conv.name))
+        print("Please see http://bioconvert.readthedocs.io/en/master/"
+              "references.html#bioconvert.{}.{} for details ".format(conv.name.lower(), conv.name))
         sys.exit(0)
 
+    bioconvert.logger.info("Converting from %s to %s" % (conv.in_fmt, conv.out_fmt))
+
     params = {"threads": args.threads}
-    if args.method:
+
+
+    if args.benchmark:
+        conv.boxplot_benchmark(N=args.benchmark_N)
+        import pylab
+        pylab.savefig("benchmark_{}.png".format(conv.name))
+    else:
         params["method"] = args.method
-
-    _log.info("Converting from {} to {}".format(conv.inext, conv.outext))
-
-    conv.converter(**params)
-
-
+        conv(**params)
 
 if __name__ == "__main__":
     main()

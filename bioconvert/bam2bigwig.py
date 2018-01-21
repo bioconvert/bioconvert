@@ -1,5 +1,3 @@
-
-
 # -*- coding: utf-8 -*-
 ##############################################################################
 #  This file is part of Bioconvert software
@@ -13,8 +11,10 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """ description """
+import colorlog
+from bioconvert import ConvBase, extensions
 
-from bioconvert import ConvBase
+_log = colorlog.getLogger(__name__)
 
 __all__ = ["BAM2BIGWIG"]
 
@@ -25,8 +25,6 @@ class BAM2BIGWIG(ConvBase):
     Some description.
 
     """
-    input_ext = [".bam"]
-    output_ext = [".bigwig"]
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -37,6 +35,7 @@ class BAM2BIGWIG(ConvBase):
         command used::
             bamCoverage -bam {} –-outFileFormat bigwig --outFileName {}
 
+
         """
         super(BAM2BIGWIG, self).__init__(infile, outfile, *args, **kargs)
 
@@ -46,4 +45,5 @@ class BAM2BIGWIG(ConvBase):
         """run bam2bigwig from deeptools package"""
         cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {}".format(self.infile, self.outfile)
         self.execute(cmd)
+
 

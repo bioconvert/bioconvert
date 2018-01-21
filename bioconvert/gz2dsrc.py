@@ -10,10 +10,11 @@
 #  website: https://github.com/biokit/bioconvert
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
-#
 """ Convert a compressed fastq.gz file to :term:`DSRC` compression format """
+from bioconvert import ConvBase, extensions
+import colorlog
+logger = colorlog.getLogger(__name__)
 
-from bioconvert import ConvBase
 
 __all__ = ["GZ2DSRC"]
 
@@ -33,8 +34,6 @@ class GZ2DSRC(ConvBase):
              convert.boxplot_benchmark()
 
     """
-    input_ext = [".gz"]
-    output_ext = [".dsrc"]
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

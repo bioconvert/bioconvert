@@ -1,6 +1,36 @@
 Whats' new, what has changed
 ================================
 
+
+:Revision 0.0.12:
+
+    - new converters: embl2fasta and embl2genbank, fasta2twobit and twobit2fasta
+
+
+:Revision 0.0.11:
+
+     - add abiliy to use go executables (add go to the requirements)
+     - added converters: fasta2nexux, newick2nexus, newick2phyloxml,
+       nexus2fasta, nexus2newick, nexus2phylip, nexus2phyloxml, phylip2nexus,
+       phyloxml2newick, phyloxml2nexus, genbank2embl, genbank2fasta,
+       stockholm2clustal and clustal2phylip
+
+:Revision 0.0.10:
+
+    - added samlint validator
+
+:Revision 0.0.9:
+
+    - added sam2paf
+
+:Revision 0.0.8:
+
+    - added compressor decorator
+    - update bioconvert main script with several options 
+    - new converters: dsrc2gz, bam2bigwig draft
+    - provided squizz on bioconda and added as dependencies
+    - added paflint validator
+
 :Revision 0.0.7:
 
     - added converters: bam2cram and cram2bam, vcf2bed

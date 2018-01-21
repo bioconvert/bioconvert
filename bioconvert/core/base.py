@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 #
-#  This file is part of BioKit software
+#  This file is part of Bioconvert software
 #
-#  Copyright (c) 2016 - BioKit Development Team
+#  Copyright (c) 2016 - Bioconvert Development Team
 #
 #
 #  Distributed under the terms of the 3-clause BSD license.
 #  The full license is in the LICENSE file, distributed with this software.
 #
-#  website: https://github.com/sequana/sequana
-#  documentation: http://sequana.readthedocs.io
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
 import os
@@ -18,20 +18,26 @@ import abc
 import select
 import sys
 import inspect
+import shutil
+import subprocess
 
 from io import StringIO
 from subprocess import Popen, PIPE
+
+from easydev.multicore import cpu_count
 
 import colorlog
 _log = colorlog.getLogger(__name__)
 
 
 from bioconvert.core.benchmark import Benchmark
+from bioconvert.core.utils import generate_outfile_name
+from bioconvert import logger
 
 
 class ConvMeta(abc.ABCMeta):
     """
-    This metaclass checks that the converter classes have 
+    This metaclass checks that the converter classes have
 
        * an attribute input_ext
        * an attribute output_ext
@@ -56,42 +62,44 @@ class ConvMeta(abc.ABCMeta):
     """
     def __init__(cls, name, bases, classdict):
 
-        def check_ext(ext, io_name):
-            """
-            Check if the extension is specified correctly.
-            I must be a string or a sequence of string, otherwise raise an error
-            it should start with a dot. Otherwise fix extension and inject it in the class
+        # do not check extension since modules does not require to specify extension anymore
 
-            :param ext: the value of the class attribute (input|output)_ext
-            :type ext: a string or a list, tuple or set of strings
-            :param str io_name: the type of extension, 'input' or output'
-            :raise TypeError:  if ext is neither a string nor a sequence of strings
-            """
-            if isinstance(ext, str):
-                if not ext.startswith('.'):
-                    ext = '.' + ext
-                setattr(cls, '{}_ext'.format(io_name),  (ext, ))
-            elif isinstance(ext, (list, tuple, set)):
-                if not all([isinstance(one_ext, str) for one_ext in ext]):
-                    raise TypeError("each element of the class attribute '{}.{}_ext' "
-                                    "must be a string".format(cls, io_name))
-                else:
-                    if not all([one_ext.startswith('.') for one_ext in ext]):
-                        fixed_ext = []
-                        for one_ext in ext:
-                            if one_ext.startswith('.'):
-                                fixed_ext.append(one_ext)
-                            else:
-                                fixed_ext.append('.' + one_ext)
-                        setattr(cls, '{}_ext'.format(io_name), fixed_ext)
-            else:
-                import sys
-                err = "the class attribute '{}.{}_ext' " \
-                      "must be specified in the class or subclasses".format(cls.__name__, io_name)
-                _log.warning("skip class '{}': {}".format(cls.__name__, err, file=sys.stderr))
-                raise TypeError("the class attribute '{}.{}_ext' must be specified "
-                                "in the class or subclasses".format(cls.__name__, io_name))
-            return True
+        # def check_ext(ext, io_name):
+        #     """
+        #     Check if the extension is specified correctly.
+        #     I must be a string or a sequence of string, otherwise raise an error
+        #     it should start with a dot. Otherwise fix extension and inject it in the class
+
+        #     :param ext: the value of the class attribute (input|output)_ext
+        #     :type ext: a string or a list, tuple or set of strings
+        #     :param str io_name: the type of extension, 'input' or output'
+        #     :raise TypeError:  if ext is neither a string nor a sequence of strings
+        #     """
+        #     if isinstance(ext, str):
+        #         if not ext.startswith('.'):
+        #             ext = '.' + ext
+        #         setattr(cls, '{}_ext'.format(io_name),  (ext, ))
+        #     elif isinstance(ext, (list, tuple, set)):
+        #         if not all([isinstance(one_ext, str) for one_ext in ext]):
+        #             raise TypeError("each element of the class attribute '{}.{}_ext' "
+        #                             "must be a string".format(cls, io_name))
+        #         else:
+        #             if not all([one_ext.startswith('.') for one_ext in ext]):
+        #                 fixed_ext = []
+        #                 for one_ext in ext:
+        #                     if one_ext.startswith('.'):
+        #                         fixed_ext.append(one_ext)
+        #                     else:
+        #                         fixed_ext.append('.' + one_ext)
+        #                 setattr(cls, '{}_ext'.format(io_name), fixed_ext)
+        #     else:
+        #         import sys
+        #         err = "the class attribute '{}.{}_ext' " \
+        #               "must be specified in the class or subclasses".format(cls.__name__, io_name)
+        #         _log.warning("skip class '{}': {}".format(cls.__name__, err, file=sys.stderr))
+        #         raise TypeError("the class attribute '{}.{}_ext' must be specified "
+        #                         "in the class or subclasses".format(cls.__name__, io_name))
+        #     return True
 
         def is_conversion_method(item):
             """Return True is method name starts with _method_
@@ -117,10 +125,11 @@ class ConvMeta(abc.ABCMeta):
                 input_fmt += "2"
             else:
                 input_fmt, output_fmt = name.upper().split('2', 1)
-            input_ext = getattr(cls, 'input_ext')
-            if check_ext(input_ext, 'input'):
-                output_ext = getattr(cls, 'output_ext')
-                check_ext(output_ext, 'output')
+            # modules have no more input_ext and output_ext attributes
+            # input_ext = getattr(cls, 'input_ext')
+            # if check_ext(input_ext, 'input'):
+            #     output_ext = getattr(cls, 'output_ext')
+            #     check_ext(output_ext, 'output')
             setattr(cls, 'input_fmt', input_fmt)
             setattr(cls, 'output_fmt', output_fmt)
             available_conv_meth = inspect.getmembers(cls, is_conversion_method)
@@ -147,14 +156,15 @@ class ConvBase(metaclass=ConvMeta):
         __call__(self, *args, **kwargs):
             do conversion
     """
-
-    """specify the extensions of the input file, can be a sequence (must be 
-    overridden in subclasses)"""
+    # specify the extensions of the input file, can be a sequence (must be
+    # overridden in subclasses)
     input_ext = None
-    """specify the extensions of the output file, can be a sequence (must be 
-    overridden in subclasses)"""
+
+    # specify the extensions of the output file, can be a sequence (must be
+    # overridden in subclasses)
     output_ext = None
     _default_method = None
+    _is_compressor = False
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
@@ -162,16 +172,22 @@ class ConvBase(metaclass=ConvMeta):
         :param str infile: The path of the input file.
         :param str outfile: The path of The output file
         """
-        if os.path.exists(infile) is False:
-            msg = "Incorrect input file: %s" % infile
-            _log.error(msg)
-            raise ValueError(msg)
+        # do not check the existence of the input file because it could be just a prefix
+        # if os.path.exists(infile) is False:
+        #     msg = "Incorrect input file: %s" % infile
+        #     _log.error(msg)
+        #     raise ValueError(msg)
+
+        if not outfile:
+            outfile = generate_outfile_name(infile, self.output_ext[0])
+
+
 
         self.infile = infile
         self.outfile = outfile
-        from easydev.multicore import cpu_count
         self.threads = cpu_count()
-        self._execute_mode = "subprocess"  # set to shell to call shell() method
+        self._execute_mode = "shell" #"subprocess"  # set to shell to call shell() method
+        self.logger = logger
 
     def __call__(self, *args, threads=None, **kwargs):
         """
@@ -182,7 +198,7 @@ class ConvBase(metaclass=ConvMeta):
         :param *kwargs: keyword arguments
 
         """
-        # If method provided, use it 
+        # If method provided, use it
         method_name = kwargs.get("method", None)
         if method_name:
             del kwargs["method"]
@@ -198,7 +214,7 @@ class ConvBase(metaclass=ConvMeta):
         # "dummy" is a method used to evaluate the cost of the
         # execute() method for the benchmark
         if method_name not in self.available_methods + ['dummy']:
-            msg = "Method available are {}".format(self.available_methods)
+            msg = "Methods available are {}".format(self.available_methods)
             _log.error(msg)
             raise ValueError(msg)
 
@@ -207,7 +223,7 @@ class ConvBase(metaclass=ConvMeta):
         method_reference = getattr(self, "_method_{}".format(method_name))
 
         # call the method itself
-        method_reference(*args, threads=None, **kwargs)
+        method_reference(*args, threads=threads, **kwargs)
 
     @property
     def name(self):
@@ -235,9 +251,10 @@ class ConvBase(metaclass=ConvMeta):
         self._last_time = t2 - t1
 
     def execute(self, cmd, ignore_errors=False, verbose=False, shell=False):
+
         if shell is True or self._execute_mode == "shell":
             self.shell(cmd)
-            return 
+            return
 
         t1 = time.time()
         _log.info("{}> ".format(self.name))
@@ -325,4 +342,22 @@ class ConvBase(metaclass=ConvMeta):
             return self.available_methods[0]
         else:
             return self._default_method
+
+    def install_tool(self, executable):
+        """Install the given tool, using the script:
+        bioconvert/install_script/install_executable.sh
+        if the executable is not already present
+
+        :param executable to install
+        :return: nothing
+        """
+        import bioconvert
+        from bioconvert import bioconvert_data 
+
+        if shutil.which(executable) is None:
+            logger.info("Installing tool : "+executable)
+            bioconvert_path = bioconvert.__path__[0]
+            script = bioconvert_data('install_'+executable+'.sh', where="../misc")
+            subprocess.call(['sh',script])
+
     default = property(_get_default_method)

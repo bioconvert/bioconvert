@@ -12,7 +12,9 @@
 #
 ##############################################################################
 """Convert :term:`GFA` format to :term:`FASTA` formats"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
+import colorlog
+logger = colorlog.getLogger(__name__)
 
 
 __all__ = ["GFA2FASTA"]
@@ -39,8 +41,6 @@ class GFA2FASTA(ConvBase):
     .. seealso:: bioconvert.simulator.gfa
 
     """
-    input_ext = ['.gfa']
-    output_ext = ['.fasta', ".fa"]
 
     def __init__(self, infile, outfile):
         """
@@ -66,8 +66,15 @@ class GFA2FASTA(ConvBase):
     def _method_python(self, *args, **kwargs):
         with open(self.infile, "r") as fin:
             with open(self.outfile, "w") as fout:
-                for line in fin.readlines():
+                for i, line in enumerate(fin.readlines()):
                     if line.startswith("S"):
-                        field, name, sequence = line.split()
-                        fout.write(">{}\n{}\n".format(name, sequence))
+                        args = line.split()
+                        if len(args) == 3:
+                            fout.write(">{}\n{}\n".format(args[1], args[2]))
+                        elif len(args) == 4:
+                            fout.write(">{}\n{}\n".format(args[1]+" " + args[3], args[2]))
+                        else:
+                            raise ValueError("Illformed line on line %s. Expected 3 or 4 values" % i)
+
+
 

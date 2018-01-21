@@ -1,6 +1,19 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
 """Convert :term:`BAM` file to :term:`CRAM` file"""
 import os
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
 from easydev.multicore import cpu_count
 
 import colorlog
@@ -11,14 +24,12 @@ class BAM2CRAM(ConvBase):
     """Convert :term:`BAM` file to :term:`CRAM` file
 
     The conversion requires the reference corresponding to the input file
-    It can be provided as an argument in the constructor. Otherwise, 
+    It can be provided as an argument in the constructor. Otherwise,
     a local file with same name as the input file but an .fa extension is looked
-    for. Otherwise, we ask for the user to provide the input file. This is 
+    for. Otherwise, we ask for the user to provide the input file. This is
     useful for the standalone application.
 
     """
-    input_ext = [".bam"]
-    output_ext = ".cram"
 
     def __init__(self, infile, outfile, reference=None, *args, **kargs):
         """.. rubric:: constructor

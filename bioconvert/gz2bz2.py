@@ -10,8 +10,9 @@
 #  website: https://github.com/biokit/bioconvert
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
-""" description """
-from bioconvert import ConvBase
+"""Convert :term:`GZ` file to :term:`BZ2` file"""
+from bioconvert import ConvBase, extensions
+
 
 __all__ = ["GZ2BZ2"]
 
@@ -19,11 +20,10 @@ __all__ = ["GZ2BZ2"]
 class GZ2BZ2(ConvBase):
     """Convert :term:`GZ` file to :term:`BZ2` file
 
-    Some description.
+    unzip input file using pigz and compress using pbzip2
 
     """
-    input_ext = [".gz"]
-    output_ext = [".bz2"]
+    #_is_compressor = True
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -39,17 +39,15 @@ class GZ2BZ2(ConvBase):
         # check integrity
         # cmd = "pigz -p{threads} --test {input}"
         # shell(cmd)
-
         # conversion
+        threads = kwargs.get("threads", self.threads)
+
         cmd = "pigz -d -c -p {threads} {input} | pbzip2 -p{threads} > {output}"
         self.execute(cmd.format(
-            threads=self.threads,
+            threads=threads,
             input=self.infile,
             output=self.outfile))
 
         # integrity output
         #cmd = "pbzip2 {output} -p{threads} --test"
         #shell(cmd)
-
-        # use self.infile, self.outfile
-

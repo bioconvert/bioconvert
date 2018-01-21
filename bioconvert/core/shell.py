@@ -10,6 +10,9 @@ import sys
 import os
 import subprocess as sp
 
+import colorlog
+_log = colorlog.getLogger(__name__)
+
 
 STDOUT = sys.stdout
 
@@ -44,6 +47,7 @@ class shell:
 
         close_fds = sys.platform != 'win32'
 
+        _log.info(cmd)
         proc = sp.Popen("{} {} {}".format(
                             cls._process_prefix,
                             cmd.rstrip(),
@@ -72,6 +76,3 @@ class shell:
         retcode = proc.wait()
         if retcode:
             raise sp.CalledProcessError(retcode, cmd)
-
-#if "SHELL" in os.environ:
-#    shell.executable(os.environ["SHELL"])

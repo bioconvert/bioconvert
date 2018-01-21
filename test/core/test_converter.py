@@ -6,7 +6,7 @@ from easydev import TempFile
 def test_bioconvert():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".fasta") as fout:
-        c = Bioconvert(infile, fout.name)
+        c = Bioconvert(infile, fout.name, force=True)
         c()
         c.boxplot_benchmark()
 

@@ -7,7 +7,7 @@ def test_converter():
 
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".bed") as tempfile:
-        cmd = "bioconvert %s %s" % (infile, tempfile.name)
+        cmd = "bioconvert %s %s --force" % (infile, tempfile.name)
         subprocess.Popen(cmd, shell=True)
 
 
@@ -15,7 +15,7 @@ def test_converter1():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".bed") as tempfile:
         import sys
-        sys.argv = ["bioconvert", infile, tempfile.name]
+        sys.argv = ["bioconvert", infile, tempfile.name, "--force"]
         converter.main()
 
 
@@ -24,7 +24,7 @@ def test_converter2():
     with TempFile(suffix=".bed") as tempfile:
         import sys
         sys.argv = ["bioconvert", infile, tempfile.name, 
-                    "--method" , "bedtools"]
+                    "--method" , "bedtools", "--force"]
         converter.main()
 
 
@@ -49,7 +49,7 @@ def test_converter_output_format():
     with TempFile() as tempfile:
         import sys
         sys.argv = ["bioconvert", infile, tempfile.name,
-                    "--output-format" , "bed"]
+                    "--output-format" , "bed", "--force"]
         try:
             converter.main()
         except SystemExit:
@@ -59,22 +59,21 @@ def test_converter_show_methods():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".bed") as tempfile:
         import sys
-        sys.argv = ["bioconvert", infile, tempfile.name, "--show-methods"]
+        sys.argv = ["bioconvert", infile, tempfile.name, "--show-methods",
+            "--force"]
         try:
             converter.main()
         except SystemExit:
             pass
 
 def test_converter_formats():
-    infile = bioconvert_data("test_measles.sorted.bam")
-    with TempFile(suffix=".bed") as tempfile:
-        import sys
-        sys.argv = ["bioconvert", "--formats"]
-        try:
-            converter.main()
-            assert False
-        except SystemExit:
-            assert True
-        except:
-            assert False
+    import sys
+    sys.argv = ["bioconvert", "--formats"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit:
+        assert True
+    except:
+        assert False
 

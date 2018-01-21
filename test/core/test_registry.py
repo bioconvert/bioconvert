@@ -8,10 +8,10 @@ def test_registry():
     assert rr.conversion_exists("bam", "bed") is True
     assert rr.conversion_exists("bam", "dummy") is False
 
-    assert ('.bam', '.bed') in rr
-    assert ('.nimport', '.naoik') not in rr
+    assert ('BAM', 'BED') in rr
+    assert ('NIMPORT', 'NAOIK') not in rr
 
-    converter = rr[('.bam', '.bed')]
+    converter = rr[('BAM', 'BED')]
     with pytest.raises(KeyError) as err:
-        rr[('.bam', '.bed')] = converter
-    assert "'an other converter already exist for .bam -> .bed'" == str(err.value)
+        rr[('BAM', 'BED')] = converter
+    assert "'an other converter already exist for BAM -> BED'" == str(err.value)

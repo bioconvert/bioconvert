@@ -4,10 +4,14 @@ bedtools
 bioawk
 deeptools
 dsrc
-mawk
 pbzip2
 pigz
 sambamba
 samtools
 seqtk
 squizz
+go=1.9.2
+ucsc-twobittofa
+ucsc-fatotwobit
+ucsc-bigwigtobedgraph
+sra-tools
