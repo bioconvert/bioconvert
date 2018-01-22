@@ -5,6 +5,8 @@ Whats' new, what has changed
 :Revision 0.0.12:
 
     - new converters: embl2fasta and embl2genbank, fasta2twobit and twobit2fasta
+        fasta2fasta, sra2fastq
+    - refactoring of the extensions framework to simplify the code
 
 
 :Revision 0.0.11:
