@@ -13,11 +13,7 @@ import colorlog
 from easydev import CustomConfig
 configuration = CustomConfig("bioconvert", verbose=True)
 
-if 'TRAVIS_PYTHON_VERSION' in os.environ:
-    os.environ["GOPATH"]= os.environ["HOME"]+"/go"
-if 'GOPATH' not in os.environ:
-    os.environ["GOPATH"] = os.environ["HOME"]+"/go"
-
+os.environ["GOPATH"]= os.environ["HOME"]+"/go"
 os.environ["PATH"] = os.environ["GOPATH"]+"/bin/:"+os.environ["PATH"]
 
 try:
