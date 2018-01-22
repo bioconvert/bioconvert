@@ -15,13 +15,16 @@
 from bioconvert import ConvBase, extensions
 import subprocess
 import os
+import tempfile
+import shutil
 
-class Sra2Fastq(ConvBase):
-    """Converts Sra 2 Fastq file
+class SRA2FASTQ(ConvBase):
+    """Converts Sra 2 Fastq(.gz) file
 
     """
 
-    def __init__(self, infile, outfile):
+    # If test: will take only the first 10 reads from the sra file
+    def __init__(self, infile, outfile,test=False):
         """.. rubric:: constructor
         :param str infile:
         :param str outfile:
@@ -30,38 +33,48 @@ class Sra2Fastq(ConvBase):
         """
         super().__init__(infile, outfile)
         self._default_method = "sratoolkit"
+        self.test = test
 
     def _method_sratoolkit(self, *args, **kwargs):
         """
         Uses Sratoolkit (fastq-dump) to convert a sra file to fastq
         """
-        outname='{}.{}'.format(os.path.splitext(self.infile)[0],"fastq")
-        inbasename=os.path.splitext(self.infile)[0]
-        outbasename=os.path.splitext(self.outfile)[0]
-        infile = self.infile
+        inname=os.path.split(os.path.splitext(self.infile)[0])[1]
+        outname='{}.{}'.format(inname,"fastq")
+        
+        outbasename,ext=os.path.splitext(self.outfile)
+        compresscmd=""
+        gzext=""
+        if ext==".gz":
+            compresscmd="--gzip"
+            gzext=".gz"
+            outbasename=os.path.splitext(outbasename)[0]
 
+        infile = self.infile
         # If the file does not exist locally, we take the basename
         # it should correspond to a SRA ID
         if os.path.isfile(infile) is False:
-            infile = os.path.splitext(self.infile)[0]
-            infile = os.path.split(infile)[1]
+            infile = inname
 
+        tmpdir=tempfile.mkdtemp()
+        testcmd=""
+        # If in test mode, we retrieve only 10 reads from sra
+        if self.test:
+            testcmd="-X 10"
         if self.isPairedSRA(infile):
-           cmd = "fastq-dump --split-files "+infile
+           cmd = "fastq-dump {} {} --split-files -O {} {}".format(testcmd, compresscmd, tmpdir, infile)
            self.execute(cmd)
-           if self.outfile!=outname:
-                   cmd = "mv {0} {1}".format(inbasename+"_1.fastq", outbasename+"_1.fastq")
-                   self.execute(cmd)
-                   cmd = "mv {0} {1}".format(inbasename+"_2.fastq", outbasename+"_2.fastq")
-                   self.execute(cmd)
+           cmd = "mv {}/{}_1.fastq{} {}_1.fastq{}".format(tmpdir, inname, gzext, outbasename, gzext)
+           self.execute(cmd)
+           cmd = "mv {}/{}_2.fastq{} {}_2.fastq{}".format(tmpdir, inname, gzext, outbasename, gzext)
+           self.execute(cmd)
         else:
-           cmd = "fastq-dump {}".format(infile)
+           cmd = "fastq-dump {} {} -O {} {}".format(testcmd,compresscmd, tmpdir, infile)
            self.execute(cmd)
-           if self.outfile!=outname :
-                cmd = "mv {0} {1}".format(inbasename+".fastq", self.outfile)
-                self.execute(cmd)
-
-
+           cmd = "mv {}/{}.fastq{} {}".format(tmpdir, inname, gzext, self.outfile)
+           self.execute(cmd)
+        shutil.rmtree(tmpdir)
+           
     def isPairedSRA(self,filename):
         try:
             contents = subprocess.check_output(["fastq-dump","-X","1","-Z","--split-spot", filename]);
