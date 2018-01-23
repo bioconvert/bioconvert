@@ -1,13 +1,10 @@
-import os
-import pytest
 from easydev import TempFile, md5
 
 from bioconvert import bioconvert_data
 from bioconvert.phylip2stockholm import PHYLIP2STOCKHOLM
 
-#skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
+# skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
 #       and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
-
 
 
 #@skiptravis
