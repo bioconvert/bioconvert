@@ -84,8 +84,8 @@ def main(args=None):
     # Note, however, the quotes that are required
     bioconvert "test*.fastq" -o fasta
 
-    # batch is also possible. 
-    bioconvert "test*.fastq" -o fasta -m 
+    # batch is also possible.
+    bioconvert "test*.fastq" -o fasta -m
 
     Note the difference between the two previous commands !!
 
@@ -111,7 +111,7 @@ def main(args=None):
     arg_parser.add_argument("--raise-exception",
                             action="store_true",
                             help="Let exception ending the execution be raised and displayed")
-    arg_parser.add_argument("-l", "--level", dest="verbosity", 
+    arg_parser.add_argument("-l", "--level", dest="verbosity",
                             default="INFO",
                             help="same as --verbosity")
     arg_parser.add_argument("-i", "--input-format",
@@ -172,6 +172,8 @@ def main(args=None):
         except Exception as e:
             if args.verbosity == "DEBUG" or args.raise_exception:
                 raise e
+            else:
+                bioconvert.logger.error(e)
             sys.exit(1)
 
 
