@@ -12,11 +12,9 @@
 #
 ##############################################################################
 """Convert :term:`FASTQ` to :term:`BAM`"""
-from Bio import SeqIO
-from Bio.SeqIO import FastaIO
-from bioconvert import ConvBase, bioconvert_script
+from bioconvert import ConvBase
 
-from bioconvert.core.compressor import compressor, out_compressor, in_gz
+from bioconvert.core.compressor import in_gz
 
 
 class FASTQ2BAM(ConvBase):
@@ -42,7 +40,9 @@ class FASTQ2BAM(ConvBase):
         """
         self.install_tool('fastqutils')
         if self.infile2 is not None:
-            cmd = "fastqutils tobam -1 {} -2 {} -o {}".format(self.infile, self.infile2, self.outfile)
+            cmd = "fastqutils tobam -1 {} -2 {} -o {}".format(
+                self.infile, self.infile2, self.outfile)
         else:
-            cmd = "fastqutils tobam -1 {} -o {}".format(self.infile, self.outfile)
+            cmd = "fastqutils tobam -1 {} -o {}".format(
+                self.infile, self.outfile)
         self.execute(cmd)
