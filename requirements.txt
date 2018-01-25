@@ -4,5 +4,6 @@ pandas
 biopython
 mappy
 matplotlib
+networkx
 pyyaml
 pysam
