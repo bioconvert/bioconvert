@@ -1,10 +1,8 @@
-import os
 import pytest
 from easydev import TempFile, md5
 
 from bioconvert import bioconvert_data
 from bioconvert.twobit2fasta import TWOBIT2FASTA
-import pytest
 
 
 @pytest.mark.parametrize("method", TWOBIT2FASTA.available_methods)

@@ -9,7 +9,6 @@ skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
                                 and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
 
 
-
 @skiptravis
 def test_phylip2clustal_biopython():
     infile = bioconvert_data("biopython.phylip")

@@ -12,10 +12,6 @@
 #
 ##############################################################################
 """ description """
-import os
-import json
-import glob
-from os.path import join, basename
 from os import environ
 
 
@@ -88,19 +84,3 @@ strict digraph{
             import os
             os.system(cmd)
         #dotfile.delete()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
