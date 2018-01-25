@@ -13,7 +13,7 @@
 ##############################################################################
 """Main bioconvert registry that fetches automatically the relevant converter"""
 import inspect
-import itertools
+# import itertools
 import pkgutil
 import importlib
 import colorlog
@@ -45,6 +45,7 @@ class Registry(object):
         # self._ext_registry = {}
         self._fmt_registry = {}
         self._fill_registry(bioconvert.__path__)
+        self._build_path_dict()
 
     def _fill_registry(self, path):
         """
@@ -62,7 +63,7 @@ class Registry(object):
                 return False
 
             # Note that on some Python version, the isabstract is buggy.
-            # Therefore, the isastract does not return False for ConvBase
+            # Therefore, the isabstract does not return False for ConvBase
             # hence the additional check (obj_name in ["ConvBase"])
             return issubclass(obj, bioconvert.ConvBase) \
                     and not inspect.isabstract(obj) \
@@ -82,51 +83,72 @@ class Registry(object):
                 for converter_name, converter in converters:
                     if converter is not None:
                         # the registry is no more based on extension but on format
-                        # all_conv_path = itertools.product(converter.input_ext, converter.output_ext)
-                        # for conv_path in all_conv_path:
-                        #     self[conv_path] = converter
-                        conv_path = (converter.input_fmt, converter.output_fmt)
-                        _log.debug("add converter '%s' for %s -> %s", converter_name, *conv_path)
-                        self[conv_path] = converter
+                        # all_format_pair = itertools.product(
+                        #     converter.input_ext, converter.output_ext)
+                        # for format_pair in all_format_pair:
+                        #     self[format_pair] = converter
+                        format_pair = (converter.input_fmt, converter.output_fmt)
+                        _log.debug("add converter '%s' for %s -> %s",
+                                   converter_name, *format_pair)
+                        self[format_pair] = converter
 
-    def __setitem__(self, conv_path, convertor):
+    def _build_path_dict(self):
+        """
+        Constructs a dictionary containing shortest paths
+        from one format to another.
+        """
+        from networkx import DiGraph, all_pairs_shortest_path
+        self._path_dict = dict(all_pairs_shortest_path(
+            DiGraph(self.get_conversions())))
+
+    # TODO: Should we use a format_pair instead of two strings?
+    def conversion_path(self, in_fmt, out_fmt):
+        """
+        Returns a list of conversion steps to get from *in_fmt* to *out_fmt*.
+
+        Each step in the list is a pair of formats.
+        """
+        fmt_steps = self._path_dict[in_fmt][out_fmt]
+        return list(zip(fmt_steps, fmt_steps[1:]))
+
+    def __setitem__(self, format_pair, convertor):
         """
         Register new convertor from input format to output format.
 
-        :param conv_path: the input format, the output format
-        :type conv_path: tuple of 2 strings
+        :param format_pair: the input format, the output format
+        :type format_pair: tuple of 2 strings
         :param convertor: the convertor which handle the conversion from input_fmt -> output_fmt
         :type convertor: :class:`ConvBase` object
         """
-        if conv_path in self._fmt_registry:
-            raise KeyError('an other converter already exist for {} -> {}'.format(*conv_path))
-        self._fmt_registry[conv_path] = convertor
+        if format_pair in self._fmt_registry:
+            raise KeyError('an other converter already exist for {} -> {}'.format(*format_pair))
+        self._fmt_registry[format_pair] = convertor
 
-    def __getitem__(self, conv_path):
+    def __getitem__(self, format_pair):
         """
-        :param conv_path: the input format, the output format
-        :type conv_path: tuple of 2 strings
+        :param format_pair: the input format, the output format
+        :type format_pair: tuple of 2 strings
         :return: an object of subclass o :class:`ConvBase`
         """
-        return self._fmt_registry[conv_path]
+        return self._fmt_registry[format_pair]
 
-    def __contains__(self, conv_path):
+    def __contains__(self, format_pair):
         """
         Can use membership operation on registry to test if the it exist a converter to
         go form input format to output format.
 
-        :param conv_path: the input format, the output format
-        :type conv_path: tuple of 2 strings
-        :return: True if conv_path is in registry otherwise False.
+        :param format_pair: the input format, the output format
+        :type format_pair: tuple of 2 strings
+        :return: True if format_pair is in registry otherwise False.
         """
-        return conv_path in self._fmt_registry
+        return format_pair in self._fmt_registry
 
     def __iter__(self):
         """
-        make registry iterable through conv_path (str input format, str output format)
+        make registry iterable through format_pair (str input format, str output format)
         """
-        for path in self._fmt_registry:
-            yield path
+        for format_pair in self._fmt_registry:
+            yield format_pair
 
     # this function is no more needed because __setitem__ takes the place
     # def set_fmt_conv(self, in_fmt, out_fmt, converter):
@@ -150,16 +172,20 @@ class Registry(object):
         for conv in self._fmt_registry:
             yield conv
 
-    def conversion_exists(self, in_fmt, out_fmt):
+    def conversion_exists(self, in_fmt, out_fmt, allow_indirect=False):
         """
         :param str in_fmt: the input format
         :param str out_fmt: the output format
+        :param boolean allow_indirect: whether to count indirect conversions
         :return: True if it exists a converter which transform in_fmt into out_fmt
         :rtype: boolean
         """
         in_fmt = in_fmt.upper()
         out_fmt = out_fmt.upper()
-        return (in_fmt, out_fmt) in self._fmt_registry
+        # return (in_fmt, out_fmt) in self._fmt_registry
+        return ((in_fmt, out_fmt) in self._fmt_registry
+                or (allow_indirect
+                    and len(self.conversion_path(in_fmt, out_fmt))))
 
     def get_info(self):
         converters = set([self[this] for this in self._fmt_registry])
@@ -167,4 +193,3 @@ class Registry(object):
         for converter in converters:
             data[converter] = len(converter.available_methods)
         return data
-
