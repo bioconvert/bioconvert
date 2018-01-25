@@ -51,8 +51,8 @@ class Registry(object):
         """
         Explore the directory converters to discover all converter classes
         (a concrete class which inherits from :class:`ConvBase`)
-        and fill the register with the input format and output format associated to this
-        converter
+        and fill the register with the input format and output format
+        associated to this converter
 
         :param str path: the path of a directory to explore (not recursive)
         """
@@ -65,9 +65,9 @@ class Registry(object):
             # Note that on some Python version, the isabstract is buggy.
             # Therefore, the isabstract does not return False for ConvBase
             # hence the additional check (obj_name in ["ConvBase"])
-            return issubclass(obj, bioconvert.ConvBase) \
-                    and not inspect.isabstract(obj) \
-                    and obj_name not in ["ConvBase"]
+            return (issubclass(obj, bioconvert.ConvBase)
+                    and not inspect.isabstract(obj)
+                    and obj_name not in ["ConvBase"])
 
         modules = pkgutil.iter_modules(path=path)
         for _, module_name, *_ in modules:
@@ -108,7 +108,10 @@ class Registry(object):
 
         Each step in the list is a pair of formats.
         """
-        fmt_steps = self._path_dict[in_fmt][out_fmt]
+        try:
+            fmt_steps = self._path_dict[in_fmt][out_fmt]
+        except KeyError:
+            fmt_steps = []
         return list(zip(fmt_steps, fmt_steps[1:]))
 
     def __setitem__(self, format_pair, convertor):
@@ -117,11 +120,13 @@ class Registry(object):
 
         :param format_pair: the input format, the output format
         :type format_pair: tuple of 2 strings
-        :param convertor: the convertor which handle the conversion from input_fmt -> output_fmt
+        :param convertor: the convertor which handle the conversion
+                          from input_fmt -> output_fmt
         :type convertor: :class:`ConvBase` object
         """
         if format_pair in self._fmt_registry:
-            raise KeyError('an other converter already exist for {} -> {}'.format(*format_pair))
+            raise KeyError("an other converter already exists "
+                           "for {} -> {}".format(*format_pair))
         self._fmt_registry[format_pair] = convertor
 
     def __getitem__(self, format_pair):
@@ -134,8 +139,8 @@ class Registry(object):
 
     def __contains__(self, format_pair):
         """
-        Can use membership operation on registry to test if the it exist a converter to
-        go form input format to output format.
+        Can use membership operation on registry to test if a converter
+        to go form input format to output format exists.
 
         :param format_pair: the input format, the output format
         :type format_pair: tuple of 2 strings
@@ -145,28 +150,17 @@ class Registry(object):
 
     def __iter__(self):
         """
-        make registry iterable through format_pair (str input format, str output format)
+        make registry iterable
+        through format_pair (str input format, str output format)
         """
         for format_pair in self._fmt_registry:
             yield format_pair
 
-    # this function is no more needed because __setitem__ takes the place
-    # def set_fmt_conv(self, in_fmt, out_fmt, converter):
-    #     """
-    #     Create an entry in the registry for (in_fmt, out_fmt) and the corresponding converter
-
-    #     :param str in_fmt: the output format
-    #     :param str out_fmt: the output format
-    #     :param converter: the converter able to convert in_fmt into out_fmt
-    #     :type converter:  :class:`BaseConv` concrete class
-    #     :return: None
-    #     """
-    #     self._fmt_registry[(in_fmt, out_fmt)] = converter
-
     def get_conversions(self):
         """
         :return: a generator which allow to iterate on all available conversions
-                 a conversion is encoded by a tuple of 2 strings (input format, output format)
+                 a conversion is encoded by a tuple of
+                 2 strings (input format, output format)
         :retype: generator
         """
         for conv in self._fmt_registry:
@@ -177,7 +171,7 @@ class Registry(object):
         :param str in_fmt: the input format
         :param str out_fmt: the output format
         :param boolean allow_indirect: whether to count indirect conversions
-        :return: True if it exists a converter which transform in_fmt into out_fmt
+        :return: True if a converter which transform in_fmt into out_fmt exists
         :rtype: boolean
         """
         in_fmt = in_fmt.upper()

@@ -18,4 +18,4 @@ def test_registry():
     with pytest.raises(KeyError) as err:
         rr[('BAM', 'BED')] = converter
     assert (str(err.value)
-            == "'an other converter already exist for BAM -> BED'")
+            == "'an other converter already exists for BAM -> BED'")
