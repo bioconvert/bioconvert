@@ -25,7 +25,7 @@ __all__ = ["GENBANK2GFF"]
 
 
 class GENBANK2GFF(ConvBase):
-    """Convert :term:`GENBANK` file to :term:`EMBL` file
+    """Convert :term:`GENBANK` file to :term:`GFF` file
 
     Some description.
 
@@ -35,12 +35,12 @@ class GENBANK2GFF(ConvBase):
         """.. rubric:: constructor
 
         :param str infile: input GENBANK file
-        :param str outfile: output EMBL filename
+        :param str outfile: output GFF filename
 
         """
-        super(GENBANK2GFF, self).__init__(infile, outfile, *args, **kargs)
+        super().__init__(infile, outfile)
 
-        self._default_method = "python"
+        self._default_method = "biocode"
 
     def _method_biocode(self, *args, **kwargs):
         """Uses scripts from biocode
