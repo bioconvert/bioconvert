@@ -40,6 +40,8 @@ install:
   - conda install --yes python=$TRAVIS_PYTHON_VERSION  coverage
   - pip install .
   - pip install pygatb --no-deps
+  - pip install pypandoc
+  - pip install biocode
 
 
 # # command to run tests, e.g. python setup.py test
