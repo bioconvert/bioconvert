@@ -1,6 +1,5 @@
 
 
-
 from easydev import AttrDict
 
 
@@ -14,13 +13,14 @@ extensions = {
     'bz2': ['bz2'],
     'cdao': ["cdao"],                           # phylo
     'cram': ["cram"],                           # alignment
-    'clustal':["clustal", "aln", "clw"],        # phylo
+    'clustal': ["clustal", "aln", "clw"],       # phylo
     'dsrc': ['dsrc'],
     'embl': ['embl'],                           # annotation/sequence
     'fasta': ["fasta", "fa", "fst"],            # sequence
     'fastq': ["fastq", "fq"],                   # sequence
     'genbank': ['genbank', 'gbk', "gb"],        # annotation/sequence
     'gfa': ['gfa'],                             # assembly
+    'gff': ['gff3', 'gff'],                     # gff3 so far
     'gz': ['gz'],
     'json': ['json'],                           # misc
     'newick': ["newick", "nw", "nhx", "nwk"],   # phylo
@@ -34,7 +34,7 @@ extensions = {
     'vcf': ['vcf'],                             # variant
     'twobit': ['2bit'],                         # sequence
     'yaml': ['yaml', 'YAML'],                   # misc
-    }
+}
 
 extensions = AttrDict(**extensions)
 
@@ -67,31 +67,31 @@ and .fastq, are commonly used. There are different FASTQ formats for different
 sequencing technologies.
 
 ig  Unspecified (*.txt)     1.47    No  1.52    This refers to the
-IntelliGenetics file format, apparently the same as the MASE alignment format.  
+IntelliGenetics file format, apparently the same as the MASE alignment format.
 
 imgt    Unspecified (*.txt)     1.56    1.56    1.56    This refers to the IMGT
-variant of the EMBL plain text file format.     
+variant of the EMBL plain text file format.
 
 
-phd     *.phd   1.46    1.52    1.52    PHD files are output from PHRED, used by
-PHRAP and CONSED for input. Uses Bio.Sequencing.Phd internally.     
+phd     *.phd   1.46    1.52    1.52    PHD files are output from PHRED,
+used by PHRAP and CONSED for input. Uses Bio.Sequencing.Phd internally.
 
 pir     *.pir   1.48    No  1.52    A "FASTA like" format introduced by the
 National Biomedical Research Foundation (NBRF) for the Protein Information
-Resource (PIR) database, now part of UniProt.   
+Resource (PIR) database, now part of UniProt.
 
 sff     *.sff   1.54    1.54    1.54    Standard Flowgram Format (SFF) binary
-files produced by Roche 454 and IonTorrent/IonProton sequencing machines.   
+files produced by Roche 454 and IonTorrent/IonProton sequencing machines.
 
 swiss   *.sw    1.43    No  1.52    Swiss-Prot aka UniProt format. Uses
-Bio.SwissProt internally. See also the UniProt XML format.  
+Bio.SwissProt internally. See also the UniProt XML format.
 
 qual    *.qual  1.50    1.50    1.52    Qual files are a bit like FASTA files
-but instead of the sequence, record space separated integer sequencing values as
-PHRED quality scores. A matched pair of FASTA and QUAL files are often used as
-an alternative to a single FASTQ file.  
+but instead of the sequence, record space separated integer sequencing values
+as PHRED quality scores. A matched pair of FASTA and QUAL files are often used
+as an alternative to a single FASTQ file.
 
-uniprot-xml     *.xml   1.56    No  1.56    UniProt XML format, successor to the
-plain text Swiss-Prot format.
+uniprot-xml     *.xml   1.56    No  1.56    UniProt XML format, successor to
+the plain text Swiss-Prot format.
 
 """
