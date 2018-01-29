@@ -16,12 +16,8 @@ configuration = CustomConfig("bioconvert", verbose=True)
 os.environ["GOPATH"]= os.environ["HOME"]+"/go"
 os.environ["PATH"] = os.environ["GOPATH"]+"/bin/:"+os.environ["PATH"]
 
-try:
-    from easydev.logging_tools import Logging
-    logger = Logging("bioconvert", "INFO")
-except:
-    import colorlog
-    logger = colorlog.getLogger("bioconvert")
+from easydev.logging_tools import Logging
+logger = Logging("bioconvert", "INFO")
 
 
 def bioconvert_script(filename, where=None):
