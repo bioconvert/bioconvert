@@ -7,3 +7,4 @@ matplotlib
 networkx
 pyyaml
 pysam
+pandoc

@@ -1,0 +1,409 @@
+LOCUS       CP025268             4643559 bp    DNA     circular BCT 17-DEC-2017
+DEFINITION  Escherichia coli str. K-12 substr. MG1655 strain K-12 chromosome,
+            complete genome.
+ACCESSION   CP025268
+VERSION     CP025268.1
+DBLINK      BioProject: PRJNA421841
+            BioSample: SAMN08158212
+KEYWORDS    .
+SOURCE      Escherichia coli str. K-12 substr. MG1655
+  ORGANISM  Escherichia coli str. K-12 substr. MG1655
+            Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacterales;
+            Enterobacteriaceae; Escherichia.
+REFERENCE   1  (bases 1 to 4643559)
+  AUTHORS   Wannier,T.M., Kunjapur,A.M., Rice,D.P., McDonald,M.J., Desai,M. and
+            Church,G.M.
+  TITLE     Adaptive Evolution of Genomically Recoded Escherichia coli
+  JOURNAL   Unpublished
+REFERENCE   2  (bases 1 to 4643559)
+  AUTHORS   Wannier,T.M., Kunjapur,A.M. and Church,G.M.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (10-DEC-2017) Genetics, Harvard Medical School, 77 Avenue
+            Louis Pasteur, Boston, Boston, MA 02115, USA
+COMMENT     Annotation was added by the NCBI Prokaryotic Genome Annotation
+            Pipeline (released 2013). Information about the Pipeline can be
+            found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/
+            
+            ##Genome-Assembly-Data-START##
+            Assembly Date             :: 01-JUN-2017
+            Assembly Method           :: Velvet v. 2017-06-01
+            Genome Representation     :: Full
+            Expected Final Version    :: Yes
+            Reference-guided Assembly :: CP006698
+            Genome Coverage           :: 69.0x
+            Sequencing Technology     :: Illumina HiSeq
+            ##Genome-Assembly-Data-END##
+            
+            ##Genome-Annotation-Data-START##
+            Annotation Provider               :: NCBI
+            Annotation Date                   :: 12/11/2017 15:23:38
+            Annotation Pipeline               :: NCBI Prokaryotic Genome
+                                                 Annotation Pipeline
+            Annotation Method                 :: Best-placed reference protein
+                                                 set; GeneMarkS+
+            Annotation Software revision      :: 4.3
+            Features Annotated                :: Gene; CDS; rRNA; tRNA; ncRNA;
+                                                 repeat_region
+            Genes (total)                     :: 4,810
+            CDS (total)                       :: 4,687
+            Genes (coding)                    :: 4,444
+            CDS (coding)                      :: 4,444
+            Genes (RNA)                       :: 123
+            rRNAs                             :: 8, 7, 7 (5S, 16S, 23S)
+            complete rRNAs                    :: 8, 7, 7 (5S, 16S, 23S)
+            tRNAs                             :: 87
+            ncRNAs                            :: 14
+            Pseudo Genes (total)              :: 243
+            Pseudo Genes (ambiguous residues) :: 0 of 243
+            Pseudo Genes (frameshifted)       :: 108 of 243
+            Pseudo Genes (incomplete)         :: 107 of 243
+            Pseudo Genes (internal stop)      :: 55 of 243
+            Pseudo Genes (multiple problems)  :: 25 of 243
+            CRISPR Arrays                     :: 2
+            ##Genome-Annotation-Data-END##
+FEATURES             Location/Qualifiers
+     source          1..4643559
+                     /organism="Escherichia coli str. K-12 substr. MG1655"
+                     /mol_type="genomic DNA"
+                     /strain="K-12"
+                     /sub_strain="MG1655"
+                     /host="Homo sapiens"
+                     /db_xref="taxon:511145"
+                     /country="USA: Boston"
+                     /collection_date="2017-01-15"
+                     /note="C321.deltaA"
+     gene            190..255
+                     /locus_tag="CXP41_00005"
+     CDS             190..255
+                     /locus_tag="CXP41_00005"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_414542.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="thr operon leader peptide"
+                     /protein_id="AUG19081.1"
+                     /translation="MKRISTTITTTITITTGNGAG"
+     gene            337..2799
+                     /locus_tag="CXP41_00010"
+     CDS             337..2799
+                     /locus_tag="CXP41_00010"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:WP_005124053.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="bifunctional aspartokinase I/homoserine
+                     dehydrogenase I"
+                     /protein_id="AUG14806.1"
+                     /translation="MRVLKFGGTSVANAERFLRVADILESNARQGQVATVLSAPAKIT
+                     NHLVAMIEKTISGQDALPNISDAERIFAELLTGLAAAQPGFPLAQLKTFVDQEFAQIK
+                     HVLHGISLLGQCPDSINAALICRGEKMSIAIMAGVLEARGHNVTVIDPVEKLLAVGHY
+                     LESTVDIAESTRRIAASRIPADHMVLMAGFTAGNEKGELVVLGRNGSDYSAAVLAACL
+                     RADCCEIWTDVDGVYTCDPRQVPDARLLKSMSYQEAMELSYFGAKVLHPRTITPIAQF
+                     QIPCLIKNTGNPQAPGTLIGASRDEDELPVKGISNLNNMAMFSVSGPGMKGMVGMAAR
+                     VFAAMSRARISVVLITQSSSEYSISFCVPQSDCVRAERAMQEEFYLELKEGLLEPLAV
+                     TERLAIISVVGDGMRTLRGISAKFFAALARANINIVAIAQGSSERSISVVVNNDDATT
+                     GVRVTHQMLFNTDQVIEVFVIGVGGVGGALLEQLKRQQSWLKNKHIDLRVCGVANSKA
+                     LLTNVHGLNLENWQEELAQAKEPFNLGRLIRLVKEYHLLNPVIVDCTSSQAVADQYAD
+                     FLREGFHVVTPNKKANTSSMDYYHQLRYAAEKSRRKFLYDTNVGAGLPVIENLQNLLN
+                     AGDELMKFSGILSGSLSYIFGKLDEGMSFSEATTLAREMGYTEPDPRDDLSGMDVARK
+                     LLILARETGRELELADIEIEPVLPAEFNAEGDVAAFMANLSQLDDLFAARVAKARDEG
+                     KVLRYVGNIDEDGVCRVKIAEVDGNDPLFKVKNGENALAFYSHYYQPLPLVLRGYGAG
+                     NDVTAAGVFADLLRTLSWKLGV"
+     gene            2801..3733
+                     /locus_tag="CXP41_00015"
+     CDS             2801..3733
+                     /locus_tag="CXP41_00015"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_414544.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="homoserine kinase"
+                     /protein_id="AUG14807.1"
+                     /translation="MVKVYAPASSANMSVGFDVLGAAVTPVDGALLGDVVTVEAAETF
+                     SLNNLGRFADKLPSEPRENIVYQCWERFCQELGKQIPVAMTLEKNMPIGSGLGSSACS
+                     VVAALMAMNEHCGKPLNDTRLLALMGELEGRISGSIHYDNVAPCFLGGMQLMIEENDI
+                     ISQQVPGFDEWLWVLAYPGIKVSTAEARAILPAQYRRQDCIAHGRHLAGFIHACYSRQ
+                     PELAAKLMKDVIAEPYRERLLPGFRQARQAVAEIGAVASGISGSGPTLFALCDKPETA
+                     QRVADWLGKNYLQNQEGFVHICRLDTAGARVLEN"
+     gene            3734..5020
+                     /locus_tag="CXP41_00020"
+     CDS             3734..5020
+                     /locus_tag="CXP41_00020"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_414545.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="threonine synthase"
+                     /protein_id="AUG14808.1"
+                     /translation="MKLYNLKDHNEQVSFAQAVTQGLGKNQGLFFPHDLPEFSLTEID
+                     EMLKLDFVTRSAKILSAFIGDEIPQEILEERVRAAFAFPAPVANVESDVGCLELFHGP
+                     TLAFKDFGGRFMAQMLTHIAGDKPVTILTATSGDTGAAVAHAFYGLPNVKVVILYPRG
+                     KISPLQEKLFCTLGGNIETVAIDGDFDACQALVKQAFDDEELKVALGLNSANSINISR
+                     LLAQICYYFEAVAQLPQETRNQLVVSVPSGNFGDLTAGLLAKSLGLPVKRFIAATNVN
+                     DTVPRFLHDGQWSPKATQATLSNAMDVSQPNNWPRVEELFRRKIWQLKELGYAAVDDE
+                     TTQQTMRELKELGYTSEPHAAVAYRALRDQLNPGEYGLFLGTAHPAKFKESVEAILGE
+                     TLDLPKELAERADLPLLSHNLPADFAALRKLMMNHQ"
+     gene            5234..5530
+                     /locus_tag="CXP41_00025"
+     CDS             5234..5530
+                     /locus_tag="CXP41_00025"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_414546.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="DUF2502 domain-containing protein"
+                     /protein_id="AUG14809.1"
+                     /translation="MKKMQSIVLALSLVLVAPMAAQAAEITLVPSVKLQIGDRDNRGY
+                     YWDGGHWRDHGWWKQHYEWRGNRWHLHGPPPPPRHHKKAPHDHHGGHGPGKHHR"
+     gene            complement(5683..6459)
+                     /locus_tag="CXP41_00030"
+     CDS             complement(5683..6459)
+                     /locus_tag="CXP41_00030"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_414547.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="peroxide stress protein YaaA"
+                     /protein_id="AUG14810.1"
+                     /translation="MLILISPAKTLDYQSPLTTTRYTLPELLDNSQQLIHEARKLTPP
+                     QISTLMRISDKLAGINAARFHDWQPDFTPANARQAILAFKGDVYTGLQAETFSEDDFD
+                     FAQQHLRMLSGLYGVLRPLDLMQPYRLEMGIRLENARGKDLYQFWGDIITNKLNEALA
+                     AQGDNVVINLASDEYFKSVKPKKLNAEIIKPVFLDEKNGKFKIISFYAKKARGLMSRF
+                     IIENRLTKPEQLTGFNSEGYFFDEDSSSNGELVFKRYEQR"
+     gene            complement(6529..7911)
+                     /locus_tag="CXP41_00035"
+     CDS             complement(6529..7911)
+                     /locus_tag="CXP41_00035"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:WP_001407693.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="amino acid carrier protein"
+                     /protein_id="AUG14811.1"
+                     /translation="MIYLLFGAGCWFTFRTGFVQFRYIRQFGKSLKNSIHPQPGGLTS
+                     FQSLCTSLAARVGSGNLAGVALAITAGGPGAVFWMWVAAFIGMATSFAECSLAQLYKE
+                     RDVNGQFRGGPAWYMARGLGMRWMGVLFAVFLLIAYGIIFSGVQANAVARALSFSFDF
+                     PPLVTGIILAVFTLLAITRGLHGVARLMQGFVPLMAIIWVLTSLVICVMNIGQLPHVI
+                     WSIFESAFGWQEAAGGAAGYTLSQAITNGFQRSMFSNEAGMGSTPNAAAAAASWPPHP
+                     AAQGIVQMIGIFIDTLVICTASAMLILLAGNGTTYMPLEGIQLIQKAMRVLMGSWGAE
+                     FVTLVVILFAFSSIVANYIYAENNLFFLRLNNPKAIWCLRICTFATVIGGTLLSLPLM
+                     WQLADIIMACMAITNLTAILLLSPVVHTIASDYLRQRKLGVRPVFDPLRYPDIGRQLS
+                     PDAWDDVSQE"
+     gene            8239..9192
+                     /gene="tal"
+                     /locus_tag="CXP41_00040"
+     CDS             8239..9192
+                     /gene="tal"
+                     /locus_tag="CXP41_00040"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_308035.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="transaldolase 1"
+                     /protein_id="AUG14812.1"
+                     /translation="MTDKLTSLRQYTTVVADTGDIAAMKLYQPQDATTNPSLILNAAQ
+                     IPEYRKLIDDAVAWAKQQSNDRAQQIVDATDKLAVNIGLEILKLVPGRISTEVDARLS
+                     YDTEASIAKAKRLIKLYNDAGISNDRILIKLASTWQGIRAAEQLEKEGINCNLTLLFS
+                     FAQARACAEAGVFLISPFVGRILDWYKANTDKKEYAPAEDPGVVSVSEIYQYYKEHGY
+                     ETVVMGASFRNIGEILELAGCDRLTIAPALLKELAESEGAIERKLSYTGEVKARPARI
+                     TESEFLWQHNQDPMAVDKLAEGIRKFAIDQEKLEKMIGDLL"
+     gene            9307..9894
+                     /locus_tag="CXP41_00045"
+     CDS             9307..9894
+                     /locus_tag="CXP41_00045"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_308036.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="molybdopterin adenylyltransferase"
+                     /protein_id="AUG14813.1"
+                     /translation="MNTLRIGLVSISDRASSGVYQDKGIPALEEWLTSALTTPFELET
+                     RLIPDEQAIIEQTLCELVDEMSCHLVLTTGGTGPARRDVTPDATLAVADREMPGFGEQ
+                     MRQISLHFVPTAILSRQVGVIRKQALILNLPGQPKSIKETLEGVKDAEGNVVVHGIFA
+                     SVPYCIQLLEGPYVETAPEVVAAFRPKSARRDVSE"
+     gene            complement(9929..10495)
+                     /locus_tag="CXP41_00050"
+     CDS             complement(9929..10495)
+                     /locus_tag="CXP41_00050"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_308037.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="succinate-acetate/proton symporter SatP"
+                     /protein_id="AUG14814.1"
+                     /translation="MGNTKLANPAPLGLMGFGMTTILLNLHNVGYFALDGIILAMGIF
+                     YGGIAQIFAGLLEYKKGNTFGLTAFTSYGSFWLTLVAILLMPKLGLTDAPNAQFLGVY
+                     LGLWGVFTLFMFFGTLKGARVLQFVFFSLTVLFALLAIGNIAGNAAIIHFAGWIGLIC
+                     GASAIYLAMGEVLNEQFGRTVLPIGESH"
+     gene            complement(10644..11357)
+                     /locus_tag="CXP41_00055"
+     CDS             complement(10644..11357)
+                     /locus_tag="CXP41_00055"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_459015.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="hypothetical protein"
+                     /protein_id="AUG14815.1"
+                     /translation="MNVNYLNDSDLDFLQHCSEEQLANFARLLTHNEKGKTRLSSVLM
+                     RNELFKSMEGHPEQHRRNWQLIAGELQHFGGDSIANKLRGHGKLYRAILLDVSKRLKL
+                     KADKEMSTFEIEQQLLEQFLRNTWKKMDEEHKQEFLHAVDARVNELEELLPLLMKDKL
+                     LAKGVSHLLSSQLTRILRTHAAMSVLGHGLLRGAGLGGPVGAALNGVKAVSGSAYRVT
+                     IPAVLQIACLRRMVSATQA"
+     gene            complement(11383..11787)
+                     /locus_tag="CXP41_00060"
+     CDS             complement(11383..11787)
+                     /locus_tag="CXP41_00060"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_414554.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="hypothetical protein"
+                     /protein_id="AUG14816.1"
+                     /translation="MKSVFTISASLAISLMLCCTAQANDHKLLGAIAMPRNETNDLAL
+                     KLPVCRIVKRIQLSADHGDLQLSGASVYFKAARSASQSLNIPSEIKEGQTTDWININS
+                     DNDNKRCVSKITFSGHTVNSSDMATLKIIGDD"
+     gene            12164..14080
+                     /locus_tag="CXP41_00065"
+     CDS             12164..14080
+                     /locus_tag="CXP41_00065"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:WP_001737966.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="molecular chaperone DnaK"
+                     /protein_id="AUG14817.1"
+                     /translation="MGKIIGIDLGTTNSCVAIMDGTTPRVLENAEGDRTTPSIIAYTQ
+                     DGETLVGQPAKRQAVTNPQNTLFAIKRLIGRRFQDEEVQRDVSIMPFKIIAADNGDAW
+                     VEVKGQKMAPPQISAEVLKKMKKTAEDYLGEPVTEAVITVPAYFNDAQRQATKDAGRI
+                     AGLEVKRIINEPTAAALAYGLDKGTGNRTIAVYDLGGGTFDISIIEIDEVDGEKTFEV
+                     LATNGDTHLGGEDFDSRLINYLVEEFKKDQGIDLRNDPLAMQRLKEAAEKAKIELSSA
+                     QQTDVNLPYITADATGPKHMNIKVTRAKLESLVEDLVNRSIEPLKVALQDAGLSVSDI
+                     DDVILVGGQTRMPMVQKKVAEFFGKEPRKDVNPDEAVAIGAAVQGGVLTGDVKDVLLL
+                     DVTPLSLGIETMGGVMTTLIAKNTTIPTKHSQVFSTAEDNQSAVTIHVLQGERKRAAD
+                     NKSLGQFNLDGINPAPRGMPQIEVTFDIDADGILHVSAKDKNSGKEQKITIKASSGLN
+                     EDEIQKMVRDAEANAEADRKFEELVQTRNQGDHLLHSTRKQVEEAGDKLPADDKTAIE
+                     SALTALETALKGEDKAAIEAKMQELAQVSQKLMEIAQQQHAQQQTAGADASANNAKDD
+                     DVVDAEFEEVKDKK"
+     gene            14169..15299
+                     /gene="dnaJ"
+                     /locus_tag="CXP41_00070"
+     CDS             14169..15299
+                     /gene="dnaJ"
+                     /locus_tag="CXP41_00070"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_414556.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="molecular chaperone DnaJ"
+                     /protein_id="AUG14818.1"
+                     /translation="MAKQDYYEILGVSKTAEEREIRKAYKRLAMKYHPDRNQGDKEAE
+                     VKFKEIKEAYEVLTDSQKRAAYDQYGHAAFEQGGMGGGGFGGGADFSDIFGDVFGDIF
+                     GGGRGRQRAARGADLRYNMELTLEEAVRGVTKEIRIPTLEECDVCHGSGAKPGTQPQT
+                     CPTCHGSGQVQMRQGFFAVQQTCPHCQGRGTLIKDPCNKCHGHGRVERSKTLSVKIPA
+                     GVDTGDRIRLAGEGEAGEHGAPAGDLYVQVQVKQHPIFEREGNNLYCEVPINFAMAAL
+                     GGEIEVPTLDGRVKLKVPGETQTGKLFRMRGKGVKSVRGGAQGDLLCRVVVETPVGLN
+                     ERQKQLLQELQESFGGPTGEHNSPRSKSFFDGVKKFFDDLTR"
+     gene            15446..16558
+                     /locus_tag="CXP41_00075"
+     CDS             15446..16558
+                     /locus_tag="CXP41_00075"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_414557.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="IS4 family transposase"
+                     /protein_id="AUG14819.1"
+                     /translation="MNYSHDNWSAILAHIGKPEELDTSARNAGALTRRREIRDAATLL
+                     RLGLAYGPGGMSLREVTAWAQLHDVATLSDVALLKRLRNAADWFGILAAQTLAVRAAV
+                     TGCTSGKRLRLVDGTAISAPGGGSAEWRLHMGYDPHTCQFTDFELTDSRDAERLDRFA
+                     QTADEIRIADRGFGSRPECIRSLAFGEADYIVRVHWRGLRWLTAEGMRFDMMGFLRGL
+                     DCGKNGETTVMIGNSGNKKAGAPFPARLIAVSLPPEKALISKTRLLSENRRKGRVVQA
+                     ETLEAAGHVLLLTSLPEDEYSAEQVADCYRLRWQIELAFKRLKSLLHLDALRAKEPEL
+                     AKAWIFANLLAAFLIDDIIQPSLDFPPRSAGSEKKN"
+     gene            complement(16752..16961)
+                     /locus_tag="CXP41_00080"
+     CDS             complement(16752..16961)
+                     /locus_tag="CXP41_00080"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_414559.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="regulatory protein MokC"
+                     /protein_id="AUG14820.1"
+                     /translation="MLNTCRVPLTDRKVKEKRAMKQHKAMIVALIVICITAVVAALVT
+                     RKDLCEVHIRTGQTEVAVFTAYESE"
+     gene            17490..18656
+                     /gene="nhaA"
+                     /locus_tag="CXP41_00085"
+     CDS             17490..18656
+                     /gene="nhaA"
+                     /locus_tag="CXP41_00085"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_414560.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="Na+/H+ antiporter NhaA"
+                     /protein_id="AUG14821.1"
+                     /translation="MKHLHRFFSSDASGGIILIIAAILAMIMANSGATSGWYHDFLET
+                     PVQLRVGSLEINKNMLLWINDALMAVFFLLVGLEVKRELMQGSLASLRQAAFPVIAAI
+                     GGMIVPALLYLAFNYADPITREGWAIPAATDIAFALGVLALLGSRVPLALKIFLMALA
+                     IIDDLGAIIIIALFYTNDLSMASLGVAAVAIAVLAVLNLCGARRTGVYILVGVVLWTA
+                     VLKSGVHATLAGVIVGFFIPLKEKHGRSPAKRLEHVLHPWVAYLILPLFAFANAGVSL
+                     QGVTLDGLTSILPLGIIAGLLIGKPLGISLFCWLALRLKLAHLPEGTTYQQIMVVGIL
+                     CGIGFTMSIFIASLAFGSVDPELINWAKLGILVGSISSAVIGYSWLRVRLRPSV"
+     gene            18716..19621
+                     /locus_tag="CXP41_00090"
+     CDS             18716..19621
+                     /locus_tag="CXP41_00090"
+                     /inference="COORDINATES: similar to AA
+                     sequence:RefSeq:NP_414561.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="transcriptional activator protein NhaR"
+                     /protein_id="AUG14822.1"
+                     /translation="MSMSHINYNHLYYFWHVYKEGSVVGAAEALYLTPQTITGQIRAL
+                     EERLQGKLFKRKGRGLEPSELGELVYRYADKMFTLSQEMLDIVNYRKESNLLFDVGVA
+                     DALSKRLVSSVLNAAVVEGEPIHLRCFESTHEMLLEQLSQHKLDMIISDCPIDSTQQE
+                     GLFSVRIGECGVSFWCTNPPPEKPFPACLEERRLLIPGRRSMLGRKLLNWFNSQGLNV
+                     EILGEFDDAALMKAFGAMHNAIFVAPTLYAYDFYADKTVVEIGRVENVMEEYHAIFAE
+                     RMIQHPAVQRICNTDYSALFSPAVR"
+ORIGIN      
+//
+
