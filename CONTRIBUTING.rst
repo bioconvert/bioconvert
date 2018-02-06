@@ -24,8 +24,8 @@ Contributions
 pull requests
 ~~~~~~~~~~~~~~~~~
 
-The recommended way for new contributors to submit code to Bioconda is to fork
-the repository on GitHub and the submit a pull request after committing the
+The recommended way for new contributors to submit code to Bioconvert is to fork
+the repository on GitHub and then submit a pull request after committing the
 changes. We will then need to approve the request by the core developers before
 it is merged into the main repository.
 
