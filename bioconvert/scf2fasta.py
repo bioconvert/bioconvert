@@ -2,7 +2,11 @@ import sys
 import struct
 import copy
 from collections import defaultdict
+
+import colorlog
 from bioconvert import ConvBase
+
+_log = colorlog.getLogger(__name__)
 
 class Scf2Fasta(ConvBase):
     """
@@ -57,9 +61,6 @@ class Scf2Fasta(ConvBase):
                 qualities = []
                 length = samples * sample_size * 4
                 buff = read_from_buffer(input_file, length, samples_offset)
-
-                # Traces need to be split
-                #traces = parse_v2_traces(buff, sample_size)
 
                 # Get the base information
                 length = bases * 12
@@ -136,7 +137,6 @@ class Scf2Fasta(ConvBase):
                 offset = bases_offset
                 length = bases * 4
                 buff = read_from_buffer(input_file, length, offset)
-                #peak_indices = get_v3_peak_indices(buff)
                 offset += length
                 # Get the accuracy information
                 buff = read_from_buffer(input_file, length, offset)
@@ -237,33 +237,8 @@ def read_from_buffer(f_file, length, offset):
             print("Unexpected end of file while reading from SCF file. I \
                   should have read " + str(length) + " but instead got " +
                   str(len(buff)) + "! Current file position is " +
-                  f_file.tell() + ".")
+                  str(f_file.tell()) + ".")
     return buff
-
-# Parses a v2 scf trace array into its base components.
-def parse_v2_traces(buff, sample_size):
-    traces = []
-    # Not tested
-    byte = "!%dH" % len(buff)
-    # Tested
-    if sample_size == 1:
-        byte = "%db" % len(buff)
-
-    read = struct.unpack(byte, buff)
-    # Traces for a, c, g and t
-    traces = defaultdict(list)
-    for i in range(0, len(read), 4):
-        traces['a'].append(read[i])
-        traces['c'].append(read[i+1])
-        traces['g'].append(read[i+3])
-        traces['t'].append(read[i+2])
-    return traces
-
-# Unpacks the peak indices accuracies for v3 scf
-def get_v3_peak_indices(buff):
-    length = len(buff)
-    read = struct.unpack('!%dI' % (length/4), buff)[0]
-    return read
 
 # Unpack the base accuracies for v3 scf
 def get_v3_base_accuracies(buff):
@@ -301,47 +276,18 @@ def get_v3_quality(sequence, accuracies):
 # else
 #     do the reverse
 def delta(rsamples, direction):
-
-    slow_but_clear = 0
-
     samples = copy.deepcopy(rsamples)
-
     if direction == "forward":
-        if slow_but_clear:
-            p_delta = 0
-            for i, _ in enumerate(samples):
-                p_sample = samples[i]
-                samples[i] = samples[i] - p_delta
-                p_delta = p_sample
-            p_delta = 0
-            for i, _ in enumerate(samples):
-                p_sample = samples[i]
-                samples[i] = samples[i] - p_delta
-                p_delta = p_sample
-        else:
-            for i in range(len(samples)-1, 1, -1):
-                samples[i] = samples[i] - 2*samples[i-1] + samples[i-2]
-
-            samples[1] = samples[1] - 2*samples[0]
-
+        for i in range(len(samples)-1, 1, -1):
+            samples[i] = samples[i] - 2*samples[i-1] + samples[i-2]
+        samples[1] = samples[1] - 2*samples[0]
     elif direction == "backward":
-        if slow_but_clear:
-            p_sample = 0
-            for i, _ in enumerate(samples):
-                samples[i] = samples[i] + p_sample
-                p_sample = samples[i]
-            p_sample = 0
-            for i, _ in enumerate(samples):
-                samples[i] = samples[i] + p_sample
-                p_sample = samples[i]
-        else:
-            p_sample1 = 0
-            p_sample2 = 0
-            for i, _ in enumerate(samples):
-                p_sample1 = p_sample1 + samples[i]
-                samples[i] = p_sample1 + p_sample2
-                p_sample2 = samples[i]
-
+        p_sample1 = 0
+        p_sample2 = 0
+        for i, _ in enumerate(samples):
+            p_sample1 = p_sample1 + samples[i]
+            samples[i] = p_sample1 + p_sample2
+            p_sample2 = samples[i]
     else:
         msg="Bad direction in 'delta'. Use\" forward\" or\" backward\"."
         _log.critical(msg)
