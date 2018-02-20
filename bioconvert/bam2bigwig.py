@@ -13,7 +13,7 @@
 """ description """
 import colorlog
 from bioconvert import ConvBase, extensions
-from bioconvert.bam2bed import BAM2BED
+from bioconvert.bam2bedgraph import BAM2BEDGRAPH
 from bioconvert.bedgraph2bigwig import BEDGRAPH2BIGWIG
 from easydev import TempFile
 
@@ -50,12 +50,12 @@ class BAM2BIGWIG(ConvBase):
         cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
-#     def _method_ucsc(self, *args, **kwargs):
-#         """run bam2bigwig using bioconvert bam2Bed and ucsc tool bedGraphToBigWig"""
-#         with TempFile(suffix='.bed') as fh:
-#             convertbam2bed = BAM2BED(self.infile, fh.name)
-#             convertbam2bed()
-#             convertbed2bw = BEDGRAPH2BIGWIG(fh.name, self.outfile)
-#             convertbed2bw()
+    def _method_ucsc(self, *args, **kwargs):
+        """run bam2bigwig using bioconvert/bedtools bam2bedgraph and ucsc tool bedGraphToBigWig"""
+        with TempFile(suffix='.bedgraph') as fh:
+            convertbam2bed = BAM2BEDGRAPH(self.infile, fh.name)
+            convertbam2bed()
+            convertbed2bw = BEDGRAPH2BIGWIG(fh.name, self.outfile)
+            convertbed2bw()
 
 

@@ -1,4 +1,5 @@
 from bioconvert.bam2bigwig import BAM2BIGWIG
+from bioconvert.bam2bedgraph import BAM2BEDGRAPH
 from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
@@ -20,4 +21,7 @@ def test_conv(method):
     with TempFile(suffix=".bigwig") as outfile:
         convert = BAM2BIGWIG(infile, outfile.name)
         convert(method=method)
-        assert md5(outfile.name) == md5out, "{} failed".format(method)
+        if (method == 'ucsc'):
+           assert md5(outfile.name) == '61abd0de51bd614136ad85ae0a1ff85b', "{} failed".format(method)
+        else:
+            assert md5(outfile.name) == md5out, "{} failed".format(method)
