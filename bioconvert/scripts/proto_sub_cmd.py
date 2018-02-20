@@ -15,6 +15,8 @@
 import os
 import sys
 import argparse
+from argparse import RawTextHelpFormatter
+
 import colorlog
 
 import bioconvert
@@ -95,44 +97,41 @@ available methods:
    - {methods}
         
         """.format(name=sub_parser_name,
-                   methods=', '.join(methods)
+                   methods='- '.join(methods)
                    )
         sub_parser = subparsers.add_parser(sub_parser_name,
                                            description='to convert {} into {}'.format(in_fmt, out_fmt),
-                                           help=help)
+                                           help=help,
+                                           formatter_class = RawTextHelpFormatter,)
 
-    arg_parser.add_argument("input_file",
-            default=None,
-            help="The path to the file to convert.")
-    arg_parser.add_argument("output_file", nargs="?",
-            default=None,
-            help="The path where the result will be stored.")
+        converter.add_argument_to_parser(sub_parser=sub_parser)
 
-    arg_parser.add_argument("-f", "--formats",
-                            action=ConvAction,
-                            default=False,
-                            help="Display available formats and exit.")
+        # sub_parser.add_argument("input_file",
+        #         default=None,
+        #         help="The path to the file to convert XXXX.")
+    # arg_parser.add_argument("output_file", nargs="?",
+    #         default=None,
+    #         help="The path where the result will be stored.")
+    #
+    # arg_parser.add_argument("-f", "--formats",
+    #                         action=ConvAction,
+    #                         default=False,
+    #                         help="Display available formats and exit.")
     arg_parser.add_argument("-v", "--verbosity",
                             action="count",
                             default=0,
                             help="Set the outpout verbosity.")
-    arg_parser.add_argument("-i", "--input-format",
-                            default=None,
-                            help="Provide the input format. Check the --formats to see valid input name")
-    arg_parser.add_argument("-o", "--output-format",
-                            default=None,
-                            help="Provide the output format. Check the --formats to see valid input name")
-    arg_parser.add_argument("-x", "--threads",
-                            default=None,
-                            help="Number of threads. Depends on the underlying tool")
+    # arg_parser.add_argument("-x", "--threads",
+    #                         default=None,
+    #                         help="Number of threads. Depends on the underlying tool")
     arg_parser.add_argument("-m", "--batch",
                             default=False, action="store_true",
                             help="for batch effect")
-
-    arg_parser.add_argument("-c", "--method",
-                            default=None,
-                            help="A converter may have several methods")
-
+    #
+    # arg_parser.add_argument("-c", "--method",
+    #                         default=None,
+    #                         help="A converter may have several methods")
+    #
     arg_parser.add_argument("-s", "--show-methods",
                             default=False,
                             action="store_true",
@@ -228,9 +227,9 @@ def analysis(args):
     _log.info("Converting from {} to {}".format(inext, outext))
 
     # Prepare some user arguments
-    params = {"threads": args.threads}
-    if args.method:
-        params["method"] = args.method
+    # params = {"threads": args.threads}
+    # if args.method:
+    #     params["method"] = args.method
 
 
     # Call the class method that does the real work
@@ -243,7 +242,7 @@ def analysis(args):
               "for details ".format(class_converter.__name__.lower(),class_converter.__name__))
         sys.exit(0)
 
-    convert(**params)
+    convert(args)
 
 
 

@@ -163,17 +163,14 @@ class ConvBase(metaclass=ConvMeta):
         """
 
         """
-        # If method provided, use it 
-        method_name = kwargs.get("method", None)
-        if method_name:
-            del kwargs["method"]
-            
+        # If method provided, use it
+        # method_name = kwargs.get("method", None)
+        # if method_name:
+        #     del kwargs["method"]
+
         # If not, but there is one argument, presumably this is
         # the method
-        if method_name is None and len(args) == 1:
-            method_name = args[0]
-        elif method_name is None and len(args) == 0:
-            method_name = self.default
+        method_name = args[0].method or self.default
 
         # If not, we need to check the name
         if method_name not in self.available_methods:
@@ -278,10 +275,56 @@ class ConvBase(metaclass=ConvMeta):
         b = Benchmark(self)
         b.plot()
 
-    
+
     def _get_default_method(self):
         if self._default_method is None:
             return self.available_methods[0]
         else:
             return self._default_method
     default = property(_get_default_method)
+
+    @classmethod
+    def add_argument_to_parser(cls, sub_parser):
+        # pass
+        for args, kwargs in cls.get_arguments():
+            sub_parser.add_argument(*args, **kwargs)
+        # sub_parser.add_argument(
+        #     "input_file",
+        #     default=None,
+        #     help="The path to the file to convert XXXX.",
+        # )
+        sub_parser.add_argument(
+            "output_file", nargs="?",
+            default=None,
+            help="The path where the result will be stored.",
+        )
+        sub_parser.add_argument(
+            "-i", "--input-format",
+            default=None,
+            help="Provide the input format. Check the --formats to see valid input name",
+        )
+        sub_parser.add_argument(
+            "-o", "--output-format",
+            default=None,
+            help="Provide the output format. Check the --formats to see valid input name",
+        )
+        sub_parser.add_argument(
+            "-c", "--method",
+            default=None,
+            help="A converter may have several methods",
+        )
+
+    @classmethod
+    def get_arguments(cls):
+        return [
+            (
+                [
+                    "input_file",
+                ]
+                ,
+                dict(
+                    default=None,
+                    help="The path to the file to convert XXXX.",
+                )
+            )
+        ]

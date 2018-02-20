@@ -53,3 +53,11 @@ class GZ2BZ2(ConvBase):
 
         # use self.infile, self.outfile
 
+    @classmethod
+    def add_argument_to_parser(cls, sub_parser):
+        super().add_argument_to_parser(sub_parser)
+        sub_parser.add_argument(
+            "-x", "--threads",
+            default=None,
+            help="Number of threads. Depends on the underlying tool",
+        )
