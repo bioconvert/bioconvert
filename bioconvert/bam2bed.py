@@ -88,3 +88,5 @@ class BAM2BED(ConvBase):
         """
         cmd = "bedtools genomecov -d -ibam {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
+
+
