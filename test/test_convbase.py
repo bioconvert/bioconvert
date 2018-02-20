@@ -63,7 +63,7 @@ def test_convbase():
         def __call__(self):
             self.execute("ls")
     this = in2out("test.fa", "test.fq")
-    assert this.name== "in2out"
+    assert this.name == "in2out"
     this()
 
 

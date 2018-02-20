@@ -85,6 +85,22 @@ def main(args=None):
     Note the difference between the two previous commands !!
 
 """)
+    registry = Registry()
+    subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command',)
+    for in_fmt, out_fmt, converter in registry.iter_converters():
+        sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
+        methods = converter.available_methods
+        help="""{name}
+available methods:
+   - {methods}
+        
+        """.format(name=sub_parser_name,
+                   methods=', '.join(methods)
+                   )
+        sub_parser = subparsers.add_parser(sub_parser_name,
+                                           description='to convert {} into {}'.format(in_fmt, out_fmt),
+                                           help=help)
+
     arg_parser.add_argument("input_file",
             default=None,
             help="The path to the file to convert.")
@@ -124,6 +140,7 @@ def main(args=None):
 
     args = arg_parser.parse_args()
 
+    print("@@@ subcommand", args.command)
     # Set the logging level
     args.verbosity = max(10, 30 - (10 * args.verbosity))
     bioconvert.logger_set_level(args.verbosity)
@@ -131,7 +148,7 @@ def main(args=None):
 
 
     # Figure out whether we have several input files or not
-    # Are we in batch mode ? 
+    # Are we in batch mode ?
     import glob
     if args.batch:
         filenames = glob.glob(args.input_file)
@@ -223,7 +240,7 @@ def analysis(args):
     if args.show_methods:
         print(convert.available_methods)
         print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} "
-              "for details ".format(class_converter.__name__.lower(), class_converter.__name__))
+              "for details ".format(class_converter.__name__.lower(),class_converter.__name__))
         sys.exit(0)
 
     convert(**params)

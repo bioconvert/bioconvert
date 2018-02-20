@@ -137,3 +137,28 @@ class Registry(object):
         in_fmt = in_fmt.upper()
         out_fmt = out_fmt.upper()
         return (in_fmt, out_fmt) in self._fmt_registry
+
+    def get_converter(self, in_fmt, out_fmt):
+        """
+
+        :param str in_fmt: the format of the input
+        :param str out_fmt:  the format of the output
+        :return: the converter which convert in_fmt to to_fmt
+        :rtype: a :class:`BaseConv` concrete class o
+        """
+        in_fmt = in_fmt.upper()
+        out_fmt = out_fmt.upper()
+        return self._fmt_registry((in_fmt, out_fmt))
+
+
+    def iter_converters(self):
+        """
+
+        :param str in_fmt: the format of the input
+        :param str out_fmt:  the format of the output
+        :return: a generator to iterate over (in_fmt, out_fmt, converter class)
+        :rtype: a generator
+        """
+        for conv, converter in self._fmt_registry.items():
+            in_fmt, out_fmt = conv
+            yield in_fmt, out_fmt, converter

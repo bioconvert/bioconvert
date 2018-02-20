@@ -78,6 +78,7 @@ setup(
     entry_points={
         'console_scripts': [
            'bioconvert=bioconvert.scripts.converter:main',
+           'proto_sub_cmd=bioconvert.scripts.proto_sub_cmd:main',
            'bioconvert_init=bioconvert.scripts.init_convert:main'
         ]
     }

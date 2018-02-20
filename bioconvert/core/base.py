@@ -20,6 +20,7 @@ import inspect
 
 from io import StringIO
 from subprocess import Popen, PIPE
+from multiprocessing import cpu_count
 
 import colorlog
 _log = colorlog.getLogger(__name__)
@@ -146,7 +147,6 @@ class ConvBase(metaclass=ConvMeta):
     """specify the extensions of the output file, can be a sequence (must be 
     overridden in subclasses)"""
     output_ext = None
-    _default_method = None
 
     def __init__(self, infile, outfile):
         """
@@ -156,8 +156,8 @@ class ConvBase(metaclass=ConvMeta):
         """
         self.infile = infile
         self.outfile = outfile
-        from easydev.multicore import cpu_count
-        self.threads = cpu_count()
+        self.max_threads = cpu_count()
+        self._default_method = None
 
     def __call__(self, *args, threads=None, **kwargs):
         """

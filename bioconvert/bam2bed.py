@@ -42,6 +42,7 @@ class BAM2BED(ConvBase):
         super().__init__(infile, outfile)
         self._default_method = "samtools"
 
+
     def _method_samtools(self, *args, **kwargs):
         """
         do the conversion sorted :term`BAM` -> :term:'BED` using samtools
@@ -51,6 +52,7 @@ class BAM2BED(ConvBase):
         """
         cmd = "samtools depth -aa {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
+
 
     def _method_bedtools(self, *args, **kwargs):
         """
