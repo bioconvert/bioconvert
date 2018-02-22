@@ -13,8 +13,9 @@
 """ description """
 import colorlog
 from bioconvert import ConvBase, extensions
-from bioconvert.bam2bedgraph import BAM2BEDGRAPH
-from bioconvert.bedgraph2bigwig import BEDGRAPH2BIGWIG
+# This has side effects in the registry !! 
+#from bioconvert.bam2bedgraph import BAM2BEDGRAPH
+#from bioconvert.bedgraph2bigwig import BEDGRAPH2BIGWIG
 from easydev import TempFile
 
 
@@ -52,6 +53,8 @@ class BAM2BIGWIG(ConvBase):
 
     def _method_ucsc(self, *args, **kwargs):
         """run bam2bigwig using bioconvert/bedtools bam2bedgraph and ucsc tool bedGraphToBigWig"""
+        from bioconvert.bam2bedgraph import BAM2BEDGRAPH
+        from bioconvert.bedgraph2bigwig import BEDGRAPH2BIGWIG
         with TempFile(suffix='.bedgraph') as fh:
             convertbam2bed = BAM2BEDGRAPH(self.infile, fh.name)
             convertbam2bed()
