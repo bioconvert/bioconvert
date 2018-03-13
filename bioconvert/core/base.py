@@ -12,7 +12,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-import os
+# import os
 import time
 import abc
 import select
@@ -21,14 +21,15 @@ import inspect
 import shutil
 import subprocess
 
-from io import StringIO
 from subprocess import Popen, PIPE
+from io import StringIO
+from collections import deque
 
+from easydev import TempFile
 from easydev.multicore import cpu_count
 
 import colorlog
 _log = colorlog.getLogger(__name__)
-
 
 from bioconvert.core.benchmark import Benchmark
 from bioconvert.core.utils import generate_outfile_name
@@ -43,8 +44,8 @@ class ConvMeta(abc.ABCMeta):
        * an attribute output_ext
 
     This is an abstract class used by :class:`ConvBase` class.
-    The standard way to build a new converter is to inherits from :class:`ConvBase`
-    or a subclasses of it, for instance::
+    The standard way to build a new converter is to inherit
+    from :class:`ConvBase` or a subclasse of it, for instance::
 
         class Fasta_2_Fasta(ConvBase):
 
@@ -55,9 +56,10 @@ class ConvMeta(abc.ABCMeta):
                 # do conversion here
                 pass
 
-    The declaration of input_ext and output_ext is quite permissive. You can add
-    prefix the extension with a dot or not; if the input consists of a single
-    extension, it can be a single string, or a list/set/tuple of strings.
+    The declaration of input_ext and output_ext is quite permissive.
+    You can add prefix the extension with a dot or not; if the input consists
+    of a single extension, it can be a single string, or a list/set/tuple
+    of strings.
 
     """
     def __init__(cls, name, bases, classdict):
@@ -118,7 +120,8 @@ class ConvMeta(abc.ABCMeta):
 
         if name != 'ConvBase':
             if '2' not in name:
-                raise TypeError("converter name must follow convention input2output")
+                raise TypeError(
+                    "converter name must follow convention input2output")
             # for BZ2 2 GZ
             if "22" in name:
                 input_fmt, output_fmt = name.upper().split('22', 1)
@@ -135,17 +138,20 @@ class ConvMeta(abc.ABCMeta):
             available_conv_meth = inspect.getmembers(cls, is_conversion_method)
 
             # do not use strip() but split()
-            available_conv_meth = [name[0].split("_method_")[1] for name in available_conv_meth]
+            available_conv_meth = [
+                name[0].split("_method_")[1] for name in available_conv_meth]
             setattr(cls, 'available_methods', available_conv_meth)
-            _log.debug("class = {}  available_methods = {}".format(cls.__name__, available_conv_meth))
+            _log.debug("class = {}  available_methods = {}".format(
+                cls.__name__, available_conv_meth))
 
 
 class ConvBase(metaclass=ConvMeta):
     """
     This is the base class for all converters.
-    To build a new converter create a new class which inherits of :class:`ConvBase`
-    and implement __call__ method (which is abstract). The class attributes
-    input_ext and output_ext must be also override in the subclass.
+    To build a new converter create a new class which inherits
+    of :class:`ConvBase` and implement __call__ method (which is abstract).
+    The class attributes input_ext and output_ext must be also overridden
+    in the subclass.
     for instance: ::
 
         class Fasta_2_Fasta(ConvBase):
@@ -172,7 +178,8 @@ class ConvBase(metaclass=ConvMeta):
         :param str infile: The path of the input file.
         :param str outfile: The path of The output file
         """
-        # do not check the existence of the input file because it could be just a prefix
+        # do not check the existence of the input file because
+        # it could be just a prefix
         # if os.path.exists(infile) is False:
         #     msg = "Incorrect input file: %s" % infile
         #     _log.error(msg)
@@ -180,8 +187,6 @@ class ConvBase(metaclass=ConvMeta):
 
         if not outfile:
             outfile = generate_outfile_name(infile, self.output_ext[0])
-
-
 
         self.infile = infile
         self.outfile = outfile
@@ -272,8 +277,8 @@ class ConvBase(metaclass=ConvMeta):
         :param str cmd: the command to execute
         :param ignore_errors: If True the result is returned whatever the
                               return value of the sub-shell.
-                              Otherwise a Runtime error is raised when the sub-shell
-                              return a non zero value
+                              Otherwise a Runtime error is raised when
+                               the sub-shellreturn a non zero value
         :param verbose: If true displays errors on standard error
         :return: the result of the command
         :rtype: a :class:`StringIO` instance
@@ -285,20 +290,22 @@ class ConvBase(metaclass=ConvMeta):
                              stderr=PIPE,
                              stdin=None)
         except Exception as err:
-            msg = "Failed to execute Command: '{}'. error: '{}'".format(cmd, err)
+            msg = "Failed to execute Command: '{}'. error: '{}'".format(
+                cmd, err)
             raise RuntimeError(msg)
 
         inputs = [process_.stdout, process_.stderr]
         output = StringIO()
         errors = StringIO()
         while process_.poll() is None:
-            # select has 3 parameters, 3 lists, the sockets, the fileobject to watch
-            # in reading, writing, the errors
-            # in addition a timeout option (the call is blocking while a fileObject
-            # is not ready to be processed)
+            # select has 3 parameters, 3 lists, the sockets, the fileobject
+            # to watch in reading, writing, the errors
+            # in addition a timeout option (the call is blocking while
+            # a fileObject is not ready to be processed)
             # by return we get 3 lists with the fileObject to be processed
             # in reading, writing, errors.
-            readable, writable, exceptional = select.select(inputs, [], [], 1)
+            (readable, writable, exceptional) = select.select(
+                inputs, [], [], 1)
 
             while readable and inputs:
                 for flow in readable:
@@ -312,7 +319,8 @@ class ConvBase(metaclass=ConvMeta):
                         output.write(data.decode("utf-8"))
                     elif flow is process_.stderr:
                         errors.write(data.decode("utf-8"))
-                readable, writable, exceptional = select.select(inputs, [], [], 1)
+                (readable, writable, exceptional) = select.select(
+                    inputs, [], [], 1)
 
         errors = errors.getvalue().strip()
         if verbose:
@@ -326,7 +334,7 @@ class ConvBase(metaclass=ConvMeta):
             return output
 
     def boxplot_benchmark(self, N=5, rerun=True, include_dummy=False,
-            to_exclude=[], to_include=[]):
+                          to_exclude=[], to_include=[]):
         """Simple wrapper to call :class:`Benchmark` and plot the results
 
         see :class:`~bioconvert.core.benchmark.Benchmark` for details.
@@ -351,13 +359,78 @@ class ConvBase(metaclass=ConvMeta):
         :param executable to install
         :return: nothing
         """
-        import bioconvert
-        from bioconvert import bioconvert_data 
+        # imported but not unused (when we don't have bioconvert_path)
+        # import bioconvert
+        from bioconvert import bioconvert_data
 
         if shutil.which(executable) is None:
-            logger.info("Installing tool : "+executable)
-            bioconvert_path = bioconvert.__path__[0]
-            script = bioconvert_data('install_'+executable+'.sh', where="../misc")
-            subprocess.call(['sh',script])
+            logger.info("Installing tool : " + executable)
+            # Assigned but never used, says flake8
+            # bioconvert_path = bioconvert.__path__[0]
+            script = bioconvert_data(
+                'install_' + executable + '.sh', where="../misc")
+            subprocess.call(['sh', script])
 
     default = property(_get_default_method)
+
+
+# Implementing a class creator
+# The created class will have the correct name, will inherit from ConvBase
+# It will have a conversion method chaining conversions through tempfiles
+def make_chain(converter_map):
+    """
+    Create a class performing step-by-step conversions following a path.
+    *converter_map* is a list of pairs ((in_fmt, out_fmt), converter).
+    It describes the conversion path.
+    """
+    in_fmt = converter_map[0][0][0]
+    out_fmt = converter_map[-1][0][1]
+    chain_name = "2".join([in_fmt.capitalize(), out_fmt.capitalize()])
+    chain_attributes = {}
+
+    def chain_init(self, infile, outfile):
+        super().__init__(infile, outfile)
+        self._default_method = "chain"
+
+    def _method_chain(self, *args, **kwargs):
+        """This method successively uses the default conversion method of each
+        converter in the conversion path."""
+
+        def conv_step(converter, infile, outfile):
+            """Performs one conversion step."""
+            converter(infile, outfile)(*args, **kwargs)
+
+        # Contains the last temporary output file, if any
+        pipe_files = deque()
+        for (step_num, ((_, out_fmt), converter)) \
+                in enumerate(self.converter_map, start=1):
+            if step_num == 1:
+                # May not be necessary:
+                step_infile = None
+                step_input = self.infile
+                del_infile = False
+            else:
+                step_infile = pipe_files.popleft()
+                step_input = step_infile.name
+                del_infile = True
+            if step_num == self.nb_steps:
+                # May not be necessary:
+                step_outfile = None
+                step_output = self.outfile
+            else:
+                step_outfile = TempFile(suffix=out_fmt.lower())
+                step_output = step_outfile.name
+                pipe_files.append(step_outfile)
+            conv_step(converter, step_input, step_output)
+            if del_infile:
+                step_infile.delete()
+
+    chain_attributes["converter_map"] = converter_map
+    chain_attributes["nb_steps"] = len(converter_map)
+    chain_attributes["__init__"] = chain_init
+    chain_attributes["_method_chain"] = _method_chain
+    chain = type(chain_name, (ConvBase,), chain_attributes)
+    # https://stackoverflow.com/a/43779009/1878788
+    # Allows calling super in chain.__init__
+    __class__ = chain
+    return chain
