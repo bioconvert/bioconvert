@@ -15,7 +15,7 @@
 import os
 import sys
 import argparse
-from argparse import RawTextHelpFormatter
+from argparse import RawTextHelpFormatter, RawDescriptionHelpFormatter
 
 import colorlog
 
@@ -52,8 +52,8 @@ class ConvAction(argparse.Action):
             print("{} -> {}".format(k[0], k[1]))
         sys.exit(0)
 
-def main(args=None):
 
+def main(args=None):
     if args is None:
         args = sys.argv[:]
 
@@ -88,21 +88,27 @@ def main(args=None):
 
 """)
     registry = Registry()
-    subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command',)
+    subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )
+    max_converter_width = 2 + max([len(in_fmt) for in_fmt, out_fmt, converter in registry.iter_converters()])
     for in_fmt, out_fmt, converter in registry.iter_converters():
         sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
-        methods = converter.available_methods
-        help="""{name}
-available methods:
-   - {methods}
-        
-        """.format(name=sub_parser_name,
-                   methods='- '.join(methods)
-                   )
+        # methods = converter.available_methods
+        #         help = """to convert from {in_fmt} into {out_fmt}. Available methods:
+        #
+        # {methods}
+        # """.format(in_fmt=in_fmt,
+        #                    out_fmt=out_fmt,
+        #                    name=sub_parser_name,
+        #                    methods=', '.join(methods)
+        #                    )
+
+        help = 'to convert %s \t     into --> %s.' % ( (in_fmt + ' ').ljust(max_converter_width, '-'), out_fmt)
         sub_parser = subparsers.add_parser(sub_parser_name,
-                                           description='to convert {} into {}'.format(in_fmt, out_fmt),
+                                           # description='to convert {} into {}'.format(in_fmt, out_fmt),
+                                           # help=help,
                                            help=help,
-                                           formatter_class = RawTextHelpFormatter,)
+                                           formatter_class=RawDescriptionHelpFormatter,
+                                           )
 
         converter.add_argument_to_parser(sub_parser=sub_parser)
 
@@ -132,10 +138,10 @@ available methods:
     #                         default=None,
     #                         help="A converter may have several methods")
     #
-    arg_parser.add_argument("-s", "--show-methods",
-                            default=False,
-                            action="store_true",
-                            help="A converter may have several methods")
+    # arg_parser.add_argument("-s", "--show-methods",
+    #                         default=False,
+    #                         action="store_true",
+    #                         help="A converter may have several methods")
 
     args = arg_parser.parse_args()
 
@@ -144,7 +150,6 @@ available methods:
     args.verbosity = max(10, 30 - (10 * args.verbosity))
     bioconvert.logger_set_level(args.verbosity)
     _log = colorlog.getLogger('bioconvert')
-
 
     # Figure out whether we have several input files or not
     # Are we in batch mode ?
@@ -161,8 +166,7 @@ available methods:
         args.input_file = filename
         analysis(args)
 
-
-    #_log.info("Done")
+    # _log.info("Done")
 
 
 def analysis(args):
@@ -174,11 +178,11 @@ def analysis(args):
     if args.output_file is None:
         if args.output_format is None:
             raise ValueError("Extension of the output format unknown."
-                    " You must either provide an output file name (with"
-                    " extension) or provide it zith the --output-format"
-                    " argument")
+                             " You must either provide an output file name (with"
+                             " extension) or provide it zith the --output-format"
+                             " argument")
         else:
-            outfile = infile.rsplit(".",1)[0] + "." + args.output_format
+            outfile = infile.rsplit(".", 1)[0] + "." + args.output_format
     else:
         outfile = args.output_file
 
@@ -231,7 +235,6 @@ def analysis(args):
     # if args.method:
     #     params["method"] = args.method
 
-
     # Call the class method that does the real work
     convert = class_converter(infile, outfile)
 
@@ -239,15 +242,11 @@ def analysis(args):
     if args.show_methods:
         print(convert.available_methods)
         print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} "
-              "for details ".format(class_converter.__name__.lower(),class_converter.__name__))
+              "for details ".format(class_converter.__name__.lower(), class_converter.__name__))
         sys.exit(0)
 
-    convert(args)
-
+    convert(**vars(args))
 
 
 if __name__ == "__main__":
     main()
-
-
-

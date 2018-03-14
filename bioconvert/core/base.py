@@ -17,6 +17,7 @@ import abc
 import select
 import sys
 import inspect
+import itertools
 
 from io import StringIO
 from subprocess import Popen, PIPE
@@ -124,6 +125,23 @@ class ConvMeta(abc.ABCMeta):
             _log.debug("class = {}  available_methods = {}".format(cls.__name__, available_conv_meth))
 
 
+class ConvArg(object):
+
+    def __init__(self, names, default, help, **kwargs):
+        if isinstance(names, list):
+            self.args_for_sub_parser = names
+        else:
+            self.args_for_sub_parser = [names, ]
+        self.kwargs_for_sub_parser = dict(
+            default=default,
+            help=help,
+            **kwargs,
+        )
+
+    def add_to_sub_parser(self, sub_parser):
+        sub_parser.add_argument(*self.args_for_sub_parser, **self.kwargs_for_sub_parser)
+
+
 class ConvBase(metaclass=ConvMeta):
     """
     This is the base class for all converters.
@@ -147,6 +165,7 @@ class ConvBase(metaclass=ConvMeta):
     """specify the extensions of the output file, can be a sequence (must be 
     overridden in subclasses)"""
     output_ext = None
+    _default_method = None
 
     def __init__(self, infile, outfile):
         """
@@ -159,7 +178,7 @@ class ConvBase(metaclass=ConvMeta):
         self.max_threads = cpu_count()
         self._default_method = None
 
-    def __call__(self, *args, threads=None, **kwargs):
+    def __call__(self, *args, method_name=None, **kwargs):
         """
 
         """
@@ -170,7 +189,7 @@ class ConvBase(metaclass=ConvMeta):
 
         # If not, but there is one argument, presumably this is
         # the method
-        method_name = args[0].method or self.default
+        method_name = method_name or self.default
 
         # If not, we need to check the name
         if method_name not in self.available_methods:
@@ -183,7 +202,7 @@ class ConvBase(metaclass=ConvMeta):
         method_reference = getattr(self, "_method_{}".format(method_name))
 
         # call the method itself
-        method_reference(*args, threads=None, **kwargs)
+        method_reference(*args, **kwargs)
 
 
     @property
@@ -285,46 +304,46 @@ class ConvBase(metaclass=ConvMeta):
 
     @classmethod
     def add_argument_to_parser(cls, sub_parser):
-        # pass
-        for args, kwargs in cls.get_arguments():
-            sub_parser.add_argument(*args, **kwargs)
-        # sub_parser.add_argument(
-        #     "input_file",
-        #     default=None,
-        #     help="The path to the file to convert XXXX.",
-        # )
-        sub_parser.add_argument(
-            "output_file", nargs="?",
+        for arg in itertools.chain(cls.get_common_arguments(), cls.get_additional_arguments()):
+            arg.add_to_sub_parser(sub_parser)
+
+    @classmethod
+    def get_additional_arguments(cls):
+        return []
+
+    @classmethod
+    def get_common_arguments(cls):
+        yield ConvArg(
+            names="input_file",
+            default=None,
+            help="The path to the file to convert.",
+        )
+        yield ConvArg(
+            names="output_file",
+            nargs="?",
             default=None,
             help="The path where the result will be stored.",
         )
-        sub_parser.add_argument(
-            "-i", "--input-format",
-            default=None,
-            help="Provide the input format. Check the --formats to see valid input name",
-        )
-        sub_parser.add_argument(
-            "-o", "--output-format",
-            default=None,
-            help="Provide the output format. Check the --formats to see valid input name",
-        )
-        sub_parser.add_argument(
-            "-c", "--method",
-            default=None,
-            help="A converter may have several methods",
-        )
-
-    @classmethod
-    def get_arguments(cls):
-        return [
-            (
-                [
-                    "input_file",
-                ]
-                ,
-                dict(
-                    default=None,
-                    help="The path to the file to convert XXXX.",
-                )
+        # yield ConvArg(
+        #     names=["-i", "--input-format", ],
+        #     nargs="?",
+        #     default=None,
+        #     help="Provide the input format. Check the --formats to see valid input name",
+        # )
+        # yield ConvArg(
+        #     names=["-o", "--output-format", ],
+        #     nargs="?",
+        #     default=None,
+        #     help="Provide the output format. Check the --formats to see valid input name",
+        # )
+        try:
+            #Some converter does not have any method and work in __call__, so preventing to crash by searching for them
+            yield ConvArg(
+                names=["-c", "--method", ],
+                nargs="?",
+                default=None,
+                help="Default %s, otqqqhers: %s" % (cls._get_default_method(cls), ", ".join(cls.available_methods)),
             )
-        ]
+        except Exception as e:
+            print (e)
+            pass

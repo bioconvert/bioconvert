@@ -9,6 +9,7 @@ class Fastq2Fasta(ConvBase):
 
     input_ext = ['.fastq', '.fq']
     output_ext = '.fasta'
+    default_method = "biopython"
 
 
     def __init__(self, inputfile, outputfile):
@@ -18,7 +19,6 @@ class Fastq2Fasta(ConvBase):
         """
         self.inputfile = inputfile
         self.outputfile = outputfile
-        self._default_method = "biopython"
 
     def _method_biopython(self, *args, **kwargs):
         records = SeqIO.parse(self.inputfile, 'fastq')

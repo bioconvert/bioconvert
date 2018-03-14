@@ -12,6 +12,7 @@
 ##############################################################################
 """ description """
 from bioconvert import ConvBase
+from bioconvert.core.base import ConvArg
 
 __all__ = ["GZ2BZ2"]
 
@@ -34,30 +35,31 @@ class GZ2BZ2(ConvBase):
         """
         super(GZ2BZ2, self).__init__(infile, outfile, *args, **kargs)
 
-    def _method_pigz_pbzip2(self, *args, **kwargs):
+    def _method_pigz_pbzip2(self, threads=1, *args, **kwargs):
         """some description"""
         # check integrity
         # cmd = "pigz -p{threads} --test {input}"
         # shell(cmd)
+        if isinstance(threads, str):
+            threads = str(threads)
 
         # conversion
         cmd = "pigz -d -c -p {threads} {input} | pbzip2 -p{threads} > {output}"
         self.execute(cmd.format(
-            threads=self.threads,
+            threads=threads,
             input=self.infile,
             output=self.outfile))
 
         # integrity output
-        #cmd = "pbzip2 {output} -p{threads} --test"
-        #shell(cmd)
+        # cmd = "pbzip2 {output} -p{threads} --test"
+        # shell(cmd)
 
         # use self.infile, self.outfile
 
     @classmethod
-    def add_argument_to_parser(cls, sub_parser):
-        super().add_argument_to_parser(sub_parser)
-        sub_parser.add_argument(
-            "-x", "--threads",
-            default=None,
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names=["-x", "--threads", ],
+            default=1,
             help="Number of threads. Depends on the underlying tool",
         )
