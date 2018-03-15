@@ -112,7 +112,7 @@ def main(args=None):
             sub_parser_name,
             help=help_text,
             formatter_class=RawDescriptionHelpFormatter,
-            aliases=["{}_to_{}".format(in_fmt.lower(), out_fmt.lower()), ],
+            # aliases=["{}_to_{}".format(in_fmt.lower(), out_fmt.lower()), ],
         )
 
         converter.add_argument_to_parser(sub_parser=sub_parser)
