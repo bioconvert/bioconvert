@@ -342,7 +342,7 @@ class ConvBase(metaclass=ConvMeta):
                 names=["-c", "--method", ],
                 nargs="?",
                 default=None,
-                help="Default %s, otqqqhers: %s" % (cls._get_default_method(cls), ", ".join(cls.available_methods)),
+                help="Default %s, methods: %s" % (cls._get_default_method(cls), ", ".join(cls.available_methods)),
             )
         except Exception as e:
             print (e)
