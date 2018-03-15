@@ -118,6 +118,15 @@ class Fastq2Fasta(ConvBase):
                     record.sequence.decode("utf-8")))
         print("test")
 
+    @classmethod
+    def _isusable_method_GATB(cls):
+        try:
+            from gatb import Bank
+            return True
+        except:
+            pass
+        return False
+
     @compressor
     def _method_readfq(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
