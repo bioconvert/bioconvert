@@ -57,6 +57,15 @@ def main(args=None):
     if args is None:
         args = sys.argv[1:]
 
+    try:
+        bioconvert.logger.level = args[args.index("-l")+1]
+    except:
+        pass
+    try:
+        bioconvert.logger.level = args[args.index("--level")+1]
+    except:
+        pass
+
     if "--version" in args:
         print("Bioconvert version {}".format(bioconvert.version))
         sys.exit(0)
@@ -163,19 +172,16 @@ def main(args=None):
     else:
         filenames = [args.input_file]
 
-    print(vars(args))
-    print(args)
-
     for filename in filenames:
         args.input_file = filename
-        # try:
-        analysis(args)
-        # except Exception as e:
-        #     if args.verbosity == "DEBUG" or args.raise_exception:
-        #         raise e
-        #     else:
-        #         bioconvert.logger.error(e)
-        #     sys.exit(1)
+        try:
+            analysis(args)
+        except Exception as e:
+            if args.verbosity == "DEBUG" or args.raise_exception:
+                raise e
+            else:
+                bioconvert.logger.error(e)
+            sys.exit(1)
 
 
 def analysis(args):

@@ -140,10 +140,28 @@ class ConvMeta(abc.ABCMeta):
             #     check_ext(output_ext, 'output')
             setattr(cls, 'input_fmt', input_fmt)
             setattr(cls, 'output_fmt', output_fmt)
-            available_conv_meth = inspect.getmembers(cls, is_conversion_method)
+            available_conv_meth = []
+            for name in inspect.getmembers(cls, is_conversion_method):
+                # do not use strip() but split()
+                conv_meth = name[0].split("_method_")[1]
+                try:
+                    # get the isusable method when provided
+                    isusable_method = getattr(cls, "_isusable_method_{}".format(conv_meth))
+                    try:
+                        # evaluate the usability of the method
+                        isusable = isusable_method()
+                    except Exception as e:
+                        _log.debug("converter '{}' failed to evaluat '{}': {}".format(cls.__name__, conv_meth, e))
+                        # the isusable method failed, the associated method should not be used
+                        isusable = False
+                except Exception as e:
+                    # no isusable method have been found, method is supposed to work
+                    isusable = True
+                if isusable:
+                    available_conv_meth.append(conv_meth)
+                else:
+                    _log.warning("converter '{}': method {} is not available".format(cls.__name__, conv_meth, ))
 
-            # do not use strip() but split()
-            available_conv_meth = [name[0].split("_method_")[1] for name in available_conv_meth]
             setattr(cls, 'available_methods', available_conv_meth)
             _log.debug("class = {}  available_methods = {}".format(cls.__name__, available_conv_meth))
 
@@ -423,7 +441,8 @@ class ConvBase(metaclass=ConvMeta):
                 names=["-c", "--method", ],
                 nargs="?",
                 default=None,
-                help="Default %s, methods: %s" % (cls._get_default_method(cls), ", ".join(cls.available_methods)),
+                help="The method to use to do the conversion. Default method is '%s'" % cls._get_default_method(cls),
+                choices=cls.available_methods,
             )
         except Exception as e:
             _log.warning("converter '{}' does not seems to have methods: {}".format(cls.__name__, e))

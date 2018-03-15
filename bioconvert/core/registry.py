@@ -126,7 +126,7 @@ class Registry(object):
         """
         if format_pair in self._fmt_registry:
             raise KeyError("an other converter already exists "
-                           "for {} -> {}".format(*format_pair))
+                           "for {} -> {}: ({}, {})".format(*format_pair,self._fmt_registry[format_pair],convertor))
         self._fmt_registry[format_pair] = convertor
 
     def __getitem__(self, format_pair):

@@ -119,6 +119,17 @@ class Fastq2Fasta(ConvBase):
                     record.sequence.decode("utf-8")))
         print("test")
 
+    @classmethod
+    def _isusable_method_GATB(cls):
+        try:
+            # Let us make this optional for now because
+            # GATB cannot be install on RTD
+            from gatb import Bank
+            return True
+        except:
+            pass
+        return False
+
     @compressor
     def _method_readfq(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
