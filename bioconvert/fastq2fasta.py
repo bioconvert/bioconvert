@@ -1,5 +1,6 @@
 from Bio import SeqIO
 from bioconvert import ConvBase
+from bioconvert.core.base import ConvArg
 
 
 class Fastq2Fasta(ConvBase):
@@ -20,7 +21,7 @@ class Fastq2Fasta(ConvBase):
         self.inputfile = inputfile
         self.outputfile = outputfile
 
-    def _method_biopython(self, *args, **kwargs):
+    def _method_biopython(self, quality_file=None, *args, **kwargs):
         records = SeqIO.parse(self.inputfile, 'fastq')
         SeqIO.write(records, self.outputfile, 'fasta')
 
@@ -29,6 +30,14 @@ class Fastq2Fasta(ConvBase):
             with open(self.outfile, "w") as fout:
     """
 
-    def _method_seqtk(self, *args, **kwargs):
+    def _method_seqtk(self, quality_file=None, *args, **kwargs):
         cmd = "seqtk seq -A {} > {}".format(self.inputfile, self.outputfile)
         self.execute(cmd)
+
+    @classmethod
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names="quality_file",
+            default=None,
+            help="The path to the quality file.",
+        )
