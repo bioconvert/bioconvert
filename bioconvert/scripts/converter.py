@@ -15,6 +15,8 @@
 import os
 import sys
 import argparse
+from argparse import RawTextHelpFormatter, RawDescriptionHelpFormatter
+
 import colorlog
 
 import bioconvert
@@ -48,6 +50,7 @@ class ConvAction(argparse.Action):
         for k in sorted(mapper.get_conversions()):
             print("{} -> {}".format(k[0], k[1]))
         sys.exit(0)
+
 
 def main(args=None):
 
@@ -94,12 +97,25 @@ def main(args=None):
 
         bioconvert --help
 """)
-    arg_parser.add_argument("input_file",
-            default=None,
-            help="The path to the file to convert.")
-    arg_parser.add_argument("output_file", nargs="?",
-            default=None,
-            help="The path where the result will be stored.")
+    registry = Registry()
+    subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )
+    max_converter_width = 2 + max([len(in_fmt) for in_fmt, out_fmt, converter in registry.iter_converters()])
+    for in_fmt, out_fmt, converter in registry.iter_converters():
+        sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
+        methods = converter.available_methods
+        help_text = 'to convert %sinto--> %s%s' % (
+            (in_fmt + ' ').ljust(max_converter_width, '-'),
+            out_fmt,
+            "" if len(methods) <= 1 else " (%i methods)" % len(methods),
+        )
+        sub_parser = subparsers.add_parser(
+            sub_parser_name,
+            help=help_text,
+            formatter_class=RawDescriptionHelpFormatter,
+            aliases=["{}_to_{}".format(in_fmt.lower(), out_fmt.lower()), ],
+        )
+
+        converter.add_argument_to_parser(sub_parser=sub_parser)
 
     arg_parser.add_argument("-F", "--formats",
                             action=ConvAction,
@@ -114,27 +130,9 @@ def main(args=None):
     arg_parser.add_argument("-l", "--level", dest="verbosity",
                             default="INFO",
                             help="same as --verbosity")
-    arg_parser.add_argument("-i", "--input-format",
-                            default=None,
-                            help="Provide the input format. Check the --formats to see valid input name")
-    arg_parser.add_argument("-o", "--output-format",
-                            default=None,
-                            help="Provide the output format. Check the --formats to see valid input name")
-    arg_parser.add_argument("-x", "--threads",
-                            default=None,
-                            type=int,
-                            help="Number of threads. Depends on the underlying tool")
     arg_parser.add_argument("-m", "--batch",
                             default=False, action="store_true",
                             help="for batch effect")
-
-    arg_parser.add_argument("-c", "--method",
-                            default=None,
-                            help="A converter may have several methods")
-
-    arg_parser.add_argument("-f", "--force",
-                            action="store_true",
-                            help="if outfile exists, it is overwritten with this option")
 
     arg_parser.add_argument("-s", "--show-methods",
                             default=False,
@@ -165,16 +163,19 @@ def main(args=None):
     else:
         filenames = [args.input_file]
 
+    print(vars(args))
+    print(args)
+
     for filename in filenames:
         args.input_file = filename
-        try:
-            analysis(args)
-        except Exception as e:
-            if args.verbosity == "DEBUG" or args.raise_exception:
-                raise e
-            else:
-                bioconvert.logger.error(e)
-            sys.exit(1)
+        # try:
+        analysis(args)
+        # except Exception as e:
+        #     if args.verbosity == "DEBUG" or args.raise_exception:
+        #         raise e
+        #     else:
+        #         bioconvert.logger.error(e)
+        #     sys.exit(1)
 
 
 def analysis(args):
@@ -197,8 +198,12 @@ def analysis(args):
         outfile = args.output_file
 
     # Call a generic wrapper of all available conversion
-    conv = Bioconvert(infile, outfile, in_fmt=args.input_format, out_fmt=args.output_format,
-                      force=args.force)
+    conv = Bioconvert(
+        infile,
+        outfile,
+        command=args.command,
+        force=args.force,
+    )
 
     # # Users may provide information about the input file.
     # # Indeed, the input may be a FastQ file but with an extension
@@ -231,7 +236,7 @@ def analysis(args):
 
     bioconvert.logger.info("Converting from %s to %s" % (conv.in_fmt, conv.out_fmt))
 
-    params = {"threads": args.threads}
+    # params = {"threads": args.threads}
 
 
     if args.benchmark:
@@ -239,8 +244,8 @@ def analysis(args):
         import pylab
         pylab.savefig("benchmark_{}.png".format(conv.name))
     else:
-        params["method"] = args.method
-        conv(**params)
+        # params["method"] = args.method
+        conv(**vars(args))
 
 if __name__ == "__main__":
     main()

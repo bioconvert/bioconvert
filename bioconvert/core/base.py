@@ -61,6 +61,20 @@ class ConvMeta(abc.ABCMeta):
     extension, it can be a single string, or a list/set/tuple of strings.
 
     """
+
+    @classmethod
+    def split_converter_to_extensions(cls, converter_name: str):
+        converter_name = converter_name.replace("_to_", "2")
+        if '2' not in converter_name:
+            raise TypeError("converter's name '%s' name must follow convention input2output" % converter_name)
+        # for BZ2 2 GZ
+        if "22" in converter_name:
+            input_fmt, output_fmt = converter_name.upper().split('22', 1)
+            input_fmt += "2"
+        else:
+            input_fmt, output_fmt = converter_name.upper().split('2', 1)
+        return input_fmt, output_fmt
+
     def __init__(cls, name, bases, classdict):
 
         # do not check extension since modules does not require to specify extension anymore
@@ -118,14 +132,7 @@ class ConvMeta(abc.ABCMeta):
                     item.__name__ != "_method_dummy"
 
         if name != 'ConvBase':
-            if '2' not in name:
-                raise TypeError("converter name must follow convention input2output")
-            # for BZ2 2 GZ
-            if "22" in name:
-                input_fmt, output_fmt = name.upper().split('22', 1)
-                input_fmt += "2"
-            else:
-                input_fmt, output_fmt = name.upper().split('2', 1)
+            input_fmt, output_fmt = cls.split_converter_to_extensions(name.upper())
             # modules have no more input_ext and output_ext attributes
             # input_ext = getattr(cls, 'input_ext')
             # if check_ext(input_ext, 'input'):
@@ -143,13 +150,12 @@ class ConvMeta(abc.ABCMeta):
 
 class ConvArg(object):
 
-    def __init__(self, names, default, help, **kwargs):
+    def __init__(self, names, help, **kwargs):
         if isinstance(names, list):
             self.args_for_sub_parser = names
         else:
             self.args_for_sub_parser = [names, ]
         self.kwargs_for_sub_parser = dict(
-            default=default,
             help=help,
             **kwargs,
         )
@@ -420,5 +426,10 @@ class ConvBase(metaclass=ConvMeta):
                 help="Default %s, methods: %s" % (cls._get_default_method(cls), ", ".join(cls.available_methods)),
             )
         except Exception as e:
-            print (e)
+            _log.warning("converter '{}' does not seems to have methods: {}".format(cls.__name__, e))
             pass
+        yield ConvArg(
+            names=["-f", "--force", ],
+            action="store_true",
+            help="if outfile exists, it is overwritten with this option",
+        )

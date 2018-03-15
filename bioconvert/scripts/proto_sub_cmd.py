@@ -21,6 +21,9 @@ import colorlog
 
 import bioconvert
 from bioconvert.core.registry import Registry
+from bioconvert.core.converter import Bioconvert
+from bioconvert import extensions
+
 
 
 class ConvAction(argparse.Action):
@@ -40,10 +43,6 @@ class ConvAction(argparse.Action):
         # the -v --verbosity options may not be parsed yet (if located after -f on command line)
         # So I do it myself
         v_nb = ''.join([opt for opt in sys.argv if opt.startswith("-v")]).count('v')
-        verbo_nb = sum([1 for opt in sys.argv if opt.startswith('--verb')])
-        verbosity = v_nb + verbo_nb
-
-        bioconvert.logger_set_level(max(10, 30 - (10 * verbosity)))
 
         mapper = Registry()
         print("Available mapping:")
@@ -54,11 +53,18 @@ class ConvAction(argparse.Action):
 
 
 def main(args=None):
+
     if args is None:
-        args = sys.argv[:]
+        args = sys.argv[1:]
+
+    if "--version" in args:
+        print("Bioconvert version {}".format(bioconvert.version))
+        sys.exit(0)
+
 
     from easydev.console import purple, underline
-    print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
+    if "-v" in args or "--verbosity" in args:
+        print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
 
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
                                          epilog=" ----    ",
@@ -70,22 +76,26 @@ def main(args=None):
                                          formatted.""",
                                          usage="""
     # convert fastq to fasta
-    converter test.fastq test.fasta
+    bioconvert test.fastq test.fasta
 
     # if input extension is not standard, use -i to specify it
-    converter test.FASTQ test.fasta -i fastq
+    bioconvert test.FASTQ test.fasta -i fastq
 
-    converter test.fastq -o fasta
+    bioconvert test.fastq -o fasta
 
     # You may have several inputs, in which case wildcards are possible
     # Note, however, the quotes that are required
-    converter "test*.fastq" -o fasta
+    bioconvert "test*.fastq" -o fasta
 
-    # batch is also possible. 
-    converter "test*.fastq" -o fasta -m 
+    # batch is also possible.
+    bioconvert "test*.fastq" -o fasta -m
 
     Note the difference between the two previous commands !!
 
+
+    For more information, please type:
+
+        bioconvert --help
 """)
     registry = Registry()
     subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )
