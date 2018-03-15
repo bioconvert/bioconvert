@@ -15,7 +15,7 @@ def test_converter1():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".bed") as tempfile:
         import sys
-        sys.argv = ["bioconvert", infile, tempfile.name, "--force"]
+        sys.argv = ["bioconvert", "bam2bed", infile, tempfile.name, "--force"]
         converter.main()
 
 
@@ -23,7 +23,7 @@ def test_converter2():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".bed") as tempfile:
         import sys
-        sys.argv = ["bioconvert", infile, tempfile.name, 
+        sys.argv = ["bioconvert", "bam2bed", infile, tempfile.name,
                     "--method" , "bedtools", "--force"]
         converter.main()
 
