@@ -60,5 +60,5 @@ class GZ2BZ2(ConvBase):
         yield ConvArg(
             names=["-x", "--threads", ],
             default=1,
-            help="Number of threads. Depends on the underlying tool",
+            help="Number of threads.",
         )
