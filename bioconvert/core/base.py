@@ -146,6 +146,7 @@ class ConvMeta(abc.ABCMeta):
                         # evaluate the usability of the method
                         isusable = isusable_method()
                     except Exception as e:
+                        _log.debug("converter '{}' failed to evaluat '{}': {}".format(cls.__name__, conv_meth, e))
                         # the isusable method failed, the associated method should not be used
                         isusable = False
                 except Exception as e:
@@ -153,6 +154,8 @@ class ConvMeta(abc.ABCMeta):
                     isusable = True
                 if isusable:
                     available_conv_meth.append(conv_meth)
+                else:
+                    _log.warning("converter '{}': method {} is not available".format(cls.__name__, conv_meth, ))
             setattr(cls, 'available_methods', available_conv_meth)
             _log.debug("class = {}  available_methods = {}".format(
                 cls.__name__, available_conv_meth))
