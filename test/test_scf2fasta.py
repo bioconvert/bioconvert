@@ -26,7 +26,8 @@ def test_read_from_buffer(tmpdir):
     """Test function 'read_from_buffer(f_file, length, offset)'"""
     tmp_file = tmpdir.join("test.tmp")
     tmp_file.write(">Fake1\nWQSDESDFZQS")
-    f_file = open(tmp_file)
+
+    f_file = tmp_file.open("r")
     assert read_from_buffer(f_file, 20, 1) == "Fake1\nWQSDESDFZQS"
 
 def test_delta():
