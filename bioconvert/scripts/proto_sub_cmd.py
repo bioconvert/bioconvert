@@ -92,7 +92,7 @@ def main(args=None):
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, out_fmt, converter in registry.iter_converters()])
     for in_fmt, out_fmt, converter in registry.iter_converters():
         sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
-        # methods = converter.available_methods
+        methods = converter.available_methods
         #         help = """to convert from {in_fmt} into {out_fmt}. Available methods:
         #
         # {methods}
@@ -102,11 +102,15 @@ def main(args=None):
         #                    methods=', '.join(methods)
         #                    )
 
-        help = 'to convert %s \t     into --> %s.' % ( (in_fmt + ' ').ljust(max_converter_width, '-'), out_fmt)
+        help_text = 'to convert %sinto--> %s%s' % (
+            (in_fmt + ' ').ljust(max_converter_width, '-'),
+            out_fmt,
+            "" if len(methods) <= 1 else " (%i methods)" % len(methods),
+        )
         sub_parser = subparsers.add_parser(sub_parser_name,
                                            # description='to convert {} into {}'.format(in_fmt, out_fmt),
                                            # help=help,
-                                           help=help,
+                                           help=help_text,
                                            formatter_class=RawDescriptionHelpFormatter,
                                            )
 
