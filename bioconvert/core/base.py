@@ -223,9 +223,9 @@ class ConvBase(metaclass=ConvMeta):
 
         """
         # If method provided, use it
-        # method_name = kwargs.get("method", None)
-        # if method_name:
-        #     del kwargs["method"]
+        if "method" in kwargs:
+            method_name = kwargs["method"]
+            del kwargs["method"]
 
         # If not, but there is one argument, presumably this is
         # the method
