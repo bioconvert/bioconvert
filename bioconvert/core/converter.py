@@ -20,6 +20,7 @@ from bioconvert.core.base import ConvMeta
 
 _log = colorlog.getLogger(__name__)
 
+from bioconvert.core.base import make_chain
 from bioconvert.core.registry import Registry
 from bioconvert.core.utils import get_extension as getext
 from bioconvert.core.utils import get_format_from_extension
@@ -79,7 +80,7 @@ class Bioconvert(object):
                 _log.critical(msg)
                 raise IOError
 
-        # case1: fastq.gz to fasta.bz2
+        # Case1: fastq.gz to fasta.bz2
         # Here, we want to decompress, convert, compress.
         # so we need the extension without .gz or .bz2
         # We should have inext set to fastq and outext
@@ -114,13 +115,23 @@ class Bioconvert(object):
             self.name = class_converter.__name__
         except KeyError:
             # This module name was not found
-            msg = "Requested input format ('%s') to output format ('%s') is not available in bioconvert" %(
-                self.in_fmt, 
-                self.out_fmt,
-            )
-            _log.critical(msg)
-            _log.critical("Use --formats to know the available formats and --help for examples")
-            raise Exception(msg)
+            # Try to find path of converters
+            conv_path = self.mapper.conversion_path(self.in_fmt, self.out_fmt)
+            if conv_path:
+                _log.info("Direct conversion not implemented.\n"
+                          "Chaining converters.")
+                # implemented in bioconvert/core/base.py
+                # using temporary files
+                class_converter = make_chain([
+                    (pair, self.mapper[pair]) for pair in conv_path])
+            else:
+                msg = """Requested input format ('%s') to output format ('%s')
+                         is not available in bioconvert""" % (
+                             self.in_fmt, self.out_fmt)
+                _log.critical(msg)
+                _log.critical("Use --formats to know the available formats "
+                              "and --help for examples")
+                raise Exception(msg)
 
         self.converter = class_converter(infile, outfile)
         _log.info("Using {} class".format(self.converter.name))

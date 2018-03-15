@@ -144,16 +144,26 @@ Go to  ./test and add a file named ``test_fastq2fasta.py``
 
 ::
 
+    import os
     import pytest
     from bioconvert.fastq2fasta import Fastq2Fasta
+    from bioconvert import bioconvert_data
+    from easydev import TempFile, md5
 
+    @pytest.mark.parametrize("method", Fastq2Fasta.available_methods)
     def test_fastq2fasta():
         #your code here
-        # you will need data for instance "mydata".
+        # you will need data for instance "mydata.fastq and mydata.fasta".
         # Put it in bioconvert/bioconvert/data
         # you can then use ::
-        from bioconvert import bioconvert_data
-        bioconvert_data("mydata")
+        infile = bioconvert_data("mydata.fastq")
+        expected_outfile = bioconvert_data("mydata.fasta")
+        with TempFile(suffix=".fasta) as tempfile:
+            converter = Fastq2Fasta(infile, tempfile.name)
+            outbasename, ext = os.path.splitext(tempfile.name)
+
+            # Check that the output is correct with a checksum
+            assert md5(outbasename + ".fastq") == md5(expected_outfile)
 
 
 Files used for testing should be added in

@@ -11,53 +11,44 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""Convert :term:`BAM` format to :term:`BED` formats"""
+"""Convert :term:`BAM` format to :term:`BEDGRAPH` formats"""
 from bioconvert import ConvBase, extensions
 import colorlog
 
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ["BAM2BED"]
+__all__ = ["BAM2BEDGRAPH"]
 
 
-class BAM2BED(ConvBase):
-    """Convert sorted :term:`BAM` file into :term:`BED` file 
+class BAM2BEDGRAPH(ConvBase):
+    """Convert sorted :term:`BAM` file into :term:`BEDGRAPH` file 
 
     Available methods:
 
-    - samtools::
-
-        samtools depth -aa INPUT > OUTPUT
-
     - bedtools::
 
-        bedtools genomecov -d -ibam INPUT > OUTPUT
+        bedtools genomecov -bg -ibam INPUT > OUTPUT
 
 
     .. plot::
 
-         from bioconvert.bam2bed import BAM2BED
+         from bioconvert.bam2bed import BAM2BEDGRAPH
          from bioconvert import bioconvert_data
          from easydev import TempFile
 
          with TempFile(suffix=".bed") as fh:
              infile = bioconvert_data("test_measles.sorted.bam")
-             convert = BAM2BED(infile, fh.name)
+             convert = BAM2BEDGRAPH(infile, fh.name)
              convert.boxplot_benchmark()
 
 
-    Note that this BED format is of the form::
+    Note that this BEDGRAPH format is of the form::
 
-        chr1    1   0
-        chr1    2   0
-        chr1    3   0
-        chr1    4   0
-        chr1    5   0
+        chrom chromStart chromEnd dataValue
+    that is contig name, start position, end position, coverage
 
-    that is contig name, position, coverage
-
-    .. warning:: the BED file must be sorted. This can be achieved with
+    .. warning:: the BAM file must be sorted. This can be achieved with
         bamtools.
     """
 
@@ -67,28 +58,17 @@ class BAM2BED(ConvBase):
         :param str outfile: The path to the output file
         """
         super().__init__(infile, outfile)
-        self._default_method = "samtools"
-
-
-    def _method_samtools(self, *args, **kwargs):
-        """
-        do the conversion sorted :term`BAM` -> :term:'BED` using samtools
-
-        :return: the standard output
-        :rtype: :class:`io.StringIO` object.
-        """
-        cmd = "samtools depth -aa {} > {}".format(self.infile, self.outfile)
-        self.execute(cmd)
+        self._default_method = "bedtools"
 
 
     def _method_bedtools(self, *args, **kwargs):
         """
-        do the conversion sorted :term`BAM` -> :term:'BED` using bedtools
+        do the conversion sorted :term`BAM` -> :term:'BEDGRAPH` using bedtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
         """
-        cmd = "bedtools genomecov -d -ibam {} > {}".format(self.infile, self.outfile)
+        cmd = "bedtools genomecov -bg -ibam {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
 

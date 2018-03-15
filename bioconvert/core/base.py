@@ -12,7 +12,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-import os
+# import os
 import time
 import abc
 import select
@@ -22,14 +22,15 @@ import shutil
 import subprocess
 import itertools
 
-from io import StringIO
 from subprocess import Popen, PIPE
+from io import StringIO
+from collections import deque
 
+from easydev import TempFile
 from easydev.multicore import cpu_count
 
 import colorlog
 _log = colorlog.getLogger(__name__)
-
 
 from bioconvert.core.benchmark import Benchmark
 from bioconvert.core.utils import generate_outfile_name
@@ -44,8 +45,8 @@ class ConvMeta(abc.ABCMeta):
        * an attribute output_ext
 
     This is an abstract class used by :class:`ConvBase` class.
-    The standard way to build a new converter is to inherits from :class:`ConvBase`
-    or a subclasses of it, for instance::
+    The standard way to build a new converter is to inherit
+    from :class:`ConvBase` or a subclasse of it, for instance::
 
         class Fasta_2_Fasta(ConvBase):
 
@@ -56,9 +57,10 @@ class ConvMeta(abc.ABCMeta):
                 # do conversion here
                 pass
 
-    The declaration of input_ext and output_ext is quite permissive. You can add
-    prefix the extension with a dot or not; if the input consists of a single
-    extension, it can be a single string, or a list/set/tuple of strings.
+    The declaration of input_ext and output_ext is quite permissive.
+    You can add prefix the extension with a dot or not; if the input consists
+    of a single extension, it can be a single string, or a list/set/tuple
+    of strings.
 
     """
 
@@ -228,7 +230,6 @@ class ConvBase(metaclass=ConvMeta):
         self.infile = infile
         self.outfile = outfile
         self.threads = cpu_count()
-        # self.max_threads = cpu_count() #TODO KO/OK ?
         self._execute_mode = "shell" #"subprocess"  # set to shell to call shell() method
         self.logger = logger
 
@@ -392,14 +393,17 @@ class ConvBase(metaclass=ConvMeta):
         :param executable to install
         :return: nothing
         """
-        import bioconvert
+        # imported but not unused (when we don't have bioconvert_path)
+        # import bioconvert
         from bioconvert import bioconvert_data
 
         if shutil.which(executable) is None:
-            logger.info("Installing tool : "+executable)
-            bioconvert_path = bioconvert.__path__[0]
-            script = bioconvert_data('install_'+executable+'.sh', where="../misc")
-            subprocess.call(['sh',script])
+            logger.info("Installing tool : " + executable)
+            # Assigned but never used, says flake8
+            # bioconvert_path = bioconvert.__path__[0]
+            script = bioconvert_data(
+                'install_' + executable + '.sh', where="../misc")
+            subprocess.call(['sh', script])
 
     @classmethod
     def add_argument_to_parser(cls, sub_parser):
@@ -452,3 +456,65 @@ class ConvBase(metaclass=ConvMeta):
             action="store_true",
             help="if outfile exists, it is overwritten with this option",
         )
+
+
+# Implementing a class creator
+# The created class will have the correct name, will inherit from ConvBase
+# It will have a conversion method chaining conversions through tempfiles
+def make_chain(converter_map):
+    """
+    Create a class performing step-by-step conversions following a path.
+    *converter_map* is a list of pairs ((in_fmt, out_fmt), converter).
+    It describes the conversion path.
+    """
+    in_fmt = converter_map[0][0][0]
+    out_fmt = converter_map[-1][0][1]
+    chain_name = "2".join([in_fmt.capitalize(), out_fmt.capitalize()])
+    chain_attributes = {}
+
+    def chain_init(self, infile, outfile):
+        super().__init__(infile, outfile)
+        self._default_method = "chain"
+
+    def _method_chain(self, *args, **kwargs):
+        """This method successively uses the default conversion method of each
+        converter in the conversion path."""
+
+        def conv_step(converter, infile, outfile):
+            """Performs one conversion step."""
+            converter(infile, outfile)(*args, **kwargs)
+
+        # Contains the last temporary output file, if any
+        pipe_files = deque()
+        for (step_num, ((_, out_fmt), converter)) \
+                in enumerate(self.converter_map, start=1):
+            if step_num == 1:
+                # May not be necessary:
+                step_infile = None
+                step_input = self.infile
+                del_infile = False
+            else:
+                step_infile = pipe_files.popleft()
+                step_input = step_infile.name
+                del_infile = True
+            if step_num == self.nb_steps:
+                # May not be necessary:
+                step_outfile = None
+                step_output = self.outfile
+            else:
+                step_outfile = TempFile(suffix=out_fmt.lower())
+                step_output = step_outfile.name
+                pipe_files.append(step_outfile)
+            conv_step(converter, step_input, step_output)
+            if del_infile:
+                step_infile.delete()
+
+    chain_attributes["converter_map"] = converter_map
+    chain_attributes["nb_steps"] = len(converter_map)
+    chain_attributes["__init__"] = chain_init
+    chain_attributes["_method_chain"] = _method_chain
+    chain = type(chain_name, (ConvBase,), chain_attributes)
+    # https://stackoverflow.com/a/43779009/1878788
+    # Allows calling super in chain.__init__
+    __class__ = chain
+    return chain

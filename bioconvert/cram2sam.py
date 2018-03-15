@@ -13,7 +13,7 @@
 ##############################################################################
 """Convert :term:`CRAM` file to :term:`SAM` file"""
 import os
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from easydev.multicore import cpu_count
 
 import colorlog
@@ -24,10 +24,10 @@ class CRAM2SAM(ConvBase):
     """Convert :term:`CRAM` file to :term:`SAM` file
 
     The conversion requires the reference corresponding to the input file
-    It can be provided as an argument in the constructor. Otherwise, 
-    a local file with same name as the input file but an .fa extension is looked
-    for. Otherwise, we ask for the user to provide the input file. This is 
-    useful for the standalone application.
+    It can be provided as an argument in the constructor. Otherwise,
+    a local file with same name as the input file but an .fa extension is
+    looked for. Otherwise, we ask for the user to provide the input file.
+    This is useful for the standalone application.
 
     """
 
@@ -54,7 +54,8 @@ class CRAM2SAM(ConvBase):
             # try to find the local file replacing .sam by .fa
             reference = infile.replace(".cram", ".fa")
             if os.path.exists(reference):
-                logger.debug("Reference found from inference ({})".format(reference))
+                logger.debug(
+                    "Reference found from inference ({})".format(reference))
             else:
                 logger.debug("No reference found.")
                 msg = "Please enter the reference corresponding "
@@ -63,19 +64,14 @@ class CRAM2SAM(ConvBase):
                 if os.path.exists(reference) is False:
                     raise IOError("Reference required")
                 else:
-                    logger.debug("Reference exist ({}).".format(reference))
+                    logger.debug("Reference exists ({}).".format(reference))
 
             self.reference = reference
         self.threads = cpu_count()
 
     def _method_samtools(self, *args, **kwargs):
-        # -S means ignored (input format is auto-detected)
         # -h means include header in SAM output
-        cmd = "samtools view -@ {} -Sh -T {} {} > {}".format(self.threads, 
-            self.reference, self.infile, self.outfile)
+        reference = kwargs.get("reference", self.reference)
+        cmd = "samtools view -@ {} -h -T {} {} > {}".format(
+            self.threads, reference, self.infile, self.outfile)
         self.execute(cmd)
-
-
-
-
-

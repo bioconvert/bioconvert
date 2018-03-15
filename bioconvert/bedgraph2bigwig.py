@@ -11,43 +11,42 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""BIGWIG2BEDGRAPH conversion """
+"""BEDGRAPH2BIGWIG conversion """
 import os
 
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ["BIGWIG2BEDGRAPH"]
+__all__ = ["BEDGRAPH2BIGWIG"]
 
 
-class BIGWIG2BEDGRAPH(ConvBase):
-    """Converts a sequence alignment in :term:`BIGWIG` format to :term:`BEDGRAPH` format
+class BEDGRAPH2BIGWIG(ConvBase):
+    """Converts a sequence alignment in :term:`BEDGRAPH` format to :term:`BIGWIG` format
 
-    Conversion is based on ucsc bigWigToBedGraph tool
+    Conversion is based on ucsc bedGraph2BigWig tool
 
     """
 
-    def __init__(self, infile, outfile):#=None, alphabet=None, *args, **kwargs):
+    def __init__(self, infile, outfile): #, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
 
-        :param str infile: input :term:`BIGWIG` file.
-        :param str outfile: (optional) output :term:`BEDGRAPH` file
+        :param str infile: input :term:`BEDGRAPH` file.
+        :param str outfile: (optional) output :term:`BIGWIG` file
         """
         super().__init__(infile, outfile)
-        #self.alphabet = alphabet
         self._default_method = 'ucsc'
 
     def _method_ucsc(self, *args, **kwargs):
         """
-        Convert bigwig file in bedgraph format using ucsc tool.
-        https://genome.ucsc.edu/goldenPath/help/bedgraph.html
+        Convert bedgraph file in bigwig format using ucsc tool.
+        https://genome.ucsc.edu/goldenpath/help/bigWig.html
         """
-        cmd = 'bigWigToBedGraph {infile}  {outfile}'.format(
+        cmd = 'bedGraphToBigWig {infile}  http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
