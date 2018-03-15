@@ -15,7 +15,7 @@
 from Bio import SeqIO
 from Bio.SeqIO import FastaIO
 from bioconvert import ConvBase, bioconvert_script
-
+from bioconvert.core.base import ConvArg
 
 try:
     # Let us make this optional for now because
@@ -31,6 +31,11 @@ from bioconvert.core.compressor import compressor, out_compressor, in_gz
 
 class Fastq2Fasta(ConvBase):
     """Convert :term:`FASTQ` to :term:`FASTA`"""
+
+    # use readfq for now because pure python are fast enough
+    # for production, could use seqtk which seems the fastest method though
+    # Make sure that the default handles also the compresssion
+    _default_method = "readfq"
 
     @staticmethod
     def just_name(record):
@@ -93,10 +98,6 @@ class Fastq2Fasta(ConvBase):
         :param str outfile: The path to the output file.
         """
         super().__init__(infile, outfile)
-        # use readfq for now because pure python are fast enough
-        # for production, could use seqtk which seems the fastest method though
-        # Make sure that the default handles also the compresssion
-        self._default_method = "readfq"
 
     @compressor
     def _method_biopython(self, *args, **kwargs):
@@ -214,3 +215,11 @@ class Fastq2Fasta(ConvBase):
         pycmd = "python {}".format(bioconvert_script("fastqToFasta.py"))
         cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)
         self.execute(cmd)
+
+    @classmethod
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names="quality_file",
+            default=None,
+            help="The path to the quality file.",
+        )
