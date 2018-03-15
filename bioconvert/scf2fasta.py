@@ -11,8 +11,6 @@ class Scf2Fasta(ConvBase):
     :param str infile:
     :param str outfile:
     """
-    input_ext = '.scf'
-    output_ext = ['.fa', '.fasta']
 
     def __call__(self, *args, **kwargs):
         sequence = ""
@@ -166,7 +164,7 @@ class Scf2Fasta(ConvBase):
         # Wrinting output file
         with open(self.outfile, "w") as output_file:
             output_file.write(">" + comments.replace("\n", "-").replace(" ", "_") + "\n")
-            output_file.write(sequence)
+            output_file.write(sequence + "\n")
 
         """
         print(sequence)
@@ -345,6 +343,7 @@ def delta(rsamples, direction):
                 p_sample2 = samples[i]
 
     else:
-        print("Bad direction in 'delta'. Use\" forward\" or\" backward\".")
-        sys.exit(1)
+        msg="Bad direction in 'delta'. Use\" forward\" or\" backward\"."
+        _log.critical(msg)
+        raise Exception(msg)
     return samples

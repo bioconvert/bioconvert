@@ -4,20 +4,52 @@
 References
 ==========
 
+Core functions
+---------------
 .. autosummary::
 
-    bioconvert.core
+    bioconvert.core.base
+    bioconvert.core.registry
+    bioconvert.core.benchmark
+
+Converters
+-------------
+
+.. autosummary::
+
     bioconvert.bam2bed
+    bioconvert.bam2cram
     bioconvert.bam2sam
+    bioconvert.bcf2vcf
+    bioconvert.cram2bam
+    bioconvert.cram2sam
     bioconvert.fastq2fasta
     bioconvert.fasta2phylip
     bioconvert.gfa2fasta
+    bioconvert.gz2dsrc
+    bioconvert.sam2paf
+    bioconvert.vcf2bcf
+
+simulators
+-------------
+.. autosummary::
+
+    bioconvert.simulator.fasta
+    bioconvert.simulator.fastq
+    bioconvert.simulator.gfa
+
+Validators
+-------------
+
+.. autosummary::
+
+    bioconvert.validators.paf
 
 
 .. automodule:: bioconvert.core.base
 
 NGS bioconverters
--------------------
+-----------------
 
 .. automodule:: bioconvert.bam2bed
     :members:
@@ -28,6 +60,10 @@ NGS bioconverters
     :synopsis:
 
 .. automodule:: bioconvert.bam2fasta
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.bcf2vcf
     :members:
     :synopsis:
 
@@ -43,21 +79,61 @@ NGS bioconverters
     :members:
     :synopsis:
 
-.. automodule:: bioconvert.yaml2json
+.. automodule:: bioconvert.gz2dsrc
     :members:
     :synopsis:
 
+.. automodule:: bioconvert.yaml2json
+    :members:
+    :synopsis:
 
 .. automodule:: bioconvert.json2yaml
     :members:
     :synopsis:
 
+.. automodule:: bioconvert.sam2paf
+    :members:
+    :synopsis:
 
 .. automodule:: bioconvert.sam2cram
     :members:
     :synopsis:
 
-
 .. automodule:: bioconvert.vcf2bcf
+    :members:
+    :synopsis:
+
+
+
+Core functions of Bioconvert
+-----------------------------
+
+
+.. automodule:: bioconvert.core.base
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.core.registry
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.core.benchmark
+    :members:
+    :synopsis:
+
+
+Simulators
+-------------------
+
+
+.. automodule:: bioconvert.simulator.fasta
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.simulator.fastq
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.simulator.gfa
     :members:
     :synopsis:

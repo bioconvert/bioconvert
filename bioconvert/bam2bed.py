@@ -1,5 +1,21 @@
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
 """Convert :term:`BAM` format to :term:`BED` formats"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
+import colorlog
+
+_log = colorlog.getLogger(__name__)
 
 
 __all__ = ["BAM2BED"]
@@ -30,9 +46,20 @@ class BAM2BED(ConvBase):
              convert = BAM2BED(infile, fh.name)
              convert.boxplot_benchmark()
 
+
+    Note that this BED format is of the form::
+
+        chr1    1   0
+        chr1    2   0
+        chr1    3   0
+        chr1    4   0
+        chr1    5   0
+
+    that is contig name, position, coverage
+
+    .. warning:: the BED file must be sorted. This can be achieved with
+        bamtools.
     """
-    input_ext = ['.bam']
-    output_ext = '.bed'
 
     def __init__(self, infile, outfile):
         """

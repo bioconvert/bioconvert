@@ -37,27 +37,16 @@ install:
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements.txt
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_tools.txt
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_dev.txt
-
   - conda install --yes python=$TRAVIS_PYTHON_VERSION  coverage
   - pip install .
-
-  # install squizz which is a dependency but which is not packaged in conda
-  -
-  - mkdir -p ${HOME}/dependencies/src
-  - cd ${HOME}/dependencies/src
-  - wget ftp://ftp.pasteur.fr/pub/gensoft/projects/squizz/squizz-0.99d.tar.gz
-  - tar -xzf squizz-0.99d.tar.gz
-  - cd squizz-0.99d
-  - ./configure --prefix=${HOME}/dependencies/
-  - make
-  - make install
-  - export PATH=${PATH}:${HOME}/dependencies/bin/
-  - cd ${TRAVIS_BUILD_DIR}
+  - pip install pygatb --no-deps
+  - pip install pypandoc
+  - pip install biocode
 
 
 # # command to run tests, e.g. python setup.py test
 script:
-  - pytest -v --durations=10  test/ --cov=biokit --cov-report term --timeout 300 
+  - pytest -v --durations=10  test/ --cov=bioconvert --cov-report term --timeout 300 -n 1
 
 
 after_success:

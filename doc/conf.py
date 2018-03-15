@@ -28,6 +28,11 @@ import matplotlib
 matplotlib.use('Agg')
 
 
+# This creates the conversion.png image automatically
+
+import sys
+sys.path.append('.')
+import create_graph
 
 
 import pkg_resources
@@ -43,7 +48,8 @@ copyright = author + ", 2017"
 project = 'bioconvert'
 
 
-
+import bioconvert
+bioconvert.logger.level = "WARNING"
 
 # -- General configuration -----------------------------------------------------
 
@@ -144,9 +150,11 @@ modindex_common_prefix = ["bioconvert."]
 plot_gallery = True
 sphinx_gallery_conf = {
     "doc_module": "bioconvert",
+    #'backreferences_dir': False
+
     #"backreferences_dir": "gen_modules/backreferences",
-    "filename_pattern": 'plot_benchmark'
-#    "examples_dirs": "examples",
+    #"filename_pattern": 'plot_benchmark'
+    #"examples_dirs": "examples",
 #    "gallery_dirs": "auto_examples",
 }
 

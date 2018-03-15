@@ -19,6 +19,9 @@ import colorlog
 
 import bioconvert
 from bioconvert.core.registry import Registry
+from bioconvert.core.converter import Bioconvert
+from bioconvert import extensions
+
 
 
 class ConvAction(argparse.Action):
@@ -38,10 +41,6 @@ class ConvAction(argparse.Action):
         # the -v --verbosity options may not be parsed yet (if located after -f on command line)
         # So I do it myself
         v_nb = ''.join([opt for opt in sys.argv if opt.startswith("-v")]).count('v')
-        verbo_nb = sum([1 for opt in sys.argv if opt.startswith('--verb')])
-        verbosity = v_nb + verbo_nb
-
-        bioconvert.logger_set_level(max(10, 30 - (10 * verbosity)))
 
         mapper = Registry()
         print("Available mapping:")
@@ -53,10 +52,16 @@ class ConvAction(argparse.Action):
 def main(args=None):
 
     if args is None:
-        args = sys.argv[:]
+        args = sys.argv[1:]
+
+    if "--version" in args:
+        print("Bioconvert version {}".format(bioconvert.version))
+        sys.exit(0)
+
 
     from easydev.console import purple, underline
-    print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
+    if "-v" in args or "--verbosity" in args:
+        print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
 
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
                                          epilog=" ----    ",
@@ -68,22 +73,26 @@ def main(args=None):
                                          formatted.""",
                                          usage="""
     # convert fastq to fasta
-    converter test.fastq test.fasta
+    bioconvert test.fastq test.fasta
 
     # if input extension is not standard, use -i to specify it
-    converter test.FASTQ test.fasta -i fastq
+    bioconvert test.FASTQ test.fasta -i fastq
 
-    converter test.fastq -o fasta
+    bioconvert test.fastq -o fasta
 
     # You may have several inputs, in which case wildcards are possible
     # Note, however, the quotes that are required
-    converter "test*.fastq" -o fasta
+    bioconvert "test*.fastq" -o fasta
 
-    # batch is also possible. 
-    converter "test*.fastq" -o fasta -m 
+    # batch is also possible.
+    bioconvert "test*.fastq" -o fasta -m
 
     Note the difference between the two previous commands !!
 
+
+    For more information, please type:
+
+        bioconvert --help
 """)
     arg_parser.add_argument("input_file",
             default=None,
@@ -92,14 +101,19 @@ def main(args=None):
             default=None,
             help="The path where the result will be stored.")
 
-    arg_parser.add_argument("-f", "--formats",
+    arg_parser.add_argument("-F", "--formats",
                             action=ConvAction,
                             default=False,
                             help="Display available formats and exit.")
     arg_parser.add_argument("-v", "--verbosity",
-                            action="count",
-                            default=0,
-                            help="Set the outpout verbosity.")
+                            default="INFO",
+                            help="Set the outpout verbosity. Should be one of DEBUG, INFO, WARNING, ERROR, CRITICAL")
+    arg_parser.add_argument("--raise-exception",
+                            action="store_true",
+                            help="Let exception ending the execution be raised and displayed")
+    arg_parser.add_argument("-l", "--level", dest="verbosity",
+                            default="INFO",
+                            help="same as --verbosity")
     arg_parser.add_argument("-i", "--input-format",
                             default=None,
                             help="Provide the input format. Check the --formats to see valid input name")
@@ -108,6 +122,7 @@ def main(args=None):
                             help="Provide the output format. Check the --formats to see valid input name")
     arg_parser.add_argument("-x", "--threads",
                             default=None,
+                            type=int,
                             help="Number of threads. Depends on the underlying tool")
     arg_parser.add_argument("-m", "--batch",
                             default=False, action="store_true",
@@ -117,118 +132,115 @@ def main(args=None):
                             default=None,
                             help="A converter may have several methods")
 
+    arg_parser.add_argument("-f", "--force",
+                            action="store_true",
+                            help="if outfile exists, it is overwritten with this option")
+
     arg_parser.add_argument("-s", "--show-methods",
                             default=False,
                             action="store_true",
                             help="A converter may have several methods")
 
-    args = arg_parser.parse_args()
+    arg_parser.add_argument("-b", "--benchmark",
+                            default=False,
+                            action="store_true",
+                            help="Running all available methods")
+
+    arg_parser.add_argument("-N", "--benchmark-N",
+                            default=5,
+                            type=int,
+                            help="Number of trials for each methods")
+
+    args = arg_parser.parse_args(args)
 
     # Set the logging level
-    args.verbosity = max(10, 30 - (10 * args.verbosity))
-    bioconvert.logger_set_level(args.verbosity)
-    _log = colorlog.getLogger('bioconvert')
+    bioconvert.logger.level = args.verbosity
 
 
     # Figure out whether we have several input files or not
-    # Are we in batch mode ? 
+    # Are we in batch mode ?
     import glob
     if args.batch:
         filenames = glob.glob(args.input_file)
     else:
         filenames = [args.input_file]
-    print("-----------")
-    print(filenames)
 
     for filename in filenames:
-        print(filename)
         args.input_file = filename
-        analysis(args)
-
-
-    #_log.info("Done")
+        try:
+            analysis(args)
+        except Exception as e:
+            if args.verbosity == "DEBUG" or args.raise_exception:
+                raise e
+            else:
+                bioconvert.logger.error(e)
+            sys.exit(1)
 
 
 def analysis(args):
-    mapper = Registry()
-    _log = colorlog.getLogger('bioconvert')
 
     # Input and output filename
     infile = args.input_file
     if args.output_file is None:
         if args.output_format is None:
             raise ValueError("Extension of the output format unknown."
-                    " You must either provide an output file name (with"
-                    " extension) or provide it zith the --output-format"
-                    " argument")
+                             " You must either provide an output file name (with"
+                             " extension) or provide it with the --output-format"
+                             " argument")
         else:
-            outfile = infile.rsplit(".",1)[0] + "." + args.output_format
+            try:
+                outext = extensions[args.output_format][0].lstrip(".")
+            except KeyError:
+                raise ValueError("No extension found for the format {}".format(args.output_format))
+            outfile = infile.rsplit(".", 1)[0] + "." + outext
     else:
         outfile = args.output_file
 
-    # Users may provide information about the input file.
-    # Indeed, the input may be a FastQ file but with an extension
-    # that is not standard. For instance fq instead of fastq
-    # If so, we can use the --input-format fastq to overwrite the
-    # provided filename extension
-    inext = os.path.splitext(infile)[-1]
-    outext = os.path.splitext(outfile)[-1]
+    # Call a generic wrapper of all available conversion
+    conv = Bioconvert(infile, outfile, in_fmt=args.input_format, out_fmt=args.output_format,
+                      force=args.force)
 
-    if args.input_format:
-        inext = args.input_format
-        if not inext.startswith("."):
-            inext = "." + inext
+    # # Users may provide information about the input file.
+    # # Indeed, the input may be a FastQ file but with an extension
+    # # that is not standard. For instance fq instead of fastq
+    # # If so, we can use the --input-format fastq to overwrite the
+    # # provided filename extension
 
-    if not inext:
+    # no need to do this
+    # if args.input_format:
+    #     inext = args.input_format
+    #     if not conv.inext.startswith("."):
+    #         conv.inext = "." + inext
+
+    if not conv.in_fmt:
         raise RuntimeError("convert infer the format from the extension name."
                            " So add extension to the input file name or use"
                            " --input-format option.")
 
-    if not outext:
+    if not conv.out_fmt:
         raise RuntimeError("convert infer the format from the extension name."
                            " So add extension to the output file name or use"
-                           " --outut-format option.")
-
-    # From the input parameters 1 and 2, we get the module name
-    try:
-        _log.info("Input: {}".format(inext))
-        _log.info("Output: {}".format(outext))
-        class_converter = mapper[(inext, outext)]
-    except KeyError:
-        print(mapper)
-        print(inext)
-        print(outext)
-
-        # Is the module name available in biokit ? If not, let us tell the user
-        msg = "Request input format ({}) to output format (({}) is not available in converters"
-        _log.critical(msg.format(inext, outext))
-        _log.critical("Use --formats to know the available formats")
-        sys.exit(1)
-
-    # If the module exists, it is part of the MapperRegitry dictionary and
-    # we should be able to import it dynamically, create the class and call
-    # the instance
-    _log.info("Converting from {} to {}".format(inext, outext))
-
-    # Prepare some user arguments
-    params = {"threads": args.threads}
-    if args.method:
-        params["method"] = args.method
-
-
-    # Call the class method that does the real work
-    convert = class_converter(infile, outfile)
+                           " --output-format option.")
 
     # do we want to know the available methods ? If so, print info and quite
     if args.show_methods:
-        print(convert.available_methods)
-        print("Please see http://bioconvert.readthedocs.io/en/master/references.html#bioconvert.{}.{} "
-              "for details ".format(class_converter.__name__.lower(), class_converter.__name__))
+        print(conv.converter.available_methods)
+        print("Please see http://bioconvert.readthedocs.io/en/master/"
+              "references.html#bioconvert.{}.{} for details ".format(conv.name.lower(), conv.name))
         sys.exit(0)
 
-    convert(**params)
+    bioconvert.logger.info("Converting from %s to %s" % (conv.in_fmt, conv.out_fmt))
+
+    params = {"threads": args.threads}
 
 
+    if args.benchmark:
+        conv.boxplot_benchmark(N=args.benchmark_N)
+        import pylab
+        pylab.savefig("benchmark_{}.png".format(conv.name))
+    else:
+        params["method"] = args.method
+        conv(**params)
 
 if __name__ == "__main__":
     main()

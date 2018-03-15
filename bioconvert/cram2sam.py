@@ -1,9 +1,23 @@
-"""Convert :term:`SAM` file to :term:`CRAM` file"""
+# -*- coding: utf-8 -*-
+#
+#  This file is part of Bioconvert software
+#
+#  Copyright (c) 2017 - Bioconvert Development Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  website: https://github.com/biokit/bioconvert
+#  documentation: http://bioconvert.readthedocs.io
+#
+##############################################################################
+"""Convert :term:`CRAM` file to :term:`SAM` file"""
 import os
-from bioconvert import ConvBase
+from bioconvert import ConvBase, extensions
+from easydev.multicore import cpu_count
 
 import colorlog
-_log = colorlog.getLogger(__name__)
+logger = colorlog.getLogger(__name__)
 
 
 class CRAM2SAM(ConvBase):
@@ -16,8 +30,6 @@ class CRAM2SAM(ConvBase):
     useful for the standalone application.
 
     """
-    input_ext = [".cram"]
-    output_ext = ".sam"
 
     def __init__(self, infile, outfile, reference=None, *args, **kargs):
         """.. rubric:: constructor
@@ -32,40 +44,35 @@ class CRAM2SAM(ConvBase):
 
         .. note:: the API related to the third argument may change in the future.
         """
-        super(self).__init__(infile, outfile, *args, **kargs)
+        super(CRAM2SAM, self).__init__(infile, outfile, *args, **kargs)
 
         self._default_method = "samtools"
-        self.reference = reference
 
+        self.reference = reference
         if self.reference is None:
-            _log.debug("No reference provided. Infering from input file")
+            logger.debug("No reference provided. Infering from input file")
             # try to find the local file replacing .sam by .fa
             reference = infile.replace(".cram", ".fa")
             if os.path.exists(reference):
-                _log.debug("Reference found from inference ({})".format(reference))
+                logger.debug("Reference found from inference ({})".format(reference))
             else:
-                _log.debug("No reference found.")
+                logger.debug("No reference found.")
                 msg = "Please enter the reference corresponding "
                 msg += "to the input SAM file:"
                 reference = input(msg)
-                if not os.path.exists(reference):
+                if os.path.exists(reference) is False:
                     raise IOError("Reference required")
                 else:
-                    _log.debug("Reference exist ({}).".format(reference))
+                    logger.debug("Reference exist ({}).".format(reference))
 
             self.reference = reference
+        self.threads = cpu_count()
 
-
-    def _method_samtools(self, threads=None):
+    def _method_samtools(self, *args, **kwargs):
         # -S means ignored (input format is auto-detected)
         # -h means include header in SAM output
-        if threads is None:
-            threads = self.max_threads
-        cmd = "samtools view -@ {thread} -Sh -T {ref} {infile} > {outfile}".format(
-            thread=threads,
-            ref=self.reference,
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "samtools view -@ {} -Sh -T {} {} > {}".format(self.threads, 
+            self.reference, self.infile, self.outfile)
         self.execute(cmd)
 
 

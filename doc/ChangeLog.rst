@@ -1,11 +1,57 @@
 Whats' new, what has changed
 ================================
 
-:Revision 0.0.6: added bcf2vcf; fixed vcf2bcf; added bam2json; more tests
+
+:Revision 0.0.12:
+
+    - new converters: embl2fasta and embl2genbank, fasta2twobit and twobit2fasta
+        fasta2fasta, sra2fastq
+    - refactoring of the extensions framework to simplify the code
+
+
+:Revision 0.0.11:
+
+     - add abiliy to use go executables (add go to the requirements)
+     - added converters: fasta2nexux, newick2nexus, newick2phyloxml,
+       nexus2fasta, nexus2newick, nexus2phylip, nexus2phyloxml, phylip2nexus,
+       phyloxml2newick, phyloxml2nexus, genbank2embl, genbank2fasta,
+       stockholm2clustal and clustal2phylip
+
+:Revision 0.0.10:
+
+    - added samlint validator
+
+:Revision 0.0.9:
+
+    - added sam2paf
+
+:Revision 0.0.8:
+
+    - added compressor decorator
+    - update bioconvert main script with several options 
+    - new converters: dsrc2gz, bam2bigwig draft
+    - provided squizz on bioconda and added as dependencies
+    - added paflint validator
+
+:Revision 0.0.7:
+
+    - added converters: bam2cram and cram2bam, vcf2bed
+    - new class: Bioconvert that could be used for all converters !
+    - new modules: core/shell, core/converter
+    - add singularity to provide dot executable in the documentation and remove
+      the pygraphviz dependency.
+
+:Revision 0.0.6: added converters: bcf2vcf; vcf2bcf; bam2json; gz2bz2, bz22gz,
+    gz2dsrc, .... benchmarking implemented.
+
 :Revision 0.0.5: added bioconvert_init standalone to help developers. 
                  added gz2bz2 converter. switch default of bam2fasta with
                  sambamba
+
 :Revision 0.0.4: update requirements and MANIFEST; added fastq2fasta, gfa2fasta
+
 :Revision 0.0.3: benchmark in place; added fastq2fasta, scf2fastq, scf2fastq
+
 :Revision 0.0.2: setup travis, RTD, tests; added bam2sam
+
 :Revision 0.0.1: add bioconvert tree structure; added bam2bed, json2yaml... 

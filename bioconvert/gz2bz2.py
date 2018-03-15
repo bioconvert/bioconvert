@@ -10,8 +10,8 @@
 #  website: https://github.com/biokit/bioconvert
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
-""" description """
-from bioconvert import ConvBase
+"""Convert :term:`GZ` file to :term:`BZ2` file"""
+from bioconvert import ConvBase, extensions
 from bioconvert.core.base import ConvArg
 
 __all__ = ["GZ2BZ2"]
@@ -20,11 +20,10 @@ __all__ = ["GZ2BZ2"]
 class GZ2BZ2(ConvBase):
     """Convert :term:`GZ` file to :term:`BZ2` file
 
-    Some description.
+    unzip input file using pigz and compress using pbzip2
 
     """
-    input_ext = [".gz"]
-    output_ext = [".bz2"]
+    #_is_compressor = True
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
