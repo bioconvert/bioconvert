@@ -26,7 +26,7 @@ except:
 from mappy import fastx_read
 import mmap
 
-from bioconvert.core.compressor import compressor, out_compressor, in_gz
+from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires
 
 
 class Fastq2Fasta(ConvBase):
@@ -108,6 +108,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires(python_library="gatb")
     @in_gz
     @out_compressor
     def _method_GATB(self, *args, **kwargs):
@@ -117,15 +118,6 @@ class Fastq2Fasta(ConvBase):
                     record.comment.decode("utf-8"),
                     record.sequence.decode("utf-8")))
         print("test")
-
-    @classmethod
-    def _isusable_method_GATB(cls):
-        try:
-            from gatb import Bank
-            return True
-        except:
-            pass
-        return False
 
     @compressor
     def _method_readfq(self, *args, **kwargs):
@@ -157,6 +149,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires(external_binary = "bioawk")
     @in_gz
     def _method_bioawk(self, *args, **kwargs):
         """This method uses bioawk, an implementation with convenient
