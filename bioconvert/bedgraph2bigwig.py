@@ -18,6 +18,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
+from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -41,6 +42,7 @@ class BEDGRAPH2BIGWIG(ConvBase):
         super().__init__(infile, outfile)
         self._default_method = 'ucsc'
 
+    @requires("bedGraphToBigWig")
     def _method_ucsc(self, *args, **kwargs):
         """
         Convert bedgraph file in bigwig format using ucsc tool.

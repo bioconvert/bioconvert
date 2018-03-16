@@ -18,6 +18,7 @@ from bioconvert import ConvBase, extensions
 #from bioconvert.bedgraph2bigwig import BEDGRAPH2BIGWIG
 from easydev import TempFile
 
+from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -46,11 +47,13 @@ class BAM2BIGWIG(ConvBase):
 
         self._default_method = "bamCoverage"
 
+    @requires("bamCoverage")
     def _method_bamCoverage(self, *args, **kwargs):
         """run bam2bigwig from deeptools package"""
         cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires("bedtools")
     def _method_ucsc(self, *args, **kwargs):
         """run bam2bigwig using bioconvert/bedtools bam2bedgraph and ucsc tool bedGraphToBigWig"""
         from bioconvert.bam2bedgraph import BAM2BEDGRAPH

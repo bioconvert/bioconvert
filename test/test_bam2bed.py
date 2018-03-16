@@ -1,12 +1,14 @@
 from bioconvert.bam2bed import BAM2BED
 from bioconvert import bioconvert_data
 from easydev import TempFile, md5
+import pytest
 
-def test_conv():
+@pytest.mark.parametrize("method", BAM2BED.available_methods)
+def test_conv(method):
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".bed") as tempfile:
         convert = BAM2BED(infile, tempfile.name)
-        convert()
+        convert(method=method)
 
         # Check that the output is correct with a checksum
         # Note that we cannot test the md5 on a gzip file but only 
@@ -14,6 +16,6 @@ def test_conv():
         # fro the unzipped version of biokit/data/converters/measles.bed
         assert md5(tempfile.name) == "84702e19ba3a27900f271990e0cc72a0"
 
-        convert = BAM2BED(infile, tempfile.name)
-        convert(method="bedtools")
-        assert md5(tempfile.name) == "84702e19ba3a27900f271990e0cc72a0"
+        # convert = BAM2BED(infile, tempfile.name)
+        # convert(method="bedtools")
+        # assert md5(tempfile.name) == "84702e19ba3a27900f271990e0cc72a0"

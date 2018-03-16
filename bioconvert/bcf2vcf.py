@@ -15,6 +15,9 @@
 from bioconvert import ConvBase, extensions
 
 import colorlog
+
+from bioconvert.core.decorators import requires
+
 logger = colorlog.getLogger(__name__)
 
 
@@ -36,6 +39,7 @@ class BCF2VCF(ConvBase):
         """
         super(BCF2VCF, self).__init__(infile, outfile, *args, **kargs)
 
+    @requires("bcftools")
     def _method_bcftools(self, *args, **kwargs):
 
         # -O, --output-type b|u|z|v Output compressed BCF (b), uncompressed BCF

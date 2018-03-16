@@ -35,7 +35,7 @@ class YAML2JSON(ConvBase):
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile: input YAML file. 
+        :param str infile: input YAML file.
         :param str outfile: input JSON file
         """
         super(YAML2JSON, self).__init__(infile, outfile, *args, **kargs)

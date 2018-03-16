@@ -17,6 +17,9 @@ from bioconvert import ConvBase
 from easydev.multicore import cpu_count
 
 import colorlog
+
+from bioconvert.core.decorators import requires
+
 logger = colorlog.getLogger(__name__)
 
 
@@ -64,6 +67,7 @@ class BAM2CRAM(ConvBase):
             self.reference = reference
         self.threads = cpu_count()
 
+    @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         # -C means output is CRAM
         reference = kwargs.get("reference", self.reference)
