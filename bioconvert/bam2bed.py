@@ -15,6 +15,8 @@
 from bioconvert import ConvBase, extensions
 import colorlog
 
+from bioconvert.core.decorators import requires
+
 _log = colorlog.getLogger(__name__)
 
 
@@ -69,6 +71,7 @@ class BAM2BED(ConvBase):
         super().__init__(infile, outfile)
         self._default_method = "samtools"
 
+    @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """
         do the conversion sorted :term`BAM` -> :term:'BED` using samtools
@@ -79,6 +82,7 @@ class BAM2BED(ConvBase):
         cmd = "samtools depth -aa {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
         """
         do the conversion sorted :term`BAM` -> :term:'BED` using bedtools

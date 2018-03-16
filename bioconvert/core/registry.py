@@ -88,9 +88,13 @@ class Registry(object):
                         # for format_pair in all_format_pair:
                         #     self[format_pair] = converter
                         format_pair = (converter.input_fmt, converter.output_fmt)
-                        _log.debug("add converter '%s' for %s -> %s",
-                                   converter_name, *format_pair)
-                        self[format_pair] = converter
+                        if len(converter.available_methods)==0:
+                            _log.warning("converter '%s' for %s -> %s was not added as no method is available",
+                                       converter_name, *format_pair)
+                        else:
+                            _log.debug("add converter '%s' for %s -> %s",
+                                       converter_name, *format_pair)
+                            self[format_pair] = converter
 
     def _build_path_dict(self):
         """
