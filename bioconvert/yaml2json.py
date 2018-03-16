@@ -15,8 +15,8 @@
 import yaml, json
 from bioconvert import ConvBase, extensions
 import colorlog
-logger = colorlog.getLogger(__name__)
 
+logger = colorlog.getLogger(__name__)
 
 __all__ = ["YAML2JSON"]
 
@@ -45,7 +45,6 @@ class YAML2JSON(ConvBase):
         data = yaml.load(open(self.infile, "r"))
         return json.dumps(data, sort_keys=True, indent=4)
 
-    def __call__(self):
+    def _method_python(self, *args, **kwargs):
         with open(self.outfile, "w") as outfile:
             outfile.write(self.get_json())
-
