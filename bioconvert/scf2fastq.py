@@ -30,7 +30,7 @@ class Scf2Fastq(ConvBase):
     :param str outfile:
     """
 
-    def __call__(self, *args, **kwargs):
+    def _method_python(self, *args, **kwargs):
         sequence = ""
         qualities = []
 
