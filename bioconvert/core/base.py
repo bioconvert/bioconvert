@@ -209,6 +209,7 @@ class ConvBase(metaclass=ConvMeta):
     output_ext = None
     _default_method = None
     _is_compressor = False
+    threads = cpu_count()
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
@@ -229,7 +230,6 @@ class ConvBase(metaclass=ConvMeta):
 
         self.infile = infile
         self.outfile = outfile
-        self.threads = cpu_count()
         self._execute_mode = "shell" #"subprocess"  # set to shell to call shell() method
         self.logger = logger
 
@@ -444,8 +444,8 @@ class ConvBase(metaclass=ConvMeta):
             yield ConvArg(
                 names=["-c", "--method", ],
                 nargs="?",
-                default=None,
-                help="The method to use to do the conversion. Default method is '%s'" % cls._get_default_method(cls),
+                default=cls._get_default_method(cls),
+                help="The method to use to do the conversion.",
                 choices=cls.available_methods,
             )
         except Exception as e:
