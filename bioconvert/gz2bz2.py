@@ -34,11 +34,12 @@ class GZ2BZ2(ConvBase):
         """
         super(GZ2BZ2, self).__init__(infile, outfile, *args, **kargs)
 
-    def _method_pigz_pbzip2(self, threads=1, *args, **kwargs):
+    def _method_pigz_pbzip2(self, threads=None, *args, **kwargs):
         """some description"""
         # check integrity
         # cmd = "pigz -p{threads} --test {input}"
         # shell(cmd)
+        threads = threads or self.threads
         if isinstance(threads, str):
             threads = str(threads)
 
@@ -59,6 +60,7 @@ class GZ2BZ2(ConvBase):
     def get_additional_arguments(cls):
         yield ConvArg(
             names=["-x", "--threads", ],
-            default=1,
+            default=cls.threads,
+            type=int,
             help="Number of threads.",
         )
