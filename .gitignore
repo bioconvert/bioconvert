@@ -106,3 +106,8 @@ ENV/
 *~
 *.py#
 .~*#
+
+.pytest_cache/
+
+#PyCharm config directory
+.idea/
