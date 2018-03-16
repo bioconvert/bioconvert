@@ -12,18 +12,13 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """.. rubric:: Standalone application dedicated to conversion"""
-import os
-import sys
 import argparse
-from argparse import RawTextHelpFormatter, RawDescriptionHelpFormatter
-
-import colorlog
+import sys
 
 import bioconvert
-from bioconvert.core.registry import Registry
-from bioconvert.core.converter import Bioconvert
 from bioconvert import extensions
-
+from bioconvert.core.converter import Bioconvert
+from bioconvert.core.registry import Registry
 
 
 class ConvAction(argparse.Action):
@@ -119,8 +114,7 @@ def main(args=None):
         )
         sub_parser = subparsers.add_parser(
             sub_parser_name,
-            help=help_text,
-            formatter_class=RawDescriptionHelpFormatter,
+            help=help_text, formatter_class=argparse.ArgumentDefaultsHelpFormatter,
             # aliases=["{}_to_{}".format(in_fmt.lower(), out_fmt.lower()), ],
         )
 
@@ -243,6 +237,8 @@ def analysis(args):
     bioconvert.logger.info("Converting from %s to %s" % (conv.in_fmt, conv.out_fmt))
 
     # params = {"threads": args.threads}
+
+    print(vars(args))
 
 
     if args.benchmark:
