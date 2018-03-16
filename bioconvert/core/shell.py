@@ -47,7 +47,7 @@ class shell:
 
         close_fds = sys.platform != 'win32'
 
-        _log.info(cmd)
+        _log.debug(cmd)
         proc = sp.Popen("{} {} {}".format(
                             cls._process_prefix,
                             cmd.rstrip(),
