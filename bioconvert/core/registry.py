@@ -125,7 +125,7 @@ class Registry(object):
         :type convertor: :class:`ConvBase` object
         """
         if format_pair in self._fmt_registry:
-            raise KeyError('an other converter already exist for {} -> {}'.format(*format_pair))
+            raise KeyError('an other converter already exists for {} -> {}'.format(*format_pair))
         self._fmt_registry[format_pair] = convertor
 
     def __getitem__(self, format_pair):
