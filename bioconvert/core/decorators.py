@@ -168,7 +168,7 @@ def requires(
             for lib in python_libraries:
                 __import__(lib)
         except Exception as e:
-            print(e)
+            _log.debug(e)
             wrapped.is_disabled = True
         return wrapped
 
