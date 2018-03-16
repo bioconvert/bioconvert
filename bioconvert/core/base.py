@@ -146,24 +146,11 @@ class ConvMeta(abc.ABCMeta):
             for name in inspect.getmembers(cls, is_conversion_method):
                 # do not use strip() but split()
                 conv_meth = name[0].split("_method_")[1]
-                try:
-                    # get the isusable method when provided
-                    isusable_method = getattr(cls, "_isusable_method_{}".format(conv_meth))
-                    try:
-                        # evaluate the usability of the method
-                        isusable = isusable_method()
-                    except Exception as e:
-                        _log.debug("converter '{}' failed to evaluat '{}': {}".format(cls.__name__, conv_meth, e))
-                        # the isusable method failed, the associated method should not be used
-                        isusable = False
-                except Exception as e:
-                    # no isusable method have been found, method is supposed to work
-                    isusable = True
-                if isusable:
+                is_disabled = getattr(name[1], "is_disabled", False)
+                if not is_disabled:
                     available_conv_meth.append(conv_meth)
                 else:
                     _log.warning("converter '{}': method {} is not available".format(cls.__name__, conv_meth, ))
-
             setattr(cls, 'available_methods', available_conv_meth)
             _log.debug("class = {}  available_methods = {}".format(cls.__name__, available_conv_meth))
 

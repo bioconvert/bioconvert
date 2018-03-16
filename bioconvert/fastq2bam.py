@@ -14,7 +14,7 @@
 """Convert :term:`FASTQ` to :term:`BAM`"""
 from bioconvert import ConvBase
 
-from bioconvert.core.compressor import in_gz
+from bioconvert.core.decorators import in_gz
 
 
 class FASTQ2BAM(ConvBase):

@@ -17,6 +17,9 @@ from os.path import splitext
 from easydev import TempFile
 
 import colorlog
+
+from bioconvert.core.shell import shell
+
 _log = colorlog.getLogger(__name__)
 
 def in_gz(func):
@@ -129,4 +132,44 @@ def out_compressor(func):
                 inst.threads, inst.outfile, inst.outfile))
             inst.outfile = inst.outfile + ".dsrc"
         return results
+
     return wrapped
+
+
+def requires(
+        external_binary=None,
+        python_library=None,
+        external_binaries=None,
+        python_libraries=None,
+):
+    """
+
+    :param external_binary: a system binary required for the method
+    :param python_library:  a python library required for the method
+    :param external_binaries: an array of system binaries required for the method
+    :param python_libraries: an array of python libraries required for the method
+    :return:
+    """
+    external_binaries = external_binaries or []
+    python_libraries = python_libraries or []
+    if external_binary:
+        external_binaries.append(external_binary)
+    if python_library:
+        python_libraries.append(python_library)
+
+    def real_decorator(function):
+        @wraps(function)
+        def wrapped(inst, *args, **kwargs):
+            return function(inst, *args, **kwargs)
+
+        try:
+            for bin in external_binaries:
+                shell("which %s" % bin)
+            for lib in python_libraries:
+                __import__(lib)
+        except Exception as e:
+            _log.debug(e)
+            wrapped.is_disabled = True
+        return wrapped
+
+    return real_decorator

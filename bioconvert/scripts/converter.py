@@ -51,6 +51,16 @@ def main(args=None):
 
     if args is None:
         args = sys.argv[1:]
+    
+    #Changing the log level before argparse is run
+    try:
+        bioconvert.logger.level = args[args.index("-l")+1]
+    except:
+        pass
+    try:
+        bioconvert.logger.level = args[args.index("--level")+1]
+    except:
+        pass
 
     try:
         bioconvert.logger.level = args[args.index("-l")+1]
