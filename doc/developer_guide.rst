@@ -90,7 +90,7 @@ Method decorators
 
 `Decorators
 <https://en.wikipedia.org/wiki/Python_syntax_and_semantics#Decorators>`_ have
-been defined in ``bioconvert/core/compressor.py`` that can be used to "flag" or
+been defined in ``bioconvert/core/decorators.py`` that can be used to "flag" or
 "modify" conversion methods (actually, a new method is usually returned):
 
 - ``@in_gz`` can be used to indicate that the method is able to transparenly
