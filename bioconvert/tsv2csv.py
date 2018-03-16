@@ -27,20 +27,20 @@ class TSV2CSV(ConvBase):
         """
         super().__init__(infile, outfile)
 
-    def _method_python(self, in_sep='\t', out_sep=',', *args, **kwargs):
+    def _method_python(self, in_sep='\t', out_sep=',', line_terminator='\n', *args, **kwargs):
         """
         do the conversion :term`TSV` -> :term:'CSV` using standard Python modules
 
         """
         with open(self.infile, "r") as in_stream, open(self.outfile, "w") as out_stream:
-            writer = csv.writer(out_stream, delimiter=out_sep)
+            writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)
             reader = csv.reader(in_stream, delimiter=in_sep)
             for row in reader:
                 writer.writerow(row)
 
-    def _method_panda(self, in_sep='\t', out_sep=',', *args, **kwargs):
+    def _method_panda(self, in_sep='\t', out_sep=',', line_terminator='\n', *args, **kwargs):
         """
         do the conversion :term`TSV` -> :term:'CSV` using Panda modules
 
         """
-        pd.read_csv(self.infile, sep=in_sep).to_csv(self.outfile, sep=out_sep)
+        pd.read_csv(self.infile, sep=in_sep).to_csv(self.outfile, sep=out_sep, line_terminator=line_terminator)
