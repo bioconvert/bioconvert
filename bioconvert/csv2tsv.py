@@ -32,6 +32,13 @@ class CSV2TSV(tsv2csv.TSV2CSV):
         """
         super()._method_python(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
 
+    def _method_python_v2(self, in_sep=',', out_sep='\t', *args, **kwargs):
+        """
+        do the conversion :term`TSV` -> :term:'CSV` using csv module to read, and writing directly into the file. Note
+        that his method can't escape nor quote output char
+        """
+        super()._method_python_v2(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
+
     def _method_panda(self, in_sep=',', out_sep='\t', *args, **kwargs):
         """
         do the conversion :term`CSV` -> :term:'TSV` using Panda modules
