@@ -2,6 +2,8 @@
 from bioconvert import ConvBase
 from pysam import FastxFile
 
+from bioconvert.core.base import ConvArg
+
 __all__ = ["Fasta2Fastq"]
 
 
@@ -29,5 +31,14 @@ class Fasta2Fastq(ConvBase):
                                                                  seq.comment,
                                                                  seq.sequence,
                                                                  len(seq.sequence) * "I"))
+
+    @classmethod
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names="quality_file",
+            nargs="?",
+            default=None,
+            help="The path to the quality file.",
+        )
 
                 

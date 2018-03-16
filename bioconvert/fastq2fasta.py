@@ -229,12 +229,3 @@ class Fastq2Fasta(ConvBase):
         pycmd = "python {}".format(bioconvert_script("fastqToFasta.py"))
         cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)
         self.execute(cmd)
-
-    @classmethod
-    def get_additional_arguments(cls):
-        yield ConvArg(
-            names="quality_file",
-            nargs="?",
-            default=None,
-            help="The path to the quality file.",
-        )
