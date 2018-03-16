@@ -14,6 +14,9 @@
 """Convert :term:`SAM` file to :term:`BAM` file"""
 from bioconvert import ConvBase
 import colorlog
+
+from bioconvert.core.decorators import requires
+
 logger = colorlog.getLogger(__name__)
 
 
@@ -61,16 +64,19 @@ class BAM2SAM(ConvBase):
         super(BAM2SAM, self).__init__(infile, outfile, *args, **kargs)
         self._default_method = "samtools"
 
+    @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         # -S means ignored (input format is auto-detected)
         # -h means include header in SAM output
         cmd = "samtools view -Sh {} -O SAM -o {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires(python_library="pysam")
     def _method_pysam(self, *args, **kwargs):
         import pysam
         pysam.sort("-o", self.outfile, self.infile)
 
+    @requires("sambamba")
     def _method_sambamba(self, *args, **kwargs):
         cmd = "sambamba view {} -o {}".format(self.infile, self.outfile)
         self.execute(cmd)

@@ -13,6 +13,7 @@
 ##############################################################################
 """Convert :term:`BAM` format to :term:`fastq` file"""
 from bioconvert import ConvBase, extensions
+from bioconvert.core.decorators import requires
 
 
 class BAM2Fastq(ConvBase):
@@ -33,6 +34,7 @@ class BAM2Fastq(ConvBase):
         super().__init__(infile, outfile)
         self._default_method = "bamtools"
 
+    @requires("bamtools")
     def _method_bamtools(self, *args, **kwargs):
         # This fails with unknown error
         #pysam.bam2fq(self.infile, save_stdout=self.outfile)
@@ -48,6 +50,7 @@ class BAM2Fastq(ConvBase):
         )
         self.execute(cmd)
 
+    @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
         """
         do the conversion :term`BAM` -> :term:'Fastq` using bedtools
@@ -58,6 +61,7 @@ class BAM2Fastq(ConvBase):
         cmd = "bedtools bamtofastq -i {} -fq {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """
         do the conversion :term`BAM` -> :term:'Fastq` using samtools

@@ -2,6 +2,9 @@
 from bioconvert import ConvBase, extensions
 
 import colorlog
+
+from bioconvert.core.decorators import requires
+
 logger = colorlog.getLogger(__name__)
 
 
@@ -20,6 +23,7 @@ class BAM2JSON(ConvBase):
         super().__init__(infile, outfile)
         self._default_method = "bamtools"
 
+    @requires("bamtools")
     def _method_bamtools(self, *args, **kwargs):
         """
         do the conversion :term`BAM` -> :term:'JSON` using bamtools

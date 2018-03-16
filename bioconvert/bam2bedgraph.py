@@ -15,6 +15,8 @@
 from bioconvert import ConvBase, extensions
 import colorlog
 
+from bioconvert.core.decorators import requires
+
 _log = colorlog.getLogger(__name__)
 
 
@@ -61,6 +63,7 @@ class BAM2BEDGRAPH(ConvBase):
         self._default_method = "bedtools"
 
 
+    @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
         """
         do the conversion sorted :term`BAM` -> :term:'BEDGRAPH` using bedtools

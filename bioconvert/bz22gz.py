@@ -14,6 +14,9 @@
 from bioconvert import ConvBase, extensions
 
 import colorlog
+
+from bioconvert.core.decorators import requires
+
 logger = colorlog.getLogger(__name__)
 
 
@@ -38,6 +41,7 @@ class BZ22GZ(ConvBase):
 
         self._default_method = "bz2_gz"
 
+    @requires("bunzip2")
     def _method_bz2_gz(self, *args, **kwargs):
         # conversion
         cmd = "bunzip2 -c {input} | gzip > {output}".format(

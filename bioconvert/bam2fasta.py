@@ -13,6 +13,7 @@
 ##############################################################################
 """Convert :term:`BAM` format to :term:`FASTA` file"""
 from bioconvert import ConvBase, extensions
+from bioconvert.core.decorators import requires
 
 
 class BAM2Fasta(ConvBase):
@@ -33,6 +34,7 @@ class BAM2Fasta(ConvBase):
         super().__init__(infile, outfile)
         self._default_method = "bamtools"
 
+    @requires("bamtools")
     def _method_bamtools(self, *args, **kwargs):
         """
 
@@ -51,6 +53,7 @@ class BAM2Fasta(ConvBase):
         )
         self.execute(cmd)
 
+    @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """
         do the conversion :term`BAM` -> :term:'Fasta` using samtools
