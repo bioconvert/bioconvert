@@ -39,7 +39,7 @@ class TSV2CSV(ConvBase):
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
         """
-        do the conversion :term`TSV` -> :term:'CSV` using standard Python modules
+        do the conversion :term`TSV` -> :term:'CSV` using csv module to read and write
 
         """
         with open(self.infile, "r") as in_stream, open(self.outfile, "w") as out_stream:
@@ -47,6 +47,23 @@ class TSV2CSV(ConvBase):
             reader = csv.reader(in_stream, delimiter=in_sep)
             for row in reader:
                 writer.writerow(row)
+
+    def _method_python_v2(
+            self,
+            in_sep=DEFAULT_IN_SEP,
+            out_sep=DEFAULT_OUT_SEP,
+            line_terminator=DEFAULT_LINE_TERMINATOR,
+            *args, **kwargs):
+        """
+        do the conversion :term`TSV` -> :term:'CSV` using csv module to read, and writing directly into the file. Note
+        that his method can't escape nor quote output char
+
+        """
+        with open(self.infile, "r") as in_stream, open(self.outfile, "w") as out_stream:
+            reader = csv.reader(in_stream, delimiter=in_sep)
+            for row in reader:
+                out_stream.write(out_sep.join(row))
+                out_stream.write(line_terminator)
 
     def _method_panda(
             self,
