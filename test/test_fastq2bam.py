@@ -4,7 +4,7 @@ import subprocess
 
 from bioconvert import bioconvert_data
 from bioconvert.fastq2bam import FASTQ2BAM
-from bioconvert.core.compressor import make_in_gz_tester
+from bioconvert.core.decorators import make_in_gz_tester
 
 
 @pytest.mark.parametrize("method", filter(make_in_gz_tester(FASTQ2BAM), FASTQ2BAM.available_methods))
