@@ -14,6 +14,7 @@ extensions = {
     'cdao': ["cdao"],                           # phylo
     'cram': ["cram"],                           # alignment
     'clustal': ["clustal", "aln", "clw"],       # phylo
+    'csv': ["csv"],
     'dsrc': ['dsrc'],
     'embl': ['embl'],                           # annotation/sequence
     'fasta': ["fasta", "fa", "fst"],            # sequence
@@ -33,6 +34,7 @@ extensions = {
     'stockholm': ['sto', 'sth', 'stockholm'],   # alignment
     'vcf': ['vcf'],                             # variant
     'twobit': ['2bit'],                         # sequence
+    'tsv': ["tsv"],
     'yaml': ['yaml', 'YAML'],                   # misc
 }
 
