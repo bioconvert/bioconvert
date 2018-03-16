@@ -18,6 +18,9 @@ class CSV2TSV(tsv2csv.TSV2CSV):
     Convert bam file to json file.
     """
     _default_method = "python"
+    DEFAULT_IN_SEP = ','
+    DEFAULT_OUT_SEP = '\t'
+    DEFAULT_LINE_TERMINATOR = '\n'
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
@@ -26,13 +29,23 @@ class CSV2TSV(tsv2csv.TSV2CSV):
         """
         super().__init__(infile, outfile)
 
-    def _method_python(self, in_sep=',', out_sep='\t', *args, **kwargs):
+    def _method_python(
+            self,
+            in_sep=DEFAULT_IN_SEP,
+            out_sep=DEFAULT_OUT_SEP,
+            line_terminator=DEFAULT_LINE_TERMINATOR,
+            *args, **kwargs):
         """
         do the conversion :term`CSV` -> :term:'TSV` using standard Python modules
         """
         super()._method_python(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
 
-    def _method_panda(self, in_sep=',', out_sep='\t', *args, **kwargs):
+    def _method_panda(
+            self,
+            in_sep=DEFAULT_IN_SEP,
+            out_sep=DEFAULT_OUT_SEP,
+            line_terminator=DEFAULT_LINE_TERMINATOR,
+            *args, **kwargs):
         """
         do the conversion :term`CSV` -> :term:'TSV` using Panda modules
         """
