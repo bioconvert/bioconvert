@@ -104,3 +104,5 @@ ENV/
 .DS_Store
 # vim backups
 *~
+*.py#
+.~*#
