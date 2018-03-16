@@ -405,6 +405,7 @@ class ConvBase(metaclass=ConvMeta):
     def get_common_arguments(cls):
         yield ConvArg(
             names="input_file",
+            nargs="?",
             default=None,
             help="The path to the file to convert.",
         )
@@ -442,6 +443,12 @@ class ConvBase(metaclass=ConvMeta):
             names=["-f", "--force", ],
             action="store_true",
             help="if outfile exists, it is overwritten with this option",
+        )
+        yield ConvArg(
+            names=["-s", "--show-methods", ],
+            default=False,
+            action="store_true",
+            help="A converter may have several methods",
         )
 
 

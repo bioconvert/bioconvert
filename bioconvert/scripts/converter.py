@@ -17,6 +17,7 @@ import sys
 
 import bioconvert
 from bioconvert import extensions
+from bioconvert.core.base import ConvMeta
 from bioconvert.core.converter import Bioconvert
 from bioconvert.core.registry import Registry
 
@@ -147,11 +148,6 @@ def main(args=None):
                             default=False, action="store_true",
                             help="for batch effect")
 
-    arg_parser.add_argument("-s", "--show-methods",
-                            default=False,
-                            action="store_true",
-                            help="A converter may have several methods")
-
     arg_parser.add_argument("-b", "--benchmark",
                             default=False,
                             action="store_true",
@@ -163,6 +159,9 @@ def main(args=None):
                             help="Number of trials for each methods")
 
     args = arg_parser.parse_args(args)
+
+    if not (args.show_methods or args.input_file):
+        arg_parser.error('Either specify an input_file (<INPUT_FILE>) or ask for available methods (--show-method)')
 
     # Set the logging level
     bioconvert.logger.level = args.verbosity
@@ -190,20 +189,22 @@ def main(args=None):
 
 def analysis(args):
 
+    print(vars(args))
+    in_fmt, out_fmt = ConvMeta.split_converter_to_extensions(args.command)
+
+    # do we want to know the available methods ? If so, print info and quite
+    if args.show_methods:
+        class_converter = Registry()[(in_fmt, out_fmt)]
+        print(class_converter.available_methods)
+        print("Please see http://bioconvert.readthedocs.io/en/master/"
+              "references.html#{} for details ".format(str(class_converter).split("'")[1]))
+        sys.exit(0)
+
     # Input and output filename
     infile = args.input_file
-    if args.output_file is None:
-        if args.output_format is None:
-            raise ValueError("Extension of the output format unknown."
-                             " You must either provide an output file name (with"
-                             " extension) or provide it with the --output-format"
-                             " argument")
-        else:
-            try:
-                outext = extensions[args.output_format][0].lstrip(".")
-            except KeyError:
-                raise ValueError("No extension found for the format {}".format(args.output_format))
-            outfile = infile.rsplit(".", 1)[0] + "." + outext
+    if args.output_file is None and infile:
+        outext = ConvMeta.split_converter_to_extensions(args.command)
+        outfile = infile.rsplit(".", 1)[0] + "." + outext
     else:
         outfile = args.output_file
 
@@ -211,7 +212,8 @@ def analysis(args):
     conv = Bioconvert(
         infile,
         outfile,
-        command=args.command,
+        in_fmt=in_fmt,
+        out_fmt=out_fmt,
         force=args.force,
     )
 
@@ -237,18 +239,9 @@ def analysis(args):
                            " So add extension to the output file name or use"
                            " --output-format option.")
 
-    # do we want to know the available methods ? If so, print info and quite
-    if args.show_methods:
-        print(conv.converter.available_methods)
-        print("Please see http://bioconvert.readthedocs.io/en/master/"
-              "references.html#bioconvert.{}.{} for details ".format(conv.name.lower(), conv.name))
-        sys.exit(0)
-
     bioconvert.logger.info("Converting from %s to %s" % (conv.in_fmt, conv.out_fmt))
 
     # params = {"threads": args.threads}
-
-    print(vars(args))
 
 
     if args.benchmark:

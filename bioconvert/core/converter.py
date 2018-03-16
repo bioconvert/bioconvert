@@ -39,14 +39,13 @@ class Bioconvert(object):
 
 
     """
-    def __init__(self, infile, outfile, in_fmt=None, out_fmt=None, command=None, force=False):
+    def __init__(self, infile, outfile, in_fmt=None, out_fmt=None, force=False):
         """.. rubric:: constructor
 
         :param str infile: The path of the input file.
         :param str outfile: The path of The output file
         :param str in_fmt: the format for the input file
         :param str out_fmt: the format for the output
-        :param str command: the format for the input and output following <in_fmt>2<out_fmt>
         :param bool force: overwrite output file if it exists already
             otherwise raises an error
 
@@ -101,8 +100,6 @@ class Bioconvert(object):
 
         # From the input parameters 1 and 2, we get the module name
         try:
-            if command is not None:
-                in_fmt, out_fmt = ConvMeta.split_converter_to_extensions(command)
             if in_fmt is None:
                 in_fmt = get_format_from_extension(self.inext)
             if out_fmt is None:
