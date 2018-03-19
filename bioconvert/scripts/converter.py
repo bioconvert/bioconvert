@@ -84,26 +84,24 @@ def main(args=None):
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
                                          epilog=" ----    ",
                                          description="""Convertor infer the
-                                         formats from the extension name. We do
+                                         formats from the first command. We do
                                          not scan the input file. Therefore
                                          users must ensure that their input
                                          format files are properly
                                          formatted.""",
                                          usage="""
     # convert fastq to fasta
-    bioconvert test.fastq test.fasta
-
-    # if input extension is not standard, use -i to specify it
-    bioconvert test.FASTQ test.fasta -i fastq
-
-    bioconvert test.fastq -o fasta
+    bioconvert fastq2fasta test.fastq test.fasta
+    bioconvert fastq2fasta test.fastQ test.fasta
+    # if input extension is not standard, it is not a problem, format if obtained from command fastq2fasta
+    bioconvert fastq2fasta test_in_fastQ.txt test.fasta
 
     # You may have several inputs, in which case wildcards are possible
     # Note, however, the quotes that are required
-    bioconvert "test*.fastq" -o fasta
+    bioconvert fastq2fasta "test*.fastq"
 
     # batch is also possible.
-    bioconvert "test*.fastq" -o fasta -m
+    bioconvert -m fastq2fasta "test*.fastq"
 
     Note the difference between the two previous commands !!
 
@@ -111,6 +109,8 @@ def main(args=None):
     For more information, please type:
 
         bioconvert --help
+
+...
 """)
     registry = Registry()
     subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )

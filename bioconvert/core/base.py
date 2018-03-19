@@ -394,8 +394,13 @@ class ConvBase(metaclass=ConvMeta):
 
     @classmethod
     def add_argument_to_parser(cls, sub_parser):
+        sub_parser.description = cls.get_description()
         for arg in itertools.chain(cls.get_common_arguments(), cls.get_additional_arguments()):
             arg.add_to_sub_parser(sub_parser)
+
+    @classmethod
+    def get_description(cls):
+        return "Allow to convert file in '%s' to '%s' format." % ConvMeta.split_converter_to_extensions(cls.__name__)
 
     @classmethod
     def get_additional_arguments(cls):
