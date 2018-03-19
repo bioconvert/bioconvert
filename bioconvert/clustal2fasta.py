@@ -29,7 +29,7 @@ class CLUSTAL2FASTA(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'biopython'
 
-    @requires(python_library="biopython")
+    @requires(python_library="Bio")
     def _method_biopython(self, threads=None):
         """
         Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using biopython.
