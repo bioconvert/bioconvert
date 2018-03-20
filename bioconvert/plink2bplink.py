@@ -1,6 +1,7 @@
 import colorlog
 
 from bioconvert import ConvBase
+from bioconvert.core.utils import generate_outfile_name
 
 _log = colorlog.getLogger(__name__)
 
