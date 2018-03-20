@@ -1,6 +1,7 @@
 import colorlog
 
 from bioconvert import ConvBase
+from bioconvert.core.decorators import requires
 from bioconvert.core.utils import generate_outfile_name
 
 _log = colorlog.getLogger(__name__)
@@ -25,6 +26,7 @@ class PLINK2BPLINK(ConvBase):
         super().__init__(infile, outfile)
         self._default_method = 'plink'
 
+    @requires("plink")
     def _method_plink(self, *args, **kwargs):
         """
         Convert plink file in text using plink executable.

@@ -18,6 +18,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase, extensions
+from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -42,11 +43,13 @@ class FASTA2PHYLIP(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'biopython'
 
+    @requires(python_library="Bio")
     def _method_biopython(self, threads=None, *args, **kwargs):
         sequences = list(SeqIO.parse(self.infile, "fasta", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "phylip")
         _log.debug("Converted %d records to phylip" % count)
 
+    @requires("squizz")
     def _method_squizz(self, threads=None, *args, **kwargs):
         """
         Convert fasta file in Phylip interleaved format using squizz tool.
@@ -58,6 +61,7 @@ class FASTA2PHYLIP(ConvBase):
             outfile=self.outfile)
         self.execute(cmd)
 
+    @requires("goalign")
     def _method_goalign(self, threads=None, *args, **kwargs):
         """
         Convert fasta file in Phylip interleaved format using goalign tool.

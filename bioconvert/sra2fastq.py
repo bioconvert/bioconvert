@@ -20,6 +20,8 @@ import os
 import tempfile
 import shutil
 
+from bioconvert.core.decorators import requires
+
 
 class SRA2FASTQ(ConvBase):
     """Converts Sra 2 Fastq(.gz) file
@@ -38,6 +40,7 @@ class SRA2FASTQ(ConvBase):
         self._default_method = "sratoolkit"
         self.test = test
 
+    @requires("fastq-dump")
     def _method_sratoolkit(self, *args, **kwargs):
         """
         Uses Sratoolkit (fastq-dump) to convert a sra file to fastq

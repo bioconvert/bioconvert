@@ -13,6 +13,7 @@
 """Convert :term:`GZ` file to :term:`BZ2` file"""
 from bioconvert import ConvBase, extensions
 from bioconvert.core.base import ConvArg
+from bioconvert.core.decorators import requires
 
 __all__ = ["GZ2BZ2"]
 
@@ -34,6 +35,7 @@ class GZ2BZ2(ConvBase):
         """
         super(GZ2BZ2, self).__init__(infile, outfile, *args, **kargs)
 
+    @requires("pigz")
     def _method_pigz_pbzip2(self, threads=None, *args, **kwargs):
         """some description"""
         # check integrity

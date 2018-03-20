@@ -5,6 +5,7 @@ from collections import defaultdict
 
 import colorlog
 from bioconvert import ConvBase
+from bioconvert.core.decorators import requires_nothing
 
 _log = colorlog.getLogger(__name__)
 
@@ -16,6 +17,7 @@ class Scf2Fasta(ConvBase):
     :param str outfile:
     """
 
+    @requires_nothing
     def _method_python(self, *args, **kwargs):
         sequence = ""
         qualities = []

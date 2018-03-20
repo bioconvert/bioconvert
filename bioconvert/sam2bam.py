@@ -15,6 +15,9 @@
 from bioconvert import ConvBase, extensions
 
 import colorlog
+
+from bioconvert.core.decorators import requires
+
 logger = colorlog.getLogger(__name__)
 
 __all__ = ["SAM2BAM"]
@@ -26,6 +29,7 @@ class SAM2BAM(ConvBase):
         samtools view -Sbh
     """
 
+    @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """
         Do the conversion  sorted :term`SAM` -> :term:'BAM`

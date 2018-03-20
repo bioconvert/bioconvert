@@ -17,6 +17,9 @@ import os
 from bioconvert import ConvBase, extensions
 
 import colorlog
+
+from bioconvert.core.decorators import requires
+
 _log = colorlog.getLogger(__name__)
 
 
@@ -38,11 +41,13 @@ class NEXUS2NEWICK(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'gotree'
 
+    @requires(python_library="Bio")
     def _method_biopython(self, *args, **kwargs):
         _log.warning("biopython methods rounds up values (5 digits)")
         from Bio import Phylo
         Phylo.convert(self.infile, "nexus", self.outfile, "newick")
 
+    @requires("gotree")
     def _method_gotree(self, threads=None, *args, **kwargs):
         """
         Convert :term:`NEXUS`  file in :term:`NEWICK` format using gotree tool.

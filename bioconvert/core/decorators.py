@@ -136,6 +136,12 @@ def out_compressor(func):
     return wrapped
 
 
+def requires_nothing(func):
+    """Marks a function as not needing dependencies."""
+    func.is_disabled = False
+    return func
+
+
 def requires(
         external_binary=None,
         python_library=None,
@@ -167,6 +173,7 @@ def requires(
                 shell("which %s" % bin)
             for lib in python_libraries:
                 __import__(lib)
+            wrapped.is_disabled = False
         except Exception as e:
             _log.debug(e)
             wrapped.is_disabled = True

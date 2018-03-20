@@ -17,6 +17,9 @@ import os
 from bioconvert import ConvBase
 
 import colorlog
+
+from bioconvert.core.decorators import requires
+
 logger = colorlog.getLogger(__name__)
 
 __all__ = ["SAM2CRAM"]
@@ -72,6 +75,7 @@ class SAM2CRAM(ConvBase):
 
             self.reference = reference
 
+    @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         # -C means output is CRAM
         reference = kwargs.get("reference", self.reference)

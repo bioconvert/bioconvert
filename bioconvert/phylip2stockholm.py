@@ -17,6 +17,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase, extensions
+from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -45,6 +46,7 @@ class PHYLIP2STOCKHOLM(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'biopython'
 
+    @requires(python_library="Bio")
     def _method_biopython(self, threads=None):
         """
         Convert :term:`PHYLIP` interleaved file in :term:`STOCKHOLM` format using biopython.
@@ -55,6 +57,7 @@ class PHYLIP2STOCKHOLM(ConvBase):
         count = SeqIO.write(sequences, self.outfile, "stockholm")
         _log.info("Converted %d records to stockholm" % count)
 
+    @requires("squizz")
     def _method_squizz(self, threads=None):
         """
         Convert :term:`PHYLIP` interleaved file in :term:`STOCKHOLM` format using squizz tool.

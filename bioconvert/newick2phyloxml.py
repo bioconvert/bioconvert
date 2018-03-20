@@ -18,6 +18,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase, extensions
+from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -40,6 +41,7 @@ class NEWICK2PHYLOXML(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'gotree'
 
+    @requires("gotree")
     def _method_gotree(self, threads=None, *args, **kwargs):
         """
         Convert :term:`NEWICK`  file in :term:`PHYLOXML` format using gotree tool.

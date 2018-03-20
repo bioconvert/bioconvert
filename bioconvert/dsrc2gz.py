@@ -13,6 +13,9 @@
 """ Convert a compressed fastq.gz file to :term:`DSRC` compression format """
 from bioconvert import ConvBase, extensions
 import colorlog
+
+from bioconvert.core.decorators import requires
+
 logger = colorlog.getLogger(__name__)
 
 
@@ -45,6 +48,7 @@ class DSRC2GZ(ConvBase):
         super(DSRC2GZ, self).__init__(infile, outfile, *args, **kargs)
         self._default_method = "dsrcpigz"
 
+    @requires("dsrc")
     def _method_dsrcpigz(self, *args, **kwargs):
         """
         do the conversion dsrc -> :term:'GZ`

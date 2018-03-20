@@ -18,6 +18,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase, extensions
+from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -39,6 +40,7 @@ class NEWICK2NEXUS(ConvBase):
         super().__init__(infile, outfile)
         self._default_method = 'gotree'
 
+    @requires("gotree")
     def _method_gotree(self, threads=None, *args, **kwargs):
         """
         Convert :term:`NEWICK`  file in :term:`NEXUS` format using gotree tool.

@@ -146,7 +146,13 @@ class ConvMeta(abc.ABCMeta):
             for name in inspect.getmembers(cls, is_conversion_method):
                 # do not use strip() but split()
                 conv_meth = name[0].split("_method_")[1]
-                is_disabled = getattr(name[1], "is_disabled", False)
+                is_disabled = getattr(name[1], "is_disabled", None)
+                if is_disabled is None:
+                    _log.debug("converter '{}': method {} is not decorated, we expect it to work all time".format(
+                        cls.__name__,
+                        conv_meth,
+                    ))
+                    is_disabled = False
                 if not is_disabled:
                     available_conv_meth.append(conv_meth)
                 else:

@@ -3,6 +3,7 @@ from bioconvert import ConvBase
 from pysam import FastxFile
 
 from bioconvert.core.base import ConvArg
+from bioconvert.core.decorators import requires
 
 __all__ = ["Fasta2Fastq"]
 
@@ -22,6 +23,7 @@ class Fasta2Fastq(ConvBase):
         super().__init__(infile, outfile)
         self._default_method = "v1"
 
+    @requires(python_library="pysam")
     def _method_v1(self, *args, **kwargs):
 
         with open(self.outfile, 'w') as fastq_out:

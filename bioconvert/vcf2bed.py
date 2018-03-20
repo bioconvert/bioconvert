@@ -14,6 +14,9 @@
 """Convert :term:`VCF` file to :term:`BED` file"""
 from bioconvert import ConvBase, extensions
 import colorlog
+
+from bioconvert.core.decorators import requires
+
 logger = colorlog.getLogger(__name__)
 
 
@@ -44,6 +47,7 @@ class VCF2BED(ConvBase):
         super().__init__(infile, outfile)
         self._default_method = "awk"
 
+    @requires("awk")
     def _method_awk(self, *args, **kwargs):
         """
         do the conversion :term`VCF` -> :term:'BED` using awk

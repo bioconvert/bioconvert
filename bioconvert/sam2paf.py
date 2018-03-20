@@ -19,6 +19,9 @@ from bioconvert import ConvBase, extensions
 from easydev.multicore import cpu_count
 
 import colorlog
+
+from bioconvert.core.decorators import requires_nothing
+
 logger = colorlog.getLogger(__name__)
 
 
@@ -109,6 +112,7 @@ class SAM2PAF(ConvBase):
         super(SAM2PAF, self).__init__(infile, outfile, *args, **kargs)
         self._default_method = "python"
 
+    @requires_nothing
     def _method_python(self, *args, **kwargs):
         pattern = "(\d+)([MIDSHNX=])"
 

@@ -2,6 +2,8 @@
 
 import colorlog
 
+from bioconvert.core.decorators import requires, requires_nothing
+
 try:
     import pandas as pd
 except:
@@ -29,6 +31,7 @@ class CSV2TSV(tsv2csv.TSV2CSV):
         """
         super().__init__(infile, outfile)
 
+    @requires_nothing
     def _method_python(
             self,
             in_sep=DEFAULT_IN_SEP,
@@ -40,6 +43,7 @@ class CSV2TSV(tsv2csv.TSV2CSV):
         """
         super()._method_python(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
 
+    @requires_nothing
     def _method_python_v2(
             self,
             in_sep=DEFAULT_IN_SEP,
@@ -52,6 +56,7 @@ class CSV2TSV(tsv2csv.TSV2CSV):
         """
         super()._method_python_v2(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
 
+    @requires(python_library="pandas")
     def _method_panda(
             self,
             in_sep=DEFAULT_IN_SEP,

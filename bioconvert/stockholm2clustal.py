@@ -3,6 +3,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase, extensions
+from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -27,6 +28,7 @@ class STOCKHOLM2CLUSTAL(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'biopython'
 
+    @requires(python_library="Bio")
     def _method_biopython(self, threads=None):
         """
         Convert :term:`STOCKHOLM` interleaved file in :term:`CLUSTAL` format using biopython.
@@ -37,6 +39,7 @@ class STOCKHOLM2CLUSTAL(ConvBase):
         count = SeqIO.write(sequences, self.outfile, "clustal")
         _log.info("Converted %d records to clustal" % count)
 
+    @requires("squizz")
     def _method_squizz(self, threads=None):
         """
         Convert :term:`STOCKHOLM` file in :term:`CLUSTAL` format using squizz tool.

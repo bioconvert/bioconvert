@@ -14,6 +14,7 @@
 """Convert :term:`JSON` to :term:`YAML` format"""
 import yaml, json
 from bioconvert import ConvBase, extensions
+from bioconvert.core.decorators import requires, requires_nothing
 
 __all__ = ["JSON2YAML"]
 
@@ -42,6 +43,7 @@ class JSON2YAML(ConvBase):
         """
         super(JSON2YAML, self).__init__(infile, outfile, *args, **kargs)
 
+    @requires_nothing
     def _method_yaml(self, *args, **kwargs):
         with open(self.infile, "r") as infile:
             data = json.load(infile)

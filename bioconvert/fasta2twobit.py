@@ -18,6 +18,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase, extensions
+from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -42,6 +43,7 @@ class FASTA2TWOBIT(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'ucsc'
 
+    @requires("faToTwoBit")
     def _method_ucsc(self, *args, **kwargs):
         """
         Convert fasta file in twobit format using ucsc faToTwoBit.

@@ -26,7 +26,7 @@ except:
 from mappy import fastx_read
 import mmap
 
-from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires
+from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires, requires_nothing
 
 
 class Fastq2Fasta(ConvBase):
@@ -99,6 +99,7 @@ class Fastq2Fasta(ConvBase):
         """
         super().__init__(infile, outfile)
 
+    @requires(python_library="Bio")
     @compressor
     def _method_biopython(self, *args, **kwargs):
         records = SeqIO.parse(self.infile, 'fastq')
@@ -121,17 +122,7 @@ class Fastq2Fasta(ConvBase):
                     record.sequence.decode("utf-8")))
         print("test")
 
-    @classmethod
-    def _isusable_method_GATB(cls):
-        try:
-            # Let us make this optional for now because
-            # GATB cannot be install on RTD
-            from gatb import Bank
-            return True
-        except:
-            pass
-        return False
-
+    @requires_nothing
     @compressor
     def _method_readfq(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
@@ -139,11 +130,13 @@ class Fastq2Fasta(ConvBase):
                 fasta.write(">{}\n{}\n".format(name, seq))
 
     # Does not give access to the comment part of the header
+    @requires(python_library="mappy")
     def _method_mappy(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta:
             for (name, seq, _) in fastx_read(self.infile):
                 fasta.write(">{}\n{}\n".format(name, seq))
 
+    @requires("awk")
     @compressor
     def _method_awk(self, *args, **kwargs):
         # Note1: since we use .format, we need to escape the { and } characters
@@ -152,6 +145,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires("mawk")
     @compressor
     def _method_mawk(self, *args, **kwargs):
         """This variant of the awk method uses mawk, a lighter and faster
@@ -180,36 +174,43 @@ class Fastq2Fasta(ConvBase):
     #     cmd = "{} {} > {}".format(fqtoolscmd, self.infile, self.outfile)
     #     self.execute(cmd)
 
+    @requires("awk")
     def _method_awk_v2(self, *args, **kwargs):
         awkcmd = """awk '{{print ">"substr($0,2);getline;print;getline;getline}}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires("mawk")
     def _method_mawk_v2(self, *args, **kwargs):
         awkcmd = """mawk '{{print ">"substr($0,2);getline;print;getline;getline}}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires("sed")
     def _method_sed(self, *args, **kwargs):
         cmd = """sed -n '1~4s/^@/>/p;2~4p' """
         cmd = "{} {} > {}".format(cmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires("sed")
     def _method_sed_v2(self, *args, **kwargs):
         cmd = """sed -n 's/^@/>/p;n;p;n;n'"""
         cmd = "{} {} > {}".format(cmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires("mawk")
     def _method_mawk_v3(self, *args, **kwargs):
         awkcmd = """mawk '(++n<=0){next}(n!=1){print;n=-2;next}{print">"substr($0,2)}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires("perl")
     def _method_perl(self, *args, **kwargs):
         perlcmd = "perl {}".format(bioconvert_script("fastqToFasta.pl"))
         cmd = "{} {} {}".format(perlcmd, self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires(python_library="mmap")
     @compressor
     def _method_python_internal(self, *args, **kwargs):
         with open(self.infile, "r+") as inp:
@@ -225,6 +226,7 @@ class Fastq2Fasta(ConvBase):
                     line = mapp.readline()
                 mapp.close()
 
+    @requires("mmap")
     def _method_python_external(self, *args, **kwargs):
         pycmd = "python {}".format(bioconvert_script("fastqToFasta.py"))
         cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)

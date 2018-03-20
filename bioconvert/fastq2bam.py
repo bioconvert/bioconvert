@@ -14,7 +14,7 @@
 """Convert :term:`FASTQ` to :term:`BAM`"""
 from bioconvert import ConvBase
 
-from bioconvert.core.decorators import in_gz
+from bioconvert.core.decorators import in_gz, requires
 
 
 class FASTQ2BAM(ConvBase):
@@ -33,6 +33,7 @@ class FASTQ2BAM(ConvBase):
         self.infile2 = infile2
         self._default_method = "fastqutils"
 
+    @requires("fastqutils")
     @in_gz
     def _method_fastqutils(self, *args, **kwargs):
         """

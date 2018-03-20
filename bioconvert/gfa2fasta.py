@@ -14,6 +14,9 @@
 """Convert :term:`GFA` format to :term:`FASTA` formats"""
 from bioconvert import ConvBase, extensions
 import colorlog
+
+from bioconvert.core.decorators import requires, requires_nothing
+
 logger = colorlog.getLogger(__name__)
 
 
@@ -50,6 +53,7 @@ class GFA2FASTA(ConvBase):
         super().__init__(infile, outfile)
         self._default_method = "python"
 
+    @requires("awk")
     def _method_awk(self, *args, **kwargs):
         """
 
@@ -63,6 +67,7 @@ class GFA2FASTA(ConvBase):
         cmd = """awk '/^S/{{print ">"$2"\\n"$3}}' {} | fold > {}""".format(self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires_nothing
     def _method_python(self, *args, **kwargs):
         with open(self.infile, "r") as fin:
             with open(self.outfile, "w") as fout:
