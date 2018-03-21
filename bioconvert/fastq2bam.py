@@ -33,7 +33,7 @@ class FASTQ2BAM(ConvBase):
         self.infile2 = infile2
         self._default_method = "fastqutils"
 
-    @requires("fastqutils")
+    @requires("conda")
     @in_gz
     def _method_fastqutils(self, *args, **kwargs):
         """
