@@ -226,7 +226,7 @@ class Fastq2Fasta(ConvBase):
                     line = mapp.readline()
                 mapp.close()
 
-    @requires("mmap")
+    @requires(python_library="mmap")
     def _method_python_external(self, *args, **kwargs):
         pycmd = "python {}".format(bioconvert_script("fastqToFasta.py"))
         cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)
