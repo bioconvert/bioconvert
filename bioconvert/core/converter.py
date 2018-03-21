@@ -122,12 +122,12 @@ class Bioconvert(object):
                 class_converter = make_chain([
                     (pair, self.mapper[pair]) for pair in conv_path])
             else:
-                msg = """Requested input format ('%s') to output format ('%s')
-                         is not available in bioconvert""" % (
-                             self.in_fmt, self.out_fmt)
+                msg = "Requested input format ('%s') to output format ('%s') is not available in bioconvert" %(
+                    self.in_fmt,
+                    self.out_fmt,
+                )
                 _log.critical(msg)
-                _log.critical("Use --formats to know the available formats "
-                              "and --help for examples")
+                _log.critical("Use --formats to know the available formats and --help for examples")
                 raise Exception(msg)
 
         self.converter = class_converter(infile, outfile)
