@@ -41,7 +41,7 @@ class PHYLOXML2NEWICK(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'gotree'
 
-    @requires("gotree")
+    @requires("conda")
     def _method_gotree(self, threads=None, *args, **kwargs):
         """
         Convert :term:`PHYLOXML`  file in :term:`NEWICK` format using gotree tool.

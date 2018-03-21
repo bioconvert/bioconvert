@@ -47,7 +47,7 @@ class NEXUS2NEWICK(ConvBase):
         from Bio import Phylo
         Phylo.convert(self.infile, "nexus", self.outfile, "newick")
 
-    @requires("gotree")
+    @requires("conda")
     def _method_gotree(self, threads=None, *args, **kwargs):
         """
         Convert :term:`NEXUS`  file in :term:`NEWICK` format using gotree tool.
