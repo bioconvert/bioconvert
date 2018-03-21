@@ -41,7 +41,7 @@ class NEXUS2FASTA(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'goalign'
 
-    @requires("goalign")
+    @requires("conda")
     def _method_goalign(self, threads=None, *args, **kwargs):
         """
         Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using goalign tool.

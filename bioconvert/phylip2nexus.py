@@ -41,7 +41,7 @@ class PHYLIP2NEXUS(ConvBase):
         self.alphabet = alphabet
         self._default_method = 'goalign'
 
-    @requires("goalign")
+    @requires("conda")
     def _method_goalign(self, threads=None, *args, **kwargs):
         """
         Convert :term:`PHYLIP` interleaved file in :term:`NEXUS` format using goalign tool.
