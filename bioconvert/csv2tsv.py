@@ -2,14 +2,8 @@
 
 import colorlog
 
-from bioconvert.core.decorators import requires, requires_nothing
-
-try:
-    import pandas as pd
-except:
-    pass
-
 from bioconvert import tsv2csv
+from bioconvert.core.decorators import requires, requires_nothing
 
 logger = colorlog.getLogger(__name__)
 
