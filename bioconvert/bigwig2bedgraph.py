@@ -32,6 +32,7 @@ class BIGWIG2BEDGRAPH(ConvBase):
     Conversion is based on ucsc bigWigToBedGraph tool
 
     """
+    _default_method = 'ucsc'
 
     def __init__(self, infile, outfile):#=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -41,7 +42,6 @@ class BIGWIG2BEDGRAPH(ConvBase):
         """
         super().__init__(infile, outfile)
         #self.alphabet = alphabet
-        self._default_method = 'ucsc'
 
     @requires("bigWigToBedGraph")
     def _method_ucsc(self, *args, **kwargs):

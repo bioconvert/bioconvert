@@ -19,6 +19,7 @@ from bioconvert.core.decorators import in_gz, requires
 
 class FASTQ2BAM(ConvBase):
     """Convert :term:`FASTQ` to :term:`BAM`"""
+    _default_method = "fastqutils"
 
     # infile: read 1, infile2: read2 if paired-end
     def __init__(self, infile, outfile, infile2=None, *args, **kwargs):
@@ -31,7 +32,6 @@ class FASTQ2BAM(ConvBase):
         # for production, could use seqtk which seems the fastest method though
         # Make sure that the default handles also the compresssion
         self.infile2 = infile2
-        self._default_method = "fastqutils"
 
     @requires("conda")
     @in_gz

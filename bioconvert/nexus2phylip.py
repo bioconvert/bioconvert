@@ -30,6 +30,7 @@ class NEXUS2PHYLIP(ConvBase):
     """
     Converts a sequence alignment from :term:`NEXUS` format to :term:`PHYLIP` format. ::
     """
+    _default_method = 'goalign'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -39,7 +40,6 @@ class NEXUS2PHYLIP(ConvBase):
         """
         super().__init__(infile, outfile)
         self.alphabet = alphabet
-        self._default_method = 'goalign'
 
     @requires("conda")
     def _method_goalign(self, threads=None, *args, **kwargs):

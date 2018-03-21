@@ -37,6 +37,7 @@ class GZ2DSRC(ConvBase):
              convert.boxplot_benchmark()
 
     """
+    _default_method = "pigzdsrc"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -46,7 +47,6 @@ class GZ2DSRC(ConvBase):
 
         """
         super(GZ2DSRC, self).__init__(infile, outfile, *args, **kargs)
-        self._default_method = "pigzdsrc"
 
     @requires("pigz")
     def _method_pigzdsrc(self, *args, **kwargs):

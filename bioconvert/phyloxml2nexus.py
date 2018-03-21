@@ -30,6 +30,7 @@ class PHYLOXML2NEXUS(ConvBase):
     """
     Converts a tree file from :term:`PHYLOXML` format to :term:`NEXUS` format. ::
     """
+    _default_method = 'gotree'
 
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
@@ -40,7 +41,6 @@ class PHYLOXML2NEXUS(ConvBase):
         """
         super().__init__(infile, outfile)
         self.alphabet = alphabet
-        self._default_method = 'gotree'
 
     @requires("conda")
     def _method_gotree(self, threads=None, *args, **kwargs):

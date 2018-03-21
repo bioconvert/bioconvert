@@ -14,6 +14,7 @@ class Fasta2Fastq(ConvBase):
     """
     input_ext = ['.fa', '.fas', '.fasta']
     output_ext = ['.fastq', 'fq']
+    _default_method = "v1"
 
     def __init__(self, infile, outfile):
         """
@@ -21,7 +22,6 @@ class Fasta2Fastq(ConvBase):
         :param str outfile: The path to the output FASTQ file
         """
         super().__init__(infile, outfile)
-        self._default_method = "v1"
 
     @requires(python_library="pysam")
     def _method_v1(self, *args, **kwargs):

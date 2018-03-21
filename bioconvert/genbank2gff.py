@@ -30,6 +30,7 @@ class GENBANK2GFF(ConvBase):
     Some description.
 
     """
+    _default_method = "biocode"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -40,7 +41,6 @@ class GENBANK2GFF(ConvBase):
         """
         super().__init__(infile, outfile)
 
-        self._default_method = "biocode"
 
     def _method_biocode(self, *args, **kwargs):
         """Uses scripts from biocode

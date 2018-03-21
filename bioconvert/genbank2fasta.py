@@ -22,6 +22,7 @@ __all__ = ["GENBANK2FASTA"]
 
 class GENBANK2FASTA(ConvBase):
     """Convert :term:`GENBANK` file to :term:`FASTA` file"""
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -34,7 +35,6 @@ class GENBANK2FASTA(ConvBase):
 
         # squizz works as welll but keeps lower cases while biopython uses upper
         # cases
-        self._default_method = "biopython"
 
     @requires("squizz")
     def _method_squizz(self, *args, **kwargs):

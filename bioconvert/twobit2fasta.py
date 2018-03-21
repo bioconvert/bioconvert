@@ -32,6 +32,7 @@ class TWOBIT2FASTA(ConvBase):
     Conversion is based on UCSC twobit2fa
 
     """
+    _default_method = 'ucsc'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -41,7 +42,6 @@ class TWOBIT2FASTA(ConvBase):
         """
         super().__init__(infile, outfile)
         self.alphabet = alphabet
-        self._default_method = 'ucsc'
 
     @requires("twoBitToFa")
     def _method_ucsc(self, *args, **kwargs):

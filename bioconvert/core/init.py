@@ -44,6 +44,8 @@ class {input}2{output}(ConvBase):
     input_ext = [".{inputext}"]
     output_ext = [".{outputext}"]
 
+    _default_method = "default"
+
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
@@ -52,8 +54,6 @@ class {input}2{output}(ConvBase):
 
         """
         super({input}2{output}, self).__init__(infile, outfile, *args, **kargs)
-
-        self._default_method = "default"
 
     def _method_default(self, *args, **kwargs):
         """some description"""

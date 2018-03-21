@@ -30,6 +30,7 @@ class NEWICK2PHYLOXML(ConvBase):
     """
     Converts a tree file from :term:`NEWICK` format to :term:`PHYLOXML` format. ::
     """
+    _default_method = 'gotree'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -39,7 +40,6 @@ class NEWICK2PHYLOXML(ConvBase):
         """
         super().__init__(infile, outfile)
         self.alphabet = alphabet
-        self._default_method = 'gotree'
 
     @requires("conda")
     def _method_gotree(self, threads=None, *args, **kwargs):

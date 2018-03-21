@@ -19,6 +19,7 @@ __all__ = ["EMBL2GENBANK"]
 
 class EMBL2GENBANK(ConvBase):
     """Convert :term:`EMBL` file to :term:`GENBANK` file"""
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -29,7 +30,6 @@ class EMBL2GENBANK(ConvBase):
         """
         super(EMBL2GENBANK, self).__init__(infile, outfile, *args, **kargs)
 
-        self._default_method = "biopython"
 
     @requires("squizz")
     def _method_squizz(self, *args, **kwargs):

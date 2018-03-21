@@ -32,6 +32,7 @@ class FASTA2TWOBIT(ConvBase):
     Conversion is based on UCSC faToTwoBit
 
     """
+    _default_method = 'ucsc'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -41,7 +42,6 @@ class FASTA2TWOBIT(ConvBase):
         """
         super().__init__(infile, outfile)
         self.alphabet = alphabet
-        self._default_method = 'ucsc'
 
     @requires("faToTwoBit")
     def _method_ucsc(self, *args, **kwargs):

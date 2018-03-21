@@ -50,6 +50,7 @@ class BAM2SAM(ConvBase):
         11(11): e0167100. doi:10.1371/journal.pone.0167100
 
     """
+    _default_method = "samtools"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -62,7 +63,6 @@ class BAM2SAM(ConvBase):
             samtools view -Sbh
         """
         super(BAM2SAM, self).__init__(infile, outfile, *args, **kargs)
-        self._default_method = "samtools"
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):

@@ -97,6 +97,7 @@ class SAM2PAF(ConvBase):
     fields (see example above).
 
     """
+    _default_method = "python"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -110,7 +111,6 @@ class SAM2PAF(ConvBase):
 
         """
         super(SAM2PAF, self).__init__(infile, outfile, *args, **kargs)
-        self._default_method = "python"
 
     @requires_nothing
     def _method_python(self, *args, **kwargs):

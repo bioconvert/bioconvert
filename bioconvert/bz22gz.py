@@ -30,6 +30,8 @@ class BZ22GZ(ConvBase):
 
     """
 
+    _default_method = "bz2_gz"
+
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
@@ -38,8 +40,6 @@ class BZ22GZ(ConvBase):
 
         """
         super(BZ22GZ, self).__init__(infile, outfile, *args, **kargs)
-
-        self._default_method = "bz2_gz"
 
     @requires("bunzip2")
     def _method_bz2_gz(self, *args, **kwargs):

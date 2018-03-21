@@ -32,6 +32,7 @@ all in small caps ! In this file, copy and paste this example::
         """
         input_ext = ['.fastq']
         output_ext = '.fasta'
+        _default_method = "v1"
 
         def __init__(self, infile, outfile):
             """
@@ -39,7 +40,6 @@ all in small caps ! In this file, copy and paste this example::
             :param str outfile: information
             """
             super().__init__(infile, outfile)
-            self._default_method = "v1"
 
         def _method_v1(self, *args, **kwargs):
             Conversion is made here.

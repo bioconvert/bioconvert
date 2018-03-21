@@ -30,6 +30,7 @@ class NEWICK2NEXUS(ConvBase):
     """
     Converts a tree file from :term:`NEWICK` format to :term:`NEXUS` format. ::
     """
+    _default_method = 'gotree'
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -38,7 +39,6 @@ class NEWICK2NEXUS(ConvBase):
         :param str outfile: (optional) output :term:`NEXUS` file
         """
         super().__init__(infile, outfile)
-        self._default_method = 'gotree'
 
     @requires("conda")
     def _method_gotree(self, threads=None, *args, **kwargs):

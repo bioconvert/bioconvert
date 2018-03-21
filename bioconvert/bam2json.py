@@ -14,6 +14,7 @@ class BAM2JSON(ConvBase):
 
     Convert bam file to json file.
     """
+    _default_method = "bamtools"
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
@@ -21,7 +22,6 @@ class BAM2JSON(ConvBase):
         :param str outfile:
         """
         super().__init__(infile, outfile)
-        self._default_method = "bamtools"
 
     @requires("bamtools")
     def _method_bamtools(self, *args, **kwargs):

@@ -37,6 +37,7 @@ class DSRC2GZ(ConvBase):
              convert.boxplot_benchmark()
 
     """
+    _default_method = "dsrcpigz"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -46,7 +47,6 @@ class DSRC2GZ(ConvBase):
 
         """
         super(DSRC2GZ, self).__init__(infile, outfile, *args, **kargs)
-        self._default_method = "dsrcpigz"
 
     @requires("dsrc")
     def _method_dsrcpigz(self, *args, **kwargs):

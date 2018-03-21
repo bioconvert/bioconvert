@@ -32,6 +32,7 @@ class FASTA2PHYLIP(ConvBase):
     Conversion is based on Bio Python modules
 
     """
+    _default_method = 'biopython'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -41,7 +42,6 @@ class FASTA2PHYLIP(ConvBase):
         """
         super().__init__(infile, outfile)
         self.alphabet = alphabet
-        self._default_method = 'biopython'
 
     @requires(python_library="Bio")
     def _method_biopython(self, threads=None, *args, **kwargs):

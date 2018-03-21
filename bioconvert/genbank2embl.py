@@ -26,6 +26,7 @@ class GENBANK2EMBL(ConvBase):
     Some description.
 
     """
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -36,7 +37,6 @@ class GENBANK2EMBL(ConvBase):
         """
         super(GENBANK2EMBL, self).__init__(infile, outfile, *args, **kargs)
 
-        self._default_method = "biopython"
 
     @requires("squizz")
     def _method_squizz(self, *args, **kwargs):

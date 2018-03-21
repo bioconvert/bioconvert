@@ -19,6 +19,7 @@ __all__ = ["EMBL2FASTA"]
 
 class EMBL2FASTA(ConvBase):
     """Convert :term:`EMBL` file to :term:`FASTA` file"""
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -29,7 +30,6 @@ class EMBL2FASTA(ConvBase):
         """
         super(EMBL2FASTA, self).__init__(infile, outfile, *args, **kargs)
 
-        self._default_method = "biopython"
 
     # did not work on example
     @requires("squizz")

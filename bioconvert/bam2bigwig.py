@@ -31,6 +31,7 @@ class BAM2BIGWIG(ConvBase):
     Some description.
 
     """
+    _default_method = "bamCoverage"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -45,7 +46,6 @@ class BAM2BIGWIG(ConvBase):
         """
         super(BAM2BIGWIG, self).__init__(infile, outfile, *args, **kargs)
 
-        self._default_method = "bamCoverage"
 
     @requires("bamCoverage")
     def _method_bamCoverage(self, *args, **kwargs):

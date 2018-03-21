@@ -38,14 +38,7 @@ class VCF2BED(ConvBase):
         This method report an interval of 1 for SNP, the length of the insertion or the length of 
         the deleted part in case of deletion.
     """
-
-    def __init__(self, infile, outfile):
-        """
-        :param str infile: The path to the input VCF file.
-        :param str outfile: The path to the output file.
-        """
-        super().__init__(infile, outfile)
-        self._default_method = "awk"
+    _default_method = "awk"
 
     @requires("awk")
     def _method_awk(self, *args, **kwargs):

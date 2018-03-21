@@ -27,6 +27,7 @@ class SRA2FASTQ(ConvBase):
     """Converts Sra 2 Fastq(.gz) file
 
     """
+    _default_method = "sratoolkit"
 
     # If test: will take only the first 10 reads from the sra file
     def __init__(self, infile, outfile, test=False):
@@ -37,7 +38,6 @@ class SRA2FASTQ(ConvBase):
             sra-toolkit
         """
         super().__init__(infile, outfile)
-        self._default_method = "sratoolkit"
         self.test = test
 
     @requires("fastq-dump")

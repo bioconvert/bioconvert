@@ -35,6 +35,7 @@ class SAM2CRAM(ConvBase):
     This is useful for the standalone application.
 
     """
+    _default_method = "samtools"
 
     def __init__(self, infile, outfile, reference=None, *args, **kargs):
         """.. rubric:: constructor
@@ -51,7 +52,6 @@ class SAM2CRAM(ConvBase):
         """
         super(SAM2CRAM, self).__init__(infile, outfile, *args, **kargs)
 
-        self._default_method = "samtools"
 
         self.reference = reference
         if self.reference is None:

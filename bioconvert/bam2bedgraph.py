@@ -53,6 +53,7 @@ class BAM2BEDGRAPH(ConvBase):
     .. warning:: the BAM file must be sorted. This can be achieved with
         bamtools.
     """
+    _default_method = "bedtools"
 
     def __init__(self, infile, outfile):
         """
@@ -60,7 +61,6 @@ class BAM2BEDGRAPH(ConvBase):
         :param str outfile: The path to the output file
         """
         super().__init__(infile, outfile)
-        self._default_method = "bedtools"
 
 
     @requires("bedtools")

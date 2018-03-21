@@ -29,20 +29,18 @@ class VCF2BCF(ConvBase):
 
     """
 
-    def __init__(self, infile, outfile, *args, **kargs):
-        """.. rubric:: constructor
-
-        :param str infile:
-        :param str outfile:
+    @requires("bcftools")
+    def _method_bcftools(self, *args, **kwargs):
+        """
 
         command used::
 
             bcftools view -Sb
-        """
-        super(VCF2BCF, self).__init__(infile, outfile, *args, **kargs)
 
-    @requires("bcftools")
-    def _method_bcftools(self, *args, **kwargs):
+        :param args:
+        :param kwargs:
+        :return:
+        """
         # -S means ignored (input format is VCF)
         # -b output BCF instead of VCF
         #cmd = "bcftools view -Sb {} >  {}".format(self.infile, self.outfile)

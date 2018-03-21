@@ -34,6 +34,7 @@ class CLUSTAL2PHYLIP(ConvBase):
     default method = biopython
     available methods = biopython, squizz
     """
+    _default_method = 'biopython'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -43,7 +44,6 @@ class CLUSTAL2PHYLIP(ConvBase):
         """
         super().__init__(infile, outfile)
         self.alphabet = alphabet
-        self._default_method = 'biopython'
 
     @requires(python_library="Bio")
     def _method_biopython(self, threads=None):

@@ -23,6 +23,7 @@ class BAM2Fastq(ConvBase):
         there is no check that the read R1 and R2 alternates
 
     """
+    _default_method = "bamtools"
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
@@ -32,7 +33,6 @@ class BAM2Fastq(ConvBase):
             pysam (samtools)
         """
         super().__init__(infile, outfile)
-        self._default_method = "bamtools"
 
     @requires("bamtools")
     def _method_bamtools(self, *args, **kwargs):

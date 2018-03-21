@@ -61,6 +61,7 @@ class BAM2BED(ConvBase):
     .. warning:: the BED file must be sorted. This can be achieved with
         bamtools.
     """
+    _default_method = "samtools"
 
     def __init__(self, infile, outfile):
         """
@@ -68,7 +69,6 @@ class BAM2BED(ConvBase):
         :param str outfile: The path to the output file
         """
         super().__init__(infile, outfile)
-        self._default_method = "samtools"
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):

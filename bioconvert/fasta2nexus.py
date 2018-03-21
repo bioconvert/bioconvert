@@ -32,6 +32,7 @@ class FASTA2NEXUS(ConvBase):
     Conversion is based on Bio Python modules
 
     """
+    _default_method = 'goalign'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -41,7 +42,6 @@ class FASTA2NEXUS(ConvBase):
         """
         super().__init__(infile, outfile)
         self.alphabet = alphabet
-        self._default_method = 'goalign'
 
     @requires("conda")
     def _method_goalign(self, threads=None, *args, **kwargs):

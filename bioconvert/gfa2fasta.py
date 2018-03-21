@@ -44,6 +44,7 @@ class GFA2FASTA(ConvBase):
     .. seealso:: bioconvert.simulator.gfa
 
     """
+    _default_method = "python"
 
     def __init__(self, infile, outfile):
         """
@@ -51,7 +52,6 @@ class GFA2FASTA(ConvBase):
         :param str outfile: The path to the output file
         """
         super().__init__(infile, outfile)
-        self._default_method = "python"
 
     @requires("awk")
     def _method_awk(self, *args, **kwargs):

@@ -14,6 +14,7 @@ class BPLINK2PLINK(ConvBase):
     Conversion is based on plink executable
 
     """
+    _default_method = 'plink'
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -24,7 +25,6 @@ class BPLINK2PLINK(ConvBase):
         if not outfile:
             outfile = generate_outfile_name(infile, '')
         super().__init__(infile, outfile)
-        self._default_method = 'plink'
 
     @requires("plink")
     def _method_plink(self, *args, **kwargs):
