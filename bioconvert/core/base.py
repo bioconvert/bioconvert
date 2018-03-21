@@ -374,6 +374,8 @@ class ConvBase(metaclass=ConvMeta):
     def _get_default_method(self):
         if self._default_method is None:
             return self.available_methods[0]
+        elif self._default_method not in self.available_methods:
+            return self.available_methods[0]
         else:
             return self._default_method
     default = property(_get_default_method)
