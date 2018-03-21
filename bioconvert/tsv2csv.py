@@ -12,9 +12,24 @@ logger = colorlog.getLogger(__name__)
 
 
 class TSV2CSV(ConvBase):
-    """TSV2CSV converter
+    """Convert :term:`TSV` file into :term:`CSV` file
 
-    Convert tsv file to csv file.
+    Available methods:
+
+    .. plot::
+
+        from bioconvert.tsv2csv import TSV2CSV
+        from bioconvert import bioconvert_data, logger
+        from easydev import TempFile
+
+        logger.level='CRITICAL'
+        with TempFile(suffix=".csv") as fh:
+            infile = bioconvert_data("test_csv2tsv.tsv")
+            convert = TSV2CSV(infile, fh.name)
+            convert.boxplot_benchmark(N=5000)
+
+    .. seealso:: bioconvert.csv2tsv.CSV2TSV
+
     """
     _default_method = "python"
     DEFAULT_IN_SEP = '\t'
