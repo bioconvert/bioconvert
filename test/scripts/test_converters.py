@@ -1,3 +1,4 @@
+import pytest
 from easydev import TempFile
 import subprocess
 from bioconvert import bioconvert_data
@@ -77,3 +78,77 @@ def test_converter_formats():
     except:
         assert False
 
+
+def test_no_converter_specified():
+    import sys
+    sys.argv = ["bioconvert"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 2
+    except:
+        assert False
+    sys.argv = ["bioconvert", '--verbosity', 'DEBUG']
+    with pytest.raises(Exception):
+        converter.main()
+
+
+def test_version():
+    import sys
+    sys.argv = ["bioconvert", "--version"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+
+
+def test_verbose():
+    infile = bioconvert_data("test_fastq2fasta_v1.fastq")
+    with TempFile(suffix=".tt") as tempfile:
+        import sys
+        sys.argv = ["bioconvert", "-v", "CRITICAL", "fastq2fasta", infile, tempfile.name,
+                    "--force"]
+        converter.main()
+        sys.argv = ["bioconvert", "--verbosity", "CRITICAL", "fastq2fasta", infile, tempfile.name,
+                    "--force"]
+        converter.main()
+        sys.argv = ["bioconvert", "-l", "CRITICAL", "fastq2fasta", infile, tempfile.name,
+                    "--force"]
+        converter.main()
+        sys.argv = ["bioconvert", "--level", "CRITICAL", "fastq2fasta", infile, tempfile.name,
+                    "--force"]
+        converter.main()
+
+
+def test_batch():
+    infile = bioconvert_data("test_fastq2fasta_v1.fastq")
+    with TempFile(suffix=".tt") as tempfile:
+        import sys
+        sys.argv = ["bioconvert", "-m", "fastq2fasta", infile, tempfile.name,
+                    "--force"]
+        converter.main()
+
+
+def test_converter_with_nothing():
+    import sys
+    sys.argv = ["bioconvert", "fastq2fasta"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 2
+    except:
+        assert False
+
+
+def test_converter_show_methods():
+    import sys
+    sys.argv = ["bioconvert", "fastq2fasta", "--show-methods"]
+    try:
+        converter.main()
+    except SystemExit as e:
+        assert e.code == 0

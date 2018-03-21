@@ -64,11 +64,11 @@ def main(args=None):
         pass
 
     try:
-        bioconvert.logger.level = args[args.index("-l")+1]
+        bioconvert.logger.level = args[args.index("-v")+1]
     except:
         pass
     try:
-        bioconvert.logger.level = args[args.index("--level")+1]
+        bioconvert.logger.level = args[args.index("--verbosity")+1]
     except:
         pass
 
@@ -125,7 +125,8 @@ def main(args=None):
         )
         sub_parser = subparsers.add_parser(
             sub_parser_name,
-            help=help_text, formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+            help=help_text,
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter,
             # aliases=["{}_to_{}".format(in_fmt.lower(), out_fmt.lower()), ],
         )
 
@@ -160,6 +161,14 @@ def main(args=None):
 
     args = arg_parser.parse_args(args)
 
+    args.raise_exception = args.raise_exception or args.verbosity == "DEBUG"
+
+    if args.command is None:
+        msg = 'No converter specified. You can list converter by doing bioconvert --help'
+        if args.raise_exception:
+            raise Exception(msg)
+        arg_parser.error(msg)
+
     if not (args.show_methods or args.input_file):
         arg_parser.error('Either specify an input_file (<INPUT_FILE>) or ask for available methods (--show-method)')
 
@@ -180,7 +189,7 @@ def main(args=None):
         try:
             analysis(args)
         except Exception as e:
-            if args.verbosity == "DEBUG" or args.raise_exception:
+            if args.raise_exception:
                 raise e
             else:
                 bioconvert.logger.error(e)
@@ -198,6 +207,8 @@ def analysis(args):
         print(class_converter.available_methods)
         print("Please see http://bioconvert.readthedocs.io/en/master/"
               "references.html#{} for details ".format(str(class_converter).split("'")[1]))
+        if args.raise_exception:
+            return
         sys.exit(0)
 
     # Input and output filename
