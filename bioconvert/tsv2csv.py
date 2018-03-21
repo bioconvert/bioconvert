@@ -6,11 +6,6 @@ import colorlog
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires, requires_nothing
 
-try:
-    import pandas as pd
-except:
-    pass
-
 from bioconvert import ConvBase
 
 logger = colorlog.getLogger(__name__)
@@ -79,6 +74,7 @@ class TSV2CSV(ConvBase):
         do the conversion :term`TSV` -> :term:'CSV` using Panda modules
 
         """
+        import pandas as pd
         pd.read_csv(
             self.infile,
             sep=in_sep,
