@@ -50,7 +50,7 @@ class BAM2CRAM(ConvBase):
         if self.reference is None:
             logger.debug("No reference provided. Infering from input file")
             # try to find the local file replacing .sam by .fa
-            reference = infile.replace(".cram", ".fa")
+            reference = infile.replace(".bam", ".fa")
             if os.path.exists(reference):
                 logger.debug(
                     "Reference found from inference ({})".format(reference))

@@ -62,7 +62,7 @@ class CRAM2BAM(ConvBase):
             else:
                 logger.debug("No reference found.")
                 msg = "Please enter the reference corresponding "
-                msg += "to the input BAM file:"
+                msg += "to the input CRAM file:"
                 reference = input(msg)
                 if os.path.exists(reference) is False:
                     raise IOError("Reference required")
