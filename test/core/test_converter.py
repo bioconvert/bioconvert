@@ -46,8 +46,8 @@ def test_indirect_conversion_impossible():
 
 
 def test_indirect_conversion():
-    infile = bioconvert_data("fastqutils.sam")
-    with TempFile(suffix=".fasta") as fout:
+    infile = bioconvert_data("fastqutils_1.fastq")
+    with TempFile(suffix=".clustal") as fout:
         c = Bioconvert(infile, fout.name, force=True)
         c()
         c.boxplot_benchmark()
