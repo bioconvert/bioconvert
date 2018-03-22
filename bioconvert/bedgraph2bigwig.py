@@ -13,7 +13,6 @@
 ##############################################################################
 """BEDGRAPH2BIGWIG conversion """
 import os
-
 import colorlog
 from Bio import SeqIO
 
@@ -40,7 +39,7 @@ class BEDGRAPH2BIGWIG(ConvBase):
         :param str infile: input :term:`BEDGRAPH` file.
         :param str outfile: (optional) output :term:`BIGWIG` file
         """
-        super().__init__(infile, outfile)
+        super(BEDGRAPH2BIGWIG, self).__init__(infile, outfile)
 
     @requires("bedGraphToBigWig")
     def _method_ucsc(self, *args, **kwargs):

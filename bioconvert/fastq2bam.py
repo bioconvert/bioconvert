@@ -47,3 +47,9 @@ class FASTQ2BAM(ConvBase):
             cmd = "fastqutils tobam -1 {} -o {}".format(
                 self.infile, self.outfile)
         self.execute(cmd)
+
+
+#TODO: could use picard as follows:
+# picard FastqToSam FASTQ=sd_0001.fastq OUTPUT=test2.bam  READ_GROUP_NAME=test
+#     SAMPLE_NAME=test LIBRARY_NAME=sim PLATFORM=pacbio
+
