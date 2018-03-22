@@ -26,6 +26,10 @@ class SAM2BAM(ConvBase):
         samtools view -Sbh
     """
 
+    def __init__(self, infile, outfile):
+        super().__init__(infile, outfile)
+
+
     def _method_samtools(self, *args, **kwargs):
         """
         Do the conversion  sorted :term`SAM` -> :term:'BAM`
@@ -36,6 +40,7 @@ class SAM2BAM(ConvBase):
         # -S means ignored (input format is auto-detected)
         # -b means output to BAM format
         # -h means include header in SAM output
-        cmd = "samtools view -Sbh {} > {}".format(self.infile, self.outfile)
+        threads = kwargs.get("threads", 4)
+        cmd = "samtools view -Sbh -@ {} {} > {}".format(threads, self.infile, self.outfile)
         self.execute(cmd)
 
