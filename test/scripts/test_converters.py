@@ -4,8 +4,8 @@ import subprocess
 from bioconvert import bioconvert_data
 from bioconvert.scripts import converter
 
-def test_converter():
 
+def test_converter():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".bed") as tempfile:
         cmd = "bioconvert %s %s --force" % (infile, tempfile.name)
@@ -25,7 +25,7 @@ def test_converter2():
     with TempFile(suffix=".bed") as tempfile:
         import sys
         sys.argv = ["bioconvert", "bam2bed", infile, tempfile.name,
-                    "--method" , "bedtools", "--force"]
+                    "--method", "bedtools", "--force"]
         converter.main()
 
 
@@ -45,27 +45,29 @@ def test_converter_no_infile_ext():
     except:
         pass
 
+
 def test_converter_output_format():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile() as tempfile:
         import sys
         sys.argv = ["bioconvert", infile, tempfile.name,
-                    "--output-format" , "bed", "--force"]
+                    "--output-format", "bed", "--force"]
         try:
             converter.main()
         except SystemExit:
             pass
 
-def test_converter_show_methods():
-    infile = bioconvert_data("test_measles.sorted.bam")
-    with TempFile(suffix=".bed") as tempfile:
-        import sys
-        sys.argv = ["bioconvert", infile, tempfile.name, "--show-methods",
-            "--force"]
-        try:
-            converter.main()
-        except SystemExit:
-            pass
+
+# def test_converter_show_methods():
+#     infile = bioconvert_data("test_measles.sorted.bam")
+#     with TempFile(suffix=".bed") as tempfile:
+#         import sys
+#         sys.argv = ["bioconvert", infile, tempfile.name, "--show-methods",
+#             "--force"]
+#         try:
+#             converter.main()
+#         except SystemExit:
+#             pass
 
 def test_converter_formats():
     import sys
@@ -152,3 +154,20 @@ def test_converter_show_methods():
         converter.main()
     except SystemExit as e:
         assert e.code == 0
+
+
+def test_indirect_conversion():
+    import sys
+    infile = bioconvert_data("fastqutils_1.fastq")
+    with TempFile(suffix=".clustal") as tempfile:
+        sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name, "--force"]
+        # For now we want the user to explicitly indicate that (s)he agrees with an indirect conversion
+        try:
+            converter.main()
+            assert False
+        except SystemExit as e:
+            assert e.code == 2
+        except:
+            assert False
+        sys.argv = sys.argv[0:0] + ["--allow-indirect-conversion"] + sys.argv[1:]
+        converter.main()

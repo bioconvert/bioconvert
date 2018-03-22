@@ -72,6 +72,18 @@ def main(args=None):
     except:
         pass
 
+    allow_indirect_conversion = False
+    try:
+        args.index("--allow-indirect-conversion")
+        allow_indirect_conversion = True
+    except:
+        pass
+    try:
+        args.index("-a")
+        allow_indirect_conversion = True
+    except:
+        pass
+
     if "--version" in args:
         print("Bioconvert version {}".format(bioconvert.version))
         sys.exit(0)
@@ -148,16 +160,18 @@ def main(args=None):
     arg_parser.add_argument("-m", "--batch",
                             default=False, action="store_true",
                             help="for batch effect")
-
     arg_parser.add_argument("-b", "--benchmark",
                             default=False,
                             action="store_true",
                             help="Running all available methods")
-
     arg_parser.add_argument("-N", "--benchmark-N",
                             default=5,
                             type=int,
                             help="Number of trials for each methods")
+    arg_parser.add_argument("-a", "--allow-indirect-conversion",
+                            default=False,
+                            action="store_true",
+                            help="Allow to chaine converter when direct conversion is absent")
 
     args = arg_parser.parse_args(args)
 
