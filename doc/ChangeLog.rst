@@ -1,6 +1,10 @@
 Whats' new, what has changed
 ================================
 
+:Revision 0.0.13: 22 March 2018
+
+    - new converters: maf2sam
+
 
 :Revision 0.0.12:
 
