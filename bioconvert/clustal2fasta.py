@@ -30,7 +30,7 @@ class CLUSTAL2FASTA(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="Bio")
-    def _method_biopython(self, threads=None):
+    def _method_biopython(self, threads=None, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using biopython.
 
@@ -41,7 +41,7 @@ class CLUSTAL2FASTA(ConvBase):
         _log.info("Converted %d records to fasta" % count)
 
     @requires("squizz")
-    def _method_squizz(self, threads=None):
+    def _method_squizz(self, threads=None, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` file in :term:`FASTA` format using squizz tool.
 

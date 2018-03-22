@@ -47,7 +47,7 @@ class STOCKHOLM2PHYLIP(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="Bio")
-    def _method_biopython(self, threads=None):
+    def _method_biopython(self, threads=None, *args, **kwargs):
         """
         Convert :term:`STOCKHOLM` interleaved file in :term:`PHYLIP` format using biopython.
 
@@ -58,7 +58,7 @@ class STOCKHOLM2PHYLIP(ConvBase):
         _log.info("Converted %d records to phylip" % count)
 
     @requires("squizz")
-    def _method_squizz(self, threads=None):
+    def _method_squizz(self, threads=None, *args, **kwargs):
         """
         Convert :term:`STOCKHOLM` interleaved file in :term:`PHYLIP` interleaved format using squizz tool.
 
