@@ -43,12 +43,12 @@ class BAM2BIGWIG(ConvBase):
 
         """
         super(BAM2BIGWIG, self).__init__(infile, outfile, *args, **kargs)
-
         self._default_method = "bamCoverage"
 
     def _method_bamCoverage(self, *args, **kwargs):
         """run bam2bigwig from deeptools package"""
-        cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {}".format(self.infile, self.outfile)
+        cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {}".format(
+                self.infile, self.outfile)
         self.execute(cmd)
 
     def _method_ucsc(self, *args, **kwargs):
