@@ -36,6 +36,7 @@ extensions = {
     'twobit': ['2bit'],                         # sequence
     'tsv': ["tsv"],
     'yaml': ['yaml', 'YAML'],                   # misc
+    'maf': ["maf"]                              # !! this is MIRA format, not mutation alignment format
 }
 
 extensions = AttrDict(**extensions)
