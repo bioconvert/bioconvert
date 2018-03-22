@@ -16,7 +16,7 @@ import argparse
 import sys
 
 import bioconvert
-from bioconvert import extensions
+from bioconvert import ConvBase
 from bioconvert.core.base import ConvMeta
 from bioconvert.core.converter import Bioconvert
 from bioconvert.core.registry import Registry
@@ -49,26 +49,25 @@ class ConvAction(argparse.Action):
 
 
 def main(args=None):
-
     if args is None:
         args = sys.argv[1:]
-    
-    #Changing the log level before argparse is run
+
+    # Changing the log level before argparse is run
     try:
-        bioconvert.logger.level = args[args.index("-l")+1]
+        bioconvert.logger.level = args[args.index("-l") + 1]
     except:
         pass
     try:
-        bioconvert.logger.level = args[args.index("--level")+1]
+        bioconvert.logger.level = args[args.index("--level") + 1]
     except:
         pass
 
     try:
-        bioconvert.logger.level = args[args.index("-v")+1]
+        bioconvert.logger.level = args[args.index("-v") + 1]
     except:
         pass
     try:
-        bioconvert.logger.level = args[args.index("--verbosity")+1]
+        bioconvert.logger.level = args[args.index("--verbosity") + 1]
     except:
         pass
 
@@ -88,8 +87,7 @@ def main(args=None):
         print("Bioconvert version {}".format(bioconvert.version))
         sys.exit(0)
 
-
-    from easydev.console import purple, underline
+    from easydev.console import purple
     if "-v" in args or "--verbosity" in args:
         print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
 
@@ -126,14 +124,22 @@ def main(args=None):
 """)
     registry = Registry()
     subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )
-    max_converter_width = 2 + max([len(in_fmt) for in_fmt, out_fmt, converter in registry.iter_converters()])
-    for in_fmt, out_fmt, converter in registry.iter_converters():
+    max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
+    for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
         sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
-        methods = converter.available_methods
+        # methods = converter.available_methods if converter else []
+        help_details = ""
+        if converter:
+            if len(converter.available_methods) <= 1:
+                help_details = ""
+            else:
+                help_details = " (%i methods)" % len(converter.available_methods)
+        elif path:
+            help_details = " (%i steps)" % (len(path) - 1)
         help_text = 'to convert %sinto--> %s%s' % (
             (in_fmt + ' ').ljust(max_converter_width, '-'),
             out_fmt,
-            "" if len(methods) <= 1 else " (%i methods)" % len(methods),
+            help_details,
         )
         sub_parser = subparsers.add_parser(
             sub_parser_name,
@@ -142,7 +148,11 @@ def main(args=None):
             # aliases=["{}_to_{}".format(in_fmt.lower(), out_fmt.lower()), ],
         )
 
-        converter.add_argument_to_parser(sub_parser=sub_parser)
+        if converter:
+            converter.add_argument_to_parser(sub_parser=sub_parser)
+        elif path:
+            for a in ConvBase.get_common_arguments():
+                a.add_to_sub_parser(sub_parser)
 
     arg_parser.add_argument("-F", "--formats",
                             action=ConvAction,
@@ -183,12 +193,11 @@ def main(args=None):
             raise Exception(msg)
         arg_parser.error(msg)
 
-    if not (args.show_methods or args.input_file):
+    if not (getattr(args, "show_methods", False) or args.input_file):
         arg_parser.error('Either specify an input_file (<INPUT_FILE>) or ask for available methods (--show-method)')
 
     # Set the logging level
     bioconvert.logger.level = args.verbosity
-
 
     # Figure out whether we have several input files or not
     # Are we in batch mode ?
@@ -211,12 +220,11 @@ def main(args=None):
 
 
 def analysis(args):
-
     print(vars(args))
     in_fmt, out_fmt = ConvMeta.split_converter_to_extensions(args.command)
 
     # do we want to know the available methods ? If so, print info and quite
-    if args.show_methods:
+    if getattr(args, "show_methods", False):
         class_converter = Registry()[(in_fmt, out_fmt)]
         print(class_converter.available_methods)
         print("Please see http://bioconvert.readthedocs.io/en/master/"
@@ -268,7 +276,6 @@ def analysis(args):
 
     # params = {"threads": args.threads}
 
-
     if args.benchmark:
         conv.boxplot_benchmark(N=args.benchmark_N)
         import pylab
@@ -277,8 +284,6 @@ def analysis(args):
         # params["method"] = args.method
         conv(**vars(args))
 
+
 if __name__ == "__main__":
     main()
-
-
-

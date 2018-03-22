@@ -22,7 +22,6 @@ import bioconvert
 
 _log = colorlog.getLogger(__name__)
 
-
 __all__ = ['Registry']
 
 
@@ -41,6 +40,7 @@ class Registry(object):
         converter.convert()
 
     """
+
     def __init__(self):
         # self._ext_registry = {}
         self._fmt_registry = {}
@@ -56,6 +56,7 @@ class Registry(object):
 
         :param str path: the path of a directory to explore (not recursive)
         """
+
         def is_converter(item):
             """Check if a module is a converter"""
             obj_name, obj = item
@@ -88,9 +89,9 @@ class Registry(object):
                         # for format_pair in all_format_pair:
                         #     self[format_pair] = converter
                         format_pair = (converter.input_fmt, converter.output_fmt)
-                        if len(converter.available_methods)==0:
+                        if len(converter.available_methods) == 0:
                             _log.warning("converter '%s' for %s -> %s was not added as no method is available",
-                                       converter_name, *format_pair)
+                                         converter_name, *format_pair)
                         else:
                             _log.debug("add converter '%s' for %s -> %s",
                                        converter_name, *format_pair)
@@ -203,8 +204,7 @@ class Registry(object):
         out_fmt = out_fmt.upper()
         return self._fmt_registry((in_fmt, out_fmt))
 
-
-    def iter_converters(self):
+    def iter_converters(self, allow_indirect=False):
         """
 
         :param str in_fmt: the format of the input
@@ -212,6 +212,16 @@ class Registry(object):
         :return: a generator to iterate over (in_fmt, out_fmt, converter class)
         :rtype: a generator
         """
-        for conv, converter in self._fmt_registry.items():
-            in_fmt, out_fmt = conv
-            yield in_fmt, out_fmt, converter
+        # if allow_indirect:
+        for start, stops in self._path_dict.items():
+            for stop, path in stops.items():
+                if len(path) == 1:
+                    pass
+                elif len(path) == 2:
+                    yield start, stop, self._fmt_registry[(start, stop)], None
+                elif allow_indirect:
+                    yield start, stop, None, path
+        #     return
+        # for conv, converter in self._fmt_registry.items():
+        #     in_fmt, out_fmt = conv
+        #     yield in_fmt, out_fmt, converter, None

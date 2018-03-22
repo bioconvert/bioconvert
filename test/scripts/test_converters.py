@@ -156,7 +156,7 @@ def test_converter_show_methods():
         assert e.code == 0
 
 
-def test_indirect_conversion():
+def test_indirect_conversion_without_argument():
     import sys
     infile = bioconvert_data("fastqutils_1.fastq")
     with TempFile(suffix=".clustal") as tempfile:
@@ -169,5 +169,11 @@ def test_indirect_conversion():
             assert e.code == 2
         except:
             assert False
-        sys.argv = sys.argv[0:0] + ["--allow-indirect-conversion"] + sys.argv[1:]
+
+
+def test_indirect_conversion():
+    import sys
+    infile = bioconvert_data("fastqutils_1.fastq")
+    with TempFile(suffix=".clustal") as tempfile:
+        sys.argv = ["bioconvert", "--allow-indirect-conversion", "-l", "DEBUG", "fastq2clustal", infile, tempfile.name, "--force"]
         converter.main()

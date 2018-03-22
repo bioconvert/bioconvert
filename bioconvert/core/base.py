@@ -403,7 +403,7 @@ class ConvBase(metaclass=ConvMeta):
     @classmethod
     def add_argument_to_parser(cls, sub_parser):
         sub_parser.description = cls.get_description()
-        for arg in itertools.chain(cls.get_common_arguments(), cls.get_additional_arguments()):
+        for arg in itertools.chain(cls.get_common_arguments_for_converter(), cls.get_additional_arguments()):
             arg.add_to_sub_parser(sub_parser)
 
     @classmethod
@@ -414,8 +414,8 @@ class ConvBase(metaclass=ConvMeta):
     def get_additional_arguments(cls):
         return []
 
-    @classmethod
-    def get_common_arguments(cls):
+    @staticmethod
+    def get_common_arguments():
         yield ConvArg(
             names="input_file",
             nargs="?",
@@ -428,18 +428,16 @@ class ConvBase(metaclass=ConvMeta):
             default=None,
             help="The path where the result will be stored.",
         )
-        # yield ConvArg(
-        #     names=["-i", "--input-format", ],
-        #     nargs="?",
-        #     default=None,
-        #     help="Provide the input format. Check the --formats to see valid input name",
-        # )
-        # yield ConvArg(
-        #     names=["-o", "--output-format", ],
-        #     nargs="?",
-        #     default=None,
-        #     help="Provide the output format. Check the --formats to see valid input name",
-        # )
+        yield ConvArg(
+            names=["-f", "--force", ],
+            action="store_true",
+            help="if outfile exists, it is overwritten with this option",
+        )
+
+    @classmethod
+    def get_common_arguments_for_converter(cls):
+        for a in ConvBase.get_common_arguments():
+            yield a
         try:
             #Some converter does not have any method and work in __call__, so preventing to crash by searching for them
             yield ConvArg(
@@ -452,11 +450,6 @@ class ConvBase(metaclass=ConvMeta):
         except Exception as e:
             _log.warning("converter '{}' does not seems to have methods: {}".format(cls.__name__, e))
             pass
-        yield ConvArg(
-            names=["-f", "--force", ],
-            action="store_true",
-            help="if outfile exists, it is overwritten with this option",
-        )
         yield ConvArg(
             names=["-s", "--show-methods", ],
             default=False,
