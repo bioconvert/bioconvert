@@ -38,7 +38,7 @@ class BEDGRAPH2BIGWIG(ConvBase):
         :param str infile: input :term:`BEDGRAPH` file.
         :param str outfile: (optional) output :term:`BIGWIG` file
         """
-        super().__init__(infile, outfile)
+        super(BEDGRAPH2BIGWIG).__init__(infile, outfile)
         self._default_method = 'ucsc'
 
     def _method_ucsc(self, *args, **kwargs):
