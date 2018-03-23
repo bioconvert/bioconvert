@@ -22,6 +22,7 @@ from bioconvert.core.shell import shell
 
 _log = colorlog.getLogger(__name__)
 
+
 def in_gz(func):
     """Marks a function as accepting gzipped input."""
     func.in_gz = True
@@ -31,11 +32,13 @@ def in_gz(func):
 def make_in_gz_tester(converter):
     """Generates a function testing whether a conversion method of *converter*
     has the *in_gz* tag."""
+
     def is_in_gz(method):
         """Accesses the function corresponding to *method* and tells whether it
         has the *in_gz* tag."""
         return hasattr(getattr(
             converter, "_method_{}".format(method)), "in_gz")
+
     return is_in_gz
 
 
@@ -47,6 +50,7 @@ def compressor(func):
 
     This decorator should be used by method that uses pure python code
     """
+
     # https://stackoverflow.com/a/309000/1878788
     @wraps(func)
     def wrapped(inst, *args, **kwargs):
@@ -93,6 +97,7 @@ def compressor(func):
                 inst.threads, inst.outfile, inst.outfile))
             inst.outfile = inst.outfile + ".dsrc"
         return results
+
     return in_gz(wrapped)
 
 
@@ -101,6 +106,7 @@ def out_compressor(func):
 
     This decorator should be used by method that uses pure python code
     """
+
     # https://stackoverflow.com/a/309000/1878788
     @wraps(func)
     def wrapped(inst, *args, **kwargs):
@@ -163,6 +169,11 @@ def requires(
     if python_library:
         python_libraries.append(python_library)
 
+    __missing_binaries = getattr(requires, "__missing_binaries", {})
+    requires.__missing_binaries = __missing_binaries
+    __missing_libraries = getattr(requires, "__missing_libraries", {})
+    requires.__missing_libraries = __missing_libraries
+
     def real_decorator(function):
         @wraps(function)
         def wrapped(inst, *args, **kwargs):
@@ -170,9 +181,21 @@ def requires(
 
         try:
             for bin in external_binaries:
-                shell("which %s" % bin)
+                try:
+                    if __missing_binaries[bin]:
+                        raise Exception("{} has already be seen as missing".format(bin))
+                except KeyError:
+                    __missing_binaries[bin] = False
+                    shell("which %s" % bin)
+                    __missing_binaries[bin] = True
             for lib in python_libraries:
-                __import__(lib)
+                try:
+                    if __missing_libraries[lib]:
+                        raise Exception("{} has already be seen as missing".format(lib))
+                except KeyError:
+                    __missing_libraries[lib] = False
+                    __import__(lib)
+                    __missing_libraries[lib] = True
             wrapped.is_disabled = False
         except Exception as e:
             _log.debug(e)
