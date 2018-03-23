@@ -125,7 +125,7 @@ def main(args=None):
     registry = Registry()
     subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
-    for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
+    for in_fmt, out_fmt, converter, path in registry.iter_converters(True):
         sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
         # methods = converter.available_methods if converter else []
         help_details = ""
@@ -135,8 +135,11 @@ def main(args=None):
             else:
                 help_details = " (%i methods)" % len(converter.available_methods)
         elif path:
-            help_details = " (%i steps)" % (len(path) - 1)
-        help_text = 'to convert %sinto--> %s%s' % (
+            if len(path) == 3:
+                help_details = " (w/ 1 intermediate)"
+            else:
+                help_details = " (w/ %i intermediates)" % (len(path) - 2)
+        help_text = '%sto-> %s%s' % (
             (in_fmt + ' ').ljust(max_converter_width, '-'),
             out_fmt,
             help_details,
@@ -195,6 +198,10 @@ def main(args=None):
 
     if not (getattr(args, "show_methods", False) or args.input_file):
         arg_parser.error('Either specify an input_file (<INPUT_FILE>) or ask for available methods (--show-method)')
+
+    if not args.allow_indirect_conversion and ConvMeta.split_converter_to_extensions(args.command) not in registry:
+        arg_parser.error('The conversion %s is not available directly, you have to accept that we chain converter to do'
+                         ' so (--allow-indirect-conversion or -a)' % args.command)
 
     # Set the logging level
     bioconvert.logger.level = args.verbosity
