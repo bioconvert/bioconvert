@@ -31,7 +31,7 @@ def create_graph(filename, layout="dot", use_singularity=False):
 
     try:
         if filename.endswith(".dot") or use_singularity is True:
-            raise
+            raise Exception()
         from pygraphviz import AGraph
         dg = AGraph(directed=True)
 
