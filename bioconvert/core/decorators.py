@@ -12,13 +12,12 @@
 #
 ##############################################################################
 """Provides a general tool to perform pre/post compression"""
+from distutils.spawn import find_executable
 from functools import wraps
 from os.path import splitext
-from easydev import TempFile
 
 import colorlog
-
-from bioconvert.core.shell import shell
+from easydev import TempFile
 
 _log = colorlog.getLogger(__name__)
 
@@ -185,17 +184,19 @@ def requires(
                     if __missing_binaries[bin]:
                         raise Exception("{} has already be seen as missing".format(bin))
                 except KeyError:
-                    __missing_binaries[bin] = False
-                    shell("which %s" % bin)
                     __missing_binaries[bin] = True
+                    # shell("which %s" % bin)
+                    if find_executable(bin) is None:
+                        raise Exception("{} was not found in path".format(bin))
+                    __missing_binaries[bin] = False
             for lib in python_libraries:
                 try:
                     if __missing_libraries[lib]:
                         raise Exception("{} has already be seen as missing".format(lib))
                 except KeyError:
-                    __missing_libraries[lib] = False
-                    __import__(lib)
                     __missing_libraries[lib] = True
+                    __import__(lib)
+                    __missing_libraries[lib] = False
             wrapped.is_disabled = False
         except Exception as e:
             _log.debug(e)
