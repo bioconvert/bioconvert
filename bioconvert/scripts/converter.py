@@ -51,6 +51,8 @@ class ConvAction(argparse.Action):
 def main(args=None):
     if args is None:
         args = sys.argv[1:]
+    #Set the default level
+    bioconvert.logger.level = "ERROR"
 
     # Changing the log level before argparse is run
     try:
@@ -125,7 +127,7 @@ def main(args=None):
     registry = Registry()
     subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
-    for in_fmt, out_fmt, converter, path in registry.iter_converters(True):
+    for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
         sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
         # methods = converter.available_methods if converter else []
         help_details = ""
@@ -168,7 +170,7 @@ def main(args=None):
                             action="store_true",
                             help="Let exception ending the execution be raised and displayed")
     arg_parser.add_argument("-l", "--level", dest="verbosity",
-                            default="INFO",
+                            default=bioconvert.logger.level,
                             help="same as --verbosity")
     arg_parser.add_argument("-m", "--batch",
                             default=False, action="store_true",
@@ -184,7 +186,7 @@ def main(args=None):
     arg_parser.add_argument("-a", "--allow-indirect-conversion",
                             default=False,
                             action="store_true",
-                            help="Allow to chaine converter when direct conversion is absent")
+                            help="Allow to chain converter when direct conversion is absent")
 
     args = arg_parser.parse_args(args)
 
