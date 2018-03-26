@@ -23,6 +23,7 @@ def test_stockholm2clustal_biopython():
 
 
 @skiptravis
+@pytest.mark.skipif(STOCKHOLM2CLUSTAL._method_squizz.is_disabled, reason="missing dependencies")
 def test_stockholm2clustal_squizz():
     infile = bioconvert_data("squizz.stockholm")
     outfile = bioconvert_data("squizz.clustal")

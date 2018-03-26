@@ -1,9 +1,13 @@
 import os
 import subprocess
+
+import pytest
+from easydev import TempFile
+
 from bioconvert.dsrc2gz import DSRC2GZ
-from easydev import TempFile, md5
 
 
+@pytest.mark.skipif(len(DSRC2GZ.available_methods) == 0, reason="missing dependencies")
 def test_gz2dsrc():
     """
     Test that fastq gz file is converted as expected to a fastq .dsrc file
@@ -26,5 +30,3 @@ def test_gz2dsrc():
 
         # Check that the output is correct with a checksum
         assert res == "d41d8cd98f00b204e9800998ecf8427e"
-
-

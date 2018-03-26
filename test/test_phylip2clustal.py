@@ -22,6 +22,7 @@ def test_phylip2clustal_biopython():
 
 
 @skiptravis
+@pytest.mark.skipif(PHYLIP2CLUSTAL._method_squizz.is_disabled, reason="missing dependencies")
 def test_phylip2clustal_squizz():
     infile = bioconvert_data("squizz.phylip")
     outfile = bioconvert_data("squizz.clustal")

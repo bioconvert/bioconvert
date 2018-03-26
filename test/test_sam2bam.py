@@ -1,8 +1,11 @@
-from bioconvert.sam2bam import SAM2BAM
-from bioconvert import bioconvert_data
+import pytest
 from easydev import TempFile, md5
 
+from bioconvert import bioconvert_data
+from bioconvert.sam2bam import SAM2BAM
 
+
+@pytest.mark.skipif(len(SAM2BAM.available_methods) == 0, reason="missing dependencies")
 def test_conv():
     infile = bioconvert_data("test_measles.sam")
     outfile = bioconvert_data("test_measles.bam")

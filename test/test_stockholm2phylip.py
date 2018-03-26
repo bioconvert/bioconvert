@@ -1,15 +1,10 @@
-import os
 import pytest
 from easydev import TempFile, md5
 
 from bioconvert import bioconvert_data
 from bioconvert.stockholm2phylip import STOCKHOLM2PHYLIP
 
-#skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
-#                                and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
-#
 
-#@skiptravis
 def test_stockholm2phylip_biopython():
     infile = bioconvert_data("biopython.stockholm")
     outfile = bioconvert_data("biopython.phylip")
@@ -21,7 +16,7 @@ def test_stockholm2phylip_biopython():
         assert md5(tempfile.name) == md5(outfile)
 
 
-#@skiptravis
+@pytest.mark.skipif(STOCKHOLM2PHYLIP._method_squizz.is_disabled, reason="missing dependencies")
 def test_stockholm2phylip_squizz():
     infile = bioconvert_data("squizz.stockholm")
     outfile = bioconvert_data("squizz.phylip")

@@ -21,6 +21,7 @@ def test_clustal2phylip_biopython():
         assert md5(tempfile.name) == md5(outfile)
 
 @skiptravis
+@pytest.mark.skipif(CLUSTAL2PHYLIP._method_squizz.is_disabled, reason="missing dependencies")
 def test_clustal2phylip_squizz():
     infile = bioconvert_data("squizz.clustal")
     outfile = bioconvert_data("squizz.phylip")

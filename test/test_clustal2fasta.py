@@ -22,6 +22,7 @@ def test_clustal2fasta_biopython():
 
 
 @skiptravis
+@pytest.mark.skipif(CLUSTAL2FASTA._method_squizz.is_disabled, reason="missing dependencies")
 def test_clustal2fasta_squizz():
     infile = bioconvert_data("squizz.clustal")
     outfile = bioconvert_data("squizz.fasta")
