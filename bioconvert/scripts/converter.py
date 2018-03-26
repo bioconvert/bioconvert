@@ -271,7 +271,7 @@ def analysis(args):
     infile = args.input_file
     if args.output_file is None and infile:
         outext = ConvMeta.split_converter_to_extensions(args.command)
-        outfile = infile.rsplit(".", 1)[0] + "." + outext
+        outfile = infile.rsplit(".", 1)[0] + "." + outext[1]
     else:
         outfile = args.output_file
 
