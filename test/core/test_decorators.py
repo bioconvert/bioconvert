@@ -7,15 +7,17 @@ def test_require_binaries():
 
     g = requires(external_binary="mv")(f)
     assert g.is_disabled is False
-    #test cache now
+    # test cache now
     g = requires(external_binary="mv")(f)
     assert g.is_disabled is False
     g = requires(external_binaries=["ls", ])(f)
     assert g.is_disabled is False
+    g = requires(external_binaries=["ls", "mv", ])(f)
+    assert g.is_disabled is False
 
     g = requires(external_binary="tagada1")(f)
     assert g.is_disabled
-    #test cache now
+    # test cache now
     g = requires(external_binary="tagada1")(f)
     assert g.is_disabled
     g = requires(external_binaries=["rm", "tagada2"])(f)
@@ -28,15 +30,17 @@ def test_require_libraries():
 
     g = requires(python_library="csv")(f)
     assert g.is_disabled is False
-    #test cache now
+    # test cache now
     g = requires(python_library="csv")(f)
     assert g.is_disabled is False
     g = requires(python_libraries=["sys", ])(f)
     assert g.is_disabled is False
+    g = requires(python_libraries=["sys", "csv", ])(f)
+    assert g.is_disabled is False
 
     g = requires(python_library="tagada3")(f)
     assert g.is_disabled
-    #test cache now
+    # test cache now
     g = requires(python_library="tagada3")(f)
     assert g.is_disabled
     g = requires(python_libraries=["os", "tagada4"])(f)
