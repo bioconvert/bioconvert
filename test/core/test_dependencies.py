@@ -4,8 +4,7 @@ import os
 
 from bioconvert.core.decorators import requires, get_known_dependencies_with_availability
 
-skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ and
-                                os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
+skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ, reason="On travis")
 
 
 ### AUTOMATICALLY GENERATED TESTS (START)
