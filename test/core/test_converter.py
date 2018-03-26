@@ -4,7 +4,11 @@ from easydev import TempFile
 
 import pytest
 
+from bioconvert.bam2fasta import BAM2Fasta
+from bioconvert.gz2bz2 import GZ2BZ2
 
+
+@pytest.mark.skipif(len(BAM2Fasta.available_methods) == 0, reason="missing dependencies")
 def test_bioconvert():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".fasta") as fout:
@@ -31,6 +35,7 @@ def test_bioconvert_dsrc_only_for_fastq():
             Bioconvert(fin.name, fout.name, force=True)
 
 
+@pytest.mark.skipif(len(GZ2BZ2.available_methods) == 0, reason="missing dependencies")
 def test_bioconvert_decompression_compression_mode():
     infile = bioconvert_data("fastqutils_1.fastq.gz")
     with TempFile(suffix=".fastq.bz2") as fout:
