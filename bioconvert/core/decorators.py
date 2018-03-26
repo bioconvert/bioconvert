@@ -204,3 +204,27 @@ def requires(
         return wrapped
 
     return real_decorator
+
+
+def get_known_dependencies_with_availability(as_dict=False):
+    if as_dict:
+        external_binaries = {}
+        python_libraries = {}
+        for binary, missing in getattr(requires, "__missing_binaries", {}).items():
+            external_binaries[binary] = dict(
+                available=not missing,
+            )
+        for library, missing in getattr(requires, "__missing_libraries", {}).items():
+            python_libraries[library] = dict(
+                available=not missing,
+            )
+        return dict(
+            external_binaries=external_binaries,
+            python_libraries=python_libraries,
+        )
+    ret = []
+    for binary, status in sorted(getattr(requires, "__missing_binaries", {}).items()):
+        ret.append((binary, not status, "binary",))
+    for library, status in sorted(getattr(requires, "__missing_libraries", {}).items()):
+        ret.append((library, not status, "library",))
+    return ret

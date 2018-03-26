@@ -13,12 +13,14 @@
 ##############################################################################
 """.. rubric:: Standalone application dedicated to conversion"""
 import argparse
+import json
 import sys
 
 import bioconvert
 from bioconvert import ConvBase
 from bioconvert.core.base import ConvMeta
 from bioconvert.core.converter import Bioconvert
+from bioconvert.core.decorators import get_known_dependencies_with_availability
 from bioconvert.core.registry import Registry
 
 
@@ -48,10 +50,29 @@ class ConvAction(argparse.Action):
         sys.exit(0)
 
 
+class GetKnownDependenciesAction(argparse.Action):
+
+    def __init__(self,
+                 option_strings,
+                 dest=argparse.SUPPRESS,
+                 default=argparse.SUPPRESS,
+                 help=None):
+        super(GetKnownDependenciesAction, self).__init__(option_strings=option_strings,
+                                                         dest=dest,
+                                                         default=default,
+                                                         nargs=0,
+                                                         help=help)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        Registry()
+        print(json.dumps(get_known_dependencies_with_availability(as_dict=True), sort_keys=True, indent=4))
+        sys.exit(0)
+
+
 def main(args=None):
     if args is None:
         args = sys.argv[1:]
-    #Set the default level
+    # Set the default level
     bioconvert.logger.level = "ERROR"
 
     # Changing the log level before argparse is run
@@ -187,6 +208,10 @@ def main(args=None):
                             default=False,
                             action="store_true",
                             help="Allow to chain converter when direct conversion is absent")
+    arg_parser.add_argument("--dependency-report",
+                            action=GetKnownDependenciesAction,
+                            default=False,
+                            help="Output all dependencies in json and exit")
 
     args = arg_parser.parse_args(args)
 
