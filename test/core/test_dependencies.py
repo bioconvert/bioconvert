@@ -155,6 +155,9 @@ def test_require_sys():
 
 
 def test_require_all_and_print_test():
+    known_missing_dependencies = ["tagada%i" % i for i in range(10)]
+    known_missing_dependencies.append("plink")
+
     assert type(get_known_dependencies_with_availability(as_dict=True)) == dict
 
     print("""
@@ -162,7 +165,7 @@ def test_require_all_and_print_test():
 """)
     for d, s, t in get_known_dependencies_with_availability():
         if d[0:6] != "tagada":
-            if d == "plink":
+            if d in known_missing_dependencies:
                 print("@skiptravis")
             print("""def test_require_{}():
     assert requires({}="{}")(object()).is_disabled is False
@@ -171,5 +174,4 @@ def test_require_all_and_print_test():
     print("""### AUTOMATICALLY GENERATED TESTS (END)
 """)
     for d, s, t in get_known_dependencies_with_availability():
-        if d[0:6] == "tagada":
-            assert s
+        assert d in known_missing_dependencies or s
