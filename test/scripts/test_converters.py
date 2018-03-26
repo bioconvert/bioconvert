@@ -110,6 +110,18 @@ def test_version():
         assert False
 
 
+def test_dependency_report():
+    import sys
+    sys.argv = ["bioconvert", "--dependency-report"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+
+
 def test_verbose():
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
     with TempFile(suffix=".tt") as tempfile:
