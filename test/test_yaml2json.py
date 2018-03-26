@@ -1,11 +1,8 @@
 from bioconvert.yaml2json import YAML2JSON
 from bioconvert import bioconvert_data
 from easydev import TempFile, md5
-import pytest
-import os
 
-skiptravis = pytest.mark.skipif( "TRAVIS_PYTHON_VERSION" in os.environ and 
-    os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
+from test.decorators_for_tests import skiptravis
 
 
 @skiptravis

@@ -1,7 +1,10 @@
 import re
 
 from bioconvert.core.decorators import requires, get_known_dependencies_with_availability
+from test.decorators_for_tests import skiptravis
 
+
+### AUTOMATICALLY GENERATED TESTS (START)
 
 def test_require_awk():
     assert requires(external_binary="awk")(object()).is_disabled is False
@@ -75,6 +78,7 @@ def test_require_pigz():
     assert requires(external_binary="pigz")(object()).is_disabled is False
 
 
+@skiptravis
 def test_require_plink():
     assert requires(external_binary="plink")(object()).is_disabled is False
 
@@ -147,15 +151,25 @@ def test_require_sys():
     assert requires(python_library="sys")(object()).is_disabled is False
 
 
+### AUTOMATICALLY GENERATED TESTS (END)
+
+
 def test_require_all_and_print_test():
     assert type(get_known_dependencies_with_availability(as_dict=True)) == dict
 
+    print("""
+### AUTOMATICALLY GENERATED TESTS (START)
+""")
     for d, s, t in get_known_dependencies_with_availability():
         if d[0:6] != "tagada":
-            print("""
-def test_require_{}():
+            if d == "plink":
+                print("@skiptravis")
+            print("""def test_require_{}():
     assert requires({}="{}")(object()).is_disabled is False
+
 """.format(re.sub('[^a-zA-Z0-9]', "_", d), "external_binary" if t == "binary" else "python_library", d))
+    print("""### AUTOMATICALLY GENERATED TESTS (END)
+""")
     for d, s, t in get_known_dependencies_with_availability():
         if d[0:6] == "tagada":
             assert s
