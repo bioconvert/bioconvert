@@ -20,9 +20,8 @@ def test_converter():
         assert md5(tempfile1.name) == md5(tempfile2.name)
 
 
+@pytest.mark.skipif(BAM2BED._method_bedtools.is_disabled, reason="missing dependencies")
 def test_converter2():
-    if BAM2BED._method_bedtools.is_disabled:
-        return
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".bed") as tempfile:
         import sys
@@ -33,19 +32,10 @@ def test_converter2():
 
 def test_converter_no_outfile():
     infile = bioconvert_data("test_measles.sorted.bam")
-    try:
-        sys.argv = ["bioconvert", infile]
-        converter.main()
-    except:
-        pass
-
-
-def test_converter_no_infile_ext():
-    try:
-        sys.argv = ["bioconvert", "test_without_ext", "--input-format", "bam"]
-        converter.main()
-    except:
-        pass
+    import sys, os
+    sys.argv = ["bioconvert", "--raise-exception", "bam2sam", infile, "--force"]
+    converter.main()
+    os.remove(infile[:-3] + "sam")
 
 
 def test_converter_output_format():
@@ -59,17 +49,6 @@ def test_converter_output_format():
         except SystemExit:
             pass
 
-
-# def test_converter_show_methods():
-#     infile = bioconvert_data("test_measles.sorted.bam")
-#     with TempFile(suffix=".bed") as tempfile:
-#         import sys
-#         sys.argv = ["bioconvert", infile, tempfile.name, "--show-methods",
-#             "--force"]
-#         try:
-#             converter.main()
-#         except SystemExit:
-#             pass
 
 def test_converter_formats():
     import sys
