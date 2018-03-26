@@ -77,6 +77,30 @@ def test_no_converter_specified():
         converter.main()
 
 
+def test_not_existing_param():
+    import sys
+    sys.argv = ["bioconvert", "--tagada"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 2
+    except:
+        assert False
+
+
+def test_not_existing_subcommand():
+    import sys
+    sys.argv = ["bioconvert", "bam2tagada", "--help"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 2
+    except:
+        assert False
+
+
 def test_version():
     import sys
     sys.argv = ["bioconvert", "--version"]
