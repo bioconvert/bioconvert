@@ -1,26 +1,28 @@
-import pytest
-from easydev import TempFile
 import subprocess
+
+import pytest
+from easydev import TempFile, md5
+
 from bioconvert import bioconvert_data
+from bioconvert.bam2bed import BAM2BED
 from bioconvert.scripts import converter
 
 
 def test_converter():
     infile = bioconvert_data("test_measles.sorted.bam")
-    with TempFile(suffix=".bed") as tempfile:
-        cmd = "bioconvert %s %s --force" % (infile, tempfile.name)
-        subprocess.Popen(cmd, shell=True)
-
-
-def test_converter1():
-    infile = bioconvert_data("test_measles.sorted.bam")
-    with TempFile(suffix=".bed") as tempfile:
+    with TempFile(suffix=".sam") as tempfile1, TempFile(suffix=".sam") as tempfile2:
+        cmd = "bioconvert bam2sam %s %s --force" % (infile, tempfile1.name)
+        p = subprocess.Popen(cmd, shell=True)
+        assert p.wait() == 0
         import sys
-        sys.argv = ["bioconvert", "bam2bed", infile, tempfile.name, "--force"]
+        sys.argv = ["bioconvert", "bam2sam", infile, tempfile2.name, "--force"]
         converter.main()
+        assert md5(tempfile1.name) == md5(tempfile2.name)
 
 
 def test_converter2():
+    if BAM2BED._method_bedtools.is_disabled:
+        return
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".bed") as tempfile:
         import sys
@@ -175,5 +177,6 @@ def test_indirect_conversion():
     import sys
     infile = bioconvert_data("fastqutils_1.fastq")
     with TempFile(suffix=".clustal") as tempfile:
-        sys.argv = ["bioconvert", "--allow-indirect-conversion", "-l", "DEBUG", "fastq2clustal", infile, tempfile.name, "--force"]
+        sys.argv = ["bioconvert", "--allow-indirect-conversion", "-l", "DEBUG", "fastq2clustal", infile, tempfile.name,
+                    "--force"]
         converter.main()
