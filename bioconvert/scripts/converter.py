@@ -180,34 +180,6 @@ def main(args=None):
             for a in ConvBase.get_common_arguments():
                 a.add_to_sub_parser(sub_parser)
 
-    arg_parser.add_argument("-F", "--formats",
-                            action=ConvAction,
-                            default=False,
-                            help="Display available formats and exit.")
-    arg_parser.add_argument("-v", "--verbosity",
-                            default="INFO",
-                            help="Set the outpout verbosity. Should be one of DEBUG, INFO, WARNING, ERROR, CRITICAL")
-    arg_parser.add_argument("--raise-exception",
-                            action="store_true",
-                            help="Let exception ending the execution be raised and displayed")
-    arg_parser.add_argument("-l", "--level", dest="verbosity",
-                            default=bioconvert.logger.level,
-                            help="same as --verbosity")
-    arg_parser.add_argument("-m", "--batch",
-                            default=False, action="store_true",
-                            help="for batch effect")
-    arg_parser.add_argument("-b", "--benchmark",
-                            default=False,
-                            action="store_true",
-                            help="Running all available methods")
-    arg_parser.add_argument("-N", "--benchmark-N",
-                            default=5,
-                            type=int,
-                            help="Number of trials for each methods")
-    arg_parser.add_argument("-a", "--allow-indirect-conversion",
-                            default=False,
-                            action="store_true",
-                            help="Allow to chain converter when direct conversion is absent")
     arg_parser.add_argument("--dependency-report",
                             action=GetKnownDependenciesAction,
                             default=False,

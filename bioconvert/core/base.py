@@ -30,6 +30,9 @@ from easydev import TempFile
 from easydev.multicore import cpu_count
 
 import colorlog
+
+import bioconvert
+
 _log = colorlog.getLogger(__name__)
 
 from bioconvert.core.benchmark import Benchmark
@@ -433,13 +436,45 @@ class ConvBase(metaclass=ConvMeta):
             action="store_true",
             help="if outfile exists, it is overwritten with this option",
         )
+        yield ConvArg(
+            names=["-v", "--verbosity", ],
+            default=bioconvert.logger.level,
+            help="Set the outpout verbosity. Should be one of DEBUG, INFO, WARNING, ERROR, CRITICAL",
+        )
+        yield ConvArg(
+            names=["--raise-exception", ],
+            action="store_true",
+            help="Let exception ending the execution be raised and displayed",
+        )
+        yield ConvArg(
+            names=["-m", "--batch", ],
+            default=False, action="store_true",
+            help="for batch effect")
+        yield ConvArg(
+            names=["-b", "--benchmark", ],
+            default=False,
+            action="store_true",
+            help="Running all available methods",
+        )
+        yield ConvArg(
+            names=["-N", "--benchmark-N", ],
+            default=5,
+            type=int,
+            help="Number of trials for each methods",
+        )
+        yield ConvArg(
+            names=["-a", "--allow-indirect-conversion", ],
+            default=False,
+            action="store_true",
+            help="Allow to chain converter when direct conversion is absent",
+        )
 
     @classmethod
     def get_common_arguments_for_converter(cls):
         for a in ConvBase.get_common_arguments():
             yield a
         try:
-            #Some converter does not have any method and work in __call__, so preventing to crash by searching for them
+            # Some converter does not have any method and work in __call__, so preventing to crash by searching for them
             yield ConvArg(
                 names=["-c", "--method", ],
                 nargs="?",
