@@ -16,3 +16,4 @@ ucsc-bedgraphtobigwig
 ucsc-bigwigtobedgraph
 ucsc-fatotwobit
 ucsc-twobittofa
+plink

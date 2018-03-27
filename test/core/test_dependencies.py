@@ -81,7 +81,6 @@ def test_require_pigz():
     assert requires(external_binary="pigz")(object()).is_disabled is False
 
 
-@skiptravis
 def test_require_plink():
     assert requires(external_binary="plink")(object()).is_disabled is False
 
@@ -159,7 +158,6 @@ def test_require_sys():
 
 def test_require_all_and_print_test():
     known_missing_dependencies = ["tagada%i" % i for i in range(10)]
-    known_missing_dependencies.append("plink")
 
     assert type(get_known_dependencies_with_availability(as_dict=True)) == dict
 
