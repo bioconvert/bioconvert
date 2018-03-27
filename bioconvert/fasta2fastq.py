@@ -24,10 +24,8 @@ class Fasta2Fastq(ConvBase):
         super().__init__(infile, outfile)
 
     @requires(python_library="pysam")
-    def _method_v1(self, *args, **kwargs):
-
+    def _method_v1(self, quality_file=None, *args, **kwargs):
         with open(self.outfile, 'w') as fastq_out:
-        
             for seq in FastxFile(self.infile):
                 fastq_out.write("@{0} {1}\n{2}\n+\n{3}\n".format(seq.name,
                                                                  seq.comment,
@@ -37,10 +35,8 @@ class Fasta2Fastq(ConvBase):
     @classmethod
     def get_additional_arguments(cls):
         yield ConvArg(
-            names="quality_file",
+            names="--quality-file",
             nargs="?",
             default=None,
             help="The path to the quality file.",
         )
-
-                
