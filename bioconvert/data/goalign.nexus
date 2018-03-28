@@ -1,7 +1,7 @@
 #NEXUS
 begin data;
 dimensions ntax=20 nchar=50;
-format datatype=nucleotide;
+format datatype=dna;
 matrix
 Seq0000 GATTAATTTGCCGTAGGCCAGAATCTGAAGATCGAACACTTTAAGTTTTC
 Seq0001 ACTTCTAATGGAGAGGACTAGTTCATACTTTTTAAACACTTTTACATCGA
