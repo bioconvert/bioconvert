@@ -225,3 +225,10 @@ class Registry(object):
         # for conv, converter in self._fmt_registry.items():
         #     in_fmt, out_fmt = conv
         #     yield in_fmt, out_fmt, converter, None
+
+    def close_match(self, pattern, distance=2):
+        from bioconvert.core.levenshtein import wf_levenshtein as lev
+        data =  [x.lower()+"2"+y.lower() for x,y in list(self.get_conversions())]
+        matches = [this for this in data if lev(this, pattern)<=distance]
+        return matches
+
