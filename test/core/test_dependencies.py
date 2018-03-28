@@ -174,11 +174,6 @@ def test_require_pip():
 
 
 @dependency_test
-def test_require_pyGATB():
-    assert requires(python_library="pyGATB")(object()).is_disabled is False
-
-
-@dependency_test
 def test_require_pyexcel():
     assert requires(python_library="pyexcel")(object()).is_disabled is False
 
@@ -191,11 +186,6 @@ def test_require_pyexcel_ods3():
 @dependency_test
 def test_require_pyexcel_xls():
     assert requires(python_library="pyexcel-xls")(object()).is_disabled is False
-
-
-@dependency_test
-def test_require_pygatb():
-    assert requires(python_library="pygatb")(object()).is_disabled is False
 
 
 @dependency_test
