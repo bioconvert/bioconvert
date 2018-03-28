@@ -12,7 +12,6 @@ numpydoc
 coveralls
 
 #for csv2tsv
-pandas
 xlrd
 #for xls2csv
 pyexcel
