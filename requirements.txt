@@ -8,3 +8,6 @@ networkx
 pyyaml
 pysam
 pandoc
+pyexcel
+pyexcel-ods3
+pyexcel-xls
