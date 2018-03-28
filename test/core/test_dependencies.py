@@ -194,6 +194,11 @@ def test_require_pyexcel_xls():
 
 
 @dependency_test
+def test_require_pygatb():
+    assert requires(python_library="pygatb")(object()).is_disabled is False
+
+
+@dependency_test
 def test_require_pysam():
     assert requires(python_library="pysam")(object()).is_disabled is False
 
