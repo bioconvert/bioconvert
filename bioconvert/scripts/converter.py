@@ -148,7 +148,8 @@ def main(args=None):
     registry = Registry()
     subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
-    for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
+    for in_fmt, out_fmt, converter, path in \
+            sorted(registry.iter_converters(allow_indirect_conversion)):
         sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
         # methods = converter.available_methods if converter else []
         help_details = ""
