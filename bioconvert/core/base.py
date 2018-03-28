@@ -254,12 +254,17 @@ class ConvBase(metaclass=ConvMeta):
             _log.error(msg)
             raise ValueError(msg)
 
-        _log.info("Executing {} method".format(method_name))
+
+        _log.info("{}> Executing {} method ".format(self.name, method_name))
         # reference to the method requested
         method_reference = getattr(self, "_method_{}".format(method_name))
 
         # call the method itself
+
+        t1 = time.time()
         method_reference(*args, **kwargs)
+        t2 = time.time()
+        _log.info("Took {} seconds ".format(t2-t1))
 
 
     @property
@@ -276,31 +281,16 @@ class ConvBase(metaclass=ConvMeta):
 
     def shell(self, cmd):
         from bioconvert.core.shell import shell
-        t1 = time.time()
-        _log.info("{}> ".format(self.name))
         _log.info("CMD: {}".format(cmd))
-
         shell(cmd)
-
-        t2 = time.time()
-        self.last_duration = t2 - t1
-        _log.info("Took {} seconds ".format(t2-t1))
-        self._last_time = t2 - t1
 
     def execute(self, cmd, ignore_errors=False, verbose=False, shell=False):
 
         if shell is True or self._execute_mode == "shell":
             self.shell(cmd)
             return
-
-        t1 = time.time()
-        _log.info("{}> ".format(self.name))
         _log.info("CMD: {}".format(cmd))
         self._execute(cmd, ignore_errors, verbose)
-        t2 = time.time()
-        self.last_duration = t2 - t1
-        _log.info("Took {} seconds ".format(t2-t1))
-        self._last_time = t2 - t1
 
     def _execute(self, cmd, ignore_errors=False, verbose=False):
         """
@@ -532,6 +522,7 @@ def make_chain(converter_map):
                 step_infile = pipe_files.popleft()
                 step_input = step_infile.name
                 del_infile = True
+
             if step_num == self.nb_steps:
                 # May not be necessary:
                 step_outfile = None
@@ -540,6 +531,7 @@ def make_chain(converter_map):
                 step_outfile = TempFile(suffix=out_fmt.lower())
                 step_output = step_outfile.name
                 pipe_files.append(step_outfile)
+
             conv_step(converter, step_input, step_output)
             if del_infile:
                 step_infile.delete()
