@@ -1,9 +1,16 @@
 Whats' new, what has changed
 ================================
 
-:Revision 0.0.13: 22 March 2018
+:Revision 0.1.0: 29 March 2018
 
-    - new converters: maf2sam
+    Major refactoring to allow sub commands to be used::
+
+        bioconvert fastq2fasta test.fastq test.fasta
+
+    as well as transitive conversion: if a conversion is not implemented but
+    a path exists, then conversion is performed.
+
+    - new converters: maf2sam, ods2csv, xls2csv, xlsx2csv
 
 
 :Revision 0.0.12:
