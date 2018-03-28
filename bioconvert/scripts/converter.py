@@ -183,20 +183,27 @@ def main(args=None):
                             help="Output all bioconvert dependencies in json and exit")
 
     arg_parser.add_argument("-a", "--allow-indirect-conversion",
+                            action="store_true",
                             help="Show all possible indirect conversions "
                                  "(labelled as intermediate) (EXPERIMENTAL)")
 
-    if len(args) and args[0] not in conversions and "--help" not in args:
-        from bioconvert.core.levenshtein import wf_levenshtein as lev
-        distance = 2
-        matches = [this for this in conversions if lev(this, args[0])<=distance]
-        print('\n\nYour converter {}() was not found. \n'
-              'Here is a list of possible close match(es): {}. '
-              '\nYou may also add the -a argument to enfore a '
-              'transitive conversion. The whole list is available using\n\n'
-              '    bioconvert --help -a \n'.format(args[0], matches)
-        )
-        sys.exit(0)
+    # First, we get the positional argument (if available) 
+    try:
+        args_tmp = arg_parser.parse_args(args)
+        if "command" in dir(args_tmp) and args_tmp.command not in conversions \
+            and "--help" not in args_tmp and "--dependency-report" not in args_tmp:
+
+            from bioconvert.core.levenshtein import wf_levenshtein as lev
+            distance = 2
+            matches = [this for this in conversions if lev(this, args_tmp.command)<=distance]
+            print('\n\nYour converter {}() was not found. \n'
+                  'Here is a list of possible close match(es): {}. '
+                  '\nYou may also add the -a argument to enfore a '
+                  'transitive conversion. The whole list is available using\n\n'
+                  '    bioconvert --help -a \n'.format(args_tmp.command, matches)
+            )
+            sys.exit(2)
+    except: pass
 
     args = arg_parser.parse_args(args)
 
