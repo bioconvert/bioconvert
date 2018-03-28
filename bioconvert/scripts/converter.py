@@ -180,6 +180,9 @@ def main(args=None):
             for a in ConvBase.get_common_arguments():
                 a.add_to_sub_parser(sub_parser)
 
+    arg_parser.add_argument("-v", "--verbosity",
+                            default=bioconvert.logger.level,
+                            help="Set the outpout verbosity. Should be one of DEBUG, INFO, WARNING, ERROR, CRITICAL")
     arg_parser.add_argument("--dependency-report",
                             action=GetKnownDependenciesAction,
                             default=False,
@@ -187,12 +190,8 @@ def main(args=None):
 
     args = arg_parser.parse_args(args)
 
-    args.raise_exception = args.raise_exception or args.verbosity == "DEBUG"
-
     if args.command is None:
         msg = 'No converter specified. You can list converter by doing bioconvert --help'
-        if args.raise_exception:
-            raise Exception(msg)
         arg_parser.error(msg)
 
     if not (getattr(args, "show_methods", False) or args.input_file):
@@ -201,6 +200,8 @@ def main(args=None):
     if not args.allow_indirect_conversion and ConvMeta.split_converter_to_extensions(args.command) not in registry:
         arg_parser.error('The conversion %s is not available directly, you have to accept that we chain converter to do'
                          ' so (--allow-indirect-conversion or -a)' % args.command)
+
+    args.raise_exception = args.raise_exception or args.verbosity == "DEBUG"
 
     # Set the logging level
     bioconvert.logger.level = args.verbosity
