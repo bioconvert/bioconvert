@@ -439,7 +439,9 @@ class ConvBase(metaclass=ConvMeta):
         yield ConvArg(
             names=["-m", "--batch", ],
             default=False, action="store_true",
-            help="for batch effect")
+            help="Allow conversion of a set of files using wildcards. You "
+                "must use quotes to escape the wildcards. For instance: "
+                "--batch 'test*fastq' ")
         yield ConvArg(
             names=["-b", "--benchmark", ],
             default=False,
