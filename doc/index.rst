@@ -24,16 +24,21 @@ Bioconvert is a collaborative project to facilitate the interconversion of life 
 :contributions: Please join the team to contribute: https://github.com/biokit/bioconvert/issues/1
 :issues: Please use https://github.com/biokit/bioconvert/issues
 
-Motivation
-###############
+Overview
+################
 
 Life science uses many different formats. They may be old, or with complex
-syntax and converting those formats may be a challenge. **bioconvert** aims at providing a common tool / interface to convert life science data formats from one to another. 
+syntax and converting those formats may be a challenge. **bioconvert** aims at providing a common tool / interface to convert life science data formats from one to another.
 
 Many convertion tools already exist but they may be dispersed, focused on few
 specific formats, difficult to install, or not optimised. With **bioconvert**, we plan to
-cover a wide spectrum of format convertions; we will re-use existing tools if
-possible and provide facilities to compare different conversion tools or methods via `benchmarking <benchmarking>`_. New implementations are provided when considered better than existing ones.
+cover a wide spectrum of format convertions; we will re-use existing tools when
+possible and provide facilities to compare different conversion tools or methods 
+via `benchmarking <benchmarking>`_. New implementations are provided when considered 
+better than existing ones.
+
+**Currently (March 2018), we have 35 formats, 63 direct conversions (much more are
+possible calling bioconvert several times).**
 
 Installation
 ###############
