@@ -43,7 +43,7 @@ class FASTA2CLUSTAL(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires(python_library="Bio")
+    @requires(python_library="biopython")
     def _method_biopython(self, threads=None, *args, **kwargs):
         """
         Convert :term:`FASTA` interleaved file in :term:`CLUSTAL` format using biopython.

@@ -40,7 +40,7 @@ class FASTA2GENBANK(ConvBase):
         cmd = "squizz {} -f fasta -c genbank > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
-    @requires(python_library="Bio")
+    @requires(python_library="biopython")
     def _method_biopython(self, *args, **kwargs):
         print("Using DNA alphabet for now")
         from Bio import SeqIO, Alphabet

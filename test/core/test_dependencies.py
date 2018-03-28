@@ -149,13 +149,13 @@ def test_require_twoBitToFa():
 
 
 @dependency_test
-def test_require_Bio():
-    assert requires(python_library="Bio")(object()).is_disabled is False
+def test_require_unpigz():
+    assert requires(external_binary="unpigz")(object()).is_disabled is False
 
 
 @dependency_test
-def test_require_csv():
-    assert requires(python_library="csv")(object()).is_disabled is False
+def test_require_biopython():
+    assert requires(python_library="biopython")(object()).is_disabled is False
 
 
 @dependency_test
@@ -169,18 +169,13 @@ def test_require_mappy():
 
 
 @dependency_test
-def test_require_mmap():
-    assert requires(python_library="mmap")(object()).is_disabled is False
-
-
-@dependency_test
-def test_require_os():
-    assert requires(python_library="os")(object()).is_disabled is False
-
-
-@dependency_test
 def test_require_pandas():
     assert requires(python_library="pandas")(object()).is_disabled is False
+
+
+@dependency_test
+def test_require_pip():
+    assert requires(python_library="pip")(object()).is_disabled is False
 
 
 @dependency_test
@@ -189,13 +184,28 @@ def test_require_pyexcel():
 
 
 @dependency_test
+def test_require_pyexcel_ods():
+    assert requires(python_library="pyexcel-ods")(object()).is_disabled is False
+
+
+@dependency_test
+def test_require_pyexcel_xls():
+    assert requires(python_library="pyexcel-xls")(object()).is_disabled is False
+
+
+@dependency_test
 def test_require_pysam():
     assert requires(python_library="pysam")(object()).is_disabled is False
 
 
 @dependency_test
-def test_require_sys():
-    assert requires(python_library="sys")(object()).is_disabled is False
+def test_require_urllib3():
+    assert requires(python_library="urllib3")(object()).is_disabled is False
+
+
+@dependency_test
+def test_require_wheel():
+    assert requires(python_library="wheel")(object()).is_disabled is False
 
 
 @dependency_test

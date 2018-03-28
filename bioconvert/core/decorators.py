@@ -17,6 +17,7 @@ from functools import wraps
 from os.path import splitext
 
 import colorlog
+import pip
 from easydev import TempFile
 
 _log = colorlog.getLogger(__name__)
@@ -172,6 +173,10 @@ def requires(
     requires.__missing_binaries = __missing_binaries
     __missing_libraries = getattr(requires, "__missing_libraries", {})
     requires.__missing_libraries = __missing_libraries
+    __pip_libraries = getattr(requires, "__pip_libraries", None)
+    if __pip_libraries is None:
+        __pip_libraries = [p.project_name for p in pip.get_installed_distributions()]
+        requires.__pip_libraries = __pip_libraries
 
     def real_decorator(function):
         @wraps(function)
@@ -194,9 +199,10 @@ def requires(
                     if __missing_libraries[lib]:
                         raise Exception("{} has already be seen as missing".format(lib))
                 except KeyError:
-                    __missing_libraries[lib] = True
-                    __import__(lib)
-                    __missing_libraries[lib] = False
+                    missing = lib not in __pip_libraries
+                    __missing_libraries[lib] = missing
+                    if missing:
+                        raise Exception("{} was not found by pip".format(lib))
             wrapped.is_disabled = False
         except Exception as e:
             _log.debug(e)

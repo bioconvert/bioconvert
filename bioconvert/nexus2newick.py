@@ -41,7 +41,7 @@ class NEXUS2NEWICK(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires(python_library="Bio")
+    @requires(python_library="biopython")
     def _method_biopython(self, *args, **kwargs):
         _log.warning("biopython methods rounds up values (5 digits)")
         from Bio import Phylo
