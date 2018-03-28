@@ -24,7 +24,7 @@ class TSV2CSV(ConvBase):
 
         logger.level='CRITICAL'
         with TempFile(suffix=".csv") as fh:
-            infile = bioconvert_data("test_csv2tsv.tsv")
+            infile = bioconvert_data("test_tabulated.tsv")
             convert = TSV2CSV(infile, fh.name)
             convert.boxplot_benchmark(N=5000)
 

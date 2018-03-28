@@ -93,8 +93,8 @@ class Registry(object):
                             _log.warning("converter '%s' for %s -> %s was not added as no method is available",
                                          converter_name, *format_pair)
                         else:
-                            _log.debug("add converter '%s' for %s -> %s",
-                                       converter_name, *format_pair)
+                            _log.debug("add converter '%s' (%s) for %s -> %s",
+                                       converter_name, converter, *format_pair)
                             self[format_pair] = converter
 
     def _build_path_dict(self):
@@ -130,7 +130,7 @@ class Registry(object):
         :type convertor: :class:`ConvBase` object
         """
         if format_pair in self._fmt_registry:
-            raise KeyError('an other converter already exists for {} -> {}'.format(*format_pair))
+            raise KeyError('an other converter already exists for {} -> {}: {}'.format(format_pair[0],format_pair[1],self._fmt_registry[format_pair] ))
         self._fmt_registry[format_pair] = convertor
 
     def __getitem__(self, format_pair):
