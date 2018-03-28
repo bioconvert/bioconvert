@@ -111,7 +111,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
-    @requires(python_library="gatb")
+    @requires(python_library="pyGATB")
     @in_gz
     @out_compressor
     def _method_GATB(self, *args, **kwargs):
