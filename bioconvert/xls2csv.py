@@ -26,6 +26,27 @@ class XLS2CSV(ConvBase):
         """
         super().__init__(infile, outfile)
 
+    @requires(python_libraries=["pyexcel"])
+    def _method_pyexcel(
+            self,
+            out_sep=DEFAULT_OUT_SEP,
+            line_terminator=DEFAULT_LINE_TERMINATOR,
+            sheet_name=0,
+            *args, **kwargs):
+        """
+        do the conversion :term`XLS` -> :term:'CSV` using Panda modules
+
+        """
+        import pyexcel
+        with open(self.outfile, "w") as out_stream:
+            writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)
+            first_row = True
+            for row in pyexcel.get_records(file_name=self.infile):
+                if first_row:
+                    writer.writerow([k for k, v in row.items()])
+                    first_row = False
+                writer.writerow([v for k, v in row.items()])
+
     @requires(python_libraries=["pandas", "xlrd"])
     def _method_panda(
             self,
