@@ -13,17 +13,15 @@
 ##############################################################################
 """Convert :term:`SAM` file to :term:`BAM` file"""
 from bioconvert import ConvBase
-import colorlog
-
 from bioconvert.core.decorators import requires
+
+import colorlog
 
 logger = colorlog.getLogger(__name__)
 
 
-
 class BAM2SAM(ConvBase):
     """
-
 
     .. plot::
 
