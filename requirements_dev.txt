@@ -19,4 +19,4 @@ pyexcel
 pyexcel-xls
 #for ods2csv
 pyexcel
-pyexcel-ods
+pyexcel-ods3

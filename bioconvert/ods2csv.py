@@ -26,7 +26,7 @@ class ODS2CSV(ConvBase):
         """
         super().__init__(infile, outfile)
 
-    @requires(python_libraries=["pyexcel", "pyexcel-ods"])
+    @requires(python_libraries=["pyexcel", "pyexcel-ods3"])
     def _method_pyexcel(
             self,
             out_sep=DEFAULT_OUT_SEP,

@@ -185,7 +185,7 @@ def test_require_pyexcel():
 
 @dependency_test
 def test_require_pyexcel_ods():
-    assert requires(python_library="pyexcel-ods")(object()).is_disabled is False
+    assert requires(python_library="pyexcel-ods3")(object()).is_disabled is False
 
 
 @dependency_test
