@@ -100,7 +100,7 @@ class MAF(object):
                                                                 m.sequence_size))
                     top = False
 
-        from sequana import version
+        from bioconvert import version
         fout.write("@PG\tID:{0}\tPN:{0}\tVN:{1}\tCL:{0} {2} {3}\n".format(
             "bioconvert", version, self.filename, self.outfile))
 
