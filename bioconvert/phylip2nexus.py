@@ -32,22 +32,20 @@ class PHYLIP2NEXUS(ConvBase):
     """
     _default_method = 'goalign'
 
-    def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
+    def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
 
         :param str infile: input :term:`PHYLIP` file.
         :param str outfile: (optional) output :term:`NEXUS` file
         """
         super().__init__(infile, outfile)
-        self.alphabet = alphabet
 
     @requires("conda")
-    def _method_goalign(self, threads=None, *args, **kwargs):
+    def _method_goalign(self, *args, **kwargs):
         """
         Convert :term:`PHYLIP` interleaved file in :term:`NEXUS` format using goalign tool.
         https://github.com/fredericlemoine/goalign
 
-        :param threads: not used.
         """
         self.install_tool('goalign')
         cmd = 'goalign reformat nexus -i {infile} -o {outfile} -p'.format(
