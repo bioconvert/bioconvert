@@ -65,7 +65,9 @@ class GetKnownDependenciesAction(argparse.Action):
 
     def __call__(self, parser, namespace, values, option_string=None):
         Registry()
-        print(json.dumps(get_known_dependencies_with_availability(as_dict=True), sort_keys=True, indent=4))
+        print(json.dumps(
+                get_known_dependencies_with_availability(as_dict=True),
+                sort_keys=True, indent=4))
         sys.exit(0)
 
 
@@ -111,9 +113,8 @@ def main(args=None):
         sys.exit(0)
 
     from easydev.console import purple
-    if "-v" in args or "--verbosity" in args:
+    if "-v" in args or "--verbosity" in args or "--help" in args or len(args)==1:
         print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
-
 
 
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
@@ -145,18 +146,21 @@ def main(args=None):
     project or formats available.
 
     Bioconvert is an open source collaborative project. Please feel free to join us at
-    https://github/biokit/bioconvert
-
-
+    https://github/biokit/bioconvert\n\
 """)
     registry = Registry()
     subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
+
+
+    # show all possible conversion
     for in_fmt, out_fmt, converter, path in \
             sorted(registry.iter_converters(allow_indirect_conversion)):
+
         sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
         # methods = converter.available_methods if converter else []
         help_details = ""
+
         if converter:
             if len(converter.available_methods) <= 1:
                 help_details = ""
@@ -167,6 +171,7 @@ def main(args=None):
                 help_details = " (w/ 1 intermediate)"
             else:
                 help_details = " (w/ %i intermediates)" % (len(path) - 2)
+
         help_text = '%sto-> %s%s' % (
             (in_fmt + ' ').ljust(max_converter_width, '-'),
             out_fmt,
@@ -193,7 +198,15 @@ def main(args=None):
                             default=False,
                             help="Output all dependencies in json and exit")
 
-    args = arg_parser.parse_args(args)
+    try:
+        args = arg_parser.parse_args(args)
+    except:
+        if len(args):
+            print('\n\nYour converter {}() was not found. \nSee the full list '
+                  'above. \nHere is a list of close match(es): {}'.format(
+                args[0], Registry().close_match(args[0], 2)) # 1 for the distance
+            )
+        sys.exit(0)
 
     if args.command is None:
         msg = 'No converter specified. You can list converter by doing bioconvert --help'
@@ -234,7 +247,7 @@ def main(args=None):
 def analysis(args):
     in_fmt, out_fmt = ConvMeta.split_converter_to_extensions(args.command)
 
-    # do we want to know the available methods ? If so, print info and quite
+    # do we want to know the available methods ? If so, print info and quit
     if getattr(args, "show_methods", False):
         class_converter = Registry()[(in_fmt, out_fmt)]
         print(class_converter.available_methods)
