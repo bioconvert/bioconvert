@@ -1,3 +1,5 @@
+from tempfile import NamedTemporaryFile
+
 import pytest
 from easydev import TempFile, md5
 

@@ -43,7 +43,7 @@ class FASTA2PHYLIP(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires(python_library="Bio")
+    @requires(python_library="biopython")
     def _method_biopython(self, threads=None, *args, **kwargs):
         sequences = list(SeqIO.parse(self.infile, "fasta", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "phylip")

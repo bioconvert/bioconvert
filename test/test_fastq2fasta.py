@@ -1,6 +1,6 @@
 from bioconvert.fastq2fasta import Fastq2Fasta
 from bioconvert import bioconvert_data
-from bioconvert.core.decorators import make_in_gz_tester
+from bioconvert.core.decorators import make_in_gz_tester, requires
 from easydev import TempFile, md5
 import pytest
 
@@ -29,9 +29,16 @@ def test_conv(method):
         assert md5(unwrapped.name) == md5out, \
             "{} failed".format(method)
 
+
+
+
 @pytest.mark.parametrize(
     "method",
     filter(make_in_gz_tester(Fastq2Fasta), Fastq2Fasta.available_methods))
+@pytest.mark.skipif(
+    requires(external_binary="unpigz")(object()).is_disabled,
+    reason="missing dependencies",
+)
 def test_in_gz(method):
     for sample_name in ["test_fastq2fasta_v1",
                         "sample_v2", "sample_v3",  

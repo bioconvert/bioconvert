@@ -11,11 +11,11 @@ from bioconvert import ConvBase
 logger = colorlog.getLogger(__name__)
 
 
-class XLS2CSV(ConvBase):
+class ODS2CSV(ConvBase):
     """Convert :term:`XLS` file into :term:`CSV` file
 
     """
-    _default_method = "pandas"
+    _default_method = "pyexcel"
     DEFAULT_OUT_SEP = ','
     DEFAULT_LINE_TERMINATOR = '\n'
 
@@ -26,7 +26,7 @@ class XLS2CSV(ConvBase):
         """
         super().__init__(infile, outfile)
 
-    @requires(python_libraries=["pyexcel", "pyexcel-xls"])
+    @requires(python_libraries=["pyexcel", "pyexcel-ods3"])
     def _method_pyexcel(
             self,
             out_sep=DEFAULT_OUT_SEP,
@@ -46,30 +46,6 @@ class XLS2CSV(ConvBase):
                     writer.writerow([k for k, v in row.items()])
                     first_row = False
                 writer.writerow([v for k, v in row.items()])
-
-    @requires(python_libraries=["pandas", "xlrd"])
-    def _method_panda(
-            self,
-            out_sep=DEFAULT_OUT_SEP,
-            line_terminator=DEFAULT_LINE_TERMINATOR,
-            sheet_name=0,
-            *args, **kwargs):
-        """
-        do the conversion :term`XLS` -> :term:'CSV` using Panda modules
-
-        """
-        import pandas as pd
-        pd.read_excel(
-            self.infile,
-            sheet_name=sheet_name,
-        ) \
-            .to_csv(
-            self.outfile,
-            sep=out_sep,
-            line_terminator=line_terminator,
-            index=False,
-            header='infer'
-        )
 
     @classmethod
     def get_additional_arguments(cls):

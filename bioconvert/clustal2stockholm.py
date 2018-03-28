@@ -29,7 +29,7 @@ class CLUSTAL2STOCKHOLM(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires(python_library="Bio")
+    @requires(python_library="biopython")
     def _method_biopython(self, threads=None, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using biopython.

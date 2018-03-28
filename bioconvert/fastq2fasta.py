@@ -99,7 +99,7 @@ class Fastq2Fasta(ConvBase):
         """
         super().__init__(infile, outfile)
 
-    @requires(python_library="Bio")
+    @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
         records = SeqIO.parse(self.infile, 'fastq')
@@ -111,7 +111,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
-    @requires(python_library="gatb")
+    @requires(python_library="pyGATB")
     @in_gz
     @out_compressor
     def _method_GATB(self, *args, **kwargs):
@@ -210,7 +210,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} {}".format(perlcmd, self.infile, self.outfile)
         self.execute(cmd)
 
-    @requires(python_library="mmap")
+    @requires_nothing
     @compressor
     def _method_python_internal(self, *args, **kwargs):
         with open(self.infile, "r+") as inp:
@@ -226,7 +226,7 @@ class Fastq2Fasta(ConvBase):
                     line = mapp.readline()
                 mapp.close()
 
-    @requires(python_library="mmap")
+    @requires_nothing
     def _method_python_external(self, *args, **kwargs):
         pycmd = "python {}".format(bioconvert_script("fastqToFasta.py"))
         cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)

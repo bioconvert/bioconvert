@@ -33,7 +33,7 @@ def test_converter2():
 def test_converter_no_outfile():
     infile = bioconvert_data("test_measles.sorted.bam")
     import sys, os
-    sys.argv = ["bioconvert", "--raise-exception", "bam2sam", infile, "--force"]
+    sys.argv = ["bioconvert", "bam2sam", infile, "--force", "--raise-exception"]
     converter.main()
     os.remove(infile[:-3] + "sam")
 
@@ -50,31 +50,24 @@ def test_converter_output_format():
             pass
 
 
-def test_converter_formats():
-    import sys
-    sys.argv = ["bioconvert", "--formats"]
-    try:
-        converter.main()
-        assert False
-    except SystemExit:
-        assert True
-    except:
-        assert False
-
-
 def test_no_converter_specified():
     import sys
-    sys.argv = ["bioconvert"]
     try:
+        sys.argv = ["bioconvert"]
         converter.main()
         assert False
     except SystemExit as e:
         assert e.code == 2
-    except:
-        assert False
-    sys.argv = ["bioconvert", '--verbosity', 'DEBUG']
-    with pytest.raises(Exception):
+    except Exception as e:
+        assert type(e) == SystemExit
+    try:
+        sys.argv = ["bioconvert", '--verbosity', 'DEBUG']
         converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 2
+    except Exception as e:
+        assert type(e) == SystemExit and e.code == 2
 
 
 def test_not_existing_param():
@@ -155,20 +148,20 @@ def test_verbose():
         sys.argv = ["bioconvert", "--verbosity", "CRITICAL", "fastq2fasta", infile, tempfile.name,
                     "--force"]
         converter.main()
-        sys.argv = ["bioconvert", "-l", "CRITICAL", "fastq2fasta", infile, tempfile.name,
-                    "--force"]
-        converter.main()
-        sys.argv = ["bioconvert", "--level", "CRITICAL", "fastq2fasta", infile, tempfile.name,
-                    "--force"]
-        converter.main()
+        # sys.argv = ["bioconvert", "-l", "CRITICAL", "fastq2fasta", infile, tempfile.name,
+        #             "--force"]
+        # converter.main()
+        # sys.argv = ["bioconvert", "--level", "CRITICAL", "fastq2fasta", infile, tempfile.name,
+        #             "--force"]
+        # converter.main()
 
 
 def test_batch():
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
     with TempFile(suffix=".tt") as tempfile:
         import sys
-        sys.argv = ["bioconvert", "-m", "fastq2fasta", infile, tempfile.name,
-                    "--force"]
+        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile.name,
+                    "--force", "-m"]
         converter.main()
 
 
@@ -212,6 +205,9 @@ def test_indirect_conversion():
     import sys
     infile = bioconvert_data("fastqutils_1.fastq")
     with TempFile(suffix=".clustal") as tempfile:
-        sys.argv = ["bioconvert", "--allow-indirect-conversion", "-l", "DEBUG", "fastq2clustal", infile, tempfile.name,
-                    "--force"]
+        sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name,
+                    "--force", "--allow-indirect-conversion", "-v", "DEBUG"]
+        converter.main()
+        sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name,
+                    "--force", "-a", "-v", "DEBUG"]
         converter.main()

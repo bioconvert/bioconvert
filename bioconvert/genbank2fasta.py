@@ -42,7 +42,7 @@ class GENBANK2FASTA(ConvBase):
         cmd = "squizz {} -f genbank -c fasta > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
-    @requires(python_library="Bio")
+    @requires(python_library="biopython")
     def _method_biopython(self, *args, **kwargs):
         from Bio import SeqIO
         SeqIO.convert(self.infile, "genbank", self.outfile, "fasta")

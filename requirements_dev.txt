@@ -10,3 +10,12 @@ sphinx_rtd_theme
 sphinx-gallery
 numpydoc
 coveralls
+
+#for csv2tsv
+xlrd
+#for xls2csv
+pyexcel
+pyexcel-xls
+#for ods2csv
+pyexcel
+pyexcel-ods3
