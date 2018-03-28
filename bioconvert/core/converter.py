@@ -114,8 +114,9 @@ class Bioconvert(object):
             # This module name was not found
             # Try to find path of converters
             conv_path = self.mapper.conversion_path(self.in_fmt, self.out_fmt)
+            _log.debug("path: {}".format(conv_path))
             if conv_path:
-                _log.info("Direct conversion not implemented.\n"
+                _log.info("Direct conversion not implemented. "
                           "Chaining converters.")
                 # implemented in bioconvert/core/base.py
                 # using temporary files
