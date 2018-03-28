@@ -24,32 +24,6 @@ from bioconvert.core.decorators import get_known_dependencies_with_availability
 from bioconvert.core.registry import Registry
 
 
-class ConvAction(argparse.Action):
-
-    def __init__(self,
-                 option_strings,
-                 dest=argparse.SUPPRESS,
-                 default=argparse.SUPPRESS,
-                 help="show all formats available and exit"):
-        super(ConvAction, self).__init__(option_strings=option_strings,
-                                         dest=dest,
-                                         default=default,
-                                         nargs=0,
-                                         help=help)
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        # the -v --verbosity options may not be parsed yet (if located after -f on command line)
-        # So I do it myself
-        v_nb = ''.join([opt for opt in sys.argv if opt.startswith("-v")]).count('v')
-
-        mapper = Registry()
-        print("Available mapping:")
-        print("==================")
-        for k in sorted(mapper.get_conversions()):
-            print("{} -> {}".format(k[0], k[1]))
-        sys.exit(0)
-
-
 class GetKnownDependenciesAction(argparse.Action):
 
     def __init__(self,
@@ -109,12 +83,12 @@ def main(args=None):
         pass
 
     if "--version" in args:
-        print("Bioconvert version {}".format(bioconvert.version))
+        print("{}".format(bioconvert.version))
         sys.exit(0)
 
-    from easydev.console import purple
-    if "-v" in args or "--verbosity" in args or "--help" in args or len(args)==1:
-        print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
+    #from easydev.console import purple
+    #if "-v" in args or "--verbosity" in args or "--help" in args or len(args)==1:
+    #    print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
 
 
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
@@ -126,9 +100,11 @@ def main(args=None):
                                          formatted.""",
                                          usage="""
 
+    Bioconvert contains tens of converters whose list is available as follows:
 
-    Bioconvert contains tens of converters. Each of them has its own subcommand
-    and help. For instance, to convert a FastQ to Fasta, use:
+        bioconvert --help
+
+    Each conversion has its own sub-command and dedicated help. For instance:
 
         bioconvert fastq2fasta --help
 
@@ -138,9 +114,13 @@ def main(args=None):
 
         bioconvert fastq2fasta test.txt test.fasta
 
-    Convertor infer the formats from the first command. We do not scan the input
-    file. Therefore users must ensure that their input format files are properly
-    formatted.
+    Users must ensure that their input format files are properly formatted.
+
+    If there is a conversion from A to B and another for B to C, you can also
+    perform indirect conversion using -a argument (experimental). This command
+    shows all possible indirect conversions:
+
+        bioconvert --help -a
 
     Please visit bioconvert.readthedocs.org for more information about the
     project or formats available.
@@ -154,10 +134,12 @@ def main(args=None):
 
 
     # show all possible conversion
+    conversions = []
     for in_fmt, out_fmt, converter, path in \
             sorted(registry.iter_converters(allow_indirect_conversion)):
 
         sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
+        conversions.append(sub_parser_name)
         # methods = converter.available_methods if converter else []
         help_details = ""
 
@@ -192,31 +174,45 @@ def main(args=None):
 
     arg_parser.add_argument("-v", "--verbosity",
                             default=bioconvert.logger.level,
-                            help="Set the outpout verbosity. Should be one of DEBUG, INFO, WARNING, ERROR, CRITICAL")
+                            help="Set the outpout verbosity. Should be one of"
+                                 " DEBUG, INFO, WARNING, ERROR, CRITICAL")
+
     arg_parser.add_argument("--dependency-report",
                             action=GetKnownDependenciesAction,
                             default=False,
-                            help="Output all dependencies in json and exit")
+                            help="Output all bioconvert dependencies in json and exit")
 
-    try:
-        args = arg_parser.parse_args(args)
-    except:
-        if len(args):
-            print('\n\nYour converter {}() was not found. \nSee the full list '
-                  'above. \nHere is a list of close match(es): {}'.format(
-                args[0], Registry().close_match(args[0], 2)) # 1 for the distance
-            )
+    arg_parser.add_argument("-a", "--allow-indirect-conversion",
+                            help="Show all possible indirect conversions "
+                                 "(labelled as intermediate) (EXPERIMENTAL)")
+
+    if len(args) and args[0] not in conversions and "--help" not in args:
+        from bioconvert.core.levenshtein import wf_levenshtein as lev
+        distance = 2
+        matches = [this for this in conversions if lev(this, args[0])<=distance]
+        print('\n\nYour converter {}() was not found. \n'
+              'Here is a list of possible close match(es): {}. '
+              '\nYou may also add the -a argument to enfore a '
+              'transitive conversion. The whole list is available using\n\n'
+              '    bioconvert --help -a \n'.format(args[0], matches)
+        )
         sys.exit(0)
+
+    args = arg_parser.parse_args(args)
 
     if args.command is None:
         msg = 'No converter specified. You can list converter by doing bioconvert --help'
         arg_parser.error(msg)
 
     if not (getattr(args, "show_methods", False) or args.input_file):
-        arg_parser.error('Either specify an input_file (<INPUT_FILE>) or ask for available methods (--show-method)')
+        arg_parser.error('Either specify an input_file (<INPUT_FILE>) or '
+                         'ask for available methods (--show-method)')
 
-    if not args.allow_indirect_conversion and ConvMeta.split_converter_to_extensions(args.command) not in registry:
-        arg_parser.error('The conversion %s is not available directly, you have to accept that we chain converter to do'
+    if not args.allow_indirect_conversion and \
+        ConvMeta.split_converter_to_extensions(args.command) not in registry:
+
+        arg_parser.error('The conversion %s is not available directly, '
+                         'you have to accept that we chain converter to do'
                          ' so (--allow-indirect-conversion or -a)' % args.command)
 
     args.raise_exception = args.raise_exception or args.verbosity == "DEBUG"
@@ -250,8 +246,8 @@ def analysis(args):
     # do we want to know the available methods ? If so, print info and quit
     if getattr(args, "show_methods", False):
         class_converter = Registry()[(in_fmt, out_fmt)]
-        print(class_converter.available_methods)
-        print("Please see http://bioconvert.readthedocs.io/en/master/"
+        print("Methods available: {}".format(class_converter.available_methods))
+        print("\nPlease see http://bioconvert.readthedocs.io/en/master/"
               "references.html#{} for details ".format(str(class_converter).split("'")[1]))
         if args.raise_exception:
             return
@@ -303,7 +299,8 @@ def analysis(args):
     if args.benchmark:
         conv.boxplot_benchmark(N=args.benchmark_N)
         import pylab
-        pylab.savefig("benchmark_{}.png".format(conv.name))
+        try:pylab.savefig("benchmark_{}.png".format(conv.name))
+        except:pylab.savefig("benchmark_{}.png".format(conv.converter.name))
     else:
         # params["method"] = args.method
         conv(**vars(args))
