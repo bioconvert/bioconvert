@@ -159,11 +159,6 @@ def test_require_biopython():
 
 
 @dependency_test
-def test_require_gatb():
-    assert requires(python_library="gatb")(object()).is_disabled is False
-
-
-@dependency_test
 def test_require_mappy():
     assert requires(python_library="mappy")(object()).is_disabled is False
 
@@ -184,13 +179,18 @@ def test_require_pyexcel():
 
 
 @dependency_test
-def test_require_pyexcel_ods():
+def test_require_pyexcel_ods3():
     assert requires(python_library="pyexcel-ods3")(object()).is_disabled is False
 
 
 @dependency_test
 def test_require_pyexcel_xls():
     assert requires(python_library="pyexcel-xls")(object()).is_disabled is False
+
+
+@dependency_test
+def test_require_pygatb():
+    assert requires(python_library="pygatb")(object()).is_disabled is False
 
 
 @dependency_test
