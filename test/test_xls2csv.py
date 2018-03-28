@@ -11,8 +11,7 @@ from bioconvert.xls2csv import XLS2CSV
 def test_conv(method):
     infile = bioconvert_data("test_tabulated.xls")
     expected_outile = bioconvert_data("test_tabulated.csv")
-    with  NamedTemporaryFile(suffix=".csv", delete=False) as tempfile:
+    with TempFile(suffix=".csv") as tempfile:
         convert = XLS2CSV(infile, tempfile.name)
         convert(method=method)
-        print(tempfile.name)
         assert md5(tempfile.name) == md5(expected_outile)

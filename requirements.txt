@@ -1,7 +1,5 @@
 easydev>=0.9.36
 colorlog
-pandas
-xlrd
 biopython
 mappy
 matplotlib
