@@ -228,7 +228,6 @@ def main(args=None):
 
 
 def analysis(args):
-    print(vars(args))
     in_fmt, out_fmt = ConvMeta.split_converter_to_extensions(args.command)
 
     # do we want to know the available methods ? If so, print info and quite
