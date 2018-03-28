@@ -156,6 +156,21 @@ def test_verbose():
         # converter.main()
 
 
+def test_close_match():
+    infile = bioconvert_data("test_fastq2fasta_v1.fastq")
+    with TempFile(suffix=".tt") as tempfile:
+        import sys
+        sys.argv = ["bioconvert", "fastq2fastpp", infile, tempfile.name,
+                    "--force"]
+        try:
+            converter.main()
+            assert False
+        except SystemExit as e:
+            assert e.code == 2
+        except:
+            assert False
+
+
 def test_batch():
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
     with TempFile(suffix=".tt") as tempfile:
