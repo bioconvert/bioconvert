@@ -1,6 +1,5 @@
 """Convert :term:`Fastq` format to :term:`Fastq` formats"""
 from bioconvert import ConvBase
-from pysam import FastxFile
 
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires
@@ -25,6 +24,7 @@ class Fasta2Fastq(ConvBase):
 
     @requires(python_library="pysam")
     def _method_v1(self, quality_file=None, *args, **kwargs):
+        from pysam import FastxFile
         with open(self.outfile, 'w') as fastq_out:
             for seq in FastxFile(self.infile):
                 fastq_out.write("@{0} {1}\n{2}\n+\n{3}\n".format(seq.name,
