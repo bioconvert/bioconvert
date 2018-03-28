@@ -114,8 +114,9 @@ def main(args=None):
     if "-v" in args or "--verbosity" in args:
         print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
 
+
+
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
-                                         epilog=" ----    ",
                                          description="""Convertor infer the
                                          formats from the first command. We do
                                          not scan the input file. Therefore
@@ -123,27 +124,30 @@ def main(args=None):
                                          format files are properly
                                          formatted.""",
                                          usage="""
-    # convert fastq to fasta
-    bioconvert fastq2fasta test.fastq test.fasta
-    bioconvert fastq2fasta test.fastQ test.fasta
-    # if input extension is not standard, it is not a problem, format if obtained from command fastq2fasta
-    bioconvert fastq2fasta test_in_fastQ.txt test.fasta
-
-    # You may have several inputs, in which case wildcards are possible
-    # Note, however, the quotes that are required
-    bioconvert fastq2fasta "test*.fastq"
-
-    # batch is also possible.
-    bioconvert -m fastq2fasta "test*.fastq"
-
-    Note the difference between the two previous commands !!
 
 
-    For more information, please type:
+    Bioconvert contains tens of converters. Each of them has its own subcommand
+    and help. For instance, to convert a FastQ to Fasta, use:
 
-        bioconvert --help
+        bioconvert fastq2fasta --help
 
-...
+    Because the subcommand contains the format, extensions are not important
+    for the conversion itself. This would convert the test.txt file (fastq
+    format) into a fasta file:
+
+        bioconvert fastq2fasta test.txt test.fasta
+
+    Convertor infer the formats from the first command. We do not scan the input
+    file. Therefore users must ensure that their input format files are properly
+    formatted.
+
+    Please visit bioconvert.readthedocs.org for more information about the
+    project or formats available.
+
+    Bioconvert is an open source collaborative project. Please feel free to join us at
+    https://github/biokit/bioconvert
+
+
 """)
     registry = Registry()
     subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )
