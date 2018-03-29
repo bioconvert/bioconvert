@@ -1,0 +1,11 @@
+venv/
+.git/
+.github/
+.pytest_cache/
+bioconvert.egg-info/
+.idea/
+htmlcov
+.dockerignore
+Dockerfile*
+
+

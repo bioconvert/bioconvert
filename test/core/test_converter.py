@@ -14,7 +14,6 @@ def test_bioconvert():
     with TempFile(suffix=".fasta") as fout:
         c = Bioconvert(infile, fout.name, force=True)
         c()
-        c.boxplot_benchmark()
 
 
 def test_bioconvert_force_false():
@@ -55,4 +54,3 @@ def test_indirect_conversion():
     with TempFile(suffix=".clustal") as fout:
         c = Bioconvert(infile, fout.name, force=True)
         c()
-        c.boxplot_benchmark()
