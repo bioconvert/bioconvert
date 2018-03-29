@@ -69,7 +69,7 @@ class BAM2SAM(ConvBase):
         cmd = "samtools view -Sh {} -O SAM -o {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
-    @requires(python_library="pysam")
+    @requires(python_library="pysam", external_binary="samtools")
     def _method_pysam(self, *args, **kwargs):
         import pysam
         pysam.sort("-o", self.outfile, self.infile)
