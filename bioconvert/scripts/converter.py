@@ -134,28 +134,27 @@ def main(args=None):
 
 
     # show all possible conversion
-    conversions = []
     for in_fmt, out_fmt, converter, path in \
             sorted(registry.iter_converters(allow_indirect_conversion)):
 
         sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
-        conversions.append(sub_parser_name)
-        # methods = converter.available_methods if converter else []
-        help_details = ""
 
         if converter:
+            link_char = '-'
             if len(converter.available_methods) <= 1:
                 help_details = ""
             else:
                 help_details = " (%i methods)" % len(converter.available_methods)
-        elif path:
+        else :#if path:
+            link_char = '~'
             if len(path) == 3:
                 help_details = " (w/ 1 intermediate)"
             else:
                 help_details = " (w/ %i intermediates)" % (len(path) - 2)
 
-        help_text = '%sto-> %s%s' % (
-            (in_fmt + ' ').ljust(max_converter_width, '-'),
+        help_text = '%sto%s> %s%s' % (
+            (in_fmt + ' ').ljust(max_converter_width, link_char),
+            link_char,
             out_fmt,
             help_details,
         )
@@ -187,25 +186,33 @@ def main(args=None):
                             help="Show all possible indirect conversions "
                                  "(labelled as intermediate) (EXPERIMENTAL)")
 
-    # First, we get the positional argument (if available) 
     try:
-        args_tmp = arg_parser.parse_args(args)
-        if "command" in dir(args_tmp) and args_tmp.command not in conversions \
-            and "--help" not in args_tmp and "--dependency-report" not in args_tmp:
-
-            from bioconvert.core.levenshtein import wf_levenshtein as lev
-            distance = 2
-            matches = [this for this in conversions if lev(this, args_tmp.command)<=distance]
-            print('\n\nYour converter {}() was not found. \n'
-                  'Here is a list of possible close match(es): {}. '
-                  '\nYou may also add the -a argument to enfore a '
-                  'transitive conversion. The whole list is available using\n\n'
-                  '    bioconvert --help -a \n'.format(args_tmp.command, matches)
-            )
-            sys.exit(2)
-    except: pass
-
-    args = arg_parser.parse_args(args)
+        args = arg_parser.parse_args(args)
+    except SystemExit as e:
+        # Parsing failed, trying to guess command
+        from bioconvert.core.levenshtein import wf_levenshtein as lev
+        sub_command = None
+        args_i = 0
+        while sub_command is None and args_i < len(args):
+            if args[args_i][0] != '-':
+                sub_command = args[args_i]
+            args_i += 1
+        if sub_command is None:
+            # No sub_command found, so letting the initial exception be risen
+            raise e
+        conversions = []
+        for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
+            conversion_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
+            conversions.append((lev(conversion_name, sub_command), conversion_name))
+        matches = sorted(conversions)[:5]
+        arg_parser.exit(
+            e.code,
+            '\n\nYour converter {}() was not found. \n'
+            'Here is a list of possible matches: {} ... '
+            '\nYou may also add the -a argument to enfore a '
+            'transitive conversion. The whole list is available using\n\n'
+            '    bioconvert --help -a \n'.format(sub_command, ', '.join([v for _, v in matches]))
+        )
 
     if args.command is None:
         msg = 'No converter specified. You can list converter by doing bioconvert --help'
