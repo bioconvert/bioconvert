@@ -17,8 +17,8 @@ def test_bioconvert():
 
 
 def test_bioconvert_force_false():
-    infile = bioconvert_data("test_measles.sorted.bam")
-    with TempFile(suffix=".sam") as fout:
+    infile = bioconvert_data("fastqutils_1.fastq")
+    with TempFile(suffix=".fasta") as fout:
         c = Bioconvert(infile, fout.name, force=True)
         c()
         with pytest.raises(ValueError):
