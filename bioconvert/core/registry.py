@@ -47,7 +47,7 @@ class Registry(object):
         self._fill_registry(bioconvert.__path__)
         self._build_path_dict()
 
-    def _fill_registry(self, path):
+    def _fill_registry(self, path, target=None, including_not_available_converter=False):
         """
         Explore the directory converters to discover all converter classes
         (a concrete class which inherits from :class:`ConvBase`)
@@ -56,6 +56,8 @@ class Registry(object):
 
         :param str path: the path of a directory to explore (not recursive)
         """
+
+        target = self if target is None else target
 
         def is_converter(item):
             """Check if a module is a converter"""
@@ -89,13 +91,13 @@ class Registry(object):
                         # for format_pair in all_format_pair:
                         #     self[format_pair] = converter
                         format_pair = (converter.input_fmt, converter.output_fmt)
-                        if len(converter.available_methods) == 0:
+                        if len(converter.available_methods) == 0 and not including_not_available_converter:
                             _log.warning("converter '%s' for %s -> %s was not added as no method is available",
                                          converter_name, *format_pair)
                         else:
                             _log.debug("add converter '%s' for %s -> %s",
                                        converter_name, *format_pair)
-                            self[format_pair] = converter
+                            target[format_pair] = converter
 
     def _build_path_dict(self):
         """
@@ -170,6 +172,18 @@ class Registry(object):
         for conv in self._fmt_registry:
             yield conv
 
+    def get_all_conversions(self):
+        """
+        :return: a generator which allow to iterate on all available conversions and their availability
+                 a conversion is encoded by a tuple of
+                 2 strings (input format, output format)
+        :retype: generator (input format, output format, status)
+        """
+        all_converter = {}
+        self._fill_registry(bioconvert.__path__, all_converter, True)
+        for i, o in all_converter:
+            yield i, o, (i, o) in self._fmt_registry
+
     def conversion_exists(self, in_fmt, out_fmt, allow_indirect=False):
         """
         :param str in_fmt: the input format
@@ -204,12 +218,11 @@ class Registry(object):
         out_fmt = out_fmt.upper()
         return self._fmt_registry((in_fmt, out_fmt))
 
-    def iter_converters(self, allow_indirect=False):
+    def iter_converters(self, allow_indirect:bool=False):
         """
 
-        :param str in_fmt: the format of the input
-        :param str out_fmt:  the format of the output
-        :return: a generator to iterate over (in_fmt, out_fmt, converter class)
+        :param bool allow_indirect: also return indirect conversion
+        :return: a generator to iterate over (in_fmt, out_fmt, converter class when direct, path when indirect)
         :rtype: a generator
         """
         # if allow_indirect:

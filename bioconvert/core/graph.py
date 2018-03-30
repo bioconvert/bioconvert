@@ -35,25 +35,24 @@ def create_graph(filename, layout="dot", use_singularity=False):
         from pygraphviz import AGraph
         dg = AGraph(directed=True)
 
-        for a, b in rr.get_conversions():
-            dg.add_edge(a, b)
+        for a, b, s in rr.get_all_conversions():
+            dg.add_edge(a, b, color='black' if s else 'red')
 
         dg.layout(layout)
         dg.draw(filename)
 
-    except:
-
+    except Exception:
         dot = """
 strict digraph{
     node [label="\\N"];
 
     """
-        nodes =  set([item for items in rr.get_conversions() for item in items])
+        nodes = set([item for items in rr.get_all_conversions() for item in items[0:1]])
 
         for node in nodes:
             dot += "\"{}\";\n".format(node)
-        for a, b in rr.get_conversions():
-            dot+="\"{}\" -> \"{}\";\n".format(a, b)
+        for a, b, s in rr.get_all_conversions():
+            dot += "\"{}\" -> \"{}\";\n".format(a, b)
         dot += "}\n"
 
         from easydev import TempFile
