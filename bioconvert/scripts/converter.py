@@ -86,10 +86,6 @@ def main(args=None):
         print("{}".format(bioconvert.version))
         sys.exit(0)
 
-    #from easydev.console import purple
-    #if "-v" in args or "--verbosity" in args or "--help" in args or len(args)==1:
-    #    print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
-
 
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
                                          description="""Convertor infer the
@@ -185,6 +181,10 @@ def main(args=None):
                             action="store_true",
                             help="Show all possible indirect conversions "
                                  "(labelled as intermediate) (EXPERIMENTAL)")
+
+    arg_parser.add_argument("--version",
+                            action="store_true",
+                            help="Show version")
 
     try:
         args = arg_parser.parse_args(args)
