@@ -11,9 +11,12 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """Convert :term:`GZ` file to :term:`BZ2` file"""
+import bz2
+import gzip
+
 from bioconvert import ConvBase, extensions
 from bioconvert.core.base import ConvArg
-from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import requires, requires_nothing
 
 __all__ = ["GZ2BZ2"]
 
@@ -26,6 +29,8 @@ class GZ2BZ2(ConvBase):
     """
     #_is_compressor = True
 
+    _default_method = 'pigz_pbzip2'
+
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
@@ -35,7 +40,7 @@ class GZ2BZ2(ConvBase):
         """
         super(GZ2BZ2, self).__init__(infile, outfile, *args, **kargs)
 
-    @requires("pigz")
+    @requires(external_binaries=["pigz", "pbzip2", ])
     def _method_pigz_pbzip2(self, threads=None, *args, **kwargs):
         """some description"""
         # check integrity
@@ -57,6 +62,19 @@ class GZ2BZ2(ConvBase):
         # shell(cmd)
 
         # use self.infile, self.outfile
+
+    @requires(external_binaries=["gunzip", "bzip2", ])
+    def _method_gunzip_bzip2(self, *args, **kwargs):
+        """Single theaded conversion"""
+        cmd = "gunzip --to-stdout {input} | bzip2 > {output}"
+        self.execute(cmd.format(
+            input=self.infile,
+            output=self.outfile))
+
+    @requires_nothing
+    def _method_python(self):
+        with gzip.open(self.infile, 'rb') as f, bz2.open(self.outfile, 'wb')as g:
+            g.write(f.read())
 
     @classmethod
     def get_additional_arguments(cls):
