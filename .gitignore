@@ -111,3 +111,6 @@ ENV/
 
 #PyCharm config directory
 .idea/
+
+#graph of converter for the current machine
+conversion-local.png
