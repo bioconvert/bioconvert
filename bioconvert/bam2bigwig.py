@@ -46,8 +46,6 @@ class BAM2BIGWIG(ConvBase):
         """
         super(BAM2BIGWIG, self).__init__(infile, outfile, *args, **kargs)
 
-
-
     @requires("bamCoverage")
     def _method_bamCoverage(self, *args, **kwargs):
         """run bam2bigwig from deeptools package"""
