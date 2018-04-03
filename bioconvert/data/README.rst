@@ -11,6 +11,11 @@ test_vcf2bcf_v1.vcf  origin unknown
 test_vcf2bcf_v1.bcf  created using bcftools view -O b test_vcf2bcf_v1.vcf
 
 
+bam2wiggle
+------------
+
+bam input is test_measles.sorted.bam
+
 
 json2yaml and yaml2json
 -------------------------

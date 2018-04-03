@@ -72,10 +72,9 @@ Usage
 
 From the command line::
 
-    bioconvert input.fastq output.fasta
-    bioconvert input.fq output.fasta
-    bioconvert input.mybam output.bed --input-format bam
-    bioconvert --formats
+    bioconvert fastq2fasta input.fastq output.fasta
+    bioconvert fastq2fasta input.fq output.fasta
+    bioconvert bam2bed input.mybam output.bed --input-format bam
     bioconvert --help
 
 From Python shell::
@@ -94,8 +93,6 @@ Available conversions:
 
 .. image:: conversion.png
    :width: 80%
-
-
 
 
 User and Developer Guides
