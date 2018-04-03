@@ -5,6 +5,7 @@ Whats' new, what has changed
 
     - add phylip2xmfa and xmfa2phylip
     - add bedgraph2bed
+    - Fixed #132 (bedgra2bigwig can now have chrom sizes as input)
 
 :Revision 0.1.0: 29 March 2018
 
