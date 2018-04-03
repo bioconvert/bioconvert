@@ -14,9 +14,9 @@
 """BEDGRAPH2BIGWIG conversion """
 import os
 import colorlog
-from Bio import SeqIO
 
-from bioconvert import ConvBase
+from bioconvert.core.base import ConvArg, ConvBase
+
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
@@ -46,8 +46,26 @@ class BEDGRAPH2BIGWIG(ConvBase):
         """
         Convert bedgraph file in bigwig format using ucsc tool.
         https://genome.ucsc.edu/goldenpath/help/bigWig.html
+        
+        http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes
         """
-        cmd = 'bedGraphToBigWig {infile}  http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes {outfile}'.format(
+        chrom_sizes = kwargs.get("chrom_sizes", None)
+        if chrom_sizes is None:
+            raise ValueError("Must provide --chrom-sizes option")
+
+        cmd = 'bedGraphToBigWig {infile}  {chrom_sizes} {outfile}'.format(
             infile=self.infile,
-            outfile=self.outfile)
+            outfile=self.outfile, 
+            chrom_sizes=chrom_sizes)
         self.execute(cmd)
+
+
+    @classmethod
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names="--chrom-sizes",
+            default=None,
+            help="a two-column file/URL: <chromosome name> <size in bases>",
+        )
+
+
