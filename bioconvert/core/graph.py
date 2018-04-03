@@ -14,6 +14,9 @@
 """ description """
 from os import environ
 
+import colorlog
+
+_log = colorlog.getLogger(__name__)
 
 def create_graph(filename, layout="dot", use_singularity=False):
     """
@@ -41,7 +44,8 @@ def create_graph(filename, layout="dot", use_singularity=False):
         dg.layout(layout)
         dg.draw(filename)
 
-    except Exception:
+    except Exception as e:
+        _log.error(e)
         dot = """
 strict digraph{
     node [label="\\N"];
