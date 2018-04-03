@@ -20,8 +20,9 @@ def test_conv(method):
     # Call convert and check that the output file created has the correct md5sum
     with TempFile(suffix=".bigwig") as outfile:
         convert = BAM2BIGWIG(infile, outfile.name)
-        convert(method=method)
         if (method == 'ucsc'):
-           assert md5(outfile.name) == '61abd0de51bd614136ad85ae0a1ff85b', "{} failed".format(method)
+            convert(method=method, chrom_sizes=bioconvert_data("hg38.chrom.sizes"))
+            assert md5(outfile.name) == '61abd0de51bd614136ad85ae0a1ff85b', "{} failed".format(method)
         else:
+            convert(method=method)
             assert md5(outfile.name) == md5out, "{} failed".format(method)
