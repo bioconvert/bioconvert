@@ -7,6 +7,7 @@ dsrc
 go=1.9.2
 pbzip2
 pigz
+plink
 sambamba
 samtools
 seqtk
@@ -16,4 +17,4 @@ ucsc-bedgraphtobigwig
 ucsc-bigwigtobedgraph
 ucsc-fatotwobit
 ucsc-twobittofa
-plink
+wiggletools
