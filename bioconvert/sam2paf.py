@@ -20,7 +20,7 @@ from easydev.multicore import cpu_count
 
 import colorlog
 
-from bioconvert.core.decorators import requires_nothing
+from bioconvert.core.decorators import requires_nothing, requires
 
 logger = colorlog.getLogger(__name__)
 
@@ -304,6 +304,6 @@ class SAM2PAF(ConvBase):
         self.skipped = skipped
 
     @requires(external_binaries=["k8", "paftools"])
-    def _method_paftools(self, *args, *kwargs):
+    def _method_paftools(self, *args, **kwargs):
         cmd = "paftools sam2paf {} > {}".format(self.infile, self.outfile)
         self.execute(cmd) 
