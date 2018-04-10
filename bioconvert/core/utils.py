@@ -15,7 +15,7 @@
 import os
 import sys
 import bioconvert
-from bioconvert.core import  extensions
+from bioconvert.core import extensions
 
 def get_extension(filename, remove_compression=False):
     """Return extension of a filename
@@ -68,3 +68,4 @@ def get_format_from_extension(extension):
     bioconvert.logger.critical("Use --formats to know the available formats and --help"
                                " for examples")
     sys.exit(1)
+
