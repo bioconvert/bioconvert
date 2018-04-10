@@ -31,6 +31,7 @@ template = '''
 """ description """
 
 from bioconvert import ConvBase
+from bioconvert import requires
 
 __all__ = ["{input}2{output}"]
 
@@ -41,8 +42,6 @@ class {input}2{output}(ConvBase):
     Some description.
 
     """
-    input_ext = [".{inputext}"]
-    output_ext = [".{outputext}"]
 
     _default_method = "default"
 
@@ -55,6 +54,7 @@ class {input}2{output}(ConvBase):
         """
         super({input}2{output}, self).__init__(infile, outfile, *args, **kargs)
 
+    @requires("ls")
     def _method_default(self, *args, **kwargs):
         """some description"""
         cmd = "ls "
