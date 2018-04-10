@@ -43,7 +43,7 @@ Validators
 
 .. autosummary::
 
-    bioconvert.validators.paf
+    bioconvert.validator.sam_lint
 
 
 .. automodule:: bioconvert.core.base
@@ -54,6 +54,7 @@ NGS bioconverters
 .. automodule:: bioconvert.bam2bed
     :members:
     :synopsis:
+    :private-members:
 
 .. automodule:: bioconvert.bam2sam
     :members:
