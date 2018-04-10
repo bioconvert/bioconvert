@@ -48,7 +48,6 @@ Summary
 	bioconvert.genbank2fasta
 	bioconvert.genbank2gff
 	bioconvert.gfa2fasta
-	bioconvert.gg2hh
 	bioconvert.gz2bz2
 	bioconvert.gz2dsrc
 	bioconvert.json2yaml
@@ -290,11 +289,6 @@ All converters documentation
     :private-members:
 
 .. automodule:: bioconvert.gfa2fasta
-    :members:
-    :synopsis:
-    :private-members:
-
-.. automodule:: bioconvert.gg2hh
     :members:
     :synopsis:
     :private-members:
