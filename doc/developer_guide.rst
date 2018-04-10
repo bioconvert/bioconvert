@@ -167,11 +167,11 @@ Go to  ./test and add a file named ``test_fastq2fasta.py``
 
 
 Files used for testing should be added in
-./bioconvert/data/testing/converter_name. For instance test files for the
-sam2paf converter should be added.
-
+./bioconvert/data/testing/converter_name.
+For instance test files for the
+sam2paf converter should be added in
 bioconvert/data/testing/sam2paf directory where you should have the test files,
-a __init__.py file, a README.rst file; The latter should contain the name of the
+a __init__.py file, a README.rst file. The latter should contain the name of the
 test files and a short description.
 
 

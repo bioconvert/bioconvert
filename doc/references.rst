@@ -28,6 +28,8 @@ Converters
     bioconvert.gfa2fasta
     bioconvert.gz2dsrc
     bioconvert.sam2paf
+    bioconvert.scf2fasta
+    bioconvert.scf2fastq
     bioconvert.vcf2bcf
 
 simulators
@@ -97,6 +99,14 @@ NGS bioconverters
     :synopsis:
 
 .. automodule:: bioconvert.sam2cram
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.scf2fasta
+    :members:
+    :synopsis:
+
+.. automodule:: bioconvert.scf2fastq
     :members:
     :synopsis:
 

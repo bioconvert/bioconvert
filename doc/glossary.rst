@@ -75,6 +75,11 @@ Glossary
         describes the alignment of query sequences or sequencing reads to a reference
         sequence or assembly. http://samtools.sourceforge.net/
 
+    SCF
+
+        Trace File Format
+        https://wiki.nci.nih.gov/display/TCGA/Sequence+trace+files
+
     VCF
 
         Variant Call Format

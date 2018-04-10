@@ -11,6 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
+"""Convert :term:`SCF` file to :term:`FASTQ` file"""
 import sys
 import struct
 import copy
@@ -29,8 +30,8 @@ class Scf2Fastq(ConvBase):
     """
     Converts a binary scf file to Fastq format.
 
-    :param str infile:
-    :param str outfile:
+    :param str infile: input SCF file
+    :param str outfile: output name file
     """
 
     @requires_nothing
@@ -251,6 +252,7 @@ Private data size                      Private data
 
 # Return 'length' bits of file 'f_file' starting at offset 'offset'
 def read_from_buffer(f_file, length, offset):
+    """Return 'length' bits of file 'f_file' starting at offset 'offset'"""
     f_file.seek(offset)
     buff = f_file.read(length)
     if len(buff) != length:
