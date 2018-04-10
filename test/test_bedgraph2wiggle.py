@@ -1,5 +1,5 @@
 import os
-from bioconvert.bam2wiggle import BEDGRAPH2WIGGLE
+from bioconvert.bedgraph2wiggle import BEDGRAPH2WIGGLE
 from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
@@ -8,8 +8,8 @@ import pytest
 
 @pytest.mark.parametrize("method", BEDGRAPH2WIGGLE.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("ucsc.bedgraph")
-    outfile = bioconvert_data("ucsc.wiggle")
+    infile = bioconvert_data("ucsc.bg") # must have bg extension for wiggletools
+    outfile = bioconvert_data("test_bedgraph2wiggle.wiggle")
     md5out = md5(outfile)
 
 

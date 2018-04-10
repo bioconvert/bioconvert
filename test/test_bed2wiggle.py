@@ -9,9 +9,8 @@ import pytest
 @pytest.mark.parametrize("method", BED2WIGGLE.available_methods)
 def test_conv(method):
     infile = bioconvert_data("ucsc.bed")
-    outfile = bioconvert_data("test_ucsc.wiggle")
+    outfile = bioconvert_data("test_ucsc_bed2wiggle.wiggle")
     md5out = md5(outfile)
-
 
     with TempFile(suffix=".wiggle") as tempfile:
         convert = BED2WIGGLE(infile, tempfile.name)
