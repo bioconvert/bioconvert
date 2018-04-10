@@ -17,6 +17,10 @@ Glossary
         Format that defines the data lines displayed in an annotation track.
         (http://genome.ucsc.edu/FAQ/FAQformat#format1)
 
+    BEDGRAPH
+
+        TODO
+
     BAI
 
         The index file for a file generated in the BAM format. (This is a
@@ -26,7 +30,19 @@ Glossary
 
         TODO
 
+    BIGWIG
+
+        TODO
+
+    CLUSTAL
+
+        TODO
+
     CRAM
+
+        TODO
+
+    CSV
 
         TODO
 
@@ -80,10 +96,34 @@ Glossary
         Trace File Format
         https://wiki.nci.nih.gov/display/TCGA/Sequence+trace+files
 
+    STOCKHOLM
+
+        TODO
+
+    TSV
+
+        TODO
+
+    TWOBIT
+
+        TODO
+
     VCF
 
         Variant Call Format
         http://en.wikipedia.org/wiki/Variant_Call_Format
+
+    WIGGLE
+
+        TODO
+
+    XLS
+
+        TODO
+
+    XMFA
+
+        TODO
 
     YAML
 
