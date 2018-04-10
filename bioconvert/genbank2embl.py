@@ -14,7 +14,7 @@
 ##############################################################################
 """ description """
 
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 __all__ = ["GENBANK2EMBL"]

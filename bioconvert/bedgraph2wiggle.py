@@ -12,7 +12,7 @@
 #
 ##############################################################################
 """Convert :term:`BEDGRAPH` format to :term:`WIGGLE` formats"""
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 import colorlog
 
 from bioconvert.core.decorators import requires
@@ -37,9 +37,12 @@ class BEDGRAPH2WIGGLE(ConvBase):
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):
-        """
+        """wiggletools based method
 
+        Extension must be .bg
         """
+        if self.infile.endswith(".bg") is False:
+            raise ValueError("The input bedgraph file must have the .bg extension (wiggletools requirements)")
         cmd = "wiggletools {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 

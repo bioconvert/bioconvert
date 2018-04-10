@@ -12,7 +12,7 @@
 ##############################################################################
 """ description """
 
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 __all__ = ["FASTA2GENBANK"]

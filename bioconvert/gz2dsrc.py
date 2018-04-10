@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """ Convert a compressed fastq.gz file to :term:`DSRC` compression format """
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 import colorlog
 
 from bioconvert.core.decorators import requires

@@ -13,7 +13,7 @@
 ##############################################################################
 """Convert :term:`YAML` to :term:`JSON` format"""
 import yaml, json
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 import colorlog
 
 from bioconvert.core.decorators import requires_nothing

@@ -12,7 +12,7 @@
 #
 ##############################################################################
 """Convert :term:`BAM` format to :term:`FASTA` file"""
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 
