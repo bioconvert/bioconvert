@@ -208,7 +208,7 @@ def main(args=None):
             conversions.append((lev(conversion_name, sub_command), conversion_name))
         matches = sorted(conversions)[:5]
         if len(matches):
-            sys.exit()
+            sys.exit(2)
         else:
             arg_parser.exit(
                 e.code,
