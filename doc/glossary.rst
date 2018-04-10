@@ -75,6 +75,11 @@ Glossary
 
         The PHYLIP file format stores a multiple sequence alignment.
 
+    SCF
+
+        Trace File Format
+        https://wiki.nci.nih.gov/display/TCGA/Sequence+trace+files
+
     VCF
 
         Variant Call Format
