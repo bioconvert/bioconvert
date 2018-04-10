@@ -8,8 +8,8 @@ import pytest
 
 @pytest.mark.parametrize("method", BEDGRAPH2WIGGLE.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("test_measles.bedgraph")
-    outfile = bioconvert_data("test_bedgraph2wiggle.wiggle")
+    infile = bioconvert_data("ucsc.bedgraph")
+    outfile = bioconvert_data("ucsc.wiggle")
     md5out = md5(outfile)
 
 
