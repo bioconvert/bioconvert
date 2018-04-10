@@ -6,10 +6,6 @@ Glossary
 .. glossary::
     :sorted:
 
-    SAM
-        Sequence Alignment Map is a generic nucleotide alignment format that
-        describes the alignment of query sequences or sequencing reads to a reference
-        sequence or assembly. http://samtools.sourceforge.net/
 
     BAM
 
@@ -57,7 +53,7 @@ Glossary
     GFF
 
         General Feature Format, used for describing genes and other features
-        associated with DNA, RNA and Protein sequences. 
+        associated with DNA, RNA and Protein sequences.
         http://genome.ucsc.edu/FAQ/FAQformat#format3
 
     JSON
@@ -68,12 +64,16 @@ Glossary
     PAF
 
         PAF is a text format describing the approximate mapping positions
-        between two set of sequences. 
-
+        between two set of sequences.
 
     PHYLIP
 
         The PHYLIP file format stores a multiple sequence alignment.
+
+    SAM
+        Sequence Alignment Map is a generic nucleotide alignment format that
+        describes the alignment of query sequences or sequencing reads to a reference
+        sequence or assembly. http://samtools.sourceforge.net/
 
     VCF
 
