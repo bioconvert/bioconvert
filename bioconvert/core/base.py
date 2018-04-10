@@ -2,7 +2,7 @@
 #
 #  This file is part of Bioconvert software
 #
-#  Copyright (c) 2016 - Bioconvert Development Team
+#  Copyright (c) 2018 - Bioconvert Development Team
 #
 #
 #  Distributed under the terms of the 3-clause BSD license.
@@ -47,24 +47,8 @@ class ConvMeta(abc.ABCMeta):
        * an attribute input_ext
        * an attribute output_ext
 
-    This is an abstract class used by :class:`ConvBase` class.
-    The standard way to build a new converter is to inherit
-    from :class:`ConvBase` or a subclasse of it, for instance::
-
-        class Fasta_2_Fasta(ConvBase):
-
-            input_ext = ['.fa', '.fst', '.fasta']
-            output_ext = '.fa'
-
-            def __call__(self, *args, **kwargs):
-                # do conversion here
-                pass
-
-    The declaration of input_ext and output_ext is quite permissive.
-    You can add prefix the extension with a dot or not; if the input consists
-    of a single extension, it can be a single string, or a list/set/tuple
-    of strings.
-
+    This is an abstract class used by :class:`ConvBase` class. For developers
+    only.
     """
 
     @classmethod
@@ -82,7 +66,8 @@ class ConvMeta(abc.ABCMeta):
 
     def __init__(cls, name, bases, classdict):
 
-        # do not check extension since modules does not require to specify extension anymore
+        # do not check extension since modules does not require to specify
+        # extension anymore
 
         # def check_ext(ext, io_name):
         #     """
@@ -181,20 +166,22 @@ class ConvArg(object):
 
 
 class ConvBase(metaclass=ConvMeta):
-    """
-    This is the base class for all converters.
-    To build a new converter create a new class which inherits of :class:`ConvBase`
-    and implement __call__ method (which is abstract). The class attributes
-    input_ext and output_ext must be also override in the subclass.
-    for instance: ::
+    """ base class for all converters.
 
-        class Fasta_2_Fasta(ConvBase):
+    To build a new converter create a new class which inherits from
+    :class:`ConvBase` and implement method that performs the conversion.
+    The name of the converter method must start with _method_.
 
-            input_ext = ['.fa', '.fst', '.fasta']
-            output_ext = '.fa'
+    For instance: ::
 
-        __call__(self, *args, **kwargs):
-            do conversion
+        class Fastq2Fasta(ConvBase):
+
+            def _method_python(self, *args, **kwargs):
+                # include your code here. You can use the infile and outfile
+                # attributes.
+                self.infile
+                self.outfile
+
     """
     # specify the extensions of the input file, can be a sequence (must be
     # overridden in subclasses)
@@ -210,19 +197,11 @@ class ConvBase(metaclass=ConvMeta):
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
 
-        :param str infile: The path of the input file.
-        :param str outfile: The path of The output file
+        :param str infile: the path of the input file.
+        :param str outfile: the path of The output file
         """
-        # do not check the existence of the input file because it could be just a prefix
-        # if os.path.exists(infile) is False:
-        #     msg = "Incorrect input file: %s" % infile
-        #     _log.error(msg)
-        #     raise ValueError(msg)
-
         if not outfile:
             outfile = generate_outfile_name(infile, self.output_ext[0])
-
-
 
         self.infile = infile
         self.outfile = outfile
@@ -378,8 +357,9 @@ class ConvBase(metaclass=ConvMeta):
         bioconvert/install_script/install_executable.sh
         if the executable is not already present
 
-        :param executable to install
+        :param executable: executable to install
         :return: nothing
+
         """
         # imported but not unused (when we don't have bioconvert_path)
         # import bioconvert
