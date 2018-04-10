@@ -323,6 +323,45 @@ string. This is not a bug
 `SA:Z`: Other canonical alignments in a chimeric alignment, in the format of: (rname,pos,strand,CIGAR,mapQ,NM;)+. Each element in the semi-colon delimited list represents a part of the chimeric alignment. Conventionally, at a supplementary line, the first element points to the primary line.
 
 
+
+
+
+Trace File Format - Sequence Chromatogram Format (SCF)
+------------------------------------------------------
+
+:reference: https://wiki.nci.nih.gov/display/TCGA/Sequence+trace+files
+:reference: http://staden.sourceforge.net/manual/formats_unix_2.html
+
+
+Trace files are binary files containing raw data output from automated sequencing instruments.
+This convertor was converted from BioPerl.
+
+
+SCF file organisation (more or less)
+
+====================================== ====================================
+Length in bytes                        Data
+====================================== ====================================
+128                                    header
+Number of samples * sample size        Samples for A trace
+Number of samples * sample size        Samples for C trace
+Number of samples * sample size        Samples for G trace
+Number of samples * sample size        Samples for T trace
+Number of bases * 4                    Offset into peak index for each base
+Number of bases                        Accuracy estimate bases being 'A'
+Number of bases                        Accuracy estimate bases being 'C'
+Number of bases                        Accuracy estimate bases being 'G'
+Number of bases                        Accuracy estimate bases being 'T'
+Number of bases                        The called bases
+Number of bases * 3                    Reserved for future use
+Comments size                          Comments
+Private data size                      Private data
+====================================== ====================================
+
+
+
+
+
 Stockholm
 --------------
 
