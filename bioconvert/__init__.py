@@ -51,6 +51,7 @@ def bioconvert_data(filename, where=None):
 
 import bioconvert
 from bioconvert.core.base import ConvBase
+from bioconvert.core.decorators import requires
 from bioconvert.core import extensions
 from bioconvert.core.benchmark import Benchmark, BenchmarkMulticonvert
 from bioconvert.core.converter import Bioconvert
