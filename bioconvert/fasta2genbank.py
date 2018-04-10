@@ -10,7 +10,7 @@
 #  website: https://github.com/biokit/bioconvert
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
-""" description """
+""" Convert :term:`FASTA` to :term:`GENBANK` """
 
 from bioconvert import ConvBase, extensions
 from bioconvert.core.decorators import requires

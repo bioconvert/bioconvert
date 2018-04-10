@@ -60,6 +60,11 @@ Glossary
         associated with DNA, RNA and Protein sequences. 
         http://genome.ucsc.edu/FAQ/FAQformat#format3
 
+    GENBANK
+
+        GenBank Flat File Format.
+        See https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html
+
     JSON
 
         A human-readable data serialization language commonly used in
