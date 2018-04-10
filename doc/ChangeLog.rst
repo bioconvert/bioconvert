@@ -3,10 +3,10 @@ Whats' new, what has changed
 
 :Revision 0.1.1:
 
-    - add phylip2xmfa and xmfa2phylip
+    - add phylip2xmfa and xmfa2phylip, 
     - add bedgraph2bed
-    - Fixed #132 (bedgra2bigwig can now have chrom sizes as input)
-    - add bam2wiggle
+    - Fixed #132 (bedgraph2bigwig can now have chrom sizes as input)
+    - add bam2wiggle, bed2wiggle, bcf2wiggle, vcf2wiggle etc
 
 :Revision 0.1.0: 29 March 2018
 
