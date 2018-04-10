@@ -8,7 +8,7 @@ import pytest
 
 @pytest.mark.parametrize("method", BIGBED2WIGGLE.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("test_bigBed2wiggle.bb")
+    infile = bioconvert_data("ucsc.bigbed")
     outfile = bioconvert_data("test_bigbed2wiggle.wiggle")
     md5out = md5(outfile)
 
