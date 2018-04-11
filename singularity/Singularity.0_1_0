@@ -1,6 +1,9 @@
 BootStrap: docker
 From: ubuntu:latest
 
+###############################################
+# do not change. This is a tagged version 0.1.
+###############################################
 
 %labels
   maintainer Bertrand Neron <bneron@pasteur.fr>
