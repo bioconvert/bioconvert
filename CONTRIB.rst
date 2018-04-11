@@ -10,6 +10,7 @@ People are listed alphabetically,
 - Anne Biton
 - Blaise Li <https://github.com/blaiseli>
 - Bertrand Néron <https://github.com/bneron>
+- Etienne Kornobis <https://github.com/khourhin>
 - Kenzo-Hugo Hillion <kehillio@pasteur.fr>
 - Nicolas MAILLET
 - Pierre LECHAT  <plechat@pasteur.fr>
