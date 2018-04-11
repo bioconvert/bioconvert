@@ -33,5 +33,6 @@ dependencies:
 - pip:
   - docutils<0.13.1 # https://github.com/sphinx-doc/sphinx/issues/3212
   - pyexcel
+  - pyexcel-ods3
   - pyexcel-xls
-  - pyexcel-ods
+

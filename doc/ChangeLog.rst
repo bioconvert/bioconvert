@@ -8,14 +8,20 @@ Whats' new, what has changed
     - Fixed #132 (bedgraph2bigwig can now have chrom sizes as input)
     - add bam2wiggle, bed2wiggle, bcf2wiggle, vcf2wiggle etc
 
-:Revision 0.1.0: 29 March 2018
+:Revision 0.1.0: 3 April 2018
 
     Major refactoring to allow sub commands to be used::
 
         bioconvert fastq2fasta test.fastq test.fasta
 
+    instead of::
+
+        bioconvert test.fastq test.fasta
+
     as well as transitive conversion: if a conversion is not implemented but
-    a path exists, then conversion is performed.
+    a path exists, then conversion can be performed using -a option::
+
+        bioconvert A2C test.A test.C -a
 
     - new converters: maf2sam, ods2csv, xls2csv, xlsx2csv
 
