@@ -16,3 +16,4 @@ People are listed alphabetically,
 - Pierre LECHAT  <plechat@pasteur.fr>
 - Rachelle Legendre
 - Thomas Cokelaer <thomas.cokelaer@pasteur.fr>
+- Yoann Dufresne <https://github.com/yoann-dufresne>
