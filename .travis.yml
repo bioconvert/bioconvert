@@ -9,6 +9,12 @@ matrix:
     - python: 3.6
 
 
+branches:
+  only:
+    - master
+    - dev
+
+
 # solution based on https://gist.github.com/dan-blanchard/7045057
 # setup anaconda to install scipy and numpy easily and quickly
 before_install:

@@ -24,6 +24,7 @@ _log = colorlog.getLogger(__name__)
 
 __all__ = ["Benchmark", "BenchmarkMulticonvert"]
 
+
 def gmean(a, axis=0, dtype=None):
     # A copy/paste of scipy.stats.mstats.gmean function to 
     # avoid the scipy dependency
@@ -53,15 +54,15 @@ class Benchmark():
 
     """
     def __init__(self, obj, N=5, to_exclude=None, to_include=None):
-        """.. rubric:: constructor
+        """.. rubric:: Constructor
 
         :param obj: can be an instance of a converter class or a class name
         :param int N: number of replicates
         :param list to_exclude: methods to exclude from the benchmark
         :param list to_include: methods to include ONLY
 
-        Use one of to_exclude or to_include.
-        If both are provided, only, to_include is used.
+        Use one of *to_exclude* or *to_include*.
+        If both are provided, only the *to_include* one is used.
 
         """
         if isinstance(obj, str):

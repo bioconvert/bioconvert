@@ -12,7 +12,6 @@ def test_conv(method):
     outfile = bioconvert_data("test_bam2wiggle.wiggle")
     md5out = md5(outfile)
 
-
     with TempFile(suffix=".wiggle") as tempfile:
         convert = BAM2WIGGLE(infile, tempfile.name)
         convert(method=method)

@@ -14,7 +14,7 @@
 """NEXUS2NEWICK conversion"""
 import os
 
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 
 import colorlog
 

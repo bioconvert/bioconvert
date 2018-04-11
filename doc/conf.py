@@ -27,6 +27,7 @@ pkg_name = "bioconvert"
 import matplotlib
 matplotlib.use('Agg')
 
+on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 
 # This creates the conversion.png image automatically
 
@@ -147,12 +148,18 @@ pygments_style = 'sphinx'
 modindex_common_prefix = ["bioconvert."]
 
 # -- sphinx gallery ------------------------------------------------------------
-plot_gallery = True
+
+# By default, examples are not built locally. You can set plot_gallery to True
+# to force their creation. Note that it requires singularity or dot to be
+# installed. Fixes https://github.com/biokit/bioconvert/issues/153
+if not on_rtd:
+    plot_gallery = False
+else:
+    plot_gallery = True
 sphinx_gallery_conf = {
     "doc_module": "bioconvert",
-    #'backreferences_dir': False
+    'backreferences_dir': False
 
-    #"backreferences_dir": "gen_modules/backreferences",
     #"filename_pattern": 'plot_benchmark'
     #"examples_dirs": "examples",
 #    "gallery_dirs": "auto_examples",
@@ -183,15 +190,10 @@ def setup(app):
     app.add_javascript('copybutton.js')
     app.connect('autodoc-process-docstring', touch_example_backreferences)
 
-
-
-
-
 # -- Options for HTML output ---------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 if not on_rtd:
     import sphinx_rtd_theme
     html_theme = 'sphinx_rtd_theme'

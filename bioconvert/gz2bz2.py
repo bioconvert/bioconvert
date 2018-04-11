@@ -14,7 +14,7 @@
 import bz2
 import gzip
 
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires, requires_nothing
 

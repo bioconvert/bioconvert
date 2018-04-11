@@ -2,7 +2,7 @@ import os
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)

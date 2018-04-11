@@ -12,7 +12,7 @@
 #
 ##############################################################################
 """Convert :term:`BCF` format to :term:`WIGGLE` formats"""
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 import colorlog
 
 from bioconvert.core.decorators import requires

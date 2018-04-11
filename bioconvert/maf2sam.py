@@ -12,7 +12,7 @@
 #
 ##############################################################################
 """Convert :term:`SAM` file to :term:`BAM` file"""
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 
 import colorlog
 logger = colorlog.getLogger(__name__)

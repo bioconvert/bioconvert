@@ -11,13 +11,13 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""NEXUS2PHYLOXML conversion"""
+"""Converts :term:`NEXUS` file to :term:`PHYLOXML` file."""
 import os
 
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
@@ -32,7 +32,6 @@ class NEXUS2PHYLOXML(ConvBase):
     """
     _default_method = 'gotree'
 
-
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
 
@@ -43,12 +42,11 @@ class NEXUS2PHYLOXML(ConvBase):
         self.alphabet = alphabet
 
     @requires("conda")
-    def _method_gotree(self, threads=None, *args, **kwargs):
-        """
-        Convert :term:`NEXUS`  file in :term:`PHYLOXML` format using gotree tool.
+    def _method_gotree(self, *args, **kwargs):
+        """uses gotree tool:
+
         https://github.com/fredericlemoine/gotree
 
-        :param threads: not used.
         """
         self.install_tool('gotree')
         cmd = 'gotree reformat phyloxml -i {infile} -o {outfile} -f nexus'.format(

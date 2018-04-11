@@ -12,7 +12,7 @@
 #
 ##############################################################################
 """Convert :term:`GFA` format to :term:`FASTA` formats"""
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 import colorlog
 
 from bioconvert.core.decorators import requires, requires_nothing

@@ -12,7 +12,7 @@
 ##############################################################################
 """ description """
 
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 __all__ = ["FASTA2GENBANK"]
@@ -21,8 +21,8 @@ __all__ = ["FASTA2GENBANK"]
 class FASTA2GENBANK(ConvBase):
     """Convert :term:`FASTA` file to :term:`GENBANK` file"""
 
-    # squizz works as welll but keeps lower cases while biopython uses upper
-    # cases
+    # squizz works as well but keeps lower cases while 
+    # biopython uses upper cases
     _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):

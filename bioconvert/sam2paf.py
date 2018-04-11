@@ -15,7 +15,7 @@
 import re
 import os
 
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from easydev.multicore import cpu_count
 
 import colorlog

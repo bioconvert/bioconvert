@@ -10,7 +10,7 @@
 #  website: https://github.com/biokit/bioconvert
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
-""" description """
+"""Convert :term:`BAM` file to :term:`BIGWIG` file"""
 import colorlog
 from bioconvert import ConvBase 
 from bioconvert.core.base import ConvArg

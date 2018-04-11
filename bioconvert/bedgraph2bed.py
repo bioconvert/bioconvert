@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""BEDGRAPH2BIGWIG conversion """
+"""Convert :term:`BEDGRAPH` file to :term:`BIGWIG` file."""
 import os
 import colorlog
 

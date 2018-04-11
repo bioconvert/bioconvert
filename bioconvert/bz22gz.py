@@ -14,7 +14,7 @@
 import bz2
 import gzip
 
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 
 import colorlog
 

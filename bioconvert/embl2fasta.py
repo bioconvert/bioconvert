@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """Convert :term:`EMBL` file to :term:`FASTA` file"""
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 __all__ = ["EMBL2FASTA"]

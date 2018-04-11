@@ -12,7 +12,7 @@
 #
 ##############################################################################
 """Convert :term:`VCF` file to :term:`BED` file"""
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 import colorlog
 
 from bioconvert.core.decorators import requires
