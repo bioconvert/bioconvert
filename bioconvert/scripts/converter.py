@@ -34,28 +34,6 @@ from bioconvert.core.converter import Bioconvert
 from bioconvert.core.decorators import get_known_dependencies_with_availability
 from bioconvert.core.registry import Registry
 
-
-class GetKnownDependenciesAction(argparse.Action):
-
-    def __init__(self,
-                 option_strings,
-                 dest=argparse.SUPPRESS,
-                 default=argparse.SUPPRESS,
-                 help=None):
-        super(GetKnownDependenciesAction, self).__init__(option_strings=option_strings,
-                                                         dest=dest,
-                                                         default=default,
-                                                         nargs=0,
-                                                         help=help)
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        Registry()
-        print(json.dumps(
-                get_known_dependencies_with_availability(as_dict=True),
-                sort_keys=True, indent=4))
-        sys.exit(0)
-
-
 def main(args=None):
     if args is None:
         args = sys.argv[1:]
@@ -185,7 +163,7 @@ def main(args=None):
                             )
 
     arg_parser.add_argument("--dependency-report",
-                            action=GetKnownDependenciesAction,
+                            action="store_true",
                             default=False,
                             help="Output all bioconvert dependencies in json and exit")
 
@@ -238,6 +216,10 @@ def main(args=None):
             '    bioconvert --help -a \n'.format(
                  sub_command, ', '.join([v for _, v in matches]))
         )
+
+    if args.dependency_report:
+        print(json.dumps(get_known_dependencies_with_availability(as_dict=True), sort_keys=True, indent=4, ))
+        sys.exit(0)
 
     if args.command is None:
         msg = 'No converter specified. You can list converter by doing bioconvert --help'
