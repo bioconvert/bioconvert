@@ -71,10 +71,6 @@ def main(args=None):
     except:
         pass
 
-    if "--version" in args:
-        print("{}".format(bioconvert.version))
-        sys.exit(0)
-
 
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
                                          description="""Convertor infer the
@@ -174,6 +170,7 @@ def main(args=None):
 
     arg_parser.add_argument("--version",
                             action="store_true",
+                            default=False,
                             help="Show version")
 
     try:
@@ -216,6 +213,10 @@ def main(args=None):
             '    bioconvert --help -a \n'.format(
                  sub_command, ', '.join([v for _, v in matches]))
         )
+
+    if args.version:
+        print("{}".format(bioconvert.version))
+        sys.exit(0)
 
     if args.dependency_report:
         print(json.dumps(get_known_dependencies_with_availability(as_dict=True), sort_keys=True, indent=4, ))
