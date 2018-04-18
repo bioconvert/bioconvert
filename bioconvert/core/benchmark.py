@@ -26,7 +26,6 @@ from collections import defaultdict
 from itertools import chain
 from pandas import np
 from easydev import Timer, Progress
-import pylab
 
 import colorlog
 _log = colorlog.getLogger(__name__)
@@ -116,6 +115,7 @@ class Benchmark():
         self.results = results
 
     def plot(self, rerun=False, ylabel="Time (seconds)"):
+        import pylab
         """Plots the benchmark results, running the benchmarks
         if needed or if *rerun* is True."""
         if self.results is None or rerun is True:
