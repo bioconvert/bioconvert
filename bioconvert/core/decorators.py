@@ -27,7 +27,7 @@ from functools import wraps
 from os.path import splitext
 
 import colorlog
-import pip
+import pkg_resources
 from easydev import TempFile
 
 _log = colorlog.getLogger(__name__)
@@ -185,7 +185,7 @@ def requires(
     requires.__missing_libraries = __missing_libraries
     __pip_libraries = getattr(requires, "__pip_libraries", None)
     if __pip_libraries is None:
-        __pip_libraries = [p.project_name for p in pip.get_installed_distributions()]
+        __pip_libraries = [p.project_name for p in pkg_resources.working_set]
         requires.__pip_libraries = __pip_libraries
 
     def real_decorator(function):
