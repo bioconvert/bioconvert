@@ -184,6 +184,35 @@ def test_allow_indirect_conversion():
         assert False
 
 
+def test_wrong_verbose():
+    import sys
+    sys.argv = ["bioconvert", "--version", "-v" "INFO "]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 2
+    except:
+        assert False
+    import sys
+    sys.argv = ["bioconvert", "--version", "-v" "TRALALA"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 2
+    except:
+        assert False
+    sys.argv = ["bioconvert", "fastq2fasta", "--show-methods", "-v", "TRALALA"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 2
+    except:
+        assert False
+
+
 def test_verbose():
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
     with TempFile(suffix=".tt") as tempfile:

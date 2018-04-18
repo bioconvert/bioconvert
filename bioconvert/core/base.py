@@ -419,7 +419,8 @@ class ConvBase(metaclass=ConvMeta):
         yield ConvArg(
             names=["-v", "--verbosity", ],
             default=bioconvert.logger.level,
-            help="Set the outpout verbosity. Should be one of DEBUG, INFO, WARNING, ERROR, CRITICAL",
+            help="Set the outpout verbosity.",
+            choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         )
         yield ConvArg(
             names=["--raise-exception", ],

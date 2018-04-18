@@ -136,7 +136,7 @@ def main(args=None):
     join us at https://github/biokit/bioconvert\n\
 """)
     registry = Registry()
-    subparsers = arg_parser.add_subparsers(help='sub-command help', 
+    subparsers = arg_parser.add_subparsers(help='sub-command help',
                                            dest='command', )
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
 
@@ -180,8 +180,9 @@ def main(args=None):
 
     arg_parser.add_argument("-v", "--verbosity",
                             default=bioconvert.logger.level,
-                            help="Set the outpout verbosity. Should be one of"
-                                 " DEBUG, INFO, WARNING, ERROR, CRITICAL")
+                            help="Set the outpout verbosity.",
+                            choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+                            )
 
     arg_parser.add_argument("--dependency-report",
                             action=GetKnownDependenciesAction,
@@ -208,7 +209,11 @@ def main(args=None):
         sub_command = None
         args_i = 0
         while sub_command is None and args_i < len(args):
-            if args[args_i][0] != '-':
+            if args[args_i][0] != '-' and (
+                    args_i == 0
+                    or args[args_i - 1] != '-v'
+                    and args[args_i - 1] != '--verbose'
+            ):
                 sub_command = args[args_i]
             args_i += 1
 
@@ -221,6 +226,9 @@ def main(args=None):
             conversion_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
             conversions.append((lev(conversion_name, sub_command), conversion_name))
         matches = sorted(conversions)[:5]
+        if matches[0][0] == 0:
+            # sub_command was ok, problem comes from elswhere
+            raise e
         arg_parser.exit(
             e.code,
             '\n\nYour converter {}() was not found. \n'
