@@ -200,6 +200,9 @@ def main(args=None):
     try:
         args = arg_parser.parse_args(args)
     except SystemExit as e:
+        # parsing ask to stop, maybe a normal exit
+        if e.code == 0:
+            raise e
         # Parsing failed, trying to guess command
         from bioconvert.core.levenshtein import wf_levenshtein as lev
         sub_command = None
@@ -218,18 +221,15 @@ def main(args=None):
             conversion_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
             conversions.append((lev(conversion_name, sub_command), conversion_name))
         matches = sorted(conversions)[:5]
-        if len(matches):
-            sys.exit(2)
-        else:
-            arg_parser.exit(
-                e.code,
-                '\n\nYour converter {}() was not found. \n'
-                'Here is a list of possible matches: {} ... '
-                '\nYou may also add the -a argument to enfore a '
-                'transitive conversion. The whole list is available using\n\n'
-                '    bioconvert --help -a \n'.format(
-                     sub_command, ', '.join([v for _, v in matches]))
-            )
+        arg_parser.exit(
+            e.code,
+            '\n\nYour converter {}() was not found. \n'
+            'Here is a list of possible matches: {} ... '
+            '\nYou may also add the -a argument to enfore a '
+            'transitive conversion. The whole list is available using\n\n'
+            '    bioconvert --help -a \n'.format(
+                 sub_command, ', '.join([v for _, v in matches]))
+        )
 
     if args.command is None:
         msg = 'No converter specified. You can list converter by doing bioconvert --help'

@@ -108,6 +108,50 @@ def test_version():
         assert False
 
 
+def test_help_works():
+    import sys
+    sys.argv = ["bioconvert", "--help"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+    sys.argv = ["bioconvert", "-v", "DEBUG", "--help"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+    sys.argv = ["bioconvert", "--help", "-v", "DEBUG"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+    sys.argv = ["bioconvert", "fastq2fasta", "--help"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+    sys.argv = ["bioconvert", "fastq2fasta", "--help", "-v", "DEBUG"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+
+
 def test_dependency_report():
     import sys
     sys.argv = ["bioconvert", "--dependency-report"]
