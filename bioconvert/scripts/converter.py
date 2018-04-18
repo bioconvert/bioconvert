@@ -79,35 +79,35 @@ def main(args=None):
                                          users must ensure that their input
                                          format files are properly
                                          formatted.""",
-                                         usage="""
+                                         formatter_class=argparse.RawDescriptionHelpFormatter,
+                                         epilog="""
+Bioconvert contains tens of converters whose list is available as follows:
 
-    Bioconvert contains tens of converters whose list is available as follows:
+    bioconvert --help
 
-        bioconvert --help
+Each conversion has its own sub-command and dedicated help. For instance:
 
-    Each conversion has its own sub-command and dedicated help. For instance:
+    bioconvert fastq2fasta --help
 
-        bioconvert fastq2fasta --help
+Because the subcommand contains the format, extensions are not important
+for the conversion itself. This would convert the test.txt file (fastq
+format) into a fasta file:
 
-    Because the subcommand contains the format, extensions are not important
-    for the conversion itself. This would convert the test.txt file (fastq
-    format) into a fasta file:
+    bioconvert fastq2fasta test.txt test.fasta
 
-        bioconvert fastq2fasta test.txt test.fasta
+Users must ensure that their input format files are properly formatted.
 
-    Users must ensure that their input format files are properly formatted.
+If there is a conversion from A to B and another for B to C, you can also
+perform indirect conversion using -a argument (experimental). This command
+shows all possible indirect conversions:
 
-    If there is a conversion from A to B and another for B to C, you can also
-    perform indirect conversion using -a argument (experimental). This command
-    shows all possible indirect conversions:
+    bioconvert --help -a
 
-        bioconvert --help -a
+Please visit http://bioconvert.readthedocs.org for more information about the
+project or formats available.
 
-    Please visit bioconvert.readthedocs.org for more information about the
-    project or formats available.
-
-    Bioconvert is an open source collaborative project. Please feel free to 
-    join us at https://github/biokit/bioconvert\n\
+Bioconvert is an open source collaborative project. Please feel free to 
+join us at https://github/biokit/bioconvert
 """)
     registry = Registry()
     subparsers = arg_parser.add_subparsers(help='sub-command help',
@@ -144,6 +144,9 @@ def main(args=None):
             help=help_text,
             formatter_class=argparse.ArgumentDefaultsHelpFormatter,
             # aliases=["{}_to_{}".format(in_fmt.lower(), out_fmt.lower()), ],
+            epilog="""Bioconvert is an open source collaborative project. 
+Please feel free to join us at https://github/biokit/bioconvert
+""",
         )
 
         if converter:
