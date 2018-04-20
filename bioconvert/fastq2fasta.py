@@ -272,5 +272,6 @@ class Fastq2Fasta(ConvBase):
             nargs="?",
             default=None,
             type=ConvArg.file,
+            output_argument=True,
             help="The path to the quality file.",
         )

@@ -22,7 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
+import copy
 import time
 import abc
 import select
@@ -160,6 +160,9 @@ class ConvMeta(abc.ABCMeta):
 
 
 class ConvArg(object):
+    black_listed_argument_for_argparse = [
+        "output_argument",
+    ]
 
     def __init__(self, names, help, **kwargs):
         if isinstance(names, list):
@@ -172,7 +175,10 @@ class ConvArg(object):
         )
 
     def add_to_sub_parser(self, sub_parser):
-        sub_parser.add_argument(*self.args_for_sub_parser, **self.kwargs_for_sub_parser)
+        kwargs = copy.deepcopy(self.kwargs_for_sub_parser)
+        for a in self.black_listed_argument_for_argparse:
+            kwargs.pop(a, None)
+        sub_parser.add_argument(*self.args_for_sub_parser, **kwargs)
 
     @classmethod
     def file(cls, path):
@@ -415,6 +421,7 @@ class ConvBase(metaclass=ConvMeta):
             nargs="?",
             default=None,
             type=ConvArg.file,
+            output_argument=True,
             help="The path where the result will be stored.",
         )
         yield ConvArg(
