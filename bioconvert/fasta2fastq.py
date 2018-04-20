@@ -78,5 +78,6 @@ class Fasta2Fastq(ConvBase):
             names="--quality-file",
             nargs="?",
             default=None,
+            type=ConvArg.file,
             help="The path to the quality file.",
         )

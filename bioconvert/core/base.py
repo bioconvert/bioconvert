@@ -174,6 +174,10 @@ class ConvArg(object):
     def add_to_sub_parser(self, sub_parser):
         sub_parser.add_argument(*self.args_for_sub_parser, **self.kwargs_for_sub_parser)
 
+    @classmethod
+    def file(cls, path):
+        return path
+
 
 class ConvBase(metaclass=ConvMeta):
     """ base class for all converters.
@@ -403,17 +407,20 @@ class ConvBase(metaclass=ConvMeta):
             names="input_file",
             nargs="?",
             default=None,
+            type=ConvArg.file,
             help="The path to the file to convert.",
         )
         yield ConvArg(
             names="output_file",
             nargs="?",
             default=None,
+            type=ConvArg.file,
             help="The path where the result will be stored.",
         )
         yield ConvArg(
             names=["-f", "--force", ],
             action="store_true",
+            type=bool,
             help="if outfile exists, it is overwritten with this option",
         )
         yield ConvArg(
@@ -425,11 +432,13 @@ class ConvBase(metaclass=ConvMeta):
         yield ConvArg(
             names=["--raise-exception", ],
             action="store_true",
+            type=bool,
             help="Let exception ending the execution be raised and displayed",
         )
         yield ConvArg(
             names=["-m", "--batch", ],
             default=False, action="store_true",
+            type=bool,
             help="Allow conversion of a set of files using wildcards. You "
                 "must use quotes to escape the wildcards. For instance: "
                 "--batch 'test*fastq' ")
@@ -437,6 +446,7 @@ class ConvBase(metaclass=ConvMeta):
             names=["-b", "--benchmark", ],
             default=False,
             action="store_true",
+            type=bool,
             help="Running all available methods",
         )
         yield ConvArg(
@@ -448,6 +458,7 @@ class ConvBase(metaclass=ConvMeta):
         yield ConvArg(
             names=["-a", "--allow-indirect-conversion", ],
             default=False,
+            type=bool,
             action="store_true",
             help="Allow to chain converter when direct conversion is absent",
         )
@@ -471,6 +482,7 @@ class ConvBase(metaclass=ConvMeta):
         yield ConvArg(
             names=["-s", "--show-methods", ],
             default=False,
+            type=bool,
             action="store_true",
             help="A converter may have several methods",
         )
