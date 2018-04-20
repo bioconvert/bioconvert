@@ -169,10 +169,10 @@ class ConvArg(object):
             self.args_for_sub_parser = names
         else:
             self.args_for_sub_parser = [names, ]
-        self.kwargs_for_sub_parser = dict(
-            help=help,
-            **kwargs,
-        )
+        self.kwargs_for_sub_parser = {
+            'help': help
+        }
+        self.kwargs_for_sub_parser.update(kwargs)
 
     def add_to_sub_parser(self, sub_parser):
         kwargs = copy.deepcopy(self.kwargs_for_sub_parser)
