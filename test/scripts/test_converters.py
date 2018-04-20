@@ -7,6 +7,7 @@ from bioconvert import bioconvert_data
 from bioconvert.bam2bed import BAM2BED
 from bioconvert.scripts import converter
 
+
 def test_converter():
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
     with TempFile(suffix=".fasta") as tempfile1, TempFile(suffix=".fasta") as tempfile2:
@@ -38,6 +39,15 @@ def test_converter_no_outfile():
         sys.argv = ["bioconvert", "fastq2fasta", tempfile.name, "--force", "--raise-exception"]
         converter.main()
         # os.remove(infile[:-3] + "sam")
+
+
+def test_converter_no_outfile_without_srs_argv():
+    import shutil
+    infile = bioconvert_data("test_fastq2fasta_v1.fastq")
+    with TempFile(suffix=".fastq") as tempfile:
+        shutil.copy(infile, tempfile.name)
+        args = ["bioconvert", "fastq2fasta", tempfile.name, "--force", "--raise-exception"]
+        converter.main(args[1:])
 
 
 def test_converter_output_format():

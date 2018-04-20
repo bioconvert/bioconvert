@@ -420,7 +420,6 @@ class ConvBase(metaclass=ConvMeta):
         yield ConvArg(
             names=["-f", "--force", ],
             action="store_true",
-            type=bool,
             help="if outfile exists, it is overwritten with this option",
         )
         yield ConvArg(
@@ -432,13 +431,12 @@ class ConvBase(metaclass=ConvMeta):
         yield ConvArg(
             names=["--raise-exception", ],
             action="store_true",
-            type=bool,
             help="Let exception ending the execution be raised and displayed",
         )
         yield ConvArg(
             names=["-m", "--batch", ],
-            default=False, action="store_true",
-            type=bool,
+            default=False,
+            action="store_true",
             help="Allow conversion of a set of files using wildcards. You "
                 "must use quotes to escape the wildcards. For instance: "
                 "--batch 'test*fastq' ")
@@ -446,7 +444,6 @@ class ConvBase(metaclass=ConvMeta):
             names=["-b", "--benchmark", ],
             default=False,
             action="store_true",
-            type=bool,
             help="Running all available methods",
         )
         yield ConvArg(
@@ -458,7 +455,6 @@ class ConvBase(metaclass=ConvMeta):
         yield ConvArg(
             names=["-a", "--allow-indirect-conversion", ],
             default=False,
-            type=bool,
             action="store_true",
             help="Allow to chain converter when direct conversion is absent",
         )
@@ -482,7 +478,6 @@ class ConvBase(metaclass=ConvMeta):
         yield ConvArg(
             names=["-s", "--show-methods", ],
             default=False,
-            type=bool,
             action="store_true",
             help="A converter may have several methods",
         )
