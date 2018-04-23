@@ -10,3 +10,4 @@ sphinx_rtd_theme
 sphinx-gallery
 numpydoc
 coveralls
+pygraphviz

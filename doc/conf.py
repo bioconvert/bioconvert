@@ -104,7 +104,7 @@ copyright = copyright
 # built documents.
 #
 # The short X.Y version.
-version = 'Current version: ' + str(version) 
+version = 'Current version: ' + str(version)
 # The full version, including alpha/beta/rc tags.
 release = release
 
@@ -180,6 +180,7 @@ def touch_example_backreferences(app, what, name, obj, options, lines):
                                  "%s.examples" % name)
     if not os.path.exists(examples_path):
         # touch file
+        os.makedirs(os.path.dirname(examples_path), exist_ok=True)
         open(examples_path, 'w').close()
 
 
@@ -232,7 +233,7 @@ html_short_title = "Bioconvert"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 
-# the copybutton.js must be copied there: 
+# the copybutton.js must be copied there:
 html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
@@ -248,7 +249,7 @@ html_index = 'index.html'
 
 #Custom sidebar templates, maps page names to templates.
 #html_sidebars = {
-#                    'index': [ 'indexsidebar.html'], 
+#                    'index': [ 'indexsidebar.html'],
 #                    'contents':'indexsidebar.html',
 #}
 # Additional templates that should be rendered to pages, maps page names to
@@ -326,7 +327,7 @@ latex_elements["latex_preamble"] = r"""
 \definecolor{VerbatimBorderColor}{rgb}{0,0,0}
 
    \setlength{\fboxrule}{2pt}
- 
+
  \renewcommand{\Verbatim}[1][1]{%
    % list starts new par, but we don't want it to be set apart vertically
    \bgroup\parskip=0pt%

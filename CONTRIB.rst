@@ -13,6 +13,7 @@ People are listed alphabetically,
 - Etienne Kornobis <https://github.com/khourhin>
 - Kenzo-Hugo Hillion <kehillio@pasteur.fr>
 - Nicolas MAILLET
+- Nicolas Traut
 - Pierre LECHAT  <plechat@pasteur.fr>
 - Rachelle Legendre
 - Thomas Cokelaer <thomas.cokelaer@pasteur.fr>

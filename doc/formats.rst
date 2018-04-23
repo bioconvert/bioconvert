@@ -21,13 +21,13 @@ irecord. The first field in each record describes the record type. The three
 types are:
 
 - HT: Header record. This record contains metadata tags for the file version
-(VN tag) and parameters associated with the graph (for example the minimum
-overlap length).
+  (VN tag) and parameters associated with the graph (for example the minimum
+  overlap length).
 - VT: Vertex records. The second field contains the vertex identifier, the
-third field contains the sequence. Subsequent fields contain optional tags.
+  third field contains the sequence. Subsequent fields contain optional tags.
 - ED: Edge description records. The second field describes a pair of
-overlapping sequences. A full description of this field is below. Subsequent
-fields contain optional tags.
+  overlapping sequences. A full description of this field is below. Subsequent
+  fields contain optional tags.
 
 Example
 ~~~~~~~~~~~~~~~~
@@ -215,7 +215,7 @@ individual. The first 6 columns are:
 - family ID (or pedigree name): a unique alpha numeric identifier 
 - individual ID: should be unique within his family
 - father ID: 0 if unknown. If specified, must also appear as an individual in
-the file
+  the file
 - mother ID: same as above
 - Sex: 1 Male, 2 Female
 - Phenotype
