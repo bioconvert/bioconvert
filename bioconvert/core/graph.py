@@ -14,8 +14,11 @@
 """ description """
 from os import environ
 
+import colorlog
 
-def create_graph(filename, layout="dot", use_singularity=False):
+_log = colorlog.getLogger(__name__)
+
+def create_graph(filename, layout="dot", use_singularity=False, color_for_disabled_converter='red'):
     """
 
     :param filename: should end in .png or .svg or .dot
@@ -36,12 +39,13 @@ def create_graph(filename, layout="dot", use_singularity=False):
         dg = AGraph(directed=True)
 
         for a, b, s in rr.get_all_conversions():
-            dg.add_edge(a, b, color='black' if s else 'red')
+            dg.add_edge(a, b, color='black' if s else color_for_disabled_converter)
 
         dg.layout(layout)
         dg.draw(filename)
 
-    except Exception:
+    except Exception as e:
+        _log.error(e)
         dot = """
 strict digraph{
     node [label="\\N"];

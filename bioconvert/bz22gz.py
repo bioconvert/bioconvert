@@ -11,11 +11,14 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """ description """
-from bioconvert import ConvBase, extensions
+import bz2
+import gzip
+
+from bioconvert import ConvBase
 
 import colorlog
 
-from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import requires, requires_nothing
 
 logger = colorlog.getLogger(__name__)
 
@@ -48,3 +51,8 @@ class BZ22GZ(ConvBase):
             input=self.infile,
             output=self.outfile)
         self.execute(cmd)
+
+    @requires_nothing
+    def _method_python(self):
+        with bz2.open(self.infile, 'rb') as f, gzip.open(self.outfile, 'wb')as g:
+            g.write(f.read())

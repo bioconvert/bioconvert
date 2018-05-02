@@ -1,5 +1,5 @@
 """Convert :term:`BAM` format to :term:`JSON` file"""
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 
 import colorlog
 

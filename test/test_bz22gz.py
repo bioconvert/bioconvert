@@ -1,11 +1,16 @@
 import bz2
 import gzip
+
+import pytest
+
 from bioconvert.bz22gz import BZ22GZ
 from easydev import TempFile
 
-def test_conv():
+
+@pytest.mark.parametrize("method", BZ22GZ.available_methods)
+def test_conv(method):
     # generate a fake sequence
-    content_ref = b"atgc"*50
+    content_ref = b"atgc" * 50
     # Compress it
     bz2_string = bz2.compress(content_ref, 9)
     # Generate two tmp file
@@ -17,7 +22,7 @@ def test_conv():
 
     # Convert bz2 to gz
     converter = BZ22GZ(bz2_file.name, gz_file.name)
-    converter()
+    converter(method=method)
 
     # gunzip result file
     with gzip.open(gz_file.name, 'rb') as gz_to_read:

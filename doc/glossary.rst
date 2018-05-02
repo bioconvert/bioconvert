@@ -6,10 +6,6 @@ Glossary
 .. glossary::
     :sorted:
 
-    SAM
-        Sequence Alignment Map is a generic nucleotide alignment format that
-        describes the alignment of query sequences or sequencing reads to a reference
-        sequence or assembly. http://samtools.sourceforge.net/
 
     BAM
 
@@ -21,6 +17,10 @@ Glossary
         Format that defines the data lines displayed in an annotation track.
         (http://genome.ucsc.edu/FAQ/FAQformat#format1)
 
+    BEDGRAPH
+
+        TODO
+
     BAI
 
         The index file for a file generated in the BAM format. (This is a
@@ -30,7 +30,19 @@ Glossary
 
         TODO
 
+    BIGWIG
+
+        TODO
+
+    CLUSTAL
+
+        TODO
+
     CRAM
+
+        TODO
+
+    CSV
 
         TODO
 
@@ -57,7 +69,7 @@ Glossary
     GFF
 
         General Feature Format, used for describing genes and other features
-        associated with DNA, RNA and Protein sequences. 
+        associated with DNA, RNA and Protein sequences.
         http://genome.ucsc.edu/FAQ/FAQformat#format3
 
     JSON
@@ -68,17 +80,50 @@ Glossary
     PAF
 
         PAF is a text format describing the approximate mapping positions
-        between two set of sequences. 
-
+        between two set of sequences.
 
     PHYLIP
 
         The PHYLIP file format stores a multiple sequence alignment.
 
+    SAM
+        Sequence Alignment Map is a generic nucleotide alignment format that
+        describes the alignment of query sequences or sequencing reads to a reference
+        sequence or assembly. http://samtools.sourceforge.net/
+
+    SCF
+
+        Trace File Format
+        https://wiki.nci.nih.gov/display/TCGA/Sequence+trace+files
+
+    STOCKHOLM
+
+        TODO
+
+    TSV
+
+        TODO
+
+    TWOBIT
+
+        TODO
+
     VCF
 
         Variant Call Format
         http://en.wikipedia.org/wiki/Variant_Call_Format
+
+    WIGGLE
+
+        TODO
+
+    XLS
+
+        TODO
+
+    XMFA
+
+        TODO
 
     YAML
 

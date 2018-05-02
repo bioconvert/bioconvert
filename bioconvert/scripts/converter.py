@@ -86,10 +86,6 @@ def main(args=None):
         print("{}".format(bioconvert.version))
         sys.exit(0)
 
-    #from easydev.console import purple
-    #if "-v" in args or "--verbosity" in args or "--help" in args or len(args)==1:
-    #    print(purple("Welcome to bioconvert (bioconvert.readthedocs.io)"))
-
 
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
                                          description="""Convertor infer the
@@ -125,13 +121,13 @@ def main(args=None):
     Please visit bioconvert.readthedocs.org for more information about the
     project or formats available.
 
-    Bioconvert is an open source collaborative project. Please feel free to join us at
-    https://github/biokit/bioconvert\n\
+    Bioconvert is an open source collaborative project. Please feel free to 
+    join us at https://github/biokit/bioconvert\n\
 """)
     registry = Registry()
-    subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )
+    subparsers = arg_parser.add_subparsers(help='sub-command help', 
+                                           dest='command', )
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
-
 
     # show all possible conversion
     for in_fmt, out_fmt, converter, path in \
@@ -186,6 +182,10 @@ def main(args=None):
                             help="Show all possible indirect conversions "
                                  "(labelled as intermediate) (EXPERIMENTAL)")
 
+    arg_parser.add_argument("--version",
+                            action="store_true",
+                            help="Show version")
+
     try:
         args = arg_parser.parse_args(args)
     except SystemExit as e:
@@ -197,22 +197,28 @@ def main(args=None):
             if args[args_i][0] != '-':
                 sub_command = args[args_i]
             args_i += 1
+
         if sub_command is None:
             # No sub_command found, so letting the initial exception be risen
             raise e
+
         conversions = []
         for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
             conversion_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
             conversions.append((lev(conversion_name, sub_command), conversion_name))
         matches = sorted(conversions)[:5]
-        arg_parser.exit(
-            e.code,
-            '\n\nYour converter {}() was not found. \n'
-            'Here is a list of possible matches: {} ... '
-            '\nYou may also add the -a argument to enfore a '
-            'transitive conversion. The whole list is available using\n\n'
-            '    bioconvert --help -a \n'.format(sub_command, ', '.join([v for _, v in matches]))
-        )
+        if len(matches):
+            sys.exit(2)
+        else:
+            arg_parser.exit(
+                e.code,
+                '\n\nYour converter {}() was not found. \n'
+                'Here is a list of possible matches: {} ... '
+                '\nYou may also add the -a argument to enfore a '
+                'transitive conversion. The whole list is available using\n\n'
+                '    bioconvert --help -a \n'.format(
+                     sub_command, ', '.join([v for _, v in matches]))
+            )
 
     if args.command is None:
         msg = 'No converter specified. You can list converter by doing bioconvert --help'

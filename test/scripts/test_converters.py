@@ -7,15 +7,14 @@ from bioconvert import bioconvert_data
 from bioconvert.bam2bed import BAM2BED
 from bioconvert.scripts import converter
 
-
 def test_converter():
-    infile = bioconvert_data("test_measles.sorted.bam")
-    with TempFile(suffix=".sam") as tempfile1, TempFile(suffix=".sam") as tempfile2:
-        cmd = "bioconvert bam2sam %s %s --force" % (infile, tempfile1.name)
+    infile = bioconvert_data("test_fastq2fasta_v1.fastq")
+    with TempFile(suffix=".fasta") as tempfile1, TempFile(suffix=".fasta") as tempfile2:
+        cmd = "bioconvert fastq2fasta %s %s --force" % (infile, tempfile1.name)
         p = subprocess.Popen(cmd, shell=True)
         assert p.wait() == 0
         import sys
-        sys.argv = ["bioconvert", "bam2sam", infile, tempfile2.name, "--force"]
+        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile2.name, "--force"]
         converter.main()
         assert md5(tempfile1.name) == md5(tempfile2.name)
 
@@ -31,11 +30,14 @@ def test_converter2():
 
 
 def test_converter_no_outfile():
-    infile = bioconvert_data("test_measles.sorted.bam")
-    import sys, os
-    sys.argv = ["bioconvert", "bam2sam", infile, "--force", "--raise-exception"]
-    converter.main()
-    os.remove(infile[:-3] + "sam")
+    import shutil
+    infile = bioconvert_data("test_fastq2fasta_v1.fastq")
+    with TempFile(suffix=".fastq") as tempfile:
+        shutil.copy(infile, tempfile.name)
+        import sys, os
+        sys.argv = ["bioconvert", "fastq2fasta", tempfile.name, "--force", "--raise-exception"]
+        converter.main()
+        # os.remove(infile[:-3] + "sam")
 
 
 def test_converter_output_format():

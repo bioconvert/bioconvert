@@ -12,7 +12,7 @@
 #
 ##############################################################################
 """Convert :term:`BAM` format to :term:`BED` formats"""
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 import colorlog
 
 from bioconvert.core.decorators import requires
@@ -64,7 +64,8 @@ class BAM2BED(ConvBase):
     _default_method = "samtools"
 
     def __init__(self, infile, outfile):
-        """
+        """.. rubric:: Constructor
+
         :param str infile: The path to the input BAM file. **It must be sorted**.
         :param str outfile: The path to the output file
         """
@@ -73,7 +74,7 @@ class BAM2BED(ConvBase):
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """
-        do the conversion sorted :term`BAM` -> :term:'BED` using samtools
+        do the conversion sorted :term:`BAM` -> :term:`BED` using samtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.

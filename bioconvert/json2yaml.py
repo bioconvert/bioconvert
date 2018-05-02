@@ -13,7 +13,7 @@
 ##############################################################################
 """Convert :term:`JSON` to :term:`YAML` format"""
 import yaml, json
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires, requires_nothing
 
 __all__ = ["JSON2YAML"]

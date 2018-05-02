@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """Convert :term:`EMBL` file to :term:`GENBANK` file"""
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 __all__ = ["EMBL2GENBANK"]
@@ -30,8 +30,7 @@ class EMBL2GENBANK(ConvBase):
         """
         super(EMBL2GENBANK, self).__init__(infile, outfile, *args, **kargs)
 
-
-    @requires("squizz")
+    @requires(external_binary="squizz")
     def _method_squizz(self, *args, **kwargs):
         """Header is less informative than the one obtained with biopython"""
         cmd = "squizz {} -f embl -c genbank > {} ".format(self.infile, self.outfile)

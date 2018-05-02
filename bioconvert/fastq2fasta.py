@@ -214,20 +214,50 @@ class Fastq2Fasta(ConvBase):
     @compressor
     def _method_python_internal(self, *args, **kwargs):
         with open(self.infile, "r+") as inp:
-            with open(self.outfile, "wb") as out:
-                mapp = mmap.mmap(inp.fileno(), 0)
-                line = mapp.readline()
-                while line:
-                    out.write(b">")
-                    out.write(line[1:])
-                    out.write(mapp.readline())
-                    mapp.readline()
-                    mapp.readline()
+
+            quality_file = kwargs.get("quality_file", None)
+            if quality_file:
+                with open(self.outfile, "wb") as out, open(quality_file, "wb") as qualout:
+                    mapp = mmap.mmap(inp.fileno(), 0)
                     line = mapp.readline()
-                mapp.close()
+                    while line:
+                        # save identifier in fasta and qual file
+                        out.write(b">")
+                        out.write(line[1:])
+                        qualout.write(b">")
+                        qualout.write(line[1:])
+                        # read/save sequence
+                        out.write(mapp.readline())
+                        # skip line
+                        mapp.readline()  # "+"
+                        # read/save quality
+                        qualout.write(mapp.readline())
+                        line = mapp.readline()
+                    mapp.close()
+            else:
+                with open(self.outfile, "wb") as out:
+                    mapp = mmap.mmap(inp.fileno(), 0)
+                    line = mapp.readline()
+                    while line:
+                        out.write(b">")
+                        out.write(line[1:])
+                        out.write(mapp.readline())
+                        mapp.readline()
+                        mapp.readline()
+                        line = mapp.readline()
+                    mapp.close()
 
     @requires_nothing
     def _method_python_external(self, *args, **kwargs):
         pycmd = "python {}".format(bioconvert_script("fastqToFasta.py"))
         cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)
         self.execute(cmd)
+
+    @classmethod
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names="--quality-file",
+            nargs="?",
+            default=None,
+            help="The path to the quality file.",
+        )

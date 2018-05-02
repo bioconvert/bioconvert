@@ -12,7 +12,7 @@
 #
 ##############################################################################
 """Convert :term:`VCF` file to :term:`BCF` file"""
-from bioconvert import ConvBase, extensions
+from bioconvert import ConvBase
 
 import colorlog
 
