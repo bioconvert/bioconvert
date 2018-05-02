@@ -13,5 +13,9 @@ def test_create_graph():
 
 
 def test_create_cytoscape_export():
-    create_graph_for_cytoscape(True)
-    create_graph_for_cytoscape(False)
+    g_small = create_graph_for_cytoscape(False)
+    assert len(g_small["elements"]["nodes"]) > 0
+    assert len(g_small["elements"]["edges"]) > 0
+    g_full = create_graph_for_cytoscape(True)
+    assert len(g_full["elements"]["nodes"]) >= len(g_small["elements"]["nodes"])
+    assert len(g_full["elements"]["edges"]) >= len(g_small["elements"]["edges"])

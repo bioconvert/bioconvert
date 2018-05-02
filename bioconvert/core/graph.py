@@ -100,7 +100,8 @@ strict digraph{
 
 def get_conversions_wrapped(registry, all_conversions=False):
     if all_conversions:
-        return registry.get_all_conversions()
+        for i, o, s in registry.get_all_conversions():
+            yield i, o, s
     else:
         for i, o in registry.get_conversions():
             yield i, o, True
@@ -133,7 +134,7 @@ def create_graph_for_cytoscape(all_converter=False):
         except:
             ret = {
                 "data": {
-                    "id": str(len(nodes)),
+                    "id": "n" + str(len(nodes)),
                     "name": fmt,
                 }
             }
@@ -146,7 +147,7 @@ def create_graph_for_cytoscape(all_converter=False):
         o_as_node = get_or_create(o)
         graph_edges.append({
             "data": {
-                "id": str(len(graph_edges)),
+                "id": "e" + str(len(graph_edges)),
                 "source": i_as_node["data"]["id"],
                 "target": o_as_node["data"]["id"],
             }
