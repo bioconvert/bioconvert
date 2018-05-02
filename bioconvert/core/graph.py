@@ -28,6 +28,7 @@ import colorlog
 
 _log = colorlog.getLogger(__name__)
 
+
 def create_graph(filename, layout="dot", use_singularity=False, color_for_disabled_converter='red'):
     """
 
@@ -88,7 +89,6 @@ strict digraph{
             if on_rtd:
                 dotpath = ""
 
-
         ext = filename.rsplit(".", 1)[1]
         cmd = "{}dot -T{} {} -o {}".format(dotpath, ext, dotfile.name, filename)
         try:
@@ -96,4 +96,60 @@ strict digraph{
         except:
             import os
             os.system(cmd)
-        #dotfile.delete()
+
+
+def get_conversions_wrapped(registry, all_conversions=False):
+    if all_conversions:
+        return registry.get_all_conversions()
+    else:
+        for i, o in registry.get_conversions():
+            yield i, o, True
+
+
+def create_graph_for_cytoscape(all_converter=False):
+    """
+
+    :param all_converter:use all converter or only the one available in the current installation
+    :return:
+    """
+    from bioconvert.core.registry import Registry
+    registry = Registry()
+    graph_nodes = []
+    graph_edges = []
+    graph = {
+        "data": {
+            "selected": False,
+        },
+        "elements": {
+            "nodes": graph_nodes,
+            "edges": graph_edges,
+        },
+    }
+    nodes = {}
+
+    def get_or_create(fmt):
+        try:
+            return nodes[fmt]
+        except:
+            ret = {
+                "data": {
+                    "id": str(len(nodes)),
+                    "name": fmt,
+                }
+            }
+            nodes[fmt] = ret
+            graph_nodes.append(ret)
+            return ret
+
+    for i, o, _ in get_conversions_wrapped(registry, all_converter):
+        i_as_node = get_or_create(i)
+        o_as_node = get_or_create(o)
+        graph_edges.append({
+            "data": {
+                "id": str(len(graph_edges)),
+                "source": i_as_node["data"]["id"],
+                "target": o_as_node["data"]["id"],
+            }
+        })
+
+    return graph

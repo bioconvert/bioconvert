@@ -311,3 +311,26 @@ def test_indirect_conversion():
         sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name,
                     "--force", "-a", "-v", "DEBUG"]
         converter.main()
+
+
+def test_conversion_graph_error():
+    import sys
+    sys.argv = ["bioconvert", "--conversion-graph", "toto"]
+    try:
+        converter.main()
+    except SystemExit as e:
+        assert e.code == 2
+
+
+def test_conversion_graph():
+    import sys
+    sys.argv = ["bioconvert", "--conversion-graph", "cytoscape"]
+    try:
+        converter.main()
+    except SystemExit as e:
+        assert e.code == 0
+    sys.argv = ["bioconvert", "--conversion-graph", "cytoscape-all"]
+    try:
+        converter.main()
+    except SystemExit as e:
+        assert e.code == 0

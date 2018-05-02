@@ -29,6 +29,7 @@ import sys
 
 import bioconvert
 from bioconvert import ConvBase
+from bioconvert.core import graph
 from bioconvert.core.base import ConvMeta
 from bioconvert.core.converter import Bioconvert
 from bioconvert.core.decorators import get_known_dependencies_with_availability
@@ -176,6 +177,12 @@ Please feel free to join us at https://github/biokit/bioconvert
                             default=False,
                             help="Show version")
 
+    arg_parser.add_argument("--conversion-graph",
+                            nargs="?",
+                            default=None,
+                            choices=["cytoscape", "cytoscape-all", ],
+                            )
+
     try:
         args = arg_parser.parse_args(args)
     except SystemExit as e:
@@ -191,6 +198,7 @@ Please feel free to join us at https://github/biokit/bioconvert
                     args_i == 0
                     or args[args_i - 1] != '-v'
                     and args[args_i - 1] != '--verbose'
+                    and args[args_i - 1] != '--conversion-graph'
             ):
                 sub_command = args[args_i]
             args_i += 1
@@ -223,6 +231,15 @@ Please feel free to join us at https://github/biokit/bioconvert
 
     if args.dependency_report:
         print(json.dumps(get_known_dependencies_with_availability(as_dict=True), sort_keys=True, indent=4, ))
+        sys.exit(0)
+
+    if args.conversion_graph:
+        if args.conversion_graph.startswith("cytoscape"):
+            all_converter = args.conversion_graph == "cytoscape-all"
+            print(json.dumps(
+                graph.create_graph_for_cytoscape(all_converter=all_converter),
+                indent=4,
+            ))
         sys.exit(0)
 
     if args.command is None:
