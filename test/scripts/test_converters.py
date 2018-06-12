@@ -7,6 +7,7 @@ from bioconvert import bioconvert_data
 from bioconvert.bam2bed import BAM2BED
 from bioconvert.scripts import converter
 
+
 def test_converter():
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
     with TempFile(suffix=".fasta") as tempfile1, TempFile(suffix=".fasta") as tempfile2:
@@ -38,6 +39,15 @@ def test_converter_no_outfile():
         sys.argv = ["bioconvert", "fastq2fasta", tempfile.name, "--force", "--raise-exception"]
         converter.main()
         # os.remove(infile[:-3] + "sam")
+
+
+def test_converter_no_outfile_without_srs_argv():
+    import shutil
+    infile = bioconvert_data("test_fastq2fasta_v1.fastq")
+    with TempFile(suffix=".fastq") as tempfile:
+        shutil.copy(infile, tempfile.name)
+        args = ["bioconvert", "fastq2fasta", tempfile.name, "--force", "--raise-exception"]
+        converter.main(args[1:])
 
 
 def test_converter_output_format():
@@ -108,6 +118,50 @@ def test_version():
         assert False
 
 
+def test_help_works():
+    import sys
+    sys.argv = ["bioconvert", "--help"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+    sys.argv = ["bioconvert", "-v", "DEBUG", "--help"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+    sys.argv = ["bioconvert", "--help", "-v", "DEBUG"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+    sys.argv = ["bioconvert", "fastq2fasta", "--help"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+    sys.argv = ["bioconvert", "fastq2fasta", "--help", "-v", "DEBUG"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 0
+    except:
+        assert False
+
+
 def test_dependency_report():
     import sys
     sys.argv = ["bioconvert", "--dependency-report"]
@@ -136,6 +190,35 @@ def test_allow_indirect_conversion():
         assert False
     except SystemExit as e:
         assert e.code == 0
+    except:
+        assert False
+
+
+def test_wrong_verbose():
+    import sys
+    sys.argv = ["bioconvert", "--version", "-v" "INFO "]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 2
+    except:
+        assert False
+    import sys
+    sys.argv = ["bioconvert", "--version", "-v" "TRALALA"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 2
+    except:
+        assert False
+    sys.argv = ["bioconvert", "fastq2fasta", "--show-methods", "-v", "TRALALA"]
+    try:
+        converter.main()
+        assert False
+    except SystemExit as e:
+        assert e.code == 2
     except:
         assert False
 
@@ -228,3 +311,26 @@ def test_indirect_conversion():
         sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name,
                     "--force", "-a", "-v", "DEBUG"]
         converter.main()
+
+
+def test_conversion_graph_error():
+    import sys
+    sys.argv = ["bioconvert", "--conversion-graph", "toto"]
+    try:
+        converter.main()
+    except SystemExit as e:
+        assert e.code == 2
+
+
+def test_conversion_graph():
+    import sys
+    sys.argv = ["bioconvert", "--conversion-graph", "cytoscape"]
+    try:
+        converter.main()
+    except SystemExit as e:
+        assert e.code == 0
+    sys.argv = ["bioconvert", "--conversion-graph", "cytoscape-all"]
+    try:
+        converter.main()
+    except SystemExit as e:
+        assert e.code == 0

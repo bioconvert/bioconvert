@@ -1,18 +1,28 @@
 # -*- coding: utf-8 -*-
-#
-#  This file is part of Bioconvert software
-#
-#  Copyright (c) 2016 - Bioconvert Development Team
-#
-#
-#  Distributed under the terms of the 3-clause BSD license.
-#  The full license is in the LICENSE file, distributed with this software.
-#
-#  website: https://github.com/biokit/bioconvert
-#  documentation: http://bioconvert.readthedocs.io
-#
-##############################################################################
-# import os
+
+###########################################################################
+# Bioconvert is a project to facilitate the interconversion               #
+# of life science data from one format to another.                        #
+#                                                                         #
+# Authors: see CONTRIBUTORS.rst                                           #
+# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
+# See the COPYRIGHT file for details                                      #
+#                                                                         #
+# bioconvert is free software: you can redistribute it and/or modify      #
+# it under the terms of the GNU General Public License as published by    #
+# the Free Software Foundation, either version 3 of the License, or       #
+# (at your option) any later version.                                     #
+#                                                                         #
+# bioconvert is distributed in the hope that it will be useful,           #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of          #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #
+# GNU General Public License for more details.                            #
+#                                                                         #
+# You should have received a copy of the GNU General Public License       #
+# along with this program (COPYING file).                                 #
+# If not, see <http://www.gnu.org/licenses/>.                             #
+###########################################################################
+import copy
 import time
 import abc
 import select
@@ -47,24 +57,8 @@ class ConvMeta(abc.ABCMeta):
        * an attribute input_ext
        * an attribute output_ext
 
-    This is an abstract class used by :class:`ConvBase` class.
-    The standard way to build a new converter is to inherit
-    from :class:`ConvBase` or a subclasse of it, for instance::
-
-        class Fasta_2_Fasta(ConvBase):
-
-            input_ext = ['.fa', '.fst', '.fasta']
-            output_ext = '.fa'
-
-            def __call__(self, *args, **kwargs):
-                # do conversion here
-                pass
-
-    The declaration of input_ext and output_ext is quite permissive.
-    You can add prefix the extension with a dot or not; if the input consists
-    of a single extension, it can be a single string, or a list/set/tuple
-    of strings.
-
+    This is an abstract class used by :class:`ConvBase` class. For developers
+    only.
     """
 
     @classmethod
@@ -82,7 +76,8 @@ class ConvMeta(abc.ABCMeta):
 
     def __init__(cls, name, bases, classdict):
 
-        # do not check extension since modules does not require to specify extension anymore
+        # do not check extension since modules does not require to specify
+        # extension anymore
 
         # def check_ext(ext, io_name):
         #     """
@@ -165,36 +160,48 @@ class ConvMeta(abc.ABCMeta):
 
 
 class ConvArg(object):
+    black_listed_argument_for_argparse = [
+        "output_argument",
+    ]
 
     def __init__(self, names, help, **kwargs):
         if isinstance(names, list):
             self.args_for_sub_parser = names
         else:
             self.args_for_sub_parser = [names, ]
-        self.kwargs_for_sub_parser = dict(
-            help=help,
-            **kwargs,
-        )
+        self.kwargs_for_sub_parser = {
+            'help': help
+        }
+        self.kwargs_for_sub_parser.update(kwargs)
 
     def add_to_sub_parser(self, sub_parser):
-        sub_parser.add_argument(*self.args_for_sub_parser, **self.kwargs_for_sub_parser)
+        kwargs = copy.deepcopy(self.kwargs_for_sub_parser)
+        for a in self.black_listed_argument_for_argparse:
+            kwargs.pop(a, None)
+        sub_parser.add_argument(*self.args_for_sub_parser, **kwargs)
+
+    @classmethod
+    def file(cls, path):
+        return path
 
 
 class ConvBase(metaclass=ConvMeta):
-    """
-    This is the base class for all converters.
-    To build a new converter create a new class which inherits of :class:`ConvBase`
-    and implement __call__ method (which is abstract). The class attributes
-    input_ext and output_ext must be also override in the subclass.
-    for instance: ::
+    """ base class for all converters.
 
-        class Fasta_2_Fasta(ConvBase):
+    To build a new converter create a new class which inherits from
+    :class:`ConvBase` and implement method that performs the conversion.
+    The name of the converter method must start with _method_.
 
-            input_ext = ['.fa', '.fst', '.fasta']
-            output_ext = '.fa'
+    For instance: ::
 
-        __call__(self, *args, **kwargs):
-            do conversion
+        class Fastq2Fasta(ConvBase):
+
+            def _method_python(self, *args, **kwargs):
+                # include your code here. You can use the infile and outfile
+                # attributes.
+                self.infile
+                self.outfile
+
     """
     # specify the extensions of the input file, can be a sequence (must be
     # overridden in subclasses)
@@ -210,19 +217,11 @@ class ConvBase(metaclass=ConvMeta):
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
 
-        :param str infile: The path of the input file.
-        :param str outfile: The path of The output file
+        :param str infile: the path of the input file.
+        :param str outfile: the path of The output file
         """
-        # do not check the existence of the input file because it could be just a prefix
-        # if os.path.exists(infile) is False:
-        #     msg = "Incorrect input file: %s" % infile
-        #     _log.error(msg)
-        #     raise ValueError(msg)
-
         if not outfile:
             outfile = generate_outfile_name(infile, self.output_ext[0])
-
-
 
         self.infile = infile
         self.outfile = outfile
@@ -378,8 +377,9 @@ class ConvBase(metaclass=ConvMeta):
         bioconvert/install_script/install_executable.sh
         if the executable is not already present
 
-        :param executable to install
+        :param executable: executable to install
         :return: nothing
+
         """
         # imported but not unused (when we don't have bioconvert_path)
         # import bioconvert
@@ -413,12 +413,15 @@ class ConvBase(metaclass=ConvMeta):
             names="input_file",
             nargs="?",
             default=None,
+            type=ConvArg.file,
             help="The path to the file to convert.",
         )
         yield ConvArg(
             names="output_file",
             nargs="?",
             default=None,
+            type=ConvArg.file,
+            output_argument=True,
             help="The path where the result will be stored.",
         )
         yield ConvArg(
@@ -429,7 +432,8 @@ class ConvBase(metaclass=ConvMeta):
         yield ConvArg(
             names=["-v", "--verbosity", ],
             default=bioconvert.logger.level,
-            help="Set the outpout verbosity. Should be one of DEBUG, INFO, WARNING, ERROR, CRITICAL",
+            help="Set the outpout verbosity.",
+            choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         )
         yield ConvArg(
             names=["--raise-exception", ],
@@ -438,7 +442,8 @@ class ConvBase(metaclass=ConvMeta):
         )
         yield ConvArg(
             names=["-m", "--batch", ],
-            default=False, action="store_true",
+            default=False,
+            action="store_true",
             help="Allow conversion of a set of files using wildcards. You "
                 "must use quotes to escape the wildcards. For instance: "
                 "--batch 'test*fastq' ")

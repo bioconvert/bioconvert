@@ -1,16 +1,27 @@
 # -*- coding: utf-8 -*-
 
-##############################################################################
-#  This file is part of Biokit software
-#
-#  Copyright (c) 2017 - Biokit Development Team
-#
-#  Distributed under the terms of the 3-clause BSD license.
-#  The full license is in the LICENSE file, distributed with this software.
-#
-#  website: https://github.com/biokit/bioconvert
-#  documentation: http://bioconvert.readthedocs.io
-##############################################################################
+###########################################################################
+# Bioconvert is a project to facilitate the interconversion               #
+# of life science data from one format to another.                        #
+#                                                                         #
+# Authors: see CONTRIBUTORS.rst                                           #
+# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
+# See the COPYRIGHT file for details                                      #
+#                                                                         #
+# bioconvert is free software: you can redistribute it and/or modify      #
+# it under the terms of the GNU General Public License as published by    #
+# the Free Software Foundation, either version 3 of the License, or       #
+# (at your option) any later version.                                     #
+#                                                                         #
+# bioconvert is distributed in the hope that it will be useful,           #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of          #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #
+# GNU General Public License for more details.                            #
+#                                                                         #
+# You should have received a copy of the GNU General Public License       #
+# along with this program (COPYING file).                                 #
+# If not, see <http://www.gnu.org/licenses/>.                             #
+###########################################################################
 """.. rubric:: Standalone application dedicated to conversion"""
 import argparse
 import json
@@ -18,32 +29,11 @@ import sys
 
 import bioconvert
 from bioconvert import ConvBase
+from bioconvert.core import graph
 from bioconvert.core.base import ConvMeta
 from bioconvert.core.converter import Bioconvert
 from bioconvert.core.decorators import get_known_dependencies_with_availability
 from bioconvert.core.registry import Registry
-
-
-class GetKnownDependenciesAction(argparse.Action):
-
-    def __init__(self,
-                 option_strings,
-                 dest=argparse.SUPPRESS,
-                 default=argparse.SUPPRESS,
-                 help=None):
-        super(GetKnownDependenciesAction, self).__init__(option_strings=option_strings,
-                                                         dest=dest,
-                                                         default=default,
-                                                         nargs=0,
-                                                         help=help)
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        Registry()
-        print(json.dumps(
-                get_known_dependencies_with_availability(as_dict=True),
-                sort_keys=True, indent=4))
-        sys.exit(0)
-
 
 def main(args=None):
     if args is None:
@@ -82,10 +72,6 @@ def main(args=None):
     except:
         pass
 
-    if "--version" in args:
-        print("{}".format(bioconvert.version))
-        sys.exit(0)
-
 
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
                                          description="""Convertor infer the
@@ -94,40 +80,40 @@ def main(args=None):
                                          users must ensure that their input
                                          format files are properly
                                          formatted.""",
-                                         usage="""
+                                         formatter_class=argparse.RawDescriptionHelpFormatter,
+                                         epilog="""
+Bioconvert contains tens of converters whose list is available as follows:
 
-    Bioconvert contains tens of converters whose list is available as follows:
+    bioconvert --help
 
-        bioconvert --help
+Each conversion has its own sub-command and dedicated help. For instance:
 
-    Each conversion has its own sub-command and dedicated help. For instance:
+    bioconvert fastq2fasta --help
 
-        bioconvert fastq2fasta --help
+Because the subcommand contains the format, extensions are not important
+for the conversion itself. This would convert the test.txt file (fastq
+format) into a fasta file:
 
-    Because the subcommand contains the format, extensions are not important
-    for the conversion itself. This would convert the test.txt file (fastq
-    format) into a fasta file:
+    bioconvert fastq2fasta test.txt test.fasta
 
-        bioconvert fastq2fasta test.txt test.fasta
+Users must ensure that their input format files are properly formatted.
 
-    Users must ensure that their input format files are properly formatted.
+If there is a conversion from A to B and another for B to C, you can also
+perform indirect conversion using -a argument (experimental). This command
+shows all possible indirect conversions:
 
-    If there is a conversion from A to B and another for B to C, you can also
-    perform indirect conversion using -a argument (experimental). This command
-    shows all possible indirect conversions:
+    bioconvert --help -a
 
-        bioconvert --help -a
+Please visit http://bioconvert.readthedocs.org for more information about the
+project or formats available.
 
-    Please visit bioconvert.readthedocs.org for more information about the
-    project or formats available.
-
-    Bioconvert is an open source collaborative project. Please feel free to join us at
-    https://github/biokit/bioconvert\n\
+Bioconvert is an open source collaborative project. Please feel free to 
+join us at https://github/biokit/bioconvert
 """)
     registry = Registry()
-    subparsers = arg_parser.add_subparsers(help='sub-command help', dest='command', )
+    subparsers = arg_parser.add_subparsers(help='sub-command help',
+                                           dest='command', )
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
-
 
     # show all possible conversion
     for in_fmt, out_fmt, converter, path in \
@@ -159,6 +145,9 @@ def main(args=None):
             help=help_text,
             formatter_class=argparse.ArgumentDefaultsHelpFormatter,
             # aliases=["{}_to_{}".format(in_fmt.lower(), out_fmt.lower()), ],
+            epilog="""Bioconvert is an open source collaborative project. 
+Please feel free to join us at https://github/biokit/bioconvert
+""",
         )
 
         if converter:
@@ -169,11 +158,12 @@ def main(args=None):
 
     arg_parser.add_argument("-v", "--verbosity",
                             default=bioconvert.logger.level,
-                            help="Set the outpout verbosity. Should be one of"
-                                 " DEBUG, INFO, WARNING, ERROR, CRITICAL")
+                            help="Set the outpout verbosity.",
+                            choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+                            )
 
     arg_parser.add_argument("--dependency-report",
-                            action=GetKnownDependenciesAction,
+                            action="store_true",
                             default=False,
                             help="Output all bioconvert dependencies in json and exit")
 
@@ -184,35 +174,73 @@ def main(args=None):
 
     arg_parser.add_argument("--version",
                             action="store_true",
+                            default=False,
                             help="Show version")
+
+    arg_parser.add_argument("--conversion-graph",
+                            nargs="?",
+                            default=None,
+                            choices=["cytoscape", "cytoscape-all", ],
+                            )
 
     try:
         args = arg_parser.parse_args(args)
     except SystemExit as e:
+        # parsing ask to stop, maybe a normal exit
+        if e.code == 0:
+            raise e
         # Parsing failed, trying to guess command
         from bioconvert.core.levenshtein import wf_levenshtein as lev
         sub_command = None
         args_i = 0
         while sub_command is None and args_i < len(args):
-            if args[args_i][0] != '-':
+            if args[args_i][0] != '-' and (
+                    args_i == 0
+                    or args[args_i - 1] != '-v'
+                    and args[args_i - 1] != '--verbose'
+                    and args[args_i - 1] != '--conversion-graph'
+            ):
                 sub_command = args[args_i]
             args_i += 1
+
         if sub_command is None:
             # No sub_command found, so letting the initial exception be risen
             raise e
+
         conversions = []
         for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
             conversion_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
             conversions.append((lev(conversion_name, sub_command), conversion_name))
         matches = sorted(conversions)[:5]
+        if matches[0][0] == 0:
+            # sub_command was ok, problem comes from elswhere
+            raise e
         arg_parser.exit(
             e.code,
             '\n\nYour converter {}() was not found. \n'
             'Here is a list of possible matches: {} ... '
             '\nYou may also add the -a argument to enfore a '
             'transitive conversion. The whole list is available using\n\n'
-            '    bioconvert --help -a \n'.format(sub_command, ', '.join([v for _, v in matches]))
+            '    bioconvert --help -a \n'.format(
+                 sub_command, ', '.join([v for _, v in matches]))
         )
+
+    if args.version:
+        print("{}".format(bioconvert.version))
+        sys.exit(0)
+
+    if args.dependency_report:
+        print(json.dumps(get_known_dependencies_with_availability(as_dict=True), sort_keys=True, indent=4, ))
+        sys.exit(0)
+
+    if args.conversion_graph:
+        if args.conversion_graph.startswith("cytoscape"):
+            all_converter = args.conversion_graph == "cytoscape-all"
+            print(json.dumps(
+                graph.create_graph_for_cytoscape(all_converter=all_converter),
+                indent=4,
+            ))
+        sys.exit(0)
 
     if args.command is None:
         msg = 'No converter specified. You can list converter by doing bioconvert --help'

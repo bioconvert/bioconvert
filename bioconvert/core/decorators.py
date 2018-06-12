@@ -1,23 +1,33 @@
 # -*- coding: utf-8 -*-
-#
-#  This file is part of Bioconvert software
-#
-#  Copyright (c) 2017 - Bioconvert Development Team
-#
-#  Distributed under the terms of the 3-clause BSD license.
-#  The full license is in the LICENSE file, distributed with this software.
-#
-#  website: https://github.com/biokit/bioconvert
-#  documentation: http://bioconvert.readthedocs.io
-#
-##############################################################################
+###########################################################################
+# Bioconvert is a project to facilitate the interconversion               #
+# of life science data from one format to another.                        #
+#                                                                         #
+# Authors: see CONTRIBUTORS.rst                                           #
+# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
+# See the COPYRIGHT file for details                                      #
+#                                                                         #
+# bioconvert is free software: you can redistribute it and/or modify      #
+# it under the terms of the GNU General Public License as published by    #
+# the Free Software Foundation, either version 3 of the License, or       #
+# (at your option) any later version.                                     #
+#                                                                         #
+# bioconvert is distributed in the hope that it will be useful,           #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of          #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #
+# GNU General Public License for more details.                            #
+#                                                                         #
+# You should have received a copy of the GNU General Public License       #
+# along with this program (COPYING file).                                 #
+# If not, see <http://www.gnu.org/licenses/>.                             #
+###########################################################################
 """Provides a general tool to perform pre/post compression"""
 from distutils.spawn import find_executable
 from functools import wraps
 from os.path import splitext
 
 import colorlog
-import pip
+import pkg_resources
 from easydev import TempFile
 
 _log = colorlog.getLogger(__name__)
@@ -175,7 +185,7 @@ def requires(
     requires.__missing_libraries = __missing_libraries
     __pip_libraries = getattr(requires, "__pip_libraries", None)
     if __pip_libraries is None:
-        __pip_libraries = [p.project_name for p in pip.get_installed_distributions()]
+        __pip_libraries = [p.project_name for p in pkg_resources.working_set]
         requires.__pip_libraries = __pip_libraries
 
     def real_decorator(function):

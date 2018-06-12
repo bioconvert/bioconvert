@@ -27,6 +27,7 @@ pkg_name = "bioconvert"
 import matplotlib
 matplotlib.use('Agg')
 
+on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 
 # This creates the conversion.png image automatically
 
@@ -103,7 +104,7 @@ copyright = copyright
 # built documents.
 #
 # The short X.Y version.
-version = 'Current version: ' + str(version) 
+version = 'Current version: ' + str(version)
 # The full version, including alpha/beta/rc tags.
 release = release
 
@@ -147,12 +148,18 @@ pygments_style = 'sphinx'
 modindex_common_prefix = ["bioconvert."]
 
 # -- sphinx gallery ------------------------------------------------------------
-plot_gallery = True
+
+# By default, examples are not built locally. You can set plot_gallery to True
+# to force their creation. Note that it requires singularity or dot to be
+# installed. Fixes https://github.com/biokit/bioconvert/issues/153
+if not on_rtd:
+    plot_gallery = False
+else:
+    plot_gallery = True
 sphinx_gallery_conf = {
     "doc_module": "bioconvert",
-    #'backreferences_dir': False
+    'backreferences_dir': False
 
-    #"backreferences_dir": "gen_modules/backreferences",
     #"filename_pattern": 'plot_benchmark'
     #"examples_dirs": "examples",
 #    "gallery_dirs": "auto_examples",
@@ -173,6 +180,7 @@ def touch_example_backreferences(app, what, name, obj, options, lines):
                                  "%s.examples" % name)
     if not os.path.exists(examples_path):
         # touch file
+        os.makedirs(os.path.dirname(examples_path), exist_ok=True)
         open(examples_path, 'w').close()
 
 
@@ -183,15 +191,10 @@ def setup(app):
     app.add_javascript('copybutton.js')
     app.connect('autodoc-process-docstring', touch_example_backreferences)
 
-
-
-
-
 # -- Options for HTML output ---------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 if not on_rtd:
     import sphinx_rtd_theme
     html_theme = 'sphinx_rtd_theme'
@@ -230,7 +233,7 @@ html_short_title = "Bioconvert"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 
-# the copybutton.js must be copied there: 
+# the copybutton.js must be copied there:
 html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
@@ -246,7 +249,7 @@ html_index = 'index.html'
 
 #Custom sidebar templates, maps page names to templates.
 #html_sidebars = {
-#                    'index': [ 'indexsidebar.html'], 
+#                    'index': [ 'indexsidebar.html'],
 #                    'contents':'indexsidebar.html',
 #}
 # Additional templates that should be rendered to pages, maps page names to
@@ -324,7 +327,7 @@ latex_elements["latex_preamble"] = r"""
 \definecolor{VerbatimBorderColor}{rgb}{0,0,0}
 
    \setlength{\fboxrule}{2pt}
- 
+
  \renewcommand{\Verbatim}[1][1]{%
    % list starts new par, but we don't want it to be set apart vertically
    \bgroup\parskip=0pt%

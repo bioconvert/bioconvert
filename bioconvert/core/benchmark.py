@@ -1,28 +1,38 @@
 # -*- coding: utf-8 -*-
-#
-#  This file is part of Bioconvert software
-#
-#  Copyright (c) 2017 - Bioconvert Development Team
-#
-#  Distributed under the terms of the 3-clause BSD license.
-#  The full license is in the LICENSE file, distributed with this software.
-#
-#  website: https://github.com/biokit/bioconvert
-#  documentation: http://bioconvert.readthedocs.io
-#
-##############################################################################
+###########################################################################
+# Bioconvert is a project to facilitate the interconversion               #
+# of life science data from one format to another.                        #
+#                                                                         #
+# Authors: see CONTRIBUTORS.rst                                           #
+# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
+# See the COPYRIGHT file for details                                      #
+#                                                                         #
+# bioconvert is free software: you can redistribute it and/or modify      #
+# it under the terms of the GNU General Public License as published by    #
+# the Free Software Foundation, either version 3 of the License, or       #
+# (at your option) any later version.                                     #
+#                                                                         #
+# bioconvert is distributed in the hope that it will be useful,           #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of          #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #
+# GNU General Public License for more details.                            #
+#                                                                         #
+# You should have received a copy of the GNU General Public License       #
+# along with this program (COPYING file).                                 #
+# If not, see <http://www.gnu.org/licenses/>.                             #
+###########################################################################
 """Tools for benchmarking"""
 from collections import defaultdict
 from itertools import chain
 from pandas import np
 from easydev import Timer, Progress
-import pylab
 
 import colorlog
 _log = colorlog.getLogger(__name__)
 
 
 __all__ = ["Benchmark", "BenchmarkMulticonvert"]
+
 
 def gmean(a, axis=0, dtype=None):
     # A copy/paste of scipy.stats.mstats.gmean function to 
@@ -53,15 +63,15 @@ class Benchmark():
 
     """
     def __init__(self, obj, N=5, to_exclude=None, to_include=None):
-        """.. rubric:: constructor
+        """.. rubric:: Constructor
 
         :param obj: can be an instance of a converter class or a class name
         :param int N: number of replicates
         :param list to_exclude: methods to exclude from the benchmark
         :param list to_include: methods to include ONLY
 
-        Use one of to_exclude or to_include.
-        If both are provided, only, to_include is used.
+        Use one of *to_exclude* or *to_include*.
+        If both are provided, only the *to_include* one is used.
 
         """
         if isinstance(obj, str):
@@ -105,6 +115,7 @@ class Benchmark():
         self.results = results
 
     def plot(self, rerun=False, ylabel="Time (seconds)"):
+        import pylab
         """Plots the benchmark results, running the benchmarks
         if needed or if *rerun* is True."""
         if self.results is None or rerun is True:

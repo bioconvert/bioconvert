@@ -1,16 +1,29 @@
 # -*- coding: utf-8 -*-
-#
-#  This file is part of Bioconvert software
-#
-#  Copyright (c) 2017 - Bioconvert Development Team
-#
-#  Distributed under the terms of the 3-clause BSD license.
-#  The full license is in the LICENSE file, distributed with this software.
-#
-#  website: https://github.com/biokit/bioconvert
-#  documentation: http://bioconvert.readthedocs.io
-#
-##############################################################################
+
+###########################################################################
+# Bioconvert is a project to facilitate the interconversion               #
+# of life science data from one format to another.                        #
+#                                                                         #
+# Authors: see CONTRIBUTORS.rst                                           #
+# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
+# See the COPYRIGHT file for details                                      #
+#                                                                         #
+# bioconvert is free software: you can redistribute it and/or modify      #
+# it under the terms of the GNU General Public License as published by    #
+# the Free Software Foundation, either version 3 of the License, or       #
+# (at your option) any later version.                                     #
+#                                                                         #
+# bioconvert is distributed in the hope that it will be useful,           #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of          #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #
+# GNU General Public License for more details.                            #
+#                                                                         #
+# You should have received a copy of the GNU General Public License       #
+# along with this program (COPYING file).                                 #
+# If not, see <http://www.gnu.org/licenses/>.                             #
+###########################################################################
+
+"""Convert :term:`SCF` file to :term:`FASTQ` file"""
 import sys
 import struct
 import copy
@@ -29,8 +42,8 @@ class Scf2Fastq(ConvBase):
     """
     Converts a binary scf file to Fastq format.
 
-    :param str infile:
-    :param str outfile:
+    :param str infile: input SCF file
+    :param str outfile: output name file
     """
 
     @requires_nothing
@@ -251,6 +264,7 @@ Private data size                      Private data
 
 # Return 'length' bits of file 'f_file' starting at offset 'offset'
 def read_from_buffer(f_file, length, offset):
+    """Return 'length' bits of file 'f_file' starting at offset 'offset'"""
     f_file.seek(offset)
     buff = f_file.read(length)
     if len(buff) != length:

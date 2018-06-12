@@ -21,13 +21,13 @@ irecord. The first field in each record describes the record type. The three
 types are:
 
 - HT: Header record. This record contains metadata tags for the file version
-(VN tag) and parameters associated with the graph (for example the minimum
-overlap length).
+  (VN tag) and parameters associated with the graph (for example the minimum
+  overlap length).
 - VT: Vertex records. The second field contains the vertex identifier, the
-third field contains the sequence. Subsequent fields contain optional tags.
+  third field contains the sequence. Subsequent fields contain optional tags.
 - ED: Edge description records. The second field describes a pair of
-overlapping sequences. A full description of this field is below. Subsequent
-fields contain optional tags.
+  overlapping sequences. A full description of this field is below. Subsequent
+  fields contain optional tags.
 
 Example
 ~~~~~~~~~~~~~~~~
@@ -215,7 +215,7 @@ individual. The first 6 columns are:
 - family ID (or pedigree name): a unique alpha numeric identifier 
 - individual ID: should be unique within his family
 - father ID: 0 if unknown. If specified, must also appear as an individual in
-the file
+  the file
 - mother ID: same as above
 - Sex: 1 Male, 2 Female
 - Phenotype
@@ -321,6 +321,45 @@ Smith-Waterman alignment. These two tags may be inconsistent with the CIGAR
 string. This is not a bug
 
 `SA:Z`: Other canonical alignments in a chimeric alignment, in the format of: (rname,pos,strand,CIGAR,mapQ,NM;)+. Each element in the semi-colon delimited list represents a part of the chimeric alignment. Conventionally, at a supplementary line, the first element points to the primary line.
+
+
+
+
+
+Trace File Format - Sequence Chromatogram Format (SCF)
+------------------------------------------------------
+
+:reference: https://wiki.nci.nih.gov/display/TCGA/Sequence+trace+files
+:reference: http://staden.sourceforge.net/manual/formats_unix_2.html
+
+
+Trace files are binary files containing raw data output from automated sequencing instruments.
+This convertor was converted from BioPerl.
+
+
+SCF file organisation (more or less)
+
+====================================== ====================================
+Length in bytes                        Data
+====================================== ====================================
+128                                    header
+Number of samples * sample size        Samples for A trace
+Number of samples * sample size        Samples for C trace
+Number of samples * sample size        Samples for G trace
+Number of samples * sample size        Samples for T trace
+Number of bases * 4                    Offset into peak index for each base
+Number of bases                        Accuracy estimate bases being 'A'
+Number of bases                        Accuracy estimate bases being 'C'
+Number of bases                        Accuracy estimate bases being 'G'
+Number of bases                        Accuracy estimate bases being 'T'
+Number of bases                        The called bases
+Number of bases * 3                    Reserved for future use
+Comments size                          Comments
+Private data size                      Private data
+====================================== ====================================
+
+
+
 
 
 Stockholm

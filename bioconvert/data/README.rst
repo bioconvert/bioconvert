@@ -16,6 +16,11 @@ bam2wiggle
 
 bam input is test_measles.sorted.bam
 
+bcf2wiggle
+--------------
+
+bcf input is test_bcf2vcf_v1.bcf
+
 
 json2yaml and yaml2json
 -------------------------

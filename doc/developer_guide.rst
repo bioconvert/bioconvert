@@ -80,7 +80,7 @@ The code that you will add may be of different kind:
   - if the Python library is on pypi and is simple, add it to requirements.txt
   - if the Python library requires lots of compilation, add it to requirements_tools.txt (assuming it is on bioconda).
 - if the code is not on pypi or bioconda (e.g., GO code), use the
-self.install_tool(NAME) and add a script in ./misc/install_NAME.sh
+  self.install_tool(NAME) and add a script in ./misc/install_NAME.sh
 
 
 
@@ -144,34 +144,34 @@ Go to  ./test and add a file named ``test_fastq2fasta.py``
 
 ::
 
-    import os
     import pytest
+
     from bioconvert.fastq2fasta import Fastq2Fasta
     from bioconvert import bioconvert_data
     from easydev import TempFile, md5
 
     @pytest.mark.parametrize("method", Fastq2Fasta.available_methods)
-    def test_fastq2fasta():
+    def test_fastq2fasta(method):
         #your code here
         # you will need data for instance "mydata.fastq and mydata.fasta".
         # Put it in bioconvert/bioconvert/data
         # you can then use ::
         infile = bioconvert_data("mydata.fastq")
         expected_outfile = bioconvert_data("mydata.fasta")
-        with TempFile(suffix=".fasta) as tempfile:
+        with TempFile(suffix=".fasta") as tempfile:
             converter = Fastq2Fasta(infile, tempfile.name)
-            outbasename, ext = os.path.splitext(tempfile.name)
+            converter(method=method)
 
             # Check that the output is correct with a checksum
-            assert md5(outbasename + ".fastq") == md5(expected_outfile)
+            assert md5(tempfile.name) == md5(expected_outfile)
 
 
 Files used for testing should be added in
-./bioconvert/data/testing/converter_name. For instance test files for the
-sam2paf converter should be added.
-
+./bioconvert/data/testing/converter_name.
+For instance test files for the
+sam2paf converter should be added in
 bioconvert/data/testing/sam2paf directory where you should have the test files,
-a __init__.py file, a README.rst file; The latter should contain the name of the
+a __init__.py file, a README.rst file. The latter should contain the name of the
 test files and a short description.
 
 
