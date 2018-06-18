@@ -1,0 +1,44 @@
+LOCUS       AF068625                 200 bp    mRNA    linear   ROD 06-DEC-1999
+DEFINITION  Mus musculus DNA cytosine-5 methyltransferase 3A (Dnmt3a) mRNA,
+            complete cds.
+ACCESSION   AF068625 REGION: 1..200
+VERSION     AF068625.2  GI:6449467
+KEYWORDS    .
+SOURCE      Mus musculus (house mouse)
+  ORGANISM  Mus musculus
+            Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+            Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia;
+            Sciurognathi; Muroidea; Muridae; Murinae; Mus.
+REFERENCE   1  (bases 1 to 200)
+  AUTHORS   Okano,M., Xie,S. and Li,E.
+  TITLE     Cloning and characterization of a family of novel mammalian DNA
+            (cytosine-5) methyltransferases
+  JOURNAL   Nat. Genet. 19 (3), 219-220 (1998)
+   PUBMED   9662389
+REFERENCE   2  (bases 1 to 200)
+  AUTHORS   Xie,S., Okano,M. and Li,E.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (28-MAY-1998) CVRC, Mass. Gen. Hospital, 149 13th Street,
+            Charlestown, MA 02129, USA
+REFERENCE   3  (bases 1 to 200)
+  AUTHORS   Okano,M., Chijiwa,T., Sasaki,H. and Li,E.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (04-NOV-1999) CVRC, Mass. Gen. Hospital, 149 13th Street,
+            Charlestown, MA 02129, USA
+  REMARK    Sequence update by submitter
+COMMENT     On Nov 18, 1999 this sequence version replaced gi:3327977.
+FEATURES             Location/Qualifiers
+     source          1..200
+                     /organism="Mus musculus"
+                     /mol_type="mRNA"
+                     /db_xref="taxon:10090"
+                     /chromosome="12"
+                     /map="4.0 cM"
+     gene            1..>200
+                     /gene="Dnmt3a"
+ORIGIN      
+        1 gaattccggc ctgctgccgg gccgcccgac ccgccgggcc acacggcaga gccgcctgaa
+       61 gcccagcgct gaggctgcac ttttccgagg gcttgacatc agggtctatg tttaagtctt
+      121 agctcttgct tacaaagacc acggcaattc cttctctgaa gccctcgcag ccccacagcg
+      181 ccctcgcagc cccagcctgc
+//
