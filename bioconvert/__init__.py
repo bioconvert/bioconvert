@@ -1,4 +1,4 @@
-__version__ = "0.0.11"
+__version__ = "0.1.2"
 import pkg_resources
 try:
     version = pkg_resources.require('bioconvert')[0].version
