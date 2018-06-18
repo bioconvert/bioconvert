@@ -24,7 +24,11 @@
 ###########################################################################
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import requires, requires_nothing
+from bioconvert.readers.fasta import Fasta
+
+import datetime
+from math import log, floor
 
 __all__ = ["FASTA2GENBANK"]
 
@@ -57,3 +61,49 @@ class FASTA2GENBANK(ConvBase):
         from Bio import SeqIO, Alphabet
         SeqIO.convert(self.infile, "fasta", self.outfile, "genbank",
             alphabet=Alphabet.generic_dna)
+
+    # --- Pure python methods ---
+
+    @requires_nothing
+    def _method_python(self, *args, **kwargs):
+        reader = Fasta(self.infile)
+
+        with open(self.outfile, "w") as writer:
+            for sequence in reader.read():
+                seq_size = len(sequence["value"])
+                num_digit = floor(log(seq_size, 10)) + 1
+
+                # Sequence header
+                now = datetime.datetime.now()
+                writer.write("LOCUS       {}{}{} bp XXXXXX     XXX      XXX {}-{}-{}\n".format(
+                    sequence["id"],
+                    " "*(max(1, 28 - len(sequence["id"]) - num_digit)),
+                    seq_size,
+                    now.day, now.month, now.year))
+                writer.write("DEFINITION  {}.\n".format(sequence["comment"]))
+                writer.write("KEYWORDS    .\n")
+                writer.write("ORIGIN      \n")
+
+                # Print sequence
+                for seq_idx in range(0, seq_size, 60):
+                    # Write line header (idx in the sequence)
+                    idx_num_digit = floor(log(seq_idx+1, 10)) + 1
+                    writer.write("{}{}".format(" "*(9 - idx_num_digit), seq_idx+1))
+
+                    # write the sequence itself
+                    for i in range(6):
+                        begin = seq_idx+i*10
+                        end = seq_idx+(i+1)*10
+
+                        # sequence over before this slice
+                        if begin >= seq_size:
+                            break
+                        # sequence over during this slice
+                        elif end > seq_size:
+                            writer.write(" {}".format(sequence["value"][begin:seq_size]))
+                        else:
+                            writer.write(" {}".format(sequence["value"][begin:end]))
+
+                    # newline
+                    writer.write("\n")
+                writer.write("//\n")
