@@ -6,6 +6,9 @@ Bioconvert is a collaborative project to facilitate the interconversion of life 
 .. image:: https://badge.fury.io/py/bioconvert.svg
     :target: https://pypi.python.org/pypi/bioconvert
 
+.. image:: https://img.shields.io/pypi/pyversions/bioconvert.svg
+   :target: https://www.python.org
+
 .. image:: https://secure.travis-ci.org/biokit/bioconvert.png
     :target: http://travis-ci.org/biokit/bioconvert
 
@@ -19,10 +22,13 @@ Bioconvert is a collaborative project to facilitate the interconversion of life 
 .. image:: https://badges.gitter.im/biokit/bioconvert.svg
     :target: https://gitter.im/bioconvert/Lobby?source=orgpage
 
+.. image::  https://img.shields.io/github/issues/biokit/bioconvert.svg
+    :target:  https://github.com/biokit/bioconvert/issues
 
-:note: Bioconvert is tested with Travis for the following Python version: 3.5, 3.6
 :contributions: Please join the team to contribute: https://github.com/biokit/bioconvert/issues/1
-:issues: Please use https://github.com/biokit/bioconvert/issues
+
+.. image:: conversion.png
+   :width: 80%
 
 Overview
 ################
@@ -74,7 +80,6 @@ From the command line::
 
     bioconvert fastq2fasta input.fastq output.fasta
     bioconvert fastq2fasta input.fq output.fasta
-    bioconvert bam2bed input.mybam output.bed --input-format bam
     bioconvert --help
 
 From Python shell::
@@ -88,11 +93,6 @@ From Python shell::
     # the conversion itself
     convert()
 
-Available conversions:
----------------------------
-
-.. image:: conversion.png
-   :width: 80%
 
 
 User and Developer Guides
