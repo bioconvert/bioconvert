@@ -214,8 +214,7 @@ individual. The first 6 columns are:
 
 - family ID (or pedigree name): a unique alpha numeric identifier 
 - individual ID: should be unique within his family
-- father ID: 0 if unknown. If specified, must also appear as an individual in
-  the file
+- father ID: 0 if unknown. If specified, must also appear as an individual in the file
 - mother ID: same as above
 - Sex: 1 Male, 2 Female
 - Phenotype
