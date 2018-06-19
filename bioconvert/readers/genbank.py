@@ -73,8 +73,12 @@ class Genbank:
 			self.parsing_function = self.parse_keywords
 		elif line.startswith("SOURCE"):
 			self.parsing_function = self.parse_source
+		elif line.startswith("REFERENCE"):
+			self.parsing_function = self.parse_reference
 		elif line.startswith("COMMENT"):
 			self.parsing_function = self.parse_comment
+		elif line.startswith("FEATURES"):
+			self.parsing_function = self.parse_feature
 		elif line.startswith("ORIGIN"):
 			self.parsing_function = self.parse_origin
 		# TODO: Remove this elif when all the parser is over
@@ -85,6 +89,8 @@ class Genbank:
 		# Parse the line
 		if self.parsing_function != None:
 			self.parsing_function(line)
+		else:
+			print("Impossible to parse line\n{}".format(line))
 
 
 	# --------------- Sub-parser by keyword ---------------
@@ -196,9 +202,105 @@ class Genbank:
 			else:
 				self.sequence["SOURCE"]["ORGANISM"]["lineage"] = line
 
+	reference_keywords = ["AUTHORS", "TITLE", "JOURNAL", "PUBMED", "REMARK"]
 	def parse_reference(self, line):
-		print("TODO: REFERENCE parsing not yet implemented")
-		pass
+		""" Parse the publication sections
+		The keyword REFERENCE can appear as much as you want
+		"""
+		# Add the publication list
+		if not "REFERENCE" in self.sequence:
+			self.sequence["REFERENCE"] = []
+
+		# create new entry
+		if line.startswith("REFERENCE"):
+			self.ref = {}
+			self.sequence["REFERENCE"].append(self.ref)
+			return
+
+		# dispatch new values
+		keyword = line[:line.find(" ")]
+		if keyword == "AUTHORS":
+			self.parsing_function = self.parse_authors
+		elif keyword == "TITLE":
+			self.parsing_function = self.parse_title
+		elif keyword == "JOURNAL":
+			self.parsing_function = self.parse_journal
+		elif keyword == "PUBMED":
+			self.parsing_function = self.parse_pubmed
+		elif keyword == "REMARK":
+			self.parsing_function = self.parse_remark
+		else:
+			print("Genbank: impossible to parse the following line:\n{}".format(line))
+			return
+
+		# Parse keywords for reference
+		self.parsing_function(line)
+
+	def is_in_the_correct_subtree(self, line, expected_keyword):
+		""" Verify if is in the right subtree of the reference parser.
+		If not, parse with the right subtree and return False
+		"""
+		keyword = line[:line.find(" ")]
+		# if must go in another branch of the reference parsing
+		if keyword == expected_keyword:
+			return True
+
+		if keyword in Genbank.reference_keywords:
+			self.parsing_function = self.parse_reference
+			self.parsing_function(line)
+			return False
+
+	def parse_authors(self, line):
+		if not self.is_in_the_correct_subtree(line, "AUTHORS"):
+			return
+
+		# Parse the authors
+		if line.startswith("AUTHORS"):
+			self.ref["AUTHORS"] = line[line.find(" ")+1:]
+		else:
+			self.ref["AUTHORS"] = "{} {}".format(self.ref["AUTHORS"], line)
+
+
+	def parse_title(self, line):
+		if not self.is_in_the_correct_subtree(line, "TITLE"):
+			return
+
+		# Parse the title
+		if line.startswith("TITLE"):
+			self.ref["TITLE"] = line[line.find(" ")+1:]
+		else:
+			self.ref["TITLE"] = "{} {}".format(self.ref["TITLE"], line)
+
+	def parse_journal(self, line):
+		if not self.is_in_the_correct_subtree(line, "JOURNAL"):
+			return
+
+		# Parse the journal
+		if line.startswith("JOURNAL"):
+			self.ref["JOURNAL"] = line[line.find(" ")+1:]
+		else:
+			self.ref["JOURNAL"] = "{} {}".format(self.ref["JOURNAL"], line)
+
+	def parse_pubmed(self, line):
+		if not self.is_in_the_correct_subtree(line, "PUBMED"):
+			return
+
+		# Parse the pubmed id
+		if line.startswith("PUBMED"):
+			self.ref["PUBMED"] = line[line.find(" ")+1:]
+		else:
+			print("Genbank parser: unexpected multiline pubmed id")
+
+	def parse_remark(self, line):
+		print(line)
+		if not self.is_in_the_correct_subtree(line, "REMARK"):
+			return
+
+		# Parse the remark line
+		if line.startswith("REMARK"):
+			self.ref["REMARK"] = line[line.find(" ")+1:]
+		else:
+			self.ref["REMARK"] = "{} {}".format(self.ref["REMARK"], line)
 
 	def parse_comment(self, line):
 		""" Parse the COMMENT field as a text
@@ -209,7 +311,7 @@ class Genbank:
 			self.sequence["COMMENT"] = "{} {}".format(self.sequence["COMMENT"], line)
 
 	def parse_feature(self, line):
-		print("TODO: FEATURES parsing not yet implemented")
+		print("Genbank FEATURES parsing not yet implemented")
 		pass
 
 	def parse_origin(self, line):
