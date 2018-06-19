@@ -124,7 +124,7 @@ release = release
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_trees = ['_build']
+exclude_trees = ['build']
 exclude_patterns = []
 
 # The reST default role (used for this markup: `text`) to use for all documents.
@@ -156,13 +156,14 @@ if not on_rtd:
     plot_gallery = False
 else:
     plot_gallery = True
+
+plot_gallery = True
+
 sphinx_gallery_conf = {
     "doc_module": "bioconvert",
-    'backreferences_dir': False
-
+    'backreferences_dir': os.path.join("modules", "generated"),
+    #"backreferences_dir": False,
     #"filename_pattern": 'plot_benchmark'
-    #"examples_dirs": "examples",
-#    "gallery_dirs": "auto_examples",
 }
 
 # Get rid of spurious warnings due to some interaction between
@@ -171,6 +172,15 @@ sphinx_gallery_conf = {
 # details
 numpydoc_show_class_members = False
 
+
+modpath = os.path.join("modules")
+genpath = os.path.join("modules", "generated")
+if os.path.exists(modpath) is False:
+    print("---------------hello")
+    os.mkdir(modpath)
+    if os.path.exists(genpath) is False:
+        print("hello25")
+        os.mkdir(genpath)
 
 # solution from nilearn
 def touch_example_backreferences(app, what, name, obj, options, lines):
@@ -181,7 +191,6 @@ def touch_example_backreferences(app, what, name, obj, options, lines):
     if not os.path.exists(examples_path):
         # touch file
         open(examples_path, 'w').close()
-
 
 
 # Add the 'copybutton' javascript, to hide/show the prompt in code
