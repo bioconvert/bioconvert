@@ -19,15 +19,8 @@ def test_conv(method):
         reader_fasta = Fasta(infile)
         reader_gbk = Genbank(tempfile.name)
 
-        for i in range(10):
-        	print(i)
-
         for fasta_entry, gbk_entry in zip(reader_fasta.read(), reader_gbk.read()):
-        	print(fasta_entry)
-        	print(gbk_entry)
         	assert fasta_entry["id"] == gbk_entry["LOCUS"]["id"]
         	assert fasta_entry["comment"] in gbk_entry["DEFINITION"]
         	assert fasta_entry["value"] == gbk_entry["ORIGIN"].upper()
-
-        # assert md5(tempfile.name) in out_md5s, "Incorect gbk output for method {}".format(method)
 
