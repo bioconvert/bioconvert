@@ -75,13 +75,12 @@ class FASTA2GENBANK(ConvBase):
 
                 # Sequence header
                 now = datetime.datetime.now()
-                writer.write("LOCUS       {}{}{} bp XXXXXX     XXX      XXX {}-{}-{}\n".format(
+                writer.write("LOCUS       {}{}{} bp XXXXXX              XXX {}-{}-{}\n".format(
                     sequence["id"],
                     " "*(max(1, 28 - len(sequence["id"]) - num_digit)),
                     seq_size,
                     now.day, now.month, now.year))
-                writer.write("DEFINITION  {}.\n".format(sequence["comment"]))
-                writer.write("KEYWORDS    .\n")
+                writer.write("DEFINITION  {}\n".format(sequence["comment"]))
                 writer.write("ORIGIN      \n")
 
                 # Print sequence

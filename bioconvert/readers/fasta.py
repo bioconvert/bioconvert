@@ -36,9 +36,8 @@ class Fasta():
 			line = None
 
 			for line in reader:
-				# Remove line return
-				if line[-1] == "\n":
-					line = line[:-1]
+				# Remove line return and useless spaces
+				line = " ".join(line.split())
 
 				# Header case
 				if line[0] == ">":
