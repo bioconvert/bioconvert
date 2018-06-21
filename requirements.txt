@@ -1,4 +1,4 @@
-easydev>=0.9.36
+easydev
 colorlog
 pandas
 biopython

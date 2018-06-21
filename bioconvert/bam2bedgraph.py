@@ -45,7 +45,7 @@ class BAM2BEDGRAPH(ConvBase):
 
     .. plot::
 
-         from bioconvert.bam2bed import BAM2BEDGRAPH
+         from bioconvert.bam2bedgraph import BAM2BEDGRAPH
          from bioconvert import bioconvert_data
          from easydev import TempFile
 

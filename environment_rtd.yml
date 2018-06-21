@@ -16,7 +16,7 @@ dependencies:
 - scipy
 - pysam
 - pillow
-- easydev>=0.9.36
+- easydev
 - pip
 - pyyaml
 - pillow=4.0
