@@ -292,7 +292,6 @@ class Genbank:
 			print("Genbank parser: unexpected multiline pubmed id")
 
 	def parse_remark(self, line):
-		print(line)
 		if not self.is_in_the_correct_subtree(line, "REMARK"):
 			return
 
@@ -310,10 +309,6 @@ class Genbank:
 		else:
 			self.sequence["COMMENT"] = "{} {}".format(self.sequence["COMMENT"], line)
 
-	def parse_feature(self, line):
-		print("Genbank FEATURES parsing not yet implemented")
-		pass
-
 	def parse_origin(self, line):
 		""" Parse the origin label and next lines to construct the sequence """
 		# Define the sequence on the label ORIGIN
@@ -327,12 +322,73 @@ class Genbank:
 			# Add the subsequence to the complete sequence
 			self.sequence["ORIGIN"] = "{}{}".format(self.sequence["ORIGIN"], sub_seq)
 
+	# --------------- Feature parsing ---------------
+
+	# List of feature keywords
+	features = ["assembly_gap", "C_region", "CDS", "centromere", "D-loop", "D_segment", "exon", "gap", "gene", "iDNA", "intron", "J_segment", "mat_peptide", "misc_binding", "misc_difference", "misc_feature", "misc_recomb", "misc_RNA", "misc_structure", "mobile_element", "modified_base", "mRNA", "ncRNA", "N_region", "old_sequence", "operon", "oriT", "polyA_site", "precursor_RNA", "prim_transcript", "primer_bind", "propeptide", "protein_bind", "regulatory", "repeat_region", "rep_origin", "rRNA", "S_region", "sig_peptide", "source", "stem_loop", "STS", "telomere", "tmRNA", "transit_peptide", "tRNA", "unsure", "V_region", "V_segment", "variation", "3'UTR", "5'UTR"]
+	# List of qualifiers
+	qualifiers = ["allele", "altitude", "anticodon", "artificial_location", "bio_material", "bound_moiety", "cell_line", "cell_type", "chromosome", "citation", "clone", "clone_lib", "codon_start", "collected_by ", "collection_date ", "compare", "country", "cultivar", "culture_collection", "db_xref", "dev_stage", "direction", "EC_number", "ecotype", "environmental_sample", "estimated_length", "exception", "experiment", "focus", "frequency", "function", "gap_type", "gene", "gene_synonym", "germline", "haplogroup", "haplotype", "host", "identified_by ", "inference", "isolate", "isolation_source", "lab_host", "lat_lon ", "linkage_evidence", "locus_tag", "macronuclear", "map", "mating_type", "mobile_element_type", "mod_base", "mol_type", "ncRNA_class", "note", "number", "old_locus_tag", "operon", "organelle ", "organism", "partial", "PCR_conditions", "PCR_primers", "phenotype", "plasmid", "pop_variant", "product", "protein_id", "proviral", "pseudo", "pseudogene", "rearranged", "recombination_class", "regulatory_class", "replace", "ribosomal_slippage", "rpt_family", "rpt_type", "rpt_unit_range", "rpt_unit_seq", "satellite", "segment", "serotype", "serovar", "sex", "specimen_voucher", "standard_name", "strain", "sub_clone", "submitter_seqid", "sub_species", "sub_strain", "tag_peptide", "tissue_lib", "tissue_type", "transgenic", "translation", "transl_except", "transl_table", "trans_splicing ", "type_material", "variety"]
+
+	def parse_feature(self, line):
+		""" Parse the features.
+		The list of feature used is extracted from the appendix II of the oficial ref.
+		For more informations: http://www.insdc.org/documents/feature_table.html#7.2
+		The list of qualifier are also extracted from the official documetation, appendix III
+		More informations: http://www.insdc.org/documents/feature_table.html#7.3
+		"""
+		keyword = line[:line.find(" ")]
+
+		# Global features keyword
+		if keyword == "FEATURES":
+			self.sequence["FEATURES"] = []
+
+		# Feature keyword
+		elif keyword in Genbank.features:
+			self.current_feature = {"type":keyword, "position":line[line.find(" ")+1:]}
+			self.sequence["FEATURES"].append(self.current_feature)
+
+		# Qualifier
+		elif line[1: line.find("=") if "=" in line else len(line)] in Genbank.qualifiers:
+			# init values
+			qualifier = line[1:]
+			value = None
+
+			# parse qualifier and value if the operator is dual
+			is_dual_operator = "=" in keyword
+
+			if is_dual_operator:
+				qualifier, value = qualifier.split("=")
+				# remove quotes from strings
+				if value[0] == value[-1] == "\"":
+					value = value[1:-1]
+
+			# First time that the qualifier is encountered
+			if not qualifier in self.current_feature:
+				self.current_feature[qualifier] = value
+			else:
+				# If there is more than 1 element for this qualifier
+				if isinstance(self.current_feature[qualifier], list):
+					self.current_feature[qualifier].append(value)
+				# Transform a value into a vector of values
+				else:
+					self.current_feature[qualifier] = [self.current_feature[qualifier], value]
+
+		# End of the FEATURES part
+		elif keyword in Genbank.authorized_keywords:
+			self.parsing_function = self.parse_routing
+			self.parsing_function(line)
+
+		# Unknown line
+		else:
+			print("Genbank: impossible to parse the following line:")
+			print(line)
 
 
-gbk = Genbank("data/test_genbank.gbk")
-nb_seq = 0
-for seq in gbk.read():
-	nb_seq += 1
-	print(seq)
 
-print(nb_seq)
+# gbk = Genbank("data/test_genbank.gbk")
+# nb_seq = 0
+# for seq in gbk.read():
+# 	nb_seq += 1
+# 	print(seq)
+
+# print(nb_seq)
