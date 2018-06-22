@@ -250,6 +250,8 @@ class Genbank:
 			self.parsing_function(line)
 			return False
 
+		return True
+
 	def parse_authors(self, line):
 		if not self.is_in_the_correct_subtree(line, "AUTHORS"):
 			return
@@ -258,7 +260,7 @@ class Genbank:
 		if line.startswith("AUTHORS"):
 			self.ref["AUTHORS"] = line[line.find(" ")+1:]
 		else:
-			self.ref["AUTHORS"] = "{} {}".format(self.ref["AUTHORS"], line)
+			self.ref["AUTHORS"] = "{} {}".format(self.ref["AUTHORS"], line)
 
 
 	def parse_title(self, line):
@@ -269,7 +271,7 @@ class Genbank:
 		if line.startswith("TITLE"):
 			self.ref["TITLE"] = line[line.find(" ")+1:]
 		else:
-			self.ref["TITLE"] = "{} {}".format(self.ref["TITLE"], line)
+			self.ref["TITLE"] = "{} {}".format(self.ref["TITLE"], line)
 
 	def parse_journal(self, line):
 		if not self.is_in_the_correct_subtree(line, "JOURNAL"):
@@ -279,7 +281,7 @@ class Genbank:
 		if line.startswith("JOURNAL"):
 			self.ref["JOURNAL"] = line[line.find(" ")+1:]
 		else:
-			self.ref["JOURNAL"] = "{} {}".format(self.ref["JOURNAL"], line)
+			self.ref["JOURNAL"] = "{} {}".format(self.ref["JOURNAL"], line)
 
 	def parse_pubmed(self, line):
 		if not self.is_in_the_correct_subtree(line, "PUBMED"):
@@ -299,7 +301,7 @@ class Genbank:
 		if line.startswith("REMARK"):
 			self.ref["REMARK"] = line[line.find(" ")+1:]
 		else:
-			self.ref["REMARK"] = "{} {}".format(self.ref["REMARK"], line)
+			self.ref["REMARK"] = "{} {}".format(self.ref["REMARK"], line)
 
 	def parse_comment(self, line):
 		""" Parse the COMMENT field as a text
@@ -307,7 +309,7 @@ class Genbank:
 		if line.startswith("COMMENT"):
 			self.sequence["COMMENT"] = line[line.find(" ")+1:]
 		else:
-			self.sequence["COMMENT"] = "{} {}".format(self.sequence["COMMENT"], line)
+			self.sequence["COMMENT"] = "{} {}".format(self.sequence["COMMENT"], line)
 
 	def parse_origin(self, line):
 		""" Parse the origin label and next lines to construct the sequence """
