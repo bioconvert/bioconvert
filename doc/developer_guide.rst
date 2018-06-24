@@ -30,8 +30,6 @@ all in small caps ! In this file, copy and paste this example::
         """
 
         """
-        input_ext = ['.fastq']
-        output_ext = '.fasta'
         _default_method = "v1"
 
         def __init__(self, infile, outfile):
