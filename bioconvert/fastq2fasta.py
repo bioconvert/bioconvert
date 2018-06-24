@@ -132,7 +132,6 @@ class Fastq2Fasta(ConvBase):
                 fasta.write(">{}\n{}\n".format(
                     record.comment.decode("utf-8"),
                     record.sequence.decode("utf-8")))
-        print("test")
 
     @requires_nothing
     @compressor
