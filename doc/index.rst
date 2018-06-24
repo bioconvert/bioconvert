@@ -43,7 +43,7 @@ possible and provide facilities to compare different conversion tools or methods
 via `benchmarking <benchmarking>`_. New implementations are provided when considered 
 better than existing ones.
 
-**Currently (March 2018), we have 35 formats, 63 direct conversions (much more are
+**Currently (June 2018), we have 66 formats, 120 direct conversions (much more are
 possible calling bioconvert several times).**
 
 Installation
@@ -76,10 +76,13 @@ Otherwise, please see the instructions on `bioconda <https://bioconda.github.io/
 Usage
 ##########
 
-From the command line::
+From the command line, you can convert a fastq to fasta as follows (compressed
+or not)::
 
     bioconvert fastq2fasta input.fastq output.fasta
-    bioconvert fastq2fasta input.fq output.fasta
+    bioconvert fastq2fasta input.fq    output.fasta
+    bioconvert fastq2fasta input.fq.gz output.fasta.gz
+    bioconvert fastq2fasta input.fq.gz output.fasta.bz2
     bioconvert --help
 
 From Python shell::
