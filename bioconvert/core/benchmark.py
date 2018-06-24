@@ -114,22 +114,38 @@ class Benchmark():
             results[method] = times
         self.results = results
 
-    def plot(self, rerun=False, ylabel="Time (seconds)"):
-        import pylab
+    def plot(self, rerun=False, ylabel="Time (seconds)", rot_xticks=0, 
+             boxplot_args={}):
         """Plots the benchmark results, running the benchmarks
-        if needed or if *rerun* is True."""
+        if needed or if *rerun* is True.
+
+        :param rot_xlabel: rotation of the xticks function
+        :param boxplot_args: dictionary with any of the pylab.boxplot arguments
+        :return: dataframe with all results
+        """
+        import pylab
         if self.results is None or rerun is True:
             self.run_methods()
-        # an alias
-        data = self.results
+
+        # an alias.
+        data = self.results.copy()
 
         methods = sorted(data, key=lambda x: pylab.mean(data[x]))
-        pylab.boxplot([data[x] for x in methods])
+        pylab.boxplot([data[x] for x in methods], **boxplot_args)
         # pylab.xticks([1+this for this in range(len(methods))], methods)
-        pylab.xticks(*zip(*enumerate(methods, start=1)))
+        if "vert" in boxplot_args and boxplot_args['vert'] is False:
+            pylab.yticks(*zip(*enumerate(methods, start=1)), rotation=rot_xticks)
+            pylab.xlabel(ylabel)
+            #pylab.xlim([0, len(methods)+1])
+        else:
+            pylab.xticks(*zip(*enumerate(methods, start=1)), rotation=rot_xticks)
+            pylab.ylabel(ylabel)
+            pylab.xlim([0, len(methods)+1])
+
         pylab.grid(True)
-        pylab.ylabel(ylabel)
-        pylab.xlim([0, len(methods)+1])
+        pylab.tight_layout()
+
+        return data
 
 
 class BenchmarkMulticonvert(Benchmark):
