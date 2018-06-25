@@ -152,10 +152,6 @@ modindex_common_prefix = ["bioconvert."]
 # By default, examples are not built locally. You can set plot_gallery to True
 # to force their creation. Note that it requires singularity or dot to be
 # installed. Fixes https://github.com/biokit/bioconvert/issues/153
-if not on_rtd:
-    plot_gallery = False
-else:
-    plot_gallery = True
 
 plot_gallery = True
 
