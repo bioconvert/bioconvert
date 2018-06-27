@@ -67,7 +67,7 @@ class GENBANK2FASTA(ConvBase):
             for idx, entry in enumerate(reader.read()):
                 if "ORIGIN" in entry:
                     writer.write(">{} {}\n{}\n".format(
-                        entry["LOCUS"]["id"],
+                        entry["VERSION"]["id"] if "VERSION" in entry else entry["LOCUS"]["id"],
                         entry["DEFINITION"] if "DEFINITION" in entry else "",
                         entry["ORIGIN"]))
                 else:
