@@ -26,7 +26,8 @@
 """ description """
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
+from bioconvert.readers.genbank import Genbank
+from bioconvert.core.decorators import requires, requires_nothing
 
 __all__ = ["GENBANK2FASTA"]
 
@@ -57,3 +58,17 @@ class GENBANK2FASTA(ConvBase):
     def _method_biopython(self, *args, **kwargs):
         from Bio import SeqIO
         SeqIO.convert(self.infile, "genbank", self.outfile, "fasta")
+
+    @requires_nothing
+    def _method_python(self, *args, **kwargs):
+        reader = Genbank(self.infile)
+
+        with open(self.outfile, "w") as writer:
+            for idx, entry in enumerate(reader.read()):
+                if "ORIGIN" in entry:
+                    writer.write(">{} {}\n{}\n".format(
+                        entry["LOCUS"]["id"],
+                        entry["DEFINITION"] if "DEFINITION" in entry else "",
+                        entry["ORIGIN"]))
+                else:
+                    print("Impossible to create a sequence for the entry number {}. Sequence not found after the keyword ORIGIN".format(idx))

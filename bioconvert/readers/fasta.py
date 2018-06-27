@@ -60,3 +60,4 @@ class Fasta():
 		
 		if len(sequence["id"]) > 0:
 			yield sequence
+			
