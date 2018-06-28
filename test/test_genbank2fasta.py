@@ -27,12 +27,4 @@ def test_conv(method):
             assert entry_fa["comment"] in entry_gb["DEFINITION"]
             assert entry_fa["value"].lower() == entry_gb["ORIGIN"]
 
-        # Check that the output is correct with a checksum
-        # if method == "biopython":
-        #     assert md5(tempfile.name) == "3c679a17f69cc26afa899b6cf571dd13"
-        # elif method == "squizz":
-        #     assert md5(tempfile.name) == "40ca920aae3a3481eb2fbe365eadbf4a"
-        # else:
-        #     raise NotImplementedError
-
 

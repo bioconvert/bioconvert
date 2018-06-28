@@ -38,7 +38,7 @@ class FASTA2GENBANK(ConvBase):
 
     # squizz works as well but keeps lower cases while 
     # biopython uses upper cases
-    _default_method = "biopython"
+    _default_method = "python"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
