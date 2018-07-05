@@ -33,6 +33,19 @@ from easydev import TempFile
 _log = colorlog.getLogger(__name__)
 
 
+def is_gz(file_path):
+    """Detect if file is a gziped file based on first two bit of file."""
+    with open(file_path) as f:
+        file_start = f.read(2)
+
+    # according to http://www.zlib.org/rfc-gzip.html#header-trailer
+    # all gzipfile begin by bit 0x1F and 0x8b
+    if file_start == "\x1f\x8b":
+            return True
+
+    return False
+
+
 def in_gz(func):
     """Marks a function as accepting gzipped input."""
     func.in_gz = True
@@ -75,7 +88,7 @@ def compressor(func):
             (inst.outfile, output_compressed) = splitext(inst.outfile)
         # Now inst has the uncompressed output file name
 
-        if infile_name.endswith(".gz"):
+        if is_gz(infile_name):
             # decompress input
             # TODO: https://stackoverflow.com/a/29371584/1878788
             _log.info("Generating uncompressed version of %s " % infile_name)
