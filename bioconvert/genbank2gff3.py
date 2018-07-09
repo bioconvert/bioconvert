@@ -33,11 +33,11 @@ without calling the external script
 
 from bioconvert import ConvBase
 
-__all__ = ["GENBANK2GFF"]
+__all__ = ["GENBANK2GFF3"]
 
 
-class GENBANK2GFF(ConvBase):
-    """Convert :term:`GENBANK` file to :term:`GFF` file
+class GENBANK2GFF3(ConvBase):
+    """Convert :term:`GENBANK` file to :term:`GFF3` file
 
     Some description.
 
@@ -48,7 +48,7 @@ class GENBANK2GFF(ConvBase):
         """.. rubric:: constructor
 
         :param str infile: input GENBANK file
-        :param str outfile: output GFF filename
+        :param str outfile: output GFF3 filename
 
         """
         super().__init__(infile, outfile)

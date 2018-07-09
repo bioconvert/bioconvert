@@ -1,7 +1,7 @@
 from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
-from bioconvert.genbank2gff import GENBANK2GFF
+from bioconvert.genbank2gff3 import GENBANK2GFF3
 
 
 """
