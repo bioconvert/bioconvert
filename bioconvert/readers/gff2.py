@@ -26,7 +26,7 @@
 import re
 
 
-class Gff3():
+class Gff2():
 	"""Read a gff v3 file
 	See the format description at https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md
 	"""
@@ -41,10 +41,6 @@ class Gff3():
 			line = None
 
 			for line in reader:
-				# Skip metadata and comments
-				if line.startswith("#"):
-					continue
-
 				# Format checking
 				split = line.rstrip().split("\t")
 				if len(split) < 9:
@@ -64,12 +60,12 @@ class Gff3():
 		annotation = {}
 
 		# Unique id of the sequence
-		annotation["seqid"] = self.decode_small(fields[0])
+		annotation["seqid"] = fields[0]
 		# Optional source
 		if fields[1] != ".":
-			annotation["source"] = self.decode_small(fields[1])
+			annotation["source"] = fields[1]
 		# Annotation type
-		annotation["type"] = self.decode_small(fields[2])
+		annotation["type"] = fields[2]
 		# Start and stop
 		annotation["start"] = int(fields[3])
 		annotation["stop"] = int(fields[4])
@@ -90,51 +86,35 @@ class Gff3():
 		attributes = {}
 
 		# split into mutliple attributes
-		split = text.split(";")
+		split = text.rstrip().split(";")
 		for attr in split:
-			#find the separator
-			idx = attr.find("=")
+			if len(attr) == 0:
+				continue
 
-			# parse tags and associated values
-			value = self.decode_complete(attr[idx+1:])
-			if len(value) == 1:
-				value = value[0]
-			attributes[self.decode_complete(attr[:idx])] = value
+			# Remove parasite spaces
+			attr = attr.strip()
+
+			# Find the key and value separator
+			idx = attr.find(" ")
+			# split key from value
+			key, value = attr[:idx].strip(), attr[idx+1:].strip()
+			# format the value
+			if value[0] == "\"":
+				value = value[1:-1]
+			
+			if not key in attributes:
+				attributes[key] = value
+			else:
+				if not isinstance(attributes[key], list):
+					attributes[key] = [attributes[key]]
+				attributes[key].append(value)
 
 		return attributes
 
-
-	@staticmethod
-	def decode_small(text):
-		# Tabulation
-		text = re.sub("%09", "\t", text)
-		# newline
-		text = re.sub("%0A", "\n", text)
-		# return
-		text = re.sub("%0D", "\r", text)
-		# percent
-		text = re.sub("%25", "%", text)
-
-		return text
-
-
-	@staticmethod
-	def decode_complete(text):
-		text = Gff3.decode_small(text)
-		# semicolon
-		text = re.sub("%3B", ";", text)
-		# equals
-		text = re.sub("%3D", "=", text)
-		# ampersand
-		text = re.sub("%26", "&", text)
-		# comma
-		text = re.sub("%2C", ",", text)
-
-		return text
 			
 
 # if __name__ == "__main__":
-# 	file = "/home/yoann/Projects/Hub/bioconvert/bioconvert/data/gff3_example.gff"
-# 	gff = Gff3(file)
+# 	file = "/home/yoann/Projects/Hub/bioconvert/bioconvert/data/gff2_example.gff"
+# 	gff = Gff2(file)
 # 	for annotation in gff.read():
 # 		print(annotation)
