@@ -88,7 +88,7 @@ class Gff2():
 		# split into mutliple attributes
 		split = text.rstrip().split(";")
 		for attr in split:
-			if len(attr) == 0:
+			if len(attr) == 0 or attr == ".":
 				continue
 
 			# Remove parasite spaces
