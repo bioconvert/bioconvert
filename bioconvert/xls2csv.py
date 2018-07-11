@@ -59,7 +59,7 @@ class XLS2CSV(ConvBase):
             sheet_name=0,
             *args, **kwargs):
         """
-        do the conversion :term`XLS` -> :term:'CSV` using Panda modules
+        do the conversion :term`XLS` -> :term:'CSV` using pyexcel modules
 
         """
         import pyexcel
