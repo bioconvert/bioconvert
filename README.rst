@@ -46,10 +46,9 @@ Usage
 
 ::
 
-    bioconvert input.fastq output.fasta
-    bioconvert input.fq output.fasta
-    bioconvert input.mybam output.bed --input-format bam
-    bioconvert --formats
+    bioconvert fastq2fasta input.fastq output.fasta
+    bioconvert gz2dsrc input.fq.gz output.dsrc2
+    bioconvert bam2bed input.bam output.bed
     bioconvert --help
 
 Available Converters
