@@ -40,7 +40,7 @@ __all__ = ["Scf2Fastq"]
 
 class Scf2Fastq(ConvBase):
     """
-    Converts a binary scf file to Fastq format.
+    Converts a binary :term:`SCF` file to Fastq format.
 
     :param str infile: input SCF file
     :param str outfile: output name file

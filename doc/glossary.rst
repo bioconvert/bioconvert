@@ -2,10 +2,17 @@ Glossary
 ===========
 
 
+Note that formats mentionned here below have dedicated description in the
+Formats section. 
 
 .. glossary::
     :sorted:
 
+    ABI
+
+        File format produced by ABI sequencing machines. Contains the trace data
+        which includes probabilities of the four nucleotides. See SCF format
+        here below.
 
     BAM
 
@@ -93,7 +100,8 @@ Glossary
 
     SCF
 
-        Trace File Format
+        Standard Chromatogram Format (also known as trace file format, or ABI), a binary
+        chromatogram format described in Staden package documentation SCF file format.
         https://wiki.nci.nih.gov/display/TCGA/Sequence+trace+files
 
     STOCKHOLM

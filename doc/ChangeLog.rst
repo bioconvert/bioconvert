@@ -1,6 +1,12 @@
 Whats' new, what has changed
 ================================
 
+
+:Revision 0.1.3:
+
+    - add abi2fastq
+    - add abi2fasta
+
 :Revision 0.1.1:
 
     - add phylip2xmfa and xmfa2phylip,

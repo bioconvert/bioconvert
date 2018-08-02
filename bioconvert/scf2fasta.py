@@ -35,11 +35,12 @@ from bioconvert.core.decorators import requires_nothing
 
 _log = colorlog.getLogger(__name__)
 
+
 class Scf2Fasta(ConvBase):
     """
-    Converts a binary scf file to Fasta format.
+    Converts a binary SCF/ABI file to Fasta format.
 
-    :param str infile: input SCF file
+    :param str infile: input SCF/ABI file
     :param str outfile: output name file
     """
 
@@ -254,6 +255,7 @@ Private data size                      Private data
 
 # Return 'length' bits of file 'f_file' starting at offset 'offset'
 def read_from_buffer(f_file, length, offset):
+    """Return 'length' bits of file 'f_file' starting at offset 'offset'"""
     f_file.seek(offset)
     buff = f_file.read(length)
     if len(buff) != length:

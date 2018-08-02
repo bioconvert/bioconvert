@@ -45,7 +45,7 @@ import matplotlib.sphinxext
 release = version
 author = "Bioconvet developers"
 title = "Bioconvert"
-copyright = author + ", 2017"
+copyright = author + ", 2017-2018"
 project = 'bioconvert'
 
 
