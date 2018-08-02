@@ -36,10 +36,10 @@ class CLUSTAL2NEXUS(ConvBase):
     Converts a sequence alignment from :term:`CLUSTAL` format to :term:`NEXUS` format. ::
 
         converter = CLUSTAL2NEXUS(infile, outfile)
-        converter(method='biopython')
+        converter(method='goalign')
 
-    default method = gotree
-    available methods = gotree
+    default method = goalign
+    available methods = goalign
     """
     _default_method = 'goalign'
 
