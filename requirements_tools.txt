@@ -4,7 +4,7 @@ bedtools
 bioawk
 deeptools
 dsrc
-go=1.9.2
+go=1.10.3
 pbzip2
 pigz
 plink
