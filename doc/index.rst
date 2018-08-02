@@ -43,7 +43,9 @@ possible and provide facilities to compare different conversion tools or methods
 via `benchmarking <benchmarking>`_. New implementations are provided when considered 
 better than existing ones.
 
-**Currently (June 2018), we have 66 formats, 120 direct conversions (much more are
+**In Aug 2018, we had 79 formats, 129 direct conversions (much more are
+possible calling bioconvert several times).**
+**In June 2018, we hd 66 formats, 120 direct conversions (much more are
 possible calling bioconvert several times).**
 
 Installation
