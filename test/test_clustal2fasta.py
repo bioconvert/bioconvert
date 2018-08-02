@@ -34,3 +34,15 @@ def test_clustal2fasta_squizz():
         assert md5(tempfile.name) == md5(outfile)
 
 
+@skiptravis
+def test_clustal2fasta_goalign():
+    infile = bioconvert_data("goalign.clustal")
+    outfile = bioconvert_data("goalign.fasta")
+    with TempFile(suffix=".fasta") as tempfile:
+        converter = CLUSTAL2FASTA(infile, tempfile.name)
+        converter(method='goalign')
+
+        # Check that the output is correct with a checksum
+        assert md5(tempfile.name) == md5(outfile)
+
+
