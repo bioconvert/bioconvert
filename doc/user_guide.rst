@@ -13,17 +13,41 @@ You can obtain help by using::
 
     bioconvert --help
 
+To convert a format into another you need to provide the name of the conversion.
+For instance, to convert a fastq file into a fasta, you need to use the sub
+command **fastq2fasta**::
+
+    bioconvert fastq2fasta  input.fastq output.fasta
+
+The rationale behind the subcommand choice is manyfold. First, you may have dedicated help
+for a given conversion::
+
+    bioconvert fastq2fasta --help
+
+Second, the extensions of your input and output may be non-standard or different
+from the bioconvert choice. So, using the subcommand you can do::
+
+    bioconvert fastq2fasta  input.fq output.fa
+
+where the extensions can actually be whatever you want.
+
 
 Installation
 -------------
 
-pip method
-~~~~~~~~~~~~~
-For developers, **bioconvert** standalone is installed with the package available on Pypi so you could type::
+pip pr conda methods
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-    pip install bioconvert 
+For users, **bioconvert** standalone is installed with the package **bioconvert** available on Pypi so you could type::
 
-This method installs bioconvert and its Python dependencies (available on Pypi website). Note, however, that **bioconvert** may use (depending on the conversion you want to use) external dependencies not available on Pypi. You will need to install those third-party dependencies yourself. An alternative is to install bioconvert using **conda**. 
+    pip install bioconvert
+
+This method installs bioconvert and its Python dependencies (available on Pypi website). Note, however, that **bioconvert** may use (depending on the conversion you want to use) external dependencies not available on Pypi. You will need to install those third-party dependencies yourself. An alternative is to install bioconvert using **conda** using::
+
+    conda install bioconvert
+
+Note that you will need to set up the **bioconda** channel (see below for
+details).
 
 conda / bioconda method
 ~~~~~~~~~~~~~~~~~~~~~~~~~

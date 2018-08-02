@@ -42,7 +42,7 @@ class FASTA2CLUSTAL(ConvBase):
         converter(method='biopython')
 
     default method = biopython
-    available methods = biopython, squizz
+    available methods = biopython, squizz, goalign
     """
     _default_method = 'biopython'
 
@@ -77,3 +77,17 @@ class FASTA2CLUSTAL(ConvBase):
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
+
+    @requires("conda")
+    def _method_goalign(self, threads=None, *args, **kwargs):
+        """
+        Convert :term:`FASTA` file in  :term:`CLUSTAL` format using goalign tool.
+        https://github.com/fredericlemoine/goalign
+
+        :param threads: not used.
+        """
+        cmd = 'goalign reformat clustal -i {infile} -o {outfile}'.format(
+            infile=self.infile,
+            outfile=self.outfile)
+        self.execute(cmd)
+        

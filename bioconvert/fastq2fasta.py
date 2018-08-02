@@ -24,10 +24,9 @@
 ###########################################################################
 
 """Convert :term:`FASTQ` to :term:`FASTA`"""
-from Bio import SeqIO
-from Bio.SeqIO import FastaIO
 from bioconvert import ConvBase, bioconvert_script
 from bioconvert.core.base import ConvArg
+from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires, requires_nothing
 
 try:
     # Let us make this optional for now because
@@ -35,10 +34,10 @@ try:
     from gatb import Bank
 except:
     pass
+
 from mappy import fastx_read
 import mmap
 
-from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires, requires_nothing
 
 
 class Fastq2Fasta(ConvBase):
@@ -61,10 +60,13 @@ class Fastq2Fasta(ConvBase):
     def unwrap_fasta(infile, outfile, strip_comment=False):
         """
         This method reads fasta sequences from *infile*
-        and writes them unwrapped in *outfile*.
+        and writes them unwrapped in *outfile*. Used in the test suite.
+
         :param str infile: The path to the input FASTA file.
         :param str outfile: The path to the output file.
         """
+        from Bio.SeqIO import FastaIO
+        from Bio import SeqIO
         with open(outfile, "w") as fasta_out:
             if strip_comment:
                 FastaIO.FastaWriter(
@@ -114,6 +116,7 @@ class Fastq2Fasta(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
+        from Bio import SeqIO
         records = SeqIO.parse(self.infile, 'fastq')
         SeqIO.write(records, self.outfile, 'fasta')
 
@@ -132,7 +135,6 @@ class Fastq2Fasta(ConvBase):
                 fasta.write(">{}\n{}\n".format(
                     record.comment.decode("utf-8"),
                     record.sequence.decode("utf-8")))
-        print("test")
 
     @requires_nothing
     @compressor

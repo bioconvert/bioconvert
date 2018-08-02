@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -22,10 +21,10 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
 """Converts :term:`NEXUS` file to :term:`CLUSTAL` file."""
-
+import os
 import colorlog
+from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -38,8 +37,13 @@ __all__ = ['NEXUS2CLUSTAL']
 
 class NEXUS2CLUSTAL(ConvBase):
     """
-    Converts a tree file from :term:`NEXUS` format
-    to :term:`CLUSTAL` format. ::
+    Converts a sequence alignment from :term:`NEXUS` format to :term:`CLUSTAL` format. ::
+
+        converter = NEXUS2CLUSTAL(infile, outfile)
+        converter(method='goalign')
+
+    default method = goalign
+    available methods = goalign
     """
     _default_method = 'goalign'
 
@@ -53,14 +57,14 @@ class NEXUS2CLUSTAL(ConvBase):
         self.alphabet = alphabet
 
     @requires("conda")
-    def _method_goalign(self, *args, **kwargs):
-        """uses goalign tool:
-
+    def _method_goalign(self, threads=None, *args, **kwargs):
+        """
+        Convert :term:`NEXUS` file in  :term:`CLUSTAL` format using goalign tool.
         https://github.com/fredericlemoine/goalign
 
+        :param threads: not used.
         """
-        self.install_tool('goalign')
-        cmd = 'goalign reformat clustal -x -i {infile} -o {outfile} '.format(
+        cmd = 'goalign reformat clustal --nexus -i {infile} -o {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)

@@ -21,7 +21,6 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-""" description """
 import os
 import colorlog
 from Bio import SeqIO
@@ -58,13 +57,12 @@ class CLUSTAL2NEXUS(ConvBase):
     @requires("conda")
     def _method_goalign(self, threads=None, *args, **kwargs):
         """
-        Convert :term:`CLUSTAL` interleaved file in :term:`NEXUS` format using goalign.
+        Convert :term:`CLUSTAL` file in  :term:`NEXUS` format using goalign tool.
+        https://github.com/fredericlemoine/goalign
 
         :param threads: not used.
         """
-        self.install_tool('goalign')
         cmd = 'goalign reformat nexus --clustal -i {infile} -o {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
-

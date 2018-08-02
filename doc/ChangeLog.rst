@@ -1,6 +1,14 @@
 Whats' new, what has changed
 ================================
 
+
+:Revision 0.1.3: 2nd Aug 2018
+
+    - add abi2fastq
+    - add abi2fasta
+    - add script called bioconvert_stats
+    - refactorise scf2fasta and sc2fastq putting common code in utils.scf
+
 :Revision 0.1.1:
 
     - add phylip2xmfa and xmfa2phylip,

@@ -30,8 +30,6 @@ all in small caps ! In this file, copy and paste this example::
         """
 
         """
-        input_ext = ['.fastq']
-        output_ext = '.fasta'
         _default_method = "v1"
 
         def __init__(self, infile, outfile):
@@ -51,13 +49,13 @@ all in small caps ! In this file, copy and paste this example::
             another method
 
 You may also use this standalone to create the bioconvert_init standalone. For
-instance to create the bz2 to gz convertm redirect the output of this command in
+instance to create the *sam* to *bam* conversion, redirect the output of the following command in
 the correct file::
 
-    $ bioconvert_init -i bz2 -o gz > bz22gz.py
+    $ bioconvert_init -i sam -o bam > sam2bam.py
 
 Of course, you will need to edit the file to add the conversion itself in the
-appropriate method (e.g. _method_gz).
+appropriate method (e.g. _method_samtools).
 
 
 How to add a new method

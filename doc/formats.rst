@@ -4,13 +4,20 @@ Formats
 ABI
 ----------
 
-The ABI "Sanger" capillary sequence traces files, including the PHRED
-quality scores for the base calls. This allows ABI to FASTQ conversion. Note
-each ABI file contains one and only one sequence (no need for indexing the file).
+File format produced by ABI sequencing machine. It produces ABI "Sanger" capillary sequence 
+traces files, including the PHRED quality scores for the base calls. 
+This allows ABI to FASTQ conversion. Note each ABI file contains one and only one sequence (no need for indexing the file). The trace data contains probablities of the four nucleotide base along the sequencing run together with the sequence deduced from that data. ABI trace is a binary format. 
 
 
+.. admonition::  References
 
-ASQG format
+    - ftp://saf.bio.caltech.edu/pub/software/molbio/abitools.zip
+    - https://github.com/jkbonfield/io_lib/
+
+.. seealso:: :ref:`scf`
+
+
+ASQG
 --------------
 
 :type: assembly
@@ -324,13 +331,13 @@ string. This is not a bug
 
 
 
+.. _scf:
 
 Trace File Format - Sequence Chromatogram Format (SCF)
 ------------------------------------------------------
 
 :reference: https://wiki.nci.nih.gov/display/TCGA/Sequence+trace+files
 :reference: http://staden.sourceforge.net/manual/formats_unix_2.html
-
 
 Trace files are binary files containing raw data output from automated sequencing instruments.
 This convertor was converted from BioPerl.
