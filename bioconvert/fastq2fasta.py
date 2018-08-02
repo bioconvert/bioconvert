@@ -66,6 +66,7 @@ class Fastq2Fasta(ConvBase):
         :param str outfile: The path to the output file.
         """
         from Bio.SeqIO import FastaIO
+        from Bio import SeqIO
         with open(outfile, "w") as fasta_out:
             if strip_comment:
                 FastaIO.FastaWriter(
