@@ -13,6 +13,7 @@ This allows ABI to FASTQ conversion. Note each ABI file contains one and only on
 
     - ftp://saf.bio.caltech.edu/pub/software/molbio/abitools.zip
     - https://github.com/jkbonfield/io_lib/
+    - http://www6.appliedbiosystems.com/support/software_community/ABIF_File_Format.pdf
 
 .. seealso:: :ref:`scf`
 

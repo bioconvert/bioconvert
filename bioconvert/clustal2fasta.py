@@ -83,6 +83,7 @@ class CLUSTAL2FASTA(ConvBase):
 
         :param threads: not used.
         """
+        self.install_tool('goalign')
         cmd = 'goalign reformat fasta --clustal -i {infile} -o {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)
