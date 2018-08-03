@@ -18,3 +18,5 @@ ucsc-bigwigtobedgraph
 ucsc-fatotwobit
 ucsc-twobittofa
 wiggletools
+sed
+
