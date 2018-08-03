@@ -10,6 +10,10 @@ dependency_test = pytest.mark.skipif(
     reason="seen DO_NOT_TEST_DEPENDENCIES, so not testing dependencies"
 )
 
+skip_not_on_linux = pytest.mark.skipif(
+    platform.platform().startwith("Linux") is False,
+    reason="Not on Linux, dependency may be missing on osx for instance"
+)
 
 ### AUTOMATICALLY GENERATED TESTS (START)
 
@@ -62,7 +66,7 @@ def test_require_bunzip2():
 def test_require_conda():
     assert requires(external_binary="conda")(object()).is_disabled is False
 
-
+@skip_not_on_linux
 @dependency_test
 def test_require_dsrc():
     assert requires(external_binary="dsrc")(object()).is_disabled is False
@@ -83,6 +87,7 @@ def test_require_ls():
     assert requires(external_binary="ls")(object()).is_disabled is False
 
 
+@skip_not_on_linux
 @dependency_test
 def test_require_mawk():
     assert requires(external_binary="mawk")(object()).is_disabled is False
@@ -133,6 +138,7 @@ def test_require_seqtk():
     assert requires(external_binary="seqtk")(object()).is_disabled is False
 
 
+@skip_not_on_linux
 @dependency_test
 def test_require_squizz():
     assert requires(external_binary="squizz")(object()).is_disabled is False
