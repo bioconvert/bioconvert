@@ -173,9 +173,9 @@ def test_require_pip():
     assert requires(python_library="pip")(object()).is_disabled is False
 
 
-@dependency_test
-def test_require_pyGATB():
-    assert requires(python_library="pyGATB")(object()).is_disabled is False
+# @dependency_test
+# def test_require_pyGATB():
+#     assert requires(python_library="pyGATB")(object()).is_disabled is False
 
 
 @dependency_test
