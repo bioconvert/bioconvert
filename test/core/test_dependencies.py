@@ -1,6 +1,7 @@
 import re
 import pytest
 import os
+import platform
 
 from bioconvert.core.decorators import requires, get_known_dependencies_with_availability
 
@@ -11,7 +12,7 @@ dependency_test = pytest.mark.skipif(
 )
 
 skip_not_on_linux = pytest.mark.skipif(
-    platform.platform().startwith("Linux") is False,
+    platform.platform().startswith("Linux") is False,
     reason="Not on Linux, dependency may be missing on osx for instance"
 )
 
@@ -66,7 +67,6 @@ def test_require_bunzip2():
 def test_require_conda():
     assert requires(external_binary="conda")(object()).is_disabled is False
 
-@skip_not_on_linux
 @dependency_test
 def test_require_dsrc():
     assert requires(external_binary="dsrc")(object()).is_disabled is False
@@ -138,7 +138,6 @@ def test_require_seqtk():
     assert requires(external_binary="seqtk")(object()).is_disabled is False
 
 
-@skip_not_on_linux
 @dependency_test
 def test_require_squizz():
     assert requires(external_binary="squizz")(object()).is_disabled is False
