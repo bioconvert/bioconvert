@@ -52,7 +52,7 @@ install:
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_dev.txt
   - conda install --yes python=$TRAVIS_PYTHON_VERSION  coverage
   - pip install .
-    - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then pip install pygatb --no-deps ; fi
+  - if ! [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pip install pygatb --no-deps ; fi
   - pip install pypandoc
   - pip install biocode
 
