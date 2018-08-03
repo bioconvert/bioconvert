@@ -1,6 +1,6 @@
 import os
 import subprocess
-
+import hashlib
 import pytest
 from easydev import TempFile
 
@@ -24,9 +24,8 @@ def test_gz2dsrc():
         # it is not deterministic
         assert os.path.isfile(tempfile.name)
 
-        cmd = "gunzip -c {} | md5sum -".format(tempfile.name)
+        cmd = "gunzip -c {}".format(tempfile.name)
         res = subprocess.check_output(cmd, shell=True)
-        res = res.split()[0].decode()
 
         # Check that the output is correct with a checksum
-        assert res == "d41d8cd98f00b204e9800998ecf8427e"
+        assert hashlib.md5(res).hexdigest() == "d41d8cd98f00b204e9800998ecf8427e"
