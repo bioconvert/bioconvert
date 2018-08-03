@@ -8,6 +8,8 @@ Whats' new, what has changed
     - add abi2fasta
     - add script called bioconvert_stats
     - refactorise scf2fasta and sc2fastq putting common code in utils.scf
+    - update go version in requirements + update of modules using go
+    - update doc
 
 :Revision 0.1.1:
 
