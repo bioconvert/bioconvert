@@ -12,17 +12,20 @@ matrix:
     - os: linux
       sudo: required
       python: 3.6
+    - os: osx
+      sudo: required
+      language: generic
 
 branches:
   only:
     - master
     - dev
-
+    - osxtest
 
 # solution based on https://gist.github.com/dan-blanchard/7045057
 # setup anaconda to install scipy and numpy easily and quickly
 before_install:
-    - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh; else wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh; fi
     - chmod +x miniconda.sh
     - ./miniconda.sh -b
     - export PATH=$HOME/miniconda3/bin:$PATH
@@ -33,11 +36,11 @@ before_install:
     - conda config --add channels conda-forge
     - conda config --add channels bioconda
     # are not specific to using mini
-    - sudo rm -rf /dev/shm
-    - sudo ln -s /run/shm /dev/shm
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo rm -rf /dev/shm; fi
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ln -s /run/shm /dev/shm; fi
     # This help testing code with pylab
-    - "export DISPLAY=:99.0"
-    - "sh -e /etc/init.d/xvfb start"
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
     # some useful libraries to compile numpy/scipy
     # - "sudo apt-get install -q libatlas3gf-base libatlas-dev liblapack-dev gfortran"
 
@@ -49,7 +52,7 @@ install:
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_dev.txt
   - conda install --yes python=$TRAVIS_PYTHON_VERSION  coverage
   - pip install .
-  - pip install pygatb --no-deps
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pip install pygatb --no-deps ; fi
   - pip install pypandoc
   - pip install biocode
 

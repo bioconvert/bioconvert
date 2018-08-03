@@ -51,7 +51,7 @@ class GENBANK2FASTA(ConvBase):
     @requires("squizz")
     def _method_squizz(self, *args, **kwargs):
         """Header is less informative than the one obtained with biopython"""
-        cmd = "squizz {} -f genbank -c fasta > {} ".format(self.infile, self.outfile)
+        cmd = "squizz -f genbank -c fasta {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")

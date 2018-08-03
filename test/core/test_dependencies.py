@@ -1,6 +1,7 @@
 import re
 import pytest
 import os
+import platform
 
 from bioconvert.core.decorators import requires, get_known_dependencies_with_availability
 
@@ -10,6 +11,10 @@ dependency_test = pytest.mark.skipif(
     reason="seen DO_NOT_TEST_DEPENDENCIES, so not testing dependencies"
 )
 
+skip_not_on_linux = pytest.mark.skipif(
+    platform.platform().startswith("Linux") is False,
+    reason="Not on Linux, dependency may be missing on osx for instance"
+)
 
 ### AUTOMATICALLY GENERATED TESTS (START)
 
@@ -62,7 +67,6 @@ def test_require_bunzip2():
 def test_require_conda():
     assert requires(external_binary="conda")(object()).is_disabled is False
 
-
 @dependency_test
 def test_require_dsrc():
     assert requires(external_binary="dsrc")(object()).is_disabled is False
@@ -83,6 +87,7 @@ def test_require_ls():
     assert requires(external_binary="ls")(object()).is_disabled is False
 
 
+@skip_not_on_linux
 @dependency_test
 def test_require_mawk():
     assert requires(external_binary="mawk")(object()).is_disabled is False
@@ -173,6 +178,7 @@ def test_require_pip():
     assert requires(python_library="pip")(object()).is_disabled is False
 
 
+@skip_not_on_linux
 @dependency_test
 def test_require_pyGATB():
     assert requires(python_library="pyGATB")(object()).is_disabled is False
