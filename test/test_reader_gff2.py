@@ -84,7 +84,7 @@ expected_values = [{'seqid': 'chr1', 'source': 'processed_transcript', 'type': '
 
 
 def test_load():
-    infile = bioconvert_data("gff2_example.gff")
+    infile = bioconvert_data("GFF2/gff2_example.gff")
     reader_gff2 = Gff2(infile)
 
     for expected_value, file_value in zip(expected_values, reader_gff2.read()):

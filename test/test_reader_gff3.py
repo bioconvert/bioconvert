@@ -30,7 +30,7 @@ expected_values = [{'seqid': 'ctg123', 'type': 'gene', 'start': 1000, 'stop': 90
 
 
 def test_load():
-    infile = bioconvert_data("gff3_example.gff")
+    infile = bioconvert_data("GFF3/gff3_example.gff")
     reader_gff3 = Gff3(infile)
 
     for expected_value, file_value in zip(expected_values, reader_gff3.read()):
