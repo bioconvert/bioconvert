@@ -29,7 +29,10 @@ from bioconvert import ConvBase
 from bioconvert.core.decorators import requires_nothing
 from bioconvert.readers.gff2 import Gff2
 
-class Gff22Gff3(ConvBase):
+
+__all__ = ["GFF22GFF3"]
+
+class GFF22GFF3(ConvBase):
     """Convert :term:`GFF2` to :term:`GFF3`"""
 
     _default_method = "brut_binding_python"
@@ -42,8 +45,7 @@ class Gff22Gff3(ConvBase):
         :param str outfile: output GENBANK filename
 
         """
-        super(Gff22Gff3, self).__init__(infile, outfile, *args, **kargs)
-
+        super(GFF22GFF3, self).__init__(infile, outfile, *args, **kargs)
 
     @requires_nothing
     def _method_brut_binding_python(self, *args, **kwargs):

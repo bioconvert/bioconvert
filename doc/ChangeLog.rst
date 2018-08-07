@@ -1,13 +1,13 @@
 Whats' new, what has changed
 ================================
 
-:Revision 0.1.4a: 6 Aug 2018
+:Revision 0.2.0: 7 Aug 2018
 
     - remove pandoc from requirements. The version installed is the one from
       conda. However, conda version is a standalone only, not the code source
       so, using it in the requirements causes trouble on bioconda when building
       bioconvert. We do not use pandoc in the code for now, so let us remove it.
-
+    - added tests for gff22gff3; moved test data sets related to GFF2 and GFF3.
 
 :Revision 0.1.3: 2nd Aug 2018
 
