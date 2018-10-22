@@ -39,7 +39,6 @@ from mappy import fastx_read
 import mmap
 
 
-
 class Fastq2Fasta(ConvBase):
     """Convert :term:`FASTQ` to :term:`FASTA`"""
 
@@ -267,13 +266,13 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)
         self.execute(cmd)
 
-    @classmethod
-    def get_additional_arguments(cls):
-        yield ConvArg(
-            names="--quality-file",
-            nargs="?",
-            default=None,
-            type=ConvArg.file,
-            output_argument=True,
-            help="The path to the quality file.",
-        )
+    #@classmethod
+    #def get_additional_arguments(cls):
+    #    yield ConvArg(
+    #        names="--quality-file",
+    #        nargs="?",
+    #        default=None,
+    #        type=ConvArg.file,
+    #        output_argument=True,
+    #        help="The path to the quality file.",
+    #    )
