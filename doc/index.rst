@@ -44,11 +44,11 @@ via `benchmarking <benchmarking>`_. New implementations are provided when consid
 better than existing ones.
 
 
-**In Aug 2018, we had 79 formats, 129 direct conversions (much more are
-possible calling bioconvert several times).**
 
-**In June 2018, we had 66 formats, 120 direct conversions (much more are
-possible calling bioconvert several times).**
+**In Aug 2018, we had 43 formats, 79 direct conversions (129 different methods). More conversions are possible when calling bioconvert several times.**
+
+**In June 2018, we had 66 direct conversions (120 different methods). More conversions are possible when calling bioconvert several times.**
+
 
 Installation
 ###############

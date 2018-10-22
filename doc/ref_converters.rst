@@ -7,6 +7,8 @@ Summary
 
 .. autosummary::
 
+	bioconvert.abi2fasta
+	bioconvert.abi2fastq
 	bioconvert.bam2bed
 	bioconvert.bam2bedgraph
 	bioconvert.bam2bigwig
@@ -87,6 +89,16 @@ Summary
 
 All converters documentation
 ----------------------------
+
+.. automodule:: bioconvert.abi2fasta
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.abi2fastq
+    :members:
+    :synopsis:
+    :private-members:
 
 .. automodule:: bioconvert.bam2bed
     :members:
