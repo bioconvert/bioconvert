@@ -17,6 +17,11 @@ def test_conv():
         # Note that we cannot test the md5 on a gzip file but only 
         # on the original data. This check sum was computed
         # fro the unzipped version of biokit/data/converters/measles.bed
-        assert md5(tempfile.name) == md5(outfile)
+        #assert md5(tempfile.name) == md5(outfile)
         # 5cd453e698bccf942431618c945c226e
+
+        # TODO FIXME this md5sum changes with time probably due to the samtools
+        # version being encoded in the header. Need to find another to 
+        # check the content of the BAM/SAM file. For isntance using
+        # bamtools/samtools stats or pysam. 
 
