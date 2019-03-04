@@ -6,24 +6,24 @@ Bioconvert is a project to facilitate the interconversion of life science data f
 .. image:: https://badge.fury.io/py/bioconvert.svg
     :target: https://pypi.python.org/pypi/bioconvert
 
-.. image:: https://secure.travis-ci.org/biokit/bioconvert.png
-    :target: http://travis-ci.org/biokit/bioconvert
+.. image:: https://secure.travis-ci.org/bioconvert/bioconvert.png
+    :target: http://travis-ci.org/bioconvert/bioconvert
 
-.. image:: https://coveralls.io/repos/github/biokit/bioconvert/badge.svg?branch=master
-    :target: https://coveralls.io/github/biokit/bioconvert?branch=master
+.. image:: https://coveralls.io/repos/github/bioconvert/bioconvert/badge.svg?branch=master
+    :target: https://coveralls.io/github/bioconvert/bioconvert?branch=master
 
 .. image:: http://readthedocs.org/projects/bioconvert/badge/?version=master
     :target: http://bioconvert.readthedocs.org/en/latest/?badge=master
     :alt: Documentation Status
 
-.. image:: https://badges.gitter.im/biokit/bioconvert.svg
+.. image:: https://badges.gitter.im/bioconvert/bioconvert.svg
     :target: https://gitter.im/bioconvert/Lobby?source=orgpage
 
 
 :note: Bioconvert is tested with Travis for the following Python version: 3.5 and 3.6. Python 2 won't be provided.
 
-:contributions: Want to add a convertor ? Please join https://github.com/biokit/bioconvert/issues/1
-:issues: Please use https://github.com/biokit/bioconvert/issues
+:contributions: Want to add a convertor ? Please join https://github.com/bioconvert/bioconvert/issues/1
+:issues: Please use https://github.com/bioconvert/bioconvert/issues
 
 
 Installation
@@ -55,16 +55,7 @@ Usage
 Available Converters
 #######################
 
-.. image:: https://raw.githubusercontent.com/biokit/bioconvert/master/doc/conversion.png
+.. image:: https://raw.githubusercontent.com/bioconvert/bioconvert/master/doc/conversion.png
     :width: 80%
-
-
-
-
-
-
-
-
-
 
 
