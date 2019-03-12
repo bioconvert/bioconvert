@@ -47,7 +47,6 @@ before_install:
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - echo $TRAVIS_PYTHON_VERSION
-  - python -c "import numpy;print(numpy.__version__);print(numpy.__file__)"
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements.txt
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_tools.txt
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_dev.txt
@@ -56,6 +55,7 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pip install pygatb --no-deps ; fi
   - pip install pypandoc
   - pip install biocode
+  - python -c "import numpy;print(numpy.__version__);print(numpy.__file__)"
 
 
 # # command to run tests, e.g. python setup.py test
