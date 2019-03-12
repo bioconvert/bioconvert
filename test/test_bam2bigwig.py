@@ -9,8 +9,7 @@ import os
 # automatically for each method
 
 
-skiptravis = pytest.mark.skipif( "TRAVIS_PYTHON_VERSION" in os.environ and 
-    os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), 
+skiptravis = pytest.mark.skipif( "TRAVIS_PYTHON_VERSION" in os.environ,
     reason="fails on travis (deeptools and numpy not compatible)")
 
 
