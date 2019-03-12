@@ -2,7 +2,7 @@ bamtools
 bcftools
 bedtools
 bioawk
-deeptools
+deeptools==2.5
 dsrc
 go=1.10.3
 pbzip2
