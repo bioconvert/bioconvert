@@ -271,7 +271,7 @@ class Fastq2Fasta(ConvBase):
     def get_additional_arguments(cls):
         yield ConvArg(
             names="--quality-file",
-            nargs="?",
+            nargs=1,
             default=None,
             type=ConvArg.file,
             output_argument=True,
