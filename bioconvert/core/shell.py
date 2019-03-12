@@ -20,7 +20,6 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
 """Simplified version of shell.py module from snakemake package
 
 Temporary module that would probably need some checking / simplification
@@ -60,13 +59,13 @@ class shell:
         cls._process_suffix = suffix
 
     def __new__(cls, cmd, *args,
-                async=False,
+                asynchronous=False,
                 iterable=False,
                 read=False, **kwargs):
         if "stepout" in kwargs:
             raise KeyError("Argument stepout is not allowed in shell command.")
 
-        stdout = sp.PIPE if iterable or async or read else STDOUT
+        stdout = sp.PIPE if iterable or asynchronous or read else STDOUT
 
         close_fds = sys.platform != 'win32'
 
@@ -85,7 +84,7 @@ class shell:
             return cls.iter_stdout(proc, cmd)
         if read:
             ret = proc.stdout.read()
-        elif async:
+        elif asynchronous:
             return proc
         retcode = proc.wait()
         if retcode:
