@@ -41,10 +41,7 @@ before_install:
     # This help testing code with pylab
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
-    # some useful libraries to compile numpy/scipy
-    # - "sudo apt-get install -q libatlas3gf-base libatlas-dev liblapack-dev gfortran"
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - echo $TRAVIS_PYTHON_VERSION
   - conda create --yes --name testenv python=$TRAVIS_PYTHON_VERSION
