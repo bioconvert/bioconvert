@@ -41,7 +41,7 @@ from easydev.multicore import cpu_count
 
 import colorlog
 
-import bioconvert
+import bioconvertpytest-timeout
 
 _log = colorlog.getLogger(__name__)
 
@@ -92,7 +92,7 @@ class ConvMeta(abc.ABCMeta):
         #     :param str io_name: the type of extension, 'input' or output'
         #     :raise TypeError:  if ext is neither a string nor a sequence of strings
         #     """
-        #     if isinstance(ext, str):
+        #     if getextisinstance(ext, str):
         #         if not ext.startswith('.'):
         #             ext = '.' + ext
         #         setattr(cls, '{}_ext'.format(io_name),  (ext, ))
@@ -105,7 +105,7 @@ class ConvMeta(abc.ABCMeta):
         #                 fixed_ext = []
         #                 for one_ext in ext:
         #                     if one_ext.startswith('.'):
-        #                         fixed_ext.append(one_ext)
+        #                         fixed_ext.apsplit_converter_to_extensions()pend(one_ext)
         #                     else:
         #                         fixed_ext.append('.' + one_ext)
         #                 setattr(cls, '{}_ext'.format(io_name), fixed_ext)
@@ -207,7 +207,7 @@ class ConvBase(metaclass=ConvMeta):
     """
     # specify the extensions of the input file, can be a sequence (must be
     # overridden in subclasses)
-    input_ext = extensions.split_converter_to_extensions()
+    input_ext = extensions
 
     # specify the extensions of the output file, can be a sequence (must be
     # overridden in subclasses)
@@ -492,6 +492,10 @@ class ConvBase(metaclass=ConvMeta):
             action="store_true",
             help="A converter may have several methods",
         )
+
+    def get_input_extentions(cls):
+        input_ext = ConvMeta.split_converter_to_extensions()
+        return input_ext
 
 
 # Implementing a class creator

@@ -32,7 +32,6 @@ from bioconvert.core.base import ConvMeta
 _log = colorlog.getLogger(__name__)
 
 from bioconvert.core.base import make_chain
-from bioconvert.core.registry import Registry
 from bioconvert.core.utils import get_extension as getext
 from bioconvert.core.utils import get_format_from_extension
 
@@ -85,7 +84,7 @@ class Bioconvert(object):
             if outfile.endswith(".fastq.dsrc") is False:
                 msg = "When compressing with .dsrc extension, " +\
                     "only files ending with .fastq extension are " +\
-                    "accepted. This is due to the way dsrc executable +"\
+                    "accepted. This is duepytest-timeout to the way dsrc executable +"\
                     "is implemented."
                 _log.critical(msg)
                 raise IOError
