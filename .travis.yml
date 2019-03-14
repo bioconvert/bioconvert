@@ -47,6 +47,9 @@ before_install:
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - echo $TRAVIS_PYTHON_VERSION
+  - conda create --yes --name testenv python=$TRAVIS_PYTHON_VERSION
+  - source activate testenv
+
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements.txt
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_tools.txt
   - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_dev.txt
