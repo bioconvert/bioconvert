@@ -1,11 +1,11 @@
 User Guide
 ============
 
-Overview
+Usage
 ------------
 
 You can use **bioconvert** from a developer point of view, or as an end-user.
-We provide one standalone called::
+Here we describe the standalone application that is::
 
     bioconvert
 
@@ -20,25 +20,47 @@ command **fastq2fasta**::
     bioconvert fastq2fasta  input.fastq output.fasta
 
 The rationale behind the subcommand choice is manyfold. First, you may have dedicated help
-for a given conversion::
+for a given conversion, which may be different from one conversion to the other::
 
     bioconvert fastq2fasta --help
 
 Second, the extensions of your input and output may be non-standard or different
-from the bioconvert choice. So, using the subcommand you can do::
+from the choice made by the **bioconvert** developers. So, using the subcommand you can do::
 
     bioconvert fastq2fasta  input.fq output.fa
 
 where the extensions can actually be whatever you want.
 
+If you do not provide the output file, it will be created based on the input
+filename by replacing the extension automatically. So this command::
+
+    bioconvert fastq2fasta  input.fq
+
+generates an output file called *input.fasta*. Note that it will be placed in
+the same directory as the input file, not locally. So::
+
+    bioconvert fastq2fasta  ~/test/input.fq
+
+will create the *input.fasta* file in the ~/test directory.
+
+If an output file exists, it will not be overwritten. If you want to do so, use
+the --force argument::
+
+    bioconvert fastq2fasta  input.fq output.fa --force
+
+
+
+
 
 Installation
 -------------
 
-pip pr conda methods
+**RECOMMENDED installation: Bioconda**
+
+pip or conda methods
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-For users, **bioconvert** standalone is installed with the package **bioconvert** available on Pypi so you could type::
+For users, **bioconvert** is installed with the package **bioconvert** available on Pypi so you can type::
 
     pip install bioconvert
 

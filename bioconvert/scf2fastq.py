@@ -22,7 +22,6 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
 """Convert :term:`SCF` file to :term:`FASTQ` file"""
 import sys
 import struct
@@ -41,7 +40,7 @@ __all__ = ["SCF2Fastq"]
 
 class SCF2Fastq(ConvBase):
     """
-    Converts a binary :term:`SCF` file to Fastq format.
+    Converts a binary :term:`SCF` file to :term:`FastQ` file
 
     :param str infile: input SCF file
     :param str outfile: output name file

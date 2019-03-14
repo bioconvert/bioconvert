@@ -207,7 +207,9 @@ class ConvBase(metaclass=ConvMeta):
     """
     # specify the extensions of the input file, can be a sequence (must be
     # overridden in subclasses)
-    input_ext = extensions
+
+    input_ext = extensions.split_converter_to_extensions()
+
 
     # specify the extensions of the output file, can be a sequence (must be
     # overridden in subclasses)

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -22,40 +21,52 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-""".. rubric:: Create template of bioconvert converter Python file"""
+"""Convert :term:`CRAM` file to :term:`FASTQ` file"""
 import os
-import sys
-import argparse
+from bioconvert import ConvBase
+from easydev.multicore import cpu_count
+
+import colorlog
+
+from bioconvert.core.decorators import requires
+
+logger = colorlog.getLogger(__name__)
 
 
-def main(args=None):
+class CRAM2FASTQ(ConvBase):
+    """Convert :term:`CRAM` file to :term:`FASTQ` file
 
-    if args is None:
-        args = sys.argv[:]
+    The conversion requires the reference corresponding to the input file
+    It can be provided as an argument in the constructor. Otherwise,
+    a local file with same name as the input file but an .fa extension is
+    looked for. Otherwise, we ask for the user to provide the input file.
+    This is useful for the standalone application.
 
-    from easydev.console import purple, underline
+    """
+    _default_method = "samtools"
 
-    arg_parser = argparse.ArgumentParser(prog="bioconvert_init",
-                                         epilog=" ----    ",
-                                         description="""DESCRIPTION:
+    def __init__(self, infile, outfile, reference=None, *args, **kargs):
+        """.. rubric:: constructor
 
-Create a Python module to ease addition of new converters
+        :param str infile: input FASTQ file
+        :param str outfile: output filename
+        :param str reference: reference file in :term:`FASTA` format
 
-""")
-    arg_parser.add_argument("-i", "--input-extension",
-                            help="input_extension")
-    arg_parser.add_argument("-o", "--output-extension",
-                            help="output_extension")
+        command used::
 
-    args = arg_parser.parse_args(args)
+            samtools view -@ <thread> -Sh -T <reference> in.cram > out.sam
 
-    from bioconvert.core.init import InitConverter
-    ic = InitConverter(args.input_extension, args.output_extension)
-    print(ic.get_content())
+        .. note:: the API related to the third argument may change in the future.
+        """
+        super(CRAM2FASTQ, self).__init__(infile, outfile, *args, **kargs)
+        self.threads = cpu_count()
 
-
-if __name__ == "__main__":
-    main()
-
-
-
+    @requires("samtools")
+    def _method_samtools(self, *args, **kwargs):
+        # -h means include header in FASTQ output
+        # TODO: ideally we need to first use
+        # samtools collate in.cram out.bam and then
+        # samtools fastq -1 1.fastq -2 2.fastq out.bam
+        cmd = "samtools fastq -@ {} -1 {} -2 {} {}".format(self.threads,
+                self.outfile+".1", self.outfile+".2", self.infile)
+        self.execute(cmd)

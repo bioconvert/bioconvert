@@ -252,4 +252,30 @@ class Registry(object):
         #     in_fmt, out_fmt = conv
         #     yield in_fmt, out_fmt, converter, None
 
+    def __str__(self):
+        data = self.info()
+        C = data["converters"]
+        F = data["formats"]
+        M = data["methods"]
+        txt = "Number of formats: {}".format(F)
+        txt +="\n" + "Number of converters: {}".format(C)
+        txt += "\n" + "Number of methods : {}".format(M)
+        return txt
+
+    def info(self):
+        info = self.get_info()
+        _converters = [x for x in info.items()]
+        _data = [info[k] for k,v in info.items()]
+        C = len(_converters)
+        M = sum(_data)
+
+        F = len(set([x for items in self.get_all_conversions() for x in items]))
+
+        return {
+            "formats": F, 
+            "converters": C, 
+            "methods": M,
+            "methods_per_converter": round(float(M)/C,2)}
+
+
 
