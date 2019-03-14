@@ -44,6 +44,9 @@ before_install:
 
 install:
   - echo $TRAVIS_PYTHON_VERSION
+  - echo $GOPATH
+  - echo $HOME
+
   - conda create --yes --name testenv python=$TRAVIS_PYTHON_VERSION
   - source activate testenv
 
