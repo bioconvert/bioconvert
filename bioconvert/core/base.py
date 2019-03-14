@@ -46,6 +46,8 @@ import bioconvert
 _log = colorlog.getLogger(__name__)
 
 from bioconvert.core.benchmark import Benchmark
+from bioconvert.core import extensions
+
 from bioconvert.core.utils import generate_outfile_name
 from bioconvert import logger
 
@@ -57,7 +59,7 @@ class ConvMeta(abc.ABCMeta):
        * an attribute input_ext
        * an attribute output_ext
 
-    This is an abstract class used by :class:`ConvBase` class. For developers
+    This is an meta class used by :class:`ConvBase` class. For developers
     only.
     """
 
@@ -79,7 +81,7 @@ class ConvMeta(abc.ABCMeta):
         # do not check extension since modules does not require to specify
         # extension anymore
 
-        # def check_ext(ext, io_name):
+        # def check_ext(ext, io_name):cls.split_converter_to_extensions(name.upper())
         #     """
         #     Check if the extension is specified correctly.
         #     I must be a string or a sequence of string, otherwise raise an error
@@ -205,11 +207,11 @@ class ConvBase(metaclass=ConvMeta):
     """
     # specify the extensions of the input file, can be a sequence (must be
     # overridden in subclasses)
-    input_ext = None
+    input_ext = extensions.split_converter_to_extensions()
 
     # specify the extensions of the output file, can be a sequence (must be
     # overridden in subclasses)
-    output_ext = None
+    output_ext = extensions
     _default_method = None
     _is_compressor = False
     threads = cpu_count()

@@ -120,6 +120,7 @@ class Bioconvert(object):
             _log.info("Input: %s", self.in_fmt)
             _log.info("Output: %s", self.out_fmt)
             class_converter = self.mapper[(self.in_fmt, self.out_fmt)]
+            #print(class_converter)
             self.name = class_converter.__name__
         except KeyError:
             # This module name was not found

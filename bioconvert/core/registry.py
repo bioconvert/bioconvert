@@ -23,7 +23,7 @@
 ###########################################################################
 """Main bioconvert registry that fetches automatically the relevant converter"""
 import inspect
-# import itertools
+import itertools
 import pkgutil
 import importlib
 import colorlog
@@ -52,7 +52,7 @@ class Registry(object):
     """
 
     def __init__(self):
-        # self._ext_registry = {}
+        self._ext_registry = {}
         self._fmt_registry = {}
         self._fill_registry(bioconvert.__path__)
         self._build_path_dict()
@@ -94,20 +94,23 @@ class Registry(object):
                 converters = inspect.getmembers(module)
                 converters = [c for c in converters if is_converter(c)]
                 for converter_name, converter in converters:
+                    print(converter_name)
                     if converter is not None:
+                        print("here")
                         # the registry is no more based on extension but on format
-                        # all_format_pair = itertools.product(
-                        #     converter.input_ext, converter.output_ext)
-                        # for format_pair in all_format_pair:
-                        #     self[format_pair] = converter
-                        format_pair = (converter.input_fmt, converter.output_fmt)
-                        if len(converter.available_methods) == 0 and not including_not_available_converter:
-                            _log.warning("converter '%s' for %s -> %s was not added as no method is available",
-                                         converter_name, *format_pair)
-                        else:
-                            _log.debug("add converter '%s' for %s -> %s",
-                                       converter_name, *format_pair)
-                            target[format_pair] = converter
+                        _log.debug("registry :" + module_name)
+                        all_format_pair = itertools.product(converter.input_ext, converter.output_ext)
+                        print(list(all_format_pair))
+                        for format_pair in all_format_pair:
+                            self[format_pair] = converter
+                            # format_pair = (converter.input_fmt, converter.output_fmt)
+                            if len(converter.available_methods) == 0 and not including_not_available_converter:
+                                _log.warning("converter '%s' for %s -> %s was not added as no method is available",
+                                             converter_name, *format_pair)
+                            else:
+                                _log.debug("add converter '%s' for %s -> %s",
+                                           converter_name, *format_pair)
+                                target[format_pair] = converter
 
     def _build_path_dict(self):
         """
@@ -226,7 +229,7 @@ class Registry(object):
         """
         in_fmt = in_fmt.upper()
         out_fmt = out_fmt.upper()
-        return self._fmt_registry((in_fmt, out_fmt))
+        return self._fmt_registry[(in_fmt, out_fmt)]
 
     def iter_converters(self, allow_indirect:bool=False):
         """

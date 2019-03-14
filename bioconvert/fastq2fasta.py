@@ -25,6 +25,7 @@
 
 """Convert :term:`FASTQ` to :term:`FASTA`"""
 from bioconvert import ConvBase, bioconvert_script
+from bioconvert.core import extensions
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires, requires_nothing
 
@@ -46,6 +47,8 @@ class Fastq2Fasta(ConvBase):
     # use readfq for now because pure python are fast enough
     # for production, could use seqtk which seems the fastest method though
     # Make sure that the default handles also the compresssion
+    #input_ext = extensions.fastq
+    #output_ext =  extensions.fasta
     _default_method = "readfq"
 
     @staticmethod
