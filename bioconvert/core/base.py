@@ -41,7 +41,7 @@ from easydev.multicore import cpu_count
 
 import colorlog
 
-import bioconvertpytest-timeout
+import bioconvert
 
 _log = colorlog.getLogger(__name__)
 
@@ -208,12 +208,12 @@ class ConvBase(metaclass=ConvMeta):
     # specify the extensions of the input file, can be a sequence (must be
     # overridden in subclasses)
 
-    input_ext = extensions.split_converter_to_extensions()
+    input_ext = extensions.extensions[ConvMeta.input_fmt.lower()]
 
 
     # specify the extensions of the output file, can be a sequence (must be
     # overridden in subclasses)
-    output_ext = extensions
+    output_ext = extensions.extensions[self.out_fmt.lower()]
     _default_method = None
     _is_compressor = False
     threads = cpu_count()
@@ -494,11 +494,6 @@ class ConvBase(metaclass=ConvMeta):
             action="store_true",
             help="A converter may have several methods",
         )
-
-    def get_input_extentions(cls):
-        input_ext = ConvMeta.split_converter_to_extensions()
-        return input_ext
-
 
 # Implementing a class creator
 # The created class will have the correct name, will inherit from ConvBase

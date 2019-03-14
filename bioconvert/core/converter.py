@@ -28,6 +28,7 @@ import os
 import colorlog
 
 from bioconvert.core.base import ConvMeta
+from bioconvert.core.registry import Registry
 
 _log = colorlog.getLogger(__name__)
 

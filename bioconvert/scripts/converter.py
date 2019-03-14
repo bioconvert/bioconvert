@@ -119,7 +119,7 @@ join us at https://github/biokit/bioconvert
     for in_fmt, out_fmt, converter, path in \
             sorted(registry.iter_converters(allow_indirect_conversion)):
 
-        sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fpytest-timeoutpytest-timeoutmt.lower())
+        sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
 
         if converter:
             link_char = '-'
