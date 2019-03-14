@@ -21,8 +21,10 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+"""Utility used by the script bioconvert_init to initiate a new plugin"""
 import os
 
+__all__ = ['InitConverter']
 
 
 template = '''
@@ -50,7 +52,7 @@ __all__ = ["{input}2{output}"]
 class {input}2{output}(ConvBase):
     """Convert :term:`{input}` file to :term:`{output}` file
 
-    Some description.
+    Some description to be added by the developer
 
     """
 
@@ -68,15 +70,26 @@ class {input}2{output}(ConvBase):
     @requires("ls")
     def _method_default(self, *args, **kwargs):
         """some description"""
-        cmd = "ls "
+        cmd = "ls"
         # use self.infile, self.outfile
         self.execute(cmd)
 '''
 
 
 class InitConverter():
-    def __init__(self, inputext, outputext):
+    """Class to create a new plugin based on a simple template
 
+    If the input/output formats are not known by bioconvert (not available in
+    the module core/extensions.py then, the developer will need to add two 
+    attributes manually::
+
+        input_ext = ["yourextension"]
+        output_ext = ["yourextension"]
+
+    We recommand to use the script bioconvert_init
+
+    """
+    def __init__(self, inputext, outputext):
         self.input = inputext
         self.output = outputext
 
@@ -86,15 +99,3 @@ class InitConverter():
                 output=self.output.upper(),
                 inputext=self.input,
                 outputext=self.output)
-
-
-
-
-
-
-
-
-
-
-
-
