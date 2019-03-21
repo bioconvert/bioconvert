@@ -31,7 +31,9 @@ extensions = {
     'bed': ["bed"],                             # misc
     'bedgraph': ["bedgraph"],
     'bigwig': ["bigwig"],
+    'bigbed': ['bb'],
     'bz2': ['bz2'],
+    'bplink':['bplink'],
     'cdao': ["cdao"],                           # phylo
     'cram': ["cram"],                           # alignment
     'clustal': ["clustal", "aln", "clw"],       # phylo
@@ -42,22 +44,32 @@ extensions = {
     'fastq': ["fastq", "fq"],                   # sequence
     'genbank': ['genbank', 'gbk', "gb"],        # annotation/sequence
     'gfa': ['gfa'],                             # assembly
-    'gff': ['gff3', 'gff'],                     # gff3 so far
+    'gff2': ['gff'],
+    'gff3': ['gff3'],                            # gff3 so far
     'gz': ['gz'],
     'json': ['json'],                           # misc
+    'maf': ["maf"],                             # !! this is MIRA format, not mutation alignment format
     'newick': ["newick", "nw", "nhx", "nwk"],   # phylo
     'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo
+    'ods': ['ods'],
     'paf': ['paf'],                             # assembly
     'phylip': ['phy', 'ph', 'phylip'],          # phylo
     'phyloxml': ['phyloxml', 'xml'],            # phylo
+    'plink': ['plink'],
     'sam': ["sam"],                             # alignement
+    'scf': ["scf"],                             # alignement
     'sra': ["sra"],                             # sra format
     'stockholm': ['sto', 'sth', 'stockholm'],   # alignment
     'vcf': ['vcf'],                             # variant
     'twobit': ['2bit'],                         # sequence
     'tsv': ["tsv"],
-    'yaml': ['yaml', 'YAML'],                   # misc
-    'maf': ["maf"]                              # !! this is MIRA format, not mutation alignment format
+    'wiggle': ['wig'],
+    'xls':['xls'],
+    'xlsx':['xlsx'],
+    'xmfa':['xmfa'],
+    'yaml': ['yaml', 'YAML']                   # misc
+
+
 }
 
 extensions = AttrDict(**extensions)

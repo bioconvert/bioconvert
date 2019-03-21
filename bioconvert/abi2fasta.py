@@ -12,6 +12,7 @@
 ##############################################################################
 """Convert :term:`ABI` format to :term:`FASTA` format"""
 from bioconvert import ConvBase
+from bioconvert.core import extensions
 from bioconvert import requires
 
 

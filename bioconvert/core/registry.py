@@ -57,7 +57,7 @@ class Registry(object):
         self._fill_registry(bioconvert.__path__)
         self._build_path_dict()
 
-    def _fill_registry(self, path, target=None, including_not_available_converter=False):
+    def _fill_registry(self, path, including_not_available_converter=False):
         """
         Explore the directory converters to discover all converter classes
         (a concrete class which inherits from :class:`ConvBase`)
@@ -66,8 +66,6 @@ class Registry(object):
 
         :param str path: the path of a directory to explore (not recursive)
         """
-
-        target = self if target is None else target
 
         def is_converter(item):
             """Check if a module is a converter"""
@@ -94,23 +92,22 @@ class Registry(object):
                 converters = inspect.getmembers(module)
                 converters = [c for c in converters if is_converter(c)]
                 for converter_name, converter in converters:
-                    print(converter_name)
                     if converter is not None:
-                        print("here")
                         # the registry is no more based on extension but on format
-                        _log.debug("registry :" + module_name)
-                        all_format_pair = itertools.product(converter.input_ext, converter.output_ext)
-                        print(list(all_format_pair))
-                        for format_pair in all_format_pair:
-                            self[format_pair] = converter
+                        format_pair = (converter.input_fmt, converter.output_fmt)
+                        _log.debug("add converter '%s' for %s -> %s", converter_name, *format_pair)
+                        self.__setitem__(format_pair, converter)
+                        all_ext_pair = itertools.product(converter.input_ext, converter.output_ext)
+                        # all_ext_pair = list(all_ext_pair)
+                        for ext_pair in all_ext_pair:
                             # format_pair = (converter.input_fmt, converter.output_fmt)
                             if len(converter.available_methods) == 0 and not including_not_available_converter:
                                 _log.warning("converter '%s' for %s -> %s was not added as no method is available",
-                                             converter_name, *format_pair)
+                                             converter_name, *ext_pair)
                             else:
                                 _log.debug("add converter '%s' for %s -> %s",
-                                           converter_name, *format_pair)
-                                target[format_pair] = converter
+                                           converter_name, *ext_pair)
+                                self.set_ext(ext_pair, converter)
 
     def _build_path_dict(self):
         """
@@ -122,14 +119,14 @@ class Registry(object):
             DiGraph(self.get_conversions())))
 
     # TODO: Should we use a format_pair instead of two strings?
-    def conversion_path(self, in_fmt, out_fmt):
+    def conversion_path(self, input_ext, output_ext):
         """
-        Returns a list of conversion steps to get from *in_fmt* to *out_fmt*.
+        Returns a list of conversion steps to get from *input_ext* to *output_ext*.
 
         Each step in the list is a pair of formats.
         """
         try:
-            fmt_steps = self._path_dict[in_fmt][out_fmt]
+            fmt_steps = self._path_dict[input_ext][output_ext]
         except KeyError:
             fmt_steps = []
         return list(zip(fmt_steps, fmt_steps[1:]))
@@ -148,13 +145,37 @@ class Registry(object):
             raise KeyError('an other converter already exists for {} -> {}'.format(*format_pair))
         self._fmt_registry[format_pair] = convertor
 
+    def set_ext(self, ext_pair, convertor):
+        """
+        Register new convertor from input format to output format.
+
+        :param ext_pair: the input format, the output format
+        :type ext_pair: tuple of 2 strings
+        :param convertor: the convertor which handle the conversion
+                          from input_fmt -> output_fmt
+        :type convertor: :class:`ConvBase` object
+        """
+        if ext_pair in self._ext_registry:
+            raise KeyError('an other converter already exists for {} -> {}'.format(*ext_pair))
+        self._ext_registry[ext_pair] = convertor
+
     def __getitem__(self, format_pair):
         """
         :param format_pair: the input format, the output format
         :type format_pair: tuple of 2 strings
         :return: an object of subclass o :class:`ConvBase`
         """
+        format_pair = (format_pair[0].upper(), format_pair[1].upper())
         return self._fmt_registry[format_pair]
+
+
+    def get_ext(self, ext_pair):
+        """
+        :param ext_pair: the input format, the output format
+        :type ext_pair: tuple of 2 strings
+        :return: an object of subclass o :class:`ConvBase`
+        """
+        return self._ext_registry[ext_pair]
 
     def __contains__(self, format_pair):
         """
@@ -165,6 +186,8 @@ class Registry(object):
         :type format_pair: tuple of 2 strings
         :return: True if format_pair is in registry otherwise False.
         """
+
+        format_pair = (format_pair[0].upper(), format_pair[1].upper())
         return format_pair in self._fmt_registry
 
     def __iter__(self):
@@ -192,25 +215,27 @@ class Registry(object):
                  2 strings (input format, output format)
         :retype: generator (input format, output format, status)
         """
+        #all_converter = dict(self._fmt_registry)
         all_converter = {}
-        self._fill_registry(bioconvert.__path__, all_converter, True)
+        self._fill_registry(bioconvert.__path__, including_not_available_converter=True)
         for i, o in all_converter:
             yield i, o, (i, o) in self._fmt_registry
 
-    def conversion_exists(self, in_fmt, out_fmt, allow_indirect=False):
+    def conversion_exists(self, input_fmt, output_fmt, allow_indirect=False):
         """
-        :param str in_fmt: the input format
-        :param str out_fmt: the output format
+        :param str input_fmt: the input format
+        :param str output_fmt: the output format
         :param boolean allow_indirect: whether to count indirect conversions
-        :return: True if a converter which transform in_fmt into out_fmt exists
+        :return: True if a converter which transform input_fmt into output_fmt exists
         :rtype: boolean
         """
-        in_fmt = in_fmt.upper()
-        out_fmt = out_fmt.upper()
-        # return (in_fmt, out_fmt) in self._fmt_registry
-        return ((in_fmt, out_fmt) in self._fmt_registry
+        input_fmt = input_fmt.lower()
+        output_fmt = output_fmt.lower()
+        # return (input_fmt, output_fmt) in self._fmt_registry
+        return ((input_fmt, output_fmt) in self._fmt_registry
                 or (allow_indirect
-                    and len(self.conversion_path(in_fmt, out_fmt))))
+                    and len(self.conversion_path(input_fmt, output_fmt))))
+
 
     def get_info(self):
         converters = set([self[this] for this in self._fmt_registry])
@@ -231,7 +256,7 @@ class Registry(object):
         out_fmt = out_fmt.upper()
         return self._fmt_registry[(in_fmt, out_fmt)]
 
-    def iter_converters(self, allow_indirect:bool=False):
+    def iter_converters(self, allow_indirect: bool = False):
         """
 
         :param bool allow_indirect: also return indirect conversion

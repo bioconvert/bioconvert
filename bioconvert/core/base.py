@@ -129,12 +129,15 @@ class ConvMeta(abc.ABCMeta):
             :return: True if method's name starts with '__method_', False otherwise.
             :rtype: boolean
             """
+
             return inspect.isfunction(item) and \
-                    item.__name__.startswith('_method_') and \
-                    item.__name__ != "_method_dummy"
+                 item.__name__.startswith('_method_') and \
+                 item.__name__ != "_method_dummy"
 
         if name != 'ConvBase':
             input_fmt, output_fmt = cls.split_converter_to_extensions(name.upper())
+            input_ext = extensions.extensions[input_fmt.lower()]
+            output_ext = extensions.extensions[output_fmt.lower()]
             # modules have no more input_ext and output_ext attributes
             # input_ext = getattr(cls, 'input_ext')
             # if check_ext(input_ext, 'input'):
@@ -142,6 +145,8 @@ class ConvMeta(abc.ABCMeta):
             #     check_ext(output_ext, 'output')
             setattr(cls, 'input_fmt', input_fmt)
             setattr(cls, 'output_fmt', output_fmt)
+            setattr(cls, 'input_ext', input_ext)
+            setattr(cls, 'output_ext', output_ext)
             available_conv_meth = []
             for name in inspect.getmembers(cls, is_conversion_method):
                 # do not use strip() but split()
@@ -208,12 +213,14 @@ class ConvBase(metaclass=ConvMeta):
     # specify the extensions of the input file, can be a sequence (must be
     # overridden in subclasses)
 
-    input_ext = extensions.extensions[ConvMeta.input_fmt.lower()]
-
+    input_ext = None
 
     # specify the extensions of the output file, can be a sequence (must be
     # overridden in subclasses)
-    output_ext = extensions.extensions[self.out_fmt.lower()]
+
+    output_ext = None
+
+    available_methods = []
     _default_method = None
     _is_compressor = False
     threads = cpu_count()
@@ -229,7 +236,7 @@ class ConvBase(metaclass=ConvMeta):
 
         self.infile = infile
         self.outfile = outfile
-        self._execute_mode = "shell" #"subprocess"  # set to shell to call shell() method
+        self._execute_mode = "shell"  # "subprocess"  # set to shell to call shell() method
         self.logger = logger
 
     def __call__(self, *args, method_name=None, **kwargs):
@@ -257,7 +264,6 @@ class ConvBase(metaclass=ConvMeta):
             _log.error(msg)
             raise ValueError(msg)
 
-
         _log.info("{}> Executing {} method ".format(self.name, method_name))
         # reference to the method requested
         method_reference = getattr(self, "_method_{}".format(method_name))
@@ -267,8 +273,7 @@ class ConvBase(metaclass=ConvMeta):
         t1 = time.time()
         method_reference(*args, **kwargs)
         t2 = time.time()
-        _log.info("Took {} seconds ".format(t2-t1))
-
+        _log.info("Took {} seconds ".format(t2 - t1))
 
     @property
     def name(self):
@@ -356,7 +361,7 @@ class ConvBase(metaclass=ConvMeta):
             return output
 
     def boxplot_benchmark(self, N=5, rerun=True, include_dummy=False,
-            to_exclude=[], to_include=[], rot_xticks=90, boxplot_args={}):
+                          to_exclude=[], to_include=[], rot_xticks=90, boxplot_args={}):
         """Simple wrapper to call :class:`Benchmark` and plot the results
 
         see :class:`~bioconvert.core.benchmark.Benchmark` for details.
@@ -376,6 +381,7 @@ class ConvBase(metaclass=ConvMeta):
             return self.available_methods[0]
         else:
             return self._default_method
+
     default = property(_get_default_method)
 
     def install_tool(self, executable):
@@ -451,8 +457,8 @@ class ConvBase(metaclass=ConvMeta):
             default=False,
             action="store_true",
             help="Allow conversion of a set of files using wildcards. You "
-                "must use quotes to escape the wildcards. For instance: "
-                "--batch 'test*fastq' ")
+                 "must use quotes to escape the wildcards. For instance: "
+                 "--batch 'test*fastq' ")
         yield ConvArg(
             names=["-b", "--benchmark", ],
             default=False,
@@ -494,6 +500,7 @@ class ConvBase(metaclass=ConvMeta):
             action="store_true",
             help="A converter may have several methods",
         )
+
 
 # Implementing a class creator
 # The created class will have the correct name, will inherit from ConvBase
