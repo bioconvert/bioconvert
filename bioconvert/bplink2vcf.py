@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -21,6 +22,8 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+
+import os
 import colorlog
 
 from bioconvert import ConvBase
@@ -30,9 +33,9 @@ from bioconvert.core.utils import generate_outfile_name
 _log = colorlog.getLogger(__name__)
 
 
-class BPLINK2PLINK(ConvBase):
+class BPLINK2VCF(ConvBase):
     """Converts a genotype dataset bed+bim+fam in :term:`BPLINK` format to
-    ped+map :term:`PLINK` format
+    vcf :term:`VCF` format
 
     Conversion is based on plink executable
 
@@ -43,18 +46,21 @@ class BPLINK2PLINK(ConvBase):
         """.. rubric:: constructor
 
         :param str infile: input :term:`BPLINK` file.
-        :param str outfile: (optional) output :term:`PLINK` file
+        :param str outfile: (optional) output :term:`VCF` file
         """
         if not outfile:
-            outfile = infile
+            outfile = generate_outfile_name(infile, 'vcf')
         super().__init__(infile, outfile)
 
     @requires("plink")
     def _method_plink(self, *args, **kwargs):
         """
-        Convert plink file in text using plink executable.
+        Convert using plink executable.
         """
-        cmd = 'plink --bfile {infile} --recode --out {outfile}'.format(
+        outfile = self.outfile
+        if os.path.splitext(outfile)[1] == '.vcf':
+            outfile = os.path.splitext(outfile)[0]  
+        cmd = 'plink --bfile {infile} --recode vcf --out {outfile}'.format(
             infile=self.infile,
-            outfile=self.outfile)
+            outfile=outfile)
         self.execute(cmd)

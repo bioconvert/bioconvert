@@ -48,7 +48,7 @@ class PLINK2BPLINK(ConvBase):
         :param str outfile: (optional) output :term:`BPLINK` file
         """
         if not outfile:
-            outfile = generate_outfile_name(infile, '')
+            outfile = infile
         super().__init__(infile, outfile)
 
     @requires("plink")
