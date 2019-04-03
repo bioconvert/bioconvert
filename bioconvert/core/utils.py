@@ -53,7 +53,7 @@ def get_extension(filename, remove_compression=False):
     if len(filename.split(".")) == 1:
         return None
     else:
-        return os.path.splitext(filename)[-1]
+        return os.path.splitext(filename)[-1].lstrip(".")
 
 
 def generate_outfile_name(infile, out_extension):

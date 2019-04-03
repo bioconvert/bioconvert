@@ -25,7 +25,6 @@
 
 """Convert :term:`FASTQ` to :term:`FASTA`"""
 from bioconvert import ConvBase, bioconvert_script
-from bioconvert.core import extensions
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires, requires_nothing
 
@@ -269,13 +268,13 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)
         self.execute(cmd)
 
-    #@classmethod
-    #def get_additional_arguments(cls):
-    #    yield ConvArg(
-    #        names="--quality-file",
-    #        nargs="?",
-    #        default=None,
-    #        type=ConvArg.file,
-    #        output_argument=True,
-    #        help="The path to the quality file.",
-    #    )
+    @classmethod
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names="--quality-file",
+            nargs="?",
+            default=None,
+            type=ConvArg.file,
+            output_argument=True,
+            help="The path to the quality file.",
+        )

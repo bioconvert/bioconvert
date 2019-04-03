@@ -275,6 +275,7 @@ class ConvBase(metaclass=ConvMeta):
         t2 = time.time()
         _log.info("Took {} seconds ".format(t2 - t1))
 
+    #FIXME property not use
     @property
     def name(self):
         """
@@ -381,7 +382,6 @@ class ConvBase(metaclass=ConvMeta):
             return self.available_methods[0]
         else:
             return self._default_method
-
     default = property(_get_default_method)
 
     def install_tool(self, executable):

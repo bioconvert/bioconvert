@@ -26,18 +26,61 @@
 import argparse
 import json
 import sys
-
+import colorlog
 import bioconvert
 from bioconvert import ConvBase
 from bioconvert.core import graph
+from bioconvert.core import utils
 from bioconvert.core.base import ConvMeta
 from bioconvert.core.converter import Bioconvert
 from bioconvert.core.decorators import get_known_dependencies_with_availability
 from bioconvert.core.registry import Registry
 
+_log = colorlog.getLogger(__name__)
+
+
 def main(args=None):
     if args is None:
         args = sys.argv[1:]
+        registry = Registry()
+    # check that the first argument is not a converter in the registry
+    if args[0].lower() not in list(registry.get_converters_names()) \
+            and "." in args[0]:
+        in_ext = utils.get_extension(args[0])
+        out_ext = utils.get_extension(args[1])
+        #assign to converter the converter (s) found for the ext_pair = (in_ext, out_ext)
+        try:
+            # converter = registry.get_ext((in_ext, out_ext))
+            # for testing the mutiple converter for one extention pair
+            converter = [bioconvert.fastq2fasta.Fastq2Fasta, bioconvert.phylip2xmfa.PHYLIP2XMFA]
+        except KeyError:
+            converter = []
+
+        # if no converter is found
+        if not converter:
+            _log.error(
+            '\n Bioconvert does not support conversion {} -> {}. \n'
+            'Please specify the converter'
+            '\n Usage : \n\n'
+            '\t bioconvert converter input_file output_file \n '
+            '\n To see all the converter : '
+            '\n \t bioconvert --help '.format(
+                 in_ext,out_ext))
+
+            sys.exit(1)
+        # if the ext_pair matches a single converter
+        elif len(converter) == 1:
+            args.insert(0, converter[0].__name__.lower())
+        # if the ext_pair matches multiple converters
+        else:
+
+            _log.error("\n Ambiguous extension.\n"
+                       "You must specify the right conversion \n "
+                       "Choose from: \n "
+                       "{}".format("\n".join([c.__name__ for c in converter])))
+            sys.exit(1)
+
+
     # Set the default level
     bioconvert.logger.level = "ERROR"
 
@@ -110,9 +153,9 @@ project or formats available.
 Bioconvert is an open source collaborative project. Please feel free to 
 join us at https://github/biokit/bioconvert
 """)
-    registry = Registry()
+
     subparsers = arg_parser.add_subparsers(help='sub-command help',
-                                           dest='command', )
+                                           dest='converter', )
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
 
     # show all possible conversion
@@ -189,7 +232,7 @@ Please feel free to join us at https://github/biokit/bioconvert
         # parsing ask to stop, maybe a normal exit
         if e.code == 0:
             raise e
-        # Parsing failed, trying to guess command
+        # Parsing failed, trying to guess converter
         from bioconvert.core.levenshtein import wf_levenshtein as lev
         sub_command = None
         args_i = 0
@@ -225,6 +268,7 @@ Please feel free to join us at https://github/biokit/bioconvert
                  sub_command, ', '.join([v for _, v in matches]))
         )
 
+
     if args.version:
         print("{}".format(bioconvert.version))
         sys.exit(0)
@@ -242,7 +286,7 @@ Please feel free to join us at https://github/biokit/bioconvert
             ))
         sys.exit(0)
 
-    if args.command is None:
+    if args.converter is None:
         msg = 'No converter specified. You can list converter by doing bioconvert --help'
         arg_parser.error(msg)
 
@@ -251,11 +295,11 @@ Please feel free to join us at https://github/biokit/bioconvert
                          'ask for available methods (--show-method)')
 
     if not args.allow_indirect_conversion and \
-        ConvMeta.split_converter_to_extensions(args.command) not in registry:
+        ConvMeta.split_converter_to_extensions(args.converter) not in registry:
 
         arg_parser.error('The conversion %s is not available directly, '
                          'you have to accept that we chain converter to do'
-                         ' so (--allow-indirect-conversion or -a)' % args.command)
+                         ' so (--allow-indirect-conversion or -a)' % args.converter)
 
     args.raise_exception = args.raise_exception or args.verbosity == "DEBUG"
 
@@ -283,7 +327,7 @@ Please feel free to join us at https://github/biokit/bioconvert
 
 
 def analysis(args):
-    in_fmt, out_fmt = ConvMeta.split_converter_to_extensions(args.command)
+    in_fmt, out_fmt = ConvMeta.split_converter_to_extensions(args.converter)
 
     # do we want to know the available methods ? If so, print info and quit
     if getattr(args, "show_methods", False):
@@ -298,7 +342,7 @@ def analysis(args):
     # Input and output filename
     infile = args.input_file
     if args.output_file is None and infile:
-        outext = ConvMeta.split_converter_to_extensions(args.command)
+        outext = ConvMeta.split_converter_to_extensions(args.converter)
         outfile = infile.rsplit(".", 1)[0] + "." + outext[1].lower()
     else:
         outfile = args.output_file

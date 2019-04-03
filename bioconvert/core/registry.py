@@ -95,7 +95,7 @@ class Registry(object):
                     if converter is not None:
                         # the registry is no more based on extension but on format
                         format_pair = (converter.input_fmt, converter.output_fmt)
-                        _log.debug("add converter '%s' for %s -> %s", converter_name, *format_pair)
+                        _log.debug("add converter '%s' for %s -> %s in fmt_registry", converter_name, *format_pair)
                         self.__setitem__(format_pair, converter)
                         all_ext_pair = itertools.product(converter.input_ext, converter.output_ext)
                         # all_ext_pair = list(all_ext_pair)
@@ -105,7 +105,7 @@ class Registry(object):
                                 _log.warning("converter '%s' for %s -> %s was not added as no method is available",
                                              converter_name, *ext_pair)
                             else:
-                                _log.debug("add converter '%s' for %s -> %s",
+                                _log.debug("add converter '%s' for %s -> %s in ext_registry",
                                            converter_name, *ext_pair)
                                 self.set_ext(ext_pair, converter)
 
@@ -117,6 +117,8 @@ class Registry(object):
         from networkx import DiGraph, all_pairs_shortest_path
         self._path_dict = dict(all_pairs_shortest_path(
             DiGraph(self.get_conversions())))
+        self._path_dict_ext = dict(all_pairs_shortest_path(
+            DiGraph(self.get_conversions_from_ext())))
 
     # TODO: Should we use a format_pair instead of two strings?
     def conversion_path(self, input_ext, output_ext):
@@ -147,17 +149,20 @@ class Registry(object):
 
     def set_ext(self, ext_pair, convertor):
         """
-        Register new convertor from input format to output format.
+        Register new convertor from input extension and output extension
+        in a list. We can have a list of multiple convertors for one
+        ext_pair.
 
-        :param ext_pair: the input format, the output format
+        :param ext_pair: the input extension, the output extension
         :type ext_pair: tuple of 2 strings
         :param convertor: the convertor which handle the conversion
-                          from input_fmt -> output_fmt
-        :type convertor: :class:`ConvBase` object
+                          from input_ext -> output_ext
+        :type convertor: list of :class:`ConvBase` object
         """
         if ext_pair in self._ext_registry:
-            raise KeyError('an other converter already exists for {} -> {}'.format(*ext_pair))
-        self._ext_registry[ext_pair] = convertor
+            self._ext_registry[ext_pair].append(convertor)
+        else:
+            self._ext_registry[ext_pair] = [convertor]
 
     def __getitem__(self, format_pair):
         """
@@ -171,9 +176,14 @@ class Registry(object):
 
     def get_ext(self, ext_pair):
         """
-        :param ext_pair: the input format, the output format
+        copy the registry into a dict that behaves like a list
+        to be able to have multiple values ​​for a single key
+        and from a key have all converter able to do the conversion
+        from the input extension to the output extension.
+
+        :param ext_pair: the input extension, the output extension
         :type ext_pair: tuple of 2 strings
-        :return: an object of subclass o :class:`ConvBase`
+        :return: list of objects of subclass o :class:`ConvBase`
         """
         return self._ext_registry[ext_pair]
 
@@ -206,6 +216,26 @@ class Registry(object):
         :retype: generator
         """
         for conv in self._fmt_registry:
+            yield conv
+
+    def get_converters_names(self):
+        """
+        :return: a generator that allows to get the name of the converter
+                 from the subclass (ConvBase object)
+        :rtype: generator
+
+        """
+        for converter in self._fmt_registry.values():
+            yield converter.__name__.lower()
+
+    def get_conversions_from_ext(self):
+        """
+        :return: a generator which allow to iterate on all available conversions
+                 a conversion is encoded by a tuple of
+                 2 strings (input format, output format)
+        :rtype: generator
+        """
+        for conv in self._ext_registry:
             yield conv
 
     def get_all_conversions(self):
