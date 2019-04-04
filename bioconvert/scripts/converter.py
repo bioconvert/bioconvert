@@ -50,9 +50,9 @@ def main(args=None):
         out_ext = utils.get_extension(args[1])
         #assign to converter the converter (s) found for the ext_pair = (in_ext, out_ext)
         try:
-            # converter = registry.get_ext((in_ext, out_ext))
+            converter = registry.get_ext((in_ext, out_ext))
             # for testing the mutiple converter for one extention pair
-            converter = [bioconvert.fastq2fasta.Fastq2Fasta, bioconvert.phylip2xmfa.PHYLIP2XMFA]
+            # converter = [bioconvert.fastq2fasta.Fastq2Fasta, bioconvert.phylip2xmfa.PHYLIP2XMFA]
         except KeyError:
             converter = []
 
