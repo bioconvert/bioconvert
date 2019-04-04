@@ -1,8 +1,10 @@
 import pytest
 from easydev import TempFile, md5
+import filecmp 
 
 from bioconvert import bioconvert_data
 from bioconvert.sam2bam import SAM2BAM
+from bioconvert.bam2sam import BAM2SAM
 
 
 @pytest.mark.skipif(len(SAM2BAM.available_methods) == 0, reason="missing dependencies")
@@ -13,15 +15,12 @@ def test_conv():
         convert = SAM2BAM(infile, tempfile.name)
         convert()
 
-        # Check that the output is correct with a checksum
-        # Note that we cannot test the md5 on a gzip file but only 
-        # on the original data. This check sum was computed
-        # fro the unzipped version of biokit/data/converters/measles.bed
-        #assert md5(tempfile.name) == md5(outfile)
-        # 5cd453e698bccf942431618c945c226e
-
-        # TODO FIXME this md5sum changes with time probably due to the samtools
-        # version being encoded in the header. Need to find another to 
-        # check the content of the BAM/SAM file. For isntance using
-        # bamtools/samtools stats or pysam. 
-
+        # Difficult to test the md5 since bam is binary 
+        # recurrent problem is the version stored in the file that keeps
+        # changing
+        # However, we can reverse back the bam 2 sam and they should agree since
+        # the same does not store the version
+        with TempFile(suffix=".sam") as samfile:
+            convert = BAM2SAM(tempfile.name, samfile.name)
+            convert()
+            filecmp.cmp(samfile.name, infile)

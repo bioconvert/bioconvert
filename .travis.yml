@@ -55,6 +55,7 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pip install pygatb --no-deps ; fi
   - pip install pypandoc
   - pip install biocode
+  - python -c "import numpy;print(numpy.__version__);print(numpy.__file__)"
 
 
 # # command to run tests, e.g. python setup.py test
