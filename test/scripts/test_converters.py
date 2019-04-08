@@ -19,6 +19,16 @@ def test_converter():
         converter.main()
         assert md5(tempfile1.name) == md5(tempfile2.name)
 
+def test_converter_without_converter():
+    infile = bioconvert_data("test_fastq2fasta_v1.fastq")
+    with TempFile(suffix=".fasta") as tempfile1, TempFile(suffix=".fasta") as tempfile2:
+        cmd = "bioconvert %s %s --force" % (infile, tempfile1.name)
+        p = subprocess.Popen(cmd, shell=True)
+        assert p.wait() == 0
+        import sys
+        sys.argv = ["bioconvert", infile, tempfile2.name, "--force"]
+        converter.main()
+        assert md5(tempfile1.name) == md5(tempfile2.name)
 
 @pytest.mark.skipif(BAM2BED._method_bedtools.is_disabled, reason="missing dependencies")
 def test_converter2():

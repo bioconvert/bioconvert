@@ -274,18 +274,6 @@ class Registry(object):
             data[converter] = len(converter.available_methods)
         return data
 
-    def get_converter(self, in_fmt, out_fmt):
-        """
-
-        :param str in_fmt: the format of the input
-        :param str out_fmt:  the format of the output
-        :return: the converter which convert in_fmt to to_fmt
-        :rtype: a :class:`BaseConv` concrete class o
-        """
-        in_fmt = in_fmt.upper()
-        out_fmt = out_fmt.upper()
-        return self._fmt_registry[(in_fmt, out_fmt)]
-
     def iter_converters(self, allow_indirect: bool = False):
         """
 
