@@ -64,7 +64,7 @@ class ConvMeta(abc.ABCMeta):
     """
 
     @classmethod
-    def split_converter_to_extensions(cls, converter_name: str):
+    def split_converter_to_format(cls, converter_name: str):
         converter_name = converter_name.replace("_to_", "2")
         if '2' not in converter_name:
             raise TypeError("converter's name '%s' name must follow convention input2output" % converter_name)
@@ -81,7 +81,7 @@ class ConvMeta(abc.ABCMeta):
         # do not check extension since modules does not require to specify
         # extension anymore
 
-        # def check_ext(ext, io_name):cls.split_converter_to_extensions(name.upper())
+        # def check_ext(ext, io_name):cls.split_converter_to_format(name.upper())
         #     """
         #     Check if the extension is specified correctly.
         #     I must be a string or a sequence of string, otherwise raise an error
@@ -105,7 +105,7 @@ class ConvMeta(abc.ABCMeta):
         #                 fixed_ext = []
         #                 for one_ext in ext:
         #                     if one_ext.startswith('.'):
-        #                         fixed_ext.apsplit_converter_to_extensions()pend(one_ext)
+        #                         fixed_ext.split_converter_to_format()append(one_ext)
         #                     else:
         #                         fixed_ext.append('.' + one_ext)
         #                 setattr(cls, '{}_ext'.format(io_name), fixed_ext)
@@ -135,7 +135,7 @@ class ConvMeta(abc.ABCMeta):
                  item.__name__ != "_method_dummy"
 
         if name != 'ConvBase':
-            input_fmt, output_fmt = cls.split_converter_to_extensions(name.upper())
+            input_fmt, output_fmt = cls.split_converter_to_format(name.upper())
             input_ext = extensions.extensions[input_fmt.lower()]
             output_ext = extensions.extensions[output_fmt.lower()]
             # modules have no more input_ext and output_ext attributes
@@ -413,7 +413,7 @@ class ConvBase(metaclass=ConvMeta):
 
     @classmethod
     def get_description(cls):
-        return "Allow to convert file in '%s' to '%s' format." % ConvMeta.split_converter_to_extensions(cls.__name__)
+        return "Allow to convert file in '%s' to '%s' format." % ConvMeta.split_converter_to_format(cls.__name__)
 
     @classmethod
     def get_additional_arguments(cls):

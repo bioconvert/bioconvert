@@ -295,7 +295,7 @@ Please feel free to join us at https://github/biokit/bioconvert
                          'ask for available methods (--show-method)')
 
     if not args.allow_indirect_conversion and \
-        ConvMeta.split_converter_to_extensions(args.converter) not in registry:
+        ConvMeta.split_converter_to_format(args.converter) not in registry:
 
         arg_parser.error('The conversion %s is not available directly, '
                          'you have to accept that we chain converter to do'
@@ -327,7 +327,7 @@ Please feel free to join us at https://github/biokit/bioconvert
 
 
 def analysis(args):
-    in_fmt, out_fmt = ConvMeta.split_converter_to_extensions(args.converter)
+    in_fmt, out_fmt = ConvMeta.split_converter_to_format(args.converter)
 
     # do we want to know the available methods ? If so, print info and quit
     if getattr(args, "show_methods", False):
@@ -342,7 +342,7 @@ def analysis(args):
     # Input and output filename
     infile = args.input_file
     if args.output_file is None and infile:
-        outext = ConvMeta.split_converter_to_extensions(args.converter)
+        outext = ConvMeta.split_converter_to_format(args.converter)
         outfile = infile.rsplit(".", 1)[0] + "." + outext[1].lower()
     else:
         outfile = args.output_file
