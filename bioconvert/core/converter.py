@@ -117,8 +117,8 @@ class Bioconvert(object):
                 out_fmt = get_format_from_extension(self.outext)
             self.in_fmt = in_fmt.upper()
             self.out_fmt = out_fmt.upper()
-            _log.info("Input: %s", self.in_fmt)
-            _log.info("Output: %s", self.out_fmt)
+            _log.info("Input: {}".format(self.in_fmt))
+            _log.info("Output: {}".format(self.out_fmt))
             class_converter = self.mapper[(self.in_fmt, self.out_fmt)]
             #print(class_converter)
             self.name = class_converter.__name__
@@ -135,7 +135,7 @@ class Bioconvert(object):
                 class_converter = make_chain([
                     (pair, self.mapper[pair]) for pair in conv_path])
             else:
-                msg = "Requested input format ('%s') to output format ('%s') is not available in bioconvert" %(
+                msg = "Requested input format ('{}') to output format ('{}') is not available in bioconvert".format(
                     self.in_fmt,
                     self.out_fmt,
                 )

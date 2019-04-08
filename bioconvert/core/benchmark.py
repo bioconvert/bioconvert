@@ -104,7 +104,7 @@ class Benchmark():
             methods = [x for x in methods if x not in self.to_exclude]
 
         for method in methods:
-            print("\nEvaluating method %s" % method)
+            print("\nEvaluating method {}".format(method))
             times = []
             pb = Progress(self.N)
             for i in range(self.N):
@@ -192,7 +192,7 @@ class BenchmarkMulticonvert(Benchmark):
             methods = [x for x in methods if x not in self.to_exclude]
 
         for method in methods:
-            print("\nEvaluating method %s" % method)
+            print("\nEvaluating method {}".format(method))
             # key: converter.infile
             # value: list of times
             times = defaultdict(list)

@@ -46,7 +46,7 @@ class GFALint(object):
                 if line[0] in "#EFGHLOPSU":
                     pass
                 elif len(line.strip()) == 0:
-                    _log.warning("Found empty line on line %s" % line)
+                    _log.warning("Found empty line on line {}".format(line))
                 else:
-                    raise ValueError("Unknown starting field (%s) on line %s" % (line[0], i))
+                    raise ValueError("Unknown starting field ({}) on line {}".format((line[0], i)))
 

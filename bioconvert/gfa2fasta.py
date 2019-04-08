@@ -91,7 +91,7 @@ class GFA2FASTA(ConvBase):
                         elif len(args) == 4:
                             fout.write(">{}\n{}\n".format(args[1]+" " + args[3], args[2]))
                         else:
-                            raise ValueError("Illformed line on line %s. Expected 3 or 4 values" % i)
+                            raise ValueError("Illformed line on line {}. Expected 3 or 4 values".format(i))
 
 
 

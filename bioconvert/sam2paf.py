@@ -172,7 +172,7 @@ class SAM2PAF(ConvBase):
                     if t[2] in reference_lengths:
                         tlen = reference_lengths[t[2]]
                     else:
-                        raise KeyError("can't find the length of contig %s" % t[2])
+                        raise KeyError("can't find the length of contig {}".format(t[2]))
 
                     # The reference is known but the length is not
                     if (tlen == -1) :
@@ -211,17 +211,17 @@ class SAM2PAF(ConvBase):
                             ql += l
                             tl += l
                             ext_cigar = False
-                            Zacc += "%sM" % count
+                            Zacc += "{}M".format(count)
                         elif (letter == 'I'):
                             I[0] += 1
                             I[1] += l
                             ql += l
-                            Zacc += "%sI" % count
+                            Zacc += "{}I".format(count)
                         elif (letter == 'D'):
                             D[0] += 1
                             D[1] += l
                             tl += l
-                            Zacc += "%sD" % count
+                            Zacc += "{}D".format(count)
                         elif (letter == 'N'):
                             N += l
                             tl += l
@@ -307,7 +307,7 @@ class SAM2PAF(ConvBase):
                     # What extra fields do we want to add ?
                     # original fields found in the SAM file ?
                     if extra_fields == "SAM" and len(t)>11:
-                        fout.write("\t".join(a) + "\t" + "\t".join(t[11:]) + "\tcg:Z:%s\n" % Zacc)
+                        fout.write("\t".join(a) + "\t" + "\t".join(t[11:]) + "\tcg:Z:{}\n".format(Zacc))
                     elif extra_fields == "summary":
                         fout.write("\t".join(a) + "\t" + "\t".join(extra) + "\n")
                     elif extra_fields is None:

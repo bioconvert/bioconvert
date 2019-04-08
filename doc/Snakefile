@@ -17,14 +17,14 @@ command = "fastq2fasta"
 
 
 import glob
-samples = glob.glob("*%s" % inext)
+samples = glob.glob("*{}".format(inext))
 samples = [this.replace("." + inext, "") for this in samples]
 
 rule all:
     input: expand("{dataset}" + "." + outext, dataset=samples)
 
 rule bioconvert:
-    input: "{dataset}.%s" % inext
-    output: "{dataset}.%s" % outext
+    input: "{dataset}.{}".format(inext)
+    output: "{dataset}.{}".format(outext)
     shell: "bioconvert {} {input} {output}".format(command)
 

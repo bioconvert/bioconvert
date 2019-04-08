@@ -174,7 +174,7 @@ def touch_example_backreferences(app, what, name, obj, options, lines):
     # generate empty examples files, so that we don't get
     # inclusion errors if there are no examples for a class / module
     examples_path = os.path.join(app.srcdir, "modules", "generated",
-                                 "%s.examples" % name)
+                                 "{}.examples".format(name))
     if not os.path.exists(examples_path):
         # touch file
         os.makedirs(os.path.dirname(examples_path), exist_ok=True)

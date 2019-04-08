@@ -28,7 +28,7 @@ def bioconvert_script(filename, where=None):
     else:
         filename = os.path.join(share, filename)
     if not os.path.exists(filename):
-        raise FileNotFoundError('unknown file %s' % filename)
+        raise FileNotFoundError('unknown file {}'.format(filename))
     return filename
 
 
@@ -46,7 +46,7 @@ def bioconvert_data(filename, where=None):
     else:
         filename = os.path.join(share, filename)
     if not os.path.exists(filename):
-        raise FileNotFoundError('unknown file %s' % filename)
+        raise FileNotFoundError('unknown file {}'.format(filename))
     return filename
 
 import bioconvert

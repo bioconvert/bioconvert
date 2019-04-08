@@ -177,7 +177,7 @@ join us at https://github/biokit/bioconvert
             else:
                 help_details = " (w/ %i intermediates)" % (len(path) - 2)
 
-        help_text = '%sto%s> %s%s' % (
+        help_text = '{}to{}> {}{}'.format(
             (in_fmt + ' ').ljust(max_converter_width, link_char),
             link_char,
             out_fmt,
@@ -297,9 +297,9 @@ Please feel free to join us at https://github/biokit/bioconvert
     if not args.allow_indirect_conversion and \
         ConvMeta.split_converter_to_format(args.converter) not in registry:
 
-        arg_parser.error('The conversion %s is not available directly, '
+        arg_parser.error('The conversion {} is not available directly, '
                          'you have to accept that we chain converter to do'
-                         ' so (--allow-indirect-conversion or -a)' % args.converter)
+                         ' so (--allow-indirect-conversion or -a)'.format(args.converter))
 
     args.raise_exception = args.raise_exception or args.verbosity == "DEBUG"
 
@@ -378,7 +378,7 @@ def analysis(args):
                            " So add extension to the output file name or use"
                            " --output-format option.")
 
-    bioconvert.logger.info("Converting from %s to %s" % (conv.in_fmt, conv.out_fmt))
+    bioconvert.logger.info("Converting from {} to {}".format(conv.in_fmt, conv.out_fmt))
 
     # params = {"threads": args.threads}
 

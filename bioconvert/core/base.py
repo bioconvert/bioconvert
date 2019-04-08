@@ -67,7 +67,7 @@ class ConvMeta(abc.ABCMeta):
     def split_converter_to_format(cls, converter_name: str):
         converter_name = converter_name.replace("_to_", "2")
         if '2' not in converter_name:
-            raise TypeError("converter's name '%s' name must follow convention input2output" % converter_name)
+            raise TypeError("converter's name '{}' name must follow convention input2output".format(converter_name))
         # for BZ2 2 GZ
         if "22" in converter_name:
             input_fmt, output_fmt = converter_name.upper().split('22', 1)

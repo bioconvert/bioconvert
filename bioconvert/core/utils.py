@@ -80,7 +80,7 @@ def get_format_from_extension(extension):
             return fmt.upper()
 
     # The extension was not found
-    bioconvert.logger.critical("No format was found for extension '%s'" % extension)
+    bioconvert.logger.critical("No format was found for extension '{}'".format(extension))
     bioconvert.logger.critical("Use --formats to know the available formats and --help"
                                " for examples")
     sys.exit(1)

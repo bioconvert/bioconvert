@@ -78,7 +78,7 @@ def compressor(func):
         if infile_name.endswith(".gz"):
             # decompress input
             # TODO: https://stackoverflow.com/a/29371584/1878788
-            _log.info("Generating uncompressed version of %s " % infile_name)
+            _log.info("Generating uncompressed version of {} ".format(infile_name))
             (ungz_name, _) = splitext(infile_name)
             (_, base_suffix) = splitext(ungz_name)
             with TempFile(suffix=base_suffix) as ungz_infile:

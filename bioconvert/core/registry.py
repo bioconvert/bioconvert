@@ -95,18 +95,19 @@ class Registry(object):
                     if converter is not None:
                         # the registry is no more based on extension but on format
                         format_pair = (converter.input_fmt, converter.output_fmt)
-                        _log.debug("add converter '%s' for %s -> %s in fmt_registry", converter_name, *format_pair)
+                        _log.debug("add converter '{}' for {} -> {} in fmt_registry".format(
+                            converter_name, *format_pair))
                         self.__setitem__(format_pair, converter)
                         all_ext_pair = itertools.product(converter.input_ext, converter.output_ext)
                         # all_ext_pair = list(all_ext_pair)
                         for ext_pair in all_ext_pair:
                             # format_pair = (converter.input_fmt, converter.output_fmt)
                             if len(converter.available_methods) == 0 and not including_not_available_converter:
-                                _log.warning("converter '%s' for %s -> %s was not added as no method is available",
-                                             converter_name, *ext_pair)
+                                _log.warning("converter '{}' for {} -> {} was not added as no method is available"
+                                             .format(converter_name, *ext_pair))
                             else:
-                                _log.debug("add converter '%s' for %s -> %s in ext_registry",
-                                           converter_name, *ext_pair)
+                                _log.debug("add converter '{}' for {} -> {} in ext_registry".format(
+                                           converter_name, *ext_pair))
                                 self.set_ext(ext_pair, converter)
 
     def _build_path_dict(self):
