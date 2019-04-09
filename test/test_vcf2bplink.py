@@ -14,4 +14,6 @@ def test_vcf2bplink(method):
         converter = VCF2BPLINK(infile, outfile)
         converter(method=method)
 
-        assert os.path.isfile(outfile)
+        assert os.path.isfile(outfile+".bed")
+        assert os.path.isfile(outfile+".bim")
+        assert os.path.isfile(outfile+".fam")
