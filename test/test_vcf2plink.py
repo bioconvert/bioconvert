@@ -14,4 +14,6 @@ def test_vcf2plink(method):
         converter = VCF2PLINK(infile, outfile)
         converter(method=method)
 
-        assert os.path.isfile(outfile)
+        assert os.path.isfile(outfile+".map")
+        assert os.path.isfile(outfile+".ped")
+        assert os.path.isfile(outfile+".log")
