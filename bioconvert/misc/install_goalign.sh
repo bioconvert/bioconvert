@@ -23,9 +23,17 @@
 
 [ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT=$(dirname $(which conda))/../go && unset GOPATH
 [ -z "$GOPATH" ] && GOPATH="$HOME/go/"
+
+ls /home/travis
+echo $GOPATH
+echo $GOROOT
+
 PATH=$GOPATH/bin:$GOROOT:$PATH
+
+echo $PATH
+
 go get -u github.com/golang/dep/cmd/dep
-go get -u github.com/fredericlemoine/goalign/
-cd $GOPATH/src/github.com/fredericlemoine/goalign/
-dep ensure
-make
+go get -u github.com/evolbioinfo/goalign/
+cd $GOPATH/src/github.com/evolbioinfo/goalign/
+$GOPATH/bin/dep ensure
+make GOPATH="$GOPATH"
