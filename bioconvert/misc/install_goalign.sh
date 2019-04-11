@@ -26,8 +26,10 @@
 # GOPATH can contains several entries like PATH
 echo $HOME
 
+# $(which conda) may not give the correct path (april 2019) replaced by harcoded
+# value miniconda3/testenv/go since a deidcated environement is set
 #[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT="$(dirname $(which conda))"/../go && unset GOPATH
-[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT="$(HOME)/miniconda3/testenv/go" && unset GOPATH
+[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT="$HOME/miniconda3/testenv/go" && unset GOPATH
 [ -z "$GOPATH" ] && GOPATH="$HOME/go/"
 
 echo $GOPATH
