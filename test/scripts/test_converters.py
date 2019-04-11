@@ -11,7 +11,7 @@ from bioconvert.scripts import converter
 def test_converter():
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
     with TempFile(suffix=".fasta") as tempfile1, TempFile(suffix=".fasta") as tempfile2:
-        cmd = "bioconvert fastq2fasta {} {} --force".format((infile, tempfile1.name))
+        cmd = "bioconvert fastq2fasta {} {} --force".format(infile, tempfile1.name)
         p = subprocess.Popen(cmd, shell=True)
         assert p.wait() == 0
         import sys
@@ -22,7 +22,7 @@ def test_converter():
 def test_converter_without_converter():
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
     with TempFile(suffix=".fasta") as tempfile1, TempFile(suffix=".fasta") as tempfile2:
-        cmd = "bioconvert {} {} --force".format((infile, tempfile1.name))
+        cmd = "bioconvert {} {} --force".format(infile, tempfile1.name)
         p = subprocess.Popen(cmd, shell=True)
         assert p.wait() == 0
         import sys
