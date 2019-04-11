@@ -54,6 +54,9 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pip install pygatb --no-deps ; fi
   - pip install pypandoc
   - pip install biocode
+  # bcftools 1.9.0 incompatible with samtools 1.9 due to differnt openssl
+  # version. downgraded bcftools to 1.8
+  - conda install --yes bcftools==1.8
 
 
 # # command to run tests, e.g. python setup.py test
