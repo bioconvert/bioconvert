@@ -33,7 +33,7 @@ echo $HOME
 [ -z "$GOPATH" ] && GOPATH="$HOME/go/"
 PATH=$GOPATH/bin:$GOROOT:$PATH
 go get -u github.com/golang/dep/cmd/dep
-go get -u github.com/evolbioinfo/fastqutils
-cd $GOPATH/src/github.com/evolbioinfo/fastqutils/
+go get -u github.com/fredericlemoine/fastqutils
+cd $GOPATH/src/github.com/fredericlemoine/fastqutils/
 $GOPATH/bin/dep ensure
 make GOPATH="$GOPATH"
