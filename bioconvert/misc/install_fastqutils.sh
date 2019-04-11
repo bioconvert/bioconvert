@@ -20,10 +20,20 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+# GOPATH workspace directory
+# A priori no need to set GOROOT but need to be set if binary distribution
+# is not in the default location.
+# GOPATH can contains several entries like PATH
+echo $HOME
 
-[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT=$(dirname $(which conda))/../go && unset GOPATH
+# $(which conda) may not give the correct path (april 2019) replaced by harcoded
+# value miniconda3/testenv/go since a deidcated environement is set
+#[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT="$(dirname $(which conda))"/../go && unset GOPATH
+[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT="$HOME/miniconda3/envs/testenv/go" && unset GOPATH
 [ -z "$GOPATH" ] && GOPATH="$HOME/go/"
 PATH=$GOPATH/bin:$GOROOT:$PATH
-go get -u github.com/fredericlemoine/fastqutils
-cd $GOPATH/src/github.com/fredericlemoine/fastqutils/
-make
+go get -u github.com/golang/dep/cmd/dep
+go get -u github.com/evolbioinfo/fastqutils
+cd $GOPATH/src/github.com/evolbioinfo/fastqutils/
+$GOPATH/bin/dep ensure
+make GOPATH="$GOPATH"
