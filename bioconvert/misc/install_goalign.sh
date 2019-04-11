@@ -21,6 +21,8 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
+echo $HOME
+
 [ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT="$(dirname $(which conda))"/../go && unset GOPATH
 [ -z "$GOPATH" ] && GOPATH="$HOME/go/"
 
