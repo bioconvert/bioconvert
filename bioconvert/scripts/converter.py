@@ -40,45 +40,48 @@ _log = colorlog.getLogger(__name__)
 
 
 def main(args=None):
+    registry = Registry()
+
     if args is None:
         args = sys.argv[1:]
-        registry = Registry()
-    # check that the first argument is not a converter in the registry
-    if args[0].lower() not in list(registry.get_converters_names()) \
-            and "." in args[0]:
-        in_ext = utils.get_extension(args[0])
-        out_ext = utils.get_extension(args[1])
-        #assign to converter the converter (s) found for the ext_pair = (in_ext, out_ext)
-        try:
-            converter = registry.get_ext((in_ext, out_ext))
-            # for testing the mutiple converter for one extention pair
-            # converter = [bioconvert.fastq2fasta.Fastq2Fasta, bioconvert.phylip2xmfa.PHYLIP2XMFA]
-        except KeyError:
-            converter = []
 
-        # if no converter is found
-        if not converter:
-            _log.error(
-            '\n Bioconvert does not support conversion {} -> {}. \n'
-            'Please specify the converter'
-            '\n Usage : \n\n'
-            '\t bioconvert converter input_file output_file \n '
-            '\n To see all the converter : '
-            '\n \t bioconvert --help '.format(
-                 in_ext,out_ext))
+    if not len(sys.argv) == 1:
+        # check that the first argument is not a converter in the registry
+        if args[0].lower() not in list(registry.get_converters_names()) \
+                and "." in args[0]:
+            in_ext = utils.get_extension(args[0])
+            out_ext = utils.get_extension(args[1])
+            #assign to converter the converter (s) found for the ext_pair = (in_ext, out_ext)
+            try:
+                converter = registry.get_ext((in_ext, out_ext))
+                # for testing the mutiple converter for one extention pair
+                # converter = [bioconvert.fastq2fasta.Fastq2Fasta, bioconvert.phylip2xmfa.PHYLIP2XMFA]
+            except KeyError:
+                converter = []
 
-            sys.exit(1)
-        # if the ext_pair matches a single converter
-        elif len(converter) == 1:
-            args.insert(0, converter[0].__name__.lower())
-        # if the ext_pair matches multiple converters
-        else:
+            # if no converter is found
+            if not converter:
+                _log.error(
+                '\n Bioconvert does not support conversion {} -> {}. \n'
+                'Please specify the converter'
+                '\n Usage : \n\n'
+                '\t bioconvert converter input_file output_file \n '
+                '\n To see all the converter : '
+                '\n \t bioconvert --help '.format(
+                     in_ext,out_ext))
 
-            _log.error("\n Ambiguous extension.\n"
-                       "You must specify the right conversion \n "
-                       "Choose from: \n "
-                       "{}".format("\n".join([c.__name__ for c in converter])))
-            sys.exit(1)
+                sys.exit(1)
+            # if the ext_pair matches a single converter
+            elif len(converter) == 1:
+                args.insert(0, converter[0].__name__.lower())
+            # if the ext_pair matches multiple converters
+            else:
+
+                _log.error("\n Ambiguous extension.\n"
+                           "You must specify the right conversion \n "
+                           "Choose from: \n "
+                           "{}".format("\n".join([c.__name__ for c in converter])))
+                sys.exit(1)
 
 
     # Set the default level

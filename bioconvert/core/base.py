@@ -136,8 +136,6 @@ class ConvMeta(abc.ABCMeta):
 
         if name != 'ConvBase':
             input_fmt, output_fmt = cls.split_converter_to_format(name.upper())
-            input_ext = extensions.extensions[input_fmt.lower()]
-            output_ext = extensions.extensions[output_fmt.lower()]
             # modules have no more input_ext and output_ext attributes
             # input_ext = getattr(cls, 'input_ext')
             # if check_ext(input_ext, 'input'):
@@ -145,8 +143,12 @@ class ConvMeta(abc.ABCMeta):
             #     check_ext(output_ext, 'output')
             setattr(cls, 'input_fmt', input_fmt)
             setattr(cls, 'output_fmt', output_fmt)
-            setattr(cls, 'input_ext', input_ext)
-            setattr(cls, 'output_ext', output_ext)
+            if not cls.input_ext:
+                input_ext = extensions.extensions[input_fmt.lower()]
+                setattr(cls, 'input_ext', input_ext)
+            if not cls.output_ext:
+                output_ext = extensions.extensions[output_fmt.lower()]
+                setattr(cls, 'output_ext', output_ext)
             available_conv_meth = []
             for name in inspect.getmembers(cls, is_conversion_method):
                 # do not use strip() but split()

@@ -57,7 +57,7 @@ class Registry(object):
         self._fill_registry(bioconvert.__path__)
         self._build_path_dict()
 
-    def _fill_registry(self, path, including_not_available_converter=False):
+    def _fill_registry(self, path, target=None, including_not_available_converter=False):
         """
         Explore the directory converters to discover all converter classes
         (a concrete class which inherits from :class:`ConvBase`)
@@ -66,6 +66,8 @@ class Registry(object):
 
         :param str path: the path of a directory to explore (not recursive)
         """
+
+        target = self if target is None else target
 
         def is_converter(item):
             """Check if a module is a converter"""
@@ -97,7 +99,7 @@ class Registry(object):
                         format_pair = (converter.input_fmt, converter.output_fmt)
                         _log.debug("add converter '{}' for {} -> {} in fmt_registry".format(
                             converter_name, *format_pair))
-                        self.__setitem__(format_pair, converter)
+                        target[format_pair] = converter
                         all_ext_pair = itertools.product(converter.input_ext, converter.output_ext)
                         # all_ext_pair = list(all_ext_pair)
                         for ext_pair in all_ext_pair:
@@ -248,7 +250,7 @@ class Registry(object):
         """
         #all_converter = dict(self._fmt_registry)
         all_converter = {}
-        self._fill_registry(bioconvert.__path__, including_not_available_converter=True)
+        self._fill_registry(bioconvert.__path__, target=all_converter, including_not_available_converter=True)
         for i, o in all_converter:
             yield i, o, (i, o) in self._fmt_registry
 

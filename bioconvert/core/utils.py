@@ -25,7 +25,7 @@
 import os
 import sys
 import bioconvert
-from bioconvert.core import extensions
+from bioconvert.core.extensions import extensions
 
 
 __all__ = ["get_extension", "get_format_from_extension",
