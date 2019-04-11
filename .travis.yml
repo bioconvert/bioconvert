@@ -43,10 +43,6 @@ before_install:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
 
 install:
-  - echo $TRAVIS_PYTHON_VERSION
-  - echo $GOPATH
-  - echo $GOROOT
-  - echo $HOME
   - conda create --yes --name testenv python=$TRAVIS_PYTHON_VERSION
   - source activate testenv
 
