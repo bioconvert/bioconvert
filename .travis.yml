@@ -46,7 +46,6 @@ install:
   - echo $TRAVIS_PYTHON_VERSION
   - echo $GOPATH
   - echo $GOROOT
-  - export GOROOT=/home/travis/go
   - echo $HOME
   - conda create --yes --name testenv python=$TRAVIS_PYTHON_VERSION
   - source activate testenv
