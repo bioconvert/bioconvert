@@ -55,10 +55,8 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pip install pygatb --no-deps ; fi
   - pip install pypandoc
   - pip install biocode
-  # bcftools 1.9.0 incompatible with samtools 1.9 due to differnt openssl
-  # version. downgraded bcftools to 1.8
-  - conda install --yes bcftools==1.8
-  - if [[ "$TRAVIS_PYTHON_VERSION"  == "3.6" ]]; then conda install --yes samtools==1.8; fi
+  # make sure this is bcftools 1.9 which is installed. and wiggletools 1.2.2
+  - conda install --yes bcftools>=1.9 wiggletools>=1.2.2
 
 # # command to run tests, e.g. python setup.py test
 script:
