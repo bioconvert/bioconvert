@@ -1,5 +1,5 @@
 bamtools
-bcftools>=1.9
+bcftools==1.8
 bedtools
 bioawk
 deeptools

@@ -54,8 +54,6 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pip install pygatb --no-deps ; fi
   - pip install pypandoc
   - pip install biocode
-  # make sure this is bcftools 1.9 which is installed. and wiggletools 1.2.2
-  - conda install --yes bcftools>=1.9 wiggletools>=1.2.2
 
 # # command to run tests, e.g. python setup.py test
 script:
