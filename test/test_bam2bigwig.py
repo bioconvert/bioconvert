@@ -3,13 +3,21 @@ from bioconvert.bam2bedgraph import BAM2BEDGRAPH
 from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
-
+import os
 
 # commented due to constant failure on travis with py3.5
 
 
 # Here we will scan all available methods and repeat the test
 # automatically for each method
+
+
+skiptravis = pytest.mark.skipif( "TRAVIS_PYTHON_VERSION" in os.environ,
+    reason="fails on travis (deeptools and numpy not compatible)")
+
+
+
+@skiptravis
 @pytest.mark.parametrize("method", BAM2BIGWIG.available_methods)
 def _test_conv(method):
 

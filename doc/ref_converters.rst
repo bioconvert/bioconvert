@@ -17,6 +17,7 @@ Summary
 	bioconvert.bam2fastq
 	bioconvert.bam2json
 	bioconvert.bam2sam
+	bioconvert.bam2tsv
 	bioconvert.bam2wiggle
 	bioconvert.bcf2vcf
 	bioconvert.bcf2wiggle
@@ -136,6 +137,11 @@ All converters documentation
     :private-members:
 
 .. automodule:: bioconvert.bam2sam
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.bam2tsv
     :members:
     :synopsis:
     :private-members:

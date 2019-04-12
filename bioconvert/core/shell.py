@@ -20,7 +20,6 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
 """Simplified version of shell.py module from snakemake package
 
 Temporary module that would probably need some checking / simplification

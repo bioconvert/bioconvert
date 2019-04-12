@@ -20,3 +20,4 @@ People are listed alphabetically,
 - Amandine Perrin
 - Nicolas Traut
 - Anna Zhukova
+- Sulyvan Dollin
