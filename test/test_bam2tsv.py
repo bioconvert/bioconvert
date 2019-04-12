@@ -12,7 +12,7 @@ def test_bam2tsv():
     # Put it in bioconvert/bioconvert/data
     # you can then use ::
     infile = bioconvert_data("test_measles.sorted.bam")
-    expected_outfile = bioconvert_data("test_measles.tsv")
+    #expected_outfile = bioconvert_data("test_measles.tsv")
     with TempFile(suffix=".tsv") as tempfile:
         convert = BAM2TSV(infile, tempfile.name)
         convert(method="pysam")
