@@ -262,8 +262,8 @@ class Registry(object):
         :return: True if a converter which transform input_fmt into output_fmt exists
         :rtype: boolean
         """
-        input_fmt = input_fmt.lower()
-        output_fmt = output_fmt.lower()
+        input_fmt = input_fmt.upper()
+        output_fmt = output_fmt.upper()
         # return (input_fmt, output_fmt) in self._fmt_registry
         return ((input_fmt, output_fmt) in self._fmt_registry
                 or (allow_indirect
