@@ -350,6 +350,7 @@ class ConvBase(metaclass=ConvMeta):
                         output.write(data.decode("utf-8"))
                     elif flow is process_.stderr:
                         errors.write(data.decode("utf-8"))
+                        print(process_.stderr)
                 readable, writable, exceptional = select.select(inputs, [], [], 1)
 
         errors = errors.getvalue().strip()

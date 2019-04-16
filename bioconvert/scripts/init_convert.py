@@ -47,7 +47,7 @@ Create a Python module to ease addition of new converters
     arg_parser.add_argument("-o", "--output-extension",
                             help="output_extension")
 
-    args = arg_parser.parse_args(args)
+    args = arg_parser.parse_args()
 
     from bioconvert.core.init import InitConverter
     ic = InitConverter(args.input_extension, args.output_extension)
