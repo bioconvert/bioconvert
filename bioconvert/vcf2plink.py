@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -20,21 +22,42 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-# GOPATH workspace directory
-# A priori no need to set GOROOT but need to be set if binary distribution
-# is not in the default location.
-# GOPATH can contains several entries like PATH
-echo $HOME
 
-# $(which conda) may not give the correct path (april 2019) replaced by harcoded
-# value miniconda3/testenv/go since a deidcated environement is set
-#[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT="$(dirname $(which conda))"/../go && unset GOPATH
-[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT="$HOME/miniconda3/envs/testenv/go" && unset GOPATH
-[ -z "$GOPATH" ] && GOPATH="$HOME/go/"
-PATH=$GOPATH/bin:$GOROOT:$PATH
-go get -u github.com/golang/dep/cmd/dep
-go get -u github.com/evolbioinfo/gotree/
-cd $GOPATH/src/github.com/evolbioinfo/gotree/
-$GOPATH/bin/dep ensure
-make GOPATH="$GOPATH"
+import os
+import colorlog
 
+from bioconvert import ConvBase
+from bioconvert.core.decorators import requires
+from bioconvert.core.utils import generate_outfile_name
+
+_log = colorlog.getLogger(__name__)
+
+
+class VCF2PLINK(ConvBase):
+    """Converts a genotype dataset vcf :term:`VCF` format to
+    ped+map in :term:`PLINK` format
+
+    Conversion is based on plink executable
+
+    """
+    _default_method = 'plink'
+
+    def __init__(self, infile, outfile=None, *args, **kwargs):
+        """.. rubric:: constructor
+
+        :param str infile: input :term:`PLINK` file.
+        :param str outfile: (optional) output :term:`BPLINK` file
+        """
+        if not outfile:
+            outfile = os.path.splitext(infile)[0]
+        super().__init__(infile, outfile)
+
+    @requires("plink")
+    def _method_plink(self, *args, **kwargs):
+        """
+        Convert using plink executable.
+        """
+        cmd = 'plink --vcf {infile} --recode --out {outfile}'.format(
+            infile=self.infile,
+            outfile=self.outfile)
+        self.execute(cmd)

@@ -23,4 +23,6 @@ def test_conv():
         with TempFile(suffix=".sam") as samfile:
             convert = BAM2SAM(tempfile.name, samfile.name)
             convert()
+
             filecmp.cmp(samfile.name, infile)
+

@@ -59,15 +59,13 @@ class shell:
         cls._process_suffix = suffix
 
     def __new__(cls, cmd, *args,
-
-                asynchronous=False,
+                is_async=False,
                 iterable=False,
                 read=False, **kwargs):
         if "stepout" in kwargs:
             raise KeyError("Argument stepout is not allowed in shell command.")
 
-        stdout = sp.PIPE if iterable or asynchronous or read else STDOUT
-
+        stdout = sp.PIPE if iterable or is_async or read else STDOUT
 
         close_fds = sys.platform != 'win32'
 
@@ -86,7 +84,7 @@ class shell:
             return cls.iter_stdout(proc, cmd)
         if read:
             ret = proc.stdout.read()
-        elif asynchronous:
+        elif is_async:
             return proc
         retcode = proc.wait()
         if retcode:
