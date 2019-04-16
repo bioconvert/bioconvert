@@ -149,7 +149,7 @@ class ConvMeta(abc.ABCMeta):
                     input_ext = extensions.extensions[input_fmt.lower()]
                     setattr(cls, 'input_ext', input_ext)
                 except KeyError:
-                    msg = "the ext is missing"
+                    msg = "In class {} the attribut input_ext is missing".format(cls.__name__)
                     _log.error(msg)
                     raise BioconvertError(msg)
             if not cls.output_ext:
@@ -157,7 +157,7 @@ class ConvMeta(abc.ABCMeta):
                     output_ext = extensions.extensions[output_fmt.lower()]
                     setattr(cls, 'output_ext', output_ext)
                 except KeyError:
-                    msg = "the ext is missing"
+                    msg = "In the class {} the attribut output_ext is missing".format(cls.__name__)
                     _log.error(msg)
                     raise BioconvertError(msg)
             available_conv_meth = []
