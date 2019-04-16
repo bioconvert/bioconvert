@@ -1,0 +1,2 @@
+class BioconvertError(Exception):
+    pass

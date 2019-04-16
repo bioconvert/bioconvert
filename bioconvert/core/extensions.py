@@ -48,6 +48,7 @@ extensions = {
     'gff3': ['gff3'],                            # gff3 so far
     'gz': ['gz'],
     'json': ['json'],                           # misc
+    'qual': ['qual'],                           # quality file for fastq file
     'maf': ["maf"],                             # !! this is MIRA format, not mutation alignment format
     'newick': ["newick", "nw", "nhx", "nwk"],   # phylo
     'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo

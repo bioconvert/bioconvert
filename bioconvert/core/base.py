@@ -50,6 +50,7 @@ from bioconvert.core import extensions
 
 from bioconvert.core.utils import generate_outfile_name
 from bioconvert import logger
+from . import BioconvertError
 
 
 class ConvMeta(abc.ABCMeta):
@@ -144,11 +145,21 @@ class ConvMeta(abc.ABCMeta):
             setattr(cls, 'input_fmt', input_fmt)
             setattr(cls, 'output_fmt', output_fmt)
             if not cls.input_ext:
-                input_ext = extensions.extensions[input_fmt.lower()]
-                setattr(cls, 'input_ext', input_ext)
+                try:
+                    input_ext = extensions.extensions[input_fmt.lower()]
+                    setattr(cls, 'input_ext', input_ext)
+                except KeyError:
+                    msg = "the ext is missing"
+                    _log.error(msg)
+                    raise BioconvertError(msg)
             if not cls.output_ext:
-                output_ext = extensions.extensions[output_fmt.lower()]
-                setattr(cls, 'output_ext', output_ext)
+                try:
+                    output_ext = extensions.extensions[output_fmt.lower()]
+                    setattr(cls, 'output_ext', output_ext)
+                except KeyError:
+                    msg = "the ext is missing"
+                    _log.error(msg)
+                    raise BioconvertError(msg)
             available_conv_meth = []
             for name in inspect.getmembers(cls, is_conversion_method):
                 # do not use strip() but split()
