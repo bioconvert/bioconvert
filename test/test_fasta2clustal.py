@@ -36,6 +36,7 @@ def test_fasta2clustal_squizz():
         assert md5(tempfile.name) == md5(outfile)
 
 @skiptravis
+@pytest.mark.skipif(FASTA2CLUSTAL._method_goalign.is_disabled, reason="missing dependencies")
 def test_fasta2clustal_goalign():
     infile = bioconvert_data("goalign.fasta")
     outfile = bioconvert_data("goalign.clustal")

@@ -1,12 +1,16 @@
+.. _formats:
+
 Formats
 ==========
 
+
 ABI
 ----------
+:type: sequence
 
-File format produced by ABI sequencing machine. It produces ABI "Sanger" capillary sequence 
-traces files, including the PHRED quality scores for the base calls. 
-This allows ABI to FASTQ conversion. Note each ABI file contains one and only one sequence (no need for indexing the file). The trace data contains probablities of the four nucleotide base along the sequencing run together with the sequence deduced from that data. ABI trace is a binary format. 
+File format produced by ABI sequencing machine. It produces ABI "Sanger" capillary sequence
+traces files, including the PHRED quality scores for the base calls.
+This allows ABI to FASTQ conversion. Note that each ABI file contains one and only one sequence (no need for indexing the file). The trace data contains probablities of the four nucleotide bases along the sequencing run together with the sequence deduced from that data. ABI trace is a binary format.
 
 
 .. admonition::  References
@@ -15,14 +19,16 @@ This allows ABI to FASTQ conversion. Note each ABI file contains one and only on
     - https://github.com/jkbonfield/io_lib/
     - http://www6.appliedbiosystems.com/support/software_community/ABIF_File_Format.pdf
 
-.. seealso:: :ref:`scf`
+.. seealso:: :ref:`scf`, :class:`~bioconvert.scf2fasta.SCF2Fasta`, 
+    :class:`~bioconvert.scf2fastq.SCF2Fastq`, 
+    :class:`~bioconvert.abi2fastq.ABI2FASTQ`,
+    :class:`~bioconvert.abi2fasta.ABI2FASTA`
 
 
 ASQG
 --------------
 
 :type: assembly
-:reference: https://github.com/jts/sga/wiki/ASQG-Format
 
 The ASQG format describes an assembly graph. Each line is a tab-delimited
 irecord. The first field in each record describes the record type. The three
@@ -36,6 +42,10 @@ types are:
 - ED: Edge description records. The second field describes a pair of
   overlapping sequences. A full description of this field is below. Subsequent
   fields contain optional tags.
+
+.. admonition: References
+
+    - https://github.com/jts/sga/wiki/ASQG-Format
 
 Example
 ~~~~~~~~~~~~~~~~

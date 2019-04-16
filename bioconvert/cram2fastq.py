@@ -21,40 +21,52 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+"""Convert :term:`CRAM` file to :term:`FASTQ` file"""
+import os
+from bioconvert import ConvBase
+from easydev.multicore import cpu_count
+
 import colorlog
 
-from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
-from bioconvert.core.utils import generate_outfile_name
 
-_log = colorlog.getLogger(__name__)
+logger = colorlog.getLogger(__name__)
 
 
-class BPLINK2PLINK(ConvBase):
-    """Converts a genotype dataset bed+bim+fam in :term:`BPLINK` format to
-    ped+map :term:`PLINK` format
+class CRAM2FASTQ(ConvBase):
+    """Convert :term:`CRAM` file to :term:`FASTQ` file
 
-    Conversion is based on plink executable
+    The conversion requires the reference corresponding to the input file
+    It can be provided as an argument in the constructor. Otherwise,
+    a local file with same name as the input file but an .fa extension is
+    looked for. Otherwise, we ask for the user to provide the input file.
+    This is useful for the standalone application.
 
     """
-    _default_method = 'plink'
+    _default_method = "samtools"
 
-    def __init__(self, infile, outfile=None, *args, **kwargs):
+    def __init__(self, infile, outfile, reference=None, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile: input :term:`BPLINK` file.
-        :param str outfile: (optional) output :term:`PLINK` file
-        """
-        if not outfile:
-            outfile = infile
-        super().__init__(infile, outfile)
+        :param str infile: input FASTQ file
+        :param str outfile: output filename
+        :param str reference: reference file in :term:`FASTA` format
 
-    @requires("plink")
-    def _method_plink(self, *args, **kwargs):
+        command used::
+
+            samtools view -@ <thread> -Sh -T <reference> in.cram > out.sam
+
+        .. note:: the API related to the third argument may change in the future.
         """
-        Convert plink file in text using plink executable.
-        """
-        cmd = 'plink --bfile {infile} --recode --out {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        super(CRAM2FASTQ, self).__init__(infile, outfile, *args, **kargs)
+        self.threads = cpu_count()
+
+    @requires("samtools")
+    def _method_samtools(self, *args, **kwargs):
+        # -h means include header in FASTQ output
+        # TODO: ideally we need to first use
+        # samtools collate in.cram out.bam and then
+        # samtools fastq -1 1.fastq -2 2.fastq out.bam
+        cmd = "samtools fastq -@ {} -1 {} -2 {} {}".format(self.threads,
+                self.outfile+".1", self.outfile+".2", self.infile)
         self.execute(cmd)

@@ -39,7 +39,6 @@ from mappy import fastx_read
 import mmap
 
 
-
 class Fastq2Fasta(ConvBase):
     """Convert :term:`FASTQ` to :term:`FASTA`"""
 

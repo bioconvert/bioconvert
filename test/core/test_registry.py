@@ -44,3 +44,14 @@ def test_registry_with_less_dependencies():
         rr[('FASTQ', 'FASTA')] = converter
     assert (str(err.value)
             == "'an other converter already exists for FASTQ -> FASTA'")
+
+
+def test_rgistry():
+    rr = Registry()
+    rr.info()
+    print(rr)
+
+
+
+
+

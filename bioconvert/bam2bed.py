@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BAM` format to :term:`BED` formats"""
+"""Convert :term:`BAM` format to :term:`BED` format"""
 from bioconvert import ConvBase
 import colorlog
 
