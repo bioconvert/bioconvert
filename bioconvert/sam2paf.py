@@ -126,7 +126,7 @@ class SAM2PAF(ConvBase):
 
     @requires_nothing
     def _method_python(self, *args, **kwargs):
-        pattern = "(\d+)([MIDSHNX=])"
+        pattern = r"(\d+)([MIDSHNX=])"
 
         extra_fields = kwargs.get("extra_fields", "SAM")
         # TODO: what is this ?
@@ -140,10 +140,10 @@ class SAM2PAF(ConvBase):
 
                     if line.startswith("@"):
                         if line.startswith("@SQ"):
-                            match = re.findall("\tSN:(\S+)", line)
+                            match = re.findall(r"\tSN:(\S+)", line)
                             name = match[0] if len(match) else "unknown_reference"
 
-                            match = re.findall("\tLN:(\d+)", line)
+                            match = re.findall(r"\tLN:(\d+)", line)
                             if len(match) == 1:
                                 reference_lengths[name] = int(match[0])
                             else:
@@ -179,13 +179,13 @@ class SAM2PAF(ConvBase):
                         raise ValueError("ERROR at line " + str(lineno) + ": can't find the length of contig " + str(t[2]))
 
                     # TODO explain what are the nn and NM tags
-                    match = re.findall("\tnn:i:(\d+)", line)
+                    match = re.findall(r"\tnn:i:(\d+)", line)
                     if match:
                         nn = int(match[0])
                     else:
                         nn = 0
 
-                    match = re.findall("\tNM:i:(\d+)", line)
+                    match = re.findall(r"\tNM:i:(\d+)", line)
                     if match:
                         NM = int(match[0])
                         have_NM = True
