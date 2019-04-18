@@ -14,10 +14,13 @@ def test_benchmark():
     with TempFile(suffix=".bed") as fout:
         conv = BAM2BED(input_file, fout.name)
         bench = Benchmark(conv)
+        bench.run_methods()
         bench.plot()
 
         try:
-            Benchmark(1)
+            Benchmark("BAM2BED")
             assert False
-        except:
+        except NotImplementedError:
             assert True
+        except:
+            assert False
