@@ -12,9 +12,18 @@ matrix:
     - os: linux
       sudo: required
       python: 3.6
+    - name: "Python 3.7.2 running in macOS"
     - os: osx
       sudo: required
       language: generic
+      osx_image: xcode10.2
+    - name: "Python 3.7.3 on windows"
+      os: windows
+      sudo: required
+      language: shell
+      before_install: choco install python
+      env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
+
 
 branches:
   only:
