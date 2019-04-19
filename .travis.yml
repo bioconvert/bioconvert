@@ -6,23 +6,19 @@ cache:
 
 matrix:
   include:
-    - os: linux
+    - name: linux Python 3.5
+      os: linux
       sudo: required
       python: 3.5
-    - os: linux
+    - name: Linux Python 3.6
+      os: linux
       sudo: required
       python: 3.6
     - name: "Python 3.7.2 running in macOS"
-    - os: osx
+      os: osx
       sudo: required
       language: generic
       osx_image: xcode10.2
-    - name: "Python 3.7.3 on windows"
-      os: windows
-      sudo: required
-      language: shell
-      before_install: choco install python
-      env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
 
 branches:
@@ -52,6 +48,7 @@ before_install:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
 
 install:
+  - echo $TRAVIS_PYTHON_VERSION
   - conda create --yes --name testenv python=$TRAVIS_PYTHON_VERSION
   - source activate testenv
 
