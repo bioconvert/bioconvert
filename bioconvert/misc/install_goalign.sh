@@ -20,12 +20,19 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT=$(dirname $(which conda))/../go && unset GOPATH
+# GOPATH workspace directory
+# A priori no need to set GOROOT but need to be set if binary distribution
+# is not in the default location.
+# $(which conda) may not give the correct path (april 2019) replaced by harcoded
+# value miniconda3/testenv/go since a deidcated environement is now set
+#[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT=$(dirname $(which conda))/../go && unset GOPATH
+[ -z "$TRAVIS_PYTHON_VERSION" ] || GOROOT="$HOME/miniconda3/envs/testenv/go" && unset GOPATH
 [ -z "$GOPATH" ] && GOPATH="$HOME/go/"
 PATH=$GOPATH/bin:$GOROOT:$PATH
 go get -u github.com/golang/dep/cmd/dep
 go get -u github.com/evolbioinfo/goalign/
 cd $GOPATH/src/github.com/evolbioinfo/goalign/
-dep ensure
-make && make install
+$GOPATH/bin/dep ensure
+# the goalign Mafile consider GOPATH to be empty on some platform
+# so let us provide it when calling make
+make GOPATH="$GOPATH" && make install

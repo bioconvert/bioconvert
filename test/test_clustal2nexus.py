@@ -11,6 +11,7 @@ skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
 
 
 @skiptravis
+@pytest.mark.skipif(CLUSTAL2NEXUS._method_goalign.is_disabled, reason="missing dependencies")
 def test_clustal2nexus_goalign():
     infile = bioconvert_data("goalign.clustal")
     outfile = bioconvert_data("goalign.nexus")

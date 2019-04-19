@@ -6,15 +6,20 @@ cache:
 
 matrix:
   include:
-    - os: linux
+    - name: linux Python 3.5
+      os: linux
       sudo: required
       python: 3.5
-    - os: linux
+    - name: Linux Python 3.6
+      os: linux
       sudo: required
       python: 3.6
-    - os: osx
+    - name: "Python 3.7.2 running in macOS"
+      os: osx
       sudo: required
       language: generic
+      #osx_image: xcode10.2
+
 
 branches:
   only:
@@ -41,22 +46,20 @@ before_install:
     # This help testing code with pylab
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
-    # some useful libraries to compile numpy/scipy
-    # - "sudo apt-get install -q libatlas3gf-base libatlas-dev liblapack-dev gfortran"
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - echo $TRAVIS_PYTHON_VERSION
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements.txt
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_tools.txt
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_dev.txt
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION  coverage
+  - conda create --yes --name testenv python=$TRAVIS_PYTHON_VERSION
+  - source activate testenv
+
+  - conda install --yes --file requirements.txt
+  - conda install --yes --file requirements_tools.txt
+  - conda install --yes --file requirements_dev.txt
+  - conda install --yes  coverage
   - pip install .
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pip install pygatb --no-deps ; fi
   - pip install pypandoc
   - pip install biocode
-  - python -c "import numpy;print(numpy.__version__);print(numpy.__file__)"
-
 
 # # command to run tests, e.g. python setup.py test
 script:

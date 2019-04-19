@@ -3,7 +3,7 @@ Glossary
 
 
 Note that formats mentionned here below have dedicated description in the
-Formats section. 
+:ref:`formats` section. 
 
 .. glossary::
     :sorted:
@@ -56,6 +56,10 @@ Formats section.
 
         A compression tool dedicated to FastQ files
 
+    EMBL
+
+        TODO
+
     FASTA
 
         FASTA-formatted sequence files contain either nucleic acid sequence
@@ -88,6 +92,10 @@ Formats section.
         A human-readable data serialization language commonly used in
         configuration files. See https://en.wikipedia.org/wiki/JSON
 
+    NEXUS
+
+        TODO
+
     PAF
 
         PAF is a text format describing the approximate mapping positions
@@ -96,6 +104,10 @@ Formats section.
     PHYLIP
 
         The PHYLIP file format stores a multiple sequence alignment.
+
+    PHYLOXML
+
+        TODO
 
     SAM
         Sequence Alignment Map is a generic nucleotide alignment format that

@@ -27,6 +27,11 @@ import sys
 import bioconvert
 from bioconvert.core import extensions
 
+
+__all__ = ["get_extension", "get_format_from_extension",
+    "generate_outfile_name"]
+
+
 def get_extension(filename, remove_compression=False):
     """Return extension of a filename
 
@@ -60,6 +65,7 @@ def generate_outfile_name(infile, out_extension):
     :rtype: str
     """
     return '{}.{}'.format(os.path.splitext(infile)[0], out_extension)
+
 
 def get_format_from_extension(extension):
     """get format from extension.

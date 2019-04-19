@@ -31,7 +31,8 @@ import argparse
 def main(args=None):
 
     if args is None:
-        args = sys.argv[:]
+        args = sys.argv[1:]
+
 
     from easydev.console import purple, underline
 
@@ -47,7 +48,8 @@ Create a Python module to ease addition of new converters
     arg_parser.add_argument("-o", "--output-extension",
                             help="output_extension")
 
-    args = arg_parser.parse_args()
+    args = arg_parser.parse_args(args)
+
 
     from bioconvert.core.init import InitConverter
     ic = InitConverter(args.input_extension, args.output_extension)

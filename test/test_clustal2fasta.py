@@ -35,6 +35,7 @@ def test_clustal2fasta_squizz():
 
 
 @skiptravis
+@pytest.mark.skipif(CLUSTAL2FASTA._method_goalign.is_disabled, reason="missing dependencies")
 def test_clustal2fasta_goalign():
     infile = bioconvert_data("goalign.clustal")
     outfile = bioconvert_data("goalign.fasta")
