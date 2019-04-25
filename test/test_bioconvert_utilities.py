@@ -8,7 +8,7 @@ from bioconvert.core.utils import generate_outfile_name
 def test_bioconvert_data():
     file_name = 'squizz.phylip'
     assert bioconvert_data(file_name) == os.path.join(bioconvert.__path__[0], 'data', file_name)
-    with pytest.raises(FileNotFoundError, message="Excepting FileNotFoundError"):
+    with pytest.raises(FileNotFoundError):
         file_name = 'foo.bar'
         assert bioconvert_data(file_name) == os.path.join(bioconvert.__path__[0], 'data', file_name)
 

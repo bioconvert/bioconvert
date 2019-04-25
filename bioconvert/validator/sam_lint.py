@@ -56,7 +56,7 @@ class SAMLint(object):
                     raise ValueError(msg.format(len(fields), lineno))
                 if len(fields)>11:
                     for field in fields[11:]:
-                        if re.match("(\S+):(\S+):(\S+)", field) is None:
+                        if re.match(r"(\S+):(\S+):(\S+)", field) is None:
                             msg = "Optional fields must follow the tag:type:value "
                             msg += "format. Found {} on line {}"
                             raise ValueError(msg.format(len(fields), lineno))
