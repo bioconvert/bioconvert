@@ -69,3 +69,29 @@ class NEXUS2CLUSTAL(ConvBase):
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
+
+    @requires(python_library="biopython")
+    def _method_biopython(self, threads=None, *args, **kwargs):
+         from Bio import AlignIO
+         alignments = list(AlignIO.parse(self.infile, "nexus", alphabet=self.alphabet))
+         AlignIO.write(alignments, self.outfile, "clustal")
+
+    @requires("squizz")
+    def _method_squizz(self, threads=None, *args, **kwargs):
+        """
+        Convert :term:`NEXUS` file in :term:`CLUSTAL` format using squizz tool.
+        The CLUSTAL output file contains the consensus line
+
+        for instance ::
+
+            read3           -AT-
+            read2           -AAG
+            read4           -AGG
+                             *
+
+        :param threads: not used
+        """
+        cmd = 'squizz -c CLUSTAL {infile} > {outfile}'.format(
+            infile=self.infile,
+            outfile=self.outfile)
+        self.execute(cmd)

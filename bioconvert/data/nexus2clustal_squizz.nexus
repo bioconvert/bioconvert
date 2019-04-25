@@ -1,0 +1,34 @@
+#NEXUS
+[TITLE: Written by EMBOSS 18/04/19]
+
+begin data;
+dimensions ntax=6 nchar=123;
+format interleave datatype=DNA missing=N gap=-;
+
+matrix
+read3                -AT--------CCCGCTCGATGGGCCTCATTGCGTCCACTAGTTGATCTT
+read2                -----------------------GGAAGCCCACGCCACGGTCTTGATACG
+read4                ---------------------AGGGATGAACGATGCTCGCAGTTGATGCT
+read5                ----------TGAGACATTTGAGGGAGCCGA----TTAGATTATGATGCC
+read0                --GCATGCTACCCCCGACTTCGAGGCTGGGTGGAGTTACCTTTAGGGGGG
+read1                AATCATCCCATATGCCGTTTCAGGTGTTCGCGATGTTACATAAGTGTCCG
+
+read3                CTGGAGTAT---T----TAGGAAAGCAAGTAAACTCCTTGTACAAATAAA
+read2                AATTTTTCTAATGGCTATCCCTACATAACCTAACCGGGCATGTAATGTGT
+read4                CAGAAGTGCCATTGCGGTAGAAACAAATGTTCCCAGATTGTTGACTGATA
+read5                GTCAATCATGAGCGC--ACGGTTT-TAACGCCTTAATCTCCCGACTCTCA
+read0                GTTGTGTGGGAGTGA--TAGGAGA-GAGACCCAGACAG-------TATAG
+read1                GTCGGGTACCGCTGA--CCCGAAC-TT-----TATTTA-------TGACT
+
+read3                GATCTTA-----GATGGGCAT--
+read2                CACCGTTGTTTCGACGTAAAGAG
+read4                AGTAGGACCTCAGTCGTGACT--
+read5                CAGCTAACCCGTGAGCT------
+read0                CATGTTGTTGGC-----------
+read1                CAAGTTGGTCAACAG--------
+;
+
+end;
+begin assumptions;
+options deftype=unord;
+end;

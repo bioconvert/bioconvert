@@ -1,0 +1,26 @@
+CLUSTAL multiple sequence alignment
+
+
+read3           -AT--------CCCGCTCGATGGGCCTCATTGCGTCCACTAGTTGATCTTCTGGAGTAT-
+read2           -----------------------GGAAGCCCACGCCACGGTCTTGATACGAATTTTTCTA
+read4           ---------------------AGGGATGAACGATGCTCGCAGTTGATGCTCAGAAGTGCC
+read5           ----------TGAGACATTTGAGGGAGCCGA----TTAGATTATGATGCCGTCAATCATG
+read0           --GCATGCTACCCCCGACTTCGAGGCTGGGTGGAGTTACCTTTAGGGGGGGTTGTGTGGG
+read1           AATCATCCCATATGCCGTTTCAGGTGTTCGCGATGTTACATAAGTGTCCGGTCGGGTACC
+                                       *                                    
+
+read3           --T----TAGGAAAGCAAGTAAACTCCTTGTACAAATAAAGATCTTA-----GATGGGCA
+read2           ATGGCTATCCCTACATAACCTAACCGGGCATGTAATGTGTCACCGTTGTTTCGACGTAAA
+read4           ATTGCGGTAGAAACAAATGTTCCCAGATTGTTGACTGATAAGTAGGACCTCAGTCGTGAC
+read5           AGCGC--ACGGTTT-TAACGCCTTAATCTCCCGACTCTCACAGCTAACCCGTGAGCT---
+read0           AGTGA--TAGGAGA-GAGACCCAGACAG-------TATAGCATGTTGTTGGC--------
+read1           GCTGA--CCCGAAC-TT-----TATTTA-------TGACTCAAGTTGGTCAACAG-----
+                                                                            
+
+read3           T--
+read2           GAG
+read4           T--
+read5           ---
+read0           ---
+read1           ---
+                   
