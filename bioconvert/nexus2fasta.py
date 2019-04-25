@@ -27,7 +27,6 @@
 import os
 
 import colorlog
-from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -63,6 +62,64 @@ class NEXUS2FASTA(ConvBase):
         """
         self.install_tool('goalign')
         cmd = 'goalign reformat fasta -i {infile} -o {outfile} -x'.format(
+            infile=self.infile,
+            outfile=self.outfile)
+        self.execute(cmd)
+
+    @requires(python_library="biopython")
+    def _method_biopython(self, threads=None, *args, **kwargs):
+        """
+        Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using biopython.
+        The FASTA output file will be a standard FASTA file and not an aligned FASTA file
+
+        for instance ::
+
+            the output file will look like :
+
+                >seq1
+                ATGC
+                >seq2
+                CTGA
+
+            and not :
+
+                >seq1
+                ATGC
+                >seq2
+                C--A
+
+        :param threads: not used
+
+        """
+        from Bio import SeqIO
+        with open(self.outfile, "w") as output_handle:
+            records = SeqIO.parse(self.infile, "nexus")
+            SeqIO.write(records, output_handle, "fasta")
+
+    @requires("squizz")
+    def _method_squizz(self, threads=None, *args, **kwargs):
+        """
+        Convert :term:`NEXUS` file in :term:`FASTA` format using squizz tool.
+
+        for instance ::
+
+            the output file will look like :
+
+                >seq1
+                ATGC
+                >seq2
+                C--A
+
+            and not :
+
+                >seq1
+                ATGC
+                >seq2
+                CTGA
+
+        :param threads: not used
+        """
+        cmd = 'squizz -c FASTA {infile} > {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
