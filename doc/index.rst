@@ -1,7 +1,7 @@
 Bioconvert
 ####################
 
-Bioconvert is a collaborative project to facilitate the interconversion of life science data from one format to another.
+**Bioconvert** is a collaborative project to facilitate the interconversion of life science data from one format to another. **Bioconvert** currently contains more than 40 formats, 80 conversions.
 
 .. image:: https://badge.fury.io/py/bioconvert.svg
     :target: https://pypi.python.org/pypi/bioconvert
@@ -34,13 +34,13 @@ Overview
 ################
 
 Life science uses many different formats. They may be old, or with complex
-syntax and converting those formats may be a challenge. **bioconvert** aims at providing a common tool / interface to convert life science data formats from one to another.
+syntax and converting those formats may be a challenge. **Bioconvert** aims at providing a common tool / interface to convert life science data formats from one to another.
 
-Many convertion tools already exist but they may be dispersed, focused on few
-specific formats, difficult to install, or not optimised. With **bioconvert**, we plan to
-cover a wide spectrum of format convertions; we will re-use existing tools when
+Many conversion tools already exist but they may be dispersed, focused on few
+specific formats, difficult to install, or not optimised. With **Bioconvert**, we plan to
+cover a wide spectrum of format conversions; we will re-use existing tools when
 possible and provide facilities to compare different conversion tools or methods 
-via `benchmarking <benchmarking>`_. New implementations are provided when considered 
+via :ref:`benchmarking <benchmarking>`. New implementations are provided when considered 
 better than existing ones.
 
 
