@@ -45,10 +45,10 @@ from bioconvert.fastq2fasta import Fastq2Fasta
 
 #####################################################
 # Get the convert you wish to benchmark
-#input_file = bioconvert_data("test_measles.sorted.bam")
-#conv = BAM2BED(input_file, "test.bed")
-input_file = bioconvert_data("test_fastq2fasta_v1.fastq")
-conv = Fastq2Fasta(input_file, "test.fasta")
+input_file = bioconvert_data("test_measles.sorted.bam")
+conv = BAM2BED(input_file, "test.bed")
+#input_file = bioconvert_data("test_fastq2fasta_v1.fastq")
+#conv = Fastq2Fasta(input_file, "test.fasta")
 
 
 #####################################################
