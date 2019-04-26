@@ -85,7 +85,7 @@ class Bioconvert(object):
             if outfile.endswith(".fastq.dsrc") is False:
                 msg = "When compressing with .dsrc extension, " +\
                     "only files ending with .fastq extension are " +\
-                    "accepted. This is duepytest-timeout to the way dsrc executable +"\
+                    "accepted. This is due to the way dsrc executable "+\
                     "is implemented."
                 _log.critical(msg)
                 raise IOError
