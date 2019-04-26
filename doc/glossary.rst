@@ -27,10 +27,22 @@ Note that formats mentionned here below have dedicated description in the
 
         TODO
 
+    BIGBED
+
+        TODO
+
+    BPLINK
+
+        BPLINK
+
     BAI
 
         The index file for a file generated in the BAM format. (This is a
         non-standard file type.)
+
+    BZ2
+
+        TODO
 
     BCF
 
@@ -87,12 +99,20 @@ Note that formats mentionned here below have dedicated description in the
         GenBank Flat File Format.
         See https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html
 
+    GZ
+
+        TOD
+
     JSON
 
         A human-readable data serialization language commonly used in
         configuration files. See https://en.wikipedia.org/wiki/JSON
 
     NEXUS
+
+        TODO
+
+    NEWICK
 
         TODO
 
@@ -109,6 +129,10 @@ Note that formats mentionned here below have dedicated description in the
 
         TODO
 
+    PLINK
+
+        TODO
+
     SAM
         Sequence Alignment Map is a generic nucleotide alignment format that
         describes the alignment of query sequences or sequencing reads to a reference
@@ -118,6 +142,10 @@ Note that formats mentionned here below have dedicated description in the
 
         Standard Chromatogram Format, a binary
         chromatogram format described in Staden package documentation SCF file format.
+
+    SRA
+
+        SRA
 
     STOCKHOLM
 
@@ -143,6 +171,11 @@ Note that formats mentionned here below have dedicated description in the
     XLS
 
         TODO
+    
+    XLSX
+
+        TODO
+
 
     XMFA
 

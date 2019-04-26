@@ -50,10 +50,11 @@ class SRA2FASTQ(ConvBase):
     # If test: will take only the first 10 reads from the sra file
     def __init__(self, infile, outfile, test=False):
         """.. rubric:: constructor
+    
         :param str infile:
         :param str outfile:
-        library used::
-            sra-toolkit
+
+        library used: sra-toolkit
         """
         super().__init__(infile, outfile)
         self.test = test
