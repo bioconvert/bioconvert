@@ -9,8 +9,9 @@ formats:
 python:
     version: 3.5
     install:
-        - requirements: requirements.txt
-        - method: pip
+      - requirements: requirements.txt
+      - method: pip
+        path: .
 
 
 sphinx:
