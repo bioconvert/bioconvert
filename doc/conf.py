@@ -299,7 +299,7 @@ latex_documents = [
 ]
 
 latex_elements = { 'inputenc': '\\usepackage[utf8]{inputenc}' }
-latex_elements["latex_paper_size"] = "a4"
+#latex_elements["latex_paper_size"] = "a4"
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
 #latex_logo = None
@@ -314,32 +314,6 @@ latex_use_parts = False
 # If true, show URL addresses after external links.
 #latex_show_urls = False
 
-# Additional stuff for the LaTeX preamble.
-latex_elements["latex_preamble"] = r"""
-\definecolor{VerbatimColor}{rgb}{.9,1,0.9}
-\definecolor{VerbatimBorderColor}{rgb}{0,0,0}
-
-   \setlength{\fboxrule}{2pt}
-
- \renewcommand{\Verbatim}[1][1]{%
-   % list starts new par, but we don't want it to be set apart vertically
-   \bgroup\parskip=0pt%
-   \smallskip%
-   % The list environement is needed to control perfectly the vertical
-   % space.
-   \list{}{%
-   \setlength\parskip{5pt}% space between verbatim and previous paragraph
-   \setlength\itemsep{0ex}%
-   \setlength\topsep{1ex}%
-   \setlength\partopsep{0pt}%
-   \setlength\leftmargin{10pt}%
-   }%
-   \item\MakeFramed {\FrameRestore}%
-      \small%
-     \OriginalVerbatim[#1]%
- }
-
-"""
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []
