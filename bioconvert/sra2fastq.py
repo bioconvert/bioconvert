@@ -38,6 +38,12 @@ from bioconvert.core.decorators import requires
 class SRA2FASTQ(ConvBase):
     """Converts Sra 2 Fastq(.gz) file
 
+    ::
+
+        bioconvert sra2fastq ERR043367
+
+    This may take some times since the files are downloaded from SRA website.
+
     """
     _default_method = "sratoolkit"
 
