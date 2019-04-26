@@ -1,5 +1,5 @@
-conda:
-    environment: environment_rtd.yml
+#conda:
+#    environment: environment_rtd.yml
 
 version: 2
 
