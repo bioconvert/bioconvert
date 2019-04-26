@@ -1,6 +1,20 @@
 conda:
-    file: environment_rtd.yml
+    environment: environment_rtd.yml
+
+version: 2
+
+formats:
+    - htmlzip
+
 python:
     version: 3.5
-    setup_py_install: true
+    install:
+        - requirements: requirements.txt
+        - method: pip
+
+
+sphinx:
+    builder: html
+    configuration: conf.py
+    fail_on_warning: false
 
