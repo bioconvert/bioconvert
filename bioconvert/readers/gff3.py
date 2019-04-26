@@ -22,119 +22,120 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
 import re
 
 
 class Gff3():
-	"""Read a gff v3 file
-	See the format description at https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md
-	"""
-	def __init__(self, filename):
-		self.filename = filename
-		
+    """Read a gff v3 file
 
-	def read(self):
-		""" Read annotations one by one creating a generator """
-		
-		with open(self.filename) as reader:
-			line = None
-
-			for line in reader:
-				# Skip metadata and comments
-				if line.startswith("#"):
-					continue
-
-				# Format checking
-				split = line.rstrip().split("\t")
-				if len(split) < 9:
-					# Wrong line format
-					if len(split) > 0:
-						print("Impossible to read the following line regarding the gff3 specifications")
-						print(line)
-					continue
-		
-				annotation = self.process_main_fields(split[0:8])
-				annotation["attributes"] = self.process_attributes(split[8])
-				
-				yield annotation
+    See the format description at
+    https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md
 
 
-	def process_main_fields(self, fields):
-		annotation = {}
+    """
+    def __init__(self, filename):
+        self.filename = filename
 
-		# Unique id of the sequence
-		annotation["seqid"] = self.decode_small(fields[0])
-		# Optional source
-		if fields[1] != ".":
-			annotation["source"] = self.decode_small(fields[1])
-		# Annotation type
-		annotation["type"] = self.decode_small(fields[2])
-		# Start and stop
-		annotation["start"] = int(fields[3])
-		annotation["stop"] = int(fields[4])
-		# Optional score field
-		if fields[5] != ".":
-			annotation["score"] = float(fields[5])
-		# Strand
-		if fields[6] == "+" or fields[6] == "-" or fields[6] == "?" or fields[6] == ".":
-			annotation["strand"] = fields[6]
-		# Phase
-		if fields[7] != ".":
-			annotation["phase"] = int(fields[7]) % 3
+    def read(self):
+        """ Read annotations one by one creating a generator """
+        with open(self.filename) as reader:
+            line = None
 
-		return annotation
+            for line in reader:
+                # Skip metadata and comments
+                if line.startswith("#"):
+                    continue
 
+                # Format checking
+                split = line.rstrip().split("\t")
+                if len(split) < 9:
+                    # Wrong line format
+                    if len(split) > 0:
+                        print("Impossible to read the following line regarding the gff3 specifications")
+                        print(line)
+                    continue
 
-	def process_attributes(self, text):
-		attributes = {}
+                annotation = self.process_main_fields(split[0:8])
+                annotation["attributes"] = self.process_attributes(split[8])
 
-		# split into mutliple attributes
-		split = text.split(";")
-		for attr in split:
-			#find the separator
-			idx = attr.find("=")
-
-			# parse tags and associated values
-			value = self.decode_complete(attr[idx+1:])
-			if len(value) == 1:
-				value = value[0]
-			attributes[self.decode_complete(attr[:idx])] = value
-
-		return attributes
+                yield annotation
 
 
-	@staticmethod
-	def decode_small(text):
-		# Tabulation
-		text = re.sub("%09", "\t", text)
-		# newline
-		text = re.sub("%0A", "\n", text)
-		# return
-		text = re.sub("%0D", "\r", text)
-		# percent
-		text = re.sub("%25", "%", text)
+    def process_main_fields(self, fields):
+        annotation = {}
 
-		return text
+        # Unique id of the sequence
+        annotation["seqid"] = self.decode_small(fields[0])
+        # Optional source
+        if fields[1] != ".":
+            annotation["source"] = self.decode_small(fields[1])
+        # Annotation type
+        annotation["type"] = self.decode_small(fields[2])
+        # Start and stop
+        annotation["start"] = int(fields[3])
+        annotation["stop"] = int(fields[4])
+        # Optional score field
+        if fields[5] != ".":
+            annotation["score"] = float(fields[5])
+        # Strand
+        if fields[6] == "+" or fields[6] == "-" or fields[6] == "?" or fields[6] == ".":
+            annotation["strand"] = fields[6]
+        # Phase
+        if fields[7] != ".":
+            annotation["phase"] = int(fields[7]) % 3
+
+        return annotation
 
 
-	@staticmethod
-	def decode_complete(text):
-		text = Gff3.decode_small(text)
-		# semicolon
-		text = re.sub("%3B", ";", text)
-		# equals
-		text = re.sub("%3D", "=", text)
-		# ampersand
-		text = re.sub("%26", "&", text)
-		# comma
-		text = re.sub("%2C", ",", text)
+    def process_attributes(self, text):
+        attributes = {}
 
-		return text
-			
+        # split into mutliple attributes
+        split = text.split(";")
+        for attr in split:
+            #find the separator
+            idx = attr.find("=")
+
+            # parse tags and associated values
+            value = self.decode_complete(attr[idx+1:])
+            if len(value) == 1:
+                value = value[0]
+            attributes[self.decode_complete(attr[:idx])] = value
+
+        return attributes
+
+
+    @staticmethod
+    def decode_small(text):
+        # Tabulation
+        text = re.sub("%09", "\t", text)
+        # newline
+        text = re.sub("%0A", "\n", text)
+        # return
+        text = re.sub("%0D", "\r", text)
+        # percent
+        text = re.sub("%25", "%", text)
+
+        return text
+
+
+    @staticmethod
+    def decode_complete(text):
+        text = Gff3.decode_small(text)
+        # semicolon
+        text = re.sub("%3B", ";", text)
+        # equals
+        text = re.sub("%3D", "=", text)
+        # ampersand
+        text = re.sub("%26", "&", text)
+        # comma
+        text = re.sub("%2C", ",", text)
+
+        return text
+
 
 # if __name__ == "__main__":
-# 	file = "/home/yoann/Projects/Hub/bioconvert/bioconvert/data/gff3_example.gff"
-# 	gff = Gff3(file)
-# 	for annotation in gff.read():
-# 		print(annotation)
+#     file = "/home/yoann/Projects/Hub/bioconvert/bioconvert/data/gff3_example.gff"
+#     gff = Gff3(file)
+#     for annotation in gff.read():
+#         print(annotation)
