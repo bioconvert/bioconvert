@@ -9,23 +9,23 @@ Bioconvert is a collaborative project to facilitate the interconversion of life 
 .. image:: https://img.shields.io/pypi/pyversions/bioconvert.svg
    :target: https://www.python.org
 
-.. image:: https://secure.travis-ci.org/biokit/bioconvert.png
-    :target: http://travis-ci.org/biokit/bioconvert
+.. image:: https://secure.travis-ci.org/bioconvert/bioconvert.png
+    :target: http://travis-ci.org/bioconvert/bioconvert
 
-.. image:: https://coveralls.io/repos/github/biokit/bioconvert/badge.svg?branch=master
-   :target: https://coveralls.io/github/biokit/bioconvert?branch=master
+.. image:: https://coveralls.io/repos/github/bioconvert/bioconvert/badge.svg?branch=master
+   :target: https://coveralls.io/github/bioconvert/bioconvert?branch=master
 
 .. image:: http://readthedocs.org/projects/bioconvert/badge/?version=master
     :target: http://bioconvert.readthedocs.org/en/master/?badge=master
     :alt: Documentation Status
 
-.. image:: https://badges.gitter.im/biokit/bioconvert.svg
+.. image:: https://badges.gitter.im/bioconvert/bioconvert.svg
     :target: https://gitter.im/bioconvert/Lobby?source=orgpage
 
-.. image::  https://img.shields.io/github/issues/biokit/bioconvert.svg
-    :target:  https://github.com/biokit/bioconvert/issues
+.. image::  https://img.shields.io/github/issues/bioconvert/bioconvert.svg
+    :target:  https://github.com/bioconvert/bioconvert/issues
 
-:contributions: Please join the team to contribute: https://github.com/biokit/bioconvert/issues/1
+:contributions: Please join the team to contribute: https://github.com/bioconvert/bioconvert/issues/1
 
 .. image:: conversion.png
    :width: 80%
@@ -59,7 +59,7 @@ In order to install bioconvert, you can use **pip**::
 
 This command installs bioconvert and its Python dependencies. Note, however,
 that bioconvert may need extra non-Python dependencies as indicated in this
-`requirements file <https://raw.githubusercontent.com/biokit/bioconvert/master/requirements_tools.txt>`_.
+`requirements file <https://raw.githubusercontent.com/bioconvert/bioconvert/master/requirements_tools.txt>`_.
 
 Since Jan 2018 we also provide some versions on bioconda. If you already have
 bioconda setup on your system, just type::
