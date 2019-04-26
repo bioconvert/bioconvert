@@ -34,7 +34,7 @@ __all__ = ["DSRC2GZ"]
 
 
 class DSRC2GZ(ConvBase):
-    """Convert compressed fastq.dsrc file into fastq.gz compressed file
+    """Convert compressed fastq.dsrc :term:`DSRC`file into fastq.gz compressed file
 
     .. plot::
 
