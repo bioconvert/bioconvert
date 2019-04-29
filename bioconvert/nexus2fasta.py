@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""NEXUS2FASTA conversion"""
+"""Convert :term:`NEXUS` to :term:`FASTA`"""
 import os
 
 import colorlog
@@ -39,7 +39,7 @@ __all__ = ['NEXUS2FASTA']
 
 class NEXUS2FASTA(ConvBase):
     """
-    Converts a sequence alignment from :term:`NEXUS` format to :term:`FASTA` format. ::
+    Converts a sequence alignment from :term:`NEXUS` format to :term:`FASTA` format.
     """
     _default_method = 'goalign'
 
@@ -70,38 +70,39 @@ class NEXUS2FASTA(ConvBase):
     def _method_biopython(self, threads=None, *args, **kwargs):
         """
         Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using biopython.
-        The FASTA output file will be a standard FASTA file and not an aligned FASTA file
+        The FASTA output file will be an aligned FASTA file
 
-        for instance ::
+        for instance: ::
 
             the output file will look like :
 
                 >seq1
                 ATGC
                 >seq2
-                CTGA
+                C--A
 
             and not :
 
                 >seq1
                 ATGC
                 >seq2
-                C--A
+                CTGA
+
 
         :param threads: not used
 
         """
-        from Bio import SeqIO
+        from Bio import AlignIO
         with open(self.outfile, "w") as output_handle:
-            records = SeqIO.parse(self.infile, "nexus")
-            SeqIO.write(records, output_handle, "fasta")
+            alignments = list(AlignIO.parse(self.infile, "nexus", alphabet=self.alphabet))
+            AlignIO.write(alignments, output_handle, "fasta")
 
     @requires("squizz")
     def _method_squizz(self, threads=None, *args, **kwargs):
         """
         Convert :term:`NEXUS` file in :term:`FASTA` format using squizz tool.
 
-        for instance ::
+        for instance: ::
 
             the output file will look like :
 
