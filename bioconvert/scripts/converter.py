@@ -49,8 +49,8 @@ def main(args=None):
         # check that the first argument is not a converter in the registry
         if args[0].lower() not in list(registry.get_converters_names()) \
                 and "." in args[0]:
-            in_ext = utils.get_extension(args[0])
-            out_ext = utils.get_extension(args[1])
+            in_ext = utils.get_extension(args[0],remove_compression=True)
+            out_ext = utils.get_extension(args[1],remove_compression=True)
             #assign to converter the converter (s) found for the ext_pair = (in_ext, out_ext)
             try:
                 converter = registry.get_ext((in_ext, out_ext))
