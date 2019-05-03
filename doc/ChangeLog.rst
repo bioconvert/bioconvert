@@ -1,6 +1,13 @@
 Whats' new, what has changed
 ================================
 
+:Revision 0.3.0:
+
+    - Working version for pypi
+    - new convertors: wig2bed
+    - bioconvert implicit conversion implemented
+    - 
+
 :Revision 0.2.0: 7 Aug 2018
 
     - remove pandoc from requirements. The version installed is the one from
