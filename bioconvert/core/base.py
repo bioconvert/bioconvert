@@ -120,7 +120,7 @@ class ConvMeta(abc.ABCMeta):
         #     return True
 
         def is_conversion_method(item):
-            """Return True is method name starts with _method_
+            """Return True if method name starts with _method_
 
             This method is used to keep methods that starts with _method_.
             It uses inspect.getmembers func to list
