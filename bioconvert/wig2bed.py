@@ -38,6 +38,7 @@ class WIG2BED(ConvBase):
     """
 
     _default_method = "bedops"
+    _library_to_install = "bedops"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -48,7 +49,7 @@ class WIG2BED(ConvBase):
         """
         super(WIG2BED, self).__init__(infile, outfile, *args, **kargs)
 
-    @requires("ls")
+    @requires("wig2bed")
     def _method_default(self, *args, **kwargs):
         """some description"""
         cmd = "wig2bed < {} > {}".format(self.infile, self.outfile)
