@@ -3,10 +3,14 @@ Whats' new, what has changed
 
 :Revision 0.3.0:
 
+    - refactoring of the core including the implementation of an implicit
+      conversion. So, we can use bioconvert without specifying the conversion
+      when there is no ambiguity (based on the extensions provided).
     - Working version for pypi
     - new convertors: wig2bed
-    - bioconvert implicit conversion implemented
-    - 
+    - new methods in various converters related to  phylogeny
+    - Fixing the goalign and gotree scripts 
+    - Fixing all tests on Travis
 
 :Revision 0.2.0: 7 Aug 2018
 
