@@ -235,6 +235,7 @@ class ConvBase(metaclass=ConvMeta):
 
     available_methods = []
     _default_method = None
+    _library_to_install = None
     _is_compressor = False
     threads = cpu_count()
 

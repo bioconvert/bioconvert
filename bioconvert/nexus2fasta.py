@@ -72,26 +72,65 @@ class NEXUS2FASTA(ConvBase):
         Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using biopython.
         The FASTA output file will be an aligned FASTA file
 
-        for instance: ::
+        :param threads: not used.
 
-            the output file will look like :
+For instance:
 
-                >seq1
-                ATGC
-                >seq2
-                C--A
+We have a Nexus input file that look like ::
 
-            and not :
+    #NEXUS
+    [TITLE: Test file]
 
-                >seq1
-                ATGC
-                >seq2
-                CTGA
+    begin data;
+    dimensions ntax=3 nchar=123;
+    format interleave datatype=DNA missing=N gap=-;
 
+    matrix
+    read3                -AT--------CCCGCTCGATGGGCCTCATTGCGTCCACTAGTTGATCTT
+    read2                -----------------------GGAAGCCCACGCCACGGTCTTGATACG
+    read4                ---------------------AGGGATGAACGATGCTCGCAGTTGATGCT
 
-        :param threads: not used
+    read3                CTGGAGTAT---T----TAGGAAAGCAAGTAAACTCCTTGTACAAATAAA
+    read2                AATTTTTCTAATGGCTATCCCTACATAACCTAACCGGGCATGTAATGTGT
+    read4                CAGAAGTGCCATTGCGGTAGAAACAAATGTTCCCAGATTGTTGACTGATA
 
-        """
+    read3                GATCTTA-----GATGGGCAT--
+    read2                CACCGTTGTTTCGACGTAAAGAG
+    read4                AGTAGGACCTCAGTCGTGACT--
+    ;
+
+    end;
+    begin assumptions;
+    options deftype=unord;
+    end;
+
+the output file will look like ::
+
+    >read3
+    -AT--------CCCGCTCGATGGGCCTCATTGCGTCCACTAGTTGATCTTCTGGAGTAT-
+    --T----TAGGAAAGCAAGTAAACTCCTTGTACAAATAAAGATCTTA-----GATGGGCA
+    T--
+    >read2
+    -----------------------GGAAGCCCACGCCACGGTCTTGATACGAATTTTTCTA
+    ATGGCTATCCCTACATAACCTAACCGGGCATGTAATGTGTCACCGTTGTTTCGACGTAAA
+    GAG
+    >read4
+    ---------------------AGGGATGAACGATGCTCGCAGTTGATGCTCAGAAGTGCC
+    ATTGCGGTAGAAACAAATGTTCCCAGATTGTTGACTGATAAGTAGGACCTCAGTCGTGAC
+    T--
+
+and not ::
+
+    >read3
+    ATCCCGCTCGATGGGCCTCATTGCGTCCACTAGTTGATCTTCTGGAGTATTTAGGAAAGC
+    AAGTAAACTCCTTGTACAAATAAAGATCTTAGATGGGCAT
+    >read2
+    GGAAGCCCACGCCACGGTCTTGATACGAATTTTTCTAATGGCTATCCCTACATAACCTAA
+    CCGGGCATGTAATGTGTCACCGTTGTTTCGACGTAAAGAG
+    >read4
+    AGGGATGAACGATGCTCGCAGTTGATGCTCAGAAGTGCCATTGCGGTAGAAACAAATGTT
+    CCCAGATTGTTGACTGATAAGTAGGACCTCAGTCGTGACT
+"""
         from Bio import AlignIO
         with open(self.outfile, "w") as output_handle:
             alignments = list(AlignIO.parse(self.infile, "nexus", alphabet=self.alphabet))
@@ -102,23 +141,11 @@ class NEXUS2FASTA(ConvBase):
         """
         Convert :term:`NEXUS` file in :term:`FASTA` format using squizz tool.
 
-        for instance: ::
-
-            the output file will look like :
-
-                >seq1
-                ATGC
-                >seq2
-                C--A
-
-            and not :
-
-                >seq1
-                ATGC
-                >seq2
-                CTGA
-
         :param threads: not used
+
+        command used::
+
+            squizz -c FASTA infile > outfile
         """
         cmd = 'squizz -c FASTA {infile} > {outfile}'.format(
             infile=self.infile,

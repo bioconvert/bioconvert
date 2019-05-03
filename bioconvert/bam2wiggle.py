@@ -27,6 +27,7 @@ class BAM2WIGGLE(ConvBase):
 
     """
     _default_method = "wiggletools"
+    _library_to_install = " wiggletools "
 
     def __init__(self, infile, outfile):
         """
