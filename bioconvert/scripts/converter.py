@@ -49,8 +49,8 @@ def main(args=None):
         # check that the first argument is not a converter in the registry
         if args[0].lower() not in list(registry.get_converters_names()) \
                 and "." in args[0]:
-            in_ext = utils.get_extension(args[0])
-            out_ext = utils.get_extension(args[1])
+            in_ext = utils.get_extension(args[0],remove_compression=True)
+            out_ext = utils.get_extension(args[1],remove_compression=True)
             #assign to converter the converter (s) found for the ext_pair = (in_ext, out_ext)
             try:
                 converter = registry.get_ext((in_ext, out_ext))
@@ -169,8 +169,12 @@ join us at https://github/biokit/bioconvert
 
         if converter:
             link_char = '-'
-            if len(converter.available_methods) <= 1:
-                help_details = ""
+            if len(converter.available_methods) < 1 and converter._library_to_install is None:
+                help_details = " (no available methods please see the doc" \
+                               " for install the necessary libraries) "
+            elif len(converter.available_methods) < 1 and converter._library_to_install is not None:
+                help_details = " (no available methods please install {} \n" \
+                               "see the doc for more details) ".format(converter._library_to_install)
             else:
                 help_details = " (%i methods)" % len(converter.available_methods)
         else :#if path:
