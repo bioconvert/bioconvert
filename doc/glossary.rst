@@ -25,7 +25,7 @@ Note that formats mentionned here below have dedicated description in the
 
     BEDGRAPH
 
-        TODO
+        https://genome.ucsc.edu/goldenPath/help/bedgraph.html
 
     BIGBED
 
