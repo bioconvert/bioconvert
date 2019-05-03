@@ -65,6 +65,7 @@ extensions = {
     'twobit': ['2bit'],                         # sequence
     'tsv': ["tsv"],
     'wiggle': ['wig'],
+    'wig': ['wig'],
     'xls':['xls'],
     'xlsx':['xlsx'],
     'xmfa':['xmfa'],
