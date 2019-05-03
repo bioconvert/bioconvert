@@ -30,7 +30,7 @@ from bioconvert.core.decorators import compressor, out_compressor, in_gz, requir
 
 try:
     # Let us make this optional for now because
-    # GATB cannot be install on RTD
+    # GATB cannot be installed on RTD
     from gatb import Bank
 except:
     pass
