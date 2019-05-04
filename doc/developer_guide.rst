@@ -271,3 +271,28 @@ Requirements files
   required to run the bioconvert package
 - requirements_tools.txt : all conda dependencies
 
+
+How to update bioconvert on bioconda
+---------------------------------------
+
+Fork bioconda-recipes github repository and clone locally. Follow instructions on
+https://bioconda.github.io/contributing.html
+
+In a nutshell, install bioconda-utils
+
+    git clone YOURFORKED_REPOSITORY
+    cd bioconda-reciepes
+
+    # edit bioconvert recipes and update its contents
+    # if a new version pypi, you need to change the md5sum
+    vim recipes/bioconvert/meta.yaml
+
+    # check the recipes:
+    bioconda-utils build  recipes/ config.yml --packages bioconvert
+
+    # commit and created a PR
+    #git push -u origin my-recipe
+    git commit .
+    git push
+
+
