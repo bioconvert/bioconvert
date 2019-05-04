@@ -23,6 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """.. rubric:: Standalone application dedicated to conversion"""
+import os
 import argparse
 import json
 import sys
@@ -49,8 +50,15 @@ def main(args=None):
         # check that the first argument is not a converter in the registry
         if args[0].lower() not in list(registry.get_converters_names()) \
                 and "." in args[0]:
-            in_ext = utils.get_extension(args[0],remove_compression=True)
-            out_ext = utils.get_extension(args[1],remove_compression=True)
+            in_ext = utils.get_extension(args[0], remove_compression=True)
+            out_ext = utils.get_extension(args[1], remove_compression=True)
+
+            # Check that the input file exists
+            # Fixes https://github.com/bioconvert/bioconvert/issues/204
+            if os.path.exists(args[0]) is False:
+                _log.error("Input file {} does not exist".format(args[0]))
+                sys.exit(1)
+
             #assign to converter the converter (s) found for the ext_pair = (in_ext, out_ext)
             try:
                 converter = registry.get_ext((in_ext, out_ext))
@@ -83,6 +91,11 @@ def main(args=None):
                            "{}".format("\n".join([c.__name__ for c in converter])))
                 sys.exit(1)
 
+        # Check that the input file exists
+        # Fixes https://github.com/bioconvert/bioconvert/issues/204
+        if os.path.exists(args[1]) is False:
+            _log.error("Input file {} does not exist".format(args[1]))
+            sys.exit(1)
 
     # Set the default level
     bioconvert.logger.level = "ERROR"
@@ -392,8 +405,14 @@ def analysis(args):
     if args.benchmark:
         conv.boxplot_benchmark(N=args.benchmark_N)
         import pylab
-        try:pylab.savefig("benchmark_{}.png".format(conv.name))
-        except:pylab.savefig("benchmark_{}.png".format(conv.converter.name))
+
+        try:
+            outpng = "benchmark_{}.png".format(conv.name)
+            pylab.savefig(outpng, dpi=200)
+        except:
+            outpng = "benchmark_{}.png".format(conv.converter.name)
+            pylab.savefig(outpng, dpi=200)
+        bioconvert.logger.info("File {} created")
     else:
         # params["method"] = args.method
         conv(**vars(args))
