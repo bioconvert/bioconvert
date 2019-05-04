@@ -28,13 +28,6 @@ from bioconvert import ConvBase, bioconvert_script
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires, requires_nothing
 
-try:
-    # Let us make this optional for now because
-    # GATB cannot be installed on RTD
-    from gatb import Bank
-except:
-    pass
-
 from mappy import fastx_read
 import mmap
 
@@ -126,16 +119,6 @@ class Fastq2Fasta(ConvBase):
         # support gz files natively
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
-
-    @requires(python_library="pyGATB")
-    @in_gz
-    @out_compressor
-    def _method_GATB(self, *args, **kwargs):
-        with open(self.outfile, "w") as fasta:
-            for record in Bank(self.infile):
-                fasta.write(">{}\n{}\n".format(
-                    record.comment.decode("utf-8"),
-                    record.sequence.decode("utf-8")))
 
     @requires_nothing
     @compressor

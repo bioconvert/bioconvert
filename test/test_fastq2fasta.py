@@ -43,9 +43,6 @@ def test_in_gz(method):
     for sample_name in ["test_fastq2fasta_v1",
                         "sample_v2", "sample_v3",  
                         "sample_v4"]:
-        if method == "GATB" and sample_name in ["sample_v3", "sample_v2"]:
-            # GATB long headers bug
-            continue
         infile = bioconvert_data("{}.fastq.gz".format(sample_name))
 
         expected_outfile = bioconvert_data("{}.fasta".format(sample_name))
@@ -70,10 +67,6 @@ def test_in_gz(method):
 @pytest.mark.parametrize("method", Fastq2Fasta.available_methods)
 def test_more_samples(method):
     for sample_name in ["sample_v2", "sample_v3", "sample_v4"]:
-
-        if method == "GATB" and sample_name in ["sample_v3", "sample_v2"]:
-            # GATB long headers bug
-            continue
 
         infile = bioconvert_data("{}.fastq".format(sample_name))
 
