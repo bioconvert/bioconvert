@@ -91,11 +91,6 @@ def main(args=None):
                            "{}".format("\n".join([c.__name__ for c in converter])))
                 sys.exit(1)
 
-        # Check that the input file exists
-        # Fixes https://github.com/bioconvert/bioconvert/issues/204
-        if os.path.exists(args[1]) is False:
-            _log.error("Input file {} does not exist".format(args[1]))
-            sys.exit(1)
 
     # Set the default level
     bioconvert.logger.level = "ERROR"
@@ -361,6 +356,11 @@ def analysis(args):
 
     # Input and output filename
     infile = args.input_file
+    # Check that the input file exists
+    # Fixes https://github.com/bioconvert/bioconvert/issues/204
+    if os.path.exists(infile) is False:
+            _log.error("Input file {} does not exist".format(infile))
+            sys.exit(1)
     if args.output_file is None and infile:
         outext = ConvMeta.split_converter_to_format(args.converter)
         outfile = infile.rsplit(".", 1)[0] + "." + outext[1].lower()
