@@ -98,7 +98,7 @@ You should see::
 Finally, get the source, install the dependencies using conda, and install
 bioconvert as follows::
 
-    git clone https://github.com/biokit/bioconvert
+    git clone https://github.com/bioconvert/bioconvert
     cd bioconvert
     conda install --file requirements.txt
     conda install --file requirements_tools.txt
@@ -131,7 +131,7 @@ For other version, or to install singularity on windows or Mac, please check out
 
 First, download the container::
 
-    singularity pull --name bioconvert.img shub://biokit/bioconvert:latest
+    singularity pull --name bioconvert.img shub://bioconvert/bioconvert:latest
     
 You can then create an alias::
 
