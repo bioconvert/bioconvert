@@ -3,8 +3,8 @@ Whats' new, what has changed
 
 :Revision 0.3.1:
 
-    - update bioconvert_stats
-    - update the singularity recipes for v 0.3
+    - update bioconvert_stats tool
+    - update the singularity recipes for v 0.3.0
     - update bioconda recipes (on bioconda-recipes)
     - Fix https://github.com/bioconvert/bioconvert/issues/204
 
