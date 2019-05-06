@@ -10,12 +10,18 @@ from bioconvert.sra2fastq import SRA2FASTQ
 
 @pytest.mark.parametrize("method", SRA2FASTQ.available_methods)
 def test_sra2fastq_gz(method):
+    """
+    :param method: the method to be tested among the available methods
+    :type method: str
+
+    .. note:: All output files are cut to 10 reads to reduce file size and speed up tests. So the test option = True
+    """
     infile = "SRR8954470"
     outfile = bioconvert_data("SRR8954470_1.fastq")
     outfile2 = bioconvert_data("SRR8954470_2.fastq")
     with TempFile(suffix=".fastq.gz") as tempfile:
         # if test=True only the first 10 reads from the sra file will be taken
-        converter = SRA2FASTQ(infile, tempfile.name,test=False)
+        converter = SRA2FASTQ(infile, tempfile.name, test=True)
         converter(method=method)
         outbasename,ext=os.path.splitext(tempfile.name)
         if ext == ".gz":
@@ -42,7 +48,7 @@ def test_sra2fastq(method):
     outfile = bioconvert_data("SRR8954470_1.fastq")
     outfile2 = bioconvert_data("SRR8954470_2.fastq")
     with TempFile(suffix=".fastq") as tempfile:
-        converter = SRA2FASTQ(infile, tempfile.name, False)
+        converter = SRA2FASTQ(infile, tempfile.name, test=True)
         converter(method=method)
         outbasename=os.path.splitext(tempfile.name)[0]
         
@@ -56,7 +62,7 @@ def test_sra2fastq_gz_single(method):
     outfile = bioconvert_data("ERR3295124.fastq")
     
     with TempFile(suffix=".fastq.gz") as tempfile:
-        converter = SRA2FASTQ(infile, tempfile.name, False)
+        converter = SRA2FASTQ(infile, tempfile.name, test=True)
         converter(method=method)
 
         outbasename=os.path.splitext(tempfile.name)[0]
@@ -71,7 +77,7 @@ def test_sra2fastq_single(method):
     infile = "ERR3295124"
     outfile = bioconvert_data("ERR3295124.fastq")
     with TempFile(suffix=".fastq") as tempfile:
-        converter = SRA2FASTQ(infile, tempfile.name, False)
+        converter = SRA2FASTQ(infile, tempfile.name, test=True)
         converter(method=method)
         
         # Check that the output is correct with a checksum
