@@ -3,7 +3,7 @@
 # of life science data from one format to another.                        #
 #                                                                         #
 # Authors: see CONTRIBUTORS.rst                                           #
-# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
+# Copyright © 2018-2019  Institut Pasteur, Paris and CNRS.                #
 # See the COPYRIGHT file for details                                      #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
@@ -21,7 +21,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 from itertools import groupby
-
+import math
 
 class MAFLine(object):
     """
@@ -216,12 +216,13 @@ class MAF(object):
 
 
 def mapqFromProb(probString):
+    mapqMaximum = 100
     try: p = float(probString)
     except ValueError: raise Exception("bad probability: " + probString)
     if p < 0 or p > 1: raise Exception("bad probability: " + probString)
     if p == 0: return mapqMaximum
     phred = -10 * math.log(p, 10)
-    if phred >= mapqMaximumNum: return mapqMaximum
+    if phred >= mapqMaximum: return str(mapqMaximum)
     return str(int(round(phred)))
 
 
