@@ -8,6 +8,21 @@ from bioconvert.bam2bed import BAM2BED
 from bioconvert.scripts import converter
 
 
+
+def test_converter_wrong_input_file():
+    with TempFile(suffix=".fasta") as tempfile1, TempFile(suffix=".fasta") as tempfile2:
+        cmd = "bioconvert fastq2fasta {} {} --force".format("missing.fastq", tempfile1.name)
+        p = subprocess.Popen(cmd, shell=True)
+        assert p.wait() == 1
+        import sys
+        sys.argv = ["bioconvert", "fastq2fasta", "missing.fastq", tempfile2.name, "--force"]
+        try:
+            converter.main()
+            assert False
+        except:
+            assert True
+
+
 def test_converter():
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
     with TempFile(suffix=".fasta") as tempfile1, TempFile(suffix=".fasta") as tempfile2:
@@ -19,6 +34,7 @@ def test_converter():
         converter.main()
         assert md5(tempfile1.name) == md5(tempfile2.name)
 
+
 def test_converter_without_converter():
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
     with TempFile(suffix=".fasta") as tempfile1, TempFile(suffix=".fasta") as tempfile2:
@@ -29,6 +45,7 @@ def test_converter_without_converter():
         sys.argv = ["bioconvert", infile, tempfile2.name, "--force"]
         converter.main()
         assert md5(tempfile1.name) == md5(tempfile2.name)
+
 
 @pytest.mark.skipif(BAM2BED._method_bedtools.is_disabled, reason="missing dependencies")
 def test_converter2():
@@ -344,3 +361,15 @@ def test_conversion_graph():
         converter.main()
     except SystemExit as e:
         assert e.code == 0
+
+
+def test_converter_benchmark():
+    infile = bioconvert_data("test_fastq2fasta_v1.fastq")
+    with TempFile(suffix=".fasta") as tempfile1, TempFile(suffix=".fasta") as tempfile2:
+        cmd = "bioconvert fastq2fasta {} {} --force -b".format(infile, tempfile1.name)
+        p = subprocess.Popen(cmd, shell=True)
+        assert p.wait() == 0
+        import sys
+        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile2.name, "--force", "-b"]
+        converter.main()
+        assert md5(tempfile1.name) == md5(tempfile2.name)
