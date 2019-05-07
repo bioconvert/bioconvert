@@ -129,10 +129,14 @@ singularity on a Linux plaform, just download and execute this :download:`instal
 
 For other version, or to install singularity on windows or Mac, please check out the singularity website singularity `<http://singularity.lbl.gov/>`_
 
-First, download the container::
+First, download the container. For the latest version::
 
     singularity pull --name bioconvert.img shub://bioconvert/bioconvert:latest
-    
+
+or for a specific version::
+
+    singularity pull --name bioconvert.img shub://bioconvert/bioconvert:0_3_0
+
 You can then create an alias::
 
     alias bioconvert="singularity run bioconvert.simg bioconvert"
