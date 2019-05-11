@@ -204,7 +204,7 @@ class Fastq2Fasta(ConvBase):
 
     @requires("perl")
     def _method_perl(self, *args, **kwargs):
-        perlcmd = "perl {}".format(bioconvert_script("fastqToFasta.pl"))
+        perlcmd = "perl {}".format(bioconvert_script("fastq2fasta.pl"))
         cmd = "{} {} {}".format(perlcmd, self.infile, self.outfile)
         self.execute(cmd)
 
@@ -227,7 +227,7 @@ class Fastq2Fasta(ConvBase):
 
     """@requires_nothing
     def _method_python_external(self, *args, **kwargs):
-        pycmd = "python {}".format(bioconvert_script("fastqToFasta.py"))
+        pycmd = "python {}".format(bioconvert_script("fastq2fasta.py"))
         cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)
         self.execute(cmd)
     """
