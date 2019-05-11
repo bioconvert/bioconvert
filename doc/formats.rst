@@ -4,13 +4,27 @@ Formats
 ==========
 
 
+.. _format_abi:
+
 ABI
 ----------
-:type: sequence
+:Type: sequence
 
-File format produced by ABI sequencing machine. It produces ABI "Sanger" capillary sequence
 traces files, including the PHRED quality scores for the base calls.
 This allows ABI to FASTQ conversion. Note that each ABI file contains one and only one sequence (no need for indexing the file). The trace data contains probablities of the four nucleotide bases along the sequencing run together with the sequence deduced from that data. ABI trace is a binary format.
+
+File format produced by ABI sequencing machine. It produces ABI "Sanger" capillary sequence
+
+
+
+.. admonition:: Bioconvert conversions:
+
+    - :class:`~bioconvert.abi2qual.ABI2QUAL`
+    - :class:`~bioconvert.abi2fastq.ABI2FASTQ`
+    - :class:`~bioconvert.abi2fasta.ABI2FASTA`
+
+.. seealso:: :ref:`scf`, :class:`~bioconvert.scf2fasta.SCF2Fasta`, 
+    :class:`~bioconvert.scf2fastq.SCF2Fastq`, 
 
 
 .. admonition::  References
@@ -19,16 +33,14 @@ This allows ABI to FASTQ conversion. Note that each ABI file contains one and on
     - https://github.com/jkbonfield/io_lib/
     - http://www6.appliedbiosystems.com/support/software_community/ABIF_File_Format.pdf
 
-.. seealso:: :ref:`scf`, :class:`~bioconvert.scf2fasta.SCF2Fasta`, 
-    :class:`~bioconvert.scf2fastq.SCF2Fastq`, 
-    :class:`~bioconvert.abi2fastq.ABI2FASTQ`,
-    :class:`~bioconvert.abi2fasta.ABI2FASTA`
 
+.. _format_asqg:
 
 ASQG
 --------------
 
 :type: assembly
+:status: deprecated format not included in **Bioconvert**
 
 The ASQG format describes an assembly graph. Each line is a tab-delimited
 irecord. The first field in each record describes the record type. The three
@@ -43,12 +55,14 @@ types are:
   overlapping sequences. A full description of this field is below. Subsequent
   fields contain optional tags.
 
-.. admonition: References
+
+.. admonition:: References
 
     - https://github.com/jts/sga/wiki/ASQG-Format
 
+
 Example
-~~~~~~~~~~~~~~~~
+~~~~~~~
 
 ::
 
@@ -60,9 +74,15 @@ Example
     ED  read3 read2 0 47 50 2 49 50 0 0
 
 
+BAI format
+----------
+
+The index file of a BAM file is a BAI file format. The BAI files are 
+not used in **Bioconvert**.
+
 
 BAM format
----------------
+----------
 
 :reference: http://samtools.github.io/hts-specs/SAMv1.pdf
 

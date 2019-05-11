@@ -3,6 +3,7 @@ Whats' new, what has changed
 
 :Revision 0.3.1:
 
+    - NEW convertor: abi2qual
     - fastq2fasta: (i) remove quality-file option to export qual (ii) remove
 method python_external (issues #215)
     - updatet setup.py to include all scripts in ./misc package (#214)

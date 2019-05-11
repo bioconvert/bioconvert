@@ -11,7 +11,19 @@ Note that formats mentionned here below have dedicated description in the
     ABI
 
         File format produced by ABI sequencing machines. Contains the trace data
-        which includes probabilities of the four nucleotides. 
+        which includes probabilities of the four nucleotides. See
+        the :ref:`format_abi` format page for details.
+
+    ASQG
+
+       The ASQG format describes an assembly graph. Each line is a tab-delimited
+       record. The first field in each record describes the record type. See the
+       :ref:`format_asqg` page for details.
+
+    BAI
+
+        The index file related to file generated in the BAM format. (This is a
+        non-standard file type.)
 
     BAM
 
@@ -35,10 +47,6 @@ Note that formats mentionned here below have dedicated description in the
 
         BPLINK
 
-    BAI
-
-        The index file for a file generated in the BAM format. (This is a
-        non-standard file type.)
 
     BZ2
 
