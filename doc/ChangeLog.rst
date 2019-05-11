@@ -3,7 +3,10 @@ Whats' new, what has changed
 
 :Revision 0.3.1:
 
-    - update bioconvert_stats tool
+    - fastq2fasta: (i) remove quality-file option to export qual (ii) remove
+method python_external (issues #215)
+    - updatet setup.py to include all scripts in ./misc package (#214)
+    - More features in bioconvert_stats standalone
     - update the singularity recipes for v 0.3.0
     - update bioconda recipes (on bioconda-recipes)
     - Fix https://github.com/bioconvert/bioconvert/issues/204
