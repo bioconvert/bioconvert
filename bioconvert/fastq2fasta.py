@@ -225,11 +225,12 @@ class Fastq2Fasta(ConvBase):
                     line = mapp.readline()
                 mapp.close()
 
-    @requires_nothing
+    """@requires_nothing
     def _method_python_external(self, *args, **kwargs):
         pycmd = "python {}".format(bioconvert_script("fastqToFasta.py"))
         cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)
         self.execute(cmd)
+    """
 
     """@classmethod
     def get_additional_arguments(cls):
