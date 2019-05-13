@@ -62,7 +62,7 @@ install:
   - pip install biocode
 
   # May 11 2019, error on travis in osx https://github.com/MTG/sms-tools/issues/36
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; mkdir -p ~/.matplotlib; echo "backend: TkAgg" > ~/.matplotlib/matplotlibrc
+  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; mkdir -p ~/.matplotlib; echo "backend: TkAgg" > ~/.matplotlib/matplotlibrc
 
 
 
