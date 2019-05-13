@@ -1,6 +1,6 @@
 
 Core functions
-----------------------
+--------------
 
 .. autosummary::
 

@@ -1,11 +1,11 @@
 .. _formats:
 
 Formats
-==========
+=======
 
 
 ABI
-----------
+---
 :type: sequence
 
 File format produced by ABI sequencing machine. It produces ABI "Sanger" capillary sequence
@@ -26,7 +26,7 @@ This allows ABI to FASTQ conversion. Note that each ABI file contains one and on
 
 
 ASQG
---------------
+----
 
 :type: assembly
 
@@ -48,7 +48,7 @@ types are:
     - https://github.com/jts/sga/wiki/ASQG-Format
 
 Example
-~~~~~~~~~~~~~~~~
+~~~~~~~
 
 ::
 
@@ -62,21 +62,21 @@ Example
 
 
 BAM format
----------------
+----------
 
 :reference: http://samtools.github.io/hts-specs/SAMv1.pdf
 
 
 
 BED format
----------------
+----------
 
 :reference: http://genome.ucsc.edu/FAQ/FAQformat.html#format1
 
 BED file must has at least 3 columns (chrom, start, end).
 
 FastA
-----------
+-----
 
 This refers to the input FASTA file format where each record starts 
 with a ">" line. Resulting sequences have a generic alphabet by default.   
@@ -85,7 +85,7 @@ their is a plethora of ad-hoc file extensions: fasta, fas, fa, seq, fsa, fna, ff
 
 
 FastG
-----------
+-----
 
 :type: assembly
 :reference: http://fastg.sourceforge.net/FASTG_Spec_v1.00.pdf
@@ -93,7 +93,7 @@ FastG
 
 
 FastQ
----------------
+-----
 
 FASTQ files include sequences and their qualities. In general, *fastq*
 refers to Sanger style FASTQ files which encode PHRED qualities using an
@@ -105,13 +105,13 @@ Be aware that there are different FASTQ formats for different sequencing technol
 
 
 GFA format
--------------
+----------
 
 :type: assembly graph
 :references: http://gfa-spec.github.io/GFA-spec/,
 
 Overview
-~~~~~~~~~~
+~~~~~~~~
 
 The Graphical Fragment Assembly (GFA) can be used to represent genome
 assemblies. GFA stores sequence graphs as the product of an
@@ -125,7 +125,7 @@ A **containment** line starts with C. A **path** line starts with P.
 
 
 Terminology
-~~~~~~~~~~~~~
+~~~~~~~~~~~
 - Segment a continuous sequence or subsequence.
 - Link an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
 - Containment an overlap between two segments where one is contained in the other.
@@ -134,7 +134,7 @@ Terminology
 See details in the reference above.
 
 Example:
-~~~~~~~~~
+~~~~~~~~
 
 ::
 
@@ -153,7 +153,7 @@ Convertion to fasta will store this fourth line after the name.
 
 
 GFA version 2
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 GFA2 is a generalization of GFA that allows one to specify an assembly graph in
 either less detail, e.g. just the topology of the graph, or more detail, e.g.
@@ -167,14 +167,14 @@ Like GFA, GFA2 is tab-delimited in that every lexical token is separated from
 the next by a single tab.
 
 Nexus
------------
+-----
 
 The NEXUS multiple alignment format, also known as PAUP format. 
 
 
 
 PAF (Pairwise mApping Format)
---------------------------------
+-----------------------------
 
 :reference: https://github.com/lh3/miniasm/blob/master/PAF.md
 
@@ -209,7 +209,7 @@ A PAF file may optionally contain SAM-like typed key-value pairs at the end of
 each line.
 
 PLINK flat files (MAP/PED)
--------------------------------
+--------------------------
 
 PLINK is a used application for analyzing genotypic data. It can be considered  the de-facto standard of the field. The MAP files describes the SNPs and contains those fields:
 
@@ -244,7 +244,7 @@ missing data are coded as "0 0". So we havez N lines 2L + 6 columns where N is
 the number of individuals and L the numbers of SNPs
 
 PLINK binary files (BED/BIM/FAM)
--------------------------------------
+--------------------------------
 Same information as plink flat files. 
 
 BED for plink
@@ -253,7 +253,7 @@ This BED format  is the binary PED file. Not to be confused with BED format used
 with BAM files.
 
 BIM files
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
 
 The fields are 
 
@@ -267,7 +267,7 @@ The fields are
 So, it is like the MAP with the 2 alleles, and the format is binary.
 
 FAM files
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
 
 The first 6 columns of the PED file.
 
@@ -277,7 +277,7 @@ The first 6 columns of the PED file.
 
 
 SAM format
--------------
+----------
 
 :reference: https://samtools.github.io/hts-specs/SAMv1.pdf
 
@@ -380,7 +380,7 @@ Private data size                      Private data
 
 
 Stockholm
---------------
+---------
 
 The Stockholm alignment format is also known as PFAM format.   
 
@@ -389,7 +389,7 @@ The Stockholm alignment format is also known as PFAM format.
 
 
 Wiggle Track format (WIG)
-------------------------------
+-------------------------
 
 :reference: http://genome.ucsc.edu/goldenPath/help/wiggle.html
 

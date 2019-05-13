@@ -1,12 +1,12 @@
 Converters not provided
-==============================
+=======================
 
 Some converters will not be provided for now. Here is a list and the reason why
 it is not provided.
 
 
 bcl2fastq
------------------
+---------
 
 Illumina provides a bcl2fastq file and its user guide is available online.
 
@@ -19,7 +19,7 @@ http://bioinformatics.cvr.ac.uk/blog/how-to-demultiplex-illumina-data-and-genera
 
 
 pdb2gmx
--------------
+-------
 
 This program reads a .pdb (or .gro) file, reads some database files, adds
 hydrogens to the molecules and generates coordinates in GROMACS (GROMOS), or

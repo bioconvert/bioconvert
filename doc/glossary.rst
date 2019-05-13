@@ -1,5 +1,5 @@
 Glossary
-===========
+========
 
 
 Note that formats mentionned here below have dedicated description in the

@@ -43,3 +43,14 @@ or ::
 
 Conda related
 '''''''''''''
+
+test ::
+
+    >>> registry
+    {('fastq', 'fasta'): ["fastq2fasta"],
+    ('fastq', 'fa'): ["fastq2fasta","truc2machin"],
+    ('fastq', 'fst'): ["fastq2fasta"],
+    ('fq', 'fasta'): ["fastq2fasta"],
+    ('fq', 'fa'): ["fastq2fasta"],
+    ('fq', 'fst'): ["fastq2fasta"],
+    ('truc', 'machin'): ["truc2machin"]}

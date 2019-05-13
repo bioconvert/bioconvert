@@ -1,5 +1,5 @@
 Bioconvert
-####################
+##########
 
 Bioconvert is a collaborative project to facilitate the interconversion of life science data from one format to another.
 
@@ -31,7 +31,7 @@ Bioconvert is a collaborative project to facilitate the interconversion of life 
    :width: 80%
 
 Overview
-################
+########
 
 Life science uses many different formats. They may be old, or with complex
 syntax and converting those formats may be a challenge. **bioconvert** aims at providing a common tool / interface to convert life science data formats from one to another.
@@ -51,7 +51,7 @@ better than existing ones.
 
 
 Installation
-###############
+############
 
 In order to install bioconvert, you can use **pip**::
 
@@ -78,7 +78,7 @@ Otherwise, please see the instructions on `bioconda <https://bioconda.github.io/
 `Sequana <http://sequana.readthedocs.io/en/master/installation.html#from-bioconda-recommended>`_.
 
 Usage
-##########
+#####
 
 From the command line, you can convert a fastq to fasta as follows (compressed
 or not)::
@@ -103,7 +103,7 @@ From Python shell::
 
 
 User and Developer Guides
-#############################
+#########################
 
 .. toctree::
     :maxdepth: 2
@@ -117,6 +117,7 @@ User and Developer Guides
     formats
     not_provided
     faqs
+    tutorial
     glossary
     ChangeLog.rst
 

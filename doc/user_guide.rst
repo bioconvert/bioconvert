@@ -1,8 +1,8 @@
 User Guide
-============
+==========
 
 Usage
-------------
+-----
 
 You can use **bioconvert** from a developer point of view, or as an end-user.
 Here we describe the standalone application that is::
@@ -53,12 +53,12 @@ the --force argument::
 
 
 Installation
--------------
+------------
 
 **RECOMMENDED installation: Bioconda**
 
 pip or conda methods
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 For users, **bioconvert** is installed with the package **bioconvert** available on Pypi so you can type::
 
@@ -72,7 +72,7 @@ Note that you will need to set up the **bioconda** channel (see below for
 details).
 
 conda / bioconda method
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -107,7 +107,7 @@ bioconvert as follows::
 
 
 Singularity
-------------
+-----------
 
 For production, we would recommend to use the singularity container.
 
@@ -141,7 +141,7 @@ You can then create an alias::
 
 
 Parallelization
---------------------
+---------------
 
 
 Some converters can use several threads, but if you have hundreds of files and

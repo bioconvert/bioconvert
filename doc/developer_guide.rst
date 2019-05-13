@@ -1,11 +1,11 @@
 .. _developer_guide:
 
 Developer guide
-=================
+===============
 
 
 How to add a new converter ?
------------------------------------
+----------------------------
 
 For now, converters are simple conversion from one format to another one.
 There is no third-party file. For instance, if you need a reference file, this
@@ -59,7 +59,7 @@ appropriate method (e.g. _method_samtools).
 
 
 How to add a new method
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 As shown above, use this coding::
 
@@ -134,7 +134,7 @@ been defined in ``bioconvert/core/decorators.py`` that can be used to "flag" or
 https://stackoverflow.com/a/1594484/1878788.)
 
 How to add a test and test file
------------------------------------
+-------------------------------
 
 Go to  ./test and add a file named ``test_fastq2fasta.py``
 
@@ -190,7 +190,7 @@ Or, to run a specific test file, for example for your new convertor fastq2fasta:
 
 
 How to benchmark your new method vs others
---------------------------------------------------
+------------------------------------------
 
 ::
 
@@ -204,7 +204,7 @@ you can also use the **bioconvert** standalone with -b option.
 
 
 How to add you new converter to the main documentation ?
------------------------------------------------------------
+--------------------------------------------------------
 
 Edit the doc/references.rst and add those lines ::
 
@@ -214,7 +214,7 @@ Edit the doc/references.rst and add those lines ::
 
 
 pep8 and conventions
--------------------------
+--------------------
 
 In order to write your Python code, use PEP8 convention as much as possible.
 Follow the conventions used in the code. For instance,
@@ -259,7 +259,7 @@ For instance::
     $ flake8 bioconvert/fastq2fasta.py
 
 Requirements files
-------------------------
+------------------
 
 - requirements.txt : should contain the packages to be retrieved from Pypi only.
   Those are downloaded and installed (if missing) when using
