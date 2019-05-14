@@ -3,11 +3,18 @@
 Formats
 ==========
 
+Here below, we provide a list of formats used in bioinformatics or computational
+biology. Most of these formats are used in **Bioconvert** and available for
+conversion to another formats. Some are available for book-keeping. 
+
+We hope that this page will be useful to all developers and scientists. Would
+you like to contribute, please edit the file in our github **doc/formats.rst**.
+
 
 .. _format_abi:
 
 ABI
-----------
+---
 :Type: sequence
 
 traces files, including the PHRED quality scores for the base calls.
@@ -37,13 +44,13 @@ File format produced by ABI sequencing machine. It produces ABI "Sanger" capilla
 .. _format_asqg:
 
 ASQG
---------------
+----
 
-:type: assembly
+:Type: assembly
 :status: deprecated format not included in **Bioconvert**
 
 The ASQG format describes an assembly graph. Each line is a tab-delimited
-irecord. The first field in each record describes the record type. The three
+record. The first field in each record describes the record type. The three
 types are:
 
 - HT: Header record. This record contains metadata tags for the file version
@@ -51,20 +58,19 @@ types are:
   overlap length).
 - VT: Vertex records. The second field contains the vertex identifier, the
   third field contains the sequence. Subsequent fields contain optional tags.
-- ED: Edge description records. The second field describes a pair of
-  overlapping sequences. A full description of this field is below. Subsequent
-  fields contain optional tags.
+- ED: Edge description records. Fields are:
+    - sequence 1 name
+    - sequence 2 name
+    - sequence 1 overlap start (0 based)
+    - sequence 1 overlap end (inclusive)
+    - sequence 1 length
+    - sequence 2 overlap start (0 based)
+    - sequence 2 overlap end (inclusive)
+    - sequence 2 length
+    - sequence 2 orientation (1 for reversed with respect to sequence 1)
+    - number of differences in overlap (0 for perfect overlaps, which is the default).
 
-
-.. admonition:: References
-
-    - https://github.com/jts/sga/wiki/ASQG-Format
-
-
-Example
-~~~~~~~
-
-::
+Example::
 
     HT  VN:i:1  ER:f:0  OL:i:45 IN:Z:reads.fa   CN:i:1  TE:i:0
     VT  read1   GATCGATCTAGCTAGCTAGCTAGCTAGTTAGATGCATGCATGCTAGCTGG
@@ -73,30 +79,73 @@ Example
     ED  read2 read1 0 46 50 3 49 50 0 0
     ED  read3 read2 0 47 50 2 49 50 0 0
 
+.. admonition:: References
 
-BAI format
-----------
+    - https://github.com/jts/sga/wiki/ASQG-Format
+
+
+.. _bai_format:
+
+BAI
+---
 
 The index file of a BAM file is a BAI file format. The BAI files are 
-not used in **Bioconvert**.
+not used in **Bioconvert**. 
 
+.. _bam_format:
 
-BAM format
-----------
+BAM
+---
 
-:reference: http://samtools.github.io/hts-specs/SAMv1.pdf
+:Type: Sequence alignement
 
+The BAM (Binary Alignment Map) is the binary version of the Sequence 
+Alignment Map (:ref:`SAM`) format.
 
+.. admonition:: Bioconvert Conversions
 
-BED format
----------------
+    - :class:`~bioconvert.bam2sam.BAM2SAM`
+    - :class:`~bioconvert.bam2cram.BAM2CRAM`
+    - :class:`~bioconvert.bam2bedgraph.BAM2BEDGRAPH`
+    - :class:`~bioconvert.bam2bed.BAM2BED`
+    - :class:`~bioconvert.bam2bigwig.BAM2BIGWIG`
+    - :class:`~bioconvert.bam2fasta.BAM2FASTA`
+    - :class:`~bioconvert.bam2fastq.BAM2FASTQ`
+    - :class:`~bioconvert.bam2json.BAM2JSON`
+    - :class:`~bioconvert.bam2tsv.BAM2TSV`
+    - :class:`~bioconvert.bam2wiggle.BAM2WIGGLE`
+
+.. admonition:: References
+
+    - http://samtools.github.io/hts-specs/SAMv1.pdf
+    - http://genome.ucsc.edu/goldenPath/help/bam.html
+
+.. seeqlso::
+
+.. _bedgraph_format:
+
+BEDGRAPH
+--------
+
+.. _bed_format:
+
+BED
+---
 
 :reference: http://genome.ucsc.edu/FAQ/FAQformat.html#format1
 
 BED file must has at least 3 columns (chrom, start, end).
 
+.. _bigwig_format:
+
+BIGWIG
+------
+
+
 FastA
-----------
+-----
+
+:Type: Sequence
 
 This refers to the input FASTA file format where each record starts 
 with a ">" line. Resulting sequences have a generic alphabet by default.   
@@ -105,15 +154,15 @@ their is a plethora of ad-hoc file extensions: fasta, fas, fa, seq, fsa, fna, ff
 
 
 FastG
-----------
+-----
 
 :type: assembly
 :reference: http://fastg.sourceforge.net/FASTG_Spec_v1.00.pdf
 
-
+.. _fastq_format:
 
 FastQ
----------------
+-----
 
 FASTQ files include sequences and their qualities. In general, *fastq*
 refers to Sanger style FASTQ files which encode PHRED qualities using an
@@ -122,10 +171,10 @@ variants used in early Solexa/Illumina pipelines, Illumina pipeline 1.8 produces
 Be aware that there are different FASTQ formats for different sequencing technologiess
 
 
+.. _gfa_format:
 
-
-GFA format
--------------
+GFA
+---
 
 :type: assembly graph
 :references: http://gfa-spec.github.io/GFA-spec/,
@@ -185,6 +234,15 @@ other assembly and variation graph types.
 
 Like GFA, GFA2 is tab-delimited in that every lexical token is separated from
 the next by a single tab.
+
+.. _json_format:
+
+JSON
+----
+
+TODO
+
+.. _nexus_format:
 
 Nexus
 -----------
@@ -267,6 +325,16 @@ PLINK binary files (BED/BIM/FAM)
 -------------------------------------
 Same information as plink flat files. 
 
+.. _qual_format:
+
+QUAL
+----
+
+:Type: Sequence
+
+TODO
+
+
 BED for plink
 ~~~~~~~~~~~~~~
 This BED format  is the binary PED file. Not to be confused with BED format used
@@ -286,19 +354,20 @@ The fields are
 
 So, it is like the MAP with the 2 alleles, and the format is binary.
 
-FAM files
-~~~~~~~~~~~~~~~~~~~~~~~
+.. _fam_format:
+
+FAM 
+~~~
 
 The first 6 columns of the PED file.
 
 
-
-
-
+.. _sam_format:
 
 SAM format
 -------------
 
+:Type: Sequence alignment
 :reference: https://samtools.github.io/hts-specs/SAMv1.pdf
 
 
@@ -400,7 +469,7 @@ Private data size                      Private data
 
 
 Stockholm
---------------
+---------
 
 The Stockholm alignment format is also known as PFAM format.   
 
@@ -409,7 +478,7 @@ The Stockholm alignment format is also known as PFAM format.
 
 
 Wiggle Track format (WIG)
-------------------------------
+-------------------------
 
 :reference: http://genome.ucsc.edu/goldenPath/help/wiggle.html
 
@@ -422,3 +491,71 @@ or data that contains elements of varying size.
 
 For speed and efficiency, wiggle data is compressed with a minor loss of precision when
 data is exported from a wiggle track.
+
+
+TODO
+-------
+bcf2vcf.py
+bcf2wiggle.py
+bigbed2wiggle.py
+bigwig2bedgraph.py
+bigwig2wiggle.py
+bplink2plink.py
+clustal2fasta.py
+clustal2nexus.py
+clustal2phylip.py
+clustal2stockholm.py
+csv2tsv.py
+csv2xls.py
+dsrc2gz.py
+embl2fasta.py
+embl2genbank.py
+fasta2clustal.py
+fasta2genbank.py
+fasta2nexus.py
+fasta2phylip.py
+fasta2twobit.py
+genbank2embl.py
+genbank2fasta.py
+genbank2gff3.py
+gfa2fasta.py
+gff22gff3.py
+gff3gff2.py
+gz2bz2.py
+gz2dsrc.py
+json2yaml.py
+maf2sam.py
+newick2nexus.py
+newick2phyloxml.py
+nexus2clustal.py
+nexus2newick.py
+nexus2phylip.py
+nexus2phyloxml.py
+ods2csv.py
+phylip2clustal.py
+phylip2fasta.py
+phylip2nexus.py
+phylip2stockholm.py
+phylip2xmfa.py
+phyloxml2newick.py
+phyloxml2nexus.py
+plink2bplink.py
+plink2vcf.py
+sam2paf.py
+scf2fasta.py
+scf2fastq.py
+sra2fastq.py
+stockholm2clustal.py
+stockholm2phylip.py
+tsv2csv.py
+twobit2fasta.py
+vcf2bcf.py
+vcf2bed.py
+vcf2bplink.py
+vcf2plink.py
+vcf2wiggle.py
+wig2bed.py
+xls2csv.py
+xlsx2csv.py
+xmfa2phylip.py
+yaml2json.py
