@@ -237,7 +237,9 @@ html_last_updated_fmt = '%b %d, %Y'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
-#html_use_smartypants = True
+#html_use_smartypants = False
+
+smartquotes = True
 
 # Custom sidebar templates, maps document names to template names.
 html_index = 'index.html'
@@ -333,4 +335,6 @@ man_pages = [
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {
+    "python": ('http://docs.python.org/', None),
+}

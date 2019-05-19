@@ -3,22 +3,22 @@ Whats' new, what has changed
 
 :Revision 0.3.1:
 
-    - NEW convertor: abi2qual
+    - NEW converter: abi2qual
     - fastq2fasta: (i) remove quality-file option to export qual (ii) remove
-method python_external (issues #215)
+      method python_external (issues #215)
     - updatet setup.py to include all scripts in ./misc package (#214)
     - More features in bioconvert_stats standalone
     - update the singularity recipes for v 0.3.0
     - update bioconda recipes (on bioconda-recipes)
     - Fix https://github.com/bioconvert/bioconvert/issues/204
 
-:Revision 0.3.0:
+:Revision 0.3.0: April/May 2019
 
     - refactoring of the core including the implementation of an implicit
       conversion. So, we can use bioconvert without specifying the conversion
       when there is no ambiguity (based on the extensions provided).
-    - Working version for pypi
-    - new convertors: wig2bed
+    - New working version for pypi.
+    - new converters: wig2bed
     - new methods in various converters related to  phylogeny
     - Fixing the goalign and gotree scripts 
     - Fixing all tests on Travis
@@ -38,7 +38,6 @@ method python_external (issues #215)
     - add script called bioconvert_stats
     - refactorise scf2fasta and sc2fastq putting common code in utils.scf
     - update go version in requirements + update of modules using go
-    - update doc
 
 :Revision 0.1.1:
 
@@ -67,8 +66,8 @@ method python_external (issues #215)
 
 :Revision 0.0.12:
 
-    - new converters: embl2fasta and embl2genbank, fasta2twobit and twobit2fasta
-        fasta2fasta, sra2fastq
+    - new converters: embl2fasta, embl2genbank, fasta2twobit, twobit2fasta
+      fasta2fasta, sra2fastq
     - refactoring of the extensions framework to simplify the code
 
 

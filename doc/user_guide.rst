@@ -4,6 +4,9 @@ User Guide
 Usage
 ------------
 
+Explicit conversion
+~~~~~~~~~~~~~~~~~~~
+
 You can use **bioconvert** from a developer point of view, or as an end-user.
 Here we describe the standalone application that is::
 
@@ -34,12 +37,12 @@ where the extensions can actually be whatever you want.
 If you do not provide the output file, it will be created based on the input
 filename by replacing the extension automatically. So this command::
 
-    bioconvert fastq2fasta  input.fq
+    bioconvert fastq2fasta input.fq
 
 generates an output file called *input.fasta*. Note that it will be placed in
 the same directory as the input file, not locally. So::
 
-    bioconvert fastq2fasta  ~/test/input.fq
+    bioconvert fastq2fasta ~/test/input.fq
 
 will create the *input.fasta* file in the ~/test directory.
 
@@ -48,100 +51,19 @@ the --force argument::
 
     bioconvert fastq2fasta  input.fq output.fa --force
 
+Implicit conversion
+~~~~~~~~~~~~~~~~~~~
 
+If the extensions match the conversion name, you can perform implicit
+conversion::
 
+    bioconvert input.fastq output.fasta
 
+Internally, a format  may be registered with several extensions. For instance
+the extensions possible for a FastA file are ``fasta`` and ``fa`` so you can
+also write::
 
-Installation
--------------
-
-**RECOMMENDED installation: Bioconda**
-
-pip or conda methods
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-For users, **bioconvert** is installed with the package **bioconvert** available on Pypi so you can type::
-
-    pip install bioconvert
-
-This method installs bioconvert and its Python dependencies (available on Pypi website). Note, however, that **bioconvert** may use (depending on the conversion you want to use) external dependencies not available on Pypi. You will need to install those third-party dependencies yourself. An alternative is to install bioconvert using **conda** using::
-
-    conda install bioconvert
-
-Note that you will need to set up the **bioconda** channel (see below for
-details).
-
-conda / bioconda method
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-    conda config --add channels r
-    conda config --add channels defaults
-    conda config --add channels conda-forge
-    conda config --add channels bioconda
-
-.. warning:: it is important to add them in this order, as mentionned on bioconda webpage    (https://bioconda.github.io/).
-
-If you have already set the channels, please check that the order is correct.
-With the following command::
-
-    conda config --get channels
-
-You should see::
-
-    --add channels 'r'   # lowest priority
-    --add channels 'defaults'
-    --add channels 'conda-forge'
-    --add channels 'bioconda'   # highest priority
-
-Finally, get the source, install the dependencies using conda, and install
-bioconvert as follows::
-
-    git clone https://github.com/bioconvert/bioconvert
-    cd bioconvert
-    conda install --file requirements.txt
-    conda install --file requirements_tools.txt
-    conda install --file requirements_dev.txt
-    python setup.py install
-
-
-Singularity
-------------
-
-For production, we would recommend to use the singularity container.
-
-This method will download a file (container) with everything pre-compiled and
-pre-installed with the latest version available on Pypi.
-
-First, you will need to install singularity. To install the version 2.4 of
-singularity on a Linux plaform, just download and execute this :download:`install_singularity.sh` bash script, or just type these commands::
-
-    VERSION=2.4
-    wget https://github.com/singularityware/singularity/releases/download/$VERSION/singularity-$VERSION.tar.gz
-    tar xvf singularity-$VERSION.tar.gz
-    cd singularity-$VERSION
-    ./configure --prefix=/usr/local
-    make
-    sudo make install
-
-.. note:: here we need to be sudo, but you can install singularity localy if needed. 
-
-For other version, or to install singularity on windows or Mac, please check out the singularity website singularity `<http://singularity.lbl.gov/>`_
-
-First, download the container. For the latest version::
-
-    singularity pull --name bioconvert.img shub://bioconvert/bioconvert:latest
-
-or for a specific version::
-
-    singularity pull --name bioconvert.img shub://bioconvert/bioconvert:0_3_0
-
-You can then create an alias::
-
-    alias bioconvert="singularity run bioconvert.simg bioconvert"
-
-
+    bioconvert input.fastq output.fa
 
 
 Parallelization
