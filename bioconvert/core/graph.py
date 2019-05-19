@@ -21,12 +21,16 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-""" description """
+"""Network tools to manipulate the graph of conversion"""
 from os import environ
 
 import colorlog
 
 _log = colorlog.getLogger(__name__)
+
+
+__all__ = ["create_graph", "get_conversions_wrapped",
+           "create_graph_for_cytoscape"]
 
 
 def create_graph(filename, layout="dot", use_singularity=False, color_for_disabled_converter='red'):
@@ -62,7 +66,8 @@ strict digraph{
     node [label="\\N"];
 
     """
-        nodes = set([item for items in rr.get_all_conversions() for item in items[0:1]])
+        nodes = set([item for items in rr.get_all_conversions() 
+            for item in items[0:1]])
 
         for node in nodes:
             dot += "\"{}\";\n".format(node)
@@ -110,7 +115,8 @@ def get_conversions_wrapped(registry, all_conversions=False):
 def create_graph_for_cytoscape(all_converter=False):
     """
 
-    :param all_converter:use all converter or only the one available in the current installation
+    :param all_converter: use all converters or only the ones 
+        available in the current installation
     :return:
     """
     from bioconvert.core.registry import Registry

@@ -20,11 +20,16 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
+"""List of formats and associated extensions"""
 from easydev import AttrDict
 
-# Formats can be of type sequence, alignment, variant, database (csv), binary
-# compression
+# Formats can be of type
+# - sequence
+# - alignment
+# - binary
+# - compression
+# - database
+# - variant
 
 extensions = {
     'abi': ["abi", "ab1"],                      # sequence
@@ -35,7 +40,7 @@ extensions = {
     'bigwig': ["bigwig"],
     'bigbed': ['bb'],
     'bz2': ['bz2'],                             # compression
-    'bplink':['bplink'],
+    'bplink': ['bplink'],
     'cdao': ["cdao"],                           # phylo
     'cram': ["cram"],                           # alignment
     'clustal': ["clustal", "aln", "clw"],       # phylo
@@ -50,8 +55,7 @@ extensions = {
     'gff3': ['gff3'],                           # annotation
     'gz': ['gz'],
     'json': ['json'],                           # database
-    'qual': ['qual'],                           # seauence
-    'maf': ["maf"],                             # !! this is MIRA format, not mutation alignment format
+    'maf': ["maf"],     # !! this is MIRA format, not mutation alignment format
     'newick': ["newick", "nw", "nhx", "nwk"],   # phylo
     'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo
     'ods': ['ods'],                             # database
@@ -59,18 +63,19 @@ extensions = {
     'phylip': ['phy', 'ph', 'phylip'],          # phylo
     'phyloxml': ['phyloxml', 'xml'],            # phylo
     'plink': ['plink'],
+    'qual': ['qual'],                           # seauence
     'sam': ["sam"],                             # alignement
     'scf': ["scf"],                             # alignement
     'sra': ["sra"],                             # sra format
     'stockholm': ['sto', 'sth', 'stockholm'],   # alignment
-    'vcf': ['vcf'],                             # variant
     'twobit': ['2bit'],                         # sequence
     'tsv': ["tsv"],                             # database
+    'vcf': ['vcf'],                             # variant
     'wiggle': ['wig'],
     'wig': ['wig'],
-    'xls':['xls'],                              # database
-    'xlsx':['xlsx'],                            # database
-    'xmfa':['xmfa'],
+    'xls': ['xls'],                             # database
+    'xlsx': ['xlsx'],                           # database
+    'xmfa': ['xmfa'],
     'yaml': ['yaml', 'YAML']                    # database
 
 
@@ -83,7 +88,7 @@ extensions = AttrDict(**extensions)
 # phyloxml    *.xml
 
 """
-ace     *.ace   1.47    No  1.52    Reads the contig sequences from an ACE assembly file. Uses Bio.Sequencing.Ace internally   
+ace     *.ace   1.47    No  1.52    Reads the contig sequences from an ACE assembly file. Uses Bio.Sequencing.Ace internally
 clustal     *.aln   1.43    1.43    No  The alignment format of Clustal X and
 Clustal W.  CLUSTAL format is recognised by the word CLUSTAL at the beginning of
 the file.
@@ -112,7 +117,6 @@ IntelliGenetics file format, apparently the same as the MASE alignment format.
 imgt    Unspecified (*.txt)     1.56    1.56    1.56    This refers to the IMGT
 variant of the EMBL plain text file format.
 
-
 phd     *.phd   1.46    1.52    1.52    PHD files are output from PHRED,
 used by PHRAP and CONSED for input. Uses Bio.Sequencing.Phd internally.
 
@@ -125,11 +129,6 @@ files produced by Roche 454 and IonTorrent/IonProton sequencing machines.
 
 swiss   *.sw    1.43    No  1.52    Swiss-Prot aka UniProt format. Uses
 Bio.SwissProt internally. See also the UniProt XML format.
-
-qual    *.qual  1.50    1.50    1.52    Qual files are a bit like FASTA files
-but instead of the sequence, record space separated integer sequencing values
-as PHRED quality scores. A matched pair of FASTA and QUAL files are often used
-as an alternative to a single FASTQ file.
 
 uniprot-xml     *.xml   1.56    No  1.56    UniProt XML format, successor to
 the plain text Swiss-Prot format.

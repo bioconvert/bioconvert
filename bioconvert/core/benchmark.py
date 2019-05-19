@@ -76,7 +76,7 @@ class Benchmark():
         """
         if isinstance(obj, str):
             raise NotImplementedError
-        
+
         self.converter = obj
         self.N = N
         self.results = None
