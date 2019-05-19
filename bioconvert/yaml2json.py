@@ -24,7 +24,8 @@
 ###########################################################################
 
 """Convert :term:`YAML` to :term:`JSON` format"""
-import yaml, json
+import yaml
+import json
 from bioconvert import ConvBase
 import colorlog
 
