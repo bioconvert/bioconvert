@@ -48,7 +48,7 @@ class VCF2BED(ConvBase):
     @requires("awk")
     def _method_awk(self, *args, **kwargs):
         """
-        do the conversion :term`VCF` -> :term:'BED` using awk
+        do the conversion :term:`VCF` -> :term:`BED` using awk
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.

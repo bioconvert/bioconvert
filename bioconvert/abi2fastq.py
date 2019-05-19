@@ -21,8 +21,9 @@ __all__ = ["ABI2FASTQ"]
 class ABI2FASTQ(ConvBase):
     """Convert :term:`ABI` file to :term:`FASTQ` file
 
-    :term:`ABI` files are created by ABI sequencing machine and includes PHREAD quality
-    scores for base calls. This allows the creation of :term:`FastQ` files. 
+    :term:`ABI` files are created by ABI sequencing machine and includes
+    PHRED quality scores for base calls. This allows the creation
+    of :term:`FastQ` files.
 
     """
 
@@ -42,5 +43,3 @@ class ABI2FASTQ(ConvBase):
         from Bio import SeqIO
         records = SeqIO.parse(self.infile, "abi")
         SeqIO.write(records, self.outfile, "fastq")
-
-

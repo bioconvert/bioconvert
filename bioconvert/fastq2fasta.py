@@ -25,8 +25,9 @@
 
 """Convert :term:`FASTQ` to :term:`FASTA`"""
 from bioconvert import ConvBase, bioconvert_script
-from bioconvert.core.base import ConvArg
-from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires, requires_nothing
+# from bioconvert.core.base import ConvArg
+from bioconvert.core.decorators import compressor, in_gz
+from bioconvert.core.decorators import requires, requires_nothing
 
 from mappy import fastx_read
 import mmap
@@ -36,10 +37,10 @@ class Fastq2Fasta(ConvBase):
     """Convert :term:`FASTQ` to :term:`FASTA`"""
 
     # use readfq for now because pure python are fast enough
-    # for production, could use seqtk which seems the fastest method though
-    # Make sure that the default handles also the compresssion
-    #input_ext = extensions.extensions.fastq
-    #output_ext =  extensions.fasta
+    # for production, could use seqtk which seems the fastest method
+    # though. Make sure that the default handles also the compresssion
+    # input_ext = extensions.extensions.fastq
+    # output_ext =  extensions.fasta
     _default_method = "readfq"
 
     @staticmethod
@@ -154,7 +155,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
-    @requires(external_binary = "bioawk")
+    @requires(external_binary="bioawk")
     @in_gz
     def _method_bioawk(self, *args, **kwargs):
         """This method uses bioawk, an implementation with convenient

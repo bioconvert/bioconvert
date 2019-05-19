@@ -34,20 +34,7 @@ __all__ = ["DSRC2GZ"]
 
 
 class DSRC2GZ(ConvBase):
-    """Convert compressed fastq.dsrc :term:`DSRC`file into fastq.gz compressed file
-
-    .. plot::
-
-         from bioconvert.dsrc2gz import DSRC2GZ
-         from bioconvert import bioconvert_data
-         from easydev import TempFile
-
-         with TempFile(suffix=".gz") as fh:
-             infile = bioconvert_data("test_SP1.fq.dsrc")
-             convert = DSRC2GZ(infile, fh.name)
-             convert.boxplot_benchmark()
-
-    """
+    """Convert compressed fastq.dsrc :term:`DSRC` file into fastq.gz file"""
     _default_method = "dsrcpigz"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -61,9 +48,8 @@ class DSRC2GZ(ConvBase):
 
     @requires("dsrc")
     def _method_dsrcpigz(self, *args, **kwargs):
-        """
-        do the conversion dsrc -> :term:'GZ`
-        """
+        """Do the conversion dsrc -> :term:`GZ`"""
+
         cmd = "dsrc d -s -t {threads} {input} | pigz -c -p {threads} > {output}"
         self.execute(cmd.format(
             threads=self.threads,

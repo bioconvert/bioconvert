@@ -95,7 +95,7 @@ class BAM2BED(ConvBase):
     @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
         """
-        do the conversion sorted :term`BAM` -> :term:'BED` using bedtools
+        do the conversion sorted :term:`BAM` -> :term:`BED` using bedtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
