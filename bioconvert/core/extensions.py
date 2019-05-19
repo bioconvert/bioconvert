@@ -23,36 +23,38 @@
 
 from easydev import AttrDict
 
+# Formats can be of type sequence, alignment, variant, database (csv), binary
+# compression
 
 extensions = {
     'abi': ["abi", "ab1"],                      # sequence
     'bam': ["bam"],                             # alignment
     'bcf': ["bcf"],                             # variant
-    'bed': ["bed"],                             # misc
-    'bedgraph': ["bedgraph"],
+    'bed': ["bed"],                             # database
+    'bedgraph': ["bedgraph"],                   # database
     'bigwig': ["bigwig"],
     'bigbed': ['bb'],
-    'bz2': ['bz2'],
+    'bz2': ['bz2'],                             # compression
     'bplink':['bplink'],
     'cdao': ["cdao"],                           # phylo
     'cram': ["cram"],                           # alignment
     'clustal': ["clustal", "aln", "clw"],       # phylo
-    'csv': ["csv"],
-    'dsrc': ['dsrc'],
+    'csv': ["csv"],                             # database
+    'dsrc': ['dsrc'],                           # compression
     'embl': ['embl'],                           # annotation/sequence
     'fasta': ["fasta", "fa", "fst"],            # sequence
     'fastq': ["fastq", "fq"],                   # sequence
     'genbank': ['genbank', 'gbk', "gb"],        # annotation/sequence
     'gfa': ['gfa'],                             # assembly
     'gff2': ['gff'],
-    'gff3': ['gff3'],                            # gff3 so far
+    'gff3': ['gff3'],                           # annotation
     'gz': ['gz'],
-    'json': ['json'],                           # misc
-    'qual': ['qual'],                           # quality file for fastq file
+    'json': ['json'],                           # database
+    'qual': ['qual'],                           # seauence
     'maf': ["maf"],                             # !! this is MIRA format, not mutation alignment format
     'newick': ["newick", "nw", "nhx", "nwk"],   # phylo
     'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo
-    'ods': ['ods'],
+    'ods': ['ods'],                             # database
     'paf': ['paf'],                             # assembly
     'phylip': ['phy', 'ph', 'phylip'],          # phylo
     'phyloxml': ['phyloxml', 'xml'],            # phylo
@@ -63,13 +65,13 @@ extensions = {
     'stockholm': ['sto', 'sth', 'stockholm'],   # alignment
     'vcf': ['vcf'],                             # variant
     'twobit': ['2bit'],                         # sequence
-    'tsv': ["tsv"],
+    'tsv': ["tsv"],                             # database
     'wiggle': ['wig'],
     'wig': ['wig'],
-    'xls':['xls'],
-    'xlsx':['xlsx'],
+    'xls':['xls'],                              # database
+    'xlsx':['xlsx'],                            # database
     'xmfa':['xmfa'],
-    'yaml': ['yaml', 'YAML']                   # misc
+    'yaml': ['yaml', 'YAML']                    # database
 
 
 }
