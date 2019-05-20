@@ -26,7 +26,7 @@ from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 
-class BAM2Fasta(ConvBase):
+class BAM2FastA(ConvBase):
     """Bam2Fasta converter
 
     Wrapper of bamtools to convert bam file to fasta file.
