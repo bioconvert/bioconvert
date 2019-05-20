@@ -8,11 +8,6 @@ other less known formats not included. We annotate the formats:
 - Format: binary, human-readable.
 - Status: deprecated or not included
 
-..
-    .. admonition:: Bioconvert conversions
-    .. seealso::  
-    .. admonition::  References
-
 Formats
 ==========
 
@@ -25,7 +20,7 @@ you like to contribute, please edit the file in our github **doc/formats.rst**.
 
 
 
-.. _format_twobit
+.. _format_twobit:
 
 .2bit (twobit)
 --------------
@@ -210,15 +205,11 @@ BCF
 :Status: included
 :Type: variant
 
-Binary version of the Variant Call Format (VCF).
+Binary version of the Variant Call Format (:ref:`_format_vcf`).
 
 .. admonition:: Bioconvert conversions
 
-    - :class:`~bioconvert.bcf2vcf.BCF2VCF`
-    - :class:`~bioconvert.vcf2bcf.VCF2BCF`
-
-
-
+    :class:`~bioconvert.bcf2vcf.BCF2VCF`, :class:`~bioconvert.vcf2bcf.VCF2BCF`.
 
 
 .. _format_bcl:
@@ -232,7 +223,13 @@ BCL
 
 BCL is the raw format used by Illumina sequencer. This data is converted into
 :ref:`FastQ  <format_fastq>` thanks to a tool called bcl2fastq. This type of conversion is not included
-in **Bioconvert**
+in **Bioconvert**. Indeed,  Illumina provides a **bcl2fastq** executable and its user guide is available online. In most cases, the BCL files are already converted and users will only get the FastQ files so we will not provide such converter.
+
+.. admonition:: References
+
+    - https://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/bcl2fastq/bcl2fastq_letterbooklet_15038058brpmi.pdf
+    - http://bioinformatics.cvr.ac.uk/blog/how-to-demultiplex-illumina-data-and-generate-fastq-files-using-bcl2fastq/
+
 
 
 .. _format_bedgraph:
@@ -245,9 +242,128 @@ BEDGRAPH
 BED
 ---
 
-:reference: http://genome.ucsc.edu/FAQ/FAQformat.html#format1
+:Format: human-readable
+:Status: not included
+:Type: database
 
-BED file must has at least 3 columns (chrom, start, end).
+A Browser Extensible Data (BED) file is a tab-delimited text file that defines a
+feature track (e.g. coverage) along a reference. The BED file is a very
+versatile format, which makes it difficult to handle in **Bioconvert**. So, let
+us describe exhaustively the BED format.
+
+BED lines have 3 required fields and nine additional optional fields.
+
+Generally, all BED files have the same extensions (.bed) irrespective of the
+number of columns. We can refer to the 3-columns version as BED3, the 4-columns BED as BED4 and so on. 
+
+The number of fields per line must be consistent. If some fields are empty, 
+additional column information must be filled for consistency (e.g., with a "."). 
+BED fields can be whitespace-delimited or tab-delimited although some
+variations of BED types such as "bed Detail" require a tab character
+delimitation for the detail columns (see Note box here below).
+
+
+.. note:: *BED detail* format 
+
+    It is an extension of BED format plus 2 additional fields. 
+    The first one is an ID, which can be used in place of the name field 
+    for creating links from the details pages. The second additional field 
+    is a description of the item, which can be a long description and can 
+    consist of html.
+
+    Requirements:
+
+        - fields must be tab-separated
+        - "type=bedDetail" must be included in the track line, 
+        - the name and position fields should uniquely describe items 
+          so that the correct ID and description will be displayed on 
+          the details pages.
+
+     The following example uses the first 4 columns of BED format, 
+     but up to 12 may be used. Note the header, which contains the 
+     type=bedDetail string.::
+
+         track name=HbVar type=bedDetail description="HbVar custom track" db=hg19  visibility=3 url="blabla.html"
+         chr11  5246919 5246920 Hb_North_York   2619    Hemoglobin variant
+         chr11  5255660 5255661 HBD c.1 G>A 2659    delta0 thalassemia
+         chr11  5247945 5247946 Hb Sheffield    2672    Hemoglobin variant
+         chr11  5255415 5255416 Hb A2-Lyon  2676    Hemoglobin variant
+         chr11  5248234 5248235 Hb Aix-les-Bains    2677    Hemoglobin variant 
+
+
+
+Only custom tracks can have header lines, which begin with the
+word "browser" or "track" to assist the browser in the display and interpretation.
+Such annotation track header lines are not permissible in 
+utilities such as bedToBigBed, which convert lines of BED text to
+indexed binary files. 
+
+
+The first three required BED fields are:
+
+1. **chrom** - The name of the chromosome (e.g. chr3) or scaffold.
+2. **chromStart** - The starting position of the feature in the chromosome.
+   The first base in a chromosome is numbered 0.
+3. **chromEnd** - The ending position of the feature in the chromosome.
+   The chromEnd base is not included in the display of the feature.
+
+The 9 additional optional BED fields are:
+
+4. **name** - This label of the BED line
+
+5. **score** - A score between 0 and 1000. If the track line useScore 
+   attribute is set to 1 for this annotation data set, the score value will determine the level of gray in which this feature is displayed (higher numbers = darker gray). This table shows the Genome Browser's translation of BED score values into shades of gray shade
+
+6. **strand** - Defines the strand. Either "." (=no strand) or "+" or "-".
+
+7. **thickStart** - The starting position at which the feature is drawn thickly (for example, the start codon in gene displays). When there is no thick part, thickStart and thickEnd are usually set to the chromStart position.
+
+8. **thickEnd** - The ending position at which the feature is drawn thickly (for example the stop codon in gene displays).
+
+9. **itemRgb** - An RGB value of the form R,G,B (e.g. 255,0,0). If the track 
+    line itemRgb attribute is set to "On", this RBG value will determine the 
+    display color of the data contained in this BED line. NOTE: It is recommended 
+    that a simple color scheme (eight colors or less) be used with this attribute 
+    to avoid overwhelming the color resources of the Genome Browser and your 
+    Internet browser.
+
+10. **blockCount** - The number of blocks (exons) in the BED line.
+
+11. **blockSizes** - A comma-separated list of the block sizes. The number of items in this list should correspond to blockCount.
+
+12. **blockStarts** - A comma-separated list of block starts. All of the blockStart positions should be calculated relative to chromStart. The number of items in this list should correspond to blockCount.
+
+In BED files with block definitions, the first blockStart value must be 0, so that the first block begins at chromStart. Similarly, the final blockStart position plus the final blockSize value must equal chromEnd. Blocks may not overlap.
+
+Example::
+
+    track name=pairedReads description="Clone Paired Reads" useScore=1
+    chr22 1000 5000 cloneA 960 + 1000 5000 0 2 567,488, 0,3512
+    chr22 2000 6000 cloneB 900 - 2000 6000 0 2 433,399, 0,3601
+
+
+.. note:: If your data set is BED-like, but it is very large (over 50MB) you can convert it to a :ref:`format_bigbed` format. 
+
+
+.. _format_biged: 
+
+BIGBED
+------
+
+:Format: binary
+:Status: included
+:Type: database
+
+
+The **bigBed** format stores annotation items that can either be simple, or a linked collection of exons. BigBed files are created initially from BED type files. The resulting bigBed files are in an indexed binary format. The main advantage of the bigBed files is that only the portions of the files needed to display a particular region 
+
+
+
+.. admonition:: References
+
+    - http://genome.ucsc.edu/goldenPath/help/bigBed.html
+
+
 
 .. _format_bigwig:
 
@@ -275,10 +391,8 @@ information.
 
 .. admonition:: Bioconvert Conversions
 
-    - :class:`~bioconvert.bam2sam.BAM2CRAM`
-    - :class:`~bioconvert.bam2cram.SAM2CRAM`
-    - :class:`~bioconvert.bam2sam.CRAM2BAM`
-    - :class:`~bioconvert.bam2cram.CRAM2SAM`
+    :class:`~bioconvert.bam2sam.BAM2CRAM`, :class:`~bioconvert.bam2cram.SAM2CRAM`,
+    :class:`~bioconvert.bam2sam.CRAM2BAM`, :class:`~bioconvert.bam2cram.CRAM2SAM`.
 
 
 .. _format_csv:
