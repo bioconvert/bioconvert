@@ -23,12 +23,22 @@ Note that formats mentionned here below have dedicated description in the
     BAI
 
         The index file related to file generated in the BAM format. (This is a
-        non-standard file type.)
+        non-standard file type.) See the :ref:`format_bai` page for details.
 
     BAM
 
-        Binary version of the Sequence Alignment Map (SAM) format.
-        http://genome.ucsc.edu/goldenPath/help/bam.html
+        Binary version of the Sequence Alignment Map (SAM) format. See the
+        :ref:`format_bam` format page for details. 
+
+    BCF
+
+        Binary version of the Variant Call Format (VCF).
+        See :ref:`format_bcf` page for details.
+
+    BCL
+
+        BCL is the raw format used by Illumina sequencers. See the :ref:`format_bcl` format 
+        page for details.
 
     BED
 
@@ -52,9 +62,6 @@ Note that formats mentionned here below have dedicated description in the
 
         TODO
 
-    BCF
-
-        TODO
 
     BIGWIG
 
@@ -141,6 +148,12 @@ Note that formats mentionned here below have dedicated description in the
 
         TODO
 
+    QUAL
+
+        Sequence of qualities associated with a sequence of nucleotides.
+        Associated with FastA file, the original FastQ file can be built back.
+        See :ref:`format_qual` page for details.
+
     SAM
         Sequence Alignment Map is a generic nucleotide alignment format that
         describes the alignment of query sequences or sequencing reads to a reference
@@ -169,8 +182,10 @@ Note that formats mentionned here below have dedicated description in the
 
     VCF
 
-        Variant Call Format
-        http://en.wikipedia.org/wiki/Variant_Call_Format
+        Variant Call Format (VCF) is a flexible and extendable format for 
+        storing variation in sequences such as single nucleotide variants,
+        insertions/deletions, copy number variants and structural variants. 
+        See :ref:`format_vcf` page for details.
 
     WIGGLE
 
