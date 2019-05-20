@@ -85,10 +85,10 @@ def main(args=None):
             # if the ext_pair matches multiple converters
             else:
 
-                _log.error("\n Ambiguous extension.\n"
-                           "You must specify the right conversion \n "
-                           "Choose from: \n "
-                           "{}".format("\n".join([c.__name__ for c in converter])))
+                _log.error("Ambiguous extension.\n"
+                           "You must specify the right conversion  Please "
+                           "choose a conversion from: \n\n"
+                           "{}".format("\n".join([c.__name__.lower() for c in converter])))
                 sys.exit(1)
 
 

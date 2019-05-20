@@ -90,20 +90,19 @@ ABI
 :Status: available
 :Type: sequence
 
-Traces files, including the PHRED quality scores for the base calls.
+ABI are trace files that include the PHRED quality scores for the base calls.
 This allows ABI to FASTQ conversion. Note that each ABI file contains one and only one sequence (no need for indexing the file). The trace data contains probablities of the four nucleotide bases along the sequencing run together with the sequence deduced from that data. ABI trace is a binary format.
 
 File format produced by ABI sequencing machine. It produces ABI "Sanger" capillary sequence
 
 .. admonition:: Bioconvert conversions:
 
-    - :class:`~bioconvert.abi2qual.ABI2QUAL`
-    - :class:`~bioconvert.abi2fastq.ABI2FASTQ`
-    - :class:`~bioconvert.abi2fasta.ABI2FASTA`
+    :class:`~bioconvert.abi2qual.ABI2QUAL`,
+    :class:`~bioconvert.abi2fastq.ABI2FASTQ`,
+    :class:`~bioconvert.abi2fasta.ABI2FASTA`
 
-.. seealso:: :class:`~bioconvert.scf2fasta.SCF2Fasta`,
-    :class:`~bioconvert.scf2fastq.SCF2Fastq`.
-
+.. seealso:: :ref:`scf`, :class:`~bioconvert.scf2fasta.SCF2Fasta`,
+    :class:`~bioconvert.scf2fastq.SCF2Fastq`,
 
 .. admonition::  References
 
@@ -183,16 +182,16 @@ of nucleotide sequence alignments.
 
 .. admonition:: Bioconvert Conversions
 
-    - :class:`~bioconvert.bam2sam.BAM2SAM`
-    - :class:`~bioconvert.bam2cram.BAM2CRAM`
-    - :class:`~bioconvert.bam2bedgraph.BAM2BEDGRAPH`
-    - :class:`~bioconvert.bam2bed.BAM2BED`
-    - :class:`~bioconvert.bam2bigwig.BAM2BIGWIG`
-    - :class:`~bioconvert.bam2fasta.BAM2FASTA`
-    - :class:`~bioconvert.bam2fastq.BAM2FASTQ`
-    - :class:`~bioconvert.bam2json.BAM2JSON`
-    - :class:`~bioconvert.bam2tsv.BAM2TSV`
-    - :class:`~bioconvert.bam2wiggle.BAM2WIGGLE`
+    :class:`~bioconvert.bam2sam.BAM2SAM`,
+    :class:`~bioconvert.bam2cram.BAM2CRAM`,
+    :class:`~bioconvert.bam2bedgraph.BAM2BEDGRAPH`,
+    :class:`~bioconvert.bam2bed.BAM2BED`,
+    :class:`~bioconvert.bam2bigwig.BAM2BIGWIG`,
+    :class:`~bioconvert.bam2fasta.BAM2FASTA`,
+    :class:`~bioconvert.bam2fastq.BAM2FASTQ`,
+    :class:`~bioconvert.bam2json.BAM2JSON`,
+    :class:`~bioconvert.bam2tsv.BAM2TSV`,
+    :class:`~bioconvert.bam2wiggle.BAM2WIGGLE`
 
 .. admonition:: References
 
@@ -280,6 +279,24 @@ information.
     - :class:`~bioconvert.bam2cram.SAM2CRAM`
     - :class:`~bioconvert.bam2sam.CRAM2BAM`
     - :class:`~bioconvert.bam2cram.CRAM2SAM`
+
+
+.. _format_csv:
+
+CSV
+---
+
+:Type: database
+:Status: included
+
+A comma-separated values format is a delimited text file that uses a
+comma to separate values. See :ref:`format_csv` format page for
+details.
+
+.. admonition:: References
+
+    - https://en.wikipedia.org/wiki/Comma-separated_values
+
 
 
 .. _format_fasta:
@@ -624,7 +641,7 @@ Trace File Format - Sequence Chromatogram Format (SCF)
 :reference: http://staden.sourceforge.net/manual/formats_unix_2.html
 
 Trace files are binary files containing raw data output from automated sequencing instruments.
-This convertor was converted from BioPerl.
+This converter was converted from BioPerl.
 
 
 SCF file organisation (more or less)
@@ -647,6 +664,30 @@ Number of bases * 3                    Reserved for future use
 Comments size                          Comments
 Private data size                      Private data
 ====================================== ====================================
+
+.. _format_tsv: 
+
+TSV
+---
+
+:Type: database
+:Status: included
+
+A tab-separated values format is a delimited text file that uses a
+tab character to separate values. See :ref:`format_csv` format page for
+details.
+
+
+.. admonition:: Bioconvert conversions:
+
+    :class:`~bioconvert.tsv2csv.TSV2CSV`,
+
+
+
+.. admonition:: References
+
+    - https://en.wikipedia.org/wiki/Comma-separated_values
+
 
 
 
@@ -684,6 +725,7 @@ insertions/deletions, copy number variants and structural variants.
 
 
 
+
 Wiggle Track format (WIG)
 -------------------------
 
@@ -699,6 +741,61 @@ or data that contains elements of varying size.
 For speed and efficiency, wiggle data is compressed with a minor loss of precision when
 data is exported from a wiggle track.
 
+.. _format_xls:
+
+XLS
+---
+
+:Type: database
+:Status: included
+
+Spreadsheet file format (Microsoft Excel file format). 
+
+Until 2007, Microsoft Excel used a proprietary binary file format
+called Excel Binary File Format (.XLS). In Excel 2007, the Office Open XML was
+introduced. We support the later formnat only.
+
+With bioconvert you can convert an :ref:`format_xls` file into :ref:`format_csv` or :ref:`format_tsv` format. If several
+sheets are to be found, you can select one or the other.
+
+
+.. admonition:: Bioconvert conversions:
+
+    :class:`~bioconvert.xls2csv`,
+    :class:`~bioconvert.xlsx2csv`,
+
+.. admonition::  References
+
+    - https://en.wikipedia.org/wiki/Microsoft_Excel#File_formats
+
+.. _format_xlsx:
+
+XLSX
+----
+
+:Type: database
+:Status: included
+
+Spreadsheet file format in Office Open XML format.
+
+
+With bioconvert you can convert an :ref:`format_xlsx` file into :ref:`format_csv` or :ref:`format_tsv` format. If several
+sheets are to be found, you can select one or the other.
+
+
+.. admonition:: Bioconvert conversions:
+
+    :class:`~bioconvert.xls2csv`,
+    :class:`~bioconvert.xlsx2csv`,
+
+.. seealso::  :ref:`format_xls` format.
+
+.. admonition::  References
+
+    - https://en.wikipedia.org/wiki/Office_Open_XML
+
+
+
 
 TODO
 -------
@@ -712,8 +809,6 @@ clustal2fasta.py
 clustal2nexus.py
 clustal2phylip.py
 clustal2stockholm.py
-csv2tsv.py
-csv2xls.py
 dsrc2gz.py
 embl2fasta.py
 embl2genbank.py
@@ -762,7 +857,5 @@ vcf2bplink.py
 vcf2plink.py
 vcf2wiggle.py
 wig2bed.py
-xls2csv.py
-xlsx2csv.py
 xmfa2phylip.py
 yaml2json.py

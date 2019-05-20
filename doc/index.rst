@@ -83,19 +83,27 @@ you have installed conda)::
     conda config --add channels conda-forge
     conda config --add channels bioconda
 
-Otherwise, please see the instructions on `bioconda <https://bioconda.github.io/>`_ or
-`Sequana <http://sequana.readthedocs.io/en/master/installation.html#from-bioconda-recommended>`_.
+Otherwise, please see the instructions in the :ref:`installation` section where
+you can find information about our Singularity container as well.
+
 
 Usage
 ##########
 
-From the command line, you can convert a fastq to fasta as follows (compressed
-or not)::
+From the command line, you can convert a :term:`FastQ` file into 
+a :term:`FastA` file as follows (compressed or not)::
 
     bioconvert fastq2fasta input.fastq output.fasta
     bioconvert fastq2fasta input.fq    output.fasta
     bioconvert fastq2fasta input.fq.gz output.fasta.gz
     bioconvert fastq2fasta input.fq.gz output.fasta.bz2
+
+When there is no ambiguity, you can be implicit::    
+
+    bioconvert input.fastq output.fasta
+
+For help, just type::
+
     bioconvert --help
 
 From Python shell::
@@ -118,6 +126,7 @@ User and Developer Guides
     :maxdepth: 2
     :numbered:
 
+    installation
     user_guide
     developer_guide
     benchmarking

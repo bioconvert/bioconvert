@@ -58,6 +58,8 @@ class BAM2BEDGRAPH(ConvBase):
     Note that this BEDGRAPH format is of the form::
 
         chrom chromStart chromEnd dataValue
+
+
     that is contig name, start position, end position, coverage
 
     .. warning:: the BAM file must be sorted. This can be achieved with
@@ -66,7 +68,8 @@ class BAM2BEDGRAPH(ConvBase):
     _default_method = "bedtools"
 
     def __init__(self, infile, outfile):
-        """
+        """.. rubric:: Constructor
+
         :param str infile: The path to the input BAM file. **It must be sorted**.
         :param str outfile: The path to the output file
         """
@@ -76,7 +79,7 @@ class BAM2BEDGRAPH(ConvBase):
     @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
         """
-        do the conversion sorted :term`BAM` -> :term:'BEDGRAPH` using bedtools
+        do the conversion sorted :term:`BAM` -> :term:`BEDGRAPH` using bedtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.

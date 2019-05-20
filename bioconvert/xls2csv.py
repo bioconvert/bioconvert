@@ -24,6 +24,7 @@
 ###########################################################################
 
 """Convert :term:`XLS` format to :term:`CSV` file"""
+
 import csv
 
 import colorlog
@@ -39,30 +40,38 @@ logger = colorlog.getLogger(__name__)
 class XLS2CSV(ConvBase):
     """Convert :term:`XLS` file into :term:`CSV` file
 
+    Extra arguments when using  **Bioconvert** executable.
+
+    =================== ============================================
+    name                 Description
+    =================== ============================================
+    --sheet-name        The name or id of the sheet to convert
+    --out-sep           The separator used in the output file
+    --line-terminator   The line terminator used in the output file
+    =================== ============================================
+
+    Methods implemented: pandas and pyexcel libraries
+
     """
     _default_method = "pandas"
     DEFAULT_OUT_SEP = ','
     DEFAULT_LINE_TERMINATOR = '\n'
 
     def __init__(self, infile, outfile):
-        """.. rubric:: constructor
+        """.. rubric:: Constructor
+
         :param str infile:
         :param str outfile:
         """
         super().__init__(infile, outfile)
 
     @requires(python_libraries=["pyexcel", "pyexcel-xls"])
-    def _method_pyexcel(
-            self,
-            out_sep=DEFAULT_OUT_SEP,
-            line_terminator=DEFAULT_LINE_TERMINATOR,
-            sheet_name=0,
+    def _method_pyexcel(self, out_sep=DEFAULT_OUT_SEP,
+            line_terminator=DEFAULT_LINE_TERMINATOR, sheet_name=0,
             *args, **kwargs):
-        """
-        do the conversion :term`XLS` -> :term:'CSV` using pyexcel modules
-
-        """
+        """Do the conversion :term:`XLS` -> :term:`CSV` using pyexcel library"""
         import pyexcel
+
         with open(self.outfile, "w") as out_stream:
             writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)
             first_row = True
@@ -73,28 +82,15 @@ class XLS2CSV(ConvBase):
                 writer.writerow([v for k, v in row.items()])
 
     @requires(python_libraries=["pandas", "xlrd"])
-    def _method_panda(
-            self,
-            out_sep=DEFAULT_OUT_SEP,
-            line_terminator=DEFAULT_LINE_TERMINATOR,
-            sheet_name=0,
+    def _method_pandas(self, out_sep=DEFAULT_OUT_SEP,
+            line_terminator=DEFAULT_LINE_TERMINATOR, sheet_name=0,
             *args, **kwargs):
-        """
-        do the conversion :term`XLS` -> :term:'CSV` using Panda modules
-
-        """
+        """Do the conversion :term:`XLS` -> :term:`CSV` using Pandas library"""
         import pandas as pd
-        pd.read_excel(
-            self.infile,
-            sheet_name=sheet_name,
-        ) \
-            .to_csv(
-            self.outfile,
-            sep=out_sep,
-            line_terminator=line_terminator,
-            index=False,
-            header='infer'
-        )
+
+        df = pd.read_excel(self.infile, sheet_name=sheet_name)
+        df.to_csv(self.outfile, sep=out_sep, line_terminator=line_terminator,
+            index=False, header='infer')
 
     @classmethod
     def get_additional_arguments(cls):

@@ -24,7 +24,6 @@
 ###########################################################################
 
 """XMFA2PHYLIP conversion"""
-import os
 
 import colorlog
 from Bio import SeqIO
@@ -39,9 +38,7 @@ __all__ = ['XMFA2PHYLIP']
 
 
 class XMFA2PHYLIP(ConvBase):
-    """
-    Converts a sequence alignment from :term:`XMFA` format to :term:`PHYLIP` format. ::
-    """
+    """Converts a sequence alignment from :term:`XMFA` to :term:`PHYLIP` format."""
     _default_method = 'biopython'
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
@@ -62,5 +59,4 @@ class XMFA2PHYLIP(ConvBase):
         sequences = list(SeqIO.parse(self.infile, "mauve", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "phylip")
         _log.info("Converted %d records to xmfa" % count)
-
 

@@ -3,30 +3,46 @@
 Developer guide
 =================
 
+It is quite easy to add a new converter in **Bioconvert**
+(see :ref:`add_converter` section) by adding a new Python module (e.g., with the
+executable **bioconvert_init**) or by copying an existing converter. Then, we
+higly recommend developers to add a test file in the ./test directory (see :ref:`add_test`), and  relevant test files in the ``./bioconvert/data/`` directory (see
+:ref:`add_test_file`). Finally, we expect the **Bioconvert** documentation to
+be updated (``./doc`` directory) as explained in the section :ref:`update_doc`.
 
-How to add a new converter ?
------------------------------------
-
-For now, converters are simple conversion from one format to another one.
-There is no third-party file. For instance, if you need a reference file, this
-is not part of the API for the moment.
-
-Now, let us take a simple example such as a fastq to fasta conversion.
-
-First, you need to create a module (Python file). We use the convention::
-
-    input2output.py
-
-all in small caps ! In this file, copy and paste this example::
+Note also that a converter (a Python module, e.g., fastq2fasta) may have several methods included and it is quite straigthforward to add a new method (:ref:`add_method`). They can later be compared thanks to our benchmarking framework.
 
 
-    """Convert :term:`FastQ` format to :term:`Fasta` formats"""
+
+.. _add_converter:
+
+How to add a new conversion
+---------------------------
+
+Officially, **Bioconvert** supports one-to-one conversions only (from one format to
+another format). See the note here below about :ref:`multi_conversion`.
+
+Let us imagine that we want to include a new format conversion 
+from :term:`FastQ` to :term:`FastA` format. 
+
+First, you need to add a new file in the ``./bioconvert`` directory called::
+
+    fastq2fasta.py
+
+Please note that the name is **all in small caps** and that we concatenate the input format name, the character **2** and the output format name. Sometimes a format already includes the character 2 in its name (e.g. bz2), which may be confusing. For now, just follow the previous convention meaning duplicate the character 2 if needed (e.g., for bz2 to gz format, use bz22gz).
+
+In the newly created file (**fastq2fasta.py**) you can (i) copy / paste the content of an existing converter (ii) use the **bioconvert_init** executable (see later), or (iii) copy / paste the following code:
+
+.. code-block:: python
+    :linenos:
+
+    """Convert :term:`FastQ` format to :term:`FastA` formats"""
     from bioconvert import ConvBase
 
     __all__ = ["Fastq2Fasta"]
 
 
-    class Fastq2Fasta(ConvBase):
+    class FastQ2FastA(ConvBase):
         """
 
         """
@@ -39,56 +55,115 @@ all in small caps ! In this file, copy and paste this example::
             """
             super().__init__(infile, outfile)
 
+        @requires(external_library="awk")
         def _method_v1(self, *args, **kwargs):
-            Conversion is made here.
-            You can use self.infile and  self.outfile
-            If you use an external command, you can use:
+            # Conversion is made here.
+            # You can use self.infile and  self.outfile
+            # If you use an external command, you can use self.execute:
             self.execute(cmd)
 
+        @requires_nothing
         def _method_v2(self, *args, **kwargs):
-            another method
+            #another method
+            pass
 
-You may also use this standalone to create the bioconvert_init standalone. For
-instance to create the *sam* to *bam* conversion, redirect the output of the following command in
-the correct file::
 
-    $ bioconvert_init -i sam -o bam > sam2bam.py
+On line 1, please explain the conversion using the terms available in the :ref:`glossary`  (``./doc/glossary.rst`` file). If not available, you may edit the glossary.rst file to add a quick description of the formats.
+
+.. warning:: If the formats is not already included in **Bioconvert**, you will need to update the file core/extensions.py to add the format name and its possible extensions.
+
+On line 2, just import the common class.
+
+On line 7, name the class after your input and output formats; again include the
+character 2 between the input and output formats. Usually, we use
+big caps for the formats since most format names are acronyms. If the input or
+output format exists already in **Bioconvert**, please follow the existing
+conventions.
+
+On line 13, we add the constructor.
+
+On line 21, we add a method to perform the conversion named **_method_v1**.
+Here, the prefix **_method_** is compulsary: it tells **Bioconvert** that is it a possible conversion to include in the user interface. This is also where you will add your code to perform the conversion.
+The suffix name  (here **v1**) is the name of the conversion.
+That way you can add as many conversion methods as you need (e.g. on line 28,
+we implemented another method called **v2**).
+
+Line 20 and line 27 show the decorator that tells **bioconvert** which external
+tools are required. See :ref:`decorator` section.
+
+Since several methods can be implemented, we need to define a default method (line 11; here **v1**).
+
+In order to simplify the creation of new converters, you can also use the standalone **bioconvert_init**. Example::
+
+    $ bioconvert_init -i fastq -o fasta > fastq2fasta.py
 
 Of course, you will need to edit the file to add the conversion itself in the
-appropriate method (e.g. _method_samtools).
+appropriate method (e.g. _method_v1).
 
 
-How to add a new method
-~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As shown above, use this coding::
+If you need to include extra arguments, such as a reference file, you may add extra argument, altough this is not yet part of the official **Bioconvert** API. See for instance :class:`~bioconvert.sam2cram.SAM2CRAM` converter.
 
-    def _method_YOUuniqueMETHODname(self, *args, **kwargs):
+
+
+.. _multi_conversion:
+
+One-to-many and many-to-one conversions
+---------------------------------------
+
+The one-to-many and many-to-one conversions are not officially implemented in
+**Bioconvert**. Note, however, that the one-to-many conversions can be
+implemented. You just need to create several files. However, it may be
+ambiguous. Indeed, we have not yet defined a way to name the conversion. For
+instance you may want to convert a :term:`FastQ` to a :term:`FastA` **and** :term:`Qual` formats at the same time. You have not yet defined a final way of doing it. It could be by creating a file named fastq_to_fasta_and_qual.py for instance, or by adding options to existing converter.
+
+Similarly the many-to-one converters are not yet defined but a
+fasta_and_qual_to_fastq name could be an option.
+
+These features will be implemented in a future version.
+
+
+.. _add_method:
+
+How to add a new method to an existing converter
+------------------------------------------------
+
+As shown above, use this code and add it to the relevant file in ``./bioconvert``
+directory::
+
+    def _method_UniqueName(self, *args, **kwargs):
         # from kwargs, you can use any kind of arguments.
         # threads is an example, reference, another example.
-        Your code here
+        # Your code here below
+        pass
 
-Then, it will be available in the class and bioconvert standalone !
+Then, it will be available in the class and **bioconvert** 
+automatically; the **bioconvert** executable should show the name of your new method in the help message.
 
-The code that you will add may be of different kind:
+In order to add your new method, you can add:
 
-- pure Python: just write it.
-- Python code but relying on third-party library, two options:
+- Pure Python code,
+- Python code that relies on third-party library. If so, you may use:
+    - Python libraries available on pypi. Pleaes add the library name to the
+      requirements.txt
+    - if the Python library requires lots of compilation and is available
+      on bioconda, you may add the library name to the requirements_tools.txt
+      instead.
+- Third party tools available on **bioconda** (e.g., squizz, seqtk, etc)
+  that you can add to the requirements_tools.txt
+- Perl and GO code are also accepted. If so, use the self.install_tool(NAME)
+  and add a script in ``./misc/install_NAME.sh``
 
-  - if the Python library is on pypi and is simple, add it to requirements.txt
-  - if the Python library requires lots of compilation, add it to requirements_tools.txt (assuming it is on bioconda).
-- if the code is not on pypi or bioconda (e.g., GO code), use the self.install_tool(NAME) and add a script in ./misc/install_NAME.sh
 
+.. _decorator:
 
-
-
-Method decorators
-~~~~~~~~~~~~~~~~~
+Decorators
+----------
 
 `Decorators
 <https://en.wikipedia.org/wiki/Python_syntax_and_semantics#Decorators>`_ have
 been defined in ``bioconvert/core/decorators.py`` that can be used to "flag" or
-"modify" conversion methods (actually, a new method is usually returned):
+"modify" conversion methods:
 
 - ``@in_gz`` can be used to indicate that the method is able to transparenly
   handle input files that are compressed in ``.gz`` format. This is done by
@@ -102,10 +177,10 @@ been defined in ``bioconvert/core/decorators.py`` that can be used to "flag" or
 
     @compressor
     def _method_noncompressor(self, *args, **kwargs):
-        """This method does not handle compressed input or output."""
+        """This method does not handle compressed input or output by itself."""
         pass
-    # This results in a method that handles compressed input and output
-    # The method has an in_gz attribute (which is set to True)
+    # The decorator transforms the method that now handles compressed 
+    # input and output; the method has an in_gz attribute (which is set to True)
 
 
 - ``@out_compressor`` will wrap the method in code that handles output
@@ -130,16 +205,73 @@ been defined in ``bioconvert/core/decorators.py`` that can be used to "flag" or
     # (which is set to True)
 
 
-(For more general explanations about decorators, see
-https://stackoverflow.com/a/1594484/1878788.)
+Another **bioconvert** decorator is called **requires**. 
 
-How to add a test and test file
------------------------------------
+It should be used to annotate a method with the type of tools it needs to work.
 
-Go to  ./test and add a file named ``test_fastq2fasta.py``
+It is important decorate all methods with the require decorator so that user
+interface can tell what tools are properly installed or not. You can use 4
+arguments as explained in :mod:`bioconvert.core.decorators`:
 
 
-::
+.. code-block:: python
+    :linenos:
+
+    @requires_nothing
+    def _method_python(self, *args, **kwargs):
+        # a pure Python code does not require extra libraries
+        with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
+             for (name, seq, _) in Fastq2Fasta.readfq(fastq):
+                 fasta.write(">{}\n{}\n".format(name, seq))
+
+     @requires(python_library="mappy")
+     def _method_mappy(self, *args, **kwargs):
+         with open(self.outfile, "w") as fasta:
+             for (name, seq, _) in fastx_read(self.infile):
+                 fasta.write(">{}\n{}\n".format(name, seq))
+
+     @requires("awk")
+     def _method_awk(self, *args, **kwargs):
+         # Note1: since we use .format, we need to escape the { and } characters
+         # Note2: the \n need to be escaped for Popen to work
+         awkcmd = """awk '{{printf(">%s\\n",substr($0,2));}}' """
+         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
+         self.execute(cmd)
+
+
+On line 1, we decorate the method with the **requires_nothing** decorator because
+the method is implemented in Pure Python.
+
+One line 8, we decorate the method with the :func:`~bioconvert.core.decorators.requires` decorator to inform **bioconvert** that the method relies on the external Python library called mappy. 
+
+
+One line 14, we decorate the method with the :func:`~bioconvert.core.decorators.requires` decorator to inform **bioconvert** that the method relies on an external tool called awk. In theory, you should write::
+
+    @requires(external_library="awk")
+
+but ``external_library`` is the first optional argument so it can be omitted. If several libraries are required, you can use::
+
+    @requires(external_libraries=["awk", ""])
+
+or::
+
+    @requires(python_libraries=["scipy", "pandas"])
+
+
+.. note:: For more general explanations about decorators, see https://stackoverflow.com/a/1594484/1878788.
+
+
+.. _add_test:
+
+How to add a test
+-----------------
+
+Following the example from above (fastq2fasta), we need to add a test file. To
+do so, go to the ``./test`` directory and add a file named ``test_fastq2fasta.py``.
+
+.. code-block:: python
+    :linenos:
+
 
     import pytest
 
@@ -149,12 +281,12 @@ Go to  ./test and add a file named ``test_fastq2fasta.py``
 
     @pytest.mark.parametrize("method", Fastq2Fasta.available_methods)
     def test_fastq2fasta(method):
-        #your code here
+        # your code here
         # you will need data for instance "mydata.fastq and mydata.fasta".
         # Put it in bioconvert/bioconvert/data
         # you can then use ::
-        infile = bioconvert_data("mydata.fastq")
-        expected_outfile = bioconvert_data("mydata.fasta")
+        infile = bioconvert_data("test_mydata.fastq")
+        expected_outfile = bioconvert_data("test_mydata.fasta")
         with TempFile(suffix=".fasta") as tempfile:
             converter = Fastq2Fasta(infile, tempfile.name)
             converter(method=method)
@@ -163,20 +295,46 @@ Go to  ./test and add a file named ``test_fastq2fasta.py``
             assert md5(tempfile.name) == md5(expected_outfile)
 
 
-Files used for testing should be added in
-./bioconvert/data/testing/converter_name.
-For instance test files for the
-sam2paf converter should be added in
-bioconvert/data/testing/sam2paf directory where you should have the test files,
-a __init__.py file, a README.rst file. The latter should contain the name of the
-test files and a short description.
+In **Bioconvert**, we use **pytest** as our test framework. In principle, we 
+need one test function per method found in the converter. Here
+on line 7 we serialize the tests by looping through the methods available in the
+converter using the pytest.mark.parametrize function. That way, the test 
+file remains short and do not need to be duplicated.
+
+In this test, we added a data file in the ``bioconvert/data`` directory.
+Indeed the :func:`~bioconvert.bioconvert_data` function finds the data location
+automatically if the file is in ``bioconvert/data`` directory.
+
+
+.. _add_test_file:
+
+How to add a test file
+----------------------
+
+Files used for testing should be added in ``./bioconvert/data/testing/converter_name.ext``
+or ``./bioconvert/data/tes_converter_name.ext``
+
+
+For instance test files for the sam2paf converter should be added in
+``bioconvert/data/`` and named as::
+
+    - test_sam2paf_file1.sam
+    - test_sam2paf_file1.paf
+
+If you add the files in a new subdirectory::
+
+    - bioconvert/data/testing/sam2paf/test_sam2paf_file1.sam
+
+then you should add an ``__init__.py`` file in it and a README.rst to explain
+how to generate the file for instance.
 
 
 How to locally run the tests
 ----------------------------
 
-Go to root directory. If not already done, install all packages listed in ``requirements_dev.txt``.
-You can do so by running::
+Go to the source directory of **Bioconvert**. 
+
+If not already done, install all packages listed in ``requirements_dev.txt``. You can do so by running::
 
     pip3 install -r requirements_dev.txt
 
@@ -184,9 +342,13 @@ Then, run the tests using::
 
     pytest test/ -v
 
-Or, to run a specific test file, for example for your new convertor fastq2fasta::
+Or, to run a specific test file, for example for your new converter fastq2fasta::
 
     pytest test/test_fastq2fasta.py -v
+
+or ::
+
+    pytest -v -k test_fastq2fasta
 
 
 How to benchmark your new method vs others
@@ -203,6 +365,8 @@ How to benchmark your new method vs others
 you can also use the **bioconvert** standalone with -b option.
 
 
+.. _update_doc:
+
 How to add you new converter to the main documentation ?
 -----------------------------------------------------------
 
@@ -211,6 +375,7 @@ Edit the doc/references.rst and add those lines ::
     .. automodule:: bioconverter.fastq2fasta
         :members:
         :synopsis:
+        :private-members:
 
 
 pep8 and conventions
@@ -278,19 +443,20 @@ How to update bioconvert on bioconda
 Fork bioconda-recipes github repository and clone locally. Follow instructions on
 https://bioconda.github.io/contributing.html
 
-In a nutshell, install bioconda-utils
+In a nutshell, install bioconda-utils::
 
     git clone YOURFORKED_REPOSITORY
     cd bioconda-reciepes
 
-    # edit bioconvert recipes and update its contents
-    # if a new version pypi, you need to change the md5sum
-    vim recipes/bioconvert/meta.yaml
+edit bioconvert recipes and update its contents. If a new version pypi exists, you need to change the md5sum in ``recipes/bioconvert/meta.yaml``.
 
-    # check the recipes:
+
+check the recipes::
+
     bioconda-utils build  recipes/ config.yml --packages bioconvert
 
-    # commit and created a PR
+Finally, commit and created a PR::
+
     #git push -u origin my-recipe
     git commit .
     git push

@@ -50,7 +50,7 @@ Summary
 	bioconvert.fastq2fasta
 	bioconvert.genbank2embl
 	bioconvert.genbank2fasta
-	bioconvert.genbank2gff
+	bioconvert.genbank2gff3
 	bioconvert.gfa2fasta
 	bioconvert.gz2bz2
 	bioconvert.gz2dsrc
@@ -302,7 +302,7 @@ All converters documentation
     :synopsis:
     :private-members:
 
-.. automodule:: bioconvert.genbank2gff
+.. automodule:: bioconvert.genbank2gff3
     :members:
     :synopsis:
     :private-members:

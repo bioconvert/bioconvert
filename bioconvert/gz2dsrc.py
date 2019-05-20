@@ -62,7 +62,7 @@ class GZ2DSRC(ConvBase):
     @requires(external_binaries=["pigz", "dsrc"])
     def _method_pigzdsrc(self, *args, **kwargs):
         """
-        do the conversion gz -> :term:'DSRC`
+        do the conversion gz -> :term:`DSRC`
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.

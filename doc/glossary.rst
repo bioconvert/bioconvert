@@ -1,5 +1,8 @@
+
+.. _glossary:
+
 Glossary
-===========
+========
 
 
 Note that formats mentionned here below have dedicated description in the
@@ -77,7 +80,9 @@ Note that formats mentionned here below have dedicated description in the
 
     CSV
 
-        TODO
+        A comma-separated values format is a delimited text file that uses a
+        comma to separate values. See :ref:`format_csv` format page for
+        details.
 
     DSRC
 
@@ -103,7 +108,12 @@ Note that formats mentionned here below have dedicated description in the
 
         Graphical Fragment Assembly format. https://github.com/GFA-spec/GFA-spec
 
-    GFF
+    GFF2
+
+        General Feature Format, used for describing genes and other features
+        associated with DNA, RNA and Protein sequences.
+
+    GFF3
 
         General Feature Format, used for describing genes and other features
         associated with DNA, RNA and Protein sequences.
@@ -174,7 +184,9 @@ Note that formats mentionned here below have dedicated description in the
 
     TSV
 
-        TODO
+        A tab-separated values format is a delimited text file that uses a
+        tab character to separate values. See :ref:`format_tsv` format page for
+        details.
 
     TWOBIT
 
@@ -193,11 +205,13 @@ Note that formats mentionned here below have dedicated description in the
 
     XLS
 
-        TODO
-    
+        Spreadsheet file format (Microsoft Excel file format). 
+        See :ref:`format_xls` page for details.
+
     XLSX
 
-        TODO
+        Spreadsheet file format defined in the Office Open XML specification.
+        See :ref:`format_xlsx` page for details.
 
 
     XMFA

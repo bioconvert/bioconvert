@@ -20,56 +20,63 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
+"""List of formats and associated extensions"""
 from easydev import AttrDict
 
+# Formats can be of type
+# - sequence
+# - alignment
+# - binary
+# - compression
+# - database
+# - variant
 
 extensions = {
     'abi': ["abi", "ab1"],                      # sequence
     'bam': ["bam"],                             # alignment
     'bcf': ["bcf"],                             # variant
-    'bed': ["bed"],                             # misc
-    'bedgraph': ["bedgraph"],
+    'bed': ["bed"],                             # database
+    'bedgraph': ["bedgraph"],                   # database
     'bigwig': ["bigwig"],
     'bigbed': ['bb'],
-    'bz2': ['bz2'],
-    'bplink':['bplink'],
+    'bz2': ['bz2'],                             # compression
+    'bplink': ['bplink'],
     'cdao': ["cdao"],                           # phylo
     'cram': ["cram"],                           # alignment
     'clustal': ["clustal", "aln", "clw"],       # phylo
-    'csv': ["csv"],
-    'dsrc': ['dsrc'],
+    'csv': ["csv"],                             # database
+    'dsrc': ['dsrc'],                           # compression
     'embl': ['embl'],                           # annotation/sequence
     'fasta': ["fasta", "fa", "fst"],            # sequence
     'fastq': ["fastq", "fq"],                   # sequence
     'genbank': ['genbank', 'gbk', "gb"],        # annotation/sequence
     'gfa': ['gfa'],                             # assembly
     'gff2': ['gff'],
-    'gff3': ['gff3'],                            # gff3 so far
+    'gff3': ['gff3'],                           # annotation
     'gz': ['gz'],
-    'json': ['json'],                           # misc
-    'qual': ['qual'],                           # quality file for fastq file
-    'maf': ["maf"],                             # !! this is MIRA format, not mutation alignment format
+    'json': ['json'],                           # database
+    'maf': ["maf"],     # !! this is MIRA format, not mutation alignment format
     'newick': ["newick", "nw", "nhx", "nwk"],   # phylo
     'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo
-    'ods': ['ods'],
+    'ods': ['ods'],                             # database
     'paf': ['paf'],                             # assembly
     'phylip': ['phy', 'ph', 'phylip'],          # phylo
     'phyloxml': ['phyloxml', 'xml'],            # phylo
     'plink': ['plink'],
+    'qual': ['qual'],                           # seauence
     'sam': ["sam"],                             # alignement
     'scf': ["scf"],                             # alignement
     'sra': ["sra"],                             # sra format
     'stockholm': ['sto', 'sth', 'stockholm'],   # alignment
-    'vcf': ['vcf'],                             # variant
     'twobit': ['2bit'],                         # sequence
-    'tsv': ["tsv"],
+    'tsv': ["tsv"],                             # database
+    'vcf': ['vcf'],                             # variant
     'wiggle': ['wig'],
     'wig': ['wig'],
-    'xls':['xls'],
-    'xlsx':['xlsx'],
-    'xmfa':['xmfa'],
-    'yaml': ['yaml', 'YAML']                   # misc
+    'xls': ['xls'],                             # database
+    'xlsx': ['xlsx'],                           # database
+    'xmfa': ['xmfa'],
+    'yaml': ['yaml', 'YAML']                    # database
 
 
 }
@@ -81,7 +88,7 @@ extensions = AttrDict(**extensions)
 # phyloxml    *.xml
 
 """
-ace     *.ace   1.47    No  1.52    Reads the contig sequences from an ACE assembly file. Uses Bio.Sequencing.Ace internally   
+ace     *.ace   1.47    No  1.52    Reads the contig sequences from an ACE assembly file. Uses Bio.Sequencing.Ace internally
 clustal     *.aln   1.43    1.43    No  The alignment format of Clustal X and
 Clustal W.  CLUSTAL format is recognised by the word CLUSTAL at the beginning of
 the file.
@@ -110,7 +117,6 @@ IntelliGenetics file format, apparently the same as the MASE alignment format.
 imgt    Unspecified (*.txt)     1.56    1.56    1.56    This refers to the IMGT
 variant of the EMBL plain text file format.
 
-
 phd     *.phd   1.46    1.52    1.52    PHD files are output from PHRED,
 used by PHRAP and CONSED for input. Uses Bio.Sequencing.Phd internally.
 
@@ -123,11 +129,6 @@ files produced by Roche 454 and IonTorrent/IonProton sequencing machines.
 
 swiss   *.sw    1.43    No  1.52    Swiss-Prot aka UniProt format. Uses
 Bio.SwissProt internally. See also the UniProt XML format.
-
-qual    *.qual  1.50    1.50    1.52    Qual files are a bit like FASTA files
-but instead of the sequence, record space separated integer sequencing values
-as PHRED quality scores. A matched pair of FASTA and QUAL files are often used
-as an alternative to a single FASTQ file.
 
 uniprot-xml     *.xml   1.56    No  1.56    UniProt XML format, successor to
 the plain text Swiss-Prot format.

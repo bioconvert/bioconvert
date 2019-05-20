@@ -52,7 +52,7 @@ class CSV2XLS(ConvBase):
             sheet_name=DEFAULT_SHEET_NAME,
             *args, **kwargs):
         """
-        do the conversion :term`CSV` -> :term:'XLS` using pyexcel modules
+        Do the conversion :term:`CSV` -> :term:`XLS` using pyexcel modules
 
         """
         rows = []
@@ -68,13 +68,13 @@ class CSV2XLS(ConvBase):
         save_data(self.outfile, data)
 
     @requires(python_libraries=["pandas"])
-    def _method_panda(
+    def _method_pandas(
             self,
             in_sep=DEFAULT_IN_SEP,
             sheet_name=DEFAULT_SHEET_NAME,
             *args, **kwargs):
         """
-        do the conversion :term`CSV` -> :term:'XLS` using Panda modules
+        Do the conversion :term:`CSV` -> :term:`XLS` using Panda modules
 
         """
         import pandas as pd

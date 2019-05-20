@@ -37,10 +37,11 @@ class BAM2Fastq(ConvBase):
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
+
         :param str infile:
         :param str outfile:
-        library used::
-            pysam (samtools)
+
+        library used: pysam (samtools)
         """
         super().__init__(infile, outfile)
 
@@ -62,8 +63,7 @@ class BAM2Fastq(ConvBase):
 
     @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
-        """
-        do the conversion :term`BAM` -> :term:'Fastq` using bedtools
+        """Do the conversion :term:`BAM` -> :term:`Fastq` using bedtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
@@ -73,8 +73,7 @@ class BAM2Fastq(ConvBase):
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
-        """
-        do the conversion :term`BAM` -> :term:'Fastq` using samtools
+        """Do the conversion :term:`BAM` -> :term:`Fastq` using samtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
