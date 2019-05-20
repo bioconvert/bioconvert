@@ -9,6 +9,7 @@ Summary
 
 	bioconvert.abi2fasta
 	bioconvert.abi2fastq
+	bioconvert.abi2qual
 	bioconvert.bam2bed
 	bioconvert.bam2bedgraph
 	bioconvert.bam2bigwig
