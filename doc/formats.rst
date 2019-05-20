@@ -1,5 +1,18 @@
 .. _formats:
 
+
+Here below we provide a description of all formats used in bioconvert as well as
+other less known formats not included. We annotate the formats:
+
+- Type: sequence, assembly, alignement, other
+- Format: binary, human-readable.
+- Status: deprecated or not included
+
+..
+    .. admonition:: Bioconvert conversions
+    .. seealso::  
+    .. admonition::  References
+
 Formats
 ==========
 
@@ -11,18 +24,76 @@ We hope that this page will be useful to all developers and scientists. Would
 you like to contribute, please edit the file in our github **doc/formats.rst**.
 
 
+
+.. _format_twobit
+
+.2bit (twobit)
+--------------
+
+:Format: binary
+:Status: available
+:Type: sequence
+
+
+A **2bit** file stores multiple DNA sequences (up to 4 Gb total) in a compact
+randomly-accessible format. The file contains masking information as well as the
+DNA itself.
+
+The file begins with a 16-byte header containing the following fields:
+
+  - signature: the number 0x1A412743 in the architecture of the machine that created the file
+  - version: zero for now. Readers should abort if they see a version number higher than 0
+  - sequenceCount: the number of sequences in the file 
+  - reserved: always zero for now
+
+All fields are 32 bits unless noted. If the signature value is not as given, the
+reader program should byte-swap the signature and check if the swapped version
+matches. If so, all multiple-byte entities in the file will have to be
+byte-swapped. This enables these binary files to be used unchanged on different
+architectures.
+
+The header is followed by a file index, which contains one entry for each
+sequence. Each index entry contains three fields:
+
+    - nameSize: a byte containing the length of the name field
+    - name: the sequence name itself (in ASCII-compatible byte string), of variable length depending on nameSize
+    - offset: the 32-bit offset of the sequence data relative to the start of the file, not aligned to any 4-byte padding boundary
+
+The index is followed by the sequence records, which contain nine fields:
+
+    - dnaSize - number of bases of DNA in the sequence
+    - nBlockCount - the number of blocks of Ns in the file (representing unknown sequence)
+    - nBlockStarts - an array of length nBlockCount of 32 bit integers indicating the (0-based) starting position of a block of Ns
+    - nBlockSizes - an array of length nBlockCount of 32 bit integers indicating the length of a block of Ns
+    - maskBlockCount - the number of masked (lower-case) blocks 
+    - maskBlockStarts - an array of length maskBlockCount of 32 bit integers indicating the (0-based) starting position of a masked block
+    - maskBlockSizes - an array of length maskBlockCount of 32 bit integers indicating the length of a masked block
+    - reserved - always zero for now
+    - packedDna - the DNA packed to two bits per base, represented as so: T - 00, C - 01, A - 10, G - 11. The first base is in the most significant 2-bit byte; the last base is in the least significant 2 bits. For example, the sequence TCAG is represented as 00011011.
+
+.. admonition:: Reference:
+
+    - http://genome.ucsc.edu/FAQ/FAQformat.html#format7
+
+
+
+
+
+
+
+
 .. _format_abi:
 
 ABI
 ---
+:Format: binary
+:Status: available
 :Type: sequence
 
-traces files, including the PHRED quality scores for the base calls.
+Traces files, including the PHRED quality scores for the base calls.
 This allows ABI to FASTQ conversion. Note that each ABI file contains one and only one sequence (no need for indexing the file). The trace data contains probablities of the four nucleotide bases along the sequencing run together with the sequence deduced from that data. ABI trace is a binary format.
 
 File format produced by ABI sequencing machine. It produces ABI "Sanger" capillary sequence
-
-
 
 .. admonition:: Bioconvert conversions:
 
@@ -30,8 +101,8 @@ File format produced by ABI sequencing machine. It produces ABI "Sanger" capilla
     - :class:`~bioconvert.abi2fastq.ABI2FASTQ`
     - :class:`~bioconvert.abi2fasta.ABI2FASTA`
 
-.. seealso:: :ref:`scf`, :class:`~bioconvert.scf2fasta.SCF2Fasta`, 
-    :class:`~bioconvert.scf2fastq.SCF2Fastq`, 
+.. seealso:: :class:`~bioconvert.scf2fasta.SCF2Fasta`,
+    :class:`~bioconvert.scf2fastq.SCF2Fastq`.
 
 
 .. admonition::  References
@@ -46,8 +117,9 @@ File format produced by ABI sequencing machine. It produces ABI "Sanger" capilla
 ASQG
 ----
 
+:Format: human-readable
+:Status: not included (deprecated)
 :Type: assembly
-:status: deprecated format not included in **Bioconvert**
 
 The ASQG format describes an assembly graph. Each line is a tab-delimited
 record. The first field in each record describes the record type. The three
@@ -84,23 +156,30 @@ Example::
     - https://github.com/jts/sga/wiki/ASQG-Format
 
 
-.. _bai_format:
+.. _format_bai:
 
 BAI
 ---
+:Format: binary
+:Status: not included
+:Type: index
 
 The index file of a BAM file is a BAI file format. The BAI files are 
 not used in **Bioconvert**. 
 
-.. _bam_format:
+
+.. _format_bam:
 
 BAM
 ---
 
+:Format: binary
+:Status: included
 :Type: Sequence alignement
 
 The BAM (Binary Alignment Map) is the binary version of the Sequence 
-Alignment Map (:ref:`SAM`) format.
+Alignment Map (:ref:`format_sam`) format. It is a compact and index-able representation 
+of nucleotide sequence alignments. 
 
 .. admonition:: Bioconvert Conversions
 
@@ -120,14 +199,49 @@ Alignment Map (:ref:`SAM`) format.
     - http://samtools.github.io/hts-specs/SAMv1.pdf
     - http://genome.ucsc.edu/goldenPath/help/bam.html
 
-.. seeqlso::
+.. seealso:: The :ref:`format_sam` and :ref:`format_bai` formats.
 
-.. _bedgraph_format:
+
+.. _format_bcf:
+
+BCF
+---
+
+:Format: binary
+:Status: included
+:Type: variant
+
+Binary version of the Variant Call Format (VCF).
+
+.. admonition:: Bioconvert conversions
+
+    - :class:`~bioconvert.bcf2vcf.BCF2VCF`
+    - :class:`~bioconvert.vcf2bcf.VCF2BCF`
+
+
+
+
+
+.. _format_bcl:
+
+BCL
+---
+
+:Format: binary
+:Status: not included
+:Type: sequence
+
+BCL is the raw format used by Illumina sequencer. This data is converted into
+:ref:`FastQ  <format_fastq>` thanks to a tool called bcl2fastq. This type of conversion is not included
+in **Bioconvert**
+
+
+.. _format_bedgraph:
 
 BEDGRAPH
 --------
 
-.. _bed_format:
+.. _format_bed:
 
 BED
 ---
@@ -136,40 +250,102 @@ BED
 
 BED file must has at least 3 columns (chrom, start, end).
 
-.. _bigwig_format:
+.. _format_bigwig:
 
 BIGWIG
 ------
 
 
+.. _format_cram:
+
+CRAM
+----
+
+:Format: binary
+:Status: not included
+:Type: Alignment
+
+The CRAM file format is a more dense form of BAM files with the benefit of
+saving much disk space. While BAM files contain all sequence data within a file,
+CRAM files are smaller by taking advantage of an additional external reference
+sequence file. This file is needed to both compress and decompress the read
+information.
+
+.. seealso:: :ref:`format_bam`
+
+
+.. admonition:: Bioconvert Conversions
+
+    - :class:`~bioconvert.bam2sam.BAM2CRAM`
+    - :class:`~bioconvert.bam2cram.SAM2CRAM`
+    - :class:`~bioconvert.bam2sam.CRAM2BAM`
+    - :class:`~bioconvert.bam2cram.CRAM2SAM`
+
+
+.. _format_fasta:
+
 FastA
 -----
 
+:Format: human-readable
+:Status: included
 :Type: Sequence
 
-This refers to the input FASTA file format where each record starts 
-with a ">" line. Resulting sequences have a generic alphabet by default.   
+This refers to the input FASTA file format where each record starts
+with a ">" line. Resulting sequences have a generic alphabet by default. 
 There is no standard file extension for a text file containing FASTA formatted sequences. Although
-their is a plethora of ad-hoc file extensions: fasta, fas, fa, seq, fsa, fna, ffn, faa, frn, we use only fasta, fa and fst. 
+their is a plethora of ad-hoc file extensions: fasta, fas, fa, seq, fsa, fna, ffn, faa, frn, we use only fasta, fa and fst within **Bioconvert**.
 
+
+.. admonition:: Bioconvert conversions
+
+    - :class:`~bioconvert.fastq2fasta.FastQ2FastA`
+    - :class:`~bioconvert.fasta2fasta.FastA2FastQ`
+    - :class:`~bioconvert.fasta2clustal.FastA2Clustal`
+    - :class:`~bioconvert.fasta2nexus.FastA2Nexus`
+    - :class:`~bioconvert.fasta2twobit.FastA2TwoBit`
+
+.. seealso:: :ref:`format_fastq` and :ref:`format_qual`
+.. admonition::  References
+
+    -  http://en.wikipedia.org/wiki/FASTA_format
+
+
+.. _format_fastg:
 
 FastG
 -----
 
-:type: assembly
+:Format:
+:Status: not included 
+:Type: assembly
+
+
 :reference: http://fastg.sourceforge.net/FASTG_Spec_v1.00.pdf
 
-.. _fastq_format:
+
+.. _format_fastq:
 
 FastQ
 -----
 
-FASTQ files include sequences and their qualities. In general, *fastq*
+:Format: human-readable
+:Status: included
+:Type: Sequence
+
+FASTQ files include sequences in :ref:`format_fasta` format and their 
+qualities (:ref:`format_qual`). In general, *fastq*
 refers to Sanger style FASTQ files which encode PHRED qualities using an
 ASCII offset of 33. See also the incompatible "fastq-solexa" and "fastq-illumina"
 variants used in early Solexa/Illumina pipelines, Illumina pipeline 1.8 produces Sanger FASTQ.
 Be aware that there are different FASTQ formats for different sequencing technologiess
 
+.. admonition:: Bioconvert conversions
+
+    - :class:`~bioconvert.fastq2fasta.FastQ2FastA`
+    - :class:`~bioconvert.fasta2fasta.FastA2FastQ`
+
+.. seealso:: :ref:`format_fasta` and ref:`format_qual`
 
 .. _gfa_format:
 
@@ -235,14 +411,14 @@ other assembly and variation graph types.
 Like GFA, GFA2 is tab-delimited in that every lexical token is separated from
 the next by a single tab.
 
-.. _json_format:
+.. _format_json:
 
 JSON
 ----
 
 TODO
 
-.. _nexus_format:
+.. _format_nexus:
 
 Nexus
 -----------
@@ -325,14 +501,24 @@ PLINK binary files (BED/BIM/FAM)
 -------------------------------------
 Same information as plink flat files. 
 
-.. _qual_format:
+
+.. _format_qual:
 
 QUAL
 ----
 
+:Format: human-readable
+:Status: included
 :Type: Sequence
 
-TODO
+QUAL files include qualities of each nucleotide in :ref:`format_fasta` format.
+
+.. admonition:: Bioconvert conversions
+
+    - :class:`~bioconvert.fastq2fasta.FastQ2FastA`
+    - :class:`~bioconvert.fasta2fasta.FastA2FastQ`
+
+.. seealso:: :ref:`format_fasta` and :ref:`format_fastq`
 
 
 BED for plink
@@ -341,7 +527,7 @@ This BED format  is the binary PED file. Not to be confused with BED format used
 with BAM files.
 
 BIM files
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
 
 The fields are 
 
@@ -354,7 +540,7 @@ The fields are
 
 So, it is like the MAP with the 2 alleles, and the format is binary.
 
-.. _fam_format:
+.. _format_fam:
 
 FAM 
 ~~~
@@ -362,13 +548,14 @@ FAM
 The first 6 columns of the PED file.
 
 
-.. _sam_format:
+.. _format_sam:
 
-SAM format
--------------
+SAM
+---
 
-:Type: Sequence alignment
-:reference: https://samtools.github.io/hts-specs/SAMv1.pdf
+:Format: human readable
+:Status: included
+:Type: alignment
 
 
 In the SAM format, each alignment line typically represents the linear alignment
@@ -397,10 +584,7 @@ All  optional   fields  follow  the TAG:TYPE:VALUE format  where TAG is  a  two-
 The tag `NM:i:2` means: Edit distance to the reference (number of changes
 necessary to make this equal to the reference, exceluding clipping).
 
-
-The optional fields are tool-dependent. 
-
-From BWA documentation, we can get this
+The optional fields are tool-dependent. For instance with BWA mapper, we can get these tags
 
 ==== ==================================================
 Tag         Meaning
@@ -422,16 +606,16 @@ XF         Support from forward/reverse alignment
 XE         Number of supporting seeds
 ==== ==================================================
 
-Note that XO and XG are generated by BWT search while the CIGAR string by
-Smith-Waterman alignment. These two tags may be inconsistent with the CIGAR
-string. This is not a bug
-
-`SA:Z`: Other canonical alignments in a chimeric alignment, in the format of: (rname,pos,strand,CIGAR,mapQ,NM;)+. Each element in the semi-colon delimited list represents a part of the chimeric alignment. Conventionally, at a supplementary line, the first element points to the primary line.
 
 
 
+.. admonition::  References
 
-.. _scf:
+    - http://samtools.github.io/hts-specs/SAMv1.pdf
+    - http://genome.ucsc.edu/goldenPath/help/bam.html
+
+
+.. _format_scf:
 
 Trace File Format - Sequence Chromatogram Format (SCF)
 ------------------------------------------------------
@@ -474,6 +658,29 @@ Stockholm
 The Stockholm alignment format is also known as PFAM format.   
 
 
+.. _format_vcf:
+
+VCF
+---
+
+:Format: human readable
+:Status: included
+:Type: variant
+
+
+Variant Call Format (VCF) is a flexible and extendable format for 
+storing variation in sequences such as single nucleotide variants,
+insertions/deletions, copy number variants and structural variants. 
+
+.. admonition:: Bioconvert conversions:
+
+    - :class:`~bioconvert.bcf2vcf`
+    - :class:`~bioconvert.bcf2wiggle`
+    - :class:`~bioconvert.vcf2bcf`
+    - :class:`~bioconvert.vcf2bed`
+    - :class:`~bioconvert.vcf2wiggle`
+    - :class:`~bioconvert.vcf2plink`
+    - :class:`~bioconvert.vcf2bplink`
 
 
 
