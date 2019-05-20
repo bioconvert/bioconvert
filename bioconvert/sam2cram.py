@@ -27,6 +27,7 @@
 import os
 
 from bioconvert import ConvBase
+from bioconvert.core.base import ConvArg
 
 import colorlog
 
@@ -64,7 +65,6 @@ class SAM2CRAM(ConvBase):
         """
         super(SAM2CRAM, self).__init__(infile, outfile, *args, **kargs)
 
-
         self.reference = reference
         if self.reference is None:
             logger.warning(
@@ -86,6 +86,7 @@ class SAM2CRAM(ConvBase):
                     logger.debug("Reference exists ({}).".format(reference))
 
             self.reference = reference
+        print(self.reference)
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
@@ -94,7 +95,19 @@ class SAM2CRAM(ConvBase):
 
         cmd = "samtools view -@ {} -C {} -T {} > {}".format(
             self.threads, self.infile, reference, self.outfile)
+        print(cmd)
         try:
             self.execute(cmd)
         except:
             logger.debug("FIXME. The ouput message from samtools is on stderr...")
+
+    @classmethod
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names="--reference",
+            nargs=1,
+            default=None,
+            #type=ConvArg.file,
+            help="reference used",
+        )
+
