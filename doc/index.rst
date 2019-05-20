@@ -110,6 +110,7 @@ User and Developer Guides
     :numbered:
 
     user_guide
+    tutorial
     developer_guide
     benchmarking
     auto_examples/index
@@ -117,7 +118,6 @@ User and Developer Guides
     formats
     not_provided
     faqs
-    tutorial
     glossary
     ChangeLog.rst
 
