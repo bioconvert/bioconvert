@@ -1,8 +1,8 @@
 User Guide
-============
+==========
 
 Usage
-------------
+-----
 
 Explicit conversion
 ~~~~~~~~~~~~~~~~~~~
@@ -67,7 +67,7 @@ also write::
 
 
 Parallelization
---------------------
+---------------
 
 
 Some converters can use several threads, but if you have hundreds of files and

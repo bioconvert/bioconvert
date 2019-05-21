@@ -9,7 +9,7 @@ other less known formats not included. We annotate the formats:
 - Status: deprecated or not included
 
 Formats
-==========
+=======
 
 Here below, we provide a list of formats used in bioinformatics or computational
 biology. Most of these formats are used in **Bioconvert** and available for
@@ -487,7 +487,7 @@ GFA
 :references: http://gfa-spec.github.io/GFA-spec/,
 
 Overview
-~~~~~~~~~~
+~~~~~~~~
 
 The Graphical Fragment Assembly (GFA) can be used to represent genome
 assemblies. GFA stores sequence graphs as the product of an
@@ -501,7 +501,7 @@ A **containment** line starts with C. A **path** line starts with P.
 
 
 Terminology
-~~~~~~~~~~~~~
+~~~~~~~~~~~
 - Segment a continuous sequence or subsequence.
 - Link an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
 - Containment an overlap between two segments where one is contained in the other.
@@ -510,7 +510,7 @@ Terminology
 See details in the reference above.
 
 Example:
-~~~~~~~~~
+~~~~~~~~
 
 ::
 
@@ -529,7 +529,7 @@ Convertion to fasta will store this fourth line after the name.
 
 
 GFA version 2
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 GFA2 is a generalization of GFA that allows one to specify an assembly graph in
 either less detail, e.g. just the topology of the graph, or more detail, e.g.
@@ -552,14 +552,14 @@ TODO
 .. _format_nexus:
 
 Nexus
------------
+-----
 
 The NEXUS multiple alignment format, also known as PAUP format. 
 
 
 
 PAF (Pairwise mApping Format)
---------------------------------
+-----------------------------
 
 :reference: https://github.com/lh3/miniasm/blob/master/PAF.md
 
@@ -594,7 +594,7 @@ A PAF file may optionally contain SAM-like typed key-value pairs at the end of
 each line.
 
 PLINK flat files (MAP/PED)
--------------------------------
+--------------------------
 
 PLINK is a used application for analyzing genotypic data. It can be considered  the de-facto standard of the field. The MAP files describes the SNPs and contains those fields:
 
@@ -629,7 +629,7 @@ missing data are coded as "0 0". So we havez N lines 2L + 6 columns where N is
 the number of individuals and L the numbers of SNPs
 
 PLINK binary files (BED/BIM/FAM)
--------------------------------------
+--------------------------------
 Same information as plink flat files. 
 
 
@@ -653,7 +653,7 @@ QUAL files include qualities of each nucleotide in :ref:`format_fasta` format.
 
 
 BED for plink
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
 This BED format  is the binary PED file. Not to be confused with BED format used
 with BAM files.
 
@@ -912,7 +912,7 @@ sheets are to be found, you can select one or the other.
 
 
 TODO
--------
+----
 bcf2vcf.py
 bcf2wiggle.py
 bigbed2wiggle.py

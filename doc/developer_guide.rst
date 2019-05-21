@@ -1,7 +1,7 @@
 .. _developer_guide:
 
 Developer guide
-=================
+===============
 
 It is quite easy to add a new converter in **Bioconvert**
 (see :ref:`add_converter` section) by adding a new Python module (e.g., with the
@@ -352,7 +352,7 @@ or ::
 
 
 How to benchmark your new method vs others
---------------------------------------------------
+------------------------------------------
 
 ::
 
@@ -368,7 +368,7 @@ you can also use the **bioconvert** standalone with -b option.
 .. _update_doc:
 
 How to add you new converter to the main documentation ?
------------------------------------------------------------
+--------------------------------------------------------
 
 Edit the doc/references.rst and add those lines ::
 
@@ -379,7 +379,7 @@ Edit the doc/references.rst and add those lines ::
 
 
 pep8 and conventions
--------------------------
+--------------------
 
 In order to write your Python code, use PEP8 convention as much as possible.
 Follow the conventions used in the code. For instance,
@@ -424,7 +424,7 @@ For instance::
     $ flake8 bioconvert/fastq2fasta.py
 
 Requirements files
-------------------------
+------------------
 
 - requirements.txt : should contain the packages to be retrieved from Pypi only.
   Those are downloaded and installed (if missing) when using
@@ -438,7 +438,7 @@ Requirements files
 
 
 How to update bioconvert on bioconda
----------------------------------------
+------------------------------------
 
 Fork bioconda-recipes github repository and clone locally. Follow instructions on
 https://bioconda.github.io/contributing.html
