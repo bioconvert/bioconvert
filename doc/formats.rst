@@ -460,6 +460,24 @@ The **bigBed** format stores annotation items that can either be simple, or a li
 BIGWIG
 ------
 
+.. _format_bz2:
+
+BZ2
+---
+
+:Format: binary
+:Status: included
+:Type: Compression
+
+BZ2 compression. Usually a factor 2, 3 better compression than :ref:`format_gz` on sequencing data.
+
+.. admonition:: Bioconvert conversions:
+
+    :class:`~bioconvert.gz2bz2`,
+    :class:`~bioconvert.gz2dsrc`
+    :class:`~bioconvert.bz22gz`,
+    :class:`~bioconvert.dsrc2gz`
+
 
 .. _format_cram:
 
@@ -490,6 +508,7 @@ information.
 CSV
 ---
 
+:Format: human-readable
 :Type: database
 :Status: included
 
@@ -500,6 +519,26 @@ details.
 .. admonition:: References
 
     - https://en.wikipedia.org/wiki/Comma-separated_values
+
+
+.. _format_dsrc:
+
+DSRC
+----
+
+:Format: binary
+:Status: included
+:Type: Compression
+
+DSRC compression dedicated for DNA sequences.
+
+.. admonition:: Bioconvert conversions:
+
+    :class:`~bioconvert.gz2bz2`,
+    :class:`~bioconvert.gz2dsrc`
+    :class:`~bioconvert.bz22gz`,
+    :class:`~bioconvert.dsrc2gz`
+
 
 
 
@@ -661,7 +700,7 @@ The header is compulsary and following lines must have 9 columns as follows:
 
 1. **seqname** - The name of the sequence (e.g. chromosome) on which the feature
    exists. Any string can be used. For example, *chr1*, *III*, *contig1112.23*.
-   Any character not in  [a-zA-Z0-9.:^*$@!+_?-|] must be escaped with the %
+   Any character not in  ``[a-zA-Z0-9.:^*$@!+_?-|]`` must be escaped with the %
    character followed by its hexadecimal value.
 2. **source** - The source of this feature. This field will normally be used
    to indicate the program making the prediction, or if it comes from public
@@ -703,7 +742,8 @@ The header is compulsary and following lines must have 9 columns as follows:
 
 .. admonition:: Bioconvert conversions:
 
-    - :class:`~bioconvert.gff22gff3.GFF22GFF3`, :class:`~bioconvert.gff32gff2`
+    - :class:`~bioconvert.gff22gff3.GFF22GFF3`,
+      :class:`~bioconvert.gff32gff2.GFF32GFF2`
 
 
 .. admonition:: References:
@@ -713,6 +753,25 @@ The header is compulsary and following lines must have 9 columns as follows:
     - http://www.sanger.ac.uk/resources/software/gff/spec.html
     - https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md
 
+
+
+.. _format_gz:
+
+GZ
+--
+
+:Format: binary
+:Status: included
+:Type: Compression
+
+GZ compression.
+
+.. admonition:: Bioconvert conversions:
+
+    :class:`~bioconvert.gz2bz2`,
+    :class:`~bioconvert.gz2dsrc`
+    :class:`~bioconvert.bz22gz`,
+    :class:`~bioconvert.dsrc2gz`
 
 
 
@@ -1085,43 +1144,48 @@ sheets are to be found, you can select one or the other.
 
 
 
+
 TODO
 -------
-bcf2vcf.py
 bcf2wiggle.py
 bigbed2wiggle.py
 bigwig2bedgraph.py
 bigwig2wiggle.py
 bplink2plink.py
+
 clustal2fasta.py
 clustal2nexus.py
 clustal2phylip.py
 clustal2stockholm.py
-dsrc2gz.py
+
 embl2fasta.py
 embl2genbank.py
+
 fasta2clustal.py
 fasta2genbank.py
 fasta2nexus.py
 fasta2phylip.py
 fasta2twobit.py
+
 genbank2embl.py
 genbank2fasta.py
 genbank2gff3.py
+
 gfa2fasta.py
-gff22gff3.py
-gff3gff2.py
-gz2bz2.py
-gz2dsrc.py
+
 json2yaml.py
+yaml2json.py
+
 maf2sam.py
+
 newick2nexus.py
 newick2phyloxml.py
 nexus2clustal.py
 nexus2newick.py
 nexus2phylip.py
 nexus2phyloxml.py
-ods2csv.py
+
+
 phylip2clustal.py
 phylip2fasta.py
 phylip2nexus.py
@@ -1132,18 +1196,20 @@ phyloxml2nexus.py
 plink2bplink.py
 plink2vcf.py
 sam2paf.py
+
 scf2fasta.py
 scf2fastq.py
+
 sra2fastq.py
 stockholm2clustal.py
 stockholm2phylip.py
-tsv2csv.py
+
+
 twobit2fasta.py
-vcf2bcf.py
+
 vcf2bed.py
 vcf2bplink.py
 vcf2plink.py
 vcf2wiggle.py
 wig2bed.py
 xmfa2phylip.py
-yaml2json.py
