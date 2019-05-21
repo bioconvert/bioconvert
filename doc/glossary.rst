@@ -54,7 +54,8 @@ Note that formats mentionned here below have dedicated description in the
 
     BIGBED
 
-        TODO
+        An indexed binary version of a BED file
+        See :ref:`format_bigbed` page for details.
 
     BPLINK
 

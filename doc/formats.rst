@@ -13,7 +13,7 @@ Formats
 
 Here below, we provide a list of formats used in bioinformatics or computational
 biology. Most of these formats are used in **Bioconvert** and available for
-conversion to another formats. Some are available for book-keeping. 
+conversion to another formats. Some are available for book-keeping.
 
 We hope that this page will be useful to all developers and scientists. Would
 you like to contribute, please edit the file in our github **doc/formats.rst**.
@@ -36,9 +36,11 @@ DNA itself.
 
 The file begins with a 16-byte header containing the following fields:
 
-  - signature: the number 0x1A412743 in the architecture of the machine that created the file
-  - version: zero for now. Readers should abort if they see a version number higher than 0
-  - sequenceCount: the number of sequences in the file 
+  - signature: the number 0x1A412743 in the architecture of the machine that
+    created the file
+  - version: zero for now. Readers should abort if they see a version number
+    higher than 0
+  - sequenceCount: the number of sequences in the file
   - reserved: always zero for now
 
 All fields are 32 bits unless noted. If the signature value is not as given, the
@@ -51,30 +53,34 @@ The header is followed by a file index, which contains one entry for each
 sequence. Each index entry contains three fields:
 
     - nameSize: a byte containing the length of the name field
-    - name: the sequence name itself (in ASCII-compatible byte string), of variable length depending on nameSize
-    - offset: the 32-bit offset of the sequence data relative to the start of the file, not aligned to any 4-byte padding boundary
+    - name: the sequence name itself (in ASCII-compatible byte string), of
+      variable length depending on nameSize
+    - offset: the 32-bit offset of the sequence data relative to the start of
+      the file, not aligned to any 4-byte padding boundary
 
 The index is followed by the sequence records, which contain nine fields:
 
     - dnaSize - number of bases of DNA in the sequence
-    - nBlockCount - the number of blocks of Ns in the file (representing unknown sequence)
-    - nBlockStarts - an array of length nBlockCount of 32 bit integers indicating the (0-based) starting position of a block of Ns
-    - nBlockSizes - an array of length nBlockCount of 32 bit integers indicating the length of a block of Ns
-    - maskBlockCount - the number of masked (lower-case) blocks 
-    - maskBlockStarts - an array of length maskBlockCount of 32 bit integers indicating the (0-based) starting position of a masked block
-    - maskBlockSizes - an array of length maskBlockCount of 32 bit integers indicating the length of a masked block
+    - nBlockCount - the number of blocks of Ns in the file (representing
+      unknown sequence)
+    - nBlockStarts - an array of length nBlockCount of 32 bit integers
+      indicating the (0-based) starting position of a block of Ns
+    - nBlockSizes - an array of length nBlockCount of 32 bit integers
+      indicating the length of a block of Ns
+    - maskBlockCount - the number of masked (lower-case) blocks
+    - maskBlockStarts - an array of length maskBlockCount of 32 bit integers
+      indicating the (0-based) starting position of a masked block
+    - maskBlockSizes - an array of length maskBlockCount of 32 bit integers
+      indicating the length of a masked block
     - reserved - always zero for now
-    - packedDna - the DNA packed to two bits per base, represented as so: T - 00, C - 01, A - 10, G - 11. The first base is in the most significant 2-bit byte; the last base is in the least significant 2 bits. For example, the sequence TCAG is represented as 00011011.
+    - packedDna - the DNA packed to two bits per base, represented as
+      so: T - 00, C - 01, A - 10, G - 11. The first base is in the most
+      significant 2-bit byte; the last base is in the least significant 2 bits.
+      For example, the sequence TCAG is represented as 00011011.
 
 .. admonition:: Reference:
 
     - http://genome.ucsc.edu/FAQ/FAQformat.html#format7
-
-
-
-
-
-
 
 
 .. _format_abi:
@@ -96,7 +102,7 @@ File format produced by ABI sequencing machine. It produces ABI "Sanger" capilla
     :class:`~bioconvert.abi2fastq.ABI2FASTQ`,
     :class:`~bioconvert.abi2fasta.ABI2FASTA`
 
-.. seealso:: :ref:`scf`, :class:`~bioconvert.scf2fasta.SCF2Fasta`,
+.. seealso:: :ref:`format_scf`, :class:`~bioconvert.scf2fasta.SCF2Fasta`,
     :class:`~bioconvert.scf2fastq.SCF2Fastq`,
 
 .. admonition::  References
@@ -158,8 +164,8 @@ BAI
 :Status: not included
 :Type: index
 
-The index file of a BAM file is a BAI file format. The BAI files are 
-not used in **Bioconvert**. 
+The index file of a BAM file is a BAI file format. The BAI files are
+not used in **Bioconvert**.
 
 
 .. _format_bam:
@@ -171,9 +177,9 @@ BAM
 :Status: included
 :Type: Sequence alignement
 
-The BAM (Binary Alignment Map) is the binary version of the Sequence 
-Alignment Map (:ref:`format_sam`) format. It is a compact and index-able representation 
-of nucleotide sequence alignments. 
+The BAM (Binary Alignment Map) is the binary version of the Sequence
+Alignment Map (:ref:`format_sam`) format. It is a compact and index-able representation
+of nucleotide sequence alignments.
 
 .. admonition:: Bioconvert Conversions
 
@@ -205,7 +211,7 @@ BCF
 :Status: included
 :Type: variant
 
-Binary version of the Variant Call Format (:ref:`_format_vcf`).
+Binary version of the Variant Call Format (:ref:`format_vcf`).
 
 .. admonition:: Bioconvert conversions
 
@@ -237,6 +243,17 @@ in **Bioconvert**. Indeed,  Illumina provides a **bcl2fastq** executable and its
 BEDGRAPH
 --------
 
+:Format: human-readable
+:Status: included
+:Type: database
+
+The bedGraph format allows display of continuous-valued data in track format.
+This display type is useful for probability scores and transcriptome data.
+
+.. todo:: any other difference with BED format ? Can we use bedGraph instead of BED?
+
+.. seealso:: :ref:`format_bed`
+
 .. _format_bed:
 
 BED
@@ -246,41 +263,45 @@ BED
 :Status: not included
 :Type: database
 
-A Browser Extensible Data (BED) file is a tab-delimited text file that defines a
-feature track (e.g. coverage) along a reference. The BED file is a very
-versatile format, which makes it difficult to handle in **Bioconvert**. So, let
-us describe exhaustively the BED format.
+A Browser Extensible Data (BED) file is a tab-delimited text file. It is a
+concise way to represent genomic features and annotations.
 
-BED lines have 3 required fields and nine additional optional fields.
+The BED file is a very versatile format, which makes it difficult to handle in **Bioconvert**. So, let us describe exhaustively the BED format.
+
+Although the BED description format supports up to 12 columsn, only the first 3
+are required for some tools such as the UCSC browser, Galaxy, or bedtools
+software.
+
+So, in general BED lines have 3 required fields and nine additional
+optional fields.
 
 Generally, all BED files have the same extensions (.bed) irrespective of the
-number of columns. We can refer to the 3-columns version as BED3, the 4-columns BED as BED4 and so on. 
+number of columns. We can refer to the 3-columns version as BED3, the 4-columns BED as BED4 and so on.
 
-The number of fields per line must be consistent. If some fields are empty, 
-additional column information must be filled for consistency (e.g., with a "."). 
+The number of fields per line must be consistent. If some fields are empty,
+additional column information must be filled for consistency (e.g., with a ".").
 BED fields can be whitespace-delimited or tab-delimited although some
 variations of BED types such as "bed Detail" require a tab character
 delimitation for the detail columns (see Note box here below).
 
 
-.. note:: *BED detail* format 
+.. note:: *BED detail* format
 
-    It is an extension of BED format plus 2 additional fields. 
-    The first one is an ID, which can be used in place of the name field 
-    for creating links from the details pages. The second additional field 
-    is a description of the item, which can be a long description and can 
+    It is an extension of BED format plus 2 additional fields.
+    The first one is an ID, which can be used in place of the name field
+    for creating links from the details pages. The second additional field
+    is a description of the item, which can be a long description and can
     consist of html.
 
     Requirements:
-
         - fields must be tab-separated
-        - "type=bedDetail" must be included in the track line, 
-        - the name and position fields should uniquely describe items 
-          so that the correct ID and description will be displayed on 
+        - "type=bedDetail" must be included in the track line,
+        - the name and position fields should uniquely describe items
+          so that the correct ID and description will be displayed on
           the details pages.
 
-     The following example uses the first 4 columns of BED format, 
-     but up to 12 may be used. Note the header, which contains the 
+     The following example uses the first 4 columns of BED format,
+     but up to 12 may be used. Note the header, which contains the
      type=bedDetail string.::
 
          track name=HbVar type=bedDetail description="HbVar custom track" db=hg19  visibility=3 url="blabla.html"
@@ -288,16 +309,18 @@ delimitation for the detail columns (see Note box here below).
          chr11  5255660 5255661 HBD c.1 G>A 2659    delta0 thalassemia
          chr11  5247945 5247946 Hb Sheffield    2672    Hemoglobin variant
          chr11  5255415 5255416 Hb A2-Lyon  2676    Hemoglobin variant
-         chr11  5248234 5248235 Hb Aix-les-Bains    2677    Hemoglobin variant 
+         chr11  5248234 5248235 Hb Aix-les-Bains    2677    Hemoglobin variant
 
 
+.. warning:: Browser such as the Genome Browser (http://genome.ucsc.edu/) can visualise BED
+    files. Usually, BED files can be annotated using header lines, which begin with the
+    word "browser" or "track" to assist the browser in the display and interpretation.
 
-Only custom tracks can have header lines, which begin with the
-word "browser" or "track" to assist the browser in the display and interpretation.
-Such annotation track header lines are not permissible in 
-utilities such as bedToBigBed, which convert lines of BED text to
-indexed binary files. 
+    Such annotation track header lines are not permissible in utilities such as
+    bedToBigBed, which convert lines of BED text to indexed binary files.
 
+
+The file description below is modified from: http://genome.ucsc.edu/FAQ/FAQformat#format1.
 
 The first three required BED fields are:
 
@@ -309,43 +332,110 @@ The first three required BED fields are:
 
 The 9 additional optional BED fields are:
 
-4. **name** - This label of the BED line
+4. **name** - Label of the BED line
 
-5. **score** - A score between 0 and 1000. If the track line useScore 
-   attribute is set to 1 for this annotation data set, the score value will determine the level of gray in which this feature is displayed (higher numbers = darker gray). This table shows the Genome Browser's translation of BED score values into shades of gray shade
+5. **score** - A score between 0 and 1000. In Genome Browser, the track line
+   useScore attribute is set to 1 for this annotation data set, the score value
+   will determine the level of gray in which this feature is displayed.
 
 6. **strand** - Defines the strand. Either "." (=no strand) or "+" or "-".
 
-7. **thickStart** - The starting position at which the feature is drawn thickly (for example, the start codon in gene displays). When there is no thick part, thickStart and thickEnd are usually set to the chromStart position.
+7. **thickStart** - The starting position at which the feature is drawn thickly
+   (for example, the start codon in gene displays). When there is no thick part,
+   thickStart and thickEnd are usually set to the chromStart position.
 
-8. **thickEnd** - The ending position at which the feature is drawn thickly (for example the stop codon in gene displays).
+8. **thickEnd** - The ending position at which the feature is drawn thickly.
 
-9. **itemRgb** - An RGB value of the form R,G,B (e.g. 255,0,0). If the track 
-    line itemRgb attribute is set to "On", this RBG value will determine the 
-    display color of the data contained in this BED line. NOTE: It is recommended 
-    that a simple color scheme (eight colors or less) be used with this attribute 
-    to avoid overwhelming the color resources of the Genome Browser and your 
-    Internet browser.
+9. **itemRgb** - An RGB value of the form R,G,B (e.g. 255,0,0).
 
 10. **blockCount** - The number of blocks (exons) in the BED line.
 
-11. **blockSizes** - A comma-separated list of the block sizes. The number of items in this list should correspond to blockCount.
+11. **blockSizes** - A comma-separated list of the block sizes.
+    The number of items in this list should correspond to blockCount.
 
-12. **blockStarts** - A comma-separated list of block starts. All of the blockStart positions should be calculated relative to chromStart. The number of items in this list should correspond to blockCount.
+12. **blockStarts** - A comma-separated list of block starts. Should be
+    calculated relative to chromStart. The number of items in this list
+    should correspond to blockCount.
 
-In BED files with block definitions, the first blockStart value must be 0, so that the first block begins at chromStart. Similarly, the final blockStart position plus the final blockSize value must equal chromEnd. Blocks may not overlap.
+In BED files with block definitions, the first blockStart value must be 0, so that the first block begins at chromStart. Similarly, the final blockStart position plus the final blockSize value must equal to chromEnd. Blocks may not overlap.
 
-Example::
+Here is a simple example::
 
     track name=pairedReads description="Clone Paired Reads" useScore=1
     chr22 1000 5000 cloneA 960 + 1000 5000 0 2 567,488, 0,3512
     chr22 2000 6000 cloneB 900 - 2000 6000 0 2 433,399, 0,3601
 
 
-.. note:: If your data set is BED-like, but it is very large (over 50MB) you can convert it to a :ref:`format_bigbed` format. 
+.. note:: If your data set is BED-like, but it is very large (over 50MB)
+    you can convert it to a :ref:`format_bigbed` format.
+
+.. seealso:: :ref:`format_bedgraph`
 
 
-.. _format_biged: 
+.. _format_bed3:
+
+BED3
+----
+
+A BED3 is supported by bedtools. It is a BED file where each feature is
+described by chrom, start and end (with tab-delimited values). Example::
+
+    chr1    100    120
+
+See :ref:`format_bed` section for details.
+
+.. _format_bed4:
+
+BED4
+----
+
+A BED4 is supported by bedtools. It is a BED file where each feature is
+described by chrom, start, end and name (with tab-delimited values). Example::
+
+    chr1    100    120    gene1
+
+See :ref:`format_bed` section for details.
+
+.. _format_bed5:
+
+BED5
+----
+
+A BED5 is supported by bedtools. It is a BED file where each feature is
+described by chrom, start, end, name and score(with tab-delimited values). Example::
+
+    chr1    100    120    gene1 0
+
+See :ref:`format_bed` section for details.
+
+
+.. _format_bed6:
+
+BED6
+----
+
+A BED6 is supported by bedtools. It is a BED file where each feature is
+described by chrom, start, end, name, score and strand (with tab-delimited values). Example::
+
+    chr1    100    120    gene1 0 +
+
+See :ref:`format_bed` section for details.
+
+
+.. _format_bed12:
+
+BED12
+-----
+
+A BED12 is supported by bedtools. It is a BED file where each feature is
+described by all 12 BED fields. Example::
+
+    chr1    100    120    gene1 0 + 100 100 0 3 1,2,3 4,5,6
+
+See :ref:`format_bed` section.
+
+
+.. _format_bigbed:
 
 BIGBED
 ------
@@ -355,7 +445,7 @@ BIGBED
 :Type: database
 
 
-The **bigBed** format stores annotation items that can either be simple, or a linked collection of exons. BigBed files are created initially from BED type files. The resulting bigBed files are in an indexed binary format. The main advantage of the bigBed files is that only the portions of the files needed to display a particular region 
+The **bigBed** format stores annotation items that can either be simple, or a linked collection of exons. BigBed files are created initially from BED type files. The resulting bigBed files are in an indexed binary format. The main advantage of the bigBed files is that only the portions of the files needed to display a particular region
 
 
 
@@ -423,7 +513,7 @@ FastA
 :Type: Sequence
 
 This refers to the input FASTA file format where each record starts
-with a ">" line. Resulting sequences have a generic alphabet by default. 
+with a ">" line. Resulting sequences have a generic alphabet by default.
 There is no standard file extension for a text file containing FASTA formatted sequences. Although
 their is a plethora of ad-hoc file extensions: fasta, fas, fa, seq, fsa, fna, ffn, faa, frn, we use only fasta, fa and fst within **Bioconvert**.
 
@@ -448,7 +538,7 @@ FastG
 -----
 
 :Format:
-:Status: not included 
+:Status: not included
 :Type: assembly
 
 
@@ -464,19 +554,20 @@ FastQ
 :Status: included
 :Type: Sequence
 
-FASTQ files include sequences in :ref:`format_fasta` format and their 
+FASTQ files include sequences in :ref:`format_fasta` format and their
 qualities (:ref:`format_qual`). In general, *fastq*
 refers to Sanger style FASTQ files which encode PHRED qualities using an
 ASCII offset of 33. See also the incompatible "fastq-solexa" and "fastq-illumina"
 variants used in early Solexa/Illumina pipelines, Illumina pipeline 1.8 produces Sanger FASTQ.
-Be aware that there are different FASTQ formats for different sequencing technologiess
+Be aware that there are different FASTQ formats for different sequencing 
+technologies.
 
 .. admonition:: Bioconvert conversions
 
     - :class:`~bioconvert.fastq2fasta.FastQ2FastA`
     - :class:`~bioconvert.fasta2fasta.FastA2FastQ`
 
-.. seealso:: :ref:`format_fasta` and ref:`format_qual`
+.. seealso:: :ref:`format_fasta` and :ref:`format_qual`
 
 .. _gfa_format:
 
@@ -524,7 +615,7 @@ Example:
     P   14  11+,12-,13+ 4M,5M
 
 
-Notes: sometimes you would have extra field (fourth one) on **segment** lines. 
+Notes: sometimes you would have extra field (fourth one) on **segment** lines.
 Convertion to fasta will store this fourth line after the name.
 
 
@@ -542,6 +633,89 @@ other assembly and variation graph types.
 Like GFA, GFA2 is tab-delimited in that every lexical token is separated from
 the next by a single tab.
 
+
+.. _format_gff:
+
+GFF
+---
+
+:Format: human-readable
+:Status: included
+:Type: Annotation
+
+GFF is a standard file format for storing genomic features in a text file. GFF
+stands for Generic Feature Format. It is 9 column tab-delimited file, each line of which corresponds to an annotation, or feature.
+
+The GFF v2 is deprecated and v3 should be used instead. In particular, GFF2 is sunable to deal with the three-level hierarchy of gene -> transcript -> exon.
+
+The first line is a comment (starting with #) followed by a series of data lines, each of which correspond to an annotation. Here is an example::
+
+    ##gff-version 3
+    ctg123  .  exon  1300  1500  .  +  .  ID=exon00001
+    ctg123  .  exon  1050  1500  .  +  .  ID=exon00002
+    ctg123  .  exon  3000  3902  .  +  .  ID=exon00003
+    ctg123  .  exon  5000  5500  .  +  .  ID=exon00004
+    ctg123  .  exon  7000  9000  .  +  .  ID=exon00005
+
+The header is compulsary and following lines must have 9 columns as follows:
+
+1. **seqname** - The name of the sequence (e.g. chromosome) on which the feature
+   exists. Any string can be used. For example, *chr1*, *III*, *contig1112.23*.
+   Any character not in  [a-zA-Z0-9.:^*$@!+_?-|] must be escaped with the %
+   character followed by its hexadecimal value.
+2. **source** - The source of this feature. This field will normally be used
+   to indicate the program making the prediction, or if it comes from public
+   database annotation, or is experimentally verified, etc. If there is no
+   source, use the . character.
+3. **feature** - The feature type name. Equivalent to BED’s name field.  For example, *exon*, etc. Should be a term from the lite sequence ontology (SOFA).
+4. **start** - The one-based starting position of feature on seqname.
+   bedtools uses a one-based position and BED uses a zero-based start position.
+5. **end** - The one-based ending position of feature on seqname.
+6. **score** - A score assigned to the GFF feature.
+7. **strand** - Defines the strand. Use +, - or .
+8. **frame/phase** - The frame of the coding sequence. Use 0, 1, 2. The phase
+   is one
+   of the integers 0, 1, or 2, indicating the number of bases that should be
+   removed from the beginning of this feature to reach the first base of the
+   next codon.
+9. **attribute** - A list of feature attributes in the format tag=value
+   separated by semi columns.
+   All non-printing characters in such free text value strings (e.g. newlines,
+   tabs, control characters, etc) must be explicitly represented by their
+   C (UNIX) style backslash-escaped representation (e.g. newlines as ‘n’,
+   tabs as ‘t’). Tabs must be replaced with %09 URL escape. There are predefined
+   tags:
+
+   - ID: unique identifier of the feature.
+   - Name: name of the feature
+   - Alias
+   - Parent: can be used to group exons into transcripts, transcripts into
+     genes and so on.
+   - Target
+   - Gap
+   - Derives_from
+   - Note
+   - Dbxref
+   - Ontology_term
+
+   Multiple attributes of the same type are separated by comma.
+   Case sensitive: Parent is difference from parent.
+
+.. admonition:: Bioconvert conversions:
+
+    - :class:`~bioconvert.gff22gff3.GFF22GFF3`, :class:`~bioconvert.gff32gff2`
+
+
+.. admonition:: References:
+
+    - http://gmod.org/wiki/GFF2
+    - http://gmod.org/wiki/GFF3
+    - http://www.sanger.ac.uk/resources/software/gff/spec.html
+    - https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md
+
+
+
+
 .. _format_json:
 
 JSON
@@ -554,7 +728,7 @@ TODO
 Nexus
 -----------
 
-The NEXUS multiple alignment format, also known as PAUP format. 
+The NEXUS multiple alignment format, also known as PAUP format.
 
 
 
@@ -565,7 +739,7 @@ PAF (Pairwise mApping Format)
 
 PAF is a text format describing the approximate mapping positions between two
 set of sequences. PAF is used for instance in **miniasm** tool (see reference
-above), an ultrafast de novo assembly for long noisy reads. PAF is TAB-delimited 
+above), an ultrafast de novo assembly for long noisy reads. PAF is TAB-delimited
 with each line consisting of the following predefined fields:
 
 ====== ======== ===========================================
@@ -615,7 +789,7 @@ The PED (pedigree) file describes the individuals and the genetic data. The PED
 file can be spaced or tab delimited. Each line corresponds to a single
 individual. The first 6 columns are:
 
-- family ID (or pedigree name): a unique alpha numeric identifier 
+- family ID (or pedigree name): a unique alpha numeric identifier
 - individual ID: should be unique within his family
 - father ID: 0 if unknown. If specified, must also appear as an individual in the file
 - mother ID: same as above
@@ -630,7 +804,7 @@ the number of individuals and L the numbers of SNPs
 
 PLINK binary files (BED/BIM/FAM)
 -------------------------------------
-Same information as plink flat files. 
+Same information as plink flat files.
 
 
 .. _format_qual:
@@ -660,7 +834,7 @@ with BAM files.
 BIM files
 ~~~~~~~~~
 
-The fields are 
+The fields are
 
 - chromosome number (integer)
 - SNP marker ID (string)
@@ -673,7 +847,7 @@ So, it is like the MAP with the 2 alleles, and the format is binary.
 
 .. _format_fam:
 
-FAM 
+FAM
 ~~~
 
 The first 6 columns of the PED file.
@@ -779,7 +953,7 @@ Comments size                          Comments
 Private data size                      Private data
 ====================================== ====================================
 
-.. _format_tsv: 
+.. _format_tsv:
 
 TSV
 ---
@@ -810,7 +984,7 @@ details.
 Stockholm
 ---------
 
-The Stockholm alignment format is also known as PFAM format.   
+The Stockholm alignment format is also known as PFAM format.
 
 
 .. _format_vcf:
@@ -823,9 +997,9 @@ VCF
 :Type: variant
 
 
-Variant Call Format (VCF) is a flexible and extendable format for 
+Variant Call Format (VCF) is a flexible and extendable format for
 storing variation in sequences such as single nucleotide variants,
-insertions/deletions, copy number variants and structural variants. 
+insertions/deletions, copy number variants and structural variants.
 
 .. admonition:: Bioconvert conversions:
 
@@ -846,8 +1020,8 @@ Wiggle Track format (WIG)
 :reference: http://genome.ucsc.edu/goldenPath/help/wiggle.html
 
 The bigWig format is used for graphing track needs. The wiggle (WIG) format is
-an older format for display of dense, continuous data such as GC percent. 
-Wiggle data elements must be equally sized. 
+an older format for display of dense, continuous data such as GC percent.
+Wiggle data elements must be equally sized.
 
 Similar format such as the bedGraph format is also an older format used to display sparse data
 or data that contains elements of varying size.
@@ -863,7 +1037,7 @@ XLS
 :Type: database
 :Status: included
 
-Spreadsheet file format (Microsoft Excel file format). 
+Spreadsheet file format (Microsoft Excel file format).
 
 Until 2007, Microsoft Excel used a proprietary binary file format
 called Excel Binary File Format (.XLS). In Excel 2007, the Office Open XML was
