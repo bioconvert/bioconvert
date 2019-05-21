@@ -39,7 +39,7 @@ logger = colorlog.getLogger(__name__)
 class TSV2CSV(ConvBase):
     """Convert :term:`TSV` file into :term:`CSV` file
 
-    Available methods:
+    Available methods: Python, Pandas
 
     .. plot::
 
@@ -51,9 +51,9 @@ class TSV2CSV(ConvBase):
         with TempFile(suffix=".csv") as fh:
             infile = bioconvert_data("test_tabulated.tsv")
             convert = TSV2CSV(infile, fh.name)
-            convert.boxplot_benchmark(N=5000)
+            convert.boxplot_benchmark(N=50)
 
-    .. seealso:: bioconvert.csv2tsv.CSV2TSV
+    .. seealso:: :class:`~bioconvert.csv2tsv.CSV2TSV`
 
     """
     _default_method = "python"
@@ -63,6 +63,7 @@ class TSV2CSV(ConvBase):
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
+
         :param str infile:
         :param str outfile:
         """
@@ -75,10 +76,7 @@ class TSV2CSV(ConvBase):
             out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
-        """
-        do the conversion :term`TSV` -> :term:'CSV` using csv module to read and write
-
-        """
+        """Do the conversion :term:`TSV` -> :term:`CSV` using csv module"""
         with open(self.infile, "r") as in_stream, open(self.outfile, "w") as out_stream:
             writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)
             reader = csv.reader(in_stream, delimiter=in_sep)
@@ -92,10 +90,9 @@ class TSV2CSV(ConvBase):
             out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
-        """
-        do the conversion :term`TSV` -> :term:'CSV` using csv module to read, and writing directly into the file. Note
-        that his method can't escape nor quote output char
+        """Do the conversion :term:`TSV` -> :term:`CSV` using csv module
 
+        .. note:: Note that this method cannot escape nor quote output char
         """
         with open(self.infile, "r") as in_stream, open(self.outfile, "w") as out_stream:
             reader = csv.reader(in_stream, delimiter=in_sep)
@@ -104,16 +101,13 @@ class TSV2CSV(ConvBase):
                 out_stream.write(line_terminator)
 
     @requires(python_library="pandas")
-    def _method_panda(
+    def _method_pandas(
             self,
             in_sep=DEFAULT_IN_SEP,
             out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
-        """
-        do the conversion :term`TSV` -> :term:'CSV` using Panda modules
-
-        """
+        """Do the conversion :term:`TSV` -> :term:`CSV` using Pandas library"""
         import pandas as pd
         pd.read_csv(
             self.infile,

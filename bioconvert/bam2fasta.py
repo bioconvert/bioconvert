@@ -26,7 +26,7 @@ from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 
-class BAM2Fasta(ConvBase):
+class BAM2FastA(ConvBase):
     """Bam2Fasta converter
 
     Wrapper of bamtools to convert bam file to fasta file.
@@ -66,7 +66,7 @@ class BAM2Fasta(ConvBase):
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """
-        do the conversion :term`BAM` -> :term:'Fasta` using samtools
+        do the conversion :term:`BAM` -> :term:`Fasta` using samtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.

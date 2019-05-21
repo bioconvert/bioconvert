@@ -1,15 +1,15 @@
 import pytest
 
-from bioconvert.bam2fasta import BAM2Fasta
+from bioconvert.bam2fasta import BAM2FastA
 from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 
 
-@pytest.mark.skipif(BAM2Fasta._method_bamtools.is_disabled, reason="missing dependencies")
+@pytest.mark.skipif(BAM2FastA._method_bamtools.is_disabled, reason="missing dependencies")
 def test_method_bamtools():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".fa") as tempfile:
-        convert = BAM2Fasta(infile, tempfile.name)
+        convert = BAM2FastA(infile, tempfile.name)
         convert(method="bamtools")
 
         # Check that the output is correct with a checksum
@@ -19,11 +19,11 @@ def test_method_bamtools():
         assert md5(tempfile.name) == "ea5511c3c8913626be152609887c8c4d"
 
 
-@pytest.mark.skipif(BAM2Fasta._method_samtools.is_disabled, reason="missing dependencies")
+@pytest.mark.skipif(BAM2FastA._method_samtools.is_disabled, reason="missing dependencies")
 def test_method_samtools():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".fa") as tempfile:
-        convert = BAM2Fasta(infile, tempfile.name)
+        convert = BAM2FastA(infile, tempfile.name)
         convert(method="samtools")
         # samtools 1.6 / hstlib 1.6 gives different results on travis and
         # locally

@@ -25,15 +25,9 @@
 
 """Convert :term:`FASTQ` to :term:`FASTA`"""
 from bioconvert import ConvBase, bioconvert_script
-from bioconvert.core.base import ConvArg
-from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires, requires_nothing
-
-try:
-    # Let us make this optional for now because
-    # GATB cannot be install on RTD
-    from gatb import Bank
-except:
-    pass
+# from bioconvert.core.base import ConvArg
+from bioconvert.core.decorators import compressor, in_gz
+from bioconvert.core.decorators import requires, requires_nothing
 
 from mappy import fastx_read
 import mmap
@@ -43,10 +37,10 @@ class Fastq2Fasta(ConvBase):
     """Convert :term:`FASTQ` to :term:`FASTA`"""
 
     # use readfq for now because pure python are fast enough
-    # for production, could use seqtk which seems the fastest method though
-    # Make sure that the default handles also the compresssion
-    #input_ext = extensions.extensions.fastq
-    #output_ext =  extensions.fasta
+    # for production, could use seqtk which seems the fastest method
+    # though. Make sure that the default handles also the compresssion
+    # input_ext = extensions.extensions.fastq
+    # output_ext =  extensions.fasta
     _default_method = "readfq"
 
     @staticmethod
@@ -127,16 +121,6 @@ class Fastq2Fasta(ConvBase):
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
-    @requires(python_library="pyGATB")
-    @in_gz
-    @out_compressor
-    def _method_GATB(self, *args, **kwargs):
-        with open(self.outfile, "w") as fasta:
-            for record in Bank(self.infile):
-                fasta.write(">{}\n{}\n".format(
-                    record.comment.decode("utf-8"),
-                    record.sequence.decode("utf-8")))
-
     @requires_nothing
     @compressor
     def _method_readfq(self, *args, **kwargs):
@@ -171,7 +155,7 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
-    @requires(external_binary = "bioawk")
+    @requires(external_binary="bioawk")
     @in_gz
     def _method_bioawk(self, *args, **kwargs):
         """This method uses bioawk, an implementation with convenient
@@ -221,7 +205,7 @@ class Fastq2Fasta(ConvBase):
 
     @requires("perl")
     def _method_perl(self, *args, **kwargs):
-        perlcmd = "perl {}".format(bioconvert_script("fastqToFasta.pl"))
+        perlcmd = "perl {}".format(bioconvert_script("fastq2fasta.pl"))
         cmd = "{} {} {}".format(perlcmd, self.infile, self.outfile)
         self.execute(cmd)
 
@@ -230,45 +214,26 @@ class Fastq2Fasta(ConvBase):
     def _method_python_internal(self, *args, **kwargs):
         with open(self.infile, "r+") as inp:
 
-            quality_file = kwargs.get("quality_file", None)
-            if quality_file:
-                with open(self.outfile, "wb") as out, open(quality_file, "wb") as qualout:
-                    mapp = mmap.mmap(inp.fileno(), 0)
+            with open(self.outfile, "wb") as out:
+                mapp = mmap.mmap(inp.fileno(), 0)
+                line = mapp.readline()
+                while line:
+                    out.write(b">")
+                    out.write(line[1:])
+                    out.write(mapp.readline())
+                    mapp.readline()
+                    mapp.readline()
                     line = mapp.readline()
-                    while line:
-                        # save identifier in fasta and qual file
-                        out.write(b">")
-                        out.write(line[1:])
-                        qualout.write(b">")
-                        qualout.write(line[1:])
-                        # read/save sequence
-                        out.write(mapp.readline())
-                        # skip line
-                        mapp.readline()  # "+"
-                        # read/save quality
-                        qualout.write(mapp.readline())
-                        line = mapp.readline()
-                    mapp.close()
-            else:
-                with open(self.outfile, "wb") as out:
-                    mapp = mmap.mmap(inp.fileno(), 0)
-                    line = mapp.readline()
-                    while line:
-                        out.write(b">")
-                        out.write(line[1:])
-                        out.write(mapp.readline())
-                        mapp.readline()
-                        mapp.readline()
-                        line = mapp.readline()
-                    mapp.close()
+                mapp.close()
 
-    @requires_nothing
+    """@requires_nothing
     def _method_python_external(self, *args, **kwargs):
-        pycmd = "python {}".format(bioconvert_script("fastqToFasta.py"))
+        pycmd = "python {}".format(bioconvert_script("fastq2fasta.py"))
         cmd = "{} {} {}".format(pycmd, self.infile, self.outfile)
         self.execute(cmd)
+    """
 
-    @classmethod
+    """@classmethod
     def get_additional_arguments(cls):
         yield ConvArg(
             names="--quality-file",
@@ -278,3 +243,4 @@ class Fastq2Fasta(ConvBase):
             output_argument=True,
             help="The path to the quality file.",
         )
+    """

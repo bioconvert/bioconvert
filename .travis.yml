@@ -61,6 +61,11 @@ install:
   - pip install pypandoc
   - pip install biocode
 
+  # May 11 2019, error on travis in osx https://github.com/MTG/sms-tools/issues/36
+  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; mkdir -p ~/.matplotlib; echo "backend: TkAgg" > ~/.matplotlib/matplotlibrc
+
+
+
 # # command to run tests, e.g. python setup.py test
 script:
   - pytest -v --durations=10  test/ --cov=bioconvert --cov-report term --timeout 300 -n 1

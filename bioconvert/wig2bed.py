@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
-#!/opt/local/bin/python
 
+# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
 #                                                                         #
 # Authors: see CONTRIBUTORS.rst                                           #
-# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
+# Copyright © 2018-2019  Institut Pasteur, Paris and CNRS.                #
 # See the COPYRIGHT file for details                                      #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
@@ -23,19 +22,36 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+""" description """
 
-import sys
-import mmap
+from bioconvert import ConvBase
+from bioconvert import requires
 
-with open(sys.argv[1], "r+") as inp:
-    with open(sys.argv[2], "wb") as out:
-        mapp = mmap.mmap(inp.fileno(), 0)
-        line = mapp.readline()
-        while line:
-            out.write(b">")
-            out.write(line[1:])
-            out.write(mapp.readline())
-            mapp.readline()
-            mapp.readline()
-            line = mapp.readline()
-        mapp.close()
+__all__ = ["WIG2BED"]
+
+
+class WIG2BED(ConvBase):
+    """Convert :term:`WIG` file to :term:`BED` file
+
+    Some description to be added by the developer
+
+    """
+
+    _default_method = "bedops"
+    _library_to_install = "bedops"
+
+    def __init__(self, infile, outfile, *args, **kargs):
+        """.. rubric:: constructor
+
+        :param str infile: input WIG file
+        :param str outfile: output BED filename
+
+        """
+        super(WIG2BED, self).__init__(infile, outfile, *args, **kargs)
+
+    @requires("wig2bed")
+    def _method_default(self, *args, **kwargs):
+        """some description"""
+        cmd = "wig2bed < {} > {}".format(self.infile, self.outfile)
+        self.execute(cmd)
+

@@ -36,16 +36,16 @@ __all__ = ["SAM2BAM"]
 
 
 class SAM2BAM(ConvBase):
-    """
-    command used::
-        samtools view -Sbh
+    """Convert :term:`SAM` file to :term:`BAM` file
+
     """
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
-        """
-        Do the conversion  sorted :term`SAM` -> :term:'BAM`
+        """ Do the conversion :term:`SAM` -> :term:`BAM`
+
         The result of the conversion is stored in the outputfile
+
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
         """

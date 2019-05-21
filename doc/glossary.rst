@@ -1,3 +1,6 @@
+
+.. _glossary:
+
 Glossary
 ========
 
@@ -11,12 +14,34 @@ Note that formats mentionned here below have dedicated description in the
     ABI
 
         File format produced by ABI sequencing machines. Contains the trace data
-        which includes probabilities of the four nucleotides. 
+        which includes probabilities of the four nucleotides. See
+        the :ref:`format_abi` format page for details.
+
+    ASQG
+
+       The ASQG format describes an assembly graph. Each line is a tab-delimited
+       record. The first field in each record describes the record type. See the
+       :ref:`format_asqg` page for details.
+
+    BAI
+
+        The index file related to file generated in the BAM format. (This is a
+        non-standard file type.) See the :ref:`format_bai` page for details.
 
     BAM
 
-        Binary version of the Sequence Alignment Map (SAM) format.
-        http://genome.ucsc.edu/goldenPath/help/bam.html
+        Binary version of the Sequence Alignment Map (SAM) format. See the
+        :ref:`format_bam` format page for details. 
+
+    BCF
+
+        Binary version of the Variant Call Format (VCF).
+        See :ref:`format_bcf` page for details.
+
+    BCL
+
+        BCL is the raw format used by Illumina sequencers. See the :ref:`format_bcl` format 
+        page for details.
 
     BED
 
@@ -25,16 +50,21 @@ Note that formats mentionned here below have dedicated description in the
 
     BEDGRAPH
 
-        TODO
+        https://genome.ucsc.edu/goldenPath/help/bedgraph.html
 
-    BAI
-
-        The index file for a file generated in the BAM format. (This is a
-        non-standard file type.)
-
-    BCF
+    BIGBED
 
         TODO
+
+    BPLINK
+
+        BPLINK
+
+
+    BZ2
+
+        TODO
+
 
     BIGWIG
 
@@ -50,7 +80,9 @@ Note that formats mentionned here below have dedicated description in the
 
     CSV
 
-        TODO
+        A comma-separated values format is a delimited text file that uses a
+        comma to separate values. See :ref:`format_csv` format page for
+        details.
 
     DSRC
 
@@ -76,7 +108,12 @@ Note that formats mentionned here below have dedicated description in the
 
         Graphical Fragment Assembly format. https://github.com/GFA-spec/GFA-spec
 
-    GFF
+    GFF2
+
+        General Feature Format, used for describing genes and other features
+        associated with DNA, RNA and Protein sequences.
+
+    GFF3
 
         General Feature Format, used for describing genes and other features
         associated with DNA, RNA and Protein sequences.
@@ -87,12 +124,20 @@ Note that formats mentionned here below have dedicated description in the
         GenBank Flat File Format.
         See https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html
 
+    GZ
+
+        TOD
+
     JSON
 
         A human-readable data serialization language commonly used in
         configuration files. See https://en.wikipedia.org/wiki/JSON
 
     NEXUS
+
+        TODO
+
+    NEWICK
 
         TODO
 
@@ -109,6 +154,16 @@ Note that formats mentionned here below have dedicated description in the
 
         TODO
 
+    PLINK
+
+        TODO
+
+    QUAL
+
+        Sequence of qualities associated with a sequence of nucleotides.
+        Associated with FastA file, the original FastQ file can be built back.
+        See :ref:`format_qual` page for details.
+
     SAM
         Sequence Alignment Map is a generic nucleotide alignment format that
         describes the alignment of query sequences or sequencing reads to a reference
@@ -119,13 +174,19 @@ Note that formats mentionned here below have dedicated description in the
         Standard Chromatogram Format, a binary
         chromatogram format described in Staden package documentation SCF file format.
 
+    SRA
+
+        SRA
+
     STOCKHOLM
 
         TODO
 
     TSV
 
-        TODO
+        A tab-separated values format is a delimited text file that uses a
+        tab character to separate values. See :ref:`format_tsv` format page for
+        details.
 
     TWOBIT
 
@@ -133,8 +194,10 @@ Note that formats mentionned here below have dedicated description in the
 
     VCF
 
-        Variant Call Format
-        http://en.wikipedia.org/wiki/Variant_Call_Format
+        Variant Call Format (VCF) is a flexible and extendable format for 
+        storing variation in sequences such as single nucleotide variants,
+        insertions/deletions, copy number variants and structural variants. 
+        See :ref:`format_vcf` page for details.
 
     WIGGLE
 
@@ -142,7 +205,14 @@ Note that formats mentionned here below have dedicated description in the
 
     XLS
 
-        TODO
+        Spreadsheet file format (Microsoft Excel file format). 
+        See :ref:`format_xls` page for details.
+
+    XLSX
+
+        Spreadsheet file format defined in the Office Open XML specification.
+        See :ref:`format_xlsx` page for details.
+
 
     XMFA
 

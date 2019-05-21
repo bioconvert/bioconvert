@@ -1,7 +1,7 @@
 easydev
 colorlog
 pandas
-biopython
+biopython>=1.70
 mappy
 matplotlib
 networkx

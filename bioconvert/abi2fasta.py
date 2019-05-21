@@ -12,7 +12,6 @@
 ##############################################################################
 """Convert :term:`ABI` format to :term:`FASTA` format"""
 from bioconvert import ConvBase
-from bioconvert.core import extensions
 from bioconvert import requires
 
 
@@ -44,5 +43,3 @@ class ABI2FASTA(ConvBase):
         from Bio import SeqIO
         records = SeqIO.parse(self.infile, "abi")
         SeqIO.write(records, self.outfile, "fasta")
-
-

@@ -49,6 +49,16 @@ def bioconvert_data(filename, where=None):
         raise FileNotFoundError('unknown file {}'.format(filename))
     return filename
 
+
+def info():
+    from bioconvert.core.registry import Registry
+    r = Registry()
+    info = r.get_info()
+    converters = [x for x in info.items()]
+    data = [info[k] for k,v in info.items()]
+    msg = "Bioconvert contains {} converters including {} methods"
+    return msg.format(len(converters), sum(data)) 
+
 import bioconvert
 from bioconvert.core.base import ConvBase
 from bioconvert.core.decorators import requires

@@ -27,5 +27,7 @@ go get -u github.com/golang/dep/cmd/dep
 go get -u github.com/evolbioinfo/gotree/
 cd $GOPATH/src/github.com/evolbioinfo/gotree/
 $GOPATH/bin/dep ensure
+# the goalign Mafile consider GOPATH to be empty on some platform
+# so let us provide it when calling make
 
 make GOPATH="$GOPATH" && make install

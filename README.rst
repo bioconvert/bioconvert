@@ -1,7 +1,7 @@
 Bioconvert
 ==========
 
-Bioconvert is a project to facilitate the interconversion of life science data from one format to another.
+**Bioconvert** is a collaborative project to facilitate the interconversion of life science data from one format to another.
 
 .. image:: https://badge.fury.io/py/bioconvert.svg
     :target: https://pypi.python.org/pypi/bioconvert
@@ -10,17 +10,28 @@ Bioconvert is a project to facilitate the interconversion of life science data f
     :target: http://travis-ci.org/bioconvert/bioconvert
 
 .. image:: https://coveralls.io/repos/github/bioconvert/bioconvert/badge.svg?branch=master
-    :target: https://coveralls.io/github/bioconvert/bioconvert?branch=master
+   :target: https://coveralls.io/github/bioconvert/bioconvert?branch=master
 
 .. image:: http://readthedocs.org/projects/bioconvert/badge/?version=master
-    :target: http://bioconvert.readthedocs.org/en/latest/?badge=master
+    :target: http://bioconvert.readthedocs.org/en/master/?badge=master
     :alt: Documentation Status
 
-.. image:: https://badges.gitter.im/bioconvert/bioconvert.svg
+.. .. image:: https://badges.gitter.im/bioconvert/bioconvert.svg
     :target: https://gitter.im/bioconvert/Lobby?source=orgpage
 
+.. image::  https://img.shields.io/github/issues/bioconvert/bioconvert.svg
+    :target:  https://github.com/bioconvert/bioconvert/issues
 
-:note: Bioconvert is tested with Travis for the following Python version: 3.5 and 3.6. Python 2 won't be provided.
+.. image:: https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg
+   :target: https://singularity-hub.org/collections/135
+
+.. image:: https://anaconda.org/bioconda/bioconvert/badges/platforms.svg
+   :target: https://anaconda.org/bioconda/bioconvert
+
+.. image::  https://anaconda.org/bioconda/bioconvert/badges/installer/conda.svg
+    :target: https://conda.anaconda.org/bioconda
+
+
 
 :contributions: Want to add a convertor ? Please join https://github.com/bioconvert/bioconvert/issues/1
 :issues: Please use https://github.com/bioconvert/bioconvert/issues

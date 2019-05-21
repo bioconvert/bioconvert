@@ -21,15 +21,17 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-""" description """
-import json
-import glob
-from os.path import join, basename, exists
+"""Download singularity image"""
+from os.path import exists
 from easydev import md5
-import os
 
 
-def download_singularity_image(outfile, container_path, md5value=None, force=False):
+__all__ = ['download_singularity_image']
+
+
+def download_singularity_image(outfile, container_path, md5value=None,
+                               force=False):
+
     assert outfile.endswith(".simg"), "output filename must be .simg"
 
     # download singularity
@@ -50,6 +52,7 @@ def download_singularity_image(outfile, container_path, md5value=None, force=Fal
         cmd = cmd.format(singfile, container_path)
         print(cmd)
         try:
+            from bioconvert.core.shell import shell
             shell(cmd)
         except:
             import os

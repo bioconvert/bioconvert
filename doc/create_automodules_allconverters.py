@@ -1,4 +1,4 @@
-# create the sphinx code to include all convertors
+# create the sphinx code to include all converters
 # author: Thomas Cokelaer 2018
 from bioconvert.core.registry import Registry
 

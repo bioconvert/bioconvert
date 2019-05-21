@@ -22,6 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+"""Main factory of Bioconvert"""
 import copy
 import time
 import abc
@@ -43,8 +44,6 @@ import colorlog
 
 import bioconvert
 
-_log = colorlog.getLogger(__name__)
-
 from bioconvert.core.benchmark import Benchmark
 from bioconvert.core import extensions
 
@@ -53,14 +52,16 @@ from bioconvert import logger
 from . import BioconvertError
 
 
+_log = colorlog.getLogger(__name__)
+
+
 class ConvMeta(abc.ABCMeta):
-    """
-    This metaclass checks that the converter classes have
+    """This metaclass checks that the converter classes have
 
        * an attribute input_ext
        * an attribute output_ext
 
-    This is an meta class used by :class:`ConvBase` class. For developers
+    This is a meta class used by :class:`ConvBase` class. For developers
     only.
     """
 
@@ -120,7 +121,7 @@ class ConvMeta(abc.ABCMeta):
         #     return True
 
         def is_conversion_method(item):
-            """Return True is method name starts with _method_
+            """Return True if method name starts with _method_
 
             This method is used to keep methods that starts with _method_.
             It uses inspect.getmembers func to list
@@ -206,11 +207,11 @@ class ConvArg(object):
 
 
 class ConvBase(metaclass=ConvMeta):
-    """ base class for all converters.
+    """Base class for all converters.
 
-    To build a new converter create a new class which inherits from
+    To build a new converter, create a new class which inherits from
     :class:`ConvBase` and implement method that performs the conversion.
-    The name of the converter method must start with _method_.
+    The name of the converter method must start with ``_method_``.
 
     For instance: ::
 
@@ -225,18 +226,21 @@ class ConvBase(metaclass=ConvMeta):
     """
     # specify the extensions of the input file, can be a sequence (must be
     # overridden in subclasses)
-
     input_ext = None
 
     # specify the extensions of the output file, can be a sequence (must be
     # overridden in subclasses)
-
     output_ext = None
 
+    # list available methods
     available_methods = []
+
+    # default method should be provided
     _default_method = None
     _library_to_install = None
     _is_compressor = False
+
+    # threads to be used by default if argument is required in a method
     threads = cpu_count()
 
     def __init__(self, infile, outfile):
@@ -250,7 +254,11 @@ class ConvBase(metaclass=ConvMeta):
 
         self.infile = infile
         self.outfile = outfile
-        self._execute_mode = "shell"  # "subprocess"  # set to shell to call shell() method
+
+        # execute mode can be shell or subprocess.
+        self._execute_mode = "shell"
+
+        # The logger to be set to INFO, DEBUG, WARNING, ERROR, CRITICAL
         self.logger = logger
 
     def __call__(self, *args, method_name=None, **kwargs):
@@ -377,7 +385,8 @@ class ConvBase(metaclass=ConvMeta):
             return output
 
     def boxplot_benchmark(self, N=5, rerun=True, include_dummy=False,
-                          to_exclude=[], to_include=[], rot_xticks=90, boxplot_args={}):
+                          to_exclude=[], to_include=[], rot_xticks=90, 
+                          boxplot_args={}):
         """Simple wrapper to call :class:`Benchmark` and plot the results
 
         see :class:`~bioconvert.core.benchmark.Benchmark` for details.
