@@ -1,7 +1,10 @@
 Tutorial
 ========
 
-Here is a tutorial that allows you to quickly start **bioconvert** and see some features on a real data set
+Here is a tutorial that allows you to quickly start **bioconvert** and see some features on a real data set.
+
+We are looking to highlight CNVs (Copy Number Variation)
+by identifying a significant increase in sequencing coverage in the following samples
 
 Data
 ----
@@ -56,7 +59,7 @@ Now, from fastq files, we can perform an alignment on the reference genome using
 
     bwa mem -M -t 4 staphylococcus_aureus.fasta ERR043367_1.fastq ERR043367_2.fastq > ERR043367.sam
 
-.. note:: **Find the reference genome of staphylococcus aureus with the accession FN433596 on** `NCBI <https://www.ncbi.nlm.nih.gov/nuccore/FN433596>`_
+.. admonition:: **Find the reference genome of staphylococcus aureus with the accession FN433596 on** `NCBI <https://www.ncbi.nlm.nih.gov/nuccore/FN433596>`_ :
 
    To convert the reference genbank file in a fasta file you can use bioconvert::
 
@@ -68,14 +71,14 @@ We get a sam file that we can visualize but if you want to reduce the size of th
 
 You can used bioconvert by two ways to convert the sam file to a bam file:
 
-    #. Implicit way::
+    1. Implicit way::
 
         bioconvert ERR043367.sam ERR043367.bam
 
 This is the implicit way because bioconvert deduces the converter to use
 from the input and output extension
 
-    #. Explicit way::
+    2. Explicit way::
 
         bioconvert sam2bam ERR043367.sam
 
@@ -89,3 +92,19 @@ Visualization
 
 Then from this bam file you can visualize the mapping with igv for example.
 
+Here we have a global view of 500bp from the position 2.828.460 to 2.828.960 using IGV. From this point of view, we can see a significant difference between the region in red and the other two blue.
+
+.. image:: coverage_igv.png
+
+We expected to obtain fairly uniform coverage across all samples.
+But on this region we observe that this is not the case.
+We can therefore say that there is a possible variation in the number of copies.
+
+In order to confirm what we saw,
+We want to convert our alignment (BAM) to a BED file to know the number of reads mapped by position::
+
+    bioconvert ERR043367.bam ERR043367.bed
+
+In this bed file, we can check the visual results obtained a little earlier
+with word processing tools that allow us to get some quick statistics like the average coverage (168)
+and compare to the most covered regions to identify CNVs.
