@@ -3,6 +3,7 @@ Whats' new, what has changed
 
 :Revision 0.3.1:
 
+    - rename the ggf3gff2 converter correctly into gff32gff2 and add test
     - NEW converter: abi2qual
     - fastq2fasta: (i) remove quality-file option to export qual (ii) remove
       method python_external (issues #215)
