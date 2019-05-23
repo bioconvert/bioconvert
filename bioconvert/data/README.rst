@@ -4,6 +4,15 @@ test_<convertNAME>_vXX.<input_extension>
 test_vcf2bcf_v1.vcf
 
 
+bigwig2bed
+----------
+test_pybigwig.bigbed from
+https://github.com/deeptools/pyBigWig/tree/master/pyBigWigTest
+
+This bigbed cacn be read by pybigwig. Added because pyBigWig could not read the
+bigBed from ucsc (ucsc.bigbed)
+
+
 bcf2vcf and vcf2bcf
 --------------------
 

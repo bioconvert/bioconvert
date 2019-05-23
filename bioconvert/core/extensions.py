@@ -37,8 +37,8 @@ extensions = {
     'bcf': ["bcf"],                             # variant
     'bed': ["bed"],                             # database
     'bedgraph': ["bedgraph"],                   # database
-    'bigwig': ["bigwig"],
-    'bigbed': ['bb'],
+    'bigwig': ["bigwig", "bw"],                 # database
+    'bigbed': ['bb', "bigbed"],
     'bz2': ['bz2'],                             # compression
     'bplink': ['bplink'],
     'cdao': ["cdao"],                           # phylo
