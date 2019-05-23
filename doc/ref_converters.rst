@@ -27,6 +27,7 @@ Summary
 	bioconvert.bedgraph2bigwig
 	bioconvert.bedgraph2wiggle
 	bioconvert.bigbed2wiggle
+	bioconvert.bigbed2bed
 	bioconvert.bigwig2bedgraph
 	bioconvert.bigwig2wiggle
 	bioconvert.bplink2plink
@@ -188,6 +189,12 @@ All converters documentation
     :members:
     :synopsis:
     :private-members:
+
+.. automodule::	bioconvert.bigbed2bed
+    :members:
+    :synopsis:
+    :private-members:
+
 
 .. automodule:: bioconvert.bigwig2bedgraph
     :members:
