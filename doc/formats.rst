@@ -248,9 +248,8 @@ BEDGRAPH
 :Type: database
 
 The bedGraph format allows display of continuous-valued data in track format.
-This display type is useful for probability scores and transcriptome data.
-
-.. todo:: any other difference with BED format ? Can we use bedGraph instead of BED?
+This display type is useful for probability scores and transcriptome data. Same
+format as the :ref:`format_bed4`.
 
 .. seealso:: :ref:`format_bed`
 
@@ -445,20 +444,33 @@ BIGBED
 :Type: database
 
 
-The **bigBed** format stores annotation items that can either be simple, or a linked collection of exons. BigBed files are created initially from BED type files. The resulting bigBed files are in an indexed binary format. The main advantage of the bigBed files is that only the portions of the files needed to display a particular region
+The **bigBed** format stores annotation items that can either be simple, or a linked collection of exons. BigBed files are created initially from BED type files. The resulting bigBed files are in an indexed binary format. The main advantage of the bigBed files is that only the portions of the files needed to display a particular region is used.
 
 
+.. admonition:: bioconvert conversions
+
+    :class:`~bioconvert.bigbed2bed.BIGBED2BED`, :class:`~bioconvert.bigbed2wiggle.BIGBED2WIGGLE`
 
 .. admonition:: References
 
     - http://genome.ucsc.edu/goldenPath/help/bigBed.html
-
+    - https://github.com/deeptools/pyBigWig
 
 
 .. _format_bigwig:
 
 BIGWIG
 ------
+
+
+
+Wiggle, bigWig, and bigBed files use 0-based half-open coordinates, which are
+also used by this extension. So to access the value for the first base on chr1,
+one would specify the starting position as 0 and the end position as 1.
+Similarly, bases 100 to 115 would have a start of 99 and an end of 115. This is
+simply for the sake of consistency with the underlying bigWig file and may
+change in the future.
+
 
 .. _format_bz2:
 
