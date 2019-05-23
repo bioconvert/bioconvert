@@ -51,6 +51,8 @@ class BIGBED2BED(ConvBase):
 
     @requires(python_library="pyBigWig")
     def _method_pybigwig(self, *args, **kwargs):
+        """
+        """
         import pyBigWig
         bw = pyBigWig.open(self.infile)
         assert bw.isBigBed() is True, "Not a valid bigBed file"
