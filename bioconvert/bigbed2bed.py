@@ -36,7 +36,7 @@ __all__ = ["BIGBED2BED"]
 
 
 class BIGBED2BED(ConvBase):
-    """Converts a sequence alignment in :term:`BIGBED` format to :term:`BED` format
+    """Converts a sequence alignment in :term:`BIGBED` format to :term:`BED4` format
 
     """
     _default_method = 'pybigwig'
