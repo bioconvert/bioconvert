@@ -65,3 +65,4 @@ from bioconvert.core.decorators import requires
 from bioconvert.core.benchmark import Benchmark, BenchmarkMulticonvert
 from bioconvert.core.converter import Bioconvert
 from bioconvert.core.shell import shell
+from bioconvert.io.sniffer import Sniffer
