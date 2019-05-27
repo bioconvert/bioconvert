@@ -48,9 +48,16 @@ Note that formats mentionned here below have dedicated description in the
         Format that defines the data lines displayed in an annotation track.
         (http://genome.ucsc.edu/FAQ/FAQformat#format1)
 
+    BED4
+
+        Variants of the BED format with 4 columns storing the track name,
+        start and end positions and values.
+        See the :ref:`format_bed4` format page for details.
+
     BEDGRAPH
 
         https://genome.ucsc.edu/goldenPath/help/bedgraph.html
+        See the :ref:`format_bed` format page for details.
 
     BIGBED
 
@@ -61,10 +68,10 @@ Note that formats mentionned here below have dedicated description in the
 
         BPLINK
 
-
     BZ2
 
-        TODO
+        **bzip2** is a file compression program that uses the Burrows–Wheeler algorithm. Extension is usually .bz2
+        See :ref:`format_bz2` page for details.
 
 
     BIGWIG
@@ -88,6 +95,7 @@ Note that formats mentionned here below have dedicated description in the
     DSRC
 
         A compression tool dedicated to FastQ files
+        See :ref:`format_dsrc` page for details.
 
     EMBL
 
@@ -104,6 +112,7 @@ Note that formats mentionned here below have dedicated description in the
         FASTQ-formatted sequence files are used to represent high-throughput
         sequencing data, where each read is described by a name, its sequence,
         and its qualities. https://en.wikipedia.org/wiki/FASTQ_format
+        See :ref:`format_fastq` page for details.
 
     GFA
 
@@ -113,12 +122,14 @@ Note that formats mentionned here below have dedicated description in the
 
         General Feature Format, used for describing genes and other features
         associated with DNA, RNA and Protein sequences.
+        See :ref:`format_gff` page for details.
 
     GFF3
 
         General Feature Format, used for describing genes and other features
         associated with DNA, RNA and Protein sequences.
         http://genome.ucsc.edu/FAQ/FAQformat#format3
+        See :ref:`format_gff` page for details.
 
     GENBANK
 
@@ -127,12 +138,13 @@ Note that formats mentionned here below have dedicated description in the
 
     GZ
 
-        TOD
+        **gzip** is a file compression program based on the DEFLATE algorithm. Extension is usually .gz
+        See :ref:`format_gz` page for details.
 
     JSON
 
         A human-readable data serialization language commonly used in
-        configuration files. See https://en.wikipedia.org/wiki/JSON
+        configuration files. See :ref:`format_json` page for details.
 
     NEXUS
 
@@ -223,5 +235,6 @@ Note that formats mentionned here below have dedicated description in the
 
         A human-readable data serialization language commonly used in
         configuration files. See https://en.wikipedia.org/wiki/YAML
+        See :ref:`format_yaml` page for details.
 
 

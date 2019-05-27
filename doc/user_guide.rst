@@ -1,11 +1,35 @@
 User Guide
 ============
 
-Usage
-------------
+.. contents::
+
+Quick Start
+-----------
+
+If you want to convert a format to another and you knwo the extensions of the
+output format, just try bioconvert naively::
+
+    bioconvert test.fastq test.fasta
+
+If the converter fastq to fasta exists in **Bioconvert**, it will work out of
+the box. In order to get a list of all possible conversions, just type::
+
+    bioconvert
+
+or for more details::
+
+    bioconvert --help
+
+To obtain more specific help about a converter that you found in the list::
+
+    bioconvert fastq2fasta --help
+
+.. note:: All converters are named as <INPUT_EXTENSION>2<OUTPUT_EXTENSION>
+
 
 Explicit conversion
-~~~~~~~~~~~~~~~~~~~
+--------------------
+
 
 You can use **bioconvert** from a developer point of view, or as an end-user.
 Here we describe the standalone application that is::
@@ -52,7 +76,7 @@ the --force argument::
     bioconvert fastq2fasta  input.fq output.fa --force
 
 Implicit conversion
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 If the extensions match the conversion name, you can perform implicit
 conversion::
@@ -64,6 +88,11 @@ the extensions possible for a FastA file are ``fasta`` and ``fa`` so you can
 also write::
 
     bioconvert input.fastq output.fa
+
+Compression
+-----------
+
+.. todo:: this section will be coming soon
 
 
 Parallelization

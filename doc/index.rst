@@ -119,8 +119,8 @@ From Python shell::
 
 
 
-User and Developer Guides
-#############################
+Complete documentation including User and Developer Guides
+##########################################################
 
 .. toctree::
     :maxdepth: 2
@@ -133,9 +133,8 @@ User and Developer Guides
     auto_examples/index
     references
     formats
-    not_provided
-    faqs
     glossary
+    faqs
     ChangeLog.rst
 
 

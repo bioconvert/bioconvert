@@ -195,7 +195,6 @@ All converters documentation
     :synopsis:
     :private-members:
 
-
 .. automodule:: bioconvert.bigwig2bedgraph
     :members:
     :synopsis:

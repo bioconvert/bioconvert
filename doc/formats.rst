@@ -1,12 +1,6 @@
+
+
 .. _formats:
-
-
-Here below we provide a description of all formats used in bioconvert as well as
-other less known formats not included. We annotate the formats:
-
-- Type: sequence, assembly, alignement, other
-- Format: binary, human-readable.
-- Status: deprecated or not included
 
 Formats
 ==========
@@ -17,6 +11,14 @@ conversion to another formats. Some are available for book-keeping.
 
 We hope that this page will be useful to all developers and scientists. Would
 you like to contribute, please edit the file in our github **doc/formats.rst**.
+
+If you wish to update this page, please see the :ref:`developer_guide` page.
+
+
+.. - Type: sequence, assembly, alignement, other, index, variant, database,
+   compression
+.. - Format: binary, human-readable
+.. - Status: deprecated, included, not included
 
 
 
@@ -216,6 +218,7 @@ Binary version of the Variant Call Format (:ref:`format_vcf`).
 .. admonition:: Bioconvert conversions
 
     :class:`~bioconvert.bcf2vcf.BCF2VCF`, :class:`~bioconvert.vcf2bcf.VCF2BCF`.
+    :class:`~bioconvert.bcf2wiggle.BCF2WIGGLE`
 
 
 .. _format_bcl:
@@ -236,6 +239,13 @@ in **Bioconvert**. Indeed,  Illumina provides a **bcl2fastq** executable and its
     - https://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/bcl2fastq/bcl2fastq_letterbooklet_15038058brpmi.pdf
     - http://bioinformatics.cvr.ac.uk/blog/how-to-demultiplex-illumina-data-and-generate-fastq-files-using-bcl2fastq/
 
+
+BED for plink
+~~~~~~~~~~~~~~
+This BED format  is the binary PED file. Not to be confused with BED format used
+with BAM files.
+
+.. FIXME todo
 
 
 .. _format_bedgraph:
@@ -444,8 +454,7 @@ BIGBED
 :Type: database/track
 
 
-The **bigBed** format stores annotation items that can either be simple, or a linked collection of exons. BigBed files are created initially from BED type files. The resulting bigBed files are in an indexed binary format. The main advantage of the bigBed files is that only the portions of the files needed to display a particular region is used.
-
+The **bigBed** format stores annotation items. BigBed files are created initially from BED type files. The resulting bigBed files are in an indexed binary format. The main advantage of the bigBed files is that only the portions of the files needed to display a particular region is used.
 
 .. admonition:: bioconvert conversions
 
@@ -466,14 +475,34 @@ BIGWIG
 :Status: included
 :Type: database/track
 
+The bigWig format is useful for dense, continuous data. They can be created from
+wiggle file (:ref:`format_wiggle`). This type of file is an indexed binary format. 
 
-Wiggle, bigWig, and bigBed files use 0-based half-open coordinates, which are
-also used by this extension. So to access the value for the first base on chr1,
-one would specify the starting position as 0 and the end position as 1.
-Similarly, bases 100 to 115 would have a start of 99 and an end of 115. This is
-simply for the sake of consistency with the underlying bigWig file and may
-change in the future.
+Wiggle data must be continuous unlike :ref:`format_bed`. You can convert a
+BED/BEDGraph to bigwig using :class:`~bioconvert.bedgraph2bigwig.BEDGRAPH2BIGWIG`.
 
+
+To create a bigwig from a wiggle, yo need to remove the existing "track" header
+
+.. admonition:: Bioconvert conversions::
+
+    :class:`~bioconvert.bigwig2wiggle.BIGWIG2WIGGLE`,
+    :class:`~bioconvert.bigwig2wiggle.bedgraph2bigwig.BEDGRAPH2BIGWIG`
+
+
+
+
+.. note:: Wiggle, bigWig, and bigBed files use 0-based half-open coordinates, which are
+    also used by this extension. So to access the value for the first base on chr1,
+    one would specify the starting position as 0 and the end position as 1.
+    Similarly, bases 100 to 115 would have a start of 99 and an end of 115. This is
+    simply for the sake of consistency with the underlying bigWig file and may
+    change in the future in various formats and tools dealing with those formats.
+
+
+.. admonition:: References:
+
+    - https://genome.ucsc.edu/goldenpath/help/bigWig.html
 
 .. _format_bz2:
 
@@ -484,7 +513,9 @@ BZ2
 :Status: included
 :Type: Compression
 
-BZ2 compression. Usually a factor 2, 3 better compression than :ref:`format_gz` on sequencing data.
+
+**bzip2** is a file compression program that uses the Burrows–Wheeler algorithm. Extension is usually .bz2
+The BZ2 compression is usually better than gzip for Fastq format compression (factor 2-3).
 
 .. admonition:: Bioconvert conversions:
 
@@ -516,6 +547,62 @@ information.
 
     :class:`~bioconvert.bam2sam.BAM2CRAM`, :class:`~bioconvert.bam2cram.SAM2CRAM`,
     :class:`~bioconvert.bam2sam.CRAM2BAM`, :class:`~bioconvert.bam2cram.CRAM2SAM`.
+
+
+.. _format_clustal:
+
+CLUSTAL
+-------
+
+:Format: human-readable
+:Status: included
+:Type: multiple alignment
+
+
+In a Clustal format, the first line in the file must start with the words "CLUSTAL W" 
+or "CLUSTALW". Nevertheless, many such files starts with CLUSTAL or CLUSTAL X.
+Other information in the first line is ignored. One or more empty lines.
+One or more blocks of sequence data. Each block consists of one line for each sequence 
+in the alignment. Each line consists of the sequence name white space up to 60 sequence symbols.
+optional - white space followed by a cumulative count of residues for the  sequences
+A line showing the degree of conservation for the columns of the alignment in this block.
+One or more empty lines. 
+
+Some rules about representing sequences:
+
+- Case does not matter.
+- Sequence symbols should be from a valid alphabet.
+- Gaps are represented using hyphens ("-").
+- The characters used to represent the degree of conservation are
+    - `*`  - : all residues or nucleotides in that column are identical
+    - `:`  - : conserved substitutions have been observed
+    - `.`  - : semi-conserved substitutions have been observed
+    - <SPACE>  - : no match.
+
+Here is an example of a multiple alignment in CLUSTAL W format::
+
+    CLUSTAL W (1.82) multiple sequence alignment
+
+
+    FOSB_MOUSE      MFQAFPGDYDSGSRCSSSPSAESQYLSSVDSFGSPPTAAASQECAGLGEMPGSFVPTVTA 60
+    FOSB_HUMAN      MFQAFPGDYDSGSRCSSSPSAESQYLSSVDSFGSPPTAAASQECAGLGEMPGSFVPTVTA 60
+                    ************************************************************
+
+    FOSB_MOUSE      TSSFVLTCPEVSAFAGAQRTSGSEQPSDPLNSPSLLAL 98
+    FOSB_HUMAN      TSSFVLTCPEVSAFAGAQRTSGSDQPSDPLNSPSLLAL 98
+                    ***********************:**************
+
+.. admonition:: Some bioconvert conversions
+
+    :class:`~bioconvert.clustal2fasta.CLUSTAL2FASTA`, 
+    :class:`~bioconvert.clustal2fasta.CLUSTAL2NEXUS`, 
+    :class:`~bioconvert.clustal2fasta.CLUSTAL2PHYLIP`, 
+    :class:`~bioconvert.clustal2fasta.CLUSTAL2STOCKHOLM`, 
+
+
+.. admonition:: Reference
+
+    TODO
 
 
 .. _format_csv:
@@ -554,6 +641,39 @@ DSRC compression dedicated for DNA sequences.
     :class:`~bioconvert.bz22gz.BZ22GZ`,
     :class:`~bioconvert.dsrc2gz.DSRC2GZ`
 
+
+.. _format_embl:
+
+EMBL
+----
+
+:Format: human-readable
+:Status: included
+:Type: database
+
+EMBL format stores sequence and its annotation together. The start of the
+annotation section is marked by a line beginning with the word "ID". The start
+of sequence section is marked by a line beginning with the word "SQ".
+The "//" (terminator) line also contains no data or comments and designates
+the end of an entry. .
+
+.. admonition:: Bioconvert conversions:
+
+    :class:`~bioconvert.embl2genbank.EMBL2GENBANK`
+    :class:`~bioconvert.genbank2embl.GENBANK2EMBL`
+
+.. admonition:: References
+
+    - ftp://ftp.ebi.ac.uk/pub/databases/embl/release/doc/usrman.txt
+
+.. _format_fam:
+
+FAM
+~~~
+
+The first 6 columns of the PED file.
+
+.. todo:: documentation coming soon
 
 .. _format_fasta:
 
@@ -594,6 +714,9 @@ FastG
 :Type: assembly
 
 
+FastG is a Graph format used to faithfully representing genome
+assemblies in the face of allelic polymorphism and assembly uncertainty. 
+
 :reference: http://fastg.sourceforge.net/FASTG_Spec_v1.00.pdf
 
 
@@ -616,21 +739,46 @@ technologies.
 
 .. admonition:: Bioconvert conversions
 
-    - :class:`~bioconvert.fastq2fasta.FastQ2FastA`
-    - :class:`~bioconvert.fasta2fasta.FastA2FastQ`
+    :class:`~bioconvert.fastq2fasta.FastQ2FastA`, :class:`~bioconvert.fasta2fasta.FastA2FastQ`
 
 .. seealso:: :ref:`format_fasta` and :ref:`format_qual`
+
+
+Genbank
+-------
+
+:Format: human-readable
+:Status: included
+:Type: annotation/sequence
+
+GenBank format (GenBank Flat File Format) stores sequence and its annotation
+together. The start of the annotation section is marked by a line beginning with
+the word *LOCUS*. The start of sequence section is marked by a line beginning
+with the word *ORIGIN* and the end of the section is marked by a line with only
+"//".
+
+GenBank format for protein has been renamed GenPept.
+
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.genbank2fasta.GENBANK2FASTA`, 
+    :class:`~bioconvert.genbank2embl.GENBANK2EMBL`
+
+.. admonition:: References:
+
+    - https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html
+
 
 .. _gfa_format:
 
 GFA
 ---
 
-:type: assembly graph
-:references: http://gfa-spec.github.io/GFA-spec/,
 
-Overview
-~~~~~~~~~~
+:Format: human-readable
+:Status: included
+:Type: assembly graph
+
 
 The Graphical Fragment Assembly (GFA) can be used to represent genome
 assemblies. GFA stores sequence graphs as the product of an
@@ -643,8 +791,6 @@ and their overlap. The first field of the line identifies the type of the line.
 A **containment** line starts with C. A **path** line starts with P.
 
 
-Terminology
-~~~~~~~~~~~~~
 - Segment a continuous sequence or subsequence.
 - Link an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
 - Containment an overlap between two segments where one is contained in the other.
@@ -652,10 +798,7 @@ Terminology
 
 See details in the reference above.
 
-Example:
-~~~~~~~~~
-
-::
+Example::
 
     H   VN:Z:1.0
     S   11  ACCTT
@@ -671,9 +814,6 @@ Notes: sometimes you would have extra field (fourth one) on **segment** lines.
 Convertion to fasta will store this fourth line after the name.
 
 
-GFA version 2
-~~~~~~~~~~~~~~~~~~~~~~~~
-
 GFA2 is a generalization of GFA that allows one to specify an assembly graph in
 either less detail, e.g. just the topology of the graph, or more detail, e.g.
 the multi-alignment of reads giving rise to each sequence. It is further
@@ -685,6 +825,13 @@ other assembly and variation graph types.
 Like GFA, GFA2 is tab-delimited in that every lexical token is separated from
 the next by a single tab.
 
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.gfa2fasta.GFA2Fasta`
+
+.. admonition:: References:
+
+    - http://gfa-spec.github.io/GFA-spec/,
 
 .. _format_gff:
 
@@ -777,7 +924,7 @@ GZ
 :Status: included
 :Type: Compression
 
-GZ compression.
+**gzip** is a file compression program that is based on the DEFLATE algorithm, which is a combination of LZ77 and Hufmfman coding.
 
 .. admonition:: Bioconvert conversions:
 
@@ -845,8 +992,8 @@ Example::
 
 .. admonition:: Bioconvert conversions
 
-    :class:`~bioconvert.json2yaml`,
-    :class:`~bioconvert.yaml2json`.
+    :class:`~bioconvert.json2yaml.JSON2YAML`,
+    :class:`~bioconvert.yaml2json.YAML2JSON`.
 
 
 .. admonition:: References
@@ -854,12 +1001,116 @@ Example::
     - https://en.wikipedia.org/wiki/JSON
 
 
+.. _format_newick:
+
+NEWICK
+------
+
+:Format: human-readable
+:Status: included
+:Type: phylogeny
+
+Newick format is typically used for tools like PHYLIP and is a minimal
+definition for a phylogenetic tree. It is a way of representing
+graph-theoretical trees with edge lengths using parentheses and commas.
+
+
+.. image:: _static/NewickExample.svg
+
+::
+
+
+    (,,(,));                              no nodes are named
+    (A,B,(C,D));                          leaf nodes are named
+    (A,B,(C,D)E)F;                        all nodes are named
+    (:0.1,:0.2,(:0.3,:0.4):0.5);          all but root node have a distance to parent
+    (:0.1,:0.2,(:0.3,:0.4):0.5):0.0;      all have a distance to parent
+    (A:0.1,B:0.2,(C:0.3,D:0.4):0.5);      distances and leaf names (popular)
+    (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F;    distances and all names
+    ((B:0.2,(C:0.3,D:0.4)E:0.5)A:0.1)F;   a tree rooted on a leaf node (rare)
+
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.newick2nexus.NEWICK2NEXUS`,
+    :class:`~bioconvert.newick2phyloxml.NEWICK2PHYLOXML`
+
+
+.. admonition:: References
+
+    - https://en.wikipedia.org/wiki/Newick_format
+
 .. _format_nexus:
 
-Nexus
------------
+NEXUS
+-----
+
+:Format: human-readable
+:Status: included
+:Type: phylogeny
 
 The NEXUS multiple alignment format, also known as PAUP format.
+
+Blocks starts with *Begin NAME;* and ends with *END;*
+
+Example of a DNA alignment::
+
+    #NEXUS
+    Begin data;
+    Dimensions ntax=4 nchar=15;
+    Format datatype=dna missing=? gap=-;
+    Matrix
+    Species1   atgctagctagctcg
+    Species2   atgcta??tag-tag
+    Species3   atgttagctag-tgg
+    Species4   atgttagctag-tag           
+    ;
+    End;
+
+It can be used to store phylogenetic trees using the TREES block::
+
+    #NEXUS
+    BEGIN TAXA;
+      TAXLABELS A B C;
+    END;
+
+    BEGIN TREES;
+      TREE tree1 = ((A,B),C);
+    END;
+
+
+
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.nexus2clustal.NEXUS2CLUSTAL`,
+    :class:`~bioconvert.nexus2newick.NEXUS2NEWICK`,
+    :class:`~bioconvert.nexus2phylip.NEXUS2PHYLIP`,
+    :class:`~bioconvert.nexus2phyloxml.NEXUS2PHYLIPXML`,
+
+
+.. admonition:: References
+
+    - https://en.wikipedia.org/wiki/Nexus_file
+
+
+
+.. _format_ods:
+
+ODS
+---
+
+:Format: human-readable
+:Status: included
+:Type: Sequence
+
+ODS stands for OpenDocument Spreadsheet (.ods) file format. It should be
+equivalent to the :ref:`format_xls` format.
+
+
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.json2yaml`,
+    :class:`~bioconvert.yaml2json`.
+
 
 
 
@@ -957,10 +1208,6 @@ QUAL files include qualities of each nucleotide in :ref:`format_fasta` format.
 .. seealso:: :ref:`format_fasta` and :ref:`format_fastq`
 
 
-BED for plink
-~~~~~~~~~~~~~~
-This BED format  is the binary PED file. Not to be confused with BED format used
-with BAM files.
 
 BIM files
 ~~~~~~~~~
@@ -975,13 +1222,6 @@ The fields are
 - Allele 2
 
 So, it is like the MAP with the 2 alleles, and the format is binary.
-
-.. _format_fam:
-
-FAM
-~~~
-
-The first 6 columns of the PED file.
 
 
 .. _format_sam:
@@ -1043,7 +1283,9 @@ XE         Number of supporting seeds
 ==== ==================================================
 
 
+.. admonition:: Bioconvert conversions
 
+    :class:`~bioconvert.bam2sam.BAM2SAM`, :class:`~bioconvert.sam2bam.SAM2BAM`
 
 .. admonition::  References
 
@@ -1056,8 +1298,10 @@ XE         Number of supporting seeds
 Trace File Format - Sequence Chromatogram Format (SCF)
 ------------------------------------------------------
 
-:reference: https://wiki.nci.nih.gov/display/TCGA/Sequence+trace+files
-:reference: http://staden.sourceforge.net/manual/formats_unix_2.html
+:Format: human readable
+:Status: included
+:Type: alignment
+
 
 Trace files are binary files containing raw data output from automated sequencing instruments.
 This converter was converted from BioPerl.
@@ -1084,11 +1328,17 @@ Comments size                          Comments
 Private data size                      Private data
 ====================================== ====================================
 
+.. admonition:: References
+
+    - https://wiki.nci.nih.gov/display/TCGA/Sequence+trace+files
+    - http://staden.sourceforge.net/manual/formats_unix_2.html
+
 .. _format_tsv:
 
 TSV
 ---
 
+:Format: human readable
 :Type: database
 :Status: included
 
@@ -1143,7 +1393,7 @@ insertions/deletions, copy number variants and structural variants.
     - :class:`~bioconvert.vcf2bplink`
 
 
-
+.. _format_wiggle:
 
 Wiggle Track format (WIG)
 -------------------------
@@ -1165,6 +1415,7 @@ data is exported from a wiggle track.
 XLS
 ---
 
+:Format: human readable
 :Type: database
 :Status: included
 
@@ -1204,8 +1455,7 @@ sheets are to be found, you can select one or the other.
 
 .. admonition:: Bioconvert conversions:
 
-    :class:`~bioconvert.xls2csv`,
-    :class:`~bioconvert.xlsx2csv`,
+    :class:`~bioconvert.xls2csv.XLS2CSV`, :class:`~bioconvert.xlsx2csv.XLSX2CSV`
 
 .. seealso::  :ref:`format_xls` format.
 
@@ -1214,74 +1464,65 @@ sheets are to be found, you can select one or the other.
     - https://en.wikipedia.org/wiki/Office_Open_XML
 
 
+.. _format_yaml:
+
+YAML
+----
+
+:Format: human-readable
+:Status: included
+:Type: database
+
+YAML ("YAML Ain't Markup Language") is a human-readable data-serialization
+language. It is commonly used for configuration files, but could be used in many
+applications where data is being stored.
 
 
+The full syntax cannot be described here. The full specification are available at the official site (https://yaml.org/refcard.html)
 
-TODO
--------
-bcf2wiggle.py
-bigbed2wiggle.py
-bigwig2bedgraph.py
-bigwig2wiggle.py
-bplink2plink.py
+In brief:
+- whitespace indentation is used to denote srtucture. Tab spaces are not allowed.
+- **Comments** begin with the number sign #. Can start anywhere on a line.
+- **List** are denoted by the - character with one member per line, or, enclosed in square brackets [ ] .
+- **associated arrays** are represented with the colon space `:` in the form of *key:value*
+- **strings** can be unquoted or quoted.
 
-clustal2fasta.py
-clustal2nexus.py
-clustal2phylip.py
-clustal2stockholm.py
+Example::
 
-embl2fasta.py
-embl2genbank.py
+    # example of a yaml file
+    - {name: Jean, age: 33}
+    - name: Marie
+      age : 32
 
-fasta2clustal.py
-fasta2genbank.py
-fasta2nexus.py
-fasta2phylip.py
-fasta2twobit.py
-
-genbank2embl.py
-genbank2fasta.py
-genbank2gff3.py
-
-gfa2fasta.py
-
-json2yaml.py
-yaml2json.py
-
-maf2sam.py
-
-newick2nexus.py
-newick2phyloxml.py
-nexus2clustal.py
-nexus2newick.py
-nexus2phylip.py
-nexus2phyloxml.py
+    men:
+        - Pierre
+        - Jean
+    women:
+        - Marie
 
 
-phylip2clustal.py
-phylip2fasta.py
-phylip2nexus.py
-phylip2stockholm.py
-phylip2xmfa.py
-phyloxml2newick.py
-phyloxml2nexus.py
-plink2bplink.py
-plink2vcf.py
-sam2paf.py
+.. admonition:: Bioconvert conversions
 
-scf2fasta.py
-scf2fastq.py
-
-sra2fastq.py
-stockholm2clustal.py
-stockholm2phylip.py
+    :class:`~bioconvert.json2yaml`,
+    :class:`~bioconvert.yaml2json`.
 
 
-twobit2fasta.py
+.. admonition:: References
 
-vcf2bed.py
-vcf2bplink.py
-vcf2plink.py
-vcf2wiggle.py
-wig2bed.py
-xmfa2phylip.py
+    - https://en.wikipedia.org/wiki/YAML
+    - https://yaml.org/refcard.html
+
+
+.. bplink2plink.py clustal2fasta.py clustal2nexus.py clustal2phylip.py clustal2stockholm.py
+.. fasta2clustal fasta2genbank fasta2nexus fasta2phylip fasta2twobit genbank2fasta genbank2gff3  maf2sam
+ newick2phyloxml.py nexus2clustal.py nexus2newick.py nexus2phylip.py nexus2phyloxml.py phylip2clustal.py phylip2fasta.py phylip2nexus.py phylip2stockholm.py phylip2xmfa.py phyloxml2newick.py phyloxml2nexus.py plink2bplink.pyplink2vcf.py 
+
+.. sam2paf.py
+
+.. scf2fasta.py scf2fastq.py
+
+.. sra2fastq.py stockholm2clustal.py stockholm2phylip.py
+
+.. twobit2fasta.py
+
+.. vcf2bed.py vcf2bplink.py vcf2plink.py vcf2wiggle.py wig2bed.py xmfa2phylip.py

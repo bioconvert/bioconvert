@@ -1,7 +1,11 @@
+
+
 .. _developer_guide:
 
 Developer guide
-=================
+===============
+
+
 
 It is quite easy to add a new converter in **Bioconvert**
 (see :ref:`add_converter` section) by adding a new Python module (e.g., with the
@@ -13,6 +17,7 @@ be updated (``./doc`` directory) as explained in the section :ref:`update_doc`.
 Note also that a converter (a Python module, e.g., fastq2fasta) may have several methods included and it is quite straigthforward to add a new method (:ref:`add_method`). They can later be compared thanks to our benchmarking framework.
 
 
+.. contents::
 
 .. _add_converter:
 
@@ -461,4 +466,19 @@ Finally, commit and created a PR::
     git commit .
     git push
 
+
+Sphinx Documentation
+--------------------
+
+In order to update the documentation, go the *./doc* directory and update any of
+the .rst file. Then, for Linux users, just type::
+
+    make html
+
+Regarding the :ref:`formats` page, we provide simple ontology with 3 entries:
+Type, Format and Status. Please choose one of the following values:
+
+- Type: sequence, assembly, alignement, other, index, variant, database,  compression
+- Format: binary, human-readable
+- Status: deprecated, included, not included
 
