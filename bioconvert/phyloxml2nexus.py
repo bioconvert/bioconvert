@@ -38,7 +38,7 @@ _log = colorlog.getLogger(__name__)
 __all__ = ['PHYLOXML2NEXUS']
 
 
-class PHYLOXML2NEXUS(ConvBase):
+class Phyloxml2nexus(ConvBase):
     """
     Converts a tree file from :term:`PHYLOXML` format to :term:`NEXUS` format. ::
     """

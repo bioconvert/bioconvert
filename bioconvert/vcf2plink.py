@@ -33,7 +33,7 @@ from bioconvert.core.utils import generate_outfile_name
 _log = colorlog.getLogger(__name__)
 
 
-class VCF2PLINK(ConvBase):
+class Vcf2plink(ConvBase):
     """Converts a genotype dataset vcf :term:`VCF` format to
     ped+map in :term:`PLINK` format
 

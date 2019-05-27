@@ -33,7 +33,7 @@ _log = colorlog.getLogger(__name__)
 __all__ = ["CLUSTAL2NEXUS"]
 
 
-class CLUSTAL2NEXUS(ConvBase):
+class Clustal2nexus(ConvBase):
     """
     Converts a sequence alignment from :term:`CLUSTAL` format to :term:`NEXUS` format. ::
 

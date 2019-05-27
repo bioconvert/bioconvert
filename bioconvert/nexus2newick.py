@@ -39,7 +39,7 @@ _log = colorlog.getLogger(__name__)
 __all__ = ['NEXUS2NEWICK']
 
 
-class NEXUS2NEWICK(ConvBase):
+class Nexus2newick(ConvBase):
     """
     Converts a tree file from :term:`NEXUS` format to :term:`NEWICK` format. ::
     """

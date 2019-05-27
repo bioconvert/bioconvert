@@ -33,7 +33,7 @@ from bioconvert.core.utils import generate_outfile_name
 _log = colorlog.getLogger(__name__)
 
 
-class VCF2BPLINK(ConvBase):
+class Vcf2bplink(ConvBase):
     """Converts a genotype dataset vcf :term:`VCF` format to
     bed+bim+fam in :term:`BPLINK` format
 

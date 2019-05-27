@@ -96,11 +96,18 @@ class Registry(object):
                 for converter_name, converter in converters:
                     if converter is not None:
                         # the registry is no more based on extension but on format
-                        format_pair = (converter.input_fmt, converter.output_fmt)
+                        if converter.output_fmt is tuple:
+                            format_pair = (converter.input_fmt,(converter.output_fmt))
+                        else:
+                            format_pair = (converter.input_fmt, converter.output_fmt)
                         _log.debug("add converter '{}' for {} -> {} in fmt_registry".format(
                             converter_name, *format_pair))
-                        target[format_pair] = converter
-                        all_ext_pair = itertools.product(converter.input_ext, converter.output_ext)
+                        target[(format_pair)] = converter
+                        print(type(converter.output_ext))
+                        if type(converter.output_ext) is tuple:
+                            converter.output_ext = tuple(itertools.product(*converter.output_ext))
+                            print(converter.output_ext)
+                        all_ext_pair = tuple(itertools.product(converter.input_ext, (converter.output_ext)))
                         # all_ext_pair = list(all_ext_pair)
                         for ext_pair in all_ext_pair:
                             # format_pair = (converter.input_fmt, converter.output_fmt)
@@ -111,6 +118,7 @@ class Registry(object):
                                 _log.debug("add converter '{}' for {} -> {} in ext_registry".format(
                                            converter_name, *ext_pair))
                                 self.set_ext(ext_pair, converter)
+
 
     def _build_path_dict(self):
         """

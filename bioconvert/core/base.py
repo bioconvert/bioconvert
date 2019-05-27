@@ -74,8 +74,12 @@ class ConvMeta(abc.ABCMeta):
         if "22" in converter_name:
             input_fmt, output_fmt = converter_name.upper().split('22', 1)
             input_fmt += "2"
-        else:
+        elif "N" in converter_name.split("2")[1]:
             input_fmt, output_fmt = converter_name.upper().split('2', 1)
+            output_fmt = output_fmt.upper().split("N")
+            output_fmt = tuple(output_fmt)
+        else:
+            input_fmt,output_fmt = converter_name.upper().split('2',1)
         return input_fmt, output_fmt
 
     def __init__(cls, name, bases, classdict):
@@ -137,7 +141,7 @@ class ConvMeta(abc.ABCMeta):
                  item.__name__ != "_method_dummy"
 
         if name != 'ConvBase':
-            input_fmt, output_fmt = cls.split_converter_to_format(name.upper())
+            input_fmt, output_fmt = cls.split_converter_to_format(name)
             # modules have no more input_ext and output_ext attributes
             # input_ext = getattr(cls, 'input_ext')
             # if check_ext(input_ext, 'input'):
@@ -153,14 +157,25 @@ class ConvMeta(abc.ABCMeta):
                     msg = "In class {} the attribut input_ext is missing".format(cls.__name__)
                     _log.error(msg)
                     raise BioconvertError(msg)
+            # if not cls.output_ext:
+            #     try:
+            #         output_ext = extensions.extensions[output_fmt.lower()]
+            #         setattr(cls, 'output_ext', output_ext)
+            #     except KeyError:
+            #         msg = "In the class {} the attribut output_ext is missing".format(cls.__name__)
+            #         _log.error(msg)
+            #         raise BioconvertError(msg)
+            # available_conv_meth = []
+
             if not cls.output_ext:
-                try:
+                if type(cls.output_fmt) is tuple:
+                    output_ext = []
+                    for format in output_fmt:
+                        output_ext.append(tuple(extensions.extensions[format.lower()]))
+                    setattr(cls, 'output_ext', tuple(output_ext))
+                else:
                     output_ext = extensions.extensions[output_fmt.lower()]
                     setattr(cls, 'output_ext', output_ext)
-                except KeyError:
-                    msg = "In the class {} the attribut output_ext is missing".format(cls.__name__)
-                    _log.error(msg)
-                    raise BioconvertError(msg)
             available_conv_meth = []
             for name in inspect.getmembers(cls, is_conversion_method):
                 # do not use strip() but split()

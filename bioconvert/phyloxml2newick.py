@@ -38,7 +38,7 @@ _log = colorlog.getLogger(__name__)
 __all__ = ['PHYLOXML2NEWICK']
 
 
-class PHYLOXML2NEWICK(ConvBase):
+class Phyloxml2newick(ConvBase):
     """
     Converts a tree file from :term:`PHYLOXML` format to :term:`NEWICK` format. ::
     """

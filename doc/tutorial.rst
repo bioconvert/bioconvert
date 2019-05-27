@@ -108,3 +108,5 @@ We want to convert our alignment (BAM) to a BED file to know the number of reads
 In this bed file, we can check the visual results obtained a little earlier
 with word processing tools that allow us to get some quick statistics like the average coverage (168)
 and compare to the most covered regions to identify CNVs.
+
+On all the samples we have identified 2 regions that are significantly more covered.
