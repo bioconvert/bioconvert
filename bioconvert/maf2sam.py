@@ -48,14 +48,14 @@ class MAF2SAM(ConvBase):
 
     Those two codes were in Py2 at the time of this implementation. We re-used
     some of the information from maf-convert but the code in
-    bioconvert.utils.maf can be considered original. 
+    bioconvert.io.maf can be considered original. 
     """
 
     def __init__(self, infile, outfile):
         super().__init__(infile, outfile)
 
     def _method_python(self, *args, **kwargs):
-        from bioconvert.utils import maf
+        from bioconvert.io import maf
         conv = maf.MAF(self.infile, self.outfile)
         conv.to_sam()
 
