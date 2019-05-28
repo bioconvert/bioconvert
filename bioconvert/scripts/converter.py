@@ -47,9 +47,11 @@ def main(args=None):
         args = sys.argv[1:]
 
     if not len(sys.argv) == 1:
+
         # check that the first argument is not a converter in the registry
         if args[0].lower() not in list(registry.get_converters_names()) \
                 and "." in args[0]:
+
             in_ext = utils.get_extension(args[0], remove_compression=True)
             out_ext = utils.get_extension(args[1], remove_compression=True)
 
@@ -59,10 +61,10 @@ def main(args=None):
                 _log.error("Input file {} does not exist".format(args[0]))
                 sys.exit(1)
 
-            #assign to converter the converter (s) found for the ext_pair = (in_ext, out_ext)
+            # assign to converter the converter (s) found for the ext_pair = (in_ext, out_ext)
             try:
                 converter = registry.get_ext((in_ext, out_ext))
-                # for testing the mutiple converter for one extention pair
+                # for testing the mutiple converter for one extension pair
                 # converter = [bioconvert.fastq2fasta.Fastq2Fasta, bioconvert.phylip2xmfa.PHYLIP2XMFA]
             except KeyError:
                 converter = []
@@ -356,11 +358,21 @@ def analysis(args):
 
     # Input and output filename
     infile = args.input_file
+
     # Check that the input file exists
     # Fixes https://github.com/bioconvert/bioconvert/issues/204
     if os.path.exists(infile) is False:
-            _log.error("Input file {} does not exist".format(infile))
+
+        # Some convertors uses prefix instead of filename. We could have
+        # ambiguities: if we use a prefix without extension,
+        # we could be confused with the convertor name. This is true
+        # for the plink families
+        if "plink" in args.converter:
+            pass
+        else:
+            _log.error("Input file {} does not exist (analysis)".format(infile))
             sys.exit(1)
+
     if args.output_file is None and infile:
         outext = ConvMeta.split_converter_to_format(args.converter)
         outfile = infile.rsplit(".", 1)[0] + "." + outext[1].lower()
