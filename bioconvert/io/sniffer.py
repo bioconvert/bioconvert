@@ -1,19 +1,44 @@
+###########################################################################
+# Bioconvert is a project to facilitate the interconversion               #
+# of life science data from one format to another.                        #
+#                                                                         #
+# Authors: see CONTRIBUTORS.rst                                           #
+# Copyright © 2018-2019  Institut Pasteur, Paris and CNRS.                #
+# See the COPYRIGHT file for details                                      #
+#                                                                         #
+# bioconvert is free software: you can redistribute it and/or modify      #
+# it under the terms of the GNU General Public License as published by    #
+# the Free Software Foundation, either version 3 of the License, or       #
+# (at your option) any later version.                                     #
+#                                                                         #
+# bioconvert is distributed in the hope that it will be useful,           #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of          #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #
+# GNU General Public License for more details.                            #
+#                                                                         #
+# You should have received a copy of the GNU General Public License       #
+# along with this program (COPYING file).                                 #
+# If not, see <http://www.gnu.org/licenses/>.                             #
+###########################################################################
+"""Sniffer for all formats included in Bioconvert"""
 from bioconvert.core.extensions import extensions
 
+import colorlog
+_log = colorlog.getLogger(__name__)
 
-
-env =    PYTHONHASHSEED=0
 
 class Sniffer(object):
-    """
+    """Sniffer for formats included in Bioconvert
 
-    :: 
+    :attr:`bioconvert.core.extensions.extensions`
+
+    ::
 
         >>> from bioconvert import Sniffer
         >>> s =  Sniffer()
         >>> s.sniff("test.clustal")
         "clustal"
-        
+
 
     """
     formats = sorted(extensions.keys())
@@ -23,17 +48,26 @@ class Sniffer(object):
 
     def sniff(self, filename):
         """Return first frmt found to be compatible with the input file"""
+
+        candidates = []
         for frmt in self.formats:
+            _log.debug("Trying {}".format(frmt))
             func = getattr(self, "is_{}".format(frmt))
             try:
-                ret = func(filename)
-                if ret:
-                    return frmt
+                ret = func(filename)                
+                if ret is True:
+                    candidates.append(frmt)
             except NotImplementedError:
                 pass
             #except Exception as err:
             #    raise(err)
-        return None
+        if len(candidates) == 0:
+            return None
+        elif len(candidates) == 1:
+            return candidates[0]
+        else:
+            _log.warning("Sniffer found several candidates: {}".format(candidates))
+            return candidates
 
     def _is_blank_line(self, line):
         line = line.strip()
@@ -73,7 +107,14 @@ class Sniffer(object):
         raise NotImplementedError
 
     def is_csv(self, filename):
-        raise NotImplementedError
+
+        try:
+            import pandas as pd
+            df = pd.read_csv(filename, sep=",")
+            if len(df.columns) > 1:
+                return True
+        except:
+            pass
 
     def is_cram(self, filename):
         raise NotImplementedError
@@ -131,7 +172,30 @@ class Sniffer(object):
         raise NotImplementedError
 
     def is_maf(self, filename):
-        raise NotImplementedError
+        with open(filename, "r") as fin:
+            try:
+                # read at most 50 lines and figure out whether
+                # some lines starts with a or s
+                # we get rid of the comments.
+                # Read 5000 characters at most.
+                data = fin.readlines(5000)
+                comments = [line for line in data if line.startswith('#')]
+                data = [line.strip() for line in data if line.startswith('#') is False]
+
+                # get rid of blank lines
+                data = [line for line in data if len(line.strip())!=0]
+                starts = [line[0:2] for line in data]
+
+                if len(starts) == 0: 
+                    return False
+
+                # line must start with one of i, e, q, a, s letter
+                for x in starts:
+                    assert x in ['a ', 's ', 'e ', 'q ', 'i ']
+                return True
+            except Exception as err:
+                _log.debug(err)
+                return False
 
     def is_newick(self, filename):
         raise NotImplementedError
@@ -146,7 +210,31 @@ class Sniffer(object):
         raise NotImplementedError
 
     def is_phylip(self, filename):
-        raise NotImplementedError
+
+        with open(filename, "r") as fin:
+            # First, we figure out the dimensions of the alignemnt.
+            # we should find 2 integers
+            # blank lines are forbidden in  principle between header an
+            # alignment
+            try:
+                header = fin.readline().strip()
+                first = fin.readline().strip()
+                m, n = header.split()
+                m = int(m)
+                n = int(n)
+                name, seq = first.split(" ", 1)
+                seq = seq.replace(" ", "")
+                # we identify each alignement and check that the length are
+                # identical and equal to n
+                for this in range(1, m-1): # -1 since we already read 1 line
+                    nextline = fin.readline().strip()
+                    name, seq2 = nextline.split(" ", 1)
+                    seq2= seq2.replace(" ","")
+                    assert len(seq) == len(seq2), "not same length"
+                return True
+            except Exception as err:
+                #print(err)
+                return False
 
     def is_phyloxml(self, filename):
         raise NotImplementedError
@@ -164,16 +252,30 @@ class Sniffer(object):
         raise NotImplementedError
 
     def is_sra(self, filename):
+        # not need. This is not a format.
         raise NotImplementedError
 
     def is_stockholm(self, filename):
-        raise NotImplementedError
+        with open(filename, "r") as fin:
+            try:
+                header = fin.readline().strip()
+                assert "STOCKHOLM" in header
+
+                return True
+            except:
+                return False
 
     def is_twobit(self, filename):
         raise NotImplementedError
 
     def is_tsv(self, filename):
-        raise NotImplementedError
+        try:
+            import pandas as pd
+            df = pd.read_csv(filename, sep="\s+")
+            if len(df.columns) > 1:
+                return True
+        except:
+            pass
 
     def is_vcf(self, filename):
         raise NotImplementedError
