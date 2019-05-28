@@ -8,6 +8,7 @@ Whats' new, what has changed
     - abi2qual
 - NEW methods:
     - new method in bigwig2bedgraph based on pyBigWig
+    - new method in twobit2fasta based on py2bit
 - NEW features:
     - new module io/sniffer.py
 - CHANGES:
