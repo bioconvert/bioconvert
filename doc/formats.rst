@@ -80,6 +80,10 @@ The index is followed by the sequence records, which contain nine fields:
       significant 2-bit byte; the last base is in the least significant 2 bits.
       For example, the sequence TCAG is represented as 00011011.
 
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.twobit2fasta.TWOBIT2FASTA`
+
 .. admonition:: Reference:
 
     - http://genome.ucsc.edu/FAQ/FAQformat.html#format7
@@ -476,7 +480,7 @@ BIGWIG
 :Type: database/track
 
 The bigWig format is useful for dense, continuous data. They can be created from
-wiggle file (:ref:`format_wiggle`). This type of file is an indexed binary format. 
+wiggle file (:ref:`format_wiggle`). This type of file is an indexed binary format.
 
 Wiggle data must be continuous unlike :ref:`format_bed`. You can convert a
 BED/BEDGraph to bigwig using :class:`~bioconvert.bedgraph2bigwig.BEDGRAPH2BIGWIG`.
@@ -503,6 +507,34 @@ To create a bigwig from a wiggle, yo need to remove the existing "track" header
 .. admonition:: References:
 
     - https://genome.ucsc.edu/goldenpath/help/bigWig.html
+
+
+.. _format_bim:
+
+BIM
+---
+
+:Format: binary
+:Status: included
+:Type: variants
+
+The BIM formatted file is a variant information file accompanying 
+a .bed or biallelic .pgen binary genotype table. 
+
+.. note:: for plink, use --make-just-bim can be used to update just this file.
+
+
+The fields are:
+
+- chromosome number (integer)
+- SNP marker ID (string)
+- SNP generic position (cM) (float)
+- SNP physical position (bp)
+- Alternate allele code
+- Reference allele code
+
+So, it is like the MAP with the 2 alleles, and the format is binary.
+
 
 .. _format_bz2:
 
@@ -559,14 +591,14 @@ CLUSTAL
 :Type: multiple alignment
 
 
-In a Clustal format, the first line in the file must start with the words "CLUSTAL W" 
+In a Clustal format, the first line in the file must start with the words "CLUSTAL W"
 or "CLUSTALW". Nevertheless, many such files starts with CLUSTAL or CLUSTAL X.
 Other information in the first line is ignored. One or more empty lines.
-One or more blocks of sequence data. Each block consists of one line for each sequence 
+One or more blocks of sequence data. Each block consists of one line for each sequence
 in the alignment. Each line consists of the sequence name white space up to 60 sequence symbols.
 optional - white space followed by a cumulative count of residues for the  sequences
 A line showing the degree of conservation for the columns of the alignment in this block.
-One or more empty lines. 
+One or more empty lines.
 
 Some rules about representing sequences:
 
@@ -594,15 +626,15 @@ Here is an example of a multiple alignment in CLUSTAL W format::
 
 .. admonition:: Some bioconvert conversions
 
-    :class:`~bioconvert.clustal2fasta.CLUSTAL2FASTA`, 
-    :class:`~bioconvert.clustal2fasta.CLUSTAL2NEXUS`, 
-    :class:`~bioconvert.clustal2fasta.CLUSTAL2PHYLIP`, 
-    :class:`~bioconvert.clustal2fasta.CLUSTAL2STOCKHOLM`, 
+    :class:`~bioconvert.clustal2fasta.CLUSTAL2FASTA`,
+    :class:`~bioconvert.clustal2fasta.CLUSTAL2NEXUS`,
+    :class:`~bioconvert.clustal2fasta.CLUSTAL2PHYLIP`,
+    :class:`~bioconvert.clustal2fasta.CLUSTAL2STOCKHOLM`,
 
 
 .. admonition:: Reference
 
-    TODO
+    - https://en.wikipedia.org/wiki/Clustal
 
 
 .. _format_csv:
@@ -715,7 +747,7 @@ FastG
 
 
 FastG is a Graph format used to faithfully representing genome
-assemblies in the face of allelic polymorphism and assembly uncertainty. 
+assemblies in the face of allelic polymorphism and assembly uncertainty.
 
 :reference: http://fastg.sourceforge.net/FASTG_Spec_v1.00.pdf
 
@@ -734,7 +766,7 @@ qualities (:ref:`format_qual`). In general, *fastq*
 refers to Sanger style FASTQ files which encode PHRED qualities using an
 ASCII offset of 33. See also the incompatible "fastq-solexa" and "fastq-illumina"
 variants used in early Solexa/Illumina pipelines, Illumina pipeline 1.8 produces Sanger FASTQ.
-Be aware that there are different FASTQ formats for different sequencing 
+Be aware that there are different FASTQ formats for different sequencing
 technologies.
 
 .. admonition:: Bioconvert conversions
@@ -743,6 +775,8 @@ technologies.
 
 .. seealso:: :ref:`format_fasta` and :ref:`format_qual`
 
+
+.. _format_genbank:
 
 Genbank
 -------
@@ -761,7 +795,7 @@ GenBank format for protein has been renamed GenPept.
 
 .. admonition:: Bioconvert conversions
 
-    :class:`~bioconvert.genbank2fasta.GENBANK2FASTA`, 
+    :class:`~bioconvert.genbank2fasta.GENBANK2FASTA`,
     :class:`~bioconvert.genbank2embl.GENBANK2EMBL`
 
 .. admonition:: References:
@@ -1000,6 +1034,210 @@ Example::
 
     - https://en.wikipedia.org/wiki/JSON
 
+.. _format_maf_mutation:
+
+MAF (Mutation Annotation Format)
+--------------------------------
+
+:Format: human-readable
+:Status: not included
+:Type: multiple alignement
+
+
+.. admonition:: reference:
+
+    - https://software.broadinstitute.org/software/igv/MutationAnnotationFormat
+
+
+.. _format_maf:
+
+MAF (Multiple Alignement Format)
+--------------------------------
+
+:Format: human-readable
+:Status: included
+:Type: phylogeny
+
+The Multiple Alignment Format stores a series of multiple alignments.
+
+.. warning:: Not to be confused with :ref:`format_maf_mutation`
+
+Here are some rules about the MAF syntax:
+
+- It is line-oriented.
+- Each multiple alignment ends with a blank line.
+- Each sequence in an alignment is on a single line, which can get quite
+  long, but there is no length limit.
+- Words in a line are delimited by any white space.
+- Lines starting with # are considered to be comments.
+- Lines starting with ## can be ignored by most programs, but contain meta-data of one
+  form or another.
+- The file is divided into paragraphs that terminate in a blank line.
+- Within a paragraph, the first word of a line indicates its type.
+
+Each multiple alignment is in a separate paragraph that begins with an **a** line and contains an **s** line for each sequence in the multiple alignment.
+
+Some MAF files may contain other optional line types:
+
+- **i** line contains information about what is in the aligned
+  species DNA before and after the immediately preceding **s** line
+- **e** line contains information about the size of the gap
+  between the alignments that span the current block
+- **q** line indicates the quality of each aligned base for the species.
+
+Here is an example of **s** lines (alignment block)::
+
+    s hg16.chr7    27707221 13 + 158545518 gcagctgaaaaca
+    s panTro1.chr6 28869787 13 + 161576975 gcagctgaaaaca
+    s baboon         249182 13 +   4622798 gcagctgaaaaca
+    s mm4.chr6     53310102 13 + 151104725 ACAGCTGAAAATA
+
+The **s** and **a** lines define a multiple alignment. The columns of the **s** lines
+have the following fields:
+
+- **src**:  The name of one of the source sequences for the alignment. The form 'database.chromosome' allows automatic creation of links to other assemblies in some browsers.
+- **start**: The start of the aligning region in the source sequence. This is a zero-based number. If the strand field is "-" then this is the start relative to the reverse-complemented source sequence (see Coordinate Transforms).
+- **size**:  The size of the aligning region in the source sequence. This number is equal to the number of non-dash characters in the alignment text field below.
+- **strand**: Either + or -. If -, then the alignment is to the reverse-complemented source.
+- **srcSize**: The size of the entire source sequence, not just the parts involved in the alignment.
+- **text**: The nucleotides (or amino acids) in the alignment and any insertions (dashes).
+
+Lines starting with **i** give information about what's happening before and after this block in the aligning species::
+
+    s hg16.chr7    27707221 13 + 158545518 gcagctgaaaaca
+    s panTro1.chr6 28869787 13 + 161576975 gcagctgaaaaca
+    i panTro1.chr6 N 0 C 0
+    s baboon         249182 13 +   4622798 gcagctgaaaaca
+    i baboon       I 234 n 19
+
+The **i** lines contain information about the context of the sequence lines immediately preceding them. The following fields are defined by position rather than name=value pairs:
+
+- **src**: The name of the source sequence for the alignment. Should be the
+  same as the **s** line immediately above this line.
+- **leftStatus**: A character that specifies the relationship between the sequence
+  in this block and the sequence that appears in the previous block.
+- **leftCount**: Usually the number of bases in the aligning species between the
+  start of this alignment and the end of the previous one.
+- **rightStatus**: A character that specifies the relationship between the sequence
+  in this block and the sequence that appears in the subsequent block.
+- **rightCount**: Usually the number of bases in the aligning species between the
+  end of this alignment and the start of the next one.
+
+The status characters can be one of the following values::
+
+    C: the sequence before or after is contiguous with this block.
+    I: there are bases between the bases in this block and the one before or
+       after it.
+    N: this is the first sequence from this src chrom or scaffold.
+    n: this is the first sequence from this src chrom or scaffold but it is
+       bridged by another alignment from a different chrom or scaffold.
+    M: there is missing data before or after this block (Ns in the sequence).
+    T: the sequence in this block has been used before in a previous block
+       (likely a tandem duplication)
+
+Lines starting with **e** gives information about empty parts of the alignment
+block::
+
+    s hg16.chr7    27707221 13 + 158545518 gcagctgaaaaca
+    e mm4.chr6     53310102 13 + 151104725 I
+
+The **e** lines indicate that there isn't aligning DNA for a species but that
+the current block is bridged by a chain that connects blocks before and after
+this block. The following fields are defined by position rather than name=value pairs.
+
+- **src**: The name of one of the source sequences for the alignment.
+- **start**: The start of the non-aligning region in the source sequence.
+  This is a zero-based number. If the strand field is "-" then this
+  is the start relative to the reverse-complemented source sequence
+  (see Coordinate Transforms).
+- **size**: The size in base pairs of the non-aligning region in the
+  source sequence.
+- **strand**: Either + or -. If -, then the alignment is to the reverse-complemented source.
+- **srcSize**: The size of the entire source sequence, not just the parts involved
+  in the alignment; alignment and any insertions (dashes) as well.
+- *status**: A character that specifies the relationship between the non-aligning
+  sequence in this block and the sequence that appears in the previous
+  and subsequent blocks.
+
+The status character can be one of the following values::
+
+    C: the sequence before and after is contiguous implying that this region
+       was either deleted in the source or inserted in the reference sequence.
+       The browser draws a single line or a "-" in base mode in these blocks.
+    I: there are non-aligning bases in the source species between chained alignment
+       blocks before and after this block. The browser shows a double line
+       or "=" in base mode.
+    M: there are non-aligning bases in the source and more than 90% of them are Ns in
+       the source. The browser shows a pale yellow bar.
+    n: there are non-aligning bases in the source and the next aligning block starts
+       in a new chromosome or scaffold that is bridged by a chain between still
+       other blocks. The browser shows either a single line or a double line based
+       on how many bases are in the gap between the bridging alignments.
+
+Lines starting with **q** -- information about the quality of each aligned base for the species::
+
+    s hg18.chr1                  32741 26 + 247249719 TTTTTGAAAAACAAACAACAAGTTGG
+    s panTro2.chrUn            9697231 26 +  58616431 TTTTTGAAAAACAAACAACAAGTTGG
+    q panTro2.chrUn                                   99999999999999999999999999
+    s dasNov1.scaffold_179265     1474  7 +      4584 TT----------AAGCA---------
+    q dasNov1.scaffold_179265                         99----------32239---------
+
+The **q** lines contain a compressed version of the actual raw quality data, representing
+the quality of each aligned base for the species with a single character of 0-9 or F.
+The following fields are defined by position rather than name=value pairs:
+
+- **src**: The name of the source sequence for the alignment. Should be the same as the "s" line immediately preceding this line.
+- **value**: A MAF quality value corresponding to the aligning nucleotide acid in
+  the preceding "s" line. Insertions (dashes) in the preceding "s" line are represented
+  by dashes in the "q" line as well. The quality value can be "F" (finished sequence)
+  or a number derived from the actual quality scores (which range from 0-97) or the
+  manually assigned score of 98. These numeric values are calculated as::
+
+    MAF quality value = min( floor(actual quality value/5), 9 )
+
+This results in the following mapping::
+
+    MAF quality value     Raw quality score range     Quality level
+    0-8     0-44     Low
+    9     45-97     High
+    0     98     Manually assigned
+    F     99     Finished
+
+A Simple Example (three alignment blocks derived from five starting sequences).
+Repeats are shown as lowercase, and each block may have a subset of the input sequences.
+All sequence columns and rows must contain at least one nucleotide (no columns or rows that contain only insertions)::
+
+    ##maf version=1 scoring=tba.v8
+    # tba.v8 (((human chimp) baboon) (mouse rat))
+
+    a score=23262.0
+    s hg18.chr7    27578828 38 + 158545518 AAA-GGGAATGTTAACCAAATGA---ATTGTCTCTTACGGTG
+    s panTro1.chr6 28741140 38 + 161576975 AAA-GGGAATGTTAACCAAATGA---ATTGTCTCTTACGGTG
+    s baboon         116834 38 +   4622798 AAA-GGGAATGTTAACCAAATGA---GTTGTCTCTTATGGTG
+    s mm4.chr6     53215344 38 + 151104725 -AATGGGAATGTTAAGCAAACGA---ATTGTCTCTCAGTGTG
+    s rn3.chr4     81344243 40 + 187371129 -AA-GGGGATGCTAAGCCAATGAGTTGTTGTCTCTCAATGTG
+
+    a score=5062.0
+    s hg18.chr7    27699739 6 + 158545518 TAAAGA
+    s panTro1.chr6 28862317 6 + 161576975 TAAAGA
+    s baboon         241163 6 +   4622798 TAAAGA
+    s mm4.chr6     53303881 6 + 151104725 TAAAGA
+    s rn3.chr4     81444246 6 + 187371129 taagga
+
+    a score=6636.0
+    s hg18.chr7    27707221 13 + 158545518 gcagctgaaaaca
+    s panTro1.chr6 28869787 13 + 161576975 gcagctgaaaaca
+    s baboon         249182 13 +   4622798 gcagctgaaaaca
+    s mm4.chr6     53310102 13 + 151104725 ACAGCTGAAAATA
+
+
+.. admonition:: References
+
+    - https://github.com/peterjc/maf2sam/
+    - https://github.com/arq5x/nanopore-scripts/master/maf-convert.py
+    - Example and doc from https://genome.ucsc.edu/FAQ/FAQformat.html#format5
+
+
 
 .. _format_newick:
 
@@ -1062,7 +1300,7 @@ Example of a DNA alignment::
     Species1   atgctagctagctcg
     Species2   atgcta??tag-tag
     Species3   atgttagctag-tgg
-    Species4   atgttagctag-tag           
+    Species4   atgttagctag-tag
     ;
     End;
 
@@ -1108,16 +1346,19 @@ equivalent to the :ref:`format_xls` format.
 
 .. admonition:: Bioconvert conversions
 
-    :class:`~bioconvert.json2yaml`,
-    :class:`~bioconvert.yaml2json`.
+    :class:`~bioconvert.json2yaml.JSON2YAML`,
+    :class:`~bioconvert.yaml2json.YAML2JSON`.
 
 
-
+.. _format_paf:
 
 PAF (Pairwise mApping Format)
 --------------------------------
 
-:reference: https://github.com/lh3/miniasm/blob/master/PAF.md
+:Format: human-readable
+:Status: included
+:Type: mapping
+
 
 PAF is a text format describing the approximate mapping positions between two
 set of sequences. PAF is used for instance in **miniasm** tool (see reference
@@ -1148,6 +1389,119 @@ insertions and deletions in the alignment. If alignment is not available, column
 
 A PAF file may optionally contain SAM-like typed key-value pairs at the end of
 each line.
+
+:reference: https://github.com/lh3/miniasm/blob/master/PAF.md
+
+.. _format_ped:
+
+PED
+---
+
+TODO
+
+
+.. _format_phyloxml:
+
+PHYLOXML
+--------
+
+:Format: human-readable
+:Status: included
+:Type: phylogeny
+
+
+PhyloXML is an XML language for the analysis, exchange, and storage of phylogenetic
+trees.
+
+A shortcoming of formats such as Nexus and Newick is a lack of a
+standardized means to annotate tree nodes and branches with distinct data fields
+(species names, branch lengths, multiple support values). A well defined XML format
+addresses these problems in a general and extensible manner and allows for
+interoperability between specialized and general purpose software.
+
+Here is an example (source https://en.wikipedia.org/wiki/PhyloXML) ::
+
+
+    <phyloxml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.phyloxml.org http://www.phyloxml.org/1.10/phyloxml.xsd"
+    xmlns="http://www.phyloxml.org">
+    <phylogeny rooted="true">
+      <name>example from Prof. Joe Felsenstein's book "Inferring Phylogenies"</name>
+      <description>MrBayes based on MAFFT alignment</description>
+      <clade>
+         <clade branch_length="0.06">
+            <confidence type="probability">0.88</confidence>
+            <clade branch_length="0.102">
+               <name>A</name>
+            </clade>
+            <clade branch_length="0.23">
+               <name>B</name>
+            </clade>
+          </clade>
+          <clade branch_length="0.5">
+            <name>C</name>
+          </clade>
+        </clade>
+      </phylogeny>
+    </phyloxml>
+
+
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.phyloxml2nexus.PHYLOXML2NEXUS`
+    :class:`~bioconvert.phyloxml2newick.PHYLOXML2NEWICK`
+
+
+.. admonition:: References
+
+    - http://www.phyloxml.org/
+    - https://en.wikipedia.org/wiki/PhyloXML
+
+
+.. _format_phylip:
+
+PHYLIP
+------
+
+:Format: human-readable
+:Status: included
+:Type: phylogeny / alignement
+
+The PHYLIP format stores a multiple sequence alignement.
+
+It is a plain test format with a header describing the dimensions of the
+alignment followed by the mutliple sequence alignment. The following sequence
+is exactly 10 characters long (padded wit spaces if needed).
+
+PHYLIP does not support blank lines between header and the alignment.
+
+In the header, the first integer defines the number of sequences.
+The second intefer defines the number of alignments. There are several
+spaces between the two integers.
+
+Here is an example::
+
+       5   50
+    Seq0000  GATTAATTTG CCGTAGGCCA GAATCTGAAG ATCGAACACT TTAAGTTTTC
+    Seq0001  ACTTCTAATG GAGAGGACTA GTTCATACTT TTTAAACACT TTTACATCGA
+    Seq0002  TGTCGGACCT AAGTATTGAG TACAACGGTG TATTCCAGCG GTGGAGAGGT
+    Seq0003  CTATTTTTCC GGTTGAAGGA CTCTAGAGCT GTAAAGGGTA TGGCCATGTG
+    Seq0004  CTAAGCGCGG GCGGATTGCT GTTGGAGCAA GGTTAAATAC TCGGCAATGC
+
+
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.phylip2clustal.PHYLIP2CLUSTAL`,
+    :class:`~bioconvert.phylip2fasta.PHYLIP2FASTA`,
+    :class:`~bioconvert.phylip2nexus.PHYLIP2NEXUS`,
+    :class:`~bioconvert.phylip2stockholm.PHYLIP2STOCKHOLM`
+
+
+.. admonition:: References
+
+    - http://www.phyloxml.org/
+    - https://en.wikipedia.org/wiki/PhyloXML
+
 
 PLINK flat files (MAP/PED)
 -------------------------------
@@ -1189,6 +1543,8 @@ PLINK binary files (BED/BIM/FAM)
 Same information as plink flat files.
 
 
+- http://zzz.bwh.harvard.edu/plink/tutorial.shtml
+
 .. _format_qual:
 
 QUAL
@@ -1207,21 +1563,6 @@ QUAL files include qualities of each nucleotide in :ref:`format_fasta` format.
 
 .. seealso:: :ref:`format_fasta` and :ref:`format_fastq`
 
-
-
-BIM files
-~~~~~~~~~
-
-The fields are
-
-- chromosome number (integer)
-- SNP marker ID (string)
-- SNP generit position (cM) (float)
-- SNP physical position (bp)
-- Allele 1
-- Allele 2
-
-So, it is like the MAP with the 2 alleles, and the format is binary.
 
 
 .. _format_sam:
@@ -1328,10 +1669,43 @@ Comments size                          Comments
 Private data size                      Private data
 ====================================== ====================================
 
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.convert.scf2fastq.SCF2FASTQ`,
+    :class:`~bioconvert.convert.scf2fasta.SCF2FASTA`.
+
 .. admonition:: References
 
     - https://wiki.nci.nih.gov/display/TCGA/Sequence+trace+files
     - http://staden.sourceforge.net/manual/formats_unix_2.html
+
+
+.. _format_sra:
+
+SRA
+---
+
+The Sequence Read Archive (SRA) makes biological sequence data available to the
+research community. It stores raw sequencing data and alignment
+information from high-throughput sequencing platforms, including Roche 454 GS
+System, Illumina Genome Analyzer, Applied Biosystems SOLiD System, Helicos
+Heliscope, Complete Genomics, and Pacific Biosciences SMRT.
+
+It is not a format per se but is included in Bioconvert by allowing the
+retrieval of sequencing data given a SRA identifier::
+
+    bioconvert sra2fastq <SRA_ID>
+
+This will retrieve the fastq reads (single read or paired end data).
+
+
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.sra2fastq.SRA2FASTQ`
+
+.. admonition:: Reference:
+
+    - https://www.ncbi.nlm.nih.gov/sra
 
 .. _format_tsv:
 
@@ -1358,14 +1732,66 @@ details.
     - https://en.wikipedia.org/wiki/Comma-separated_values
 
 
+.. _format_stockholm:
 
-
-
-
-Stockholm
+STOCKHOLM
 ---------
 
-The Stockholm alignment format is also known as PFAM format.
+:Format: human readable
+:Status: included
+:Type: multiple sequence alignment
+
+Stockholm format is a multiple sequence alignment format used by Pfam and Rfam
+to store protein and RNA sequence alignments.
+
+Here is a simple example::
+
+    # STOCKHOLM 1.0
+    #=GF ID    UPSK
+    #=GF SE    Predicted; Infernal
+    #=GF SS    Published; PMID 9223489
+    #=GF RN    [1]
+    #=GF RM    9223489
+    #=GF RT    The role of the pseudoknot at the 3' end of turnip yellow mosaic
+    #=GF RT    virus RNA in minus-strand synthesis by the viral RNA-dependent RNA
+    #=GF RT    polymerase.
+    #=GF RA    Deiman BA, Kortlever RM, Pleij CW;
+    #=GF RL    J Virol 1997;71:5990-5996.
+
+    AF035635.1/619-641             UGAGUUCUCGAUCUCUAAAAUCG
+    M24804.1/82-104                UGAGUUCUCUAUCUCUAAAAUCG
+    J04373.1/6212-6234             UAAGUUCUCGAUCUUUAAAAUCG
+    M24803.1/1-23                  UAAGUUCUCGAUCUCUAAAAUCG
+    #=GC SS_cons                   .AAA....<<<<aaa....>>>>
+    //
+
+A minimal well-formed Stockholm file should contain a header which states the
+format and version identifier, currently '# STOCKHOLM 1.0', followed by the
+sequences and corresponding unique sequence names::
+
+    <seqname> <aligned sequence>
+    <seqname> <aligned sequence>
+    <seqname> <aligned sequence>
+
+Mark-up lines may include any characters except whitespace. Use underscore ("_")
+instead of space.::
+
+    #=GF <feature> <Generic per-File annotation, free text>
+    #=GC <feature> <Generic per-Column annotation, exactly 1 char per column>
+    #=GS <seqname> <feature> <Generic per-Sequence annotation, free text>
+    #=GR <seqname> <feature> <Generic per-Residue annotation, exactly 1 char per residue>
+
+.. admonition:: Bioconvert conversions:
+
+    :class:`~bioconvert.stockholm2clustal.STOCKHOLM2CLUSTAL`,
+    :class:`~bioconvert.stockholm2phylip.STOCKHOLM2PHYLIP`
+
+
+.. admonition:: References
+
+    - https://en.wikipedia.org/wiki/Stockholm_format
+    - http://scikit-bio.org/docs/0.5.0/generated/skbio.io.format.stockholm.html
+
 
 
 .. _format_vcf:
@@ -1393,22 +1819,123 @@ insertions/deletions, copy number variants and structural variants.
     - :class:`~bioconvert.vcf2bplink`
 
 
+.. _format_wig:
+
+WIG
+---
+
+See :ref:`format_wiggle`.
+
 .. _format_wiggle:
 
-Wiggle Track format (WIG)
--------------------------
+WIGGLE (WIG)
+------------
 
-:reference: http://genome.ucsc.edu/goldenPath/help/wiggle.html
+:Format: human readable
+:Status: included
+:Type: database-style
 
-The bigWig format is used for graphing track needs. The wiggle (WIG) format is
-an older format for display of dense, continuous data such as GC percent.
+
+The wiggle (WIG) format is a format used for display of dense, continuous data such as GC percent.
 Wiggle data elements must be equally sized.
 
 Similar format such as the bedGraph format is also an older format used to display sparse data
 or data that contains elements of varying size.
 
-For speed and efficiency, wiggle data is compressed with a minor loss of precision when
-data is exported from a wiggle track.
+For speed and efficiency, wiggle data is usually stored in BIGWIG format.
+
+Wiggle format is line-oriented. It is composed of declaration lines and data
+lines. There are two options: **variableStep** and **fixedStep**. 
+
+The VariableStep format is used for data with irregular intervals between new data points,
+and is the more commonly used wiggle format. The variableStep begins with a 
+declaration line and is followed by two columns containing chromosome positions
+and data values::
+
+    variableStep  chrom=chrN
+    [span=windowSize]
+      chromStartA  dataValueA
+      chromStartB  dataValueB
+      ... etc ...  ... etc ...
+
+The declaration line starts with the word variableStep and is followed by a
+specification for a chromosome. The optional span parameter (default: span=1)
+allows data composed of contiguous runs of bases with the same data value to be
+specified more succinctly. The span begins at each chromosome position specified
+and indicates the number of bases that data value should cover. For example,
+this variableStep specification::
+
+    variableStep chrom=chr2
+    300701 12.5
+    300702 12.5
+    300703 12.5
+    300704 12.5
+    300705 12.5 
+
+is equivalent to::
+
+    variableStep chrom=chr2 span=5
+    300701 12.5
+
+The variableStep format becomes very inefficient when there are only a few data points per
+1024 bases. If variableStep data points (i.e., chromStarts) are greater than
+about 100 bases apart, it is advisable to use BedGraph format.
+
+The **fixedStep** format is used for data with regular intervals between new data values and
+is the more compact wiggle format. The fixedStep begins with a declaration line 
+and is followed by a single column of data values::
+
+    fixedStep  chrom=chrN
+    start=position  step=stepInterval
+    [span=windowSize]
+      dataValue1
+      dataValue2
+      ... etc ...
+
+The declaration line starts with the word *fixedStep* and includes specifications
+for chromosome, start coordinate, and step size. The span specification has the
+same meaning as in variableStep format. For example, this fixedStep
+specification::
+
+    fixedStep chrom=chr3 start=400601 step=100
+    11
+    22
+    33
+
+displays the values 11, 22, and 33 as single-base regions on chromosome 3 at
+positions 400601, 400701, and 400801, respectively. Adding span=5 to the
+declaration line::
+
+    fixedStep chrom=chr3 start=400601 step=100 span=5
+    11
+    22
+    33 
+
+causes the values 11, 22, and 33 to be displayed as 5-base regions on chromosome
+3 at positions 400601-400605, 400701-400705, and 400801-400805, respectively.
+
+Note that for both variableStep and fixedStep formats, the same span must be
+used throughout the dataset. If no span is specified, the default span of 1 is
+used. As the name suggests, fixedStep wiggles require the same size step
+throughout the dataset. If not specified, a step size of 1 is used.
+
+Data values can be integer or real, postive or negative values.
+Positions specified in the input data must be in numerical order. 
+
+.. warning::  BigWig files created from bedGraph format use "0-start, half-open"
+    coordinates, but bigWigs that represent variableStep and fixedStep data are
+    generated from wiggle files that use *1-start, fully-closed* coordinates. For
+    example, for a chromosome of length N, the first position is 1 and the last
+    position is N. For more information, see: 
+
+
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.wig2bed.WIG2BED`
+
+.. admonition:: Reference
+
+    - http://genome.ucsc.edu/goldenPath/help/wiggle.html
 
 .. _format_xls:
 
@@ -1464,6 +1991,20 @@ sheets are to be found, you can select one or the other.
     - https://en.wikipedia.org/wiki/Office_Open_XML
 
 
+
+XMFA
+----
+
+:Format: human-readable
+:Status: included
+:Type: alignment
+
+
+.. admonition:: Reference
+
+    - http://darlinglab.org/mauve/user-guide/files.html
+
+
 .. _format_yaml:
 
 YAML
@@ -1512,17 +2053,42 @@ Example::
     - https://en.wikipedia.org/wiki/YAML
     - https://yaml.org/refcard.html
 
+Not Included
+------------
 
-.. bplink2plink.py clustal2fasta.py clustal2nexus.py clustal2phylip.py clustal2stockholm.py
-.. fasta2clustal fasta2genbank fasta2nexus fasta2phylip fasta2twobit genbank2fasta genbank2gff3  maf2sam
- newick2phyloxml.py nexus2clustal.py nexus2newick.py nexus2phylip.py nexus2phyloxml.py phylip2clustal.py phylip2fasta.py phylip2nexus.py phylip2stockholm.py phylip2xmfa.py phyloxml2newick.py phyloxml2nexus.py plink2bplink.pyplink2vcf.py 
+- ace: Reads the contig sequences from an ACE assembly file.
+  Uses Bio.Sequencing.Ace internally clustal The alignment format of Clustal X
+  and Clustal W. See also the Bio.Clustalw module.
+- fastq-solexa    FASTQ files are a bit like FASTA files but also include
+  sequencing qualities. In Biopython, 'fastq' refers to Sanger style FASTQ files
+  which encode PHRED qualities using an ASCII offset of 33. See also the
+  incompatible 'fastq-solexa' and 'fastq-illumina' variants.
+- ig  This refers to the IntelliGenetics file format, apparently the same as the
+  MASE alignment format.
+- imgt    Unspecified (`*.txt`) This refers to the IMGT variant of the EMBL plain
+  text file format.
+- phd     PHD files are output from PHRED, used by PHRAP and CONSED for input.
+- pir     A FASTA like' format introduced by the National Biomedical Research
+  Foundation (NBRF) for the Protein Information Resource (PIR) database, now part
+  of UniProt.
+- seqxml  Simple sequence XML file format.
+- sff  Standard Flowgram Format (SFF) files produced by 454 sequencing.
+  binary files produced by Roche 454 and IonTorrent/IonProton sequencing machines.
 
-.. sam2paf.py
+- swiss   Swiss-Prot aka UniProt format.
+- uniprot-xml     UniProt XML format, successor to the plain text Swiss-Prot
+  format.
+- pdb2gmx: This program reads a .pdb (or .gro) file, reads some database files, adds
+  hydrogens to the molecules and generates coordinates in GROMACS (GROMOS), or
+  optionally .pdb, format and a topology in GROMACS format. See
+  http://manual.gromacs.org/archive/4.6.7/online/pdb2gmx.html for details.
+  this tool is already quite complete and will not be provided for now.
+- pfam: https://en.wikipedia.org/wiki/Pfam
+- rfam: https://en.wikipedia.org/wiki/Rfam
 
-.. scf2fasta.py scf2fastq.py
 
-.. sra2fastq.py stockholm2clustal.py stockholm2phylip.py
 
-.. twobit2fasta.py
-
-.. vcf2bed.py vcf2bplink.py vcf2plink.py vcf2wiggle.py wig2bed.py xmfa2phylip.py
+.. bplink2plink
+.. plink2bplink plink2vcf
+.. sam2paf
+.. vcf2bed vcf2bplink vcf2plink vcf2wiggle xmfa2phylip

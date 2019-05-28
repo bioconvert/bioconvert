@@ -51,6 +51,13 @@ Downloader
     :members:
     :synopsis:
 
+Extensions
+~~~~~~~~~~
+
+.. automodule:: bioconvert.core.extensions
+    :members:
+    :synopsis:
+
 Graph
 ~~~~~
 

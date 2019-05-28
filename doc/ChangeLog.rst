@@ -21,6 +21,7 @@ Whats' new, what has changed
     - update bioconda recipes (on bioconda-recipes)
     - Fix https://github.com/bioconvert/bioconvert/issues/204
     - add pytest-env plugin in the developer requirements
+    - mv utils/ modules  into new directory ./io
 
 :Revision 0.3.0: April/May 2019
 
