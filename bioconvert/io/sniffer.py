@@ -260,7 +260,13 @@ class Sniffer(object):
         raise NotImplementedError
 
     def is_scf(self, filename):
-        raise NotImplementedError
+        try:
+            data = open(filename, "rb")
+            buff = data.read(56)
+            if buff[0:4].decode() == ".scf":
+                return True
+        except:
+            return False
 
     def is_sra(self, filename):
         # not need. This is not a format.
