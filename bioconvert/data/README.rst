@@ -1,3 +1,8 @@
+MAF
+---
+
+test_ex2.maf is an example from https://genome.ucsc.edu/FAQ/FAQformat.html#format5
+
 CONVENTION
 ---------------
 test_<convertNAME>_vXX.<input_extension> 
