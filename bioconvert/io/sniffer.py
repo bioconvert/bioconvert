@@ -39,6 +39,12 @@ class Sniffer(object):
         >>> s.sniff("test.clustal")
         "clustal"
 
+    TSV and CSV matchess many formats. For example a BED file is compatible with
+    the TSV format.
+
+    If a file matches several 2 formats and includes a TSV/CSV, we ignore the
+    TSV/CSV.
+
 
     """
     formats = sorted(extensions.keys())
@@ -61,6 +67,11 @@ class Sniffer(object):
                 pass
             #except Exception as err:
             #    raise(err)
+        if "tsv" in candidates or "csv" in candidates:
+            _log.warning("Ignore TSV/CSV: {}".format(candidates))
+            candidates = [x for x in candidates if x not in ["tsv", "csv"]]
+
+
         if len(candidates) == 0:
             return None
         elif len(candidates) == 1:
