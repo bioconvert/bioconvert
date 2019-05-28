@@ -66,4 +66,7 @@ class FASTA2TWOBIT(ConvBase):
             outfile=self.outfile)
         self.execute(cmd)
 
+    #@requires("faToTwoBit")
+    #def _method_deeptools(self, *args, **kwargs):
+
 

@@ -44,7 +44,7 @@ class TWOBIT2FASTA(ConvBase):
     Conversion is based on UCSC twobit2fa
 
     """
-    _default_method = 'ucsc'
+    _default_method = 'py2bit'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -65,3 +65,15 @@ class TWOBIT2FASTA(ConvBase):
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
+
+    # py2bit is from deeptols repo
+    @requires(python_library="py2bit")
+    def _method_py2bit(self, *args, **kwargs):
+        print(self.infile)
+        import py2bit
+        data = py2bit.open(self.infile)
+        with open(self.outfile, "w") as fout:
+            for chrom in sorted(data.chroms()):
+                seq = data.sequence(chrom)
+                fout.write(">{}\n{}\n".format(chrom, seq))
+
