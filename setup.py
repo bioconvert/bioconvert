@@ -81,7 +81,8 @@ setup(
            'bioconvert=bioconvert.scripts.converter:main',
            #'proto_sub_cmd=bioconvert.scripts.proto_sub_cmd:main',
            'bioconvert_init=bioconvert.scripts.init_convert:main',
-           'bioconvert_stats=bioconvert.scripts.stats:main'
+           'bioconvert_stats=bioconvert.scripts.stats:main',
+           'bioconvert_sniffer=bioconvert.scripts.sniffer:main'
         ]
     }
     )
