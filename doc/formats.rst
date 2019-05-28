@@ -1446,7 +1446,14 @@ insertions and deletions in the alignment. If alignment is not available, column
 A PAF file may optionally contain SAM-like typed key-value pairs at the end of
 each line.
 
-:reference: https://github.com/lh3/miniasm/blob/master/PAF.md
+.. admonition:: Bioconvert conversion
+
+    :class:`~bioconvert.sam2paf.SAM2PAF`
+
+
+.. admonition:: References:
+
+    - https://github.com/lh3/miniasm/blob/master/PAF.md
 
 .. _format_ped:
 
@@ -1658,6 +1665,11 @@ hom ancestral), 1 het, 2 dom derived using ::
 
     plink --file [.ped/.map fileset prefix] --recodeA --out [output prefix]
 
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.plink2bplink.PLINK2BPLINK`,
+    :class:`~bioconvert.bplink2plink.BPLINK2PLINK`,
+    :class:`~bioconvert.plink2vcf.PLINK2VCF`
 
 .. admonition:: References
 
@@ -1676,6 +1688,11 @@ PLINK binary files (BED/BIM/FAM)
 
 PLINK binary format (BED, :ref:`format_bim` and :ref:`format_fam`) is a valid input for many software. If you have the :ref:`format_plink_flat` version, use PLINK to convert text to binary format if necessary. In Bioconvert, you can use the **plink2bpblink** as explained in the :ref:`format_plink_flat` section
 
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.plink2bplink.PLINK2BPLINK`,
+    :class:`~bioconvert.bplink2plink.BPLINK2PLINK`,
+    :class:`~bioconvert.plink2vcf.PLINK2VCF`
 
 
 .. admonition:: Reference
@@ -1773,16 +1790,18 @@ XE         Number of supporting seeds
 
 .. _format_scf:
 
-Trace File Format - Sequence Chromatogram Format (SCF)
-------------------------------------------------------
+SCF
+---
 
 :Format: human readable
 :Status: included
 :Type: alignment
 
 
-Trace files are binary files containing raw data output from automated sequencing instruments.
-This converter was converted from BioPerl.
+Trace File Format - Sequence Chromatogram Format (SCF) is a binary file 
+containing raw data output from automated sequencing instruments.
+
+This converter was translated from BioPerl.
 
 
 SCF file organisation (more or less)
@@ -2136,8 +2155,49 @@ XMFA
 :Status: included
 :Type: alignment
 
+XMFA stands for eXtended Multi-FastA file format. The .alignment file contains
+the complete genome alignment. This standard file format is also
+used by other genome alignment systems that align sequences with rearrangements.
 
-.. admonition:: Reference
+The XMFA file format supports the storage of several collinear sub-alignments,
+each separated with an = sign, that constitute a single genome alignment. Each
+sub-alignment consists of one FastA format sequence entry per genome where the
+entry’s defline gives the strand (orientation) and location in the genome of the
+sequence in the alignment.
+
+Example (from darlinglab.org/mauve )::
+
+    >seq_num:start1-end1 ± comments (sequence name, etc.)
+    AC-TG-NAC--TG
+    AC-TG-NACTGTG
+    ...
+
+    > seq_num:startN-endN ± comments (sequence name, etc.)
+    AC-TG-NAC--TG
+    AC-TG-NACTGTG
+    ...
+    = comments, and optional field-value pairs, i.e. score=12345
+
+    > seq_num:start1-end1 ± comments (sequence name, etc.)
+    AC-TG-NAC--TG
+    AC-TG-NACTGTG
+    ...
+
+    > seq_num:startN-endN ± comments (sequence name, etc.)
+    AC-TG-NAC--TG
+    AC-TG-NACTGTG
+    ...
+    = comments, and optional field-value pairs, i.e. score=12345
+
+
+
+
+.. admonition:: Bioconvert conversions
+
+    :class:`~bioconvert.xmfa2phylip.XMFA2PHYLIP`
+
+
+.. admonition:: References
 
     - http://darlinglab.org/mauve/user-guide/files.html
 
@@ -2225,7 +2285,5 @@ Not Included
 
 
 
-.. bplink2plink
-.. plink2bplink plink2vcf
 .. sam2paf
-.. vcf2bed vcf2bplink vcf2plink vcf2wiggle xmfa2phylip
+.. vcf2bed vcf2bplink vcf2plink vcf2wiggle
