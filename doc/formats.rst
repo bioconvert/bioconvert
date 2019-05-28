@@ -245,11 +245,14 @@ in **Bioconvert**. Indeed,  Illumina provides a **bcl2fastq** executable and its
 
 
 BED for plink
-~~~~~~~~~~~~~~
-This BED format  is the binary PED file. Not to be confused with BED format used
-with BAM files.
+-------------
 
-.. FIXME todo
+:Format: binary
+:Status: included
+:Type: genotypic
+
+This BED format  is the binary PED file. Not to be confused with BED format used
+with BAM files. Please see :ref:`format_plink_binary` section.
 
 
 .. _format_bedgraph:
@@ -514,26 +517,27 @@ To create a bigwig from a wiggle, yo need to remove the existing "track" header
 BIM
 ---
 
-:Format: binary
+:Format: human-readable
 :Status: included
 :Type: variants
 
 The BIM formatted file is a variant information file accompanying 
-a .bed or biallelic .pgen binary genotype table. 
-
-.. note:: for plink, use --make-just-bim can be used to update just this file.
+a .bed or biallelic .pgen binary genotype table. Please see :ref:`format_plink_binary` section.
 
 
 The fields are:
 
 - chromosome number (integer)
-- SNP marker ID (string)
-- SNP generic position (cM) (float)
-- SNP physical position (bp)
+- SNP marker ID (string) / variant ID
+- SNP generic position (cM) (float) / position in centimorgans (safe to use dummy value 0)
+- SNP physical position (bp) (1-based)
 - Alternate allele code
 - Reference allele code
 
-So, it is like the MAP with the 2 alleles, and the format is binary.
+Here is an example::
+
+       1    rs0     0   1000    0   1
+       1    rs10    0   1001    2   1
 
 
 .. _format_bz2:
@@ -701,11 +705,31 @@ the end of an entry. .
 .. _format_fam:
 
 FAM
-~~~
+---
 
-The first 6 columns of the PED file.
+:Format: human-readable
+:Status: included
+:Type: database
 
-.. todo:: documentation coming soon
+The FAM format is used to store sample information accompanying a .bed or
+biallelic .pgen binary genotype table. Please see :ref:`format_plink_binary` section.
+
+In brief, it stores the first 6 columns of the PED file. So it is a text file 
+with no header line, and one line per sample with the following six
+fields:
+
+-    Family ID ('FID')
+-    Individual ID ('IID'; cannot be '0')
+-    Individual ID of father ('0' if father isn't in dataset)
+-    Individual ID of mother ('0' if mother isn't in dataset)
+-    Sex code ('1' = male, '2' = female, '0' = unknown)
+-    Phenotype value ('1' = control, '2' = case, '-9'/'0'/non-numeric = missing data if case/control)
+
+For example::
+
+    1 1000000000 0 0 1 1
+    1 1000000001 0 0 1 2
+
 
 .. _format_fasta:
 
@@ -1238,6 +1262,38 @@ All sequence columns and rows must contain at least one nucleotide (no columns o
     - Example and doc from https://genome.ucsc.edu/FAQ/FAQformat.html#format5
 
 
+.. _format_map:
+
+MAP
+---
+
+:Format: human-readable
+:Status: included
+:Type: Genotypic
+
+PLINK is a very widely used application for analyzing genotypic data. 
+
+The fields in a MAP file are:
+
+- Chromosome
+- Marker ID
+- Genetic distance
+- Physical position
+
+Example of a MAP file of the standard PLINK format:: 
+
+    21     rs11511647   0          26765
+    X      rs3883674    0           32380
+    X      rs12218882   0           48172
+    9      rs10904045   0           48426
+    9      rs10751931   0           49949
+    8      rs11252127   0           52087
+    10     rs12775203   0           52277
+    8      rs12255619   0           52481
+
+.. admonition:: References
+
+    - http://www.gwaspi.org/?page_id=145
 
 .. _format_newick:
 
@@ -1397,7 +1453,36 @@ each line.
 PED
 ---
 
-TODO
+:Format: human-readable
+:Status: included
+:Type: Genotypic
+
+PLINK is a very widely used application for analyzing genotypic data. 
+
+The fields in a PED file are:
+
+- Family ID
+- Sample ID
+- Paternal ID
+- Maternal ID
+- Sex (1=male; 2=female; other=unknown)
+- Affection (0=unknown; 1=unaffected; 2=affected)
+- Genotypes (space or tab separated, 2 for each marker. 0=missing)
+
+
+Example of a PED file of the standard PLINK format::
+
+    FAM1    NA06985 0   0   1   1   A   T   T   T   G   G   C   C   A   T   T   T   G   G   C   C
+    FAM1    NA06991 0   0   1   1   C   T   T   T   G   G   C   C   C   T   T   T   G   G   C   C
+    0       NA06993 0   0   1   1   C   T   T   T   G   G   C   T   C   T   T   T   G   G   C   T
+    0       NA06994 0   0   1   1   C   T   T   T   G   G   C   C   C   T   T   T   G   G   C   C
+    0       NA07000 0   0   2   1   C   T   T   T   G   G   C   T   C   T   T   T   G   G   C   T
+    0       NA07019 0   0   1   1   C   T   T   T   G   G   C   C   C   T   T   T   G   G   C   C
+    0       NA07022 0   0   2   1   C   T   T   T   G   G   0   0   C   T   T   T   G   G   0   0
+    0       NA07029 0   0   1   1   C   T   T   T   G   G   C   C   C   T   T   T   G   G   C   C
+    FAM2    NA07056 0   0   0   2   C   T   T   T   A   G   C   T   C   T   T   T   A   G   C   T
+    FAM2    NA07345 0   0   1   1   C   T   T   T   G   G   C   C   C   T   T   T   G   G   C   C
+
 
 
 .. _format_phyloxml:
@@ -1502,18 +1587,45 @@ Here is an example::
     - http://www.phyloxml.org/
     - https://en.wikipedia.org/wiki/PhyloXML
 
+.. _format_plink_flat:
 
 PLINK flat files (MAP/PED)
 -------------------------------
 
-PLINK is a used application for analyzing genotypic data. It can be considered  the de-facto standard of the field. The MAP files describes the SNPs and contains those fields:
+:Format: human-readable
+:Status: included
+:Type: genotypic
+
+PLINK is a used application for analyzing genotypic data. It can be considered  the de-facto standard of the field. 
+
+The standard PLINK files can be a bundle of plain text files (PED & MAP dataset,
+or its transpose, TPED & :ref:`format_fam` dataset), or a bundle of binary files (BED, :ref:`format_bim` & :ref:`format_fam`) as explained in :ref:`format_plink_binary`. 
+
+PLINK provides commands to convert between text and binary formats. In
+Bioconvert, you can use the **plink2bpblink** conversion::
+
+    bioconvert plink2bplink input_prefix output_prefix 
+
+.. note:: Since there are several input and output files, we do not provide the
+   extension. Instead, we use the prefix filename.
+
+
+Since PLINK files do not specify for a variant which allele is reference and which is
+alternative, importing data to a variant tools project requires matching each
+variant to the reference sequence to determine reference and alternative
+alleles 
+
+
+The Genotypic data are separated in two flat files: MAP and PED. 
+
+The MAP files describes the SNPs and contains those fields:
 
 - chromosome number (integer)
 - SNP marker ID (string)
 - SNP generit position (cM) (float)
 - SNP physical position (bp)
 
-So it contains L lines with 4 columns. All SNPs must be ordered by physical
+It is spaced or tabulated file with 4 columns. All SNPs must be ordered by physical
 position. Example::
 
     X rs3883674 0 32380
@@ -1532,18 +1644,43 @@ individual. The first 6 columns are:
 - Sex: 1 Male, 2 Female
 - Phenotype
 
+Then, additional columns can be:
+
 - columns 7 and 8 code for the observed alleles at SNP1
 - comumns 9 and 10 code for the observed alleles at SNP2 and so on
 
-missing data are coded as "0 0". So we havez N lines 2L + 6 columns where N is
+Missing data are coded as "0 0". So we have N lines times 2L + 6 columns where N is
 the number of individuals and L the numbers of SNPs
+
+
+Given a .ped file (plink format), we can convert it into the 012 format (0
+hom ancestral), 1 het, 2 dom derived using ::
+
+    plink --file [.ped/.map fileset prefix] --recodeA --out [output prefix]
+
+
+.. admonition:: References
+
+    - http://www.gwaspi.org/?page_id=145
+    - https://vatlab.github.io/
+
+
+.. _format_plink_binary:
 
 PLINK binary files (BED/BIM/FAM)
 -------------------------------------
-Same information as plink flat files.
+
+:Format: human-readable
+:Status: included
+:Type: genotypic
+
+PLINK binary format (BED, :ref:`format_bim` and :ref:`format_fam`) is a valid input for many software. If you have the :ref:`format_plink_flat` version, use PLINK to convert text to binary format if necessary. In Bioconvert, you can use the **plink2bpblink** as explained in the :ref:`format_plink_flat` section
 
 
-- http://zzz.bwh.harvard.edu/plink/tutorial.shtml
+
+.. admonition:: Reference
+
+    - http://zzz.bwh.harvard.edu/plink/tutorial.shtml
 
 .. _format_qual:
 

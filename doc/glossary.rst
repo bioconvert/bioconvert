@@ -66,7 +66,9 @@ Note that formats mentionned here below have dedicated description in the
 
     BPLINK
 
-        BPLINK
+        Binary version of the PlINK forat used for analyzing genotypic data 
+        for Genome-wide Association Studies (GWAS). 
+        See :ref:`format_plink_binary` page for details.
 
     BZ2
 
@@ -181,7 +183,8 @@ Note that formats mentionned here below have dedicated description in the
 
     PLINK
 
-        TODO
+        Format used for analyzing genotypic data for Genome-wide Association
+        Studies (GWAS). See :ref:`format_plink_flat` page for details.
 
     QUAL
 
