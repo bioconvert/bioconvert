@@ -31,6 +31,7 @@ from easydev import AttrDict
 # - database
 # - variant
 
+#: List of formats and their extensions included in Bioconvert
 extensions = {
     'abi': ["abi", "ab1"],                      # sequence
     'bam': ["bam"],                             # alignment
@@ -47,6 +48,7 @@ extensions = {
     'csv': ["csv"],                             # database
     'dsrc': ['dsrc'],                           # compression
     'embl': ['embl'],                           # annotation/sequence
+    'ena' : ['ena'],
     'fasta': ["fasta", "fa", "fst"],            # sequence
     'fastq': ["fastq", "fq"],                   # sequence
     'genbank': ['genbank', 'gbk', "gb"],        # annotation/sequence
