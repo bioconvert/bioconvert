@@ -26,6 +26,7 @@
 import argparse
 import json
 import sys
+import os
 
 import bioconvert
 from bioconvert import ConvBase
@@ -49,6 +50,12 @@ project or formats available.
 
 Bioconvert is an open source collaborative project. Please feel free to 
 join us at https://github/biokit/bioconvert
+
+USAGE:
+
+    bioconvert_sniffer test.bam
+    bioconvert_sniffer --input test.bam --verbosity INFO
+
 """)
 
 
@@ -57,28 +64,56 @@ join us at https://github/biokit/bioconvert
                             help="Set the outpout verbosity.",
                             choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
                             )
-    arg_parser.add_argument("--input", default="input",
+    arg_parser.add_argument("--input", default="input", nargs="+",
                             help="Set the input file.")
+    arg_parser.add_argument("--quiet", default="quiet", action="store_true",
+                            help="simply return a two columns output with filename and found format.")
+
+
+    if args[0][0] != "-":
+        args = ["--input"] +  args
 
     args = arg_parser.parse_args(args)
 
-
     from bioconvert.io.sniffer import Sniffer
-    print(args)
+
+    # Set the verbosity
+    from bioconvert import logger
+    logger.level = args.verbosity
+
+
+    # Sniff files
 
     s = Sniffer()
-    ret = s.sniff(args.input)
-    url = "https://bioconvert.readthedocs.io/en/master/formats.html"
-    if ret:
-        print("\nFound possible candidate(s): {}".format(ret))
-        if isinstance(ret, list):
-            for this in ret:
-                print("{}#{}".format(url, this))
+
+    for filename in args.input:
+
+        ret = s.sniff(filename)
+        url = "https://bioconvert.readthedocs.io/en/master/formats.html"
+        if ret:
+            fname = os.path.split(filename)[1]
+            if args.quiet:
+                pass
+            else:
+                print("\nFound possible candidate(s) for {}: {}".format(fname, ret))
+
+            if args.quiet:
+                print("{}\t {}".format(fname, ret))
+            else:
+                if isinstance(ret, list):
+                    for this in ret:
+                        print("See {}#{}".format(url, this))
+                else:
+                    print("See {}#{}".format(url, ret))
         else:
-            print("{}#{}".format(url, ret))
-    else:
-        print("No candidate format identified. This is a tool in progress as"
-    "shown in the github entry https://github.com/bioconvert/bioconvert/issues/225")
+            
+            fname = os.path.split(filename)[1]
+            msg = "No candidate format identified for {} This is a tool in progress as"
+            msg += "shown in the github entry https://github.com/bioconvert/bioconvert/issues/225"
+            if args.quiet:
+                print("{}\t NA".format(fname))
+            else:
+                print(msg.format(fname))
 
 
 

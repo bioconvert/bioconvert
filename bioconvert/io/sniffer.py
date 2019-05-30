@@ -47,30 +47,59 @@ class Sniffer(object):
 
 
     """
-    formats = sorted(extensions.keys())
+    #formats = sorted(extensions.keys())
 
     def __init__(self):
-        pass
+
+        self.methods = [x for x in dir(self) if x.startswith("is")]
+
+        # let us just check whether a format is missing
+        self.formats = [x.replace("is_", "") for x in self.methods]
+        for frmt in extensions.keys():
+            if frmt not in self.formats:
+                print('warning please add the is_{} method in the sniffer'.format(frmt))
 
     def sniff(self, filename):
         """Return first frmt found to be compatible with the input file"""
 
         candidates = []
-        for frmt in self.formats:
-            _log.debug("Trying {}".format(frmt))
-            func = getattr(self, "is_{}".format(frmt))
-            try:
-                ret = func(filename)                
-                if ret is True:
-                    candidates.append(frmt)
-            except NotImplementedError:
-                pass
-            #except Exception as err:
-            #    raise(err)
+
+        # If a fmrt is ods, it will be compatible with xls, xlxs etc leading
+        # to an ambiguity. If there are several candidates found and the frmt
+        # is found in the candidates, most probably this is the good one.
+        # So we could first try the method is_frmt and if the answer is True, we
+        # can stop there.
+        try:
+            extension = filename.split(".")[-1]
+            func = getattr(self, "is_{}".format(extension))
+            ret = func(filename)
+            if ret is True:
+                _log.debug("Confirm the format based on extension and is_{} function".format(
+                    extension))
+                candidates.append(extension)
+            else:
+                raise Error
+        except:
+            # otherwise, we should try all formats and methods available
+            # 
+            for frmt in self.formats:
+                _log.debug("Trying {}".format(frmt))
+                func = getattr(self, "is_{}".format(frmt))
+                try:
+                    ret = func(filename)
+                    if ret is True:
+                        candidates.append(frmt)
+                except NotImplementedError:
+                    pass
+
         if "tsv" in candidates or "csv" in candidates:
             _log.warning("Ignore TSV/CSV: {}".format(candidates))
             candidates = [x for x in candidates if x not in ["tsv", "csv"]]
 
+        # bcf is known to also be gz
+        for frmt in ['bam', 'bcf']:
+            if frmt in candidates and "gz" in candidates:
+                candidates = [x for x in candidates if x not in ["gz"]]
 
         if len(candidates) == 0:
             return None
@@ -87,20 +116,71 @@ class Sniffer(object):
         else:
             return False
 
+    def _is_magic(self, filename, magic):
+        """Figure out whether magic number of the file fits the argument."""
+
+        data = open(filename, "rb")
+        buff = data.read(56)
+        L = len(magic)
+
+        # we need at least L + 1 values
+        if len(buff)<=L:
+            return False
+
+        # then, each magic number should fit the first bytes
+        ret = [buff[i] == magic[i] for i in range(0, L)]
+
+        if False in ret:
+            return False
+        else:
+            return True
+
     def is_abi(self, filename):
-        raise NotImplementedError
+        try:
+            data = open(filename, "rb")
+            buff = data.read(4)
+            if buff[0:4].decode() == "ABIF":
+                return True
+        except:
+            return False
 
     def is_bam(self, filename):
-        raise NotImplementedError
+        try:
+            import pysam
+            d = pysam.AlignmentFile(filename)
+            return d.is_bam
+        except:
+            return False
 
     def is_bcf(self, filename):
-        raise NotImplementedError
+        try:
+            import pysam
+            d = pysam.VariantFile(filename)
+            return d.is_bcf
+        except:
+            return False
+
+    def is_binary_bed(self, filename):
+        # This could be a BED binary file from plink or BEDGrapg
+        # https://www.cog-genomics.org/plink2/formats#bed
+        try:
+            return self._is_magic(filename, [0x6c, 0x1b, 0x1])
+        except:
+            return False
 
     def is_bed(self, filename):
-        raise NotImplementedError
+        try:
+            data = open(filename, "r")
+            line = data.readline()
+            if len(line.split())<4:
+                return False
+            else:
+                return True
+        except:
+            return False
 
     def is_bedgraph(self, filename):
-        raise NotImplementedError
+        return self.is_bed(filename)
 
     def is_bigwig(self, filename):
         raise NotImplementedError
@@ -112,7 +192,10 @@ class Sniffer(object):
         raise NotImplementedError
 
     def is_bz2(self, filename):
-        raise NotImplementedError
+        try:
+            return self._is_magic(filename, [0x42, 0x5A, 0x68])
+        except:
+            return False
 
     def is_cdao(self, filename):
         raise NotImplementedError
@@ -128,7 +211,12 @@ class Sniffer(object):
             pass
 
     def is_cram(self, filename):
-        raise NotImplementedError
+        try:
+            import pysam
+            d = pysam.AlignmentFile(filename)
+            return d.is_cram
+        except:
+            return False
 
     def is_clustal(self, filename):
         with open(filename, "r") as fin:
@@ -142,16 +230,54 @@ class Sniffer(object):
                 return False
 
     def is_dsrc(self, filename):
-        raise NotImplementedError
+        try:
+            # FIXME not sure whether we need more characters ?
+            return self._is_magic(filename, [0xaa, 0x2])
+        except:
+            return False
 
     def is_embl(self, filename):
         raise NotImplementedError
 
+    def is_ena(self, filename):
+        try:
+
+            data = open(filename, "r")
+            L1 = data.readline()     
+            if L1.startswith("ID"):
+                return True
+            else:
+                return False
+        except:
+            return False
+
+
     def is_fasta(self, filename):
-        raise NotImplementedError
+        # FIXME this is valid for FASTA 
+        try:
+            data = open(filename, "r")
+            line1 = data.readline()
+            line2 = data.readline()
+            if line1.startswith(">") and line2[0] in "ABCDEFGHIKLMNPQRSTUVWYZX*-":
+                return True
+            else:
+                return False
+        except:
+            return False
 
     def is_fastq(self, filename):
-        raise NotImplementedError
+        try:
+            data = open(filename, "r")
+            line1 = data.readline()
+            line2 = data.readline()
+            line3 = data.readline()
+            line4 = data.readline()
+            if line1.startswith("@") and line3.startswith("+"):
+                return True
+            else:
+                return False
+        except:
+            return False
 
     def is_genbank(self, filename):
 
@@ -171,16 +297,43 @@ class Sniffer(object):
         raise NotImplementedError
 
     def is_gff2(self, filename):
-        raise NotImplementedError
+        try:
+            with open(filename, "r") as fin:
+                data = fin.readline()
+                if "gff-version 2" in data.strip():
+                    return True
+                else:
+                    return False
+        except:
+            return False
 
     def is_gff3(self, filename):
-        raise NotImplementedError
+        try:
+            with open(filename, "r") as fin:
+                data = fin.readline()
+                if "gff-version 3" in data.strip():
+                    return True
+                else:
+                    return False
+        except:
+            return False
+
 
     def is_gz(self, filename):
-        raise NotImplementedError
+        try:
+            return self._is_magic(filename, [0x1f, 0x8b])
+        except:
+            return False
 
     def is_json(self, filename):
-        raise NotImplementedError
+        try:
+            import json
+            with open(filename) as fin:
+                data = fin.read()
+                json.loads(data)
+                return True
+        except:
+            return False
 
     def is_maf(self, filename):
         with open(filename, "r") as fin:
@@ -209,13 +362,33 @@ class Sniffer(object):
                 return False
 
     def is_newick(self, filename):
+        try:
+            with open(filename, "r") as fin:
+                data = fin.readlines()
+                if data[0].strip()[0] == "(" and data[-1].strip()[-1] == ';':
+                    return True
+                else:
+                    return False
+        except:
+            return False
         raise NotImplementedError
 
     def is_nexus(self, filename):
-        raise NotImplementedError
+        try:
+            with open(filename, "r") as fin:
+                line = fin.readline()
+                if line.startswith("#NEXUS"):
+                    return True
+                else:
+                    return False
+        except:
+            return False
 
     def is_ods(self, filename):
-        raise NotImplementedError
+        try:
+            return self._is_magic(filename, [0x50, 0x4b, 0x03, 0x04])
+        except:
+            return False
 
     def is_paf(self, filename):
         raise NotImplementedError
@@ -248,16 +421,58 @@ class Sniffer(object):
                 return False
 
     def is_phyloxml(self, filename):
-        raise NotImplementedError
+        try:
+            import xml.etree.ElementTree as ET
+            tree = ET.parse(filename)
+            tree.getroot()
+            root = tree.getroot()
+            if "phyloxml" in root.tag:
+                return True
+            else:
+                return False
+        except:
+            return False
 
     def is_plink(self, filename):
         raise NotImplementedError
 
     def is_qual(self, filename):
-        raise NotImplementedError
+        # if line1.startswith(">") and line2[0] in "ABCDEFGHIKLMNPQRSTUVWYZX*-":
+        try:
+            data = open(filename, "r")
+            line1 = data.readline()
+            line2 = data.readline()
+
+            # we check the first line identifier. 
+            # then, we scan the entire line searching of encoding qualities
+            # hoping that values between 33 and 126 will be enough to
+            # differentiate them from the standard nucleotides and protein
+            # characters. 
+            scores = [x for x in line2 if x not in "ABCDEFGHIKLMNPQRSTUVWYZX*-"]
+            # if we find a character (e.g !, #ietc) it means is a quality file
+            # however, if we do not find such a value, it does not mean it is
+            # not a quality.
+
+            # For instance, there is no way to say that ::
+            #    >ID
+            #    AACCTTGG
+            # is a qual or fasta file
+        
+
+            if line1.startswith(">") and len(scores)>1:
+                return True
+            else:
+                return False
+        except:
+            return False
 
     def is_sam(self, filename):
-        raise NotImplementedError
+        try:
+            import pysam
+            d = pysam.AlignmentFile(filename)
+            return d.is_sam
+        except:
+            return False
 
     def is_scf(self, filename):
         try:
@@ -282,8 +497,34 @@ class Sniffer(object):
             except:
                 return False
 
+    def is_rar(self, filename):
+        try:
+            c1 = self._is_magic(filename, [0x52, 0x61, 0x72, 0x21, 0x1A , 0x7, 0x0])
+            c2 = self._is_magic(filename, [0x52, 0x61, 0x72, 0x21, 0x1A , 0x7, 0x0])
+            if c1 or c2:
+                return True
+            else:
+                return False
+        except:
+            return False
+
+    def is_tar(self, filename):
+        try:
+            # length must be > 260
+            return self._is_magic(filename, [0x75, 0x73, 0x74, 0x61, 0x72])
+        except:
+            return False
+
     def is_twobit(self, filename):
-        raise NotImplementedError
+        try:
+            data = open(filename, "rb")
+            buff = data.read(16)
+            if 0x43 in buff and 0x27 in buff:
+               return True
+            else:
+                return False
+        except:
+            return False
 
     def is_tsv(self, filename):
         try:
@@ -295,7 +536,12 @@ class Sniffer(object):
             pass
 
     def is_vcf(self, filename):
-        raise NotImplementedError
+        try:
+            import pysam
+            d = pysam.VariantFile(filename)
+            return d.is_vcf
+        except:
+            return False
 
     def is_wiggle(self, filename):
         raise NotImplementedError
@@ -304,15 +550,53 @@ class Sniffer(object):
         raise NotImplementedError
 
     def is_xls(self, filename):
-        raise NotImplementedError
+        try:
+            return self._is_magic(filename, [0xd0, 0xcf, 0x11])
+        except:
+            return False
 
     def is_xlsx(self, filename):
-        raise NotImplementedError
+        try:
+            return self._is_magic(filename, [0xd0, 0xcf, 0x11])
+        except:
+            return False
 
     def is_xmfa(self, filename):
-        raise NotImplementedError
+        try:
+            with open(filename, "r") as fin:
+                line = fin.readline()
+                if "FormatVersion" in line and "Mauve" in line:
+                    return True
+                else:
+                    return False
+        except:
+            return False
 
     def is_yaml(self, filename):
         raise NotImplementedError
 
+    def is_zip(self, filename):
+        try:
+            c1 = self._is_magic(filename, [0x50,  0x4B, 0x3, 0x4])
+            c2 = self._is_magic(filename, [0x50,  0x4B, 0x3, 0x4])
+            c3 = self._is_magic(filename, [0x50,  0x4B, 0x3, 0x4])
+            if c1 or c2 or c3:
+                return True
+            else:
+                return False
+        except:
+            return False
+
+
+    def is_7zip(self, filename):
+        try:
+            return self._is_magic(filename, [0x37, 0x7A, 0xbc, 0xaf,0x27, 0x1C])
+        except:
+            return False
+
+    def is_xz(self, filename):
+        try:
+            return self._is_magic(filename, [0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00])
+        except:
+            return False
 
