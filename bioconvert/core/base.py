@@ -159,6 +159,7 @@ class ConvMeta(abc.ABCMeta):
                     setattr(cls, 'output_ext', output_ext)
                 except KeyError:
                     msg = "In the class {} the attribut output_ext is missing".format(cls.__name__)
+                    msg += "This may be an unknown extension added. If so, update core/extensions.py"
                     _log.error(msg)
                     raise BioconvertError(msg)
             available_conv_meth = []
