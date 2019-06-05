@@ -3,7 +3,7 @@
 Benchmarking
 ============
 
-Converters (e.g. :class:`~bioconvert.fastq2fasta.Fastq2Fasta`) may have several 
+Converters (e.g. :class:`~bioconvert.fastq2fasta.FASTQ2FASTA`) may have several
 methods implemented. A developer may also want to compare his/her method with 
 those available in bioconvert.
 
@@ -32,7 +32,7 @@ In practice, you could use the following code to generate the boxplot:
     fs.simulate()
 
     # Perfrm the benchmarking
-    from bioconvert.fastq2fasta import Fastq2Fasta
+    from bioconvert.fastq2fasta import FASTQ2FASTA
     c = Fastq2Fasta(infile.name, outfile.name)
     c.boxplot_benchmark(to_exclude=["GATB"])
 

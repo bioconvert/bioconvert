@@ -33,7 +33,7 @@ from mappy import fastx_read
 import mmap
 
 
-class Fastq2Fasta(ConvBase):
+class FASTQ2FASTA(ConvBase):
     """Convert :term:`FASTQ` to :term:`FASTA`"""
 
     # use readfq for now because pure python are fast enough
@@ -67,7 +67,7 @@ class Fastq2Fasta(ConvBase):
                 FastaIO.FastaWriter(
                     fasta_out,
                     wrap=None,
-                    record2title=Fastq2Fasta.just_name).write_file(
+                    record2title=FASTQ2FASTA.just_name).write_file(
                         SeqIO.parse(infile, 'fasta'))
             else:
                 FastaIO.FastaWriter(fasta_out, wrap=None).write_file(
@@ -125,7 +125,7 @@ class Fastq2Fasta(ConvBase):
     @compressor
     def _method_readfq(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
-            for (name, seq, _) in Fastq2Fasta.readfq(fastq):
+            for (name, seq, _) in FASTQ2FASTA.readfq(fastq):
                 fasta.write(">{}\n{}\n".format(name, seq))
 
     # Does not give access to the comment part of the header

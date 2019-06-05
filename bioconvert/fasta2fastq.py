@@ -34,10 +34,10 @@ from bioconvert.core.decorators import requires
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ["Fasta2Fastq"]
+__all__ = ["FASTA2FASTQ"]
 
 
-class Fasta2Fastq(ConvBase):
+class FASTA2FASTQ(ConvBase):
     """
 
     """

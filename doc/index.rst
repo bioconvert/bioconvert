@@ -1,5 +1,5 @@
 Bioconvert
-####################
+##########
 
 **Bioconvert** is a collaborative project to facilitate the interconversion of life
 science data from one format to another. **Bioconvert** currently contains 44 formats
@@ -42,7 +42,7 @@ and 95 conversions.
    :width: 80%
 
 Overview
-################
+########
 
 Life science uses many different formats. They may be old, or with complex
 syntax and converting those formats may be a challenge. **Bioconvert** aims at providing a common tool / interface to convert life science data formats from one to another.
@@ -62,7 +62,7 @@ better than existing ones.
 
 
 Installation
-###############
+############
 
 In order to install bioconvert, you can use **pip**::
 
@@ -90,7 +90,7 @@ you can find information about our Singularity container as well.
 
 
 Usage
-##########
+#####
 
 From the command line, you can convert a :term:`FastQ` file into 
 a :term:`FastA` file as follows (compressed or not)::
@@ -111,10 +111,10 @@ For help, just type::
 From Python shell::
 
     # import a converter
-    from bioconvert.fastq2fasta import Fastq2Fasta
+    from bioconvert.fastq2fasta import FASTQ2FASTA
 
     # Instanciate with infile/outfile names
-    convert = Fastq2Fasta(infile, outfile)
+    convert = FASTQ2FASTA(infile, outfile)
 
     # the conversion itself
     convert()
@@ -130,6 +130,7 @@ Complete documentation including User and Developer Guides
 
     installation
     user_guide
+    tutorial
     developer_guide
     benchmarking
     auto_examples/index

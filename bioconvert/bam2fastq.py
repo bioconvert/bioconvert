@@ -26,7 +26,7 @@ from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 
-class BAM2Fastq(ConvBase):
+class BAM2FASTQ(ConvBase):
     """Converts BAM 2 FastQ file
 
     .. warning:: the R1 and R2 reads are saved in the same file. Besides,

@@ -161,7 +161,7 @@ class Sniffer(object):
             return False
 
     def is_binary_bed(self, filename):
-        # This could be a BED binary file from plink or BEDGrapg
+        # This could be a BED binary file from plink 
         # https://www.cog-genomics.org/plink2/formats#bed
         try:
             return self._is_magic(filename, [0x6c, 0x1b, 0x1])
@@ -183,10 +183,16 @@ class Sniffer(object):
         return self.is_bed(filename)
 
     def is_bigwig(self, filename):
-        raise NotImplementedError
+        try:
+            return self._is_magic(filename, [0x26, 0xfc, 0x8f])
+        except:
+            return False
 
     def is_bigbed(self, filename):
-        raise NotImplementedError
+        try:
+            return self._is_magic(filename, [0xeb, 0xf2, 0x89])
+        except:
+            return False
 
     def is_bplink(self, filename):
         raise NotImplementedError
@@ -237,7 +243,22 @@ class Sniffer(object):
             return False
 
     def is_embl(self, filename):
-        raise NotImplementedError
+        # FIXME
+        # here we naively read 20 lines and extract the first 2 letters checking
+        # whether there are within the list of authorised values
+        # non exhaustive list
+        valid_ids = ['ID', 'XX', 'AC', 'DE', 'KW', 'OS', 'OC', 'RN', 'RA', 'RT',
+            'FT', 'FH']
+        try:
+            with open(filename, "r") as fin:
+                data = fin.readlines(200000) # 200000 characters should be enough
+            ids = [x.split()[0] for x in data if x[0:2] in valid_ids]
+            if len(ids)>0:
+                return True
+            else:
+                return False
+        except:
+            return False
 
     def is_ena(self, filename):
         try:
@@ -294,7 +315,68 @@ class Sniffer(object):
                 return False
 
     def is_gfa(self, filename):
-        raise NotImplementedError
+
+        # GFA1
+        # Type descr
+        # #   Comment
+        # H   Header
+        # S   Segment
+        # L   Link
+        # C   Containment
+        # P   Path
+
+        # optional fields are also possible: A, i, f, Z, J, H, B
+
+        # GFA2
+        # There is an integer length field in S-lines.
+        # The L- and C-lines have been replaced by a consolidated E-line.
+        # The P-line has been replaced with U- and O-lines that encode subgraphs and
+        # paths, respectively, and can take edge id’s, obviating the need for orientation
+        # signs and alignments between segments.
+
+        # There is a new F-line for describing multi-alignments and a new G-line for
+        # describing scaffolds.
+
+        # Alignments can be trace length sequences as well as CIGAR strings.
+
+        # Positions have been extended to include a postfix $ symbol for positions
+        # representing the end of a read.
+
+        # Segments, edges, and paths all have an orientation that is specified with a
+        # postfix + or - symbol in contexts where the orientation is needed.
+        try:
+            # gfa1
+            is_gfa1 = self._is_gfa1(filename)
+            is_gfaXX = self._is_gfaXX(filename)
+            if is_gfa1 or is_gfaXX:
+                return True
+            else:
+                return False
+        except Exception as err:
+            print(err)
+            return False
+
+    def _is_gfa1(self, filename):
+        with open(filename, "r") as fin:
+            data = fin.readlines(200000) # 200000 characters should be enough
+        ids = [x.split()[0] for x in data]
+        if "H" in ids and "S" in ids and "L" in ids:
+            return True
+        else:
+            return False
+
+    def _is_gfaXX(self, filename):
+        # FIXME: need to be sure the test files are correct. 
+        # there are two right now one GFA1 the other is unclear since starting
+        # values can be S but also a
+        with open(filename, "r") as fin:
+            data = fin.readlines(200000) # 200000 characters should be enough
+        ids = [x.split()[0] for x in data]
+        if "a" in ids and "S":
+            return True
+        else:
+            return False
+
 
     def is_gff2(self, filename):
         try:
@@ -371,7 +453,6 @@ class Sniffer(object):
                     return False
         except:
             return False
-        raise NotImplementedError
 
     def is_nexus(self, filename):
         try:
@@ -391,7 +472,15 @@ class Sniffer(object):
             return False
 
     def is_paf(self, filename):
-        raise NotImplementedError
+        try:
+            import pandas as pd
+            df = pd.read_csv(filename, sep="\s+", header=None)
+            if len(df.columns) >= 12:
+                if set(df.loc[:,4]) == set(['+', '-']):
+                    return True
+            return False
+        except Exception as err:
+            return False
 
     def is_phylip(self, filename):
 
@@ -544,10 +633,18 @@ class Sniffer(object):
             return False
 
     def is_wiggle(self, filename):
-        raise NotImplementedError
+        return self.is_wig(filename)
 
     def is_wig(self, filename):
-        raise NotImplementedError
+        try:
+            with open(filename, "r") as fin:
+                line = fin.readline()
+                if "track" in line and "type=wiggle" in line:
+                    return True
+                else:
+                    return False
+        except:
+            return False
 
     def is_xls(self, filename):
         try:
@@ -573,7 +670,13 @@ class Sniffer(object):
             return False
 
     def is_yaml(self, filename):
-        raise NotImplementedError
+        try:
+            import  yaml
+            data = yaml.load(open(filename, "r"))
+            if data.keys():
+                return True
+        except:
+            return False
 
     def is_zip(self, filename):
         try:

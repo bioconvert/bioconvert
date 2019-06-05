@@ -3,7 +3,7 @@
 .. _formats:
 
 Formats
-==========
+=======
 
 Here below, we provide a list of formats used in bioinformatics or computational
 biology. Most of these formats are used in **Bioconvert** and available for
@@ -976,11 +976,9 @@ see :ref:`format_genbank`
 GFA
 ---
 
-
 :Format: human-readable
 :Status: included
 :Type: assembly graph
-
 
 The Graphical Fragment Assembly (GFA) can be used to represent genome
 assemblies. GFA stores sequence graphs as the product of an
@@ -992,7 +990,6 @@ and their overlap. The first field of the line identifies the type of the line.
 **Header** lines start with H. **Segment** lines start with S. **Link** lines start with L.
 A **containment** line starts with C. A **path** line starts with P.
 
-
 - Segment a continuous sequence or subsequence.
 - Link an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
 - Containment an overlap between two segments where one is contained in the other.
@@ -1000,7 +997,7 @@ A **containment** line starts with C. A **path** line starts with P.
 
 See details in the reference above.
 
-Example::
+Example:
 
     H   VN:Z:1.0
     S   11  ACCTT
@@ -1110,7 +1107,6 @@ The header is compulsary and following lines must have 9 columns as follows:
 
 .. admonition:: References:
 
-    - http://www.sequenceontology.org/
     - http://gmod.org/wiki/GFF2
     - http://gmod.org/wiki/GFF3
     - http://www.sanger.ac.uk/resources/software/gff/spec.html
@@ -1754,7 +1750,7 @@ Here is an example::
 .. _format_plink_flat:
 
 PLINK flat files (MAP/PED)
--------------------------------
+--------------------------
 
 :Format: human-readable
 :Status: included

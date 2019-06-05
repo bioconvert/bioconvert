@@ -29,7 +29,6 @@ from bioconvert import ConvBase
 from bioconvert.core.decorators import requires_nothing
 from bioconvert.readers.gff3 import Gff3
 
-
 class GFF32GFF2(ConvBase):
     """Convert :term:`GFF2` to :term:`GFF3`"""
 

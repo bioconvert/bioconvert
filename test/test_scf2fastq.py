@@ -1,5 +1,5 @@
 import pytest
-from bioconvert.scf2fastq import SCF2Fastq
+from bioconvert.scf2fastq import SCF2FASTQ
 from bioconvert.io.scf import read_from_buffer, delta
 
 from bioconvert import bioconvert_data
@@ -14,12 +14,12 @@ def test_conv():
     expected_outfile_v3 = bioconvert_data("sample_v3.fastq")
 
     with TempFile(suffix=".fastq") as tempfile:
-        convert = SCF2Fastq(infile_v2, tempfile.name)
+        convert = SCF2FASTQ(infile_v2, tempfile.name)
         convert()
         # Check that the output is correct with a checksum
         assert md5(tempfile.name) == md5(expected_outfile_v2)
 
-        convert = SCF2Fastq(infile_v3, tempfile.name)
+        convert = SCF2FASTQ(infile_v3, tempfile.name)
         convert()
         # Check that the output is correct with a checksum
         assert md5(tempfile.name) == md5(expected_outfile_v3)
