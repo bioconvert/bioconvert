@@ -41,7 +41,7 @@ class NEXUS2FASTA(ConvBase):
     """
     Converts a sequence alignment from :term:`NEXUS` format to :term:`FASTA` format.
     """
-    _default_method = 'goalign'
+    _default_method = 'biopython'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
