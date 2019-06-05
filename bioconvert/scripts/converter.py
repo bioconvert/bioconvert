@@ -52,6 +52,10 @@ def main(args=None):
                 and "." in args[0]:
             in_ext = utils.get_extension(args[0], remove_compression=True)
             out_ext = utils.get_extension(args[1], remove_compression=True)
+        #
+        # if args[0].lower() not in list(registry.get_converters_names()) \
+        #         and "." in args[0] and "." in args[1] and "." in args[2] :
+        #     print("one2many")
 
             # Check that the input file exists
             # Fixes https://github.com/bioconvert/bioconvert/issues/204
@@ -171,9 +175,21 @@ join us at https://github/biokit/bioconvert
 
     # show all possible conversion
     for in_fmt, out_fmt, converter, path in \
-            sorted(registry.iter_converters(allow_indirect_conversion)):
+            sorted(registry.iter_converters(allow_indirect_conversion),key=lambda t: t[0]):
+        in_fmt = in_fmt.lower()
+        # check if we have many format in output
+        if type(out_fmt) is tuple:
+            out_fmt = [format.lower() for format in out_fmt]
+            print(out_fmt)
+            out_fmt = "_".join(out_fmt)
+            print(out_fmt)
+            sub_parser_name = "{}2{}".format(in_fmt, out_fmt)
 
-        sub_parser_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
+        else:
+            out_fmt=out_fmt.lower()
+            sub_parser_name = "{}2{}".format(in_fmt, out_fmt)
+
+        print(sub_parser_name)
 
         if converter:
             link_char = '-'
@@ -267,8 +283,15 @@ Please feel free to join us at https://github/biokit/bioconvert
 
         conversions = []
         for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
-            conversion_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
-            conversions.append((lev(conversion_name, sub_command), conversion_name))
+            in_fmt = in_fmt.lower()
+            if type(out_fmt) is tuple:
+                out_fmt = [format.lower() for format in out_fmt]
+                out_fmt = "_".join(out_fmt)
+                conversion_name = "{}2{}".format(in_fmt, out_fmt)
+                conversions.append((lev(conversion_name, sub_command), conversion_name))
+            else:
+                conversion_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
+                conversions.append((lev(conversion_name, sub_command), conversion_name))
         matches = sorted(conversions)[:5]
         if matches[0][0] == 0:
             # sub_command was ok, problem comes from elswhere

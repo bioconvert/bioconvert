@@ -95,22 +95,16 @@ class Registry(object):
                 converters = [c for c in converters if is_converter(c)]
                 for converter_name, converter in converters:
                     if converter is not None:
-                        # the registry is no more based on extension but on format
-                        if converter.output_fmt is tuple:
-                            format_pair = (converter.input_fmt,(converter.output_fmt))
-                        else:
-                            format_pair = (converter.input_fmt, converter.output_fmt)
+                        format_pair = (converter.input_fmt, converter.output_fmt)
                         _log.debug("add converter '{}' for {} -> {} in fmt_registry".format(
                             converter_name, *format_pair))
                         target[(format_pair)] = converter
-                        print(type(converter.output_ext))
+                        # When we a one2many converter so many output format.
                         if type(converter.output_ext) is tuple:
+                            # have all the combinaisons between the extensions of output formats of the converters
                             converter.output_ext = tuple(itertools.product(*converter.output_ext))
-                            print(converter.output_ext)
                         all_ext_pair = tuple(itertools.product(converter.input_ext, (converter.output_ext)))
-                        # all_ext_pair = list(all_ext_pair)
                         for ext_pair in all_ext_pair:
-                            # format_pair = (converter.input_fmt, converter.output_fmt)
                             if len(converter.available_methods) == 0 and not including_not_available_converter:
                                 _log.warning("converter '{}' for {} -> {} was not added as no method is available"
                                              .format(converter_name, *ext_pair))
@@ -208,6 +202,11 @@ class Registry(object):
         :return: True if format_pair is in registry otherwise False.
         """
 
+        if format_pair[1] is tuple:
+            for pair in format_pair[1]:
+                
+                pair = pair.upper()
+            format_pair[1] = (format_pair[0],())
         format_pair = (format_pair[0].upper(), format_pair[1].upper())
         return format_pair in self._fmt_registry
 
