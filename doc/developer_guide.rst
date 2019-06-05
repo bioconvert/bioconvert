@@ -36,7 +36,7 @@ First, you need to add a new file in the ``./bioconvert`` directory called::
 
 Please note that the name is **all in small caps** and that we concatenate the input format name, the character **2** and the output format name. Sometimes a format already includes the character 2 in its name (e.g. bz2), which may be confusing. For now, just follow the previous convention meaning duplicate the character 2 if needed (e.g., for bz2 to gz format, use bz22gz).
 
-In the newly created file (**fastq2fasta.py**) you can (i) copy / paste the content of an existing converter (ii) use the **bioconvert_init** executable (see later), or (iii) copy / paste the following code:
+As for the class name, we us **all in big caps**. In the newly created file (**fastq2fasta.py**) you can (i) copy / paste the content of an existing converter (ii) use the **bioconvert_init** executable (see later), or (iii) copy / paste the following code:
 
 .. code-block:: python
     :linenos:
@@ -44,10 +44,10 @@ In the newly created file (**fastq2fasta.py**) you can (i) copy / paste the cont
     """Convert :term:`FastQ` format to :term:`FastA` formats"""
     from bioconvert import ConvBase
 
-    __all__ = ["Fastq2Fasta"]
+    __all__ = ["FASTQ2FASTA"]
 
 
-    class FastQ2FastA(ConvBase):
+    class FASTQ2FASTA(ConvBase):
         """
 
         """
