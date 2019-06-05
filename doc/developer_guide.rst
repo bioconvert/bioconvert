@@ -10,11 +10,11 @@ Developer guide
 It is quite easy to add a new converter in **Bioconvert**
 (see :ref:`add_converter` section) by adding a new Python module (e.g., with the
 executable **bioconvert_init**) or by copying an existing converter. Then, we
-higly recommend developers to add a test file in the ./test directory (see :ref:`add_test`), and  relevant test files in the ``./bioconvert/data/`` directory (see
+highly recommend developers to add a test file in the ./test directory (see :ref:`add_test`), and  relevant data test files in the ``./bioconvert/data/`` directory (see
 :ref:`add_test_file`). Finally, we expect the **Bioconvert** documentation to
 be updated (``./doc`` directory) as explained in the section :ref:`update_doc`.
 
-Note also that a converter (a Python module, e.g., fastq2fasta) may have several methods included and it is quite straigthforward to add a new method (:ref:`add_method`). They can later be compared thanks to our benchmarking framework.
+Note also that a converter (a Python module, e.g., fastq2fasta) may have several methods included and it is quite straightforward to add a new method (:ref:`add_method`). They can later be compared thanks to our benchmarking framework.
 
 
 .. contents::
@@ -75,7 +75,7 @@ In the newly created file (**fastq2fasta.py**) you can (i) copy / paste the cont
 
 On line 1, please explain the conversion using the terms available in the :ref:`glossary`  (``./doc/glossary.rst`` file). If not available, you may edit the glossary.rst file to add a quick description of the formats.
 
-.. warning:: If the formats is not already included in **Bioconvert**, you will need to update the file core/extensions.py to add the format name and its possible extensions.
+.. warning:: If the format is not already included in **Bioconvert**, you will need to update the file core/extensions.py to add the format name and its possible extensions.
 
 On line 2, just import the common class.
 
@@ -107,7 +107,7 @@ appropriate method (e.g. _method_v1).
 
 
 
-If you need to include extra arguments, such as a reference file, you may add extra argument, altough this is not yet part of the official **Bioconvert** API. See for instance :class:`~bioconvert.sam2cram.SAM2CRAM` converter.
+If you need to include extra arguments, such as a reference file, you may add extra argument, although this is not yet part of the official **Bioconvert** API. See for instance :class:`~bioconvert.sam2cram.SAM2CRAM` converter.
 
 
 
@@ -147,13 +147,15 @@ automatically; the **bioconvert** executable should show the name of your new me
 
 In order to add your new method, you can add:
 
-- Pure Python code,
+- Pure Python code
 - Python code that relies on third-party library. If so, you may use:
+  
     - Python libraries available on pypi. Pleaes add the library name to the
       requirements.txt
     - if the Python library requires lots of compilation and is available
       on bioconda, you may add the library name to the requirements_tools.txt
       instead.
+      
 - Third party tools available on **bioconda** (e.g., squizz, seqtk, etc)
   that you can add to the requirements_tools.txt
 - Perl and GO code are also accepted. If so, use the self.install_tool(NAME)
@@ -170,13 +172,15 @@ Decorators
 been defined in ``bioconvert/core/decorators.py`` that can be used to "flag" or
 "modify" conversion methods:
 
-- ``@in_gz`` can be used to indicate that the method is able to transparenly
+- ``@in_gz`` can be used to indicate that the method is able to transparently
   handle input files that are compressed in ``.gz`` format. This is done by
   adding an ``in_gz`` attribute (set to ``True``) to the method.
 
 - ``@compressor`` will wrap the method in code that handles input decompression
   from ``.gz`` format and output compression to ``.gz``, ``.bz2`` or ``.dsrc``.
-  This automatically applies ``@in_gz``. Example:
+  This automatically applies ``@in_gz``.
+
+  Example:
 
 ::
 
@@ -214,7 +218,7 @@ Another **bioconvert** decorator is called **requires**.
 
 It should be used to annotate a method with the type of tools it needs to work.
 
-It is important decorate all methods with the require decorator so that user
+It is important to decorate all methods with the **requires** decorator so that user
 interface can tell what tools are properly installed or not. You can use 4
 arguments as explained in :mod:`bioconvert.core.decorators`:
 
@@ -244,8 +248,7 @@ arguments as explained in :mod:`bioconvert.core.decorators`:
          self.execute(cmd)
 
 
-On line 1, we decorate the method with the **requires_nothing** decorator because
-the method is implemented in Pure Python.
+On line 1, we decorate the method with the :func:`~bioconvert.core.decorators.requires_nothing` decorator because the method is implemented in Pure Python.
 
 One line 8, we decorate the method with the :func:`~bioconvert.core.decorators.requires` decorator to inform **bioconvert** that the method relies on the external Python library called mappy. 
 

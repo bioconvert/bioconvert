@@ -6,7 +6,7 @@ User Guide
 Quick Start
 -----------
 
-If you want to convert a format to another and you knwo the extensions of the
+If you want to convert a format to another and you know the extensions of the
 output format, just try bioconvert naively::
 
     bioconvert test.fastq test.fasta
@@ -71,7 +71,7 @@ the same directory as the input file, not locally. So::
 will create the *input.fasta* file in the ~/test directory.
 
 If an output file exists, it will not be overwritten. If you want to do so, use
-the --force argument::
+the \\-\\-force argument::
 
     bioconvert fastq2fasta  input.fq output.fa --force
 
@@ -101,7 +101,8 @@ Parallelization
 
 Some converters can use several threads, but if you have hundreds of files and
 wish to use several CPUs, or run bioconvert on a cluster, we provide here below
-a simple Snakefile (snakemake) that can be run easily as follows.
+a simple Snakefile (`snakemake <https://snakemake.readthedocs.io/en/stable/>`_)
+that can be run easily as follows.
 
 You can download the following file :download:`Snakefile` 
 
