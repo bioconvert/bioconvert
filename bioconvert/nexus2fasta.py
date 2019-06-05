@@ -52,11 +52,14 @@ class NEXUS2FASTA(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("conda")
+    @requires("go")
     def _method_goalign(self, threads=None, *args, **kwargs):
         """
         Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using goalign tool.
         https://github.com/fredericlemoine/goalign
+
+        .. warning::
+            the sequential format is not supported
 
         :param threads: not used.
         """
@@ -69,7 +72,7 @@ class NEXUS2FASTA(ConvBase):
     @requires(python_library="biopython")
     def _method_biopython(self, threads=None, *args, **kwargs):
         """
-        Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using biopython.
+        Convert :term:`NEXUS` interleaved or sequential file in :term:`FASTA` format using biopython.
         The FASTA output file will be an aligned FASTA file
 
         :param threads: not used.
@@ -139,7 +142,7 @@ and not ::
     @requires("squizz")
     def _method_squizz(self, threads=None, *args, **kwargs):
         """
-        Convert :term:`NEXUS` file in :term:`FASTA` format using squizz tool.
+        Convert :term:`NEXUS` sequential or interleave file in :term:`FASTA` format using squizz tool.
 
         :param threads: not used
 
