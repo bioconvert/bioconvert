@@ -1,5 +1,6 @@
 pytest
 pytest-cov
+pytest-env
 pytest-xdist
 pytest-mock
 pytest-timeout

@@ -3,8 +3,8 @@ import os
 from setuptools import setup, find_packages
 
 _MAJOR = 0
-_MINOR = 2
-_MICRO = 0
+_MINOR = 3
+_MICRO = 1
 version = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
 release = '%d.%d' % (_MAJOR, _MINOR)
 
@@ -20,15 +20,15 @@ metainfo = {
     'platforms': ['Linux', 'Unix', 'MacOsX', 'Windows'],
     "keywords": ["NGS", "bam2bed", "fastq2fasta", "bam2sam"],
     'classifiers': [
-          'Development Status :: 1 - Planning',
+          'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
           'Intended Audience :: Science/Research',
           'License :: OSI Approved :: BSD License',
           'Operating System :: OS Independent',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
           'Programming Language :: Python :: 3.6',
+          'Programming Language :: Python :: 3.7',
           'Topic :: Software Development :: Libraries :: Python Modules',
           'Topic :: Scientific/Engineering :: Bio-Informatics',
           'Topic :: Scientific/Engineering :: Information Analysis',]
@@ -66,6 +66,7 @@ setup(
     zip_safe=False,
     packages=find_packages(),
     install_requires=requirements,
+    extras_require={'dev': open("requirements_dev.txt").read().split()},
 
     # This is recursive include of data files
     exclude_package_data={"": ["__pycache__"]},
@@ -73,6 +74,7 @@ setup(
     package_data={
         '': ['*.csv','*.sh'],
         'bioconvert.data': ['*'],
+        'bioconvert.misc': ['*'],
         },
 
     entry_points={
@@ -80,7 +82,8 @@ setup(
            'bioconvert=bioconvert.scripts.converter:main',
            #'proto_sub_cmd=bioconvert.scripts.proto_sub_cmd:main',
            'bioconvert_init=bioconvert.scripts.init_convert:main',
-           'bioconvert_stats=bioconvert.scripts.stats:main'
+           'bioconvert_stats=bioconvert.scripts.stats:main',
+           'bioconvert_sniffer=bioconvert.scripts.sniffer:main'
         ]
     }
     )

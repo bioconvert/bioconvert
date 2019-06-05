@@ -1,11 +1,38 @@
 User Guide
 ============
 
-Overview
-------------
+.. contents::
+
+Quick Start
+-----------
+
+If you want to convert a format to another and you knwo the extensions of the
+output format, just try bioconvert naively::
+
+    bioconvert test.fastq test.fasta
+
+If the converter fastq to fasta exists in **Bioconvert**, it will work out of
+the box. In order to get a list of all possible conversions, just type::
+
+    bioconvert
+
+or for more details::
+
+    bioconvert --help
+
+To obtain more specific help about a converter that you found in the list::
+
+    bioconvert fastq2fasta --help
+
+.. note:: All converters are named as <INPUT_EXTENSION>2<OUTPUT_EXTENSION>
+
+
+Explicit conversion
+--------------------
+
 
 You can use **bioconvert** from a developer point of view, or as an end-user.
-We provide one standalone called::
+Here we describe the standalone application that is::
 
     bioconvert
 
@@ -20,102 +47,52 @@ command **fastq2fasta**::
     bioconvert fastq2fasta  input.fastq output.fasta
 
 The rationale behind the subcommand choice is manyfold. First, you may have dedicated help
-for a given conversion::
+for a given conversion, which may be different from one conversion to the other::
 
     bioconvert fastq2fasta --help
 
 Second, the extensions of your input and output may be non-standard or different
-from the bioconvert choice. So, using the subcommand you can do::
+from the choice made by the **bioconvert** developers. So, using the subcommand you can do::
 
     bioconvert fastq2fasta  input.fq output.fa
 
 where the extensions can actually be whatever you want.
 
+If you do not provide the output file, it will be created based on the input
+filename by replacing the extension automatically. So this command::
 
-Installation
--------------
+    bioconvert fastq2fasta input.fq
 
-pip pr conda methods
-~~~~~~~~~~~~~~~~~~~~~~~~
+generates an output file called *input.fasta*. Note that it will be placed in
+the same directory as the input file, not locally. So::
 
-For users, **bioconvert** standalone is installed with the package **bioconvert** available on Pypi so you could type::
+    bioconvert fastq2fasta ~/test/input.fq
 
-    pip install bioconvert
+will create the *input.fasta* file in the ~/test directory.
 
-This method installs bioconvert and its Python dependencies (available on Pypi website). Note, however, that **bioconvert** may use (depending on the conversion you want to use) external dependencies not available on Pypi. You will need to install those third-party dependencies yourself. An alternative is to install bioconvert using **conda** using::
+If an output file exists, it will not be overwritten. If you want to do so, use
+the --force argument::
 
-    conda install bioconvert
+    bioconvert fastq2fasta  input.fq output.fa --force
 
-Note that you will need to set up the **bioconda** channel (see below for
-details).
+Implicit conversion
+-------------------
 
-conda / bioconda method
-~~~~~~~~~~~~~~~~~~~~~~~~~
+If the extensions match the conversion name, you can perform implicit
+conversion::
 
-::
+    bioconvert input.fastq output.fasta
 
-    conda config --add channels r
-    conda config --add channels defaults
-    conda config --add channels conda-forge
-    conda config --add channels bioconda
+Internally, a format  may be registered with several extensions. For instance
+the extensions possible for a FastA file are ``fasta`` and ``fa`` so you can
+also write::
 
-.. warning:: it is important to add them in this order, as mentionned on bioconda webpage    (https://bioconda.github.io/).
+    bioconvert input.fastq output.fa
 
-If you have already set the channels, please check that the order is correct.
-With the following command::
+Compression
+-----------
 
-    conda config --get channels
-
-You should see::
-
-    --add channels 'r'   # lowest priority
-    --add channels 'defaults'
-    --add channels 'conda-forge'
-    --add channels 'bioconda'   # highest priority
-
-Finally, get the source, install the dependencies using conda, and install
-bioconvert as follows::
-
-    git clone https://github.com/biokit/bioconvert
-    cd bioconvert
-    conda install --file requirements.txt
-    conda install --file requirements_tools.txt
-    conda install --file requirements_dev.txt
-    python setup.py install
-
-
-Singularity
-------------
-
-For production, we would recommend to use the singularity container.
-
-This method will download a file (container) with everything pre-compiled and
-pre-installed with the latest version available on Pypi.
-
-First, you will need to install singularity. To install the version 2.4 of
-singularity on a Linux plaform, just download and execute this :download:`install_singularity.sh` bash script, or just type these commands::
-
-    VERSION=2.4
-    wget https://github.com/singularityware/singularity/releases/download/$VERSION/singularity-$VERSION.tar.gz
-    tar xvf singularity-$VERSION.tar.gz
-    cd singularity-$VERSION
-    ./configure --prefix=/usr/local
-    make
-    sudo make install
-
-.. note:: here we need to be sudo, but you can install singularity localy if needed. 
-
-For other version, or to install singularity on windows or Mac, please check out the singularity website singularity `<http://singularity.lbl.gov/>`_
-
-First, download the container::
-
-    singularity pull --name bioconvert.img shub://biokit/bioconvert:latest
-    
-You can then create an alias::
-
-    alias bioconvert="singularity run bioconvert.simg bioconvert"
-
-
+.. todo:: this section will be coming soon
 
 
 Parallelization

@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BAM` format to :term:`BED` formats"""
+"""Convert :term:`BAM` format to :term:`BED` format"""
 from bioconvert import ConvBase
 import colorlog
 
@@ -95,7 +95,7 @@ class BAM2BED(ConvBase):
     @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
         """
-        do the conversion sorted :term`BAM` -> :term:'BED` using bedtools
+        do the conversion sorted :term:`BAM` -> :term:`BED` using bedtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.

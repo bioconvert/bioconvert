@@ -10,7 +10,7 @@
 #  website: https://github.com/biokit/bioconvert
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
-""" description """
+"""Convert :term:`ABI` format to :term:`FASTA` format"""
 from bioconvert import ConvBase
 from bioconvert import requires
 
@@ -21,7 +21,9 @@ __all__ = ["ABI2FASTA"]
 class ABI2FASTA(ConvBase):
     """Convert :term:`ABI` file to :term:`FASTQ` file
 
-    Some description.
+    :term:`ABI` files are created by ABI sequencing machine and includes
+    PHRED quality scores for base calls. This allows the creation of
+    :term:`FastQ` files.
 
     """
 
@@ -41,5 +43,3 @@ class ABI2FASTA(ConvBase):
         from Bio import SeqIO
         records = SeqIO.parse(self.infile, "abi")
         SeqIO.write(records, self.outfile, "fasta")
-
-

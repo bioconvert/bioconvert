@@ -27,7 +27,7 @@
 import os
 
 import colorlog
-from Bio import SeqIO
+from Bio import AlignIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -59,8 +59,8 @@ class PHYLIP2XMFA(ConvBase):
         Convert :term:`PHYLIP` interleaved file in :term:`XMFA` (Mauve)format.
 
         """
-        sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
-        count = SeqIO.write(sequences, self.outfile, "mauve")
+        sequences = list(AlignIO.parse(self.infile, "phylip", alphabet=self.alphabet))
+        count = AlignIO.write(sequences, self.outfile, "mauve")
         _log.info("Converted %d records to phylip" % count)
 
 

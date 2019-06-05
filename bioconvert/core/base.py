@@ -22,6 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+"""Main factory of Bioconvert"""
 import copy
 import time
 import abc
@@ -43,29 +44,32 @@ import colorlog
 
 import bioconvert
 
-_log = colorlog.getLogger(__name__)
-
 from bioconvert.core.benchmark import Benchmark
+from bioconvert.core import extensions
+
 from bioconvert.core.utils import generate_outfile_name
 from bioconvert import logger
+from . import BioconvertError
+
+
+_log = colorlog.getLogger(__name__)
 
 
 class ConvMeta(abc.ABCMeta):
-    """
-    This metaclass checks that the converter classes have
+    """This metaclass checks that the converter classes have
 
        * an attribute input_ext
        * an attribute output_ext
 
-    This is an abstract class used by :class:`ConvBase` class. For developers
+    This is a meta class used by :class:`ConvBase` class. For developers
     only.
     """
 
     @classmethod
-    def split_converter_to_extensions(cls, converter_name: str):
+    def split_converter_to_format(cls, converter_name: str):
         converter_name = converter_name.replace("_to_", "2")
         if '2' not in converter_name:
-            raise TypeError("converter's name '%s' name must follow convention input2output" % converter_name)
+            raise TypeError("converter's name '{}' name must follow convention input2output".format(converter_name))
         # for BZ2 2 GZ
         if "22" in converter_name:
             input_fmt, output_fmt = converter_name.upper().split('22', 1)
@@ -79,7 +83,7 @@ class ConvMeta(abc.ABCMeta):
         # do not check extension since modules does not require to specify
         # extension anymore
 
-        # def check_ext(ext, io_name):
+        # def check_ext(ext, io_name):cls.split_converter_to_format(name.upper())
         #     """
         #     Check if the extension is specified correctly.
         #     I must be a string or a sequence of string, otherwise raise an error
@@ -90,7 +94,7 @@ class ConvMeta(abc.ABCMeta):
         #     :param str io_name: the type of extension, 'input' or output'
         #     :raise TypeError:  if ext is neither a string nor a sequence of strings
         #     """
-        #     if isinstance(ext, str):
+        #     if getextisinstance(ext, str):
         #         if not ext.startswith('.'):
         #             ext = '.' + ext
         #         setattr(cls, '{}_ext'.format(io_name),  (ext, ))
@@ -103,7 +107,7 @@ class ConvMeta(abc.ABCMeta):
         #                 fixed_ext = []
         #                 for one_ext in ext:
         #                     if one_ext.startswith('.'):
-        #                         fixed_ext.append(one_ext)
+        #                         fixed_ext.split_converter_to_format()append(one_ext)
         #                     else:
         #                         fixed_ext.append('.' + one_ext)
         #                 setattr(cls, '{}_ext'.format(io_name), fixed_ext)
@@ -117,7 +121,7 @@ class ConvMeta(abc.ABCMeta):
         #     return True
 
         def is_conversion_method(item):
-            """Return True is method name starts with _method_
+            """Return True if method name starts with _method_
 
             This method is used to keep methods that starts with _method_.
             It uses inspect.getmembers func to list
@@ -127,12 +131,13 @@ class ConvMeta(abc.ABCMeta):
             :return: True if method's name starts with '__method_', False otherwise.
             :rtype: boolean
             """
+
             return inspect.isfunction(item) and \
-                    item.__name__.startswith('_method_') and \
-                    item.__name__ != "_method_dummy"
+                 item.__name__.startswith('_method_') and \
+                 item.__name__ != "_method_dummy"
 
         if name != 'ConvBase':
-            input_fmt, output_fmt = cls.split_converter_to_extensions(name.upper())
+            input_fmt, output_fmt = cls.split_converter_to_format(name.upper())
             # modules have no more input_ext and output_ext attributes
             # input_ext = getattr(cls, 'input_ext')
             # if check_ext(input_ext, 'input'):
@@ -140,6 +145,23 @@ class ConvMeta(abc.ABCMeta):
             #     check_ext(output_ext, 'output')
             setattr(cls, 'input_fmt', input_fmt)
             setattr(cls, 'output_fmt', output_fmt)
+            if not cls.input_ext:
+                try:
+                    input_ext = extensions.extensions[input_fmt.lower()]
+                    setattr(cls, 'input_ext', input_ext)
+                except KeyError:
+                    msg = "In class {} the attribut input_ext is missing".format(cls.__name__)
+                    _log.error(msg)
+                    raise BioconvertError(msg)
+            if not cls.output_ext:
+                try:
+                    output_ext = extensions.extensions[output_fmt.lower()]
+                    setattr(cls, 'output_ext', output_ext)
+                except KeyError:
+                    msg = "In the class {} the attribut output_ext is missing".format(cls.__name__)
+                    msg += "This may be an unknown extension added. If so, update core/extensions.py"
+                    _log.error(msg)
+                    raise BioconvertError(msg)
             available_conv_meth = []
             for name in inspect.getmembers(cls, is_conversion_method):
                 # do not use strip() but split()
@@ -186,11 +208,11 @@ class ConvArg(object):
 
 
 class ConvBase(metaclass=ConvMeta):
-    """ base class for all converters.
+    """Base class for all converters.
 
-    To build a new converter create a new class which inherits from
+    To build a new converter, create a new class which inherits from
     :class:`ConvBase` and implement method that performs the conversion.
-    The name of the converter method must start with _method_.
+    The name of the converter method must start with ``_method_``.
 
     For instance: ::
 
@@ -210,8 +232,16 @@ class ConvBase(metaclass=ConvMeta):
     # specify the extensions of the output file, can be a sequence (must be
     # overridden in subclasses)
     output_ext = None
+
+    # list available methods
+    available_methods = []
+
+    # default method should be provided
     _default_method = None
+    _library_to_install = None
     _is_compressor = False
+
+    # threads to be used by default if argument is required in a method
     threads = cpu_count()
 
     def __init__(self, infile, outfile):
@@ -225,7 +255,11 @@ class ConvBase(metaclass=ConvMeta):
 
         self.infile = infile
         self.outfile = outfile
-        self._execute_mode = "shell" #"subprocess"  # set to shell to call shell() method
+
+        # execute mode can be shell or subprocess.
+        self._execute_mode = "shell"
+
+        # The logger to be set to INFO, DEBUG, WARNING, ERROR, CRITICAL
         self.logger = logger
 
     def __call__(self, *args, method_name=None, **kwargs):
@@ -253,7 +287,6 @@ class ConvBase(metaclass=ConvMeta):
             _log.error(msg)
             raise ValueError(msg)
 
-
         _log.info("{}> Executing {} method ".format(self.name, method_name))
         # reference to the method requested
         method_reference = getattr(self, "_method_{}".format(method_name))
@@ -263,9 +296,9 @@ class ConvBase(metaclass=ConvMeta):
         t1 = time.time()
         method_reference(*args, **kwargs)
         t2 = time.time()
-        _log.info("Took {} seconds ".format(t2-t1))
+        _log.info("Took {} seconds ".format(t2 - t1))
 
-
+    #FIXME property not use
     @property
     def name(self):
         """
@@ -338,6 +371,7 @@ class ConvBase(metaclass=ConvMeta):
                         output.write(data.decode("utf-8"))
                     elif flow is process_.stderr:
                         errors.write(data.decode("utf-8"))
+                        print(process_.stderr)
                 readable, writable, exceptional = select.select(inputs, [], [], 1)
 
         errors = errors.getvalue().strip()
@@ -352,7 +386,8 @@ class ConvBase(metaclass=ConvMeta):
             return output
 
     def boxplot_benchmark(self, N=5, rerun=True, include_dummy=False,
-            to_exclude=[], to_include=[], rot_xticks=90, boxplot_args={}):
+                          to_exclude=[], to_include=[], rot_xticks=90, 
+                          boxplot_args={}):
         """Simple wrapper to call :class:`Benchmark` and plot the results
 
         see :class:`~bioconvert.core.benchmark.Benchmark` for details.
@@ -403,7 +438,7 @@ class ConvBase(metaclass=ConvMeta):
 
     @classmethod
     def get_description(cls):
-        return "Allow to convert file in '%s' to '%s' format." % ConvMeta.split_converter_to_extensions(cls.__name__)
+        return "Allow to convert file in '%s' to '%s' format." % ConvMeta.split_converter_to_format(cls.__name__)
 
     @classmethod
     def get_additional_arguments(cls):
@@ -447,8 +482,8 @@ class ConvBase(metaclass=ConvMeta):
             default=False,
             action="store_true",
             help="Allow conversion of a set of files using wildcards. You "
-                "must use quotes to escape the wildcards. For instance: "
-                "--batch 'test*fastq' ")
+                 "must use quotes to escape the wildcards. For instance: "
+                 "--batch 'test*fastq' ")
         yield ConvArg(
             names=["-b", "--benchmark", ],
             default=False,

@@ -8,6 +8,7 @@ People are listed alphabetically,
 - Anne Biton
 - Bryan Brancotte <https://github.com/bryan-brancotte/>
 - Thomas Cokelaer <thomas.cokelaer@pasteur.fr>
+- Sulyvan Dollin
 - Yoann Dufresne <https://github.com/yoann-dufresne>
 - Kenzo-Hugo Hillion <kehillio@pasteur.fr>
 - Pierre LECHAT  <plechat@pasteur.fr>

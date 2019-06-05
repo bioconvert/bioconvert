@@ -23,21 +23,77 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """.. rubric:: Standalone application dedicated to conversion"""
+import os
 import argparse
 import json
 import sys
-
+import colorlog
 import bioconvert
 from bioconvert import ConvBase
 from bioconvert.core import graph
+from bioconvert.core import utils
 from bioconvert.core.base import ConvMeta
 from bioconvert.core.converter import Bioconvert
 from bioconvert.core.decorators import get_known_dependencies_with_availability
 from bioconvert.core.registry import Registry
 
+_log = colorlog.getLogger(__name__)
+
+
 def main(args=None):
+    registry = Registry()
+
     if args is None:
         args = sys.argv[1:]
+
+    if not len(sys.argv) == 1:
+
+        # check that the first argument is not a converter in the registry
+        if args[0].lower() not in list(registry.get_converters_names()) \
+                and "." in args[0]:
+
+            in_ext = utils.get_extension(args[0], remove_compression=True)
+            out_ext = utils.get_extension(args[1], remove_compression=True)
+
+            # Check that the input file exists
+            # Fixes https://github.com/bioconvert/bioconvert/issues/204
+            if os.path.exists(args[0]) is False:
+                _log.error("Input file {} does not exist".format(args[0]))
+                sys.exit(1)
+
+            # assign to converter the converter (s) found for the ext_pair = (in_ext, out_ext)
+            try:
+                converter = registry.get_ext((in_ext, out_ext))
+                # for testing the mutiple converter for one extension pair
+                # converter = [bioconvert.fastq2fasta.Fastq2Fasta, bioconvert.phylip2xmfa.PHYLIP2XMFA]
+            except KeyError:
+                converter = []
+
+            # if no converter is found
+            if not converter:
+                _log.error(
+                '\n Bioconvert does not support conversion {} -> {}. \n'
+                'Please specify the converter'
+                '\n Usage : \n\n'
+                '\t bioconvert converter input_file output_file \n '
+                '\n To see all the converter : '
+                '\n \t bioconvert --help '.format(
+                     in_ext,out_ext))
+
+                sys.exit(1)
+            # if the ext_pair matches a single converter
+            elif len(converter) == 1:
+                args.insert(0, converter[0].__name__.lower())
+            # if the ext_pair matches multiple converters
+            else:
+
+                _log.error("Ambiguous extension.\n"
+                           "You must specify the right conversion  Please "
+                           "choose a conversion from: \n\n"
+                           "{}".format("\n".join([c.__name__.lower() for c in converter])))
+                sys.exit(1)
+
+
     # Set the default level
     bioconvert.logger.level = "ERROR"
 
@@ -110,9 +166,9 @@ project or formats available.
 Bioconvert is an open source collaborative project. Please feel free to 
 join us at https://github/biokit/bioconvert
 """)
-    registry = Registry()
+
     subparsers = arg_parser.add_subparsers(help='sub-command help',
-                                           dest='command', )
+                                           dest='converter', )
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
 
     # show all possible conversion
@@ -123,8 +179,12 @@ join us at https://github/biokit/bioconvert
 
         if converter:
             link_char = '-'
-            if len(converter.available_methods) <= 1:
-                help_details = ""
+            if len(converter.available_methods) < 1 and converter._library_to_install is None:
+                help_details = " (no available methods please see the doc" \
+                               " for install the necessary libraries) "
+            elif len(converter.available_methods) < 1 and converter._library_to_install is not None:
+                help_details = " (no available methods please install {} \n" \
+                               "see the doc for more details) ".format(converter._library_to_install)
             else:
                 help_details = " (%i methods)" % len(converter.available_methods)
         else :#if path:
@@ -134,7 +194,7 @@ join us at https://github/biokit/bioconvert
             else:
                 help_details = " (w/ %i intermediates)" % (len(path) - 2)
 
-        help_text = '%sto%s> %s%s' % (
+        help_text = '{}to{}> {}{}'.format(
             (in_fmt + ' ').ljust(max_converter_width, link_char),
             link_char,
             out_fmt,
@@ -189,7 +249,7 @@ Please feel free to join us at https://github/biokit/bioconvert
         # parsing ask to stop, maybe a normal exit
         if e.code == 0:
             raise e
-        # Parsing failed, trying to guess command
+        # Parsing failed, trying to guess converter
         from bioconvert.core.levenshtein import wf_levenshtein as lev
         sub_command = None
         args_i = 0
@@ -225,6 +285,7 @@ Please feel free to join us at https://github/biokit/bioconvert
                  sub_command, ', '.join([v for _, v in matches]))
         )
 
+
     if args.version:
         print("{}".format(bioconvert.version))
         sys.exit(0)
@@ -242,7 +303,7 @@ Please feel free to join us at https://github/biokit/bioconvert
             ))
         sys.exit(0)
 
-    if args.command is None:
+    if args.converter is None:
         msg = 'No converter specified. You can list converter by doing bioconvert --help'
         arg_parser.error(msg)
 
@@ -251,11 +312,11 @@ Please feel free to join us at https://github/biokit/bioconvert
                          'ask for available methods (--show-method)')
 
     if not args.allow_indirect_conversion and \
-        ConvMeta.split_converter_to_extensions(args.command) not in registry:
+        ConvMeta.split_converter_to_format(args.converter) not in registry:
 
-        arg_parser.error('The conversion %s is not available directly, '
+        arg_parser.error('The conversion {} is not available directly, '
                          'you have to accept that we chain converter to do'
-                         ' so (--allow-indirect-conversion or -a)' % args.command)
+                         ' so (--allow-indirect-conversion or -a)'.format(args.converter))
 
     args.raise_exception = args.raise_exception or args.verbosity == "DEBUG"
 
@@ -283,7 +344,7 @@ Please feel free to join us at https://github/biokit/bioconvert
 
 
 def analysis(args):
-    in_fmt, out_fmt = ConvMeta.split_converter_to_extensions(args.command)
+    in_fmt, out_fmt = ConvMeta.split_converter_to_format(args.converter)
 
     # do we want to know the available methods ? If so, print info and quit
     if getattr(args, "show_methods", False):
@@ -297,8 +358,23 @@ def analysis(args):
 
     # Input and output filename
     infile = args.input_file
+
+    # Check that the input file exists
+    # Fixes https://github.com/bioconvert/bioconvert/issues/204
+    if os.path.exists(infile) is False:
+
+        # Some convertors uses prefix instead of filename. We could have
+        # ambiguities: if we use a prefix without extension,
+        # we could be confused with the convertor name. This is true
+        # for the plink families
+        if "plink" in args.converter:
+            pass
+        else:
+            _log.error("Input file {} does not exist (analysis)".format(infile))
+            sys.exit(1)
+
     if args.output_file is None and infile:
-        outext = ConvMeta.split_converter_to_extensions(args.command)
+        outext = ConvMeta.split_converter_to_format(args.converter)
         outfile = infile.rsplit(".", 1)[0] + "." + outext[1].lower()
     else:
         outfile = args.output_file
@@ -334,15 +410,21 @@ def analysis(args):
                            " So add extension to the output file name or use"
                            " --output-format option.")
 
-    bioconvert.logger.info("Converting from %s to %s" % (conv.in_fmt, conv.out_fmt))
+    bioconvert.logger.info("Converting from {} to {}".format(conv.in_fmt, conv.out_fmt))
 
     # params = {"threads": args.threads}
 
     if args.benchmark:
         conv.boxplot_benchmark(N=args.benchmark_N)
         import pylab
-        try:pylab.savefig("benchmark_{}.png".format(conv.name))
-        except:pylab.savefig("benchmark_{}.png".format(conv.converter.name))
+
+        try:
+            outpng = "benchmark_{}.png".format(conv.name)
+            pylab.savefig(outpng, dpi=200)
+        except:
+            outpng = "benchmark_{}.png".format(conv.converter.name)
+            pylab.savefig(outpng, dpi=200)
+        bioconvert.logger.info("File {} created")
     else:
         # params["method"] = args.method
         conv(**vars(args))

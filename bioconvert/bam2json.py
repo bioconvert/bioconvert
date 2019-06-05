@@ -41,6 +41,7 @@ class BAM2JSON(ConvBase):
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
+
         :param str infile:
         :param str outfile:
         """
@@ -48,10 +49,7 @@ class BAM2JSON(ConvBase):
 
     @requires("bamtools")
     def _method_bamtools(self, *args, **kwargs):
-        """
-        do the conversion :term`BAM` -> :term:'JSON` using bamtools
-
-        """
+        """Do the conversion :term:`BAM` -> :term:`JSON` using bamtools """
 
         cmd = "bamtools convert -format json -in {0} -out {1}".format(
             self.infile, self.outfile

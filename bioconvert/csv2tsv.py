@@ -32,9 +32,23 @@ logger = colorlog.getLogger(__name__)
 
 
 class CSV2TSV(tsv2csv.TSV2CSV):
-    """Bam2Json converter
+    """Convert :term:`CSV` file into :term:`TSV` file
 
-    Convert bam file to json file.
+    Available methods: Python, Pandas
+
+    .. plot::
+
+        from bioconvert.csv2tsv import CSV2TSV
+        from bioconvert import bioconvert_data, logger
+        from easydev import TempFile
+
+        logger.level = 'CRITICAL'
+        with TempFile(suffix=".csv") as fh:
+           infile = bioconvert_data("test_tabulated.tsv")
+           convert = CSV2TSV(infile, fh.name)
+           convert.boxplot_benchmark(N=50)
+
+    .. seealso:: :class:`~bioconvert.csv2tsv.TSV2CSV`
     """
     _default_method = "python"
     DEFAULT_IN_SEP = ','
@@ -42,7 +56,8 @@ class CSV2TSV(tsv2csv.TSV2CSV):
     DEFAULT_LINE_TERMINATOR = '\n'
 
     def __init__(self, infile, outfile):
-        """.. rubric:: constructor
+        """.. rubric:: Constructor
+
         :param str infile:
         :param str outfile:
         """
@@ -56,7 +71,7 @@ class CSV2TSV(tsv2csv.TSV2CSV):
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
         """
-        do the conversion :term`CSV` -> :term:'TSV` using standard Python modules
+        Do the conversion :term:`CSV` -> :term:`TSV` using standard Python modules
         """
         super()._method_python(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
 
@@ -68,19 +83,20 @@ class CSV2TSV(tsv2csv.TSV2CSV):
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
         """
-        do the conversion :term`TSV` -> :term:'CSV` using csv module to read, and writing directly into the file. Note
-        that his method can't escape nor quote output char
+        Do the conversion :term:`CSV` -> :term:`CSV` using csv module
+
+        .. note:: This method cannot escape nor quote output char
         """
         super()._method_python_v2(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
 
     @requires(python_library="pandas")
-    def _method_panda(
+    def _method_pandas(
             self,
             in_sep=DEFAULT_IN_SEP,
             out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
         """
-        do the conversion :term`CSV` -> :term:'TSV` using Panda modules
+        Do the conversion :term:`CSV` -> :term:`TSV` using Pandas library
         """
-        super()._method_panda(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
+        super()._method_pandas(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)

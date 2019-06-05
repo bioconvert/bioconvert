@@ -25,6 +25,7 @@
 
 """Convert :term:`Fastq` format to :term:`Fastq` formats"""
 from bioconvert import ConvBase
+from bioconvert.core import extensions
 import colorlog
 
 from bioconvert.core.base import ConvArg
@@ -40,8 +41,8 @@ class Fasta2Fastq(ConvBase):
     """
 
     """
-    input_ext = ['.fa', '.fas', '.fasta']
-    output_ext = ['.fastq', 'fq']
+    #input_ext = extensions.fasta
+    #output_ext = extensions.fastq
     _default_method = "pysam"
 
     def __init__(self, infile, outfile):

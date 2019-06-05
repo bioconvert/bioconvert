@@ -126,7 +126,7 @@ class SAM2PAF(ConvBase):
 
     @requires_nothing
     def _method_python(self, *args, **kwargs):
-        pattern = "(\d+)([MIDSHNX=])"
+        pattern = r"(\d+)([MIDSHNX=])"
 
         extra_fields = kwargs.get("extra_fields", "SAM")
         # TODO: what is this ?
@@ -140,10 +140,10 @@ class SAM2PAF(ConvBase):
 
                     if line.startswith("@"):
                         if line.startswith("@SQ"):
-                            match = re.findall("\tSN:(\S+)", line)
+                            match = re.findall(r"\tSN:(\S+)", line)
                             name = match[0] if len(match) else "unknown_reference"
 
-                            match = re.findall("\tLN:(\d+)", line)
+                            match = re.findall(r"\tLN:(\d+)", line)
                             if len(match) == 1:
                                 reference_lengths[name] = int(match[0])
                             else:
@@ -172,20 +172,20 @@ class SAM2PAF(ConvBase):
                     if t[2] in reference_lengths:
                         tlen = reference_lengths[t[2]]
                     else:
-                        raise KeyError("can't find the length of contig %s" % t[2])
+                        raise KeyError("can't find the length of contig {}".format(t[2]))
 
                     # The reference is known but the length is not
                     if (tlen == -1) :
                         raise ValueError("ERROR at line " + str(lineno) + ": can't find the length of contig " + str(t[2]))
 
                     # TODO explain what are the nn and NM tags
-                    match = re.findall("\tnn:i:(\d+)", line)
+                    match = re.findall(r"\tnn:i:(\d+)", line)
                     if match:
                         nn = int(match[0])
                     else:
                         nn = 0
 
-                    match = re.findall("\tNM:i:(\d+)", line)
+                    match = re.findall(r"\tNM:i:(\d+)", line)
                     if match:
                         NM = int(match[0])
                         have_NM = True
@@ -211,17 +211,17 @@ class SAM2PAF(ConvBase):
                             ql += l
                             tl += l
                             ext_cigar = False
-                            Zacc += "%sM" % count
+                            Zacc += "{}M".format(count)
                         elif (letter == 'I'):
                             I[0] += 1
                             I[1] += l
                             ql += l
-                            Zacc += "%sI" % count
+                            Zacc += "{}I".format(count)
                         elif (letter == 'D'):
                             D[0] += 1
                             D[1] += l
                             tl += l
-                            Zacc += "%sD" % count
+                            Zacc += "{}D".format(count)
                         elif (letter == 'N'):
                             N += l
                             tl += l
@@ -307,7 +307,7 @@ class SAM2PAF(ConvBase):
                     # What extra fields do we want to add ?
                     # original fields found in the SAM file ?
                     if extra_fields == "SAM" and len(t)>11:
-                        fout.write("\t".join(a) + "\t" + "\t".join(t[11:]) + "\tcg:Z:%s\n" % Zacc)
+                        fout.write("\t".join(a) + "\t" + "\t".join(t[11:]) + "\tcg:Z:{}\n".format(Zacc))
                     elif extra_fields == "summary":
                         fout.write("\t".join(a) + "\t" + "\t".join(extra) + "\n")
                     elif extra_fields is None:

@@ -26,6 +26,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
+from bioconvert.core import extensions
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
@@ -41,6 +42,9 @@ class CLUSTAL2FASTA(ConvBase):
     default method = biopython
     available methods = biopython, squizz, goalign
     """
+
+    #input_ext = extensions.clustal
+    #output_ext = extensions.fasta
     _default_method = 'biopython'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):

@@ -178,12 +178,6 @@ def test_require_pip():
     assert requires(python_library="pip")(object()).is_disabled is False
 
 
-@skip_not_on_linux
-@dependency_test
-def test_require_pyGATB():
-    assert requires(python_library="pyGATB")(object()).is_disabled is False
-
-
 @dependency_test
 def test_require_pyexcel():
     assert requires(python_library="pyexcel")(object()).is_disabled is False
@@ -223,7 +217,7 @@ def test_require_xlrd():
 
 
 @dependency_test
-def _test_require_all_and_print_test():
+def test_require_all_and_print_test():
     known_missing_dependencies = ["tagada%i" % i for i in range(10)] + ["k8"]
 
     assert type(get_known_dependencies_with_availability(as_dict=True)) == dict

@@ -45,6 +45,12 @@ converters = [x for x in info.items()]
 data = [info[k] for k,v in info.items()]
 
 
+# the number of formats
+A1 = [x[0] for x in list(r.get_conversions())]
+A2 = [x[1] for x in list(r.get_conversions())]
+formats = set(A1 + A2)
+
+print("Number of formats: {}".format(len(formats)))
 print("Number of converters: {}".format(len(converters)))
 print("Number of methods : {}".format(sum(data)))
 

@@ -28,7 +28,7 @@ def bioconvert_script(filename, where=None):
     else:
         filename = os.path.join(share, filename)
     if not os.path.exists(filename):
-        raise FileNotFoundError('unknown file %s' % filename)
+        raise FileNotFoundError('unknown file {}'.format(filename))
     return filename
 
 
@@ -46,12 +46,24 @@ def bioconvert_data(filename, where=None):
     else:
         filename = os.path.join(share, filename)
     if not os.path.exists(filename):
-        raise FileNotFoundError('unknown file %s' % filename)
+        raise FileNotFoundError('unknown file {}'.format(filename))
     return filename
+
+
+def info():
+    from bioconvert.core.registry import Registry
+    r = Registry()
+    info = r.get_info()
+    converters = [x for x in info.items()]
+    data = [info[k] for k,v in info.items()]
+    msg = "Bioconvert contains {} converters including {} methods"
+    return msg.format(len(converters), sum(data)) 
 
 import bioconvert
 from bioconvert.core.base import ConvBase
+from bioconvert.core.registry import Registry
 from bioconvert.core.decorators import requires
 from bioconvert.core.benchmark import Benchmark, BenchmarkMulticonvert
 from bioconvert.core.converter import Bioconvert
 from bioconvert.core.shell import shell
+from bioconvert.io.sniffer import Sniffer

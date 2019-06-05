@@ -7,6 +7,9 @@ Summary
 
 .. autosummary::
 
+	bioconvert.abi2fasta
+	bioconvert.abi2fastq
+	bioconvert.abi2qual
 	bioconvert.bam2bed
 	bioconvert.bam2bedgraph
 	bioconvert.bam2bigwig
@@ -15,6 +18,7 @@ Summary
 	bioconvert.bam2fastq
 	bioconvert.bam2json
 	bioconvert.bam2sam
+	bioconvert.bam2tsv
 	bioconvert.bam2wiggle
 	bioconvert.bcf2vcf
 	bioconvert.bcf2wiggle
@@ -23,6 +27,7 @@ Summary
 	bioconvert.bedgraph2bigwig
 	bioconvert.bedgraph2wiggle
 	bioconvert.bigbed2wiggle
+	bioconvert.bigbed2bed
 	bioconvert.bigwig2bedgraph
 	bioconvert.bigwig2wiggle
 	bioconvert.bplink2plink
@@ -46,7 +51,9 @@ Summary
 	bioconvert.fastq2fasta
 	bioconvert.genbank2embl
 	bioconvert.genbank2fasta
-	bioconvert.genbank2gff
+	bioconvert.genbank2gff3
+	bioconvert.gff23gff3
+	bioconvert.gff32gff2
 	bioconvert.gfa2fasta
 	bioconvert.gz2bz2
 	bioconvert.gz2dsrc
@@ -88,6 +95,16 @@ Summary
 All converters documentation
 ----------------------------
 
+.. automodule:: bioconvert.abi2fasta
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.abi2fastq
+    :members:
+    :synopsis:
+    :private-members:
+
 .. automodule:: bioconvert.bam2bed
     :members:
     :synopsis:
@@ -128,6 +145,11 @@ All converters documentation
     :synopsis:
     :private-members:
 
+.. automodule:: bioconvert.bam2tsv
+    :members:
+    :synopsis:
+    :private-members:
+
 .. automodule:: bioconvert.bam2wiggle
     :members:
     :synopsis:
@@ -164,6 +186,11 @@ All converters documentation
     :private-members:
 
 .. automodule:: bioconvert.bigbed2wiggle
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule::	bioconvert.bigbed2bed
     :members:
     :synopsis:
     :private-members:
@@ -283,7 +310,17 @@ All converters documentation
     :synopsis:
     :private-members:
 
-.. automodule:: bioconvert.genbank2gff
+.. automodule:: bioconvert.genbank2gff3
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.gff22gff3
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.gff32gff2
     :members:
     :synopsis:
     :private-members:

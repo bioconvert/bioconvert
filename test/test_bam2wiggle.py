@@ -8,7 +8,7 @@ import pytest
 
 @pytest.mark.parametrize("method", BAM2WIGGLE.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("test_measles.bam")
+    infile = bioconvert_data("test_measles.sorted.bam")
     outfile = bioconvert_data("test_bam2wiggle.wiggle")
     md5out = md5(outfile)
 

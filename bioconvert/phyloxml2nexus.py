@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""PHYLOXML2NEXUS convertion"""
+"""PHYLOXML2NEXUS converter"""
 import os
 
 import colorlog

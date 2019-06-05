@@ -1,6 +1,42 @@
 Whats' new, what has changed
 ================================
 
+:Revision 0.3.1: (May/June 2019)
+
+- NEW converters:
+    - bigbed2bed based on pyBigWig
+    - abi2qual
+- NEW methods:
+    - new method in bigwig2bedgraph based on pyBigWig
+    - new method in twobit2fasta based on py2bit
+- NEW features:
+    - new module io/sniffer.py
+- CHANGES:
+    - rename the ggf3gff2 converter correctly into gff32gff2 and add test
+    - fastq2fasta: (i) remove quality-file option to export qual (ii) remove
+      method python_external (issues #215)
+- OTHERS:
+    - update setup.py to include all scripts in ./misc package (#214)
+    - More features in bioconvert_stats standalone
+    - update the singularity recipes for v 0.3.0
+    - update bioconda recipes (on bioconda-recipes)
+    - Fix https://github.com/bioconvert/bioconvert/issues/204
+    - add pytest-env plugin in the developer requirements
+    - mv utils/ modules  into new directory ./io
+- BUG FIXES:
+    - https://github.com/bioconvert/bioconvert/issues/226
+
+:Revision 0.3.0: April/May 2019
+
+    - refactoring of the core including the implementation of an implicit
+      conversion. So, we can use bioconvert without specifying the conversion
+      when there is no ambiguity (based on the extensions provided).
+    - New working version for pypi.
+    - new converters: wig2bed
+    - new methods in various converters related to  phylogeny
+    - Fixing the goalign and gotree scripts 
+    - Fixing all tests on Travis
+
 :Revision 0.2.0: 7 Aug 2018
 
     - remove pandoc from requirements. The version installed is the one from
@@ -16,7 +52,6 @@ Whats' new, what has changed
     - add script called bioconvert_stats
     - refactorise scf2fasta and sc2fastq putting common code in utils.scf
     - update go version in requirements + update of modules using go
-    - update doc
 
 :Revision 0.1.1:
 
@@ -45,8 +80,8 @@ Whats' new, what has changed
 
 :Revision 0.0.12:
 
-    - new converters: embl2fasta and embl2genbank, fasta2twobit and twobit2fasta
-        fasta2fasta, sra2fastq
+    - new converters: embl2fasta, embl2genbank, fasta2twobit, twobit2fasta
+      fasta2fasta, sra2fastq
     - refactoring of the extensions framework to simplify the code
 
 

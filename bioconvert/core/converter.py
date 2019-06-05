@@ -28,11 +28,11 @@ import os
 import colorlog
 
 from bioconvert.core.base import ConvMeta
+from bioconvert.core.registry import Registry
 
 _log = colorlog.getLogger(__name__)
 
 from bioconvert.core.base import make_chain
-from bioconvert.core.registry import Registry
 from bioconvert.core.utils import get_extension as getext
 from bioconvert.core.utils import get_format_from_extension
 
@@ -85,7 +85,7 @@ class Bioconvert(object):
             if outfile.endswith(".fastq.dsrc") is False:
                 msg = "When compressing with .dsrc extension, " +\
                     "only files ending with .fastq extension are " +\
-                    "accepted. This is due to the way dsrc executable +"\
+                    "accepted. This is due to the way dsrc executable "+\
                     "is implemented."
                 _log.critical(msg)
                 raise IOError
@@ -117,9 +117,10 @@ class Bioconvert(object):
                 out_fmt = get_format_from_extension(self.outext)
             self.in_fmt = in_fmt.upper()
             self.out_fmt = out_fmt.upper()
-            _log.info("Input: %s", self.in_fmt)
-            _log.info("Output: %s", self.out_fmt)
+            _log.info("Input: {}".format(self.in_fmt))
+            _log.info("Output: {}".format(self.out_fmt))
             class_converter = self.mapper[(self.in_fmt, self.out_fmt)]
+            #print(class_converter)
             self.name = class_converter.__name__
         except KeyError:
             # This module name was not found
@@ -134,7 +135,7 @@ class Bioconvert(object):
                 class_converter = make_chain([
                     (pair, self.mapper[pair]) for pair in conv_path])
             else:
-                msg = "Requested input format ('%s') to output format ('%s') is not available in bioconvert" %(
+                msg = "Requested input format ('{}') to output format ('{}') is not available in bioconvert".format(
                     self.in_fmt,
                     self.out_fmt,
                 )

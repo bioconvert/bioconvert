@@ -46,6 +46,7 @@ class ODS2CSV(ConvBase):
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
+
         :param str infile:
         :param str outfile:
         """
@@ -58,10 +59,8 @@ class ODS2CSV(ConvBase):
             line_terminator=DEFAULT_LINE_TERMINATOR,
             sheet_name=0,
             *args, **kwargs):
-        """
-        do the conversion :term`XLS` -> :term:'CSV` using Panda modules
+        """Do the conversion :term:`XLS` -> :term:`CSV` using Panda library"""
 
-        """
         import pyexcel
         with open(self.outfile, "w") as out_stream:
             writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)

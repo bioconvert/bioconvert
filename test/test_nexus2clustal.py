@@ -32,3 +32,23 @@ def test_nexus2clustal_goalign():
 
         # Check that the output is correct with a checksum
         assert hashlib.md5(out.encode('utf-8')).hexdigest() == md5(outfile)
+
+def test_nexus2clustal_biopython():
+    infile = bioconvert_data("nexus2clustal_biopython.nexus")
+    outfile = bioconvert_data("nexus2clustal_biopython.clustal")
+    with TempFile(suffix=".nexus") as tempfile:
+        converter = NEXUS2CLUSTAL(infile, tempfile.name)
+        converter(method='biopython')
+
+        # Check that the output is correct with a checksum
+        assert md5(tempfile.name) == md5(outfile)
+
+def test_nexus2clustal_squizz():
+    infile = bioconvert_data("nexus2clustal_squizz.nexus")
+    outfile = bioconvert_data("nexus2clustal_squizz.clustal")
+    with TempFile(suffix=".nexus") as tempfile:
+        converter = NEXUS2CLUSTAL(infile, tempfile.name)
+        converter(method='squizz')
+
+        # Check that the output is correct with a checksum
+        assert md5(tempfile.name) == md5(outfile)

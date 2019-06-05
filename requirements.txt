@@ -1,7 +1,7 @@
 easydev
 colorlog
 pandas
-biopython
+biopython>=1.70
 mappy
 matplotlib
 networkx
@@ -11,3 +11,5 @@ pyexcel
 pyexcel-ods3
 pyexcel-xls
 xlrd
+pyBigWig
+py2bit
