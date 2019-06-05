@@ -21,6 +21,36 @@ Note also that a converter (a Python module, e.g., fastq2fasta) may have several
 
 .. _add_converter:
 
+
+Installation for developers
+---------------------------
+
+To develop on `bioconvert` it is highly recommended to install `bioconvert` in a virtualenv ::
+
+    mkdir bioconvert
+    cd bioconvert
+    python3.7 -m venv py37
+    source py37/bin/activate
+
+And clone the bioconvert project ::
+
+    mkdir src
+    cd src
+    git clone https://github.com/bioconvert/bioconvert.git
+    cd  bioconvert
+
+We need to install some extra requirements to run the tests or build the doc so to install these requirements ::
+
+    pip install -e . [dev]
+
+.. warning::
+    The extra requirements try to install `pygraphviz` so you need to install `graphviz` on your computer.
+    If you running a distro based on debian you have to install `libcgraph6`, `libgraphviz-dev` and `graphviz` packages.
+
+.. note::
+    You may need to install extra tools to run some conversion.
+    The requirements_tools.txt file list conda extra tools
+
 How to add a new conversion
 ---------------------------
 
@@ -36,7 +66,7 @@ First, you need to add a new file in the ``./bioconvert`` directory called::
 
 Please note that the name is **all in small caps** and that we concatenate the input format name, the character **2** and the output format name. Sometimes a format already includes the character 2 in its name (e.g. bz2), which may be confusing. For now, just follow the previous convention meaning duplicate the character 2 if needed (e.g., for bz2 to gz format, use bz22gz).
 
-In the newly created file (**fastq2fasta.py**) you can (i) copy / paste the content of an existing converter (ii) use the **bioconvert_init** executable (see later), or (iii) copy / paste the following code:
+As for the class name, we us **all in big caps**. In the newly created file (**fastq2fasta.py**) you can (i) copy / paste the content of an existing converter (ii) use the **bioconvert_init** executable (see later), or (iii) copy / paste the following code:
 
 .. code-block:: python
     :linenos:
@@ -44,10 +74,10 @@ In the newly created file (**fastq2fasta.py**) you can (i) copy / paste the cont
     """Convert :term:`FastQ` format to :term:`FastA` formats"""
     from bioconvert import ConvBase
 
-    __all__ = ["Fastq2Fasta"]
+    __all__ = ["FASTQ2FASTA"]
 
 
-    class FastQ2FastA(ConvBase):
+    class FASTQ2FASTA(ConvBase):
         """
 
         """

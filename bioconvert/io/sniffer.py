@@ -161,7 +161,7 @@ class Sniffer(object):
             return False
 
     def is_binary_bed(self, filename):
-        # This could be a BED binary file from plink or BEDGrapg
+        # This could be a BED binary file from plink 
         # https://www.cog-genomics.org/plink2/formats#bed
         try:
             return self._is_magic(filename, [0x6c, 0x1b, 0x1])
@@ -183,10 +183,16 @@ class Sniffer(object):
         return self.is_bed(filename)
 
     def is_bigwig(self, filename):
-        raise NotImplementedError
+        try:
+            return self._is_magic(filename, [0x26, 0xfc, 0x8f])
+        except:
+            return False
 
     def is_bigbed(self, filename):
-        raise NotImplementedError
+        try:
+            return self._is_magic(filename, [0xeb, 0xf2, 0x89])
+        except:
+            return False
 
     def is_bplink(self, filename):
         raise NotImplementedError
@@ -544,10 +550,18 @@ class Sniffer(object):
             return False
 
     def is_wiggle(self, filename):
-        raise NotImplementedError
+        return self.is_wig(filename)
 
     def is_wig(self, filename):
-        raise NotImplementedError
+        try:
+            with open(filename, "r") as fin:
+                line = fin.readline()
+                if "track" in line and "type=wiggle" in line:
+                    return True
+                else:
+                    return False
+        except:
+            return False
 
     def is_xls(self, filename):
         try:
