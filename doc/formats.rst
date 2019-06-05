@@ -1000,7 +1000,7 @@ A **containment** line starts with C. A **path** line starts with P.
 
 See details in the reference above.
 
-Example::
+Example of a GFA1::
 
     H   VN:Z:1.0
     S   11  ACCTT
@@ -1034,6 +1034,8 @@ the next by a single tab.
 .. admonition:: References:
 
     - http://gfa-spec.github.io/GFA-spec/,
+    - http://gfa-spec.github.io/GFA-spec/GFA1.html
+    - http://gfa-spec.github.io/GFA-spec/GFA2.html
 
 .. _format_gff:
 
