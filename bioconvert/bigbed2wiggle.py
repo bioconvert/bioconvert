@@ -19,11 +19,12 @@ from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 
+
 __all__ = ["BIGBED2WIGGLE"]
 
 
 class BIGBED2WIGGLE(ConvBase):
-    """Convert sorted :term:`BIGBED` file into :term:`WIGGLE` file 
+    """Convert sorted :term:`BIGBED` file into :term:`WIGGLE` file
 
     """
     _default_method = "wiggletools"
@@ -40,6 +41,22 @@ class BIGBED2WIGGLE(ConvBase):
         """
 
         """
-        cmd = "wiggletools {} > {}".format(self.infile, self.outfile)
-        self.execute(cmd)
+        import os
+        from easydev import TempFile
 
+        # with need a unique name, that does not exists for the symlink 
+        # Fixes #233
+        fname = None
+        with TempFile(suffix=".bb") as ftemp:
+            fname = ftemp.name
+
+        os.symlink(os.path.abspath(self.infile), ftemp.name)
+
+        try:
+            cmd = "wiggletools {} > {}".format(ftemp.name, self.outfile)
+            self.execute(cmd)
+        except Exception as err:
+            raise(err)
+        finally:
+            # clean symlink
+            os.unlink(fname)
