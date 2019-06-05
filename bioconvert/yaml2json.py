@@ -36,7 +36,7 @@ logger = colorlog.getLogger(__name__)
 __all__ = ["YAML2JSON"]
 
 
-class Yaml2json(ConvBase):
+class YAML2JSON(ConvBase):
     """Convert :term:`YAML` file into :term:`JSON` file
 
     Conversion is based on yaml and json standard Python modules

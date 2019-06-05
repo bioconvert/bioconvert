@@ -32,7 +32,7 @@ logger = colorlog.getLogger(__name__)
 
 
 
-class Bam2Json(ConvBase):
+class BAM2JSON(ConvBase):
     """Bam2Json converter
 
     Convert bam file to json file.

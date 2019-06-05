@@ -42,7 +42,7 @@ In the newly created file (**fastq2fasta.py**) you can (i) copy / paste the cont
     __all__ = ["Fastq2Fasta"]
 
 
-    class FastQ2FastA(ConvBase):
+    class FASTQ2FASTA(ConvBase):
         """
 
         """
@@ -221,7 +221,7 @@ arguments as explained in :mod:`bioconvert.core.decorators`:
     def _method_python(self, *args, **kwargs):
         # a pure Python code does not require extra libraries
         with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
-             for (name, seq, _) in Fastq2Fasta.readfq(fastq):
+             for (name, seq, _) in FASTQ2FASTA.readfq(fastq):
                  fasta.write(">{}\n{}\n".format(name, seq))
 
      @requires(python_library="mappy")
@@ -275,11 +275,11 @@ do so, go to the ``./test`` directory and add a file named ``test_fastq2fasta.py
 
     import pytest
 
-    from bioconvert.fastq2fasta import Fastq2Fasta
+    from bioconvert.fastq2fasta import FASTQ2FASTA
     from bioconvert import bioconvert_data
     from easydev import TempFile, md5
 
-    @pytest.mark.parametrize("method", Fastq2Fasta.available_methods)
+    @pytest.mark.parametrize("method", FASTQ2FASTA.available_methods)
     def test_fastq2fasta(method):
         # your code here
         # you will need data for instance "mydata.fastq and mydata.fasta".
@@ -288,7 +288,7 @@ do so, go to the ``./test`` directory and add a file named ``test_fastq2fasta.py
         infile = bioconvert_data("test_mydata.fastq")
         expected_outfile = bioconvert_data("test_mydata.fasta")
         with TempFile(suffix=".fasta") as tempfile:
-            converter = Fastq2Fasta(infile, tempfile.name)
+            converter = FASTQ2FASTA(infile, tempfile.name)
             converter(method=method)
 
             # Check that the output is correct with a checksum
@@ -357,8 +357,8 @@ How to benchmark your new method vs others
 ::
 
     from bioconvert import Benchmark
-    from bioconvert.fastq2fasta import Fastq2Fasta
-    converter = Fastq2Fasta(infile, outfile)
+    from bioconvert.fastq2fasta import FASTQ2FASTA
+    converter = FASTQ2FASTA(infile, outfile)
     b = Benchmark(converter)
     b.plot()
 

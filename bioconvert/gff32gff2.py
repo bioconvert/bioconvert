@@ -29,7 +29,7 @@ from bioconvert import ConvBase
 from bioconvert.core.decorators import requires_nothing
 from bioconvert.readers.gff3 import Gff3
 
-class Gff32Gff2(ConvBase):
+class GFF32GFF2(ConvBase):
     """Convert :term:`GFF2` to :term:`GFF3`"""
 
     _default_method = "brut_binding_python"
@@ -42,7 +42,7 @@ class Gff32Gff2(ConvBase):
         :param str outfile: output GENBANK filename
 
         """
-        super(Gff32Gff2, self).__init__(infile, outfile, *args, **kargs)
+        super(GFF32GFF2, self).__init__(infile, outfile, *args, **kargs)
 
 
     @requires_nothing

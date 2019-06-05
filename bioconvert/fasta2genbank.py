@@ -33,7 +33,7 @@ from math import log, floor
 __all__ = ["FASTA2GENBANK"]
 
 
-class Fasta2genbank(ConvBase):
+class FASTA2GENBANK(ConvBase):
     """Convert :term:`FASTA` file to :term:`GENBANK` file"""
 
     # squizz works as well but keeps lower cases while 

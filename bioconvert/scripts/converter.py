@@ -67,7 +67,7 @@ def main(args=None):
             try:
                 converter = registry.get_ext((in_ext, out_ext))
                 # for testing the mutiple converter for one extention pair
-                # converter = [bioconvert.fastq2fasta.Fastq2Fasta, bioconvert.phylip2xmfa.PHYLIP2XMFA]
+                # converter = [bioconvert.fastq2fasta.FASTQ2FASTA, bioconvert.phylip2xmfa.PHYLIP2XMFA]
             except KeyError:
                 converter = []
 
@@ -180,16 +180,12 @@ join us at https://github/biokit/bioconvert
         # check if we have many format in output
         if type(out_fmt) is tuple:
             out_fmt = [format.lower() for format in out_fmt]
-            print(out_fmt)
             out_fmt = "_".join(out_fmt)
-            print(out_fmt)
             sub_parser_name = "{}2{}".format(in_fmt, out_fmt)
 
         else:
             out_fmt=out_fmt.lower()
             sub_parser_name = "{}2{}".format(in_fmt, out_fmt)
-
-        print(sub_parser_name)
 
         if converter:
             link_char = '-'

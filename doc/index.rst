@@ -109,10 +109,10 @@ For help, just type::
 From Python shell::
 
     # import a converter
-    from bioconvert.fastq2fasta import Fastq2Fasta
+    from bioconvert.fastq2fasta import FASTQ2FASTA
 
     # Instanciate with infile/outfile names
-    convert = Fastq2Fasta(infile, outfile)
+    convert = FASTQ2FASTA(infile, outfile)
 
     # the conversion itself
     convert()

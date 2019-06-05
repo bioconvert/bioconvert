@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int fastq2fasta(char argv[], char outfile[]);
+int FASTQ2FASTA(char argv[], char outfile[]);
 
 int fastq2fasta(char argv[], char outfile[])
 {

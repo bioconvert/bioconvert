@@ -28,7 +28,7 @@ from bioconvert.core.decorators import requires
 __all__ = ["EMBL2GENBANK"]
 
 
-class Embl2genbank(ConvBase):
+class EMBL2GENBANK(ConvBase):
     """Convert :term:`EMBL` file to :term:`GENBANK` file"""
     _default_method = "biopython"
 

@@ -35,10 +35,10 @@ from bioconvert.utils import scf
 
 _log = colorlog.getLogger(__name__)
 
-__all__ =["SCF2Fasta"]
+__all__ =["SCF2FASTA"]
 
 
-class SCF2Fasta(ConvBase):
+class SCF2FASTA(ConvBase):
     """
     Converts a binary SCF/ABI file to Fasta format.
 

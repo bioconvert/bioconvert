@@ -30,7 +30,7 @@ from bioconvert.core.utils import generate_outfile_name
 _log = colorlog.getLogger(__name__)
 
 
-class Bplink2plink(ConvBase):
+class BPLINK2PLINK(ConvBase):
     """Converts a genotype dataset bed+bim+fam in :term:`BPLINK` format to
     ped+map :term:`PLINK` format
 

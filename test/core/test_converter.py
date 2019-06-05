@@ -4,11 +4,11 @@ from easydev import TempFile
 
 import pytest
 
-from bioconvert.bam2fasta import BAM2FastA
+from bioconvert.bam2fasta import BAM2FASTA
 from bioconvert.gz2bz2 import GZ2BZ2
 
 
-@pytest.mark.skipif(len(BAM2FastA.available_methods) == 0, reason="missing dependencies")
+@pytest.mark.skipif(len(BAM2FASTA.available_methods) == 0, reason="missing dependencies")
 def test_bioconvert():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".fasta") as fout:

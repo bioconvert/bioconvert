@@ -38,7 +38,7 @@ _log = colorlog.getLogger(__name__)
 __all__ = ['FASTA2NEXUS']
 
 
-class fasta2nexus(ConvBase):
+class FASTA2NEXUS(ConvBase):
     """Converts a sequence alignment in :term:`FASTA` format to :term:`NEXUS` format
 
     Conversion is based on Bio Python modules

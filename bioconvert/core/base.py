@@ -74,9 +74,9 @@ class ConvMeta(abc.ABCMeta):
         if "22" in converter_name:
             input_fmt, output_fmt = converter_name.upper().split('22', 1)
             input_fmt += "2"
-        elif "N" in converter_name.split("2")[1]:
+        elif "_" in converter_name.split("2")[1]:
             input_fmt, output_fmt = converter_name.upper().split('2', 1)
-            output_fmt = output_fmt.upper().split("N")
+            output_fmt = output_fmt.upper().split("_")
             output_fmt = tuple(output_fmt)
         else:
             input_fmt,output_fmt = converter_name.upper().split('2',1)
@@ -233,7 +233,7 @@ class ConvBase(metaclass=ConvMeta):
 
     For instance: ::
 
-        class Fastq2Fasta(ConvBase):
+        class FASTQ2FASTA(ConvBase):
 
             def _method_python(self, *args, **kwargs):
                 # include your code here. You can use the infile and outfile

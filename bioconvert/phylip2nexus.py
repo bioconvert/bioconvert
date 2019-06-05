@@ -38,7 +38,7 @@ _log = colorlog.getLogger(__name__)
 __all__ = ['PHYLIP2NEXUS']
 
 
-class Phylip2nexus(ConvBase):
+class PHYLIP2NEXUS(ConvBase):
     """
     Converts a sequence alignment from :term:`PHYLIP` format to :term:`NEXUS` format. ::
     """

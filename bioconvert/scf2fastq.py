@@ -35,10 +35,10 @@ from bioconvert.core.decorators import requires_nothing
 
 _log = colorlog.getLogger(__name__)
 
-__all__ = ["SCF2Fastq"]
+__all__ = ["SCF2FASTQ"]
 
 
-class SCF2Fastq(ConvBase):
+class SCF2FASTQ(ConvBase):
     """
     Converts a binary :term:`SCF` file to :term:`FastQ` file
 
