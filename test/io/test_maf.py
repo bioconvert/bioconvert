@@ -1,5 +1,5 @@
-from bioconvert.utils.maf import MAF
-from bioconvert.utils import maf
+from bioconvert.io.maf import MAF
+from bioconvert.io import maf
 from easydev import TempFile
 
 from bioconvert import bioconvert_data

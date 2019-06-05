@@ -89,7 +89,7 @@ singularity on a Linux plaform, just download and execute this :download:`instal
 
 .. note:: here we need to be sudo, but you can install singularity localy if needed. 
 
-For other version, or to install singularity on windows or Mac, please check out the singularity website singularity `<http://singularity.lbl.gov/>`_
+For other version, or to install singularity on windows or Mac, please check out the singularity website `<http://singularity.lbl.gov/>`_
 
 First, download the container. For the latest version::
 

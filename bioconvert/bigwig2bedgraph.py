@@ -42,7 +42,7 @@ class BIGWIG2BEDGRAPH(ConvBase):
     Conversion is based on ucsc bigWigToBedGraph tool
 
     """
-    _default_method = 'ucsc'
+    _default_method = 'pybigwig'
 
     def __init__(self, infile, outfile):#=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -63,3 +63,20 @@ class BIGWIG2BEDGRAPH(ConvBase):
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
+
+    @requires(python_library="pyBigWig")
+    def _method_pybigwig(self, *args, **kwargs):
+        import pyBigWig
+        bw = pyBigWig.open(self.infile)
+        assert bw.isBigWig() is True, "Not a valid bigWig file"
+
+        with open(self.outfile, "w") as fout:
+            for chrom in  bw.chroms():
+                for tup in bw.intervals(chrom):
+                    s, e, val = tup
+                    if int(val) == val:
+                        val = int(val)
+                    fout.write("{}\t{}\t{}\t{}\n".format(chrom, s, e, val))
+
+
+

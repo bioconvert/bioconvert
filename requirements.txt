@@ -12,3 +12,4 @@ pyexcel-ods3
 pyexcel-xls
 xlrd
 pyBigWig
+py2bit

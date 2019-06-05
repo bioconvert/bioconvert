@@ -59,7 +59,7 @@ class PLINK2VCF(ConvBase):
         """
         outfile = self.outfile
         if os.path.splitext(outfile)[1] == '.vcf':
-            outfile = os.path.splitext(outfile)[0]  
+            outfile = os.path.splitext(outfile)[0]
         cmd = 'plink --file {infile} --recode vcf --out {outfile}'.format(
             infile=self.infile,
             outfile=outfile)

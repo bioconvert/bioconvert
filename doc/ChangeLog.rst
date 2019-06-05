@@ -1,16 +1,30 @@
 Whats' new, what has changed
 ================================
 
-:Revision 0.3.1:
+:Revision 0.3.1: (May/June 2019)
 
-    - NEW converter: abi2qual
+- NEW converters:
+    - bigbed2bed based on pyBigWig
+    - abi2qual
+- NEW methods:
+    - new method in bigwig2bedgraph based on pyBigWig
+    - new method in twobit2fasta based on py2bit
+- NEW features:
+    - new module io/sniffer.py
+- CHANGES:
+    - rename the ggf3gff2 converter correctly into gff32gff2 and add test
     - fastq2fasta: (i) remove quality-file option to export qual (ii) remove
       method python_external (issues #215)
-    - updatet setup.py to include all scripts in ./misc package (#214)
+- OTHERS:
+    - update setup.py to include all scripts in ./misc package (#214)
     - More features in bioconvert_stats standalone
     - update the singularity recipes for v 0.3.0
     - update bioconda recipes (on bioconda-recipes)
     - Fix https://github.com/bioconvert/bioconvert/issues/204
+    - add pytest-env plugin in the developer requirements
+    - mv utils/ modules  into new directory ./io
+- BUG FIXES:
+    - https://github.com/bioconvert/bioconvert/issues/226
 
 :Revision 0.3.0: April/May 2019
 

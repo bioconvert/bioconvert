@@ -31,7 +31,7 @@ from collections import defaultdict
 import colorlog
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires_nothing
-from bioconvert.utils import scf
+from bioconvert.io import scf
 
 _log = colorlog.getLogger(__name__)
 

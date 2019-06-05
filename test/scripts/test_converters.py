@@ -57,6 +57,17 @@ def test_converter2():
         converter.main()
 
 
+def test_plink_no_extension():
+
+    infile = bioconvert_data("plink_toy.ped")
+    infile = infile.replace(".ped", "")
+
+    with TempFile(suffix="") as outfile:
+        import sys, os
+        sys.argv = ["bioconvert", "plink2bplink", infile, outfile.name, "--force"]
+        converter.main()
+
+
 def test_converter_no_outfile():
     import shutil
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
@@ -260,12 +271,6 @@ def test_verbose():
         sys.argv = ["bioconvert", "--verbosity", "CRITICAL", "fastq2fasta", infile, tempfile.name,
                     "--force"]
         converter.main()
-        # sys.argv = ["bioconvert", "-l", "CRITICAL", "fastq2fasta", infile, tempfile.name,
-        #             "--force"]
-        # converter.main()
-        # sys.argv = ["bioconvert", "--level", "CRITICAL", "fastq2fasta", infile, tempfile.name,
-        #             "--force"]
-        # converter.main()
 
 
 def test_close_match():

@@ -66,6 +66,7 @@ setup(
     zip_safe=False,
     packages=find_packages(),
     install_requires=requirements,
+    extras_require={'dev': open("requirements_dev.txt").read().split()},
 
     # This is recursive include of data files
     exclude_package_data={"": ["__pycache__"]},
@@ -81,7 +82,8 @@ setup(
            'bioconvert=bioconvert.scripts.converter:main',
            #'proto_sub_cmd=bioconvert.scripts.proto_sub_cmd:main',
            'bioconvert_init=bioconvert.scripts.init_convert:main',
-           'bioconvert_stats=bioconvert.scripts.stats:main'
+           'bioconvert_stats=bioconvert.scripts.stats:main',
+           'bioconvert_sniffer=bioconvert.scripts.sniffer:main'
         ]
     }
     )

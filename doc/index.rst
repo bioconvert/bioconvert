@@ -1,7 +1,9 @@
 Bioconvert
 ##########
 
-**Bioconvert** is a collaborative project to facilitate the interconversion of life science data from one format to another. **Bioconvert** currently contains more than 40 formats, 90 conversions.
+**Bioconvert** is a collaborative project to facilitate the interconversion of life
+science data from one format to another. **Bioconvert** currently contains 44 formats
+and 95 conversions.
 
 .. image:: https://badge.fury.io/py/bioconvert.svg
     :target: https://pypi.python.org/pypi/bioconvert
@@ -119,8 +121,8 @@ From Python shell::
 
 
 
-User and Developer Guides
-#########################
+Complete documentation including User and Developer Guides
+##########################################################
 
 .. toctree::
     :maxdepth: 2
@@ -134,9 +136,8 @@ User and Developer Guides
     auto_examples/index
     references
     formats
-    not_provided
-    faqs
     glossary
+    faqs
     ChangeLog.rst
 
 

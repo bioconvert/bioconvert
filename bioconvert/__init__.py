@@ -61,7 +61,9 @@ def info():
 
 import bioconvert
 from bioconvert.core.base import ConvBase
+from bioconvert.core.registry import Registry
 from bioconvert.core.decorators import requires
 from bioconvert.core.benchmark import Benchmark, BenchmarkMulticonvert
 from bioconvert.core.converter import Bioconvert
 from bioconvert.core.shell import shell
+from bioconvert.io.sniffer import Sniffer

@@ -24,7 +24,7 @@ from itertools import groupby
 import math
 
 class MAFLine(object):
-    """
+    """A reader for :term:`MAF` format.
 
     mode refname start algsize strand refsize alignment
 
@@ -79,10 +79,10 @@ class MAFLine(object):
 
 
 class MAF(object):
-    def __init__(self, filename, outfile):
+    """A reader for :term:`MAF` format."""
+    def __init__(self, filename, outfile=None):
         self.filename = filename
         self.outfile = outfile
-
 
     def count_insertions(self, alnString):
         """return length without insertion, forward and reverse shift"""

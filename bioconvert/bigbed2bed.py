@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -22,12 +21,10 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""FASTA2TWOBIT conversion"""
+"""BIGBED2BED conversion """
 import os
 
 import colorlog
-from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -35,38 +32,42 @@ from bioconvert.core.decorators import requires
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['FASTA2TWOBIT']
+__all__ = ["BIGBED2BED"]
 
 
-class FASTA2TWOBIT(ConvBase):
-    """Converts a sequence alignment in :term:`FASTA` format to :term:`TWOBIT` format
-
-    Conversion is based on UCSC faToTwoBit
+class BIGBED2BED(ConvBase):
+    """Converts a sequence alignment in :term:`BIGBED` format to :term:`BED4` format
 
     """
-    _default_method = 'ucsc'
+    _default_method = 'pybigwig'
 
-    def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
+    def __init__(self, infile, outfile):#=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
 
-        :param str infile: input :term:`FASTA` file.
-        :param str outfile: (optional) output :term:`TWOBIT` file
+        :param str infile: input :term:`BIGBED` file.
+        :param str outfile: (optional) output :term:`BED` file
         """
         super().__init__(infile, outfile)
-        self.alphabet = alphabet
 
-    @requires("faToTwoBit")
-    def _method_ucsc(self, *args, **kwargs):
+    @requires(python_library="pyBigWig")
+    def _method_pybigwig(self, *args, **kwargs):
         """
-        Convert fasta file in twobit format using ucsc faToTwoBit.
-        https://genome.ucsc.edu/goldenPath/help/twoBit.html
         """
-        cmd = 'faToTwoBit {infile} {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
-        self.execute(cmd)
+        import pyBigWig
+        bw = pyBigWig.open(self.infile)
+        assert bw.isBigBed() is True, "Not a valid bigBed file"
 
-    #@requires("faToTwoBit")
-    #def _method_deeptools(self, *args, **kwargs):
+        with open(self.outfile, "w") as fout:
 
-
+            for chrom in  sorted(bw.chroms().keys()):
+                L = bw.chroms()[chrom]
+                for tup in bw.entries(chrom, 0, L):
+                    s, e, val = tup
+                    # the bigbed may have many columns. We consider only bed4
+                    # for now
+                    # FIXME
+                    try:
+                        val = val.split("\t")[0]
+                    except:
+                        pass
+                    fout.write("{}\t{}\t{}\t{}\n".format(chrom, s, e, val))

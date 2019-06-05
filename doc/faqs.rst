@@ -10,7 +10,8 @@ On **ubuntu**, you need libz-dev and python3-dev libraries which are not necessa
   sudo apt-get install libz-dev python3-dev
 
 Plink
-'''''
+~~~~~
+
 If you have installed plink1.9 but **bioconvert** still can not use plink. It is maybe because
 **bioconvert** try to call the programme by the name "plink" so you have to make a symbolic link.
 First, you have to go in the repository where is plink, then use the command which: ::
@@ -23,10 +24,11 @@ go into the repository then: ::
 
 after this bioconvert will be able to call plink
 
-Developpers
-"""""""""""
+Libraries
+-----------
+
 Graphviz related
-''''''''''''''''
+~~~~~~~~~~~~~~~~
 
 When you install the requirement for dev. It is possible to have problems with pygraphviz,
 try to install these libraries: ::
@@ -41,16 +43,3 @@ or ::
 
     pip install -r requirements_dev.txt
 
-Conda related
-'''''''''''''
-
-test ::
-
-    >>> registry
-    {('fastq', 'fasta'): ["fastq2fasta"],
-    ('fastq', 'fa'): ["fastq2fasta","truc2machin"],
-    ('fastq', 'fst'): ["fastq2fasta"],
-    ('fq', 'fasta'): ["fastq2fasta"],
-    ('fq', 'fa'): ["fastq2fasta"],
-    ('fq', 'fst'): ["fastq2fasta"],
-    ('truc', 'machin'): ["truc2machin"]}

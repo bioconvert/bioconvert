@@ -27,6 +27,7 @@ Summary
 	bioconvert.bedgraph2bigwig
 	bioconvert.bedgraph2wiggle
 	bioconvert.bigbed2wiggle
+	bioconvert.bigbed2bed
 	bioconvert.bigwig2bedgraph
 	bioconvert.bigwig2wiggle
 	bioconvert.bplink2plink
@@ -51,6 +52,8 @@ Summary
 	bioconvert.genbank2embl
 	bioconvert.genbank2fasta
 	bioconvert.genbank2gff3
+	bioconvert.gff23gff3
+	bioconvert.gff32gff2
 	bioconvert.gfa2fasta
 	bioconvert.gz2bz2
 	bioconvert.gz2dsrc
@@ -187,6 +190,11 @@ All converters documentation
     :synopsis:
     :private-members:
 
+.. automodule::	bioconvert.bigbed2bed
+    :members:
+    :synopsis:
+    :private-members:
+
 .. automodule:: bioconvert.bigwig2bedgraph
     :members:
     :synopsis:
@@ -303,6 +311,16 @@ All converters documentation
     :private-members:
 
 .. automodule:: bioconvert.genbank2gff3
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.gff22gff3
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.gff32gff2
     :members:
     :synopsis:
     :private-members:

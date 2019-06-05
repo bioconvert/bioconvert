@@ -28,7 +28,7 @@ import struct
 
 from collections import defaultdict
 from bioconvert import ConvBase
-from bioconvert.utils import scf
+from bioconvert.io import scf
 import colorlog
 
 from bioconvert.core.decorators import requires_nothing

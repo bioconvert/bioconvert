@@ -38,12 +38,11 @@ class GFF32GFF2(ConvBase):
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile: input FASTA file
-        :param str outfile: output GENBANK filename
+        :param str infile:
+        :param str outfile: 
 
         """
         super(GFF32GFF2, self).__init__(infile, outfile, *args, **kargs)
-
 
     @requires_nothing
     def _method_brut_binding_python(self, *args, **kwargs):

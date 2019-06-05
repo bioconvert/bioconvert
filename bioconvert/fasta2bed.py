@@ -32,8 +32,9 @@ __all__ = ["FASTA2BED"]
 
 class FASTA2BED(ConvBase):
     """Convert :term:`FASTA` file to :term:`BED` file
-    This convertion is not straight forward, so, please refer to method documentations
-    for precise convertion details
+
+    This conversion is not straight forward, so, please refer to method documentations
+    for precise conversion details
     """
     _default_method = "scaffold"
 

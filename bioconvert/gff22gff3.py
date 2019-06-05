@@ -24,7 +24,6 @@
 ###########################################################################
 
 """Convert :term:`FASTQ` to :term:`FASTA`"""
-from Bio import SeqIO
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires_nothing
 from bioconvert.readers.gff2 import Gff2
@@ -32,17 +31,17 @@ from bioconvert.readers.gff2 import Gff2
 
 __all__ = ["GFF22GFF3"]
 
+
 class GFF22GFF3(ConvBase):
     """Convert :term:`GFF2` to :term:`GFF3`"""
 
     _default_method = "brut_binding_python"
 
-
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile: input FASTA file
-        :param str outfile: output GENBANK filename
+        :param str infile: 
+        :param str outfile:
 
         """
         super(GFF22GFF3, self).__init__(infile, outfile, *args, **kargs)
