@@ -252,7 +252,7 @@ class Registry(object):
         all_converter = {}
         self._fill_registry(bioconvert.__path__, target=all_converter, including_not_available_converter=True)
         for i, o in all_converter:
-            yield i, o, (i, o) in self._fmt_registry
+            yield i, o, (i, o) in self._fmt_registry and len(self._fmt_registry[(i, o)].available_methods) > 0
 
     def conversion_exists(self, input_fmt, output_fmt, allow_indirect=False):
         """
