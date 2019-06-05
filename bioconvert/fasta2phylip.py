@@ -73,7 +73,7 @@ class FASTA2PHYLIP(ConvBase):
             outfile=self.outfile)
         self.execute(cmd)
 
-    @requires("conda")
+    @requires("go")
     def _method_goalign(self, threads=None, *args, **kwargs):
         """
         Convert fasta file in Phylip interleaved format using goalign tool.

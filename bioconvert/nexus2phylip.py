@@ -27,7 +27,6 @@
 import os
 
 import colorlog
-from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -53,7 +52,7 @@ class NEXUS2PHYLIP(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("conda")
+    @requires("go")
     def _method_goalign(self, threads=None, *args, **kwargs):
         """
         Convert :term:`NEXUS` interleaved file in :term:`PHYLIP` format using goalign tool.

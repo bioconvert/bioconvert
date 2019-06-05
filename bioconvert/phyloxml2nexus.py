@@ -54,7 +54,7 @@ class PHYLOXML2NEXUS(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("conda")
+    @requires("go")
     def _method_gotree(self, threads=None, *args, **kwargs):
         """
         Convert :term:`PHYLOXML`  file in :term:`NEXUS` format using gotree tool.

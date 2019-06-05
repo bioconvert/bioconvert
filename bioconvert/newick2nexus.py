@@ -52,7 +52,7 @@ class NEWICK2NEXUS(ConvBase):
         """
         super().__init__(infile, outfile)
 
-    @requires("conda")
+    @requires("go")
     def _method_gotree(self, threads=None, *args, **kwargs):
         """
         Convert :term:`NEWICK`  file in :term:`NEXUS` format using gotree tool.

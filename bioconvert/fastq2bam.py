@@ -45,7 +45,7 @@ class FASTQ2BAM(ConvBase):
         # Make sure that the default handles also the compresssion
         self.infile2 = infile2
 
-    @requires("conda")
+    @requires("fastqutils")
     @in_gz
     def _method_fastqutils(self, *args, **kwargs):
         """

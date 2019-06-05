@@ -79,7 +79,7 @@ class CLUSTAL2FASTA(ConvBase):
             outfile=self.outfile)
         self.execute(cmd)
 
-    @requires("conda")
+    @requires("go")
     def _method_goalign(self, threads=None, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` file in  :term:`FASTA` format using goalign tool.

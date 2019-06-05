@@ -55,7 +55,7 @@ class FASTA2NEXUS(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("conda")
+    @requires("go")
     def _method_goalign(self, threads=None, *args, **kwargs):
         """
         Convert fasta file in Nexus format using goalign tool.
