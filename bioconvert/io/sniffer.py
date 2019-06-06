@@ -107,6 +107,7 @@ class Sniffer(object):
             return candidates[0]
         else:
             _log.warning("Sniffer found several candidates: {}".format(candidates))
+            
             return candidates
 
     def _is_blank_line(self, line):
@@ -129,6 +130,8 @@ class Sniffer(object):
 
         # then, each magic number should fit the first bytes
         ret = [buff[i] == magic[i] for i in range(0, L)]
+        #_log.debug("magic number: {}".format([hex(buff[i]) for i in range(0, L)]))
+        #_log.debug("expected number: {}".format(magic))
 
         if False in ret:
             return False
@@ -151,6 +154,17 @@ class Sniffer(object):
             return d.is_bam
         except:
             return False
+
+    def is_bai(self, filename):
+        try:
+            data = open(filename, "rb").read()[0:4]
+            if data.startswith(b"BAI"):
+                return True
+            else:
+                return False
+        except:
+            return False
+
 
     def is_bcf(self, filename):
         try:
@@ -175,6 +189,14 @@ class Sniffer(object):
             if len(line.split())<4:
                 return False
             else:
+                # reads 10 lines if possible. They should all be tab delimited
+                # with same number of columns:
+                L = len(line)
+                for i in range(10):
+                    line = data.readline().strip()
+                    if len(line)!=4:
+                        return False
+                # let us assume it is a TSV-like file
                 return True
         except:
             return False
@@ -253,6 +275,8 @@ class Sniffer(object):
             with open(filename, "r") as fin:
                 data = fin.readlines(200000) # 200000 characters should be enough
             ids = [x.split()[0] for x in data if x[0:2] in valid_ids]
+            # can be only of length 2
+            ids = [x for x in ids if len(x) == 2]
             if len(ids)>0:
                 return True
             else:
@@ -304,13 +328,12 @@ class Sniffer(object):
 
         with open(filename, "r") as fin:
             try:
-                line = fh.readline().strip()
-                if self._is_blank_line(line):
-                    pass
+                line = fin.readline().strip()
+                data = line.split()
+                if data[0] == 'LOCUS':
+                    return True
                 else:
-                    data = line.split()
-                    data[0] in ['LOCUS']
-                return True
+                    return False
             except:
                 return False
 
@@ -546,7 +569,7 @@ class Sniffer(object):
             #    >ID
             #    AACCTTGG
             # is a qual or fasta file
-        
+
 
             if line1.startswith(">") and len(scores)>1:
                 return True
@@ -654,7 +677,13 @@ class Sniffer(object):
 
     def is_xlsx(self, filename):
         try:
-            return self._is_magic(filename, [0xd0, 0xcf, 0x11])
+            # FIXME only second case should be used most probably
+            case1 = self._is_magic(filename, [0xd0, 0xcf, 0x11])
+            case2 = self._is_magic(filename, [0x50, 0x4b, 0x3,  0x4])
+            if case1 or case2:
+                return True
+            else:
+                return False
         except:
             return False
 
