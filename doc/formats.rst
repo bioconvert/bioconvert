@@ -268,6 +268,12 @@ BedGraph is a subset of BED12 format. It is a 4-columns tab-delimited file with
 chromosome name, start and end positions and the fourth column is a number that is
 often used to show coverage depth. So, this is the same format as the
 :ref:`format_bed4` format.
+Example::
+
+    chr1    0     75  0
+    chr1    75   176  1
+    chr1    176  177  2
+
 
 .. seealso:: :ref:`format_bed`
 
@@ -564,6 +570,24 @@ The BZ2 compression is usually better than gzip for Fastq format compression (fa
     :class:`~bioconvert.gz2dsrc`
     :class:`~bioconvert.bz22gz`,
     :class:`~bioconvert.dsrc2gz`
+
+.. _format_cov:
+
+COV
+---
+
+A simple TSV file with 3 columns to store coverage in a continuous way. First
+column is contig/chromosome name, second is position and third is coverage.
+Expected positions are continuous. The :ref:`format_bedgraph` stores an extra
+column but can be a more compact way of storing coverage/depth.
+
+Example::
+
+    chr1   1    10
+    chr1   2    11
+    chr1   3    15
+    chr1   4    12
+    chr1   5    11
 
 
 .. _format_cram:
