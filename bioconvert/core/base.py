@@ -342,7 +342,8 @@ class ConvBase(metaclass=ConvMeta):
     def execute(self, cmd, ignore_errors=False, verbose=False, shell=False):
 
         if ">" in cmd:
-            cmd = cmd.replace(">", "{} >".format(self._extra_arguments))
+            lhs, rhs = cmd.split(">", 1)
+            cmd = lhs + self._extra_arguments + ">" + rhs
         else:
             cmd = cmd + self._extra_arguments
 
