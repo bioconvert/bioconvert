@@ -10,7 +10,7 @@ Summary
 	bioconvert.abi2fasta
 	bioconvert.abi2fastq
 	bioconvert.abi2qual
-	bioconvert.bam2bed
+	bioconvert.bam2cov
 	bioconvert.bam2bedgraph
 	bioconvert.bam2bigwig
 	bioconvert.bam2cram
@@ -23,7 +23,7 @@ Summary
 	bioconvert.bcf2vcf
 	bioconvert.bcf2wiggle
 	bioconvert.bed2wiggle
-	bioconvert.bedgraph2bed
+	bioconvert.bedgraph2cov
 	bioconvert.bedgraph2bigwig
 	bioconvert.bedgraph2wiggle
 	bioconvert.bigbed2wiggle
@@ -114,7 +114,7 @@ All converters documentation
     :synopsis:
     :private-members:
 
-.. automodule:: bioconvert.bam2bed
+.. automodule:: bioconvert.bam2cov
     :members:
     :synopsis:
     :private-members:
@@ -179,7 +179,7 @@ All converters documentation
     :synopsis:
     :private-members:
 
-.. automodule:: bioconvert.bedgraph2bed
+.. automodule:: bioconvert.bedgraph2cov
     :members:
     :synopsis:
     :private-members:

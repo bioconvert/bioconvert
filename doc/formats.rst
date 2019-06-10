@@ -192,7 +192,7 @@ of nucleotide sequence alignments.
     :class:`~bioconvert.bam2sam.BAM2SAM`,
     :class:`~bioconvert.bam2cram.BAM2CRAM`,
     :class:`~bioconvert.bam2bedgraph.BAM2BEDGRAPH`,
-    :class:`~bioconvert.bam2bed.BAM2BED`,
+    :class:`~bioconvert.bam2bed.BAM2COV`,
     :class:`~bioconvert.bam2bigwig.BAM2BIGWIG`,
     :class:`~bioconvert.bam2fasta.BAM2FASTA`,
     :class:`~bioconvert.bam2fastq.BAM2FASTQ`,
@@ -476,7 +476,8 @@ The **bigBed** format stores annotation items. BigBed files are created initiall
 
 .. admonition:: bioconvert conversions
 
-    :class:`~bioconvert.bigbed2bed.BIGBED2BED`, :class:`~bioconvert.bigbed2wiggle.BIGBED2WIGGLE`
+    :class:`~bioconvert.bigbed2bed.BIGBED2COV`, 
+    :class:`~bioconvert.bigbed2wiggle.BIGBED2WIGGLE`
 
 .. admonition:: References
 
