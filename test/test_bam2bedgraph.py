@@ -10,15 +10,19 @@ def test_conv(method):
         convert = BAM2BEDGRAPH(infile, tempfile.name)
         convert(method=method)
 
-        # Check that the output is correct with a checksum
-        # Note that we cannot test the md5 on a gzip file but only 
-        # on the original data. This check sum was computed
-        # from the bedgraph file computed with bedtools
-        # from  test_measles.sorted.bam 
-        assert md5(tempfile.name) in ["86d7a2236c40ddb4c3a8dccdbd978356", "c0e066803991efdd25af5fa7d175a9df"]
-        #"c0e066803991efdd25af5fa7d175a9df" is for ucsc.bedgraph but this is not the integer format 
-        # returned by bedtools for now because no normalization is applied
+        # changes after 3.1 
+        assert md5(tempfile.name) == "5be280e9f74e9ff1128ff1d2fe3e0812"
 
-        #convert = BAM2BEDGRAPH(infile, tempfile.name)
-        #convert(method="bedtools")
-        #assert md5(tempfile.name) == "c0e066803991efdd25af5fa7d175a9df"
+
+def test_conv_mosdepth_gz():
+    infile = bioconvert_data("test_measles.sorted.bam")
+    with TempFile(suffix=".bedgraph.gz") as tempfile:
+        convert = BAM2BEDGRAPH(infile, tempfile.name)
+        convert(method="mosdepth")
+
+
+def test_conv_mosdepth_wrong_input():
+    infile = bioconvert_data("test_measles.sam")
+    with TempFile(suffix=".bedgraph.gz") as tempfile:
+        convert = BAM2BEDGRAPH(infile, tempfile.name)
+        convert(method="mosdepth")
