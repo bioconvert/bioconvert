@@ -264,9 +264,10 @@ BEDGRAPH
 :Status: included
 :Type: database
 
-The bedGraph format allows display of continuous-valued data in track format.
-This display type is useful for probability scores and transcriptome data. Same
-format as the :ref:`format_bed4`.
+BedGraph is a subset of BED12 format. It is a 4-columns tab-delimited file with
+chromosome name, start and end positions and the fourth column is a number that is
+often used to show coverage depth. So, this is the same format as the
+:ref:`format_bed4` format.
 
 .. seealso:: :ref:`format_bed`
 
@@ -292,7 +293,8 @@ So, in general BED lines have 3 required fields and nine additional
 optional fields.
 
 Generally, all BED files have the same extensions (.bed) irrespective of the
-number of columns. We can refer to the 3-columns version as BED3, the 4-columns BED as BED4 and so on.
+number of columns. We can refer to the 3-columns version as BED3, the 4-columns 
+BED as :ref:`format_bed4` and so on.
 
 The number of fields per line must be consistent. If some fields are empty,
 additional column information must be filled for consistency (e.g., with a ".").
@@ -405,12 +407,15 @@ See :ref:`format_bed` section for details.
 BED4
 ----
 
-A BED4 is supported by bedtools. It is a BED file where each feature is
-described by chrom, start, end and name (with tab-delimited values). Example::
+A BED4 is a :ref:`format_bed` file where each feature is
+described by chrom, start, end and name (with tab-delimited values). The last 
+column could also be a number. Example::
 
     chr1    100    120    gene1
 
 See :ref:`format_bed` section for details.
+
+.. seealso:: :ref:`format_bedgraph`
 
 .. _format_bed5:
 
@@ -796,7 +801,7 @@ written. All starts with the ">" sign though. We can cite a few variants here
 below (for simplicity we give only puit 2 lines per sequence).
 
 
-The **NCBI style** defines the identifier with database name, entry ID and 
+The **NCBI style** defines the identifier with database name, entry ID and
 optional accession or sequence version number separated by pipes::
 
     >embl|X65923|X65923.1 H.sampiens fau mRNA
@@ -812,8 +817,8 @@ given instead of the entry ID::
     TTCCTCTTTCTCGACTCCATCTTCGCGGTAGCTGGGACCGCCGTTCAGTCGCCAATATGCAGCTCTTTGT
     CCGCGCCCAGGAGCTACACACCTTCGAGGTGACCGGCCAGGAAACGGTCGCCCAGATCAAGGCTCATGTA
 
-There is also a **CGC-style** FASTA format (not to be confused with 
-the :ref:`format_gcg` format). Its header includes an optional database 
+There is also a **CGC-style** FASTA format (not to be confused with
+the :ref:`format_gcg` format). Its header includes an optional database
 name as part of the identifier by  using the : sign::
 
       >DATABASE_NAME:DI accession description
@@ -878,13 +883,13 @@ FastQ
 
 
 FASTQ is a text-based format for storing both biological sequence (usually
-nucleotide sequence) and its corresponding quality scores (:ref:`format_qual`).  
-A FASTQ format can contain several sequences. All FASTQ variations are in the 
-formatting of the quality scores. Currently, the recommended variant is the 
-Sanger encoding also used by Illumina 1.8. It encodes the Phred quality score 
-from 0 to 93 using ASCII 33 to 126. This format is also refered 
+nucleotide sequence) and its corresponding quality scores (:ref:`format_qual`).
+A FASTQ format can contain several sequences. All FASTQ variations are in the
+formatting of the quality scores. Currently, the recommended variant is the
+Sanger encoding also used by Illumina 1.8. It encodes the Phred quality score
+from 0 to 93 using ASCII 33 to 126. This format is also refered
 to PHRED+33 meaning there is an offset of 33 in the ASCII code. Other variants
-such as FASTQ-solexa or earlier Illumina versions. Currently conversions included 
+such as FASTQ-solexa or earlier Illumina versions. Currently conversions included
 in **Bioconvert** do not need to be aware of the quality score encoding.
 
 
@@ -1841,7 +1846,7 @@ PLINK binary files (BED/BIM/FAM)
 
 PLINK binary format (BED, :ref:`format_bim` and :ref:`format_fam`) is a valid input for many software. If you have the :ref:`format_plink_flat` version, use PLINK to convert text to binary format if necessary. In Bioconvert, you can use the **plink2bpblink** as explained in the :ref:`format_plink_flat` section.
 
-Here, the BED file is binary and is not to be confused with the BEDGRAPH format. 
+Here, the BED file is binary and is not to be confused with the BEDGRAPH format.
 
 .. admonition:: Bioconvert conversions
 
@@ -2294,7 +2299,7 @@ sheets are to be found, you can select one or the other.
 
 .. admonition:: Bioconvert conversions:
 
-    :class:`~bioconvert.xls2csv.XLS2CSV`, 
+    :class:`~bioconvert.xls2csv.XLS2CSV`,
     :class:`~bioconvert.xlsx2csv.XLSX2CSV`
 
 .. seealso::  :ref:`format_xls` format.
@@ -2483,7 +2488,7 @@ GVF
 
 The Genome Variation Format (GVF) is a very simple file format for describing
 sequence_alteration features at nucleotide resolution relative to a reference
-genome. 
+genome.
 
 Example::
 
@@ -2539,9 +2544,9 @@ PIR
 The PIR (Protein Informatics Resource) may contain contain several sequences.
 A sequence in PIR format consists of One line starting with ">" character
 followed by a 2-letter code describing the sequence type (P1, F1, DL, DC, RL,
-RC, or XX), followed by a semicolon, followed by the sequence identification 
-code (the database ID-code). Then, one line containing a textual 
-description of the sequence and finally one or more lines containing the 
+RC, or XX), followed by a semicolon, followed by the sequence identification
+code (the database ID-code). Then, one line containing a textual
+description of the sequence and finally one or more lines containing the
 sequence itself. The end of the sequence is marked by a "*"  character.
 
 The PIR format is also often referred to as the NBRF format.
