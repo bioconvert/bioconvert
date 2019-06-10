@@ -394,6 +394,10 @@ def analysis(args):
     else:
         threads = None
 
+    # default will be ""
+    if "extra_arguments" in args:
+        extra_arguments = args.extra_arguments
+
     # Call a generic wrapper of all available conversion
     conv = Bioconvert(
         infile,
@@ -401,7 +405,8 @@ def analysis(args):
         in_fmt=in_fmt,
         out_fmt=out_fmt,
         force=args.force,
-        threads=threads
+        threads=threads,
+        extra=extra_arguments
     )
 
     # # Users may provide information about the input file.

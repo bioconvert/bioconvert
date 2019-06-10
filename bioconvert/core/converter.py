@@ -51,7 +51,7 @@ class Bioconvert(object):
 
     """
     def __init__(self, infile, outfile, in_fmt=None, out_fmt=None, force=False,
-            threads=None):
+            threads=None, extra=None):
         """.. rubric:: constructor
 
         :param str infile: The path of the input file.
@@ -145,6 +145,9 @@ class Bioconvert(object):
         # If --threads provided, we update the threads attribute
         self.converter = class_converter(infile, outfile)
         self.converter.threads = threads
+        if extra:
+            self.converter.extra_arguments = extra
+
         _log.info("Using {} class with {} threads".format(
             self.converter.name,
             self.converter.threads))

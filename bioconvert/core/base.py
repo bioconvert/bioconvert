@@ -259,6 +259,7 @@ class ConvBase(metaclass=ConvMeta):
     _is_compressor = False
     # Can be overriden and if True, new argument --thread is added automatically
     _threading = False
+    _extra_arguments = ""
 
     # threads to be used by default if argument is required in a method
     # this will be overriden if _threading set to True and therefore --threads
@@ -340,10 +341,14 @@ class ConvBase(metaclass=ConvMeta):
 
     def execute(self, cmd, ignore_errors=False, verbose=False, shell=False):
 
+        if ">" in cmd:
+            cmd = cmd.replace(">", "{} >".format(self.extra_arguments))
+        else:
+            cmd = cmd + self.extra_arguments
+
         if shell is True or self._execute_mode == "shell":
             self.shell(cmd)
             return
-        _log.info("CMD: {}".format(cmd))
         self._execute(cmd, ignore_errors, verbose)
 
     def _execute(self, cmd, ignore_errors=False, verbose=False):
