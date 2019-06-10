@@ -55,7 +55,7 @@ install:
   - conda install --yes --file requirements.txt
   - conda install --yes --file requirements_tools.txt
   - conda install --yes --file requirements_dev.txt
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then conda install --yes requirements_tools_linux_only.txt;  fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then conda install --yes --file requirements_tools_linux_only.txt;  fi
   - conda install --yes  coverage
   # Issue on 24th May 2019 telling RuntimeError: module compiled against API YY
   # version but this version of numpy is XX when using pyBigWig
