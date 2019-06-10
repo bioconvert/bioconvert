@@ -6,7 +6,6 @@ bioawk
 deeptools
 dsrc
 go=1.10.3
-mosdepth
 pbzip2
 pigz
 plink
