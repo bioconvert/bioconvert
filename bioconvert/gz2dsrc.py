@@ -49,6 +49,7 @@ class GZ2DSRC(ConvBase):
 
     """
     _default_method = "pigzdsrc"
+    _threading = True
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

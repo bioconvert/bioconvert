@@ -24,7 +24,6 @@
 ###########################################################################
 
 """NEXUS2PHYLIP conversion"""
-import os
 
 import colorlog
 
@@ -53,12 +52,11 @@ class NEXUS2PHYLIP(ConvBase):
         self.alphabet = alphabet
 
     @requires("go")
-    def _method_goalign(self, threads=None, *args, **kwargs):
+    def _method_goalign(self, *args, **kwargs):
         """
         Convert :term:`NEXUS` interleaved file in :term:`PHYLIP` format using goalign tool.
         https://github.com/fredericlemoine/goalign
 
-        :param threads: not used.
         """
         self.install_tool('goalign')
         cmd = 'goalign reformat phylip -i {infile} -o {outfile} -x'.format(

@@ -25,10 +25,8 @@
 
 """Convert :term:`Fastq` format to :term:`Fastq` formats"""
 from bioconvert import ConvBase
-from bioconvert.core import extensions
 import colorlog
 
-from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
@@ -41,8 +39,6 @@ class FASTA2FASTQ(ConvBase):
     """
 
     """
-    #input_ext = extensions.fasta
-    #output_ext = extensions.fastq
     _default_method = "pysam"
 
     def __init__(self, infile, outfile):
@@ -73,12 +69,3 @@ class FASTA2FASTQ(ConvBase):
                                                                  qual.sequence))
 
 
-    @classmethod
-    def get_additional_arguments(cls):
-        yield ConvArg(
-            names="--quality-file",
-            nargs="?",
-            default=None,
-            type=ConvArg.file,
-            help="The path to the quality file.",
-        )

@@ -45,6 +45,7 @@ class BZ22GZ(ConvBase):
     """
 
     _default_method = "bz2_gz"
+    _threading = True
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

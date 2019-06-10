@@ -49,6 +49,7 @@ class SAM2CRAM(ConvBase):
 
     """
     _default_method = "samtools"
+    _threading = True
 
     def __init__(self, infile, outfile, reference=None, *args, **kargs):
         """.. rubric:: constructor
@@ -95,7 +96,6 @@ class SAM2CRAM(ConvBase):
 
         cmd = "samtools view -@ {} -C {} -T {} > {}".format(
             self.threads, self.infile, reference, self.outfile)
-        print(cmd)
         try:
             self.execute(cmd)
         except:
@@ -110,4 +110,3 @@ class SAM2CRAM(ConvBase):
             #type=ConvArg.file,
             help="reference used",
         )
-

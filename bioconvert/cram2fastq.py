@@ -22,7 +22,6 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`CRAM` file to :term:`FASTQ` file"""
-import os
 from bioconvert import ConvBase
 from easydev.multicore import cpu_count
 
@@ -44,6 +43,7 @@ class CRAM2FASTQ(ConvBase):
 
     """
     _default_method = "samtools"
+    _threading = True
 
     def __init__(self, infile, outfile, reference=None, *args, **kargs):
         """.. rubric:: constructor
@@ -59,7 +59,6 @@ class CRAM2FASTQ(ConvBase):
         .. note:: the API related to the third argument may change in the future.
         """
         super(CRAM2FASTQ, self).__init__(infile, outfile, *args, **kargs)
-        self.threads = cpu_count()
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):

@@ -59,22 +59,20 @@ class STOCKHOLM2PHYLIP(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
-    def _method_biopython(self, threads=None, *args, **kwargs):
+    def _method_biopython(self, *args, **kwargs):
         """
         Convert :term:`STOCKHOLM` interleaved file in :term:`PHYLIP` format using biopython.
 
-        :param threads: not used
         """
         sequences = list(SeqIO.parse(self.infile, "stockholm", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "phylip")
         _log.info("Converted %d records to phylip" % count)
 
     @requires("squizz")
-    def _method_squizz(self, threads=None, *args, **kwargs):
+    def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`STOCKHOLM` interleaved file in :term:`PHYLIP` interleaved format using squizz tool.
 
-        :param threads: not used
         """
         cmd = 'squizz -c PHYLIPI {infile} > {outfile}'.format(
             infile=self.infile,

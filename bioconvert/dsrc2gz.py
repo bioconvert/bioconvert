@@ -36,6 +36,7 @@ __all__ = ["DSRC2GZ"]
 class DSRC2GZ(ConvBase):
     """Convert compressed fastq.dsrc :term:`DSRC` file into fastq.gz file"""
     _default_method = "dsrcpigz"
+    _threading = True
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

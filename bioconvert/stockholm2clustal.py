@@ -54,22 +54,20 @@ class STOCKHOLM2CLUSTAL(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
-    def _method_biopython(self, threads=None, *args, **kwargs):
+    def _method_biopython(self, *args, **kwargs):
         """
         Convert :term:`STOCKHOLM` interleaved file in :term:`CLUSTAL` format using biopython.
 
-        :param threads: not used
         """
         sequences = list(SeqIO.parse(self.infile, "stockholm", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "clustal")
         _log.info("Converted %d records to clustal" % count)
 
     @requires("squizz")
-    def _method_squizz(self, threads=None, *args, **kwargs):
+    def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`STOCKHOLM` file in :term:`CLUSTAL` format using squizz tool.
 
-        :param threads: not used
         """
         cmd = 'squizz -c CLUSTAL {infile} > {outfile}'.format(
             infile=self.infile,

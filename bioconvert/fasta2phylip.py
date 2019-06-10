@@ -24,7 +24,6 @@
 ###########################################################################
 
 """FASTA2PHYLIP conversion """
-import os
 
 import colorlog
 from Bio import SeqIO
@@ -56,13 +55,13 @@ class FASTA2PHYLIP(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
-    def _method_biopython(self, threads=None, *args, **kwargs):
+    def _method_biopython(self, *args, **kwargs):
         sequences = list(SeqIO.parse(self.infile, "fasta", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "phylip")
         _log.debug("Converted %d records to phylip" % count)
 
     @requires("squizz")
-    def _method_squizz(self, threads=None, *args, **kwargs):
+    def _method_squizz(self, *args, **kwargs):
         """
         Convert fasta file in Phylip interleaved format using squizz tool.
         The fasta file must be an alignemnt file, yhis mean all the sequences must
@@ -74,7 +73,7 @@ class FASTA2PHYLIP(ConvBase):
         self.execute(cmd)
 
     @requires("go")
-    def _method_goalign(self, threads=None, *args, **kwargs):
+    def _method_goalign(self, *args, **kwargs):
         """
         Convert fasta file in Phylip interleaved format using goalign tool.
         https://github.com/fredericlemoine/goalign

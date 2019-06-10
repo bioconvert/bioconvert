@@ -24,10 +24,8 @@
 ###########################################################################
 
 """NEWICKTONEXUS conversion"""
-import os
 
 import colorlog
-from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -53,15 +51,13 @@ class NEWICK2NEXUS(ConvBase):
         super().__init__(infile, outfile)
 
     @requires("go")
-    def _method_gotree(self, threads=None, *args, **kwargs):
+    def _method_gotree(self, *args, **kwargs):
         """
         Convert :term:`NEWICK`  file in :term:`NEXUS` format using gotree tool.
         https://github.com/fredericlemoine/gotree
 
-        :param threads: not used.
         """
         self.install_tool('gotree')
-        cmd = 'gotree reformat nexus -i {infile} -o {outfile} -f newick'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = 'gotree reformat nexus -i {infile} -o {outfile} -f newick'
+        cmd = cmd.format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

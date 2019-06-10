@@ -24,10 +24,8 @@
 ###########################################################################
 
 """FASTA2NEXUS conversion"""
-import os
 
 import colorlog
-from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -56,7 +54,7 @@ class FASTA2NEXUS(ConvBase):
         self.alphabet = alphabet
 
     @requires("go")
-    def _method_goalign(self, threads=None, *args, **kwargs):
+    def _method_goalign(self, *args, **kwargs):
         """
         Convert fasta file in Nexus format using goalign tool.
         https://github.com/fredericlemoine/goalign
