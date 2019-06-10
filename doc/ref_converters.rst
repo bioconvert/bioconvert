@@ -96,8 +96,6 @@ All converters documentation
 ----------------------------
 
 
-.. inheritance-diagram:: bioconvert.abi2fasta
-
 
 .. automodule:: bioconvert.abi2fasta
     :members:
