@@ -86,56 +86,41 @@ def main(args=None):
                 args.insert(0, converter[0].__name__.lower())
             # if the ext_pair matches multiple converters
             else:
-
                 _log.error("Ambiguous extension.\n"
                            "You must specify the right conversion  Please "
                            "choose a conversion from: \n\n"
                            "{}".format("\n".join([c.__name__.lower() for c in converter])))
                 sys.exit(1)
 
-
     # Set the default level
     bioconvert.logger.level = "ERROR"
 
     # Changing the log level before argparse is run
-    try:
-        bioconvert.logger.level = args[args.index("-l") + 1]
-    except:
-        pass
-    try:
-        bioconvert.logger.level = args[args.index("--level") + 1]
-    except:
-        pass
+    try: bioconvert.logger.level = args[args.index("-l") + 1]
+    except: pass
+    try: bioconvert.logger.level = args[args.index("--level") + 1]
+    except: pass
+    try: bioconvert.logger.level = args[args.index("-v") + 1]
+    except: pass
+    try: bioconvert.logger.level = args[args.index("--verbosity") + 1]
+    except: pass
 
-    try:
-        bioconvert.logger.level = args[args.index("-v") + 1]
-    except:
-        pass
-    try:
-        bioconvert.logger.level = args[args.index("--verbosity") + 1]
-    except:
-        pass
-
+    # if there is the ability to convert from A to B to C, we must set
+    # the option -a (--allow_indirect_conversion)
     allow_indirect_conversion = False
-    try:
-        args.index("--allow-indirect-conversion")
+    if "--allow_indirect_conversion" in args or "-a" in args:
         allow_indirect_conversion = True
-    except:
-        pass
-    try:
-        args.index("-a")
-        allow_indirect_conversion = True
-    except:
-        pass
 
 
+    # Now, the instanciation of the main bioconvert user interface
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
-                                         description="""Convertor infer the
-                                         formats from the first command. We do
-                                         not scan the input file. Therefore
-                                         users must ensure that their input
-                                         format files are properly
-                                         formatted.""",
+                                         description="",
+                                         #""Convertor infer the
+                                         #formats from the first command. We do
+                                         #not scan the input file. Therefore
+                                         #users must ensure that their input
+                                         #format files are properly
+                                         #formatted.""",
                                          formatter_class=argparse.RawDescriptionHelpFormatter,
                                          epilog="""
 Bioconvert contains tens of converters whose list is available as follows:
@@ -152,6 +137,10 @@ format) into a fasta file:
 
     bioconvert fastq2fasta test.txt test.fasta
 
+If you use known extensions, the converter may be omitted::
+
+    bioconvert test.fastq test.fasta
+
 Users must ensure that their input format files are properly formatted.
 
 If there is a conversion from A to B and another for B to C, you can also
@@ -161,10 +150,8 @@ shows all possible indirect conversions:
     bioconvert --help -a
 
 Please visit http://bioconvert.readthedocs.org for more information about the
-project or formats available.
-
-Bioconvert is an open source collaborative project. Please feel free to 
-join us at https://github/biokit/bioconvert
+project or formats available. Would you wish to help, please join our open 
+source collaborative project at https://github/biokit/bioconvert
 """)
 
     subparsers = arg_parser.add_subparsers(help='sub-command help',
@@ -227,6 +214,12 @@ Please feel free to join us at https://github/biokit/bioconvert
     arg_parser.add_argument("-v", "--verbosity",
                             default=bioconvert.logger.level,
                             help="Set the outpout verbosity.",
+                            choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+                            )
+
+    arg_parser.add_argument("-l", "--level",
+                            default=bioconvert.logger.level,
+                            help="Set the outpout verbosity. Same as --verbosity",
                             choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
                             )
 
@@ -319,7 +312,8 @@ Please feel free to join us at https://github/biokit/bioconvert
         sys.exit(0)
 
     if args.converter is None:
-        msg = 'No converter specified. You can list converter by doing bioconvert --help'
+        msg = "No converter specified. "
+        msg += "You can list all converters by using:\n\n\tbioconvert --help"
         arg_parser.error(msg)
 
     if not (getattr(args, "show_methods", False) or args.input_file):
@@ -394,6 +388,12 @@ def analysis(args):
     else:
         outfile = args.output_file
 
+    # check whether a valid --thread option was provided
+    if "threads" in args:
+        threads = args.threads
+    else:
+        threads = None
+
     # Call a generic wrapper of all available conversion
     conv = Bioconvert(
         infile,
@@ -401,6 +401,7 @@ def analysis(args):
         in_fmt=in_fmt,
         out_fmt=out_fmt,
         force=args.force,
+        threads=threads
     )
 
     # # Users may provide information about the input file.
@@ -425,9 +426,7 @@ def analysis(args):
                            " So add extension to the output file name or use"
                            " --output-format option.")
 
-    bioconvert.logger.info("Converting from {} to {}".format(conv.in_fmt, conv.out_fmt))
-
-    # params = {"threads": args.threads}
+    #bioconvert.logger.info("Converting from {} to {}".format(conv.in_fmt, conv.out_fmt))
 
     if args.benchmark:
         conv.boxplot_benchmark(N=args.benchmark_N)
