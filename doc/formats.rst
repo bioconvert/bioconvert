@@ -108,8 +108,8 @@ File format produced by ABI sequencing machine. It produces ABI "Sanger" capilla
     :class:`~bioconvert.abi2fastq.ABI2FASTQ`,
     :class:`~bioconvert.abi2fasta.ABI2FASTA`
 
-.. seealso:: :ref:`format_scf`, :class:`~bioconvert.scf2fasta.SCF2Fasta`,
-    :class:`~bioconvert.scf2fastq.SCF2Fastq`,
+.. seealso:: :ref:`format_scf`, :class:`~bioconvert.scf2fasta.SCF2FASTA`,
+    :class:`~bioconvert.scf2fastq.SCF2FASTQ`,
 
 .. admonition::  References
 
@@ -840,9 +840,9 @@ The accession number or sequence version included after the identifier::
 
 .. admonition:: Bioconvert conversions
 
-    :class:`~bioconvert.fastq2fasta.FastQ2FastA`, :class:`~bioconvert.fasta2fasta.FastA2FastQ`,
-    :class:`~bioconvert.fasta2clustal.FastA2Clustal`, :class:`~bioconvert.fasta2nexus.FastA2Nexus`,
-    :class:`~bioconvert.fasta2twobit.FastA2TwoBit`
+    :class:`~bioconvert.fastq2fasta.FASTQ2FASTA`, :class:`~bioconvert.fasta2fasta.FASTA2FASTQ`,
+    :class:`~bioconvert.fasta2clustal.FASTA2CLUSTAL`, :class:`~bioconvert.fasta2nexus.FASTA2NEXUS`,
+    :class:`~bioconvert.fasta2twobit.FASTA2TWOBIT`
 
 .. seealso:: :ref:`format_fastq` and :ref:`format_qual`
 .. admonition::  References
@@ -909,7 +909,7 @@ An example sequence in FASTQ format is::
 
 .. admonition:: Bioconvert conversions
 
-    :class:`~bioconvert.fastq2fasta.FastQ2FastA`, :class:`~bioconvert.fasta2fasta.FastA2FastQ`
+    :class:`~bioconvert.fastq2fasta.FASTQ2FASTA`, :class:`~bioconvert.fasta2fasta.FASTA2FASTQ`
 
 .. seealso:: :ref:`format_fasta` and :ref:`format_qual`
 
@@ -1026,7 +1026,7 @@ the next by a single tab.
 
 .. admonition:: Bioconvert conversions
 
-    :class:`~bioconvert.gfa2fasta.GFA2Fasta`
+    :class:`~bioconvert.gfa2fasta.GFA2FASTA`
 
 .. admonition:: References:
 
@@ -1867,8 +1867,8 @@ QUAL files include qualities of each nucleotide in :ref:`format_fasta` format.
 
 .. admonition:: Bioconvert conversions
 
-    - :class:`~bioconvert.fastq2fasta.FastQ2FastA`
-    - :class:`~bioconvert.fasta2fasta.FastA2FastQ`
+    - :class:`~bioconvert.fastq2fasta.FASTQ2FASTA`
+    - :class:`~bioconvert.fasta2fasta.FASTA2FASTQ`
 
 .. seealso:: :ref:`format_fasta` and :ref:`format_fastq`
 
@@ -2122,13 +2122,13 @@ insertions/deletions, copy number variants and structural variants.
 
 .. admonition:: Bioconvert conversions:
 
-    - :class:`~bioconvert.bcf2vcf`
-    - :class:`~bioconvert.bcf2wiggle`
-    - :class:`~bioconvert.vcf2bcf`
-    - :class:`~bioconvert.vcf2bed`
-    - :class:`~bioconvert.vcf2wiggle`
-    - :class:`~bioconvert.vcf2plink`
-    - :class:`~bioconvert.vcf2bplink`
+    - :class:`~bioconvert.bcf2vcf.BCF2VCF`
+    - :class:`~bioconvert.bcf2wiggle.BCF2WIGGLE`
+    - :class:`~bioconvert.vcf2bcf.VCF2BCF`
+    - :class:`~bioconvert.vcf2bed.VCF2BED`
+    - :class:`~bioconvert.vcf2wiggle.VCF2WIGGLE`
+    - :class:`~bioconvert.vcf2plink.VCF2PLINK`
+    - :class:`~bioconvert.vcf2bplink.VCF2BPLINK`
 
 
 .. _format_wig:
@@ -2270,8 +2270,8 @@ sheets are to be found, you can select one or the other.
 
 .. admonition:: Bioconvert conversions:
 
-    :class:`~bioconvert.xls2csv`,
-    :class:`~bioconvert.xlsx2csv`,
+    :class:`~bioconvert.xls2csv.XLS2CSV`,
+    :class:`~bioconvert.xlsx2csv.XLSZ2CSV`,
 
 .. admonition::  References
 
@@ -2294,7 +2294,8 @@ sheets are to be found, you can select one or the other.
 
 .. admonition:: Bioconvert conversions:
 
-    :class:`~bioconvert.xls2csv.XLS2CSV`, :class:`~bioconvert.xlsx2csv.XLSX2CSV`
+    :class:`~bioconvert.xls2csv.XLS2CSV`, 
+    :class:`~bioconvert.xlsx2csv.XLSX2CSV`
 
 .. seealso::  :ref:`format_xls` format.
 
@@ -2397,8 +2398,8 @@ Example::
 
 .. admonition:: Bioconvert conversions
 
-    :class:`~bioconvert.json2yaml`,
-    :class:`~bioconvert.yaml2json`.
+    :class:`~bioconvert.json2yaml.JSON2YAML`,
+    :class:`~bioconvert.yaml2json.JSON2YAML`.
 
 
 .. admonition:: References

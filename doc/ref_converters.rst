@@ -52,7 +52,7 @@ Summary
 	bioconvert.genbank2embl
 	bioconvert.genbank2fasta
 	bioconvert.genbank2gff3
-	bioconvert.gff23gff3
+	bioconvert.gff22gff3
 	bioconvert.gff32gff2
 	bioconvert.gfa2fasta
 	bioconvert.gz2bz2
@@ -101,6 +101,11 @@ All converters documentation
     :private-members:
 
 .. automodule:: bioconvert.abi2fastq
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.abi2qual
     :members:
     :synopsis:
     :private-members:
