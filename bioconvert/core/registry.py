@@ -178,7 +178,6 @@ class Registry(object):
         format_pair = (format_pair[0].upper(), format_pair[1].upper())
         return self._fmt_registry[format_pair]
 
-
     def get_ext(self, ext_pair):
         """
         copy the registry into a dict that behaves like a list
@@ -204,9 +203,9 @@ class Registry(object):
 
         if format_pair[1] is tuple:
             for pair in format_pair[1]:
-                
+
                 pair = pair.upper()
-            format_pair[1] = (format_pair[0],())
+            format_pair[1] = (format_pair[0], ())
         format_pair = (format_pair[0].upper(), format_pair[1].upper())
         return format_pair in self._fmt_registry
 
