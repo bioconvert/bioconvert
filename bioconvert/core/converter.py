@@ -146,7 +146,7 @@ class Bioconvert(object):
         self.converter = class_converter(infile, outfile)
         self.converter.threads = threads
         if extra:
-            self.converter.extra_arguments = extra
+            self.converter._extra_arguments = extra
 
         _log.info("Using {} class with {} threads".format(
             self.converter.name,
