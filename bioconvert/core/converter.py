@@ -144,11 +144,12 @@ class Bioconvert(object):
 
         # If --threads provided, we update the threads attribute
         self.converter = class_converter(infile, outfile)
-        self.converter.threads = threads
+        if threads is not None:
+            self.converter.threads = threads
         if extra:
             self.converter._extra_arguments = extra
 
-        _log.info("Using {} class with {} threads".format(
+        _log.info("Using {} class (with {} threads if needed)".format(
             self.converter.name,
             self.converter.threads))
 
