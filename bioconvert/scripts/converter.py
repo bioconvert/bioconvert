@@ -108,8 +108,18 @@ def main(args=None):
     # if there is the ability to convert from A to B to C, we must set
     # the option -a (--allow_indirect_conversion)
     allow_indirect_conversion = False
-    if "--allow_indirect_conversion" in args or "-a" in args:
+
+    try:
+        args.index("--allow-indirect-conversion")
         allow_indirect_conversion = True
+    except:
+        pass
+    try:
+        args.index("-a")
+    except:
+        pass
+
+
 
 
     # Now, the instanciation of the main bioconvert user interface
@@ -244,6 +254,7 @@ Please feel free to join us at https://github/biokit/bioconvert
                             choices=["cytoscape", "cytoscape-all", ],
                             )
 
+
     try:
         args = arg_parser.parse_args(args)
     except SystemExit as e:
@@ -252,6 +263,7 @@ Please feel free to join us at https://github/biokit/bioconvert
             raise e
         # Parsing failed, trying to guess converter
         from bioconvert.core.levenshtein import wf_levenshtein as lev
+
         sub_command = None
         args_i = 0
         while sub_command is None and args_i < len(args):
@@ -263,6 +275,7 @@ Please feel free to join us at https://github/biokit/bioconvert
             ):
                 sub_command = args[args_i]
             args_i += 1
+
 
         if sub_command is None:
             # No sub_command found, so letting the initial exception be risen
