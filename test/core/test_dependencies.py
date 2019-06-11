@@ -217,6 +217,7 @@ def test_require_xlrd():
 
 
 # FIXME: fails on travis June 2019 ?
+
 @dependency_test
 def _test_require_all_and_print_test():
     known_missing_dependencies = ["tagada%i" % i for i in range(2)] + ["k8"]
