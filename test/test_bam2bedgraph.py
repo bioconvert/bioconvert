@@ -23,6 +23,12 @@ def test_conv_mosdepth_gz():
 
 def test_conv_mosdepth_wrong_input():
     infile = bioconvert_data("test_measles.sam")
+
+
     with TempFile(suffix=".bedgraph.gz") as tempfile:
-        convert = BAM2BEDGRAPH(infile, tempfile.name)
-        convert(method="mosdepth")
+        try:
+            convert = BAM2BEDGRAPH(infile, tempfile.name)
+            convert(method="mosdepth")
+            assert False
+        except:
+            False

@@ -84,18 +84,22 @@ class BAM2BEDGRAPH(ConvBase):
         """Do the conversion using mosdepth
 
         """
-        try:
-            cmd = "mosdepth .bioconvert -t {}  {}".format(self.threads, self.infile)
-            self.execute(cmd)
-
-            if self.outfile.endswith(".gz"):
-                pass
-            else:
-                cmd = "gunzip -c .bioconvert.per-base.bed.gz > {}".format(self.outfile)
+        # For testing, we need to save into a specific temporary directory
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            print(tmpdir)
+            try:
+                cmd = "mosdepth {}/.bioconvert -t {}  {}".format(tmpdir, self.threads, self.infile)
                 self.execute(cmd)
-        except Exception as err:
-            raise(err)
-        finally:
-            cmd = "rm -f .bioconvert.per-base.bed.gz .bioconvert.per-base.bed.gz.csi"
-            cmd += " .bioconvert.mosdepth.global.dist.txt"
-            self.execute(cmd)
+
+                if self.outfile.endswith(".gz"):
+                    pass
+                else:
+                    cmd = "gunzip -c {}/.bioconvert.per-base.bed.gz > {}".format(tmpdir, self.outfile)
+                    self.execute(cmd)
+            except Exception as err:
+                raise(err)
+            finally:                
+                cmd = "rm -f {name}/.bioconvert.per-base.bed.gz {name}/.bioconvert.per-base.bed.gz.csi"
+                cmd += " {name}/.bioconvert.mosdepth.global.dist.txt"
+                self.execute(cmd.format(name=tmpdir))

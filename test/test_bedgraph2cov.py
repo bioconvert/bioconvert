@@ -6,7 +6,7 @@ from bioconvert.bedgraph2cov import BEDGRAPH2COV
 
 
 @pytest.mark.parametrize("method", BEDGRAPH2COV.available_methods)
-def test_bedgraph2bed(method):
+def test_bedgraph2cov(method):
     infile = bioconvert_data("test_bedgraph2bed.bedgraph")
     with TempFile(suffix=".cov") as tempfile:
         converter = BEDGRAPH2COV(infile, tempfile.name)
