@@ -476,6 +476,9 @@ class ConvBase(metaclass=ConvMeta):
     def get_additional_arguments(cls):
         return []
 
+
+    # common arguments for the sub command case
+    # when using bioconvert <conversion>
     @staticmethod
     def get_common_arguments():
         yield ConvArg(
