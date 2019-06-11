@@ -116,6 +116,7 @@ def main(args=None):
         pass
     try:
         args.index("-a")
+        allow_indirect_conversion = True
     except:
         pass
 
