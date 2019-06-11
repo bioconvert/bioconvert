@@ -1,5 +1,5 @@
 from bioconvert import ConvBase
-from bioconvert.bam2bed import BAM2BED
+from bioconvert.bam2cov import BAM2COV
 from bioconvert import bioconvert_data
 from easydev import TempFile
 
@@ -8,7 +8,7 @@ def test_convbase():
     infile = bioconvert_data("test_measles.fa")
 
     with TempFile(suffix=".bed") as outfile:
-        BAM2BED(infile, outfile.name)
+        BAM2COV(infile, outfile.name)
 
     # Wrong name
     try:

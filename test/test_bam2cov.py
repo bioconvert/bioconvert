@@ -16,6 +16,3 @@ def test_conv(method):
         # fro the unzipped version of biokit/data/converters/measles.bed
         assert md5(tempfile.name) == "84702e19ba3a27900f271990e0cc72a0"
 
-        # convert = BAM2BED(infile, tempfile.name)
-        # convert(method="bedtools")
-        # assert md5(tempfile.name) == "84702e19ba3a27900f271990e0cc72a0"
