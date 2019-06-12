@@ -2,6 +2,7 @@ from bioconvert.bam2bedgraph import BAM2BEDGRAPH
 from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
+import os
 
 @pytest.mark.parametrize("method", BAM2BEDGRAPH.available_methods)
 def test_conv(method):
