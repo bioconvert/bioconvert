@@ -445,10 +445,9 @@ def analysis(args):
                            " So add extension to the output file name or use"
                            " --output-format option.")
 
-    #bioconvert.logger.info("Converting from {} to {}".format(conv.in_fmt, conv.out_fmt))
-
     if args.benchmark:
-        conv.boxplot_benchmark(N=args.benchmark_N)
+        conv.boxplot_benchmark(N=args.benchmark_N,
+            to_include=args.benchmark_methods)
         import pylab
 
         try:

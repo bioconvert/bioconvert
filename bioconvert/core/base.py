@@ -532,6 +532,13 @@ class ConvBase(metaclass=ConvMeta):
             help="Number of trials for each methods",
         )
         yield ConvArg(
+            names=["-B", "--benchmark-methods", ],
+            default="all",
+            nargs="+",
+            type=str,
+            help="Methods to include",
+        )
+        yield ConvArg(
             names=["-a", "--allow-indirect-conversion", ],
             default=False,
             action="store_true",
