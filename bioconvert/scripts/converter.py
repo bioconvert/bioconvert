@@ -448,6 +448,8 @@ def analysis(args):
     if args.benchmark:
         conv.boxplot_benchmark(N=args.benchmark_N,
             to_include=args.benchmark_methods)
+
+        print(args.benchmark_methods)
         import pylab
 
         try:

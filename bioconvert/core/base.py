@@ -421,6 +421,9 @@ class ConvBase(metaclass=ConvMeta):
         see :class:`~bioconvert.core.benchmark.Benchmark` for details.
 
         """
+        if to_include == "all":
+            to_include = []
+
         self._benchmark = Benchmark(self, N=N, to_exclude=to_exclude,
                                     to_include=to_include)
         self._benchmark.include_dummy = include_dummy
