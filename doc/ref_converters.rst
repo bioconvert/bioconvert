@@ -10,7 +10,7 @@ Summary
 	bioconvert.abi2fasta
 	bioconvert.abi2fastq
 	bioconvert.abi2qual
-	bioconvert.bam2bed
+	bioconvert.bam2cov
 	bioconvert.bam2bedgraph
 	bioconvert.bam2bigwig
 	bioconvert.bam2cram
@@ -23,7 +23,7 @@ Summary
 	bioconvert.bcf2vcf
 	bioconvert.bcf2wiggle
 	bioconvert.bed2wiggle
-	bioconvert.bedgraph2bed
+	bioconvert.bedgraph2cov
 	bioconvert.bedgraph2bigwig
 	bioconvert.bedgraph2wiggle
 	bioconvert.bigbed2wiggle
@@ -52,7 +52,7 @@ Summary
 	bioconvert.genbank2embl
 	bioconvert.genbank2fasta
 	bioconvert.genbank2gff3
-	bioconvert.gff23gff3
+	bioconvert.gff22gff3
 	bioconvert.gff32gff2
 	bioconvert.gfa2fasta
 	bioconvert.gz2bz2
@@ -95,6 +95,8 @@ Summary
 All converters documentation
 ----------------------------
 
+
+
 .. automodule:: bioconvert.abi2fasta
     :members:
     :synopsis:
@@ -105,7 +107,12 @@ All converters documentation
     :synopsis:
     :private-members:
 
-.. automodule:: bioconvert.bam2bed
+.. automodule:: bioconvert.abi2qual
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.bam2cov
     :members:
     :synopsis:
     :private-members:
@@ -170,7 +177,7 @@ All converters documentation
     :synopsis:
     :private-members:
 
-.. automodule:: bioconvert.bedgraph2bed
+.. automodule:: bioconvert.bedgraph2cov
     :members:
     :synopsis:
     :private-members:

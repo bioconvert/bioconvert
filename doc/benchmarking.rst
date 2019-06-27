@@ -33,7 +33,7 @@ In practice, you could use the following code to generate the boxplot:
 
     # Perfrm the benchmarking
     from bioconvert.fastq2fasta import FASTQ2FASTA
-    c = Fastq2Fasta(infile.name, outfile.name)
+    c = FASTQ2FASTA(infile.name, outfile.name)
     c.boxplot_benchmark(to_exclude=["GATB"])
 
     infile.delete()

@@ -23,7 +23,7 @@ class ABI2FASTA(ConvBase):
 
     :term:`ABI` files are created by ABI sequencing machine and includes
     PHRED quality scores for base calls. This allows the creation of
-    :term:`FastQ` files.
+    :term:`FastA` files.
 
     """
 

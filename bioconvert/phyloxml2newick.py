@@ -24,10 +24,8 @@
 ###########################################################################
 
 """PHYLOXML2NEWICK conversion"""
-import os
 
 import colorlog
-from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -40,26 +38,24 @@ __all__ = ['PHYLOXML2NEWICK']
 
 class PHYLOXML2NEWICK(ConvBase):
     """
-    Converts a tree file from :term:`PHYLOXML` format to :term:`NEWICK` format. ::
+    Converts a tree file from :term:`PHYLOXML` format to :term:`NEWICK` format. 
     """
     _default_method = 'gotree'
 
-    def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
+    def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
 
         :param str infile: input :term:`PHYLOXML` file.
         :param str outfile: (optional) output :term:`NEWICK` file
         """
         super().__init__(infile, outfile)
-        self.alphabet = alphabet
 
-    @requires("conda")
-    def _method_gotree(self, threads=None, *args, **kwargs):
+    @requires("go")
+    def _method_gotree(self, *args, **kwargs):
         """
         Convert :term:`PHYLOXML`  file in :term:`NEWICK` format using gotree tool.
         https://github.com/fredericlemoine/gotree
 
-        :param threads: not used.
         """
         self.install_tool('gotree')
         cmd = 'gotree reformat newick -i {infile} -o {outfile} -f phyloxml'.format(

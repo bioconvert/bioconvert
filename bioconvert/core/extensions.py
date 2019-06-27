@@ -45,6 +45,7 @@ extensions = {
     'cdao': ["cdao"],                           # phylo
     'cram': ["cram"],                           # alignment
     'clustal': ["clustal", "aln", "clw"],       # phylo
+    'cov': ["cov"],                       # coverage (chrom name,  pos, depth)
     'csv': ["csv"],                             # database
     'dsrc': ['dsrc'],                           # compression
     'embl': ['embl'],                           # annotation/sequence

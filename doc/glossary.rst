@@ -85,6 +85,11 @@ Note that formats mentionned here below have dedicated description in the
         The alignment format of Clustal X and Clustal W. See
         :ref:`format_clustal` page for details.
 
+    COV
+
+        A bioconvert format to store coverage in the form of a 3 column 
+        tab-tabulated file. See :ref:`format_cov` page for details.
+
     CRAM
 
         A more compact version of BAM files used to store Sequence Alignment 

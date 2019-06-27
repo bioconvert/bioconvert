@@ -53,7 +53,7 @@ class NEXUS2PHYLOXML(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("conda")
+    @requires("go")
     def _method_gotree(self, *args, **kwargs):
         """uses gotree tool:
 

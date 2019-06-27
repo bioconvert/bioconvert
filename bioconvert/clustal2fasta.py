@@ -21,12 +21,10 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-import os
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
-from bioconvert.core import extensions
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
@@ -57,35 +55,32 @@ class CLUSTAL2FASTA(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
-    def _method_biopython(self, threads=None, *args, **kwargs):
+    def _method_biopython(self, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using biopython.
 
-        :param threads: not used.
         """
         sequences = list(SeqIO.parse(self.infile, "clustal", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "fasta")
         _log.info("Converted %d records to fasta" % count)
 
     @requires("squizz")
-    def _method_squizz(self, threads=None, *args, **kwargs):
+    def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` file in :term:`FASTA` format using squizz tool.
 
-        :param threads: not used.
         """
         cmd = 'squizz -c FASTA {infile} > {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
 
-    @requires("conda")
-    def _method_goalign(self, threads=None, *args, **kwargs):
+    @requires("go")
+    def _method_goalign(self, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` file in  :term:`FASTA` format using goalign tool.
         https://github.com/fredericlemoine/goalign
 
-        :param threads: not used.
         """
         self.install_tool('goalign')
         cmd = 'goalign reformat fasta --clustal -i {infile} -o {outfile}'.format(

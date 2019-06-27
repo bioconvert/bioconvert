@@ -29,10 +29,10 @@ from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 
-__all__ = ["BAM2BED"]
+__all__ = ["BAM2COV"]
 
 
-class BAM2BED(ConvBase):
+class BAM2COV(ConvBase):
     """Convert sorted :term:`BAM` file into :term:`BED` file 
 
     Available methods:
@@ -44,18 +44,6 @@ class BAM2BED(ConvBase):
     - bedtools::
 
         bedtools genomecov -d -ibam INPUT > OUTPUT
-
-
-    .. plot::
-
-         from bioconvert.bam2bed import BAM2BED
-         from bioconvert import bioconvert_data
-         from easydev import TempFile
-
-         with TempFile(suffix=".bed") as fh:
-             infile = bioconvert_data("test_measles.sorted.bam")
-             convert = BAM2BED(infile, fh.name)
-             convert.boxplot_benchmark()
 
 
     Note that this BED format is of the form::

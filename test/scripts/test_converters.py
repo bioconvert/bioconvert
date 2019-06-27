@@ -4,7 +4,7 @@ import pytest
 from easydev import TempFile, md5
 
 from bioconvert import bioconvert_data
-from bioconvert.bam2bed import BAM2BED
+from bioconvert.bam2cov import BAM2COV
 from bioconvert.scripts import converter
 
 
@@ -47,12 +47,12 @@ def test_converter_without_converter():
         assert md5(tempfile1.name) == md5(tempfile2.name)
 
 
-@pytest.mark.skipif(BAM2BED._method_bedtools.is_disabled, reason="missing dependencies")
+@pytest.mark.skipif(BAM2COV._method_bedtools.is_disabled, reason="missing dependencies")
 def test_converter2():
     infile = bioconvert_data("test_measles.sorted.bam")
     with TempFile(suffix=".bed") as tempfile:
         import sys
-        sys.argv = ["bioconvert", "bam2bed", infile, tempfile.name,
+        sys.argv = ["bioconvert", "bam2cov", infile, tempfile.name,
                     "--method", "bedtools", "--force"]
         converter.main()
 

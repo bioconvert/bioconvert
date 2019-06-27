@@ -257,9 +257,15 @@ class ConvBase(metaclass=ConvMeta):
     _default_method = None
     _library_to_install = None
     _is_compressor = False
+    # Can be overriden and if True, new argument --thread is added automatically
+    _threading = False
+    _extra_arguments = ""
 
     # threads to be used by default if argument is required in a method
+    # this will be overriden if _threading set to True and therefore --threads
+    # set by the user. It is feed back into Bioconvert class
     threads = cpu_count()
+
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
@@ -335,10 +341,15 @@ class ConvBase(metaclass=ConvMeta):
 
     def execute(self, cmd, ignore_errors=False, verbose=False, shell=False):
 
+        if ">" in cmd:
+            lhs, rhs = cmd.split(">", 1)
+            cmd = lhs + self._extra_arguments + ">" + rhs
+        else:
+            cmd = cmd + self._extra_arguments
+
         if shell is True or self._execute_mode == "shell":
             self.shell(cmd)
             return
-        _log.info("CMD: {}".format(cmd))
         self._execute(cmd, ignore_errors, verbose)
 
     def _execute(self, cmd, ignore_errors=False, verbose=False):
@@ -403,13 +414,16 @@ class ConvBase(metaclass=ConvMeta):
             return output
 
     def boxplot_benchmark(self, N=5, rerun=True, include_dummy=False,
-                          to_exclude=[], to_include=[], rot_xticks=90, 
+                          to_exclude=[], to_include=[], rot_xticks=90,
                           boxplot_args={}):
         """Simple wrapper to call :class:`Benchmark` and plot the results
 
         see :class:`~bioconvert.core.benchmark.Benchmark` for details.
 
         """
+        if to_include == "all":
+            to_include = []
+
         self._benchmark = Benchmark(self, N=N, to_exclude=to_exclude,
                                     to_include=to_include)
         self._benchmark.include_dummy = include_dummy
@@ -450,17 +464,24 @@ class ConvBase(metaclass=ConvMeta):
     @classmethod
     def add_argument_to_parser(cls, sub_parser):
         sub_parser.description = cls.get_description()
-        for arg in itertools.chain(cls.get_common_arguments_for_converter(), cls.get_additional_arguments()):
+        for arg in itertools.chain(cls.get_common_arguments_for_converter(),
+                                   cls.get_additional_arguments()):
             arg.add_to_sub_parser(sub_parser)
 
     @classmethod
     def get_description(cls):
-        return "Allow to convert file in '%s' to '%s' format." % ConvMeta.split_converter_to_format(cls.__name__)
+        msg = "Convert file from '{}' to '{}' format. "
+        msg += "See bioconvert.readthedocs.io for details" 
+        msg = msg.format(*ConvMeta.split_converter_to_format(cls.__name__))
+        return msg
 
     @classmethod
     def get_additional_arguments(cls):
         return []
 
+
+    # common arguments for the sub command case
+    # when using bioconvert <conversion>
     @staticmethod
     def get_common_arguments():
         yield ConvArg(
@@ -495,7 +516,7 @@ class ConvBase(metaclass=ConvMeta):
             help="Let exception ending the execution be raised and displayed",
         )
         yield ConvArg(
-            names=["-m", "--batch", ],
+            names=["-X", "--batch", ],
             default=False,
             action="store_true",
             help="Allow conversion of a set of files using wildcards. You "
@@ -514,20 +535,34 @@ class ConvBase(metaclass=ConvMeta):
             help="Number of trials for each methods",
         )
         yield ConvArg(
+            names=["-B", "--benchmark-methods", ],
+            default="all",
+            nargs="+",
+            type=str,
+            help="Methods to include",
+        )
+        yield ConvArg(
             names=["-a", "--allow-indirect-conversion", ],
             default=False,
             action="store_true",
             help="Allow to chain converter when direct conversion is absent",
         )
+        yield ConvArg(
+            names=["-e", "--extra-arguments", ],
+            default="",
+            help="Any arguments accepted by the method's tool",
+        )
+
 
     @classmethod
     def get_common_arguments_for_converter(cls):
         for a in ConvBase.get_common_arguments():
             yield a
         try:
-            # Some converter does not have any method and work in __call__, so preventing to crash by searching for them
+            # Some converters do not have any method and work
+            # in __call__, so preventing to crash by searching for them
             yield ConvArg(
-                names=["-c", "--method", ],
+                names=["-m", "--method", ],
                 nargs="?",
                 default=cls._get_default_method(cls),
                 help="The method to use to do the conversion.",
@@ -542,6 +577,15 @@ class ConvBase(metaclass=ConvMeta):
             action="store_true",
             help="A converter may have several methods",
         )
+
+        if cls._threading:
+            yield ConvArg(
+               names=["-t", "--threads"],
+               #nargs=1,
+               type=int,
+               default=cls.threads,
+               help="threads to be used",
+            )
 
 
 # Implementing a class creator

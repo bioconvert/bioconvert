@@ -44,6 +44,7 @@ class BAM2CRAM(ConvBase):
 
     """
     _default_method = "samtools"
+    _threading = True
 
     def __init__(self, infile, outfile, reference=None, *args, **kargs):
         """.. rubric:: constructor
@@ -75,7 +76,6 @@ class BAM2CRAM(ConvBase):
                     logger.debug("Reference exists ({}).".format(reference))
 
             self.reference = reference
-        self.threads = cpu_count()
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):

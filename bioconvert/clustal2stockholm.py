@@ -21,7 +21,6 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-import os
 import colorlog
 from Bio import SeqIO
 
@@ -53,26 +52,22 @@ class CLUSTAL2STOCKHOLM(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
-    def _method_biopython(self, threads=None, *args, **kwargs):
+    def _method_biopython(self, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using biopython.
 
-        :param threads: not used.
         """
         sequences = list(SeqIO.parse(self.infile, "clustal", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "stockholm")
         _log.info("Converted %d records to stockholm" % count)
 
     @requires("squizz")
-    def _method_squizz(self, threads=None, *args, **kwargs):
+    def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` file in :term:`STOCKHOLM` format using squizz tool.
 
-        :param threads: not used.
         """
         cmd = 'squizz -c STOCKHOLM {infile} > {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
-
-

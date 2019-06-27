@@ -33,22 +33,6 @@ logger = colorlog.getLogger(__name__)
 class BAM2TSV(ConvBase):
     """
 
-    .. plot::
-
-        from bioconvert.bam2tsv import BAM2TSV
-        from bioconvert import bioconvert_data
-        from easydev import TempFile
-
-        with TempFile(suffix=".tsv") as fh:
-            infile = bioconvert_data("test_measles.sorted.bam")
-            convert = BAM2TSV(infile, fh.name)
-            convert.boxplot_benchmark()
-
-
-    methods available:
-
-    - samtools
-    - pysam
     """
     _default_method = "samtools"
 

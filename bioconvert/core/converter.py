@@ -46,11 +46,12 @@ class Bioconvert(object):
     ::
 
         from bioconvert import Bioconvert
-        c = Bioconvert("test.fastq", "test.fasta")
+        c = Bioconvert("test.fastq", "test.fasta", threads=4, force=True)
 
 
     """
-    def __init__(self, infile, outfile, in_fmt=None, out_fmt=None, force=False):
+    def __init__(self, infile, outfile, in_fmt=None, out_fmt=None, force=False,
+            threads=None, extra=None):
         """.. rubric:: constructor
 
         :param str infile: The path of the input file.
@@ -70,13 +71,12 @@ class Bioconvert(object):
         # check existence of output file. If it exists,
         # fails except if force argument is set to True
         if os.path.exists(outfile) is True:
-            msg = "output file {} exists already".format(outfile)
-            _log.warning("output file exists already")
+            msg = "output file {} exists already.".format(outfile)
             if force is False:
                 _log.critical("output file exists. If you are using bioconvert, use --force ")
                 raise ValueError(msg)
             else:
-                _log.warning("output file will be overwritten")
+                _log.warning(msg + " --force used so will be over written")
 
         # Only fastq files can be compressed with dsrc
         if outfile.endswith(".dsrc"):
@@ -120,7 +120,6 @@ class Bioconvert(object):
             _log.info("Input: {}".format(self.in_fmt))
             _log.info("Output: {}".format(self.out_fmt))
             class_converter = self.mapper[(self.in_fmt, self.out_fmt)]
-            #print(class_converter)
             self.name = class_converter.__name__
         except KeyError:
             # This module name was not found
@@ -143,8 +142,16 @@ class Bioconvert(object):
                 _log.critical("Use --formats to know the available formats and --help for examples")
                 raise Exception(msg)
 
+        # If --threads provided, we update the threads attribute
         self.converter = class_converter(infile, outfile)
-        _log.info("Using {} class".format(self.converter.name))
+        if threads is not None:
+            self.converter.threads = threads
+        if extra:
+            self.converter._extra_arguments = extra
+
+        _log.info("Using {} class (with {} threads if needed)".format(
+            self.converter.name,
+            self.converter.threads))
 
     def __call__(self, *args, **kwargs):
         self.converter(*args, **kwargs)
