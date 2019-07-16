@@ -70,44 +70,48 @@ class Bioconvert(object):
 
         # check existence of output file. If it exists,
         # fails except if force argument is set to True
-        if os.path.exists(outfile) is True:
-            msg = "output file {} exists already.".format(outfile)
-            if force is False:
-                _log.critical("output file exists. If you are using bioconvert, use --force ")
-                raise ValueError(msg)
-            else:
-                _log.warning(msg + " --force used so will be over written")
 
-        # Only fastq files can be compressed with dsrc
-        if outfile.endswith(".dsrc"):
-            # only valid for FastQ files extension
-            # dsrc accepts only .fastq file extension
-            if outfile.endswith(".fastq.dsrc") is False:
-                msg = "When compressing with .dsrc extension, " +\
-                    "only files ending with .fastq extension are " +\
-                    "accepted. This is due to the way dsrc executable "+\
-                    "is implemented."
-                _log.critical(msg)
-                raise IOError
+        for file in outfile:
+            if os.path.exists(file) is True:
+                msg = "output file {} exists already.".format(file)
+                if force is False:
+                    _log.critical("output file exists. If you are using bioconvert, use --force ")
+                    raise ValueError(msg)
+                else:
+                    _log.warning(msg + " --force used so will be over written")
 
-        # Case1: fastq.gz to fasta.bz2
-        # Here, we want to decompress, convert, compress.
-        # so we need the extension without .gz or .bz2
-        # We should have inext set to fastq and outext
-        # set to fasta.bz2
-        self.inext = getext(infile, remove_compression=True)
-        self.outext = getext(outfile, remove_compression=True)
+            # Only fastq files can be compressed with dsrc
+            if file.endswith(".dsrc"):
+                # only valid for FastQ files extension
+                # dsrc accepts only .fastq file extension
+                if file.endswith(".fastq.dsrc") is False:
+                    msg = "When compressing with .dsrc extension, " +\
+                        "only files ending with .fastq extension are " +\
+                        "accepted. This is due to the way dsrc executable "+\
+                        "is implemented."
+                    _log.critical(msg)
+                    raise IOError
 
-        # Case 2, fastq.gz to fastq.bz2
-        # data is not changed, just the type of compression, so we want
-        # to keep the original extensions, here inext and outext  will contain
-        # .gz and .bz2
-        if self.inext == self.outext:
-            _log.info("decompression/compression mode")
-            self.inext = getext(infile)
-            self.outext = getext(outfile)
+        for files in infile:
+            # Case1: fastq.gz to fasta.bz2
+            # Here, we want to decompress, convert, compress.
+            # so we need the extension without .gz or .bz2
+            # We should have inext set to fastq and outext
+            # set to fasta.bz2
+            self.inext = getext(files, remove_compression=True)
+            self.outext = getext(file, remove_compression=True)
+
+            # Case 2, fastq.gz to fastq.bz2
+            # data is not changed, just the type of compression, so we want
+            # to keep the original extensions, here inext and outext  will contain
+            # .gz and .bz2
+            if self.inext == self.outext:
+                _log.info("decompression/compression mode")
+                self.inext = getext(files)
+                self.outext = getext(file)
 
         self.mapper = Registry()
+
 
         # From the input parameters 1 and 2, we get the module name
         try:
@@ -115,8 +119,14 @@ class Bioconvert(object):
                 in_fmt = get_format_from_extension(self.inext)
             if out_fmt is None:
                 out_fmt = get_format_from_extension(self.outext)
-            self.in_fmt = in_fmt.upper()
-            self.out_fmt = out_fmt.upper()
+            self.in_fmt = in_fmt
+            self.out_fmt = out_fmt
+            if type(in_fmt) is tuple:
+                self.in_fmt = [format.lower() for format in in_fmt]
+                self.in_fmt = tuple(in_fmt)
+            if type(out_fmt) is tuple:
+                self.out_fmt = [format.lower() for format in out_fmt]
+                self.out_fmt = tuple(out_fmt)
             _log.info("Input: {}".format(self.in_fmt))
             _log.info("Output: {}".format(self.out_fmt))
             class_converter = self.mapper[(self.in_fmt, self.out_fmt)]
@@ -143,6 +153,7 @@ class Bioconvert(object):
                 raise Exception(msg)
 
         # If --threads provided, we update the threads attribute
+
         self.converter = class_converter(infile, outfile)
         if threads is not None:
             self.converter.threads = threads

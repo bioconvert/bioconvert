@@ -169,19 +169,29 @@ source collaborative project at https://github/biokit/bioconvert
                                            dest='converter', )
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
 
+    def key_for_sorting(item):
+        if type(item) is tuple:
+            return item[0][0]
+        if type(item) is str:
+            return item[0]
+
     # show all possible conversion
     for in_fmt, out_fmt, converter, path in \
-            sorted(registry.iter_converters(allow_indirect_conversion),key=lambda t: t[0]):
-        in_fmt = in_fmt.lower()
+            sorted(registry.iter_converters(allow_indirect_conversion),key=key_for_sorting):
+        if type(in_fmt) is tuple:
+            in_fmt = [format.lower() for format in in_fmt]
+            in_fmt = "_".join(in_fmt)
+            out_fmt = out_fmt.lower()
         # check if we have many format in output
-        if type(out_fmt) is tuple:
+        elif type(out_fmt) is tuple:
+            in_fmt = in_fmt.lower()
             out_fmt = [format.lower() for format in out_fmt]
             out_fmt = "_".join(out_fmt)
-            sub_parser_name = "{}2{}".format(in_fmt, out_fmt)
 
         else:
+            in_fmt= in_fmt.lower()
             out_fmt=out_fmt.lower()
-            sub_parser_name = "{}2{}".format(in_fmt, out_fmt)
+        sub_parser_name = "{}2{}".format(in_fmt, out_fmt)
 
         if converter:
             link_char = '-'
@@ -219,7 +229,7 @@ Please feel free to join us at https://github/biokit/bioconvert
         if converter:
             converter.add_argument_to_parser(sub_parser=sub_parser)
         elif path:
-            for a in ConvBase.get_common_arguments():
+            for a in ConvBase.get_common_arguments() or ConvBase.get_IO_arguments():
                 a.add_to_sub_parser(sub_parser)
 
     arg_parser.add_argument("-v", "--verbosity",
@@ -284,15 +294,19 @@ Please feel free to join us at https://github/biokit/bioconvert
 
         conversions = []
         for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
-            in_fmt = in_fmt.lower()
-            if type(out_fmt) is tuple:
+            if type(in_fmt) is tuple:
+                in_fmt = [format.lower() for format in in_fmt]
+                in_fmt = "_".join(in_fmt)
+                out_fmt = out_fmt.lower()
+                conversion_name = "{}2{}".format(in_fmt, out_fmt)
+            elif type(out_fmt) is tuple:
+                in_fmt = in_fmt.lower()
                 out_fmt = [format.lower() for format in out_fmt]
                 out_fmt = "_".join(out_fmt)
                 conversion_name = "{}2{}".format(in_fmt, out_fmt)
-                conversions.append((lev(conversion_name, sub_command), conversion_name))
             else:
                 conversion_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
-                conversions.append((lev(conversion_name, sub_command), conversion_name))
+            conversions.append((lev(conversion_name, sub_command), conversion_name))
         matches = sorted(conversions)[:5]
         if matches[0][0] == 0:
             # sub_command was ok, problem comes from elswhere
@@ -384,17 +398,19 @@ def analysis(args):
 
     # Check that the input file exists
     # Fixes https://github.com/bioconvert/bioconvert/issues/204
-    if os.path.exists(infile) is False:
+    if type(infile) is tuple:
+        for file in infile:
+            if os.path.exists(file) is False:
 
-        # Some convertors uses prefix instead of filename. We could have
-        # ambiguities: if we use a prefix without extension,
-        # we could be confused with the convertor name. This is true
-        # for the plink families
-        if "plink" in args.converter:
-            pass
-        else:
-            _log.error("Input file {} does not exist (analysis)".format(infile))
-            sys.exit(1)
+                # Some convertors uses prefix instead of filename. We could have
+                # ambiguities: if we use a prefix without extension,
+                # we could be confused with the convertor name. This is true
+                # for the plink families
+                if "plink" in args.converter:
+                    pass
+                else:
+                    _log.error("Input file {} does not exist (analysis)".format(file))
+                    sys.exit(1)
 
     if args.output_file is None and infile:
         outext = ConvMeta.split_converter_to_format(args.converter)

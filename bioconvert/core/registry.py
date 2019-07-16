@@ -175,7 +175,7 @@ class Registry(object):
         :type format_pair: tuple of 2 strings
         :return: an object of subclass o :class:`ConvBase`
         """
-        format_pair = (format_pair[0].upper(), format_pair[1].upper())
+        format_pair = (format_pair[0], format_pair[1])
         return self._fmt_registry[format_pair]
 
     def get_ext(self, ext_pair):
@@ -206,7 +206,7 @@ class Registry(object):
 
                 pair = pair.upper()
             format_pair[1] = (format_pair[0], ())
-        format_pair = (format_pair[0].upper(), format_pair[1].upper())
+        format_pair = (format_pair[0], format_pair[1])
         return format_pair in self._fmt_registry
 
     def __iter__(self):

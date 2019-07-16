@@ -78,6 +78,10 @@ class ConvMeta(abc.ABCMeta):
             input_fmt, output_fmt = converter_name.upper().split('2', 1)
             output_fmt = output_fmt.upper().split("_")
             output_fmt = tuple(output_fmt)
+        elif "_" in converter_name.split("2")[0]:
+            input_fmt, output_fmt = converter_name.upper().split('2', 1)
+            input_fmt = input_fmt.upper().split("_")
+            input_fmt = tuple(input_fmt)
         else:
             input_fmt,output_fmt = converter_name.upper().split('2',1)
         return input_fmt, output_fmt
@@ -464,7 +468,8 @@ class ConvBase(metaclass=ConvMeta):
     @classmethod
     def add_argument_to_parser(cls, sub_parser):
         sub_parser.description = cls.get_description()
-        for arg in itertools.chain(cls.get_common_arguments_for_converter(),
+        for arg in itertools.chain(cls.get_IO_arguments(),
+                                   cls.get_common_arguments_for_converter(),
                                    cls.get_additional_arguments()):
             arg.add_to_sub_parser(sub_parser)
 
@@ -483,7 +488,7 @@ class ConvBase(metaclass=ConvMeta):
     # common arguments for the sub command case
     # when using bioconvert <conversion>
     @staticmethod
-    def get_common_arguments():
+    def get_IO_arguments():
         yield ConvArg(
             names="input_file",
             nargs="?",
@@ -499,6 +504,9 @@ class ConvBase(metaclass=ConvMeta):
             output_argument=True,
             help="The path where the result will be stored.",
         )
+
+    @staticmethod
+    def get_common_arguments():
         yield ConvArg(
             names=["-f", "--force", ],
             action="store_true",

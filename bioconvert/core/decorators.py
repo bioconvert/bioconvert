@@ -65,15 +65,16 @@ def compressor(func):
     @wraps(func)
     def wrapped(inst, *args, **kwargs):
         infile_name = inst.infile
+        if type(inst.outfile) is not list:
 
-        output_compressed = None
-        if inst.outfile.endswith(".gz"):
-            (inst.outfile, output_compressed) = splitext(inst.outfile)
-        elif inst.outfile.endswith(".bz2"):
-            (inst.outfile, output_compressed) = splitext(inst.outfile)
-        elif inst.outfile.endswith(".dsrc"):  # !!! only for fastq files
-            (inst.outfile, output_compressed) = splitext(inst.outfile)
-        # Now inst has the uncompressed output file name
+            output_compressed = None
+            if inst.outfile.endswith(".gz"):
+                (inst.outfile, output_compressed) = splitext(inst.outfile)
+            elif inst.outfile.endswith(".bz2"):
+                (inst.outfile, output_compressed) = splitext(inst.outfile)
+            elif inst.outfile.endswith(".dsrc"):  # !!! only for fastq files
+                (inst.outfile, output_compressed) = splitext(inst.outfile)
+            # Now inst has the uncompressed output file name
 
         if infile_name.endswith(".gz"):
             # decompress input
