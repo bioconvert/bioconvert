@@ -40,8 +40,6 @@ class FASTA_QUAL2FASTQ(ConvBase):
     """
     _default_method = "pysam"
 
-    input_ext = extensions.fasta
-    output_ext = extensions.fastq
 
     def __init__(self, infile, outfile):
         """

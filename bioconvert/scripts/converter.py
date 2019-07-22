@@ -169,7 +169,7 @@ source collaborative project at https://github/biokit/bioconvert
                                            dest='converter', )
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
 
-    def key_for_sorting(item):
+    def sorting_tuple_string(item):
         if type(item) is tuple:
             return item[0][0]
         if type(item) is str:
@@ -177,20 +177,20 @@ source collaborative project at https://github/biokit/bioconvert
 
     # show all possible conversion
     for in_fmt, out_fmt, converter, path in \
-            sorted(registry.iter_converters(allow_indirect_conversion),key=key_for_sorting):
+            sorted(registry.iter_converters(allow_indirect_conversion),key=sorting_tuple_string):
         if type(in_fmt) is tuple:
-            in_fmt = [format.lower() for format in in_fmt]
+            in_fmt = ConvBase.lower_tuple(in_fmt)
             in_fmt = "_".join(in_fmt)
-            out_fmt = out_fmt.lower()
+            out_fmt = ConvBase.lower_tuple(out_fmt)
         # check if we have many format in output
         elif type(out_fmt) is tuple:
             in_fmt = in_fmt.lower()
-            out_fmt = [format.lower() for format in out_fmt]
+            out_fmt = ConvBase.lower_tuple(out_fmt)
             out_fmt = "_".join(out_fmt)
 
         else:
-            in_fmt= in_fmt.lower()
-            out_fmt=out_fmt.lower()
+            in_fmt= ConvBase.lower_tuple(in_fmt)
+            out_fmt=ConvBase.lower_tuple(out_fmt)
         sub_parser_name = "{}2{}".format(in_fmt, out_fmt)
 
         if converter:

@@ -74,17 +74,31 @@ class ConvMeta(abc.ABCMeta):
         if "22" in converter_name:
             input_fmt, output_fmt = converter_name.upper().split('22', 1)
             input_fmt += "2"
+            input_fmt = tuple([input_fmt])
+            output_fmt = tuple([output_fmt])
         elif "_" in converter_name.split("2")[1]:
             input_fmt, output_fmt = converter_name.upper().split('2', 1)
+            input_fmt = tuple([input_fmt])
             output_fmt = output_fmt.upper().split("_")
             output_fmt = tuple(output_fmt)
         elif "_" in converter_name.split("2")[0]:
             input_fmt, output_fmt = converter_name.upper().split('2', 1)
             input_fmt = input_fmt.upper().split("_")
             input_fmt = tuple(input_fmt)
+            output_fmt = tuple([output_fmt])
         else:
             input_fmt,output_fmt = converter_name.upper().split('2',1)
+            input_fmt = tuple([input_fmt])
+            output_fmt = tuple([output_fmt])
+
+
         return input_fmt, output_fmt
+
+    @classmethod
+    def lower_tuple(cls, format_tuple):
+        format_tuple = [format.lower() for format in format_tuple]
+        return format_tuple
+
 
     def __init__(cls, name, bases, classdict):
 
@@ -146,43 +160,27 @@ class ConvMeta(abc.ABCMeta):
 
         if name != 'ConvBase':
             input_fmt, output_fmt = cls.split_converter_to_format(name)
-            # modules have no more input_ext and output_ext attributes
-            # input_ext = getattr(cls, 'input_ext')
-            # if check_ext(input_ext, 'input'):
-            #     output_ext = getattr(cls, 'output_ext')
-            #     check_ext(output_ext, 'output')
             setattr(cls, 'input_fmt', input_fmt)
             setattr(cls, 'output_fmt', output_fmt)
-            if not cls.input_ext:
-                try:
-                    input_ext = extensions.extensions[input_fmt.lower()]
-                    setattr(cls, 'input_ext', input_ext)
-                except KeyError:
-                    msg = "In class {} the attribut input_ext is missing".format(cls.__name__)
-                    _log.error(msg)
-                    raise BioconvertError(msg)
 
+            if not cls.input_ext:
+                # We add all the extensions for each converter into a list.
+                input_ext = []
+                cls.input_ext = cls.lower_tuple(cls.input_fmt)
+                for format in cls.input_ext:
+                    input_ext.append(tuple(extensions.extensions[format]))
+                # then we turn the list into tuple as output_ext attribute
+                setattr(cls, 'input_ext', tuple(input_ext))
             # if the developer did not specify an output_ext attribute
             if not cls.output_ext:
-                # when the converter is 1toMany, the output_fmt contains many formats stock into a tuple
-                if type(cls.output_fmt) is tuple:
-                    # We add all the extensions for each converter into a list.
-                    output_ext = []
-                    for format in output_fmt:
-                        output_ext.append(tuple(extensions.extensions[format.lower()]))
-                    # then we turn the list into tuple as output_ext attribute
-                    setattr(cls, 'output_ext', tuple(output_ext))
-                else:
-                    # When it's one2one converter, find the format in the extension dictionary
-                    # and set the values as output_ext attribut
-                    try:
-                        output_ext = extensions.extensions[output_fmt.lower()]
-                        setattr(cls, 'output_ext', output_ext)
-                    # if the key is not in the dictionary return an error message
-                    except KeyError:
-                        msg = "In the class {} the attribut output_ext is missing".format(cls.__name__)
-                        _log.error(msg)
-                        raise BioconvertError(msg)
+                # We add all the extensions for each converter into a list.
+                output_ext = []
+                cls.output_ext = cls.lower_tuple(cls.output_fmt)
+                for format in cls.output_ext:
+                    output_ext.append(tuple(extensions.extensions[format]))
+                # then we turn the list into tuple as output_ext attribute
+                setattr(cls, 'output_ext', tuple(output_ext))
+                # if the key is not in the dictionary return an error message
             available_conv_meth = []
             for name in inspect.getmembers(cls, is_conversion_method):
                 # do not use strip() but split()
