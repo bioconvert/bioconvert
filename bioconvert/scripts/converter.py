@@ -178,18 +178,10 @@ source collaborative project at https://github/biokit/bioconvert
     # show all possible conversion
     for in_fmt, out_fmt, converter, path in \
             sorted(registry.iter_converters(allow_indirect_conversion),key=sorting_tuple_string):
-        if len(in_fmt) > 1:
-            in_fmt = ConvBase.lower_tuple(in_fmt)
-            in_fmt = ["_".join(in_fmt)]
-            out_fmt = ConvBase.lower_tuple(out_fmt)
-        # check if we have many format in output
-        elif len(out_fmt) > 1:
-            in_fmt = ConvBase.lower_tuple(in_fmt)
-            out_fmt = ConvBase.lower_tuple(out_fmt)
-            out_fmt = ["_".join(out_fmt)]
-        else:
-            in_fmt= ConvBase.lower_tuple(in_fmt)
-            out_fmt=ConvBase.lower_tuple(out_fmt)
+        in_fmt= ConvBase.lower_tuple(in_fmt)
+        in_fmt = ["_".join(in_fmt)]
+        out_fmt=ConvBase.lower_tuple(out_fmt)
+        out_fmt = ["_".join(out_fmt)]
         sub_parser_name = "{}2{}".format("_".join(in_fmt), "_".join(out_fmt))
 
         if converter:
@@ -263,7 +255,6 @@ Please feel free to join us at https://github/biokit/bioconvert
                             default=None,
                             choices=["cytoscape", "cytoscape-all", ],
                             )
-
 
     try:
         args = arg_parser.parse_args(args)

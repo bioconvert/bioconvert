@@ -76,21 +76,12 @@ class ConvMeta(abc.ABCMeta):
             input_fmt += "2"
             input_fmt = tuple([input_fmt])
             output_fmt = tuple([output_fmt])
-        elif "_" in converter_name.split("2")[1]:
-            input_fmt, output_fmt = converter_name.upper().split('2', 1)
-            input_fmt = tuple([input_fmt])
-            output_fmt = output_fmt.upper().split("_")
-            output_fmt = tuple(output_fmt)
-        elif "_" in converter_name.split("2")[0]:
+        else:
             input_fmt, output_fmt = converter_name.upper().split('2', 1)
             input_fmt = input_fmt.upper().split("_")
             input_fmt = tuple(input_fmt)
-            output_fmt = tuple([output_fmt])
-        else:
-            input_fmt,output_fmt = converter_name.upper().split('2',1)
-            input_fmt = tuple([input_fmt])
-            output_fmt = tuple([output_fmt])
-
+            output_fmt = output_fmt.upper().split("_")
+            output_fmt = tuple(output_fmt)
 
         return input_fmt, output_fmt
 
