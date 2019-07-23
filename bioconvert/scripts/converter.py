@@ -178,20 +178,19 @@ source collaborative project at https://github/biokit/bioconvert
     # show all possible conversion
     for in_fmt, out_fmt, converter, path in \
             sorted(registry.iter_converters(allow_indirect_conversion),key=sorting_tuple_string):
-        if type(in_fmt) is tuple:
+        if len(in_fmt) > 1:
             in_fmt = ConvBase.lower_tuple(in_fmt)
-            in_fmt = "_".join(in_fmt)
+            in_fmt = ["_".join(in_fmt)]
             out_fmt = ConvBase.lower_tuple(out_fmt)
         # check if we have many format in output
-        elif type(out_fmt) is tuple:
-            in_fmt = in_fmt.lower()
+        elif len(out_fmt) > 1:
+            in_fmt = ConvBase.lower_tuple(in_fmt)
             out_fmt = ConvBase.lower_tuple(out_fmt)
-            out_fmt = "_".join(out_fmt)
-
+            out_fmt = ["_".join(out_fmt)]
         else:
             in_fmt= ConvBase.lower_tuple(in_fmt)
             out_fmt=ConvBase.lower_tuple(out_fmt)
-        sub_parser_name = "{}2{}".format(in_fmt, out_fmt)
+        sub_parser_name = "{}2{}".format("_".join(in_fmt), "_".join(out_fmt))
 
         if converter:
             link_char = '-'
@@ -211,9 +210,9 @@ source collaborative project at https://github/biokit/bioconvert
                 help_details = " (w/ %i intermediates)" % (len(path) - 2)
 
         help_text = '{}to{}> {}{}'.format(
-            (in_fmt + ' ').ljust(max_converter_width, link_char),
+            ("_".join(in_fmt) + ' ').ljust(max_converter_width, link_char),
             link_char,
-            out_fmt,
+            ("_".join(out_fmt)),
             help_details,
         )
         sub_parser = subparsers.add_parser(
