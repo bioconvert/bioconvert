@@ -55,6 +55,10 @@ def main(args=None):
             in_ext = utils.get_extension(args[0], remove_compression=True)
             out_ext = utils.get_extension(args[1], remove_compression=True)
 
+            
+            print(in_ext)
+            print(out_ext)
+
             # Check that the input file exists
             # Fixes https://github.com/bioconvert/bioconvert/issues/204
             if os.path.exists(args[0]) is False:
@@ -418,8 +422,8 @@ def analysis(args):
     conv = Bioconvert(
         infile,
         outfile,
-        in_fmt=in_fmt,
-        out_fmt=out_fmt,
+        #in_fmt=in_fmt,
+        #out_fmt=out_fmt,
         force=args.force,
         threads=threads,
         extra=extra_arguments
@@ -437,7 +441,8 @@ def analysis(args):
     #     if not conv.inext.startswith("."):
     #         conv.inext = "." + inext
 
-    if not conv.in_fmt:
+    #FIXME old code to be removed
+    """if not conv.in_fmt:
         raise RuntimeError("convert infer the format from the extension name."
                            " So add extension to the input file name or use"
                            " --input-format option.")
@@ -446,7 +451,7 @@ def analysis(args):
         raise RuntimeError("convert infer the format from the extension name."
                            " So add extension to the output file name or use"
                            " --output-format option.")
-
+    """
     if args.benchmark:
         conv.boxplot_benchmark(N=args.benchmark_N,
             to_include=args.benchmark_methods)
