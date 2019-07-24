@@ -58,7 +58,7 @@ class FASTA_QUAL2FASTQ(ConvBase):
             sys.exit(1)
 
         else: # length must be equal and identifiers sorted similarly
-            with open(self.outfile, "w") as fastq_out:
+            with open(self.outfile[0], "w") as fastq_out:
                 for seq, qual in zip(FastxFile(self.infile[0]), FastxFile(self.infile[1])):
                     assert seq.name == qual.name
                     fastq_out.write("@{0} {1}\n{2}\n+\n{3}\n".format(seq.name,

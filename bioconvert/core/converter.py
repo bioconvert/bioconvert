@@ -71,8 +71,10 @@ class Bioconvert(object):
         # check existence of output file. If it exists,
         # fails except if force argument is set to True
 
+        if type(outfile) is str:
+            outfile = [outfile]
         for file in outfile:
-            if os.path.exists(file) is True:
+            if os.path.exists((file)) is True:
                 msg = "output file {} exists already.".format(file)
                 if force is False:
                     _log.critical("output file exists. If you are using bioconvert, use --force ")

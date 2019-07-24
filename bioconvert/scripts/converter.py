@@ -284,18 +284,11 @@ Please feel free to join us at https://github/biokit/bioconvert
 
         conversions = []
         for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
-            if type(in_fmt) is tuple:
-                in_fmt = [format.lower() for format in in_fmt]
-                in_fmt = "_".join(in_fmt)
-                out_fmt = out_fmt.lower()
-                conversion_name = "{}2{}".format(in_fmt, out_fmt)
-            elif type(out_fmt) is tuple:
-                in_fmt = in_fmt.lower()
-                out_fmt = [format.lower() for format in out_fmt]
-                out_fmt = "_".join(out_fmt)
-                conversion_name = "{}2{}".format(in_fmt, out_fmt)
-            else:
-                conversion_name = "{}2{}".format(in_fmt.lower(), out_fmt.lower())
+            in_fmt = ConvBase.lower_tuple(in_fmt)
+            in_fmt = ["_".join(in_fmt)]
+            out_fmt = ConvBase.lower_tuple(out_fmt)
+            out_fmt = ["_".join(out_fmt)]
+            conversion_name = "{}2{}".format("_".join(in_fmt), "_".join(out_fmt))
             conversions.append((lev(conversion_name, sub_command), conversion_name))
         matches = sorted(conversions)[:5]
         if matches[0][0] == 0:
@@ -310,6 +303,9 @@ Please feel free to join us at https://github/biokit/bioconvert
             '    bioconvert --help -a \n'.format(
                  sub_command, ', '.join([v for _, v in matches]))
         )
+
+
+
 
 
     if args.version:
