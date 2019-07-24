@@ -27,6 +27,7 @@
 from bioconvert import ConvBase
 from bioconvert.core.base import ConvArg
 import colorlog
+import sys
 from bioconvert.core.extensions import extensions
 
 from bioconvert.core.decorators import requires
@@ -43,28 +44,22 @@ class FASTA_QUAL2FASTQ(ConvBase):
 
     def __init__(self, infile, outfile):
         """
-        :param str infile: The path to the input FASTA file
+        :param list infile: The path to the input FASTA file, the path to the input QUAL file
         :param str outfile: The path to the output FASTQ file
         """
-        self.infile = infile[0]
-        self.infile2 = infile[1]
-        self.outfile = outfile
+        super().__init__(infile, outfile)
 
 
     @requires(python_library="pysam")
     def _method_pysam(self, *args, **kwargs):
         from pysam import FastxFile
-        if self.infile2 is None:
-            _log.warning("No quality file provided. Please add a quality file path ")
-            with open(self.outfile, 'w') as fastq_out:
-                for seq in FastxFile(self.infile):
-                    fastq_out.write("@{0} {1}\n{2}\n+\n{3}\n".format(seq.name,
-                                                                 seq.comment,
-                                                                 seq.sequence,
-                                                                 len(seq.sequence) * "I"))
+        if self.infile[1] is None:
+            _log.error("No quality file provided. Please add a quality file path ")
+            sys.exit(1)
+
         else: # length must be equal and identifiers sorted similarly
             with open(self.outfile, "w") as fastq_out:
-                for seq, qual in zip(FastxFile(self.infile), FastxFile(self.infile2)):
+                for seq, qual in zip(FastxFile(self.infile[0]), FastxFile(self.infile[1])):
                     assert seq.name == qual.name
                     fastq_out.write("@{0} {1}\n{2}\n+\n{3}\n".format(seq.name,
                                                                  seq.comment,
