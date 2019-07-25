@@ -71,7 +71,7 @@ class Bioconvert(object):
 
         if type(outfile) is str:
             outfile = [outfile]
-        
+
         if type(infile) is str:
             infile = [infile]
 
@@ -153,7 +153,6 @@ class Bioconvert(object):
             _log.info("Output: {}".format(self.out_fmt))
             class_converter = self.mapper[(self.in_fmt, self.out_fmt)]
             self.name = class_converter.__name__
-
 
         except KeyError:
             # This module name was not found
