@@ -180,9 +180,6 @@ class Bioconvert(object):
 
 
         #FIXME: hack for the compression/decompression decorators
-        if Lin == Lout:
-            infile = infile[0]
-            outfile = outfile[0]
 
         if Lin == 1:
             infile = infile[0]

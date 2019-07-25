@@ -149,7 +149,8 @@ class Registry(object):
         :type convertor: :class:`ConvBase` object
         """
         if format_pair in self._fmt_registry:
-            raise KeyError('an other converter already exists for {} -> {}'.format(*format_pair))
+            raise KeyError('an other converter already exists for {} -> {}'
+                           .format("_".join(format_pair[0]),"_".join(format_pair[1])))
         self._fmt_registry[format_pair] = convertor
 
     def set_ext(self, ext_pair, convertor):
@@ -268,8 +269,8 @@ class Registry(object):
         :return: True if a converter which transform input_fmt into output_fmt exists
         :rtype: boolean
         """
-        input_fmt = input_fmt.upper()
-        output_fmt = output_fmt.upper()
+        input_fmt = tuple([x.upper() for x in input_fmt])
+        output_fmt = tuple([x.upper() for x in output_fmt])
         # return (input_fmt, output_fmt) in self._fmt_registry
         return ((input_fmt, output_fmt) in self._fmt_registry
                 or (allow_indirect

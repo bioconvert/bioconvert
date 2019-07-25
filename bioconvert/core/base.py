@@ -596,7 +596,7 @@ def make_chain(converter_map):
     """
     in_fmt = converter_map[0][0][0]
     out_fmt = converter_map[-1][0][1]
-    chain_name = "2".join([in_fmt.capitalize(), out_fmt.capitalize()])
+    chain_name = "{}2{}".format("_".join(in_fmt), "_".join(out_fmt))
     chain_attributes = {}
 
     def chain_init(self, infile, outfile):
@@ -630,9 +630,12 @@ def make_chain(converter_map):
                 step_outfile = None
                 step_output = self.outfile
             else:
-                step_outfile = TempFile(suffix=out_fmt.lower())
-                step_output = step_outfile.name
-                pipe_files.append(step_outfile)
+
+                #FIXME: for mutiple IO converters
+                if len(out_fmt) == 1:
+                    step_outfile = TempFile(suffix=out_fmt[0].lower())
+                    step_output = step_outfile.name
+                    pipe_files.append(step_outfile)
 
             conv_step(converter, step_input, step_output)
             if del_infile:

@@ -404,7 +404,7 @@ def analysis(args):
 
     if args.output_file is None and infile:
         outext = ConvMeta.split_converter_to_format(args.converter)
-        outfile = infile.rsplit(".", 1)[0] + "." + outext[1].lower()
+        outfile = infile.rsplit(".", 1)[0] + "." + outext[1][0].lower()
     else:
         outfile = args.output_file
 
