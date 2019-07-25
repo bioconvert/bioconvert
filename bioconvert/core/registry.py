@@ -93,17 +93,29 @@ class Registry(object):
 
                 converters = inspect.getmembers(module)
                 converters = [c for c in converters if is_converter(c)]
+
                 for converter_name, converter in converters:
+
                     if converter is not None:
                         format_pair = (converter.input_fmt, converter.output_fmt)
                         _log.debug("add converter '{}' for {} -> {} in fmt_registry".format(
                             converter_name, *format_pair))
                         target[(format_pair)] = converter
+
                         # When we a one2many converter so many output format.
                         if type(converter.output_ext) is tuple:
-                            # have all the combinaisons between the extensions of output formats of the converters
-                            converter.output_ext = tuple(itertools.product(*converter.output_ext))
-                        all_ext_pair = tuple(itertools.product(converter.input_ext, (converter.output_ext)))
+                            # have all the combinaisons between the extensions of output formats of the convertes
+                            combo_output_ext = tuple(itertools.product(*converter.output_ext))
+
+                        # When we a one2many converter so many output format.
+                        if type(converter.input_ext) is tuple:
+                            # have all the combinaisons between the extensions of output formats of the convertes
+                            combo_input_ext = tuple(itertools.product(*converter.input_ext))
+
+
+                        all_ext_pair = tuple(itertools.product(combo_input_ext,(combo_output_ext)))
+
+
                         for ext_pair in all_ext_pair:
                             if len(converter.available_methods) == 0 and not including_not_available_converter:
                                 _log.warning("converter '{}' for {} -> {} was not added as no method is available"
@@ -257,7 +269,9 @@ class Registry(object):
         """
         #all_converter = dict(self._fmt_registry)
         all_converter = {}
-        self._fill_registry(bioconvert.__path__, target=all_converter, including_not_available_converter=True)
+        self._fill_registry(bioconvert.__path__, target=all_converter,
+            including_not_available_converter=True)
+
         for i, o in all_converter:
             yield i, o, (i, o) in self._fmt_registry and len(self._fmt_registry[(i, o)].available_methods) > 0
 
