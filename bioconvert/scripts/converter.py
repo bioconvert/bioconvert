@@ -52,12 +52,8 @@ def main(args=None):
         if args[0].lower() not in list(registry.get_converters_names()) \
                 and "." in args[0]:
 
-            in_ext = utils.get_extension(args[0], remove_compression=True)
-            out_ext = utils.get_extension(args[1], remove_compression=True)
-
-            
-            print(in_ext)
-            print(out_ext)
+            in_ext = tuple([utils.get_extension(args[0], remove_compression=True)])
+            out_ext = tuple([utils.get_extension(args[1], remove_compression=True)])
 
             # Check that the input file exists
             # Fixes https://github.com/bioconvert/bioconvert/issues/204
