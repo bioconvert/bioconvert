@@ -107,7 +107,7 @@ def test_no_converter_specified():
         converter.main()
         assert False
     except SystemExit as e:
-        assert e.code == 2
+        assert e.code == 1
     except Exception as e:
         assert type(e) == SystemExit
     try:
