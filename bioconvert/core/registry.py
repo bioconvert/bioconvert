@@ -101,21 +101,11 @@ class Registry(object):
                         _log.debug("add converter '{}' for {} -> {} in fmt_registry".format(
                             converter_name, *format_pair))
                         target[(format_pair)] = converter
-
-                        # When we a one2many converter so many output format.
-                        if type(converter.output_ext) is tuple:
-                            # have all the combinaisons between the extensions of output formats of the convertes
-                            combo_output_ext = tuple(itertools.product(*converter.output_ext))
-
-                        # When we a one2many converter so many output format.
-                        if type(converter.input_ext) is tuple:
-                            # have all the combinaisons between the extensions of output formats of the convertes
-                            combo_input_ext = tuple(itertools.product(*converter.input_ext))
-
-
+                         # have all the combinaisons between the extensions of output formats of the convertes
+                        combo_input_ext = tuple(itertools.product(*converter.input_ext))
+                        # have all the combinaisons between the extensions of output formats of the convertes
+                        combo_output_ext = tuple(itertools.product(*converter.output_ext))
                         all_ext_pair = tuple(itertools.product(combo_input_ext,(combo_output_ext)))
-
-
                         for ext_pair in all_ext_pair:
                             if len(converter.available_methods) == 0 and not including_not_available_converter:
                                 _log.warning("converter '{}' for {} -> {} was not added as no method is available"
