@@ -25,6 +25,7 @@
 """.. rubric:: Standalone application dedicated to conversion"""
 import os
 import argparse
+import glob
 import json
 import sys
 import colorlog
@@ -143,16 +144,14 @@ def main(args=None):
                 # maybe it is an indirect conversion ? let us look at the
                 # digraph
                 try:
-                    path = registry._path_dict_ext[in_ext][out_ext]
+                    _path = registry._path_dict_ext[in_ext][out_ext]
                     #Here, we have a transitive list of tuples to go from A to C
                     # example from fq to clustal returns:
                     # [('fq',), ('fa',), ('clustal',)]
                     # If we naively build the converter from those names
                     # (fq2clustal), this is a non official converter name. The
                     # official one is fastq2clustal, so we need some hack here:
-                    in_name = path[0]
-                    int_name = path[1]
-                    out_name = path[2]
+                    in_name, int_name, out_name  = _path
                     a = registry._ext_registry[in_name, int_name][0].__name__.split("2")[0]
                     b = registry._ext_registry[int_name, out_name][0].__name__.split("2")[1]
 
@@ -201,24 +200,17 @@ def main(args=None):
     # the option -a (--allow_indirect_conversion)
     allow_indirect_conversion = False
 
-    print("---------------------")
-    print(args)
-
     try:
         args.index("--allow-indirect-conversion")
         allow_indirect_conversion = True
     except:
         pass
+
     try:
         args.index("-a")
         allow_indirect_conversion = True
     except:
         pass
-
-    if allow_indirect_conversion and ph.mode != "explicit":
-        error("When using --allow_indirect_conversion or -a , you must be"
-              "explicit about the type of conversion (See --help)")
-
 
     # Now, the instanciation of the main bioconvert user interface
     arg_parser = argparse.ArgumentParser(prog="bioconvert",
@@ -259,11 +251,12 @@ shows all possible indirect conversions:
 
 Please visit http://bioconvert.readthedocs.org for more information about the
 project or formats available. Would you wish to help, please join our open 
-source collaborative project at https://github/biokit/bioconvert
+source collaborative project at https://github/bioconvert/bioconvert
 """)
 
     subparsers = arg_parser.add_subparsers(help='sub-command help',
                                            dest='converter', )
+
     max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
 
     def sorting_tuple_string(item):
@@ -272,10 +265,9 @@ source collaborative project at https://github/biokit/bioconvert
         if type(item) is str:
             return item[0]
 
-    # show all possible conversion
+    # show all possible conversion including indirect conversion
     for in_fmt, out_fmt, converter, path in \
             sorted(registry.iter_converters(allow_indirect_conversion), key=sorting_tuple_string):
-
         in_fmt= ConvBase.lower_tuple(in_fmt)
         in_fmt = ["_".join(in_fmt)]
 
@@ -316,12 +308,16 @@ source collaborative project at https://github/biokit/bioconvert
 Please feel free to join us at https://github/biokit/bioconvert
 """,
         )
-        print(converter, path)
         if converter:
             converter.add_argument_to_parser(sub_parser=sub_parser)
-        #elif path:
-        #    for a in ConvBase.get_common_arguments() or ConvBase.get_IO_arguments():
-        #        a.add_to_sub_parser(sub_parser)
+        elif path:
+            for a in ConvBase.get_IO_arguments():
+                a.add_to_sub_parser(sub_parser)
+            for a in ConvBase.get_common_arguments():
+                a.add_to_sub_parser(sub_parser)
+
+
+    # arguments when no explicit conversion provided.
 
     arg_parser.add_argument("-v", "--verbosity",
                             default=bioconvert.logger.level,
@@ -343,7 +339,7 @@ Please feel free to join us at https://github/biokit/bioconvert
     arg_parser.add_argument("-a", "--allow-indirect-conversion",
                             action="store_true",
                             help="Show all possible indirect conversions "
-                                 "(labelled as intermediate) (EXPERIMENTAL)")
+                                 "(labelled as intermediate)")
 
     arg_parser.add_argument("--version",
                             action="store_true",
@@ -362,6 +358,7 @@ Please feel free to join us at https://github/biokit/bioconvert
         # parsing ask to stop, maybe a normal exit
         if e.code == 0:
             raise e
+
         # Parsing failed, trying to guess converter
         from bioconvert.core.levenshtein import wf_levenshtein as lev
 
@@ -444,7 +441,6 @@ Please feel free to join us at https://github/biokit/bioconvert
 
     # Figure out whether we have several input files or not
     # Are we in batch mode ?
-    import glob
     if args.batch:
         filenames = glob.glob(args.input_file)
     else:
