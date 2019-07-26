@@ -184,7 +184,7 @@ class Registry(object):
     def get_ext(self, ext_pair):
         """
         copy the registry into a dict that behaves like a list
-        to be able to have multiple values ​​for a single key
+        to be able to have multiple values for a single key
         and from a key have all converter able to do the conversion
         from the input extension to the output extension.
 
@@ -203,7 +203,6 @@ class Registry(object):
         :type format_pair: tuple of 2 strings
         :return: True if format_pair is in registry otherwise False.
         """
-
         if format_pair[1] is tuple:
             for pair in format_pair[1]:
 
