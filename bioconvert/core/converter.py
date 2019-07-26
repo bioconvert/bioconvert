@@ -35,7 +35,7 @@ _log = colorlog.getLogger(__name__)
 from bioconvert.core.base import make_chain
 from bioconvert.core.utils import get_extension as getext
 from bioconvert.core.utils import get_format_from_extension
-
+import sys
 
 __all__ = ['Bioconvert']
 
@@ -131,26 +131,28 @@ class Bioconvert(object):
 
         self.mapper = Registry()
 
-
         # From the input parameters 1 and 2, we get the module name
-        try:
-
+        if not list(set(list(self.mapper.get_converters_names())).intersection(sys.argv)):
             # get format from extensions
             in_fmt = [get_format_from_extension(x) for x in self.inext]
             out_fmt = [get_format_from_extension(x) for x in self.outext]
+        else:
+            in_fmt, out_fmt = ConvMeta.split_converter_to_format(
+                list(set(list(self.mapper.get_converters_names())).intersection(sys.argv))[0])
 
+        self.in_fmt = in_fmt
+        self.out_fmt = out_fmt
 
-            self.in_fmt = in_fmt
-            self.out_fmt = out_fmt
+        self.in_fmt = [format.lower() for format in in_fmt]
+        self.in_fmt = tuple(in_fmt)
 
-            self.in_fmt = [format.lower() for format in in_fmt]
-            self.in_fmt = tuple(in_fmt)
+        self.out_fmt = [format.lower() for format in out_fmt]
+        self.out_fmt = tuple(out_fmt)
 
-            self.out_fmt = [format.lower() for format in out_fmt]
-            self.out_fmt = tuple(out_fmt)
+        _log.info("Input: {}".format(self.in_fmt))
+        _log.info("Output: {}".format(self.out_fmt))
 
-            _log.info("Input: {}".format(self.in_fmt))
-            _log.info("Output: {}".format(self.out_fmt))
+        try:
             class_converter = self.mapper[(self.in_fmt, self.out_fmt)]
             self.name = class_converter.__name__
 

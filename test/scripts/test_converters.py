@@ -265,11 +265,11 @@ def test_verbose():
     infile = bioconvert_data("test_fastq2fasta_v1.fastq")
     with TempFile(suffix=".tt") as tempfile:
         import sys
-        sys.argv = ["bioconvert", "-v", "CRITICAL", "fastq2fasta", infile, tempfile.name,
-                    "--force"]
+        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile.name,
+                    "--force", "-v", "CRITICAL"]
         converter.main()
-        sys.argv = ["bioconvert", "--verbosity", "CRITICAL", "fastq2fasta", infile, tempfile.name,
-                    "--force"]
+        sys.argv = ["bioconvert","fastq2fasta", infile, tempfile.name,
+                    "--force","--verbosity", "CRITICAL"]
         converter.main()
 
 
