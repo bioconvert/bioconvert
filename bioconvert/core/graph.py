@@ -54,7 +54,10 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
         dg = AGraph(directed=True)
 
         for a, b, s in rr.get_all_conversions():
-            dg.add_edge(a, b, color='black' if s else color_for_disabled_converter)
+            if len(a) == 1 and len(b) == 1:
+                dg.add_edge(a[0], b[0], color='black' if s else color_for_disabled_converter)
+            else :
+                dg.add_edge("_".join(a), "_".join(b), color='green' if s else color_for_disabled_converter)
 
         dg.layout(layout)
         dg.draw(filename)
