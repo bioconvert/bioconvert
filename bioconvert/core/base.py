@@ -96,43 +96,6 @@ class ConvMeta(abc.ABCMeta):
         # do not check extension since modules does not require to specify
         # extension anymore
 
-        # def check_ext(ext, io_name):cls.split_converter_to_format(name.upper())
-        #     """
-        #     Check if the extension is specified correctly.
-        #     I must be a string or a sequence of string, otherwise raise an error
-        #     it should start with a dot. Otherwise fix extension and inject it in the class
-
-        #     :param ext: the value of the class attribute (input|output)_ext
-        #     :type ext: a string or a list, tuple or set of strings
-        #     :param str io_name: the type of extension, 'input' or output'
-        #     :raise TypeError:  if ext is neither a string nor a sequence of strings
-        #     """
-        #     if getextisinstance(ext, str):
-        #         if not ext.startswith('.'):
-        #             ext = '.' + ext
-        #         setattr(cls, '{}_ext'.format(io_name),  (ext, ))
-        #     elif isinstance(ext, (list, tuple, set)):
-        #         if not all([isinstance(one_ext, str) for one_ext in ext]):
-        #             raise TypeError("each element of the class attribute '{}.{}_ext' "
-        #                             "must be a string".format(cls, io_name))
-        #         else:
-        #             if not all([one_ext.startswith('.') for one_ext in ext]):
-        #                 fixed_ext = []
-        #                 for one_ext in ext:
-        #                     if one_ext.startswith('.'):
-        #                         fixed_ext.split_converter_to_format()append(one_ext)
-        #                     else:
-        #                         fixed_ext.append('.' + one_ext)
-        #                 setattr(cls, '{}_ext'.format(io_name), fixed_ext)
-        #     else:
-        #         import sys
-        #         err = "the class attribute '{}.{}_ext' " \
-        #               "must be specified in the class or subclasses".format(cls.__name__, io_name)
-        #         _log.warning("skip class '{}': {}".format(cls.__name__, err, file=sys.stderr))
-        #         raise TypeError("the class attribute '{}.{}_ext' must be specified "
-        #                         "in the class or subclasses".format(cls.__name__, io_name))
-        #     return True
-
         def is_conversion_method(item):
             """Return True if method name starts with _method_
 
@@ -258,7 +221,6 @@ class ConvBase(metaclass=ConvMeta):
     # this will be overriden if _threading set to True and therefore --threads
     # set by the user. It is feed back into Bioconvert class
     threads = cpu_count()
-
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
