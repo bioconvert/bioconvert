@@ -28,6 +28,8 @@ import argparse
 import json
 import sys
 import colorlog
+import textwrap
+
 import bioconvert
 from bioconvert import ConvBase
 from bioconvert.core import graph
@@ -85,18 +87,18 @@ class ParserHelper():
 
 
 def main(args=None):
+
+    # used later on
     registry = Registry()
 
     if args is None:
         args = sys.argv[1:]
 
     # convenient variable to check implicit/explicit mode and
-    # get information about the arguments
+    # get information about the arguments.
     ph = ParserHelper(args)
 
     if not len(sys.argv) == 1:
-
-        # check that the first argument is not a converter in the registry
 
         if ph.mode == "implicit":
 
@@ -106,42 +108,71 @@ def main(args=None):
                 _log.error("First input file {} does not exist".format(args[0]))
                 sys.exit(1)
 
+            # list of filenames from which we get the extensions
             filenames = ph.get_filelist()
             exts = [utils.get_extension(x, remove_compression=True) for x in filenames]
 
-            # we try all combo to figure out if we can find the converter based
-            # on the extensions. We assume that the input format are in the
-            # correct order though. For instance fasta,qual to fastq can be
+            # We need to get the corresponding converter if any.
+
+            # We assume that the input formats are ordered alphabetically
+            # (bioconvert API).
+            # For instance fasta,qual to fastq can be
             # found but qual,fasta to fastq cannot. Indeed, in more complex
-            # cases such as a,b->c,d we cannot know wheter there are 1 or 3
-            # inputs. This would require too many tests
+            # cases such as a,b -> c,d we cannot know whether there are 1 or 3
+            # inputs. This would require extra code here below
             try:
                 L = len(exts)
                 converter = []
-                for i in range(1, L):  #L-1 cases
+                # if input is a,b,c,d we want to try a->(b,c,d) and
+                # (a,b)->(c,d) and (a,b,c)-> c so L-1 case
+                for i in range(1, L):
                     in_ext = tuple(exts[0:i])
                     out_ext = tuple(exts[i:])
                     try:
                         converter.extend(registry.get_ext((in_ext, out_ext)))
                     except KeyError:
                         pass
-                # for testing the mutiple converter for one extention pair
-                # converter = [bioconvert.fastq2fasta.FASTQ2FASTA, bioconvert.phylip2xmfa.PHYLIP2XMFA]
             except KeyError:
                 converter = []
 
-            # if no converter is found
+            # if no converter is found, print information
             if not converter:
-                _log.error(
-                '\nBioconvert does not support conversion {} -> {}. \n'
-                'Please be explicit and specify the converter'
-                '\nUsage : \n\n'
-                '\tbioconvert converter input_file output_file \n '
-                '\n To see all the converter : \n'
-                '\n \t bioconvert --help '.format(
-                     in_ext,out_ext))
+                msg = '\nBioconvert does not support conversion {} -> {}. \n\n'
+                msg = msg.format(in_ext, out_ext)
 
-                sys.exit(1)
+                # maybe it is an indirect conversion ? let us look at the
+                # digraph
+                try:
+                    path = registry._path_dict_ext[in_ext][out_ext]
+                    #Here, we have a transitive list of tuples to go from A to C
+                    # example from fq to clustal returns:
+                    # [('fq',), ('fa',), ('clustal',)]
+                    # If we naively build the converter from those names
+                    # (fq2clustal), this is a non official converter name. The
+                    # official one is fastq2clustal, so we need some hack here:
+                    in_name = path[0]
+                    int_name = path[1]
+                    out_name = path[2]
+                    a = registry._ext_registry[in_name, int_name][0].__name__.split("2")[0]
+                    b = registry._ext_registry[int_name, out_name][0].__name__.split("2")[1]
+
+                    convname = "2".join([a, b]).lower()
+
+                    msg += "\n".join(textwrap.wrap(
+                        "Note, however, that an indirect conversion through"
+                        " an intermediate format is possible for your input and "
+                        " output format. To do so, you need to use the -a option "
+                        " and be explicit about the type of conversion. To get "
+                        " the list of possible direct and indirect conversion, "
+                        " please use:\n\n"))
+                    msg += "\n\n    bioconvert --help -a\n\n"
+                    msg += "For help and with your input/output most probably"
+                    msg += "the command should be: \n\n    bioconvert {} {} -a\n\n ".format(
+                            convname, " ".join(ph.get_filelist()))
+                except KeyError:
+                    pass # not converter found in the path 
+                error(msg)
+
             # if the ext_pair matches a single converter
             elif len(converter) == 1:
                 args.insert(0, converter[0].__name__.lower())
@@ -241,14 +272,16 @@ source collaborative project at https://github/biokit/bioconvert
         if type(item) is str:
             return item[0]
 
-
     # show all possible conversion
     for in_fmt, out_fmt, converter, path in \
-            sorted(registry.iter_converters(allow_indirect_conversion),key=sorting_tuple_string):
+            sorted(registry.iter_converters(allow_indirect_conversion), key=sorting_tuple_string):
+
         in_fmt= ConvBase.lower_tuple(in_fmt)
         in_fmt = ["_".join(in_fmt)]
+
         out_fmt=ConvBase.lower_tuple(out_fmt)
         out_fmt = ["_".join(out_fmt)]
+
         sub_parser_name = "{}2{}".format("_".join(in_fmt), "_".join(out_fmt))
 
         if converter:
@@ -371,10 +404,6 @@ Please feel free to join us at https://github/biokit/bioconvert
                  sub_command, ', '.join([v for _, v in matches]))
         )
 
-
-
-
-
     if args.version:
         print("{}".format(bioconvert.version))
         sys.exit(0)
@@ -492,29 +521,6 @@ def analysis(args):
         extra=extra_arguments
     )
 
-    # # Users may provide information about the input file.
-    # # Indeed, the input may be a FastQ file but with an extension
-    # # that is not standard. For instance fq instead of fastq
-    # # If so, we can use the --input-format fastq to overwrite the
-    # # provided filename extension
-
-    # no need to do this
-    # if args.input_format:
-    #     inext = args.input_format
-    #     if not conv.inext.startswith("."):
-    #         conv.inext = "." + inext
-
-    #FIXME old code to be removed
-    """if not conv.in_fmt:
-        raise RuntimeError("convert infer the format from the extension name."
-                           " So add extension to the input file name or use"
-                           " --input-format option.")
-
-    if not conv.out_fmt:
-        raise RuntimeError("convert infer the format from the extension name."
-                           " So add extension to the output file name or use"
-                           " --output-format option.")
-    """
     if args.benchmark:
         conv.boxplot_benchmark(N=args.benchmark_N,
             to_include=args.benchmark_methods)
