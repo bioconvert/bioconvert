@@ -124,18 +124,22 @@ class Registry(object):
         from networkx import DiGraph, all_pairs_shortest_path
         self._path_dict = dict(all_pairs_shortest_path(
             DiGraph(self.get_conversions())))
+
         self._path_dict_ext = dict(all_pairs_shortest_path(
             DiGraph(self.get_conversions_from_ext())))
 
-    # TODO: Should we use a format_pair instead of two strings?
-    def conversion_path(self, input_ext, output_ext):
+    def conversion_path(self, input_fmt, output_fmt):
         """
-        Returns a list of conversion steps to get from *input_ext* to *output_ext*.
+        Returns a list of conversion steps to get from input and
+        output formats
+
+        :param tuple input_fmt: 
+        :param tuple output_fmt: 
 
         Each step in the list is a pair of formats.
         """
         try:
-            fmt_steps = self._path_dict[input_ext][output_ext]
+            fmt_steps = self._path_dict[input_fmt][output_fmt]
         except KeyError:
             fmt_steps = []
         return list(zip(fmt_steps, fmt_steps[1:]))
@@ -155,18 +159,24 @@ class Registry(object):
                            .format("_".join(format_pair[0]),"_".join(format_pair[1])))
         self._fmt_registry[format_pair] = convertor
 
+    def _check_input_ext(self, ext_pair):
+        assert len(ext_pair) == 2, "parameter must be a tuple with 2 items"
+        assert isinstance(ext_pair[0], tuple), "first item must be a tuple"
+        assert isinstance(ext_pair[1], tuple), "second item must be a tuple"
+
     def set_ext(self, ext_pair, convertor):
         """
         Register new convertor from input extension and output extension
         in a list. We can have a list of multiple convertors for one
         ext_pair.
 
-        :param ext_pair: the input extension, the output extension
-        :type ext_pair: tuple of 2 strings
+        :param tuple ext_pair: tuple containing the input extensions and the
+            output extensions e.g. ( ("fastq",) , ("fasta") )
         :param convertor: the convertor which handle the conversion
                           from input_ext -> output_ext
         :type convertor: list of :class:`ConvBase` object
         """
+        self._check_input_ext(ext_pair)
         if ext_pair in self._ext_registry:
             self._ext_registry[ext_pair].append(convertor)
         else:
@@ -192,6 +202,7 @@ class Registry(object):
         :type ext_pair: tuple of 2 strings
         :return: list of objects of subclass o :class:`ConvBase`
         """
+        self._check_input_ext(ext_pair)
         return self._ext_registry[ext_pair]
 
     def __contains__(self, format_pair):
@@ -256,7 +267,6 @@ class Registry(object):
                  2 strings (input format, output format)
         :retype: generator (input format, output format, status)
         """
-        #all_converter = dict(self._fmt_registry)
         all_converter = {}
         self._fill_registry(bioconvert.__path__, target=all_converter,
             including_not_available_converter=True)
@@ -274,11 +284,10 @@ class Registry(object):
         """
         input_fmt = tuple([x.upper() for x in input_fmt])
         output_fmt = tuple([x.upper() for x in output_fmt])
-        # return (input_fmt, output_fmt) in self._fmt_registry
+
         return ((input_fmt, output_fmt) in self._fmt_registry
                 or (allow_indirect
                     and len(self.conversion_path(input_fmt, output_fmt))))
-
 
     def get_info(self):
         converters = set([self[this] for this in self._fmt_registry])
