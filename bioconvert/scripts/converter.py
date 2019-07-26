@@ -40,30 +40,91 @@ from bioconvert.core.registry import Registry
 _log = colorlog.getLogger(__name__)
 
 
+def error(msg):
+    _log.error(msg)
+    sys.exit(1)
+
+
+class ParserHelper():
+    """
+    convenient variable to check implicit/explicit mode and
+    get information about the arguments
+    """
+
+    def __init__(self, args):
+        registry = Registry()
+        self.args = args[:]
+        if len(self.args) == 0:
+            error("Please provide at least some arguments. See --help")
+
+        if args[0].lower() not in list(registry.get_converters_names()) \
+                and "." in args[0]:
+            self.mode = "implicit"
+            # we shoule have at least 2 entries in implicit mode and the first
+            # input filename must exists (1 to 1 or many to 1)
+            if len(args) < 2:
+                error("In implicit mode, you must define your input and output file (only 1 provided)")
+        else:
+            self.mode = "explicit"
+        _log.debug("parsing mode {}".format(self.mode))
+
+    def get_filelist(self):
+        """return list of the input files"""
+        positional = []
+        for arg in self.args:
+            if arg.startswith("-"):
+                break
+            else:
+                positional.append(arg)
+
+        # remaining arguments are files
+        if self.mode == "implicit":
+            return positional
+        else:
+            return positional[1:]
+
+
 def main(args=None):
     registry = Registry()
 
     if args is None:
         args = sys.argv[1:]
 
+    # convenient variable to check implicit/explicit mode and
+    # get information about the arguments
+    ph = ParserHelper(args)
+
     if not len(sys.argv) == 1:
 
         # check that the first argument is not a converter in the registry
-        if args[0].lower() not in list(registry.get_converters_names()) \
-                and "." in args[0]:
 
-            in_ext = tuple([utils.get_extension(args[0], remove_compression=True)])
-            out_ext = tuple([utils.get_extension(args[1], remove_compression=True)])
+        if ph.mode == "implicit":
 
             # Check that the input file exists
             # Fixes https://github.com/bioconvert/bioconvert/issues/204
             if os.path.exists(args[0]) is False:
-                _log.error("Input file {} does not exist".format(args[0]))
+                _log.error("First input file {} does not exist".format(args[0]))
                 sys.exit(1)
 
-            # assign to converter the converter (s) found for the ext_pair = (in_ext, out_ext)
+            filenames = ph.get_filelist()
+            exts = [utils.get_extension(x, remove_compression=True) for x in filenames]
+
+            # we try all combo to figure out if we can find the converter based
+            # on the extensions. We assume that the input format are in the
+            # correct order though. For instance fasta,qual to fastq can be
+            # found but qual,fasta to fastq cannot. Indeed, in more complex
+            # cases such as a,b->c,d we cannot know wheter there are 1 or 3
+            # inputs. This would require too many tests
             try:
-                converter = registry.get_ext((in_ext, out_ext))
+                L = len(exts)
+                converter = []
+                for i in range(1, L):  #L-1 cases
+                    in_ext = tuple(exts[0:i])
+                    out_ext = tuple(exts[i:])
+                    try:
+                        converter.extend(registry.get_ext((in_ext, out_ext)))
+                    except KeyError:
+                        pass
                 # for testing the mutiple converter for one extention pair
                 # converter = [bioconvert.fastq2fasta.FASTQ2FASTA, bioconvert.phylip2xmfa.PHYLIP2XMFA]
             except KeyError:
@@ -72,11 +133,11 @@ def main(args=None):
             # if no converter is found
             if not converter:
                 _log.error(
-                '\n Bioconvert does not support conversion {} -> {}. \n'
-                'Please specify the converter'
-                '\n Usage : \n\n'
-                '\t bioconvert converter input_file output_file \n '
-                '\n To see all the converter : '
+                '\nBioconvert does not support conversion {} -> {}. \n'
+                'Please be explicit and specify the converter'
+                '\nUsage : \n\n'
+                '\tbioconvert converter input_file output_file \n '
+                '\n To see all the converter : \n'
                 '\n \t bioconvert --help '.format(
                      in_ext,out_ext))
 
@@ -109,6 +170,9 @@ def main(args=None):
     # the option -a (--allow_indirect_conversion)
     allow_indirect_conversion = False
 
+    print("---------------------")
+    print(args)
+
     try:
         args.index("--allow-indirect-conversion")
         allow_indirect_conversion = True
@@ -120,7 +184,9 @@ def main(args=None):
     except:
         pass
 
-
+    if allow_indirect_conversion and ph.mode != "explicit":
+        error("When using --allow_indirect_conversion or -a , you must be"
+              "explicit about the type of conversion (See --help)")
 
 
     # Now, the instanciation of the main bioconvert user interface
@@ -175,6 +241,7 @@ source collaborative project at https://github/biokit/bioconvert
         if type(item) is str:
             return item[0]
 
+
     # show all possible conversion
     for in_fmt, out_fmt, converter, path in \
             sorted(registry.iter_converters(allow_indirect_conversion),key=sorting_tuple_string):
@@ -216,12 +283,12 @@ source collaborative project at https://github/biokit/bioconvert
 Please feel free to join us at https://github/biokit/bioconvert
 """,
         )
-
+        print(converter, path)
         if converter:
             converter.add_argument_to_parser(sub_parser=sub_parser)
-        elif path:
-            for a in ConvBase.get_common_arguments() or ConvBase.get_IO_arguments():
-                a.add_to_sub_parser(sub_parser)
+        #elif path:
+        #    for a in ConvBase.get_common_arguments() or ConvBase.get_IO_arguments():
+        #        a.add_to_sub_parser(sub_parser)
 
     arg_parser.add_argument("-v", "--verbosity",
                             default=bioconvert.logger.level,
