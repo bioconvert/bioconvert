@@ -99,7 +99,6 @@ class Bioconvert(object):
 
         Lin = len(infile)
         Lout = len(outfile)
-        print(Lin, Lout, infile, outfile)
 
         self.inext = []
         self.outext = []
@@ -115,7 +114,6 @@ class Bioconvert(object):
         # populate the outext 
         for filename in outfile:
             self.outext.append(getext(filename, remove_compression=True))
-
 
         # special case one to one for compression/decompression
         # Case 2, fastq.gz to fastq.bz2
