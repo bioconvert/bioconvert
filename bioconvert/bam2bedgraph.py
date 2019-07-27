@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BAM` format to :term:`BEDGRAPH` formats"""
+"""Convert :term:`BAM` format to :term:`BEDGRAPH` format"""
 from bioconvert import ConvBase
 import colorlog
 
@@ -55,6 +55,10 @@ class BAM2BEDGRAPH(ConvBase):
 
     .. warning:: the BAM file must be sorted. This can be achieved with
         bamtools.
+
+
+    Methods available are based on bedtools [BEDTOOLS]_ and mosdepth
+    [MOSDEPTH]_.
     """
     # 4 minutes with bedtools and 20s with mosdepth
     _default_method = "bedtools"
@@ -72,18 +76,14 @@ class BAM2BEDGRAPH(ConvBase):
 
     @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
-        """Do the conversion using bedtools
-
-        """
+        """Do the conversion using bedtools"""
         cmd = "bedtools genomecov -bga -ibam {} > {}".format(self.infile,
                                                              self.outfile)
         self.execute(cmd)
 
     @requires("mosdepth")
     def _method_mosdepth(self, *args, **kwargs):
-        """Do the conversion using mosdepth
-
-        """
+        """Do the conversion using mosdepth"""
         # For testing, we need to save into a specific temporary directory
         import tempfile
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -99,7 +99,7 @@ class BAM2BEDGRAPH(ConvBase):
                     self.execute(cmd)
             except Exception as err:
                 raise(err)
-            finally:                
+            finally:
                 cmd = "rm -f {name}/.bioconvert.per-base.bed.gz {name}/.bioconvert.per-base.bed.gz.csi"
                 cmd += " {name}/.bioconvert.mosdepth.global.dist.txt"
                 self.execute(cmd.format(name=tmpdir))

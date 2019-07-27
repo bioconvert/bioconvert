@@ -31,12 +31,13 @@ from bioconvert.core.decorators import requires
 logger = colorlog.getLogger(__name__)
 
 
-
 class BAM2JSON(ConvBase):
-    """Bam2Json converter
+    """Convert :term:`BAM` format to :term:`JSON` file
 
-    Convert bam file to json file.
+    Based on bamtools.
+
     """
+
     _default_method = "bamtools"
 
     def __init__(self, infile, outfile):

@@ -25,6 +25,8 @@ class ABI2QUAL(ConvBase):
     includes PHRED quality scores for base calls. This allows
     the creation of :term:`QUAL` files.
 
+    Method implemented is based on BioPython [BIOPYTHON]_.
+
     """
 
     _default_method = "biopython"

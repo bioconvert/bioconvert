@@ -38,9 +38,8 @@ class BAM2SAM(ConvBase):
     """Convert :term:`BAM` file to :term:`SAM` file
 
 
-    - sam-to-bam: Ogasawara T, Cheng Y, Tzeng T-HK (2016) Sam2bam:
-        High-Performance Framework for NGS Data Preprocessing Tools. PLoS ONE
-        11(11): e0167100. doi:10.1371/journal.pone.0167100
+    Methods available are based on samtools [SAMTOOLS]_ , sam-to-bam [SAMTOBAM]_ ,
+    sambamba [SAMBAMBA]_ and pysam [PYSAM]_.
 
     """
     _default_method = "samtools"
