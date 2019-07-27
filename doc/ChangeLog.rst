@@ -2,6 +2,13 @@ Whats' new, what has changed
 ================================
 
 
+:Revisin 0.4.0: (July 2019)
+
+- NEW:
+    - 1-to-many and many-to-1 converters are now part of the API (Sulyvan
+      Dollin)
+    - Complete documentation with formats and bibliography
+    - Validation of all currently implemented converters
 
 
 :Revision 0.3.1: (May/June 2019)

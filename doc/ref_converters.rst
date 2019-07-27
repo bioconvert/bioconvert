@@ -10,8 +10,8 @@ Summary
 	bioconvert.abi2fasta
 	bioconvert.abi2fastq
 	bioconvert.abi2qual
-	bioconvert.bam2cov
 	bioconvert.bam2bedgraph
+	bioconvert.bam2cov
 	bioconvert.bam2bigwig
 	bioconvert.bam2cram
 	bioconvert.bam2fasta
@@ -112,12 +112,12 @@ All converters documentation
     :synopsis:
     :private-members:
 
-.. automodule:: bioconvert.bam2cov
+.. automodule:: bioconvert.bam2bedgraph
     :members:
     :synopsis:
     :private-members:
 
-.. automodule:: bioconvert.bam2bedgraph
+.. automodule:: bioconvert.bam2cov
     :members:
     :synopsis:
     :private-members:

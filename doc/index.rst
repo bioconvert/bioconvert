@@ -138,6 +138,7 @@ Complete documentation including User and Developer Guides
     formats
     glossary
     faqs
+    bibliography
     ChangeLog.rst
 
 
