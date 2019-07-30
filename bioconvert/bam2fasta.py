@@ -76,28 +76,29 @@ class BAM2FASTA(ConvBase):
         .. note:: fasta are on one line
         """
 
-
+        # Test if input bam file is paired
         p = subprocess.Popen("samtools view -c -f 1 {}".format(
             self.infile).split(),stdout=subprocess.PIPE, stderr=subprocess.PIPE,universal_newlines=True)
         isPaired =p.communicate()[0].strip()
 
-
+        # Collect the extension
         ext = os.path.splitext(self.outfile)[1]
 
-        if ext == ".gz":
-            compresscmd = "gzip"
-        if ext == ".bz2":
-            compresscmd = "pbzip2 -f"
-
+        # If the output file extension is compress extension
         if ext in [".gz",".bz2"]:
             outbasename = os.path.splitext(self.outfile)[0].split(".",1)[0]
 
+            if ext == ".gz":
+                compresscmd = "gzip"
+            if ext == ".bz2":
+                compresscmd = "pbzip2 -f"
+            # When the input file is not paired and the output file needs to be compressed
             if isPaired == "0":
                 cmd = "samtools fasta {} > {}.fasta".format(self.infile, outbasename)
                 self.execute(cmd)
                 cmd = "{} {}.fasta".format(compresscmd,outbasename)
                 self.execute(cmd)
-
+            # When the input file is paired and the output file needs to be compressed
             else:
                 cmd = "samtools fasta -1 {}_1.fasta -2 {}_2.fasta -n {} ".format(outbasename, outbasename, self.infile)
                 self.execute(cmd)
@@ -109,10 +110,11 @@ class BAM2FASTA(ConvBase):
         else:
             outbasename = os.path.splitext(self.outfile)[0]
 
+            # When the input file is not paired
             if isPaired == "0":
                 cmd = "samtools fasta {} > {}".format(self.infile, self.outfile)
                 self.execute(cmd)
-
+            # When the input file is paired
             else:
                 cmd = "samtools fasta -1 {}_1.fasta -2 {}_2.fasta -n {} ".format(outbasename, outbasename, self.infile)
                 self.execute(cmd)
