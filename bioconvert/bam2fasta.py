@@ -24,6 +24,8 @@
 """Convert :term:`BAM` format to :term:`FASTA` file"""
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+import subprocess
+import os
 
 
 class BAM2FASTA(ConvBase):
@@ -73,6 +75,45 @@ class BAM2FASTA(ConvBase):
 
         .. note:: fasta are on one line
         """
-        cmd = "samtools fasta {} > {}".format(self.infile, self.outfile)
-        self.execute(cmd)
+
+
+        p = subprocess.Popen("samtools view -c -f 1 {}".format(
+            self.infile).split(),stdout=subprocess.PIPE, stderr=subprocess.PIPE,universal_newlines=True)
+        isPaired =p.communicate()[0].strip()
+
+
+        ext = os.path.splitext(self.outfile)[1]
+
+        if ext == ".gz":
+            compresscmd = "gzip"
+        if ext == ".bz2":
+            compresscmd = "pbzip2 -f"
+
+        if ext in [".gz",".bz2"]:
+            outbasename = os.path.splitext(self.outfile)[0].split(".",1)[0]
+
+            if isPaired == "0":
+                cmd = "samtools fasta {} > {}.fasta".format(self.infile, outbasename)
+                self.execute(cmd)
+                cmd = "{} {}.fasta".format(compresscmd,outbasename)
+                self.execute(cmd)
+
+            else:
+                cmd = "samtools fasta -1 {}_1.fasta -2 {}_2.fasta -n {} ".format(outbasename, outbasename, self.infile)
+                self.execute(cmd)
+                cmd = "{} {}_1.fasta".format(compresscmd,outbasename)
+                self.execute(cmd)
+                cmd = "{} {}_2.fasta".format(compresscmd,outbasename)
+                self.execute(cmd)
+
+        else:
+            outbasename = os.path.splitext(self.outfile)[0]
+
+            if isPaired == "0":
+                cmd = "samtools fasta {} > {}".format(self.infile, self.outfile)
+                self.execute(cmd)
+
+            else:
+                cmd = "samtools fasta -1 {}_1.fasta -2 {}_2.fasta -n {} ".format(outbasename, outbasename, self.infile)
+                self.execute(cmd)
 
