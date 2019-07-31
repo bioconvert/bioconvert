@@ -118,19 +118,34 @@ class Registry(object):
 
     def _build_path_dict(self):
         """
-        Constructs a dictionary containing shortest paths
+        Construct dictionaries of dictionaries containing shortest paths
         from one format to another.
         """
         from networkx import DiGraph, all_pairs_shortest_path
+        # all_pairs_shortest_path yields pairs (n, d) where
+        # * n is a node
+        # * d is a dict where
+        #     * keys are other nodes
+        #     * values are shortest paths (i.e. lists of nodes)
+        #       from n to these nodes
+        # Converting this to dict results in a dict of dicts where
+        # * the first key is the source node
+        # * the second key is the destination node
+        # * the value is a shortest path between these nodes.
+
+        # self._path_dict[in_fmt][out_fmt] = [in_fmt, ..., out_fmt]
         self._path_dict = dict(all_pairs_shortest_path(
+            # Directed graph of available in_fmt -> out_fmt conversions
             DiGraph(self.get_conversions())))
 
+        # self._path_dict_ext[in_ext][out_ext] = [in_ext, ..., out_ext]
         self._path_dict_ext = dict(all_pairs_shortest_path(
+            # Directed graph of available in_ext -> out_ext conversions
             DiGraph(self.get_conversions_from_ext())))
 
     def conversion_path(self, input_fmt, output_fmt):
         """
-        Returns a list of conversion steps to get from input and
+        Return a list of conversion steps to get from input and
         output formats
 
         :param tuple input_fmt: 
@@ -193,7 +208,7 @@ class Registry(object):
 
     def get_ext(self, ext_pair):
         """
-        copy the registry into a dict that behaves like a list
+        Copy the registry into a dict that behaves like a list
         to be able to have multiple values for a single key
         and from a key have all converter able to do the conversion
         from the input extension to the output extension.
@@ -224,7 +239,7 @@ class Registry(object):
 
     def __iter__(self):
         """
-        make registry iterable
+        Make registry iterable
         through format_pair (str input format, str output format)
         """
         for format_pair in self._fmt_registry:
@@ -254,7 +269,7 @@ class Registry(object):
         """
         :return: a generator which allow to iterate on all available conversions
                  a conversion is encoded by a tuple of
-                 2 strings (input format, output format)
+                 2 strings (input extension, output extension)
         :rtype: generator
         """
         for conv in self._ext_registry:
@@ -341,6 +356,3 @@ class Registry(object):
             "converters": C, 
             "methods": M,
             "methods_per_converter": round(float(M)/C,2)}
-
-
-
