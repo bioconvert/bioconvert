@@ -29,13 +29,15 @@ import os
 
 
 class BAM2FASTQ(ConvBase):
-    """Converts BAM 2 FastQ file
+    """    Convert sorted :term:`BAM` file into :term:`FASTQ` file
 
-    .. warning:: the R1 and R2 reads are saved in the same file. Besides,
-        there is no check that the read R1 and R2 alternates
+    Methods available are based on samtools [SAMTOOLS]_ or bedtools [BEDTOOLS]_.
+
+        .. warning:: Using the bedtools method, the R1 and R2 reads must be next each other
+            so that the file to be properly separated
 
     """
-    _default_method = "bamtools"
+    _default_method = "samtools"
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
@@ -48,15 +50,10 @@ class BAM2FASTQ(ConvBase):
         super().__init__(infile, outfile)
 
     @requires("bamtools")
-    def _method_bamtools(self, *args, **kwargs):
-        # This fails with unknown error
-        #pysam.bam2fq(self.infile, save_stdout=self.outfile)
+    def __method_bamtools(self, *args, **kwargs):
 
-        #cmd = "samtools fastq %s >%s" % (self.infile, self.outfile)
-        #self.execute(cmd)
-
-        # !!!!!!!!!!!!!!!!!! pysam.bam2fq, samtools fastq and bamtools convert
-        # give differnt answers...
+        # this method contains supplementary reads and we don't know what to do with them for now. So, this method is
+        # commented. Indeed final R1 and R2 files will not be paired.
 
         cmd = "bamtools convert -format fastq -in {0} -out {1}".format(
             self.infile, self.outfile
@@ -70,8 +67,25 @@ class BAM2FASTQ(ConvBase):
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
         """
+        outbasename = os.path.splitext(self.outfile)[0]
+
         cmd = "bedtools bamtofastq -i {} -fq {}".format(self.infile, self.outfile)
         self.execute(cmd)
+
+        with open(self.outfile,'r') as paired_end:
+            for i, line in enumerate(paired_end):
+                if i == 0:
+                    line_0 = line
+                elif i == 4:
+                    line_4 = line
+                elif i > 4:
+                    break
+        if line_0 == line_4:
+            cmd = "bedtools bamtofastq -i {} -fq {}_1.fastq -fq2 {}_2.fastq".format(self.infile, outbasename,outbasename)
+            self.execute(cmd)
+            os.remove(self.outfile)
+
+
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
@@ -90,27 +104,41 @@ class BAM2FASTQ(ConvBase):
         ext = os.path.splitext(self.outfile)[1]
 
         # If the output file extension is compress extension
-        if ext in [".gz",".bz2"]:
+        if ext in [".gz",".bz2",".dsrc"]:
             outbasename = os.path.splitext(self.outfile)[0].split(".",1)[0]
 
             if ext == ".gz":
                 compresscmd = "gzip"
-            if ext == ".bz2":
+            elif ext == ".bz2":
                 compresscmd = "pbzip2 -f"
+            else:
+                compresscmd = "dsrc c"
+
             # When the input file is not paired and the output file needs to be compressed
             if isPaired == "0":
                 cmd = "samtools fastq {} > {}.fastq".format(self.infile, outbasename)
                 self.execute(cmd)
-                cmd = "{} {}.fastq".format(compresscmd,outbasename)
+                if ext == ".dsrc":
+                    cmd = "{} {}.fastq {}.fastq.dsrc".format(compresscmd, outbasename,outbasename)
+                else:
+                    cmd = "{} {}.fastq".format(compresscmd,outbasename)
                 self.execute(cmd)
             # When the input file is paired and the output file needs to be compressed
             else:
+                os.remove(self.outfile)
                 cmd = "samtools fastq -1 {}_1.fastq -2 {}_2.fastq -n {} ".format(outbasename, outbasename, self.infile)
                 self.execute(cmd)
-                cmd = "{} {}_1.fastq".format(compresscmd,outbasename)
-                self.execute(cmd)
-                cmd = "{} {}_2.fastq".format(compresscmd,outbasename)
-                self.execute(cmd)
+                if ext == ".dsrc":
+                    cmd = "{} {}_1.fastq {}_1.fastq.dsrc".format(compresscmd,outbasename, outbasename)
+                    self.execute(cmd)
+                    cmd = "{} {}_2.fastq {}_2.fastq.dsrc".format(compresscmd,outbasename, outbasename)
+                    self.execute(cmd)
+                else:
+                    cmd = "{} {}_1.fastq".format(compresscmd,outbasename)
+                    self.execute(cmd)
+                    cmd = "{} {}_2.fastq".format(compresscmd,outbasename)
+                    self.execute(cmd)
+
 
         else:
             outbasename = os.path.splitext(self.outfile)[0]
@@ -121,5 +149,6 @@ class BAM2FASTQ(ConvBase):
                 self.execute(cmd)
             # When the input file is paired
             else:
+                os.remove(self.outfile)
                 cmd = "samtools fastq -1 {}_1.fastq -2 {}_2.fastq -n {} ".format(outbasename, outbasename, self.infile)
                 self.execute(cmd)

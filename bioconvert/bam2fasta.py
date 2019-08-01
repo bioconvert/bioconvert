@@ -32,10 +32,11 @@ import itertools
 class BAM2FASTA(ConvBase):
     """Bam2Fasta converter
 
-    Wrapper of bamtools to convert bam file to fasta file.
+    Convert sorted :term:`BAM` file into :term:`FASTA` file
 
+    Methods available are based on samtools [SAMTOOLS]_.
     """
-    _default_method = "bamtools"
+    _default_method = "samtools"
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
@@ -44,22 +45,20 @@ class BAM2FASTA(ConvBase):
         :param str outfile:
 
         library used: pysam (samtools)
+
         """
         super().__init__(infile, outfile)
 
     @requires("bamtools")
-    def _method_bamtools(self, *args, **kwargs):
+    def __method_bamtools(self, *args, **kwargs):
         """
 
         .. note:: fastq are split on several lines (80 characters)
 
         """
-        # Another idea is to use pysam.bam2fq but it fails with unknown error
-        #pysam.bam2fq(self.infile, save_stdout=self.outfile)
-        #cmd = "samtools fastq %s >%s" % (self.infile, self.outfile)
-        #self.execute(cmd)
-        # !!!!!!!!!!!!!!!!!! pysam.bam2fq, samtools fastq and bamtools convert
-        # give differnt answers...
+        # this method contains supplementary reads and we don't know what to do with them for now. So, this method is
+        # commented. Indeed final R1 and R2 files will not be paired.
+
         cmd = "bamtools stats -in '%s' | sed '12!d' | awk '{print $3}' " % (self.infile)
         ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,universal_newlines=True)
         isPaired = ps.communicate()[0].strip()
@@ -73,23 +72,12 @@ class BAM2FASTA(ConvBase):
 
         if isPaired != "0":
             with open(self.outfile, "r") as paired_end, open("Reads_1.fasta","w") as out1, open("Reads_2.fasta","w") as out2:
-
                 outfile_cycler = itertools.cycle((out1, out2))
                 for line in paired_end:
                     outfile = next(outfile_cycler)
                     outfile.write(line)
                     outfile.write(next(paired_end))
 
-
-        # If the output file extension is compress extension
-        if ext in [".gz",".bz2"]:
-            outbasename = os.path.splitext(self.outfile)[0].split(".",1)[0]
-
-            if ext == ".gz":
-                compresscmd = "gzip"
-            if ext == ".bz2":
-                compresscmd = "pbzip2 -f"
-            # When the input file is not paired and the output file needs to be compressed
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
