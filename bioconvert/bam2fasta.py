@@ -24,17 +24,23 @@
 """Convert :term:`BAM` format to :term:`FASTA` file"""
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.utils import get_extension
 import subprocess
 import os
 import itertools
 
 
 class BAM2FASTA(ConvBase):
-    """Bam2Fasta converter
+    """Convert sorted :term:`BAM` file into :term:`FASTA` file
 
-    Convert sorted :term:`BAM` file into :term:`FASTA` file
+    Methods available are based on samtools [SAMTOOLS]_ or bedtools [BEDTOOLS]_.
 
-    Methods available are based on samtools [SAMTOOLS]_.
+    .. warning:: Using the bedtools method, the R1 and R2 reads must be next to 
+	each other so that the reads are sorted similarly
+
+    .. warning:: there is no guarantee that the R1/R2 output file are sorted
+        similarly in paired-end case due to supp and second reads
+
     """
     _default_method = "samtools"
 
@@ -44,19 +50,14 @@ class BAM2FASTA(ConvBase):
         :param str infile:
         :param str outfile:
 
-        library used: pysam (samtools)
-
         """
         super().__init__(infile, outfile)
 
-    @requires("bamtools")
+    """@requires("bamtools")
     def __method_bamtools(self, *args, **kwargs):
-        """
-
-        .. note:: fastq are split on several lines (80 characters)
-
-        """
-        # this method contains supplementary reads and we don't know what to do with them for now. So, this method is
+        #  fastq are split on several lines (80 characters)
+        # this method contains supplementary reads and we don't know 
+        # what to do with them for now. So, this method is
         # commented. Indeed final R1 and R2 files will not be paired.
 
         cmd = "bamtools stats -in '%s' | sed '12!d' | awk '{print $3}' " % (self.infile)
@@ -70,8 +71,7 @@ class BAM2FASTA(ConvBase):
         cmd = "bamtools convert -format fasta -in {} -out {}".format(
             self.infile, self.outfile)
         self.execute(cmd)
-
-
+   """
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
@@ -96,7 +96,6 @@ class BAM2FASTA(ConvBase):
 
         # FIXME: this compression code may be factorised ?
 
-        from bioconvert.core.utils import get_extension
         output_ext = get_extension(self.outfile, remove_compression=True)
 
         # If the output file extension is compress extension
@@ -104,7 +103,7 @@ class BAM2FASTA(ConvBase):
             outbasename = os.path.splitext(self.outfile)[0].split(".",1)[0]
 
             if ext == ".gz":
-                compresscmd = "gzip"
+                compresscmd = "gzip -f"
             elif ext == ".bz2":
                 compresscmd = "pbzip2 -f"
 
@@ -136,4 +135,3 @@ class BAM2FASTA(ConvBase):
                 cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(outbasename,
                     output_ext, outbasename, output_ext, self.infile)
                 self.execute(cmd)
-

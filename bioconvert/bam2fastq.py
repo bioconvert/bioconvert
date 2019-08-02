@@ -30,15 +30,15 @@ import os
 
 
 class BAM2FASTQ(ConvBase):
-    """    Convert sorted :term:`BAM` file into :term:`FASTQ` file
+    """Convert sorted :term:`BAM` file into :term:`FASTQ` file
 
     Methods available are based on samtools [SAMTOOLS]_ or bedtools [BEDTOOLS]_.
 
-    .. warning:: Using the bedtools method, the R1 and R2 reads must be next each other
-        so that the file to be properly separated
+    .. warning:: Using the bedtools method, the R1 and R2 reads must be next to 
+	each other so that the reads are sorted similarly
 
     .. warning:: there is no guarantee that the R1/R2 output file are sorted
-        similarly in paired-end case. 
+        similarly in paired-end case due to supp and second reads
 
     """
     _default_method = "samtools"
@@ -49,13 +49,12 @@ class BAM2FASTQ(ConvBase):
         :param str infile:
         :param str outfile:
 
-        library used: pysam (samtools)
         """
         super().__init__(infile, outfile)
 
-    @requires("bamtools")
+    """@requires("bamtools")
     def __method_bamtools(self, *args, **kwargs):
-
+   
         # this method contains supplementary reads and we don't know 
         # what to do with them for now. So, this method is
         # commented. Indeed final R1 and R2 files will not be paired.
@@ -64,6 +63,7 @@ class BAM2FASTQ(ConvBase):
             self.infile, self.outfile
         )
         self.execute(cmd)
+    """
 
     @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
@@ -72,6 +72,7 @@ class BAM2FASTQ(ConvBase):
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
         """
+
         outbasename = os.path.splitext(self.outfile)[0]
 
         cmd = "bedtools bamtofastq -i {} -fq {}".format(self.infile, self.outfile)
@@ -99,7 +100,6 @@ class BAM2FASTQ(ConvBase):
             cmd = "bedtools bamtofastq -i {} -fq {}_1.{} -fq2 {}_2.{}".format(
                 self.infile, outbasename, output_ext, outbasename, output_ext)
             self.execute(cmd)
-            os.remove(self.outfile)
 
             # Compress the output if required. We do not use compressor
             # since we may have two outputs.
@@ -137,7 +137,7 @@ class BAM2FASTQ(ConvBase):
             outbasename = os.path.splitext(self.outfile)[0].split(".",1)[0]
 
             if ext == ".gz":
-                compresscmd = "gzip"
+                compresscmd = "gzip -f"
             elif ext == ".bz2":
                 compresscmd = "pbzip2 -f"
             else:
