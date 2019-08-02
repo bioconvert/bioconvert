@@ -98,8 +98,8 @@ class Registry(object):
 
                     if converter is not None:
                         format_pair = (converter.input_fmt, converter.output_fmt)
-                        _log.debug("add converter '{}' for {} -> {} in fmt_registry".format(
-                            converter_name, *format_pair))
+                        #_log.debug("add converter '{}' for {} -> {} in fmt_registry".format(
+                        #    converter_name, *format_pair))
                         target[(format_pair)] = converter
                          # have all the combinaisons between the extensions of output formats of the convertes
                         combo_input_ext = tuple(itertools.product(*converter.input_ext))
@@ -111,8 +111,8 @@ class Registry(object):
                                 _log.warning("converter '{}' for {} -> {} was not added as no method is available"
                                              .format(converter_name, *ext_pair))
                             else:
-                                _log.debug("add converter '{}' for {} -> {} in ext_registry".format(
-                                           converter_name, *ext_pair))
+                                #_log.debug("add converter '{}' for {} -> {} in ext_registry".format(
+                                #           converter_name, *ext_pair))
                                 self.set_ext(ext_pair, converter)
 
 
