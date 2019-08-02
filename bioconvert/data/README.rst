@@ -1,3 +1,12 @@
+BAM single end sorted
+---------------------
+
+bwa mem -t 4 -R @RG"\tID:1\tSM:1\tPL:illumina" -T 30 measles.fa measles_R1.fastq.gz > test_measles_unpaired.sam 
+bioconvert test_measles_unpaired.sam test_measles_unpaired.bam
+bamtools sort -in test_measles_unpaired.bam test_measles_unpaired.sorted.bam
+
+
+
 MAF
 ---
 
