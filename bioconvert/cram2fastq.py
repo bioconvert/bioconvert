@@ -24,8 +24,9 @@
 """Convert :term:`CRAM` file to :term:`FASTQ` file"""
 from bioconvert import ConvBase
 import os
-import subprocess
+from bioconvert.core.utils import get_extension
 from easydev.multicore import cpu_count
+import subprocess
 
 import colorlog
 
@@ -37,6 +38,8 @@ logger = colorlog.getLogger(__name__)
 class CRAM2FASTQ(ConvBase):
     """Convert :term:`CRAM` file to :term:`FASTQ` file
 
+    Methods available are based on samtools [SAMTOOLS]_.
+
     """
     _default_method = "samtools"
     _threading = True
@@ -44,15 +47,15 @@ class CRAM2FASTQ(ConvBase):
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile: input FASTQ file
-        :param str outfile: output filename
+        :param str infile: input CRAM file
+        :param str outfile: output FASTQ filename
 
         """
         super(CRAM2FASTQ, self).__init__(infile, outfile, *args, **kargs)
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
-        """Do the conversion :term:`BAM` -> :term:`Fastq` using samtools
+        """Do the conversion :term:`BAM` -> :term:`FASTQ` using samtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
@@ -61,10 +64,16 @@ class CRAM2FASTQ(ConvBase):
         self.execute(cmd)
         # Test if input bam file is paired
         p = subprocess.Popen("samtools view -c -f 1 {}".format(
-            self.infile).split(),stdout=subprocess.PIPE, stderr=subprocess.PIPE,universal_newlines=True)
-        isPaired =p.communicate()[0].strip()
+            self.infile).split(),stdout=subprocess.PIPE, 
+		stderr=subprocess.PIPE, universal_newlines=True)
+        isPaired = p.communicate()[0].strip()
+
         # Collect the extension
         ext = os.path.splitext(self.outfile)[1]
+
+
+        # FIXME: this compression code may be factorised ?
+        output_ext = get_extension(self.outfile, remove_compression=True)
 
         # If the output file extension is compress extension
         if ext in [".gz",".bz2",".dsrc"]:
@@ -79,39 +88,44 @@ class CRAM2FASTQ(ConvBase):
 
             # When the input file is not paired and the output file needs to be compressed
             if isPaired == "0":
-                cmd = "samtools fastq -@ {} {} > {}.fastq".format(self.threads, self.infile, outbasename)
+                cmd = "samtools fastq -@ {} {} > {}.{}".format(self.threads, 
+			self.infile, outbasename, output_ext)
                 self.execute(cmd)
                 if ext == ".dsrc":
-                    cmd = "{} {}.fastq {}.fastq.dsrc".format(compresscmd, outbasename,outbasename)
+                    cmd = "{} {}.{} {}.{}.dsrc".format(compresscmd, 
+			outbasename, output_ext, outbasename, output_ext)
                 else:
-                    cmd = "{} {}.fastq".format(compresscmd,outbasename)
+                    cmd = "{} {}.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)
             # When the input file is paired and the output file needs to be compressed
             else:
-                os.remove(self.outfile)
-                cmd = "samtools fastq -@ {} -1 {}_1.fastq -2 {}_2.fastq -n {} ".format(self.threads, outbasename, outbasename, self.infile)
+
+                cmd = "samtools fastq -@ {} -1 {}_1.{} -2 {}_2.{} -n {} ".format(
+			self.threads, outbasename, output_ext, outbasename, output_ext, 
+			self.infile)
                 self.execute(cmd)
                 if ext == ".dsrc":
-                    cmd = "{} {}_1.fastq {}_1.fastq.dsrc".format(compresscmd,outbasename, outbasename)
+                    cmd = "{} {}_1.{} {}_1.{}.dsrc".format(compresscmd,
+			outbasename, output_ext, outbasename, output_ext)
                     self.execute(cmd)
-                    cmd = "{} {}_2.fastq {}_2.fastq.dsrc".format(compresscmd,outbasename, outbasename)
+                    cmd = "{} {}_2.{} {}_2.{}.dsrc".format(compresscmd,
+			outbasename, output_ext, outbasename, output_ext)
                     self.execute(cmd)
                 else:
-                    cmd = "{} {}_1.fastq".format(compresscmd,outbasename)
+                    cmd = "{} {}_1.{}".format(compresscmd, outbasename, output_ext)
                     self.execute(cmd)
-                    cmd = "{} {}_2.fastq".format(compresscmd,outbasename)
+                    cmd = "{} {}_2.{}".format(compresscmd, outbasename, output_ext)
                     self.execute(cmd)
-
-
         else:
             outbasename = os.path.splitext(self.outfile)[0]
 
             # When the input file is not paired
             if isPaired == "0":
-                cmd = "samtools fastq -@ {} {} > {}".format(self.threads, self.infile, self.outfile)
+                cmd = "samtools fastq -@ {} {} > {}".format(self.threads, 
+			self.infile, self.outfile)
                 self.execute(cmd)
             # When the input file is paired
             else:
-                os.remove(self.outfile)
-                cmd = "samtools fastq -@ {} -1 {}_1.fastq -2 {}_2.fastq -n {} ".format(self.threads, outbasename, outbasename, self.infile)
+                cmd = "samtools fastq -@ {} -1 {}_1.{} -2 {}_2.{} -n {} ".format(self.threads, 
+			outbasename, output_ext, outbasename, output_ext, self.infile)
                 self.execute(cmd)
