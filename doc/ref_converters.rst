@@ -36,6 +36,8 @@ Summary
 	bioconvert.clustal2phylip
 	bioconvert.clustal2stockholm
 	bioconvert.cram2bam
+	bioconvert.cram2fasta
+	bioconvert.cram2fastq
 	bioconvert.cram2sam
 	bioconvert.csv2tsv
 	bioconvert.dsrc2gz
@@ -238,6 +240,16 @@ All converters documentation
     :private-members:
 
 .. automodule:: bioconvert.cram2bam
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.cram2fasta
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.cram2fastq
     :members:
     :synopsis:
     :private-members:

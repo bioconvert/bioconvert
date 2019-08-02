@@ -1,8 +1,6 @@
 Bibliography
 ============
 
-.. [CIT2002] A citation
-    (as op kdfj sekfjksd )
 
 .. [SAMTOBAM] Ogasawara T, Cheng Y, Tzeng T-HK (2016) Sam2bam:
      High-Performance Framework for NGS Data Preprocessing Tools. PLoS ONE
@@ -28,3 +26,7 @@ Bibliography
 .. [BEDTOOLS] BEDTools: a flexible suite of utilities for comparing genomic features
    Aaron R. quinlan, Ira M. Hall 2010 Bioinformatics 26(6) 
    https://doi.org/10.1093/bioinformatics/btq033
+
+.. [WIGGLETOOLS] todo
+
+.. [BAMCOVERAGE] todo
