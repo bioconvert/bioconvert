@@ -80,7 +80,7 @@ class CRAM2FASTQ(ConvBase):
             outbasename = os.path.splitext(self.outfile)[0].split(".",1)[0]
 
             if ext == ".gz":
-                compresscmd = "gzip"
+                compresscmd = "gzip -f"
             elif ext == ".bz2":
                 compresscmd = "pbzip2 -f"
             else:
