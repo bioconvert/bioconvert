@@ -24,6 +24,8 @@
 """Convert :term:`CRAM` file to :term:`FASTQ` file"""
 from bioconvert import ConvBase
 import os
+from bioconvert.core.utils import get_extension
+from easydev.multicore import cpu_count
 import subprocess
 from easydev.multicore import cpu_count
 
@@ -37,6 +39,8 @@ logger = colorlog.getLogger(__name__)
 class CRAM2FASTA(ConvBase):
     """Convert :term:`CRAM` file to :term:`FASTA` file
 
+    Methods available are based on samtools [SAMTOOLS]_.
+
     """
     _default_method = "samtools"
     _threading = True
@@ -44,8 +48,8 @@ class CRAM2FASTA(ConvBase):
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile: input FASTQ file
-        :param str outfile: output filename
+        :param str infile: input CRAM file
+        :param str outfile: output FASTA filename
 
         """
         super(CRAM2FASTA, self).__init__(infile, outfile, *args, **kargs)
@@ -53,43 +57,48 @@ class CRAM2FASTA(ConvBase):
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """
-        do the conversion :term:`BAM` -> :term:`Fasta` using samtools
+        do the conversion :term:`BAM` -> :term:`FASTA` using samtools
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
 
         .. note:: fasta are on one line
         """
-
         # Test if input bam file is paired
         p = subprocess.Popen("samtools view -c -f 1 {}".format(
-            self.infile).split(),stdout=subprocess.PIPE, stderr=subprocess.PIPE,universal_newlines=True)
-        isPaired =p.communicate()[0].strip()
+            self.infile).split(),stdout=subprocess.PIPE, 
+		stderr=subprocess.PIPE, universal_newlines=True)
+        isPaired = p.communicate()[0].strip()
 
         # Collect the extension
         ext = os.path.splitext(self.outfile)[1]
+
+
+        # FIXME: this compression code may be factorised ?
+        output_ext = get_extension(self.outfile, remove_compression=True)
 
         # If the output file extension is compress extension
         if ext in [".gz",".bz2"]:
             outbasename = os.path.splitext(self.outfile)[0].split(".",1)[0]
 
             if ext == ".gz":
-                compresscmd = "gzip"
+                compresscmd = "gzip -f"
             if ext == ".bz2":
                 compresscmd = "pbzip2 -f"
             # When the input file is not paired and the output file needs to be compressed
             if isPaired == "0":
-                cmd = "samtools fasta {} > {}.fasta".format(self.infile, outbasename)
+                cmd = "samtools fasta {} > {}.{}".format(self.infile, outbasename, output_ext)
                 self.execute(cmd)
-                cmd = "{} {}.fasta".format(compresscmd,outbasename)
+                cmd = "{} {}.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)
             # When the input file is paired and the output file needs to be compressed
             else:
-                cmd = "samtools fasta -1 {}_1.fasta -2 {}_2.fasta -n {} ".format(outbasename, outbasename, self.infile)
+                cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(
+			outbasename, output_ext, outbasename, output_ext, self.infile)
                 self.execute(cmd)
-                cmd = "{} {}_1.fasta".format(compresscmd,outbasename)
+                cmd = "{} {}_1.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)
-                cmd = "{} {}_2.fasta".format(compresscmd,outbasename)
+                cmd = "{} {}_2.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)
 
         else:
@@ -101,6 +110,7 @@ class CRAM2FASTA(ConvBase):
                 self.execute(cmd)
             # When the input file is paired
             else:
-                cmd = "samtools fasta -1 {}_1.fasta -2 {}_2.fasta -n {} ".format(outbasename, outbasename, self.infile)
+                cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(outbasename, 
+			output_ext, outbasename, output_ext, self.infile)
                 self.execute(cmd)
 
