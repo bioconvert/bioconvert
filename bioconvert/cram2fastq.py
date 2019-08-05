@@ -57,8 +57,6 @@ class CRAM2FASTQ(ConvBase):
     def _method_samtools(self, *args, **kwargs):
         """Do the conversion :term:`BAM` -> :term:`FASTQ` using samtools
 
-        :return: the standard output
-        :rtype: :class:`io.StringIO` object.
         """
         cmd = "samtools fastq {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
