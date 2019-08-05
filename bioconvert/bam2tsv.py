@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`bam` file to :term:`tsv` file"""
+"""Convert :term:`BAM` file to :term:`TSV` file"""
 import os
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -30,10 +30,10 @@ import colorlog
 
 logger = colorlog.getLogger(__name__)
 
-class BAM2TSV(ConvBase):
-    """
 
-    """
+class BAM2TSV(ConvBase):
+    """Convert sorted :term:`BAM` file into :term:`WIGGLE` file"""
+
     _default_method = "samtools"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -42,12 +42,10 @@ class BAM2TSV(ConvBase):
         :param str infile:
         :param str outfile:
 
-        command used::
+        Methods are based on samtools [SAMTOOLS]_ and pysam [PYSAM]_.
 
-            samtools index && samtools idxstats
         """
         super(BAM2TSV, self).__init__(infile, outfile, *args, **kargs)
-
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
