@@ -32,7 +32,17 @@ logger = colorlog.getLogger(__name__)
 
 
 class BAM2TSV(ConvBase):
-    """Convert sorted :term:`BAM` file into :term:`WIGGLE` file"""
+    """Convert sorted :term:`BAM` file into :term:`TSV` stats
+
+    This is not a conversion per se but the extraction of BAM 
+    statistics saved into a TSV format. The 4 columns of the TSV file
+    are::
+
+        Reference sequence name, Sequence length,Mapped reads, Unmapped reads
+
+
+    Methods are based on samtools [SAMTOOLS] and pysam [PYSAM].
+    """
 
     _default_method = "samtools"
 

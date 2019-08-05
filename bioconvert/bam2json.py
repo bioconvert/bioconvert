@@ -34,7 +34,7 @@ logger = colorlog.getLogger(__name__)
 class BAM2JSON(ConvBase):
     """Convert :term:`BAM` format to :term:`JSON` file
 
-    Based on bamtools.
+    Methods available are based on bamtools [BAMTOOLS]_.
 
     """
 
