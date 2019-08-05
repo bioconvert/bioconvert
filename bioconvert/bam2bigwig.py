@@ -45,7 +45,8 @@ class BAM2BIGWIG(ConvBase):
     Convert BAM into a binary version of :term:`WIG` format.
 
     Methods are base on bamCoverage [BAMCOVERAGE]_ and bedGraphToBigWig from
-    wiggletools [WIGGLETOOLS]_.
+    wiggletools [WIGGLETOOLS]_. Wiggletools method requires an extra argument
+    (--chrom-sizes) therefore default one is bamCoverage for now.
 
     """
     _default_method = "bamCoverage"
@@ -68,7 +69,10 @@ class BAM2BIGWIG(ConvBase):
 
     @requires(external_binaries=["bedGraphToBigWig", "bedtools"])
     def _method_ucsc(self, *args, **kwargs):
-        """run ucsc tool bedGraphToBigWig"""
+        """Run ucsc tool bedGraphToBigWig. 
+
+        Requires extra argument (chrom_sizes) required by the bioconvert
+        stanalone. """
         from bioconvert.bam2bedgraph import BAM2BEDGRAPH
         from bioconvert.bedgraph2bigwig import BEDGRAPH2BIGWIG
 
