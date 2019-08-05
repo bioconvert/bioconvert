@@ -59,8 +59,6 @@ class CRAM2FASTA(ConvBase):
         """
         do the conversion :term:`BAM` -> :term:`FASTA` using samtools
 
-        :return: the standard output
-        :rtype: :class:`io.StringIO` object.
 
         .. note:: fasta are on one line
         """
