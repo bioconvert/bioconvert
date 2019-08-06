@@ -239,7 +239,7 @@ html_last_updated_fmt = '%b %d, %Y'
 # typographically correct entities.
 #html_use_smartypants = False
 
-smartquotes = True
+smartquotes = False
 
 # Custom sidebar templates, maps document names to template names.
 html_index = 'index.html'
