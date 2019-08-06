@@ -54,7 +54,7 @@ class BAM2FASTQ(ConvBase):
 
     """@requires("bamtools")
     def __method_bamtools(self, *args, **kwargs):
-   
+
         # this method contains supplementary reads and we don't know 
         # what to do with them for now. So, this method is
         # commented. Indeed final R1 and R2 files will not be paired.
@@ -69,10 +69,7 @@ class BAM2FASTQ(ConvBase):
     def _method_bedtools(self, *args, **kwargs):
         """Do the conversion :term:`BAM` -> :term:`Fastq` using bedtools
 
-        :return: the standard output
-        :rtype: :class:`io.StringIO` object.
         """
-
         outbasename = os.path.splitext(self.outfile)[0]
 
         cmd = "bedtools bamtofastq -i {} -fq {}".format(self.infile, self.outfile)
@@ -109,13 +106,10 @@ class BAM2FASTQ(ConvBase):
                 compressor("{}_1.{}".format(outbasename, output_ext), comp_ext)
                 compressor("{}_2.{}".format(outbasename, output_ext), comp_ext)
 
-
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """Do the conversion :term:`BAM` -> :term:`FASTQ` using samtools
 
-        :return: the standard output
-        :rtype: :class:`io.StringIO` object.
         """
         cmd = "samtools fastq {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)

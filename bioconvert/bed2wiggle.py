@@ -23,7 +23,9 @@ __all__ = ["BED2WIGGLE"]
 
 
 class BED2WIGGLE(ConvBase):
-    """Convert sorted :term:`BED` file into :term:`WIGGLE` file 
+    """Convert sorted :term:`BED` file into :term:`WIGGLE` file
+
+    Methods available are based on wiggletools [WIGGLETOOLS]_.
 
     """
     _default_method = "wiggletools"
@@ -37,7 +39,7 @@ class BED2WIGGLE(ConvBase):
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):
-        """
+        """Convert BED to WIGGLE using wiggletools
 
         """
         cmd = "wiggletools {} > {}".format(self.infile, self.outfile)

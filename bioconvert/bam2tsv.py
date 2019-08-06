@@ -41,7 +41,7 @@ class BAM2TSV(ConvBase):
         Reference sequence name, Sequence length,Mapped reads, Unmapped reads
 
 
-    Methods are based on samtools [SAMTOOLS] and pysam [PYSAM].
+    Methods are based on samtools [SAMTOOLS]_ and pysam [PYSAM]_.
     """
 
     _default_method = "samtools"
@@ -49,8 +49,8 @@ class BAM2TSV(ConvBase):
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile:
-        :param str outfile:
+        :param str infile: BAM file
+        :param str outfile: TSV file
 
         Methods are based on samtools [SAMTOOLS]_ and pysam [PYSAM]_.
 

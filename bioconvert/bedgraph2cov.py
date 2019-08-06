@@ -45,6 +45,8 @@ class BEDGRAPH2COV(ConvBase):
         chr19   4930209    1
         chr19   4930210    1
 
+    Method available is a Bioconvert implementation (Python).
+
     """
     _default_method = 'python'
 

@@ -23,29 +23,24 @@
 ###########################################################################
 """Convert :term:`BCF` file to :term:`VCF` file"""
 from bioconvert import ConvBase
-
-import colorlog
-
 from bioconvert.core.decorators import requires
 
+import colorlog
 logger = colorlog.getLogger(__name__)
-
 
 
 class BCF2VCF(ConvBase):
     """Convert :term:`BCF` file to :term:`VCF` file
 
-    """
+    Methods available are based on bcftools [BCFTOOLS]_.
 
+    """
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
         :param str infile: input BCF file
         :param str outfile: output VCF file
 
-        command used::
-
-            bcftools view 
         """
         super(BCF2VCF, self).__init__(infile, outfile, *args, **kargs)
 

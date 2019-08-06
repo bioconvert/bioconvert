@@ -25,9 +25,10 @@ __all__ = ["BAM2WIGGLE"]
 class BAM2WIGGLE(ConvBase):
     """Convert sorted :term:`BAM` file into :term:`WIGGLE` file 
 
+    Methods available are based on wiggletools [WIGGLETOOLS]_.
+
     """
     _default_method = "wiggletools"
-    _library_to_install = " wiggletools "
 
     def __init__(self, infile, outfile):
         """
@@ -38,7 +39,7 @@ class BAM2WIGGLE(ConvBase):
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):
-        """
+        """Conversion using wiggletools
 
         """
         cmd = "wiggletools {} > {}".format(self.infile, self.outfile)

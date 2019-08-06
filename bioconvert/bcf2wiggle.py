@@ -23,7 +23,9 @@ __all__ = ["BCF2WIGGLE"]
 
 
 class BCF2WIGGLE(ConvBase):
-    """Convert sorted :term:`BCF` file into :term:`WIGGLE` file 
+    """Convert sorted :term:`BCF` file into :term:`WIGGLE` file
+
+    Methods available are based on wiggletools [WIGGLETOOLS]_.
 
     """
     _default_method = "wiggletools"

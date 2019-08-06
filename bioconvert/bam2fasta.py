@@ -47,8 +47,8 @@ class BAM2FASTA(ConvBase):
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
 
-        :param str infile:
-        :param str outfile:
+        :param str infile: BAM file
+        :param str outfile: FASTA file
 
         """
         super().__init__(infile, outfile)
@@ -77,9 +77,6 @@ class BAM2FASTA(ConvBase):
     def _method_samtools(self, *args, **kwargs):
         """
         do the conversion :term:`BAM` -> :term:`FASTA` using samtools
-
-        :return: the standard output
-        :rtype: :class:`io.StringIO` object.
 
         .. note:: fasta are on one line
         """

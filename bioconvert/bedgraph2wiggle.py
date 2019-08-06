@@ -13,9 +13,8 @@
 ##############################################################################
 """Convert :term:`BEDGRAPH` format to :term:`WIGGLE` formats"""
 from bioconvert import ConvBase
-import colorlog
-
 from bioconvert.core.decorators import requires
+import colorlog
 
 _log = colorlog.getLogger(__name__)
 
@@ -23,7 +22,9 @@ __all__ = ["BEDGRAPH2WIGGLE"]
 
 
 class BEDGRAPH2WIGGLE(ConvBase):
-    """Convert sorted :term:`BEDGRAPH` file into :term:`WIGGLE` file 
+    """Convert sorted :term:`BEDGRAPH` file into :term:`WIGGLE` file
+
+    Methods available are based on wiggletools [WIGGLETOOLS]_.
 
     """
     _default_method = "wiggletools"

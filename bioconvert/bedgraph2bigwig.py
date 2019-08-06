@@ -56,7 +56,7 @@ class BEDGRAPH2BIGWIG(ConvBase):
         """
         Convert bedgraph file in bigwig format using ucsc tool.
         https://genome.ucsc.edu/goldenpath/help/bigWig.html
-        
+
         http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes
         """
         chrom_sizes = kwargs.get("chrom_sizes", None)
