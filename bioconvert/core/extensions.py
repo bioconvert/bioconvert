@@ -74,7 +74,7 @@ extensions = {
     'twobit': ['2bit'],                         # sequence
     'tsv': ["tsv"],                             # database
     'vcf': ['vcf'],                             # variant
-    'wiggle': ['wig'],
+    'wiggle': ['wig', 'wiggle'],
     'wig': ['wig'],
     'xls': ['xls'],                             # database
     'xlsx': ['xlsx'],                           # database
