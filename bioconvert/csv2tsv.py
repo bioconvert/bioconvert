@@ -27,6 +27,8 @@ import colorlog
 
 from bioconvert import tsv2csv
 from bioconvert.core.decorators import requires, requires_nothing
+from bioconvert.core.decorators import compressor, in_gz
+
 
 logger = colorlog.getLogger(__name__)
 
@@ -64,6 +66,7 @@ class CSV2TSV(tsv2csv.TSV2CSV):
         super().__init__(infile, outfile)
 
     @requires_nothing
+    @compressor
     def _method_python(
             self,
             in_sep=DEFAULT_IN_SEP,
@@ -76,6 +79,7 @@ class CSV2TSV(tsv2csv.TSV2CSV):
         super()._method_python(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
 
     @requires_nothing
+    @compressor
     def _method_python_v2(
             self,
             in_sep=DEFAULT_IN_SEP,
@@ -90,6 +94,7 @@ class CSV2TSV(tsv2csv.TSV2CSV):
         super()._method_python_v2(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
 
     @requires(python_library="pandas")
+    @compressor
     def _method_pandas(
             self,
             in_sep=DEFAULT_IN_SEP,

@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""Convert :term:`BIGBED` format to :term:`WIGGLE` formats"""
+"""Convert :term:`BIGBED` format to :term:`WIGGLE` format"""
 from bioconvert import ConvBase
 import colorlog
 
@@ -26,6 +26,7 @@ __all__ = ["BIGBED2WIGGLE"]
 class BIGBED2WIGGLE(ConvBase):
     """Convert sorted :term:`BIGBED` file into :term:`WIGGLE` file
 
+    Methods available are based on wiggletools [WIGGLETOOLS]_.
     """
     _default_method = "wiggletools"
 

@@ -38,7 +38,6 @@ class WIG2BED(ConvBase):
     """
 
     _default_method = "bedops"
-    _library_to_install = "bedops"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

@@ -41,8 +41,6 @@ class BAM2CRAM(ConvBase):
     Otherwise, users are asked to provide it.
 
     Methods available are based on samtools [SAMTOOLS]_.
-
-
     """
     _default_method = "samtools"
     _threading = True

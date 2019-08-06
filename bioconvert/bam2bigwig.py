@@ -63,7 +63,7 @@ class BAM2BIGWIG(ConvBase):
     @requires("bamCoverage")
     def _method_bamCoverage(self, *args, **kwargs):
         """run bamCoverage package"""
-        cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {} 1>out 2>stderr".format(
+        cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {}".format(
                 self.infile, self.outfile)
         self.execute(cmd)
 
