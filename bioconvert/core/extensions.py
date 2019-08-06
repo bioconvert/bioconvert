@@ -37,7 +37,7 @@ extensions = {
     'bam': ["bam"],                             # alignment
     'bcf': ["bcf"],                             # variant
     'bed': ["bed"],                             # database
-    'bedgraph': ["bedgraph"],                   # database
+    'bedgraph': ["bedgraph", "bg"],                   # database
     'bigwig': ["bigwig", "bw"],                 # database
     'bigbed': ['bb', "bigbed"],
     'bz2': ['bz2'],                             # compression
