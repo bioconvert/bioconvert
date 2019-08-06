@@ -38,8 +38,8 @@ and 95 conversions.
 
 :contributions: Please join the team to contribute: https://github.com/bioconvert/bioconvert/issues/1
 
-.. image:: conversion.png
-   :width: 80%
+.. image:: conversion.svg
+   :width: 90%
 
 Overview
 ########
@@ -55,6 +55,8 @@ via :ref:`benchmarking <benchmarking>`. New implementations are provided when co
 better than existing ones.
 
 
+
+**In Aug 2019, we had 46 formats, 98 direct conversions (156 different methods). More conversions are possible when calling bioconvert several times.**
 
 **In Aug 2018, we had 43 formats, 79 direct conversions (129 different methods). More conversions are possible when calling bioconvert several times.**
 

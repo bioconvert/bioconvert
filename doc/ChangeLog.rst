@@ -9,6 +9,8 @@ Whats' new, what has changed
       Dollin)
     - Complete documentation with formats and bibliography
     - Validation of all currently implemented converters
+- NEW  converters:
+    - cram2fasta
 
 
 :Revision 0.3.1: (May/June 2019)

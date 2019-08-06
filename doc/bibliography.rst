@@ -15,11 +15,15 @@ Bibliography
     and bioinformatics. Cock et al 2009, Bioinformatics 25(11) 
     https://doi.org/10.1093/bioinformatics/btp163
 
+.. [DEEPTOOLS] todo
+
 .. [MOSDEPTH] Mosdepth: quick coverage calculation for genomes and exomes
       Brent S Pedersen, Aaron R Quinlan 2018 Bioinformatics, 34(5) 
       https://doi.org/10.1093/bioinformatics/btx699
 
 .. [PYSAM] TODO
+
+.. [PYBIGWIG] TODO
 
 .. [SAMBAMBA] TODO
 
@@ -32,8 +36,21 @@ Bibliography
     Sequence alignment/map (SAM) format and SAMtools, Bioinformatics (2009) 25(16)
     2078-9 [19505943]
 
+.. [SEQTK] todo
+
+.. [SQUIZZ] todo
+
 .. [WIGGLETOOLS] todo
 
 
 
-
+mappy
+pysam
+py2bit
+bedops
+plink
+sra-tools
+ucsc-bedgraphtobigwig
+ucsc-bigwigtobedgraph
+ucsc-fatotwobit
+ucsc-twobittofa
