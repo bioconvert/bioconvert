@@ -9,9 +9,11 @@ Whats' new, what has changed
       Dollin)
     - Complete documentation with formats and bibliography
     - Validation of all currently implemented converters
+    - New layout for the output graph
 - NEW  converters:
     - cram2fasta
-
+- CHANGES:
+    - cram2sam, bam2cram and related cram files have now a --reference option.
 
 :Revision 0.3.1: (May/June 2019)
 
