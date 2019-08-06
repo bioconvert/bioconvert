@@ -211,7 +211,6 @@ class ConvBase(metaclass=ConvMeta):
 
     # default method should be provided
     _default_method = None
-    _library_to_install = None
     _is_compressor = False
     # Can be overriden and if True, new argument --thread is added automatically
     _threading = False
