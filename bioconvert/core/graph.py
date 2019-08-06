@@ -53,14 +53,45 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
         from pygraphviz import AGraph
         dg = AGraph(directed=True)
 
+        url = "https://bioconvert.readthedocs.io/en/master/formats.html#{}"
+
         for a, b, s in rr.get_all_conversions():
             if len(a) == 1 and len(b) == 1:
+
+                dg.add_node(a[0], shape="rectangle", style="filled",
+                    url=url.format(a[0].upper()))
+                dg.add_node(b[0], shape="rectangle", style="filled",
+                    url=url.format(b[0].upper()))
                 dg.add_edge(a[0], b[0], color='black' if s else color_for_disabled_converter)
-            else :
-                dg.add_edge("_".join(a), "_".join(b), color='green' if s else color_for_disabled_converter)
+            else:
+                and_node = "_".join(a) + "_and_" + "_".join(b)
+
+                dg.add_node(and_node, label="", fillcolor="black", width=.1,
+                    height=.1, styled="filled", fixedsize=True, shape="circle")
+
+                for this in a:
+                    dg.add_edge(this, and_node, color="black" if s else color_for_disabled_converter)
+
+                for this in b:
+                    dg.add_edge(and_node, this, color="black" if s else color_for_disabled_converter)
+
+        for name in dg.nodes():
+            if dg.degree(name)<5:
+                dg.get_node(name).attr["fillcolor"] = "white"
+            elif dg.degree(name)<10:
+                # yellow
+                dg.get_node(name).attr["fillcolor"] = "yellow"
+            elif dg.degree(name)<20:
+                # orange
+                dg.get_node(name).attr["fillcolor"] = "orange"
+            else:
+                # red
+                dg.get_node(name).attr["fillcolor"] = "red"
 
         dg.layout(layout)
         dg.draw(filename)
+        dg.write("conversion.dot")
+        print(list(dg.get_node("FASTQ").attr.values()))
 
     except Exception as e:
         _log.error(e)
@@ -99,6 +130,7 @@ strict digraph{
 
         ext = filename.rsplit(".", 1)[1]
         cmd = "{}dot -T{} {} -o {}".format(dotpath, ext, dotfile.name, filename)
+        print(dotfile.name)
         try:
             shell(cmd)
         except:
