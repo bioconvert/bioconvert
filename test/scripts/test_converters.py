@@ -2,11 +2,39 @@ import subprocess
 import os
 import pytest
 from easydev import TempFile, md5
+import sys
 
 from bioconvert import bioconvert_data
 from bioconvert.bam2cov import BAM2COV
 from bioconvert.scripts import converter
 
+
+
+def test_converter_compression():
+    infile = bioconvert_data("test_fastq2fasta_v1.fastq")
+    with TempFile(suffix=".fasta.gz") as tempfile:
+        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile.name, "--force"]
+        converter.main()
+
+    infile = bioconvert_data("test_fastq2fasta_v1.fastq")
+    with TempFile(suffix=".fasta.bz2") as tempfile:
+        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile.name, "--force"]
+        converter.main()
+
+    infile = bioconvert_data("test_fastq2fasta_v1.fasta")
+    with TempFile(suffix=".fastq.gz") as tempfile:
+        sys.argv = ["bioconvert", "fasta2fastq", infile, tempfile.name, "--force"]
+        converter.main()
+
+    infile = bioconvert_data("test_fastq2fasta_v1.fasta")
+    with TempFile(suffix=".fastq.bz2") as tempfile:
+        sys.argv = ["bioconvert", "fasta2fastq", infile, tempfile.name, "--force"]
+        converter.main()
+
+    infile = bioconvert_data("test_fastq2fasta_v1.fasta")
+    with TempFile(suffix=".fastq.dsrc") as tempfile:
+        sys.argv = ["bioconvert", "fasta2fastq", infile, tempfile.name, "--force"]
+        converter.main()
 
 
 def test_converter_wrong_input_file():
@@ -317,13 +345,13 @@ def test_converter_show_methods():
     except SystemExit as e:
         assert e.code == 0
 
-
 def test_indirect_conversion_without_argument():
     import sys
     infile = bioconvert_data("fastqutils_1.fastq")
     with TempFile(suffix=".clustal") as tempfile:
         sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name, "--force"]
-        # For now we want the user to explicitly indicate that (s)he agrees with an indirect conversion
+        # For now we want the user to explicitly indicate that (s)he agrees 
+        # with an indirect conversion
         try:
             converter.main()
             assert False
