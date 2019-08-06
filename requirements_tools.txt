@@ -2,7 +2,6 @@ bamtools
 bcftools==1.8
 bedops
 bedtools
-bioawk
 deeptools
 dsrc
 go=1.10.3
@@ -21,4 +20,3 @@ ucsc-twobittofa
 wiggletools>=1.2.2
 sed
 mawk
-

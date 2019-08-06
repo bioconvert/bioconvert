@@ -155,14 +155,13 @@ class FASTQ2FASTA(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
-    @requires(external_binary="bioawk")
+    """@requires(external_binary="bioawk")
     @in_gz
     def _method_bioawk(self, *args, **kwargs):
-        """This method uses bioawk, an implementation with convenient
-        bioinformatics parsing features."""
         awkcmd = """bioawk -c fastx '{{print ">"$name" "$comment"\\n"$seq}}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
+    """
 
     # Somehow this does not work without specifying
     # the path to the shared libraries
