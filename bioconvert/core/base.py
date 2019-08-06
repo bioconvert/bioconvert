@@ -227,8 +227,6 @@ class ConvBase(metaclass=ConvMeta):
         :param str infile: the path of the input file.
         :param str outfile: the path of The output file
         """
-        if not outfile:
-            outfile = generate_outfile_name(infile, self.output_ext[0])
 
         self.infile = infile
         self.outfile = outfile
@@ -275,7 +273,6 @@ class ConvBase(metaclass=ConvMeta):
         t2 = time.time()
         _log.info("Took {} seconds ".format(t2 - t1))
 
-    #FIXME property not use
     @property
     def name(self):
         """
