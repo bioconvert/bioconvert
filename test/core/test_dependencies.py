@@ -53,10 +53,6 @@ def test_require_bigWigToBedGraph():
     assert requires(external_binary="bigWigToBedGraph")(object()).is_disabled is False
 
 
-@dependency_test
-def test_require_bioawk():
-    assert requires(external_binary="bioawk")(object()).is_disabled is False
-
 
 @dependency_test
 def test_require_bunzip2():
