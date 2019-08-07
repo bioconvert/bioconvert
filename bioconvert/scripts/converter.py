@@ -278,12 +278,9 @@ source collaborative project at https://github/bioconvert/bioconvert
 
         if converter:
             link_char = '-'
-            if len(converter.available_methods) < 1 and converter._library_to_install is None:
+            if len(converter.available_methods) < 1:
                 help_details = " (no available methods please see the doc" \
                                " for install the necessary libraries) "
-            elif len(converter.available_methods) < 1 and converter._library_to_install is not None:
-                help_details = " (no available methods please install {} \n" \
-                               "see the doc for more details) ".format(converter._library_to_install)
             else:
                 help_details = " (%i methods)" % len(converter.available_methods)
         else :#if path:
