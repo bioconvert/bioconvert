@@ -148,8 +148,8 @@ class Registry(object):
         Return a list of conversion steps to get from input and
         output formats
 
-        :param tuple input_fmt: 
-        :param tuple output_fmt: 
+        :param tuple input_fmt:
+        :param tuple output_fmt:
 
         Each step in the list is a pair of formats.
         """
@@ -226,15 +226,41 @@ class Registry(object):
         to go form input format to output format exists.
 
         :param format_pair: the input format, the output format
-        :type format_pair: tuple of 2 strings
+        :type format_pair: tuple (or list) of 2 items. The items must be a
+            string or a tuple/list of strings.
         :return: True if format_pair is in registry otherwise False.
         """
-        if format_pair[1] is tuple:
-            for pair in format_pair[1]:
 
-                pair = pair.upper()
-            format_pair[1] = (format_pair[0], ())
-        format_pair = (format_pair[0], format_pair[1])
+        # make sure input is tuple of 2 items
+        if isinstance(format_pair, (tuple, list)) is False:
+            raise ValueError("input argument must be a tuple or list of 2 items")
+
+        if isinstance(format_pair, list):
+            format_pair = tuple(format_pair)
+
+        # make sure we have a pair
+        if len(format_pair) != 2:
+            raise ValueError( "input must have 2 items")
+
+        # make sure each item is a string or tuple/list and convert into tuples
+        # first item
+        if isinstance(format_pair[0], str):
+            format_pair = ( (format_pair[0], ), format_pair[1])
+        elif isinstance(format_pair[0], list):
+            format_pair = ( tuple(format_pair[0]), format_pair[1])
+
+        # second item
+        if isinstance(format_pair[1], str):
+            format_pair = ( format_pair[0], (format_pair[1],))
+        elif isinstance(format_pair[1], list):
+            format_pair = ( format_pair[0], tuple(format_pair[1]))
+
+        # make sure it is upper case
+        for item in format_pair[1]:
+            item = item.upper()
+        for item in format_pair[0]:
+            item = item.upper()
+
         return format_pair in self._fmt_registry
 
     def __iter__(self):
