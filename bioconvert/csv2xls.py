@@ -10,16 +10,18 @@
 #  website: https://github.com/biokit/bioconvert
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
-""" description """
+"""convert :term:`CSV` to :term:`XLS`"""
 import csv
 
 import colorlog
 
 from bioconvert import ConvBase
-from bioconvert import requires
+from bioconvert.core.decorators import requires, requires_nothing
+from bioconvert.core.decorators import compressor, in_gz
 from bioconvert.core.base import ConvArg
 
 logger = colorlog.getLogger(__name__)
+
 
 __all__ = ["CSV2XLS"]
 
@@ -27,10 +29,10 @@ __all__ = ["CSV2XLS"]
 class CSV2XLS(ConvBase):
     """Convert :term:`CSV` file to :term:`XLS` file
 
-    Some description.
+    Methods available are based on python, pyexcel [PYEXCEL]_,
+    or pandas [PANDAS]_.
 
     """
-
     _default_method = "pandas"
     DEFAULT_IN_SEP = ','
     DEFAULT_LINE_TERMINATOR = '\n'
@@ -46,6 +48,7 @@ class CSV2XLS(ConvBase):
         super(CSV2XLS, self).__init__(infile, outfile, *args, **kargs)
 
     @requires(python_libraries=["pyexcel", "pyexcel-xls"])
+    @compressor
     def _method_pyexcel(
             self,
             in_sep=DEFAULT_IN_SEP,
@@ -68,6 +71,7 @@ class CSV2XLS(ConvBase):
         save_data(self.outfile, data)
 
     @requires(python_libraries=["pandas"])
+    @compressor
     def _method_pandas(
             self,
             in_sep=DEFAULT_IN_SEP,
