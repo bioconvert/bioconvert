@@ -23,10 +23,10 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`Fastq` format to :term:`Fastq` formats"""
+"""Convert :term:`FASTA` format to :term:`FASTQ` formats"""
 from bioconvert import ConvBase
 import colorlog
-
+from bioconvert.core.decorators import compressor
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
@@ -37,6 +37,8 @@ __all__ = ["FASTA2FASTQ"]
 
 class FASTA2FASTQ(ConvBase):
     """
+
+    Methods available are based on pysam [PYSAM]_.
 
     """
     _default_method = "pysam"
@@ -49,6 +51,7 @@ class FASTA2FASTQ(ConvBase):
         super().__init__(infile, outfile)
 
     @requires(python_library="pysam")
+    @compressor
     def _method_pysam(self, quality_file=None, *args, **kwargs):
         from pysam import FastxFile
         if quality_file is None:

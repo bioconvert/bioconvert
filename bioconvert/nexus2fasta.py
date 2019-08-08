@@ -29,6 +29,7 @@ import colorlog
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -52,6 +53,7 @@ class NEXUS2FASTA(ConvBase):
         self.alphabet = alphabet
 
     @requires("go")
+    @compressor
     def _method_goalign(self, *args, **kwargs):
         """
         Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using goalign tool.
@@ -68,6 +70,7 @@ class NEXUS2FASTA(ConvBase):
         self.execute(cmd)
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         """
         Convert :term:`NEXUS` interleaved or sequential file in :term:`FASTA` format using biopython.
@@ -136,6 +139,7 @@ and not ::
             AlignIO.write(alignments, output_handle, "fasta")
 
     @requires("squizz")
+    @compressor
     def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`NEXUS` sequential or interleave file in :term:`FASTA` format using squizz tool.

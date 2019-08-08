@@ -22,8 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""Convert :term:`Fastq` format to :term:`Fastq` formats"""
+"""Convert :term:`FASTA` format to :term:`FASTQ` formats"""
 from bioconvert import ConvBase
 from bioconvert.core.base import ConvArg
 import colorlog
@@ -36,7 +35,9 @@ _log = colorlog.getLogger(__name__)
 
 
 class FASTA_QUAL2FASTQ(ConvBase):
-    """
+    """Convert FASTA and QUAL back into a FASTQ file
+
+    Method based on pysam [PYSAM]_.
 
     """
     _default_method = "pysam"
@@ -49,7 +50,6 @@ class FASTA_QUAL2FASTQ(ConvBase):
         """
         super().__init__(infile, outfile)
 
-
     @requires(python_library="pysam")
     def _method_pysam(self, *args, **kwargs):
         from pysam import FastxFile
@@ -61,8 +61,13 @@ class FASTA_QUAL2FASTQ(ConvBase):
             with open(self.outfile, "w") as fastq_out:
                 for seq, qual in zip(FastxFile(self.infile[0]), FastxFile(self.infile[1])):
                     assert seq.name == qual.name
-                    fastq_out.write("@{0} {1}\n{2}\n+\n{3}\n".format(seq.name,
+                    if seq.comment:
+                        fastq_out.write("@{0} {1}\n{2}\n+\n{3}\n".format(seq.name,
                                                                  seq.comment,
+                                                                 seq.sequence,
+                                                                 qual.sequence))
+                    else:
+                        fastq_out.write("@{0}\n{1}\n+\n{2}\n".format(seq.name,
                                                                  seq.sequence,
                                                                  qual.sequence))
 

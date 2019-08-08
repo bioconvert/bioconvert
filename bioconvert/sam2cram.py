@@ -42,11 +42,10 @@ class SAM2CRAM(ConvBase):
     """Convert :term:`SAM` file to :term:`CRAM` file
 
     The conversion requires the reference corresponding to the input file
-    It can be provided as an argument in the constructor. Otherwise,
-    a local file with same name as the input file but an .fa extension is
-    looked for. Otherwise, we ask for the user to provide the input file.
-    This is useful for the standalone application.
+    It can be provided as an argument with the standalone (*-\\-reference*). 
+    Otherwise, users are asked to provide it.
 
+    Methods available are based on samtools [SAMTOOLS]_.
     """
     _default_method = "samtools"
     _threading = True
@@ -55,44 +54,29 @@ class SAM2CRAM(ConvBase):
         """.. rubric:: constructor
 
         :param str infile: input SAM file
-        :param str outfile: output filename
-        :param str reference: reference file in :term:`FASTA` format
+        :param str outfile: output CRAM filename
 
-        command used::
-
-            samtools view -SCh
-
-        .. note:: the API related to the third argument may change in the future.
         """
         super(SAM2CRAM, self).__init__(infile, outfile, *args, **kargs)
 
-        self.reference = reference
-        if self.reference is None:
-            logger.warning(
-                "No reference provided. Looking for same file "
-                "with .fa extension in same directory")
-            # try to find the local file replacing .sam by .fa
-            reference = infile.replace(".sam", ".fa")
-            if os.path.exists(reference):
-                logger.info(
-                    "Reference found from inference ({})".format(reference))
-            else:
-                logger.warning("No reference found.")
-                msg = "Please enter the reference corresponding "
-                msg += "to the input SAM file:"
-                reference = input(msg)
-                if os.path.exists(reference) is False:
-                    raise IOError("Reference required")
-                else:
-                    logger.debug("Reference exists ({}).".format(reference))
-
-            self.reference = reference
-        print(self.reference)
+    def _get_reference(self):
+        # In case the --reference is not used
+        msg = "Please enter the reference corresponding "
+        msg += "to the input BAM file:"
+        reference = input(msg)
+        if os.path.exists(reference) is False:
+            raise IOError("Reference required")
+        else:
+            logger.debug("Reference exists ({}).".format(reference))
+        return reference
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         # -C means output is CRAM
-        reference = kwargs.get("reference", self.reference)
+
+        reference = kwargs.get("reference", None)
+        if reference is None:
+            reference = self._get_reference()
 
         cmd = "samtools view -@ {} -C {} -T {} > {}".format(
             self.threads, self.infile, reference, self.outfile)

@@ -22,15 +22,18 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
 """Convert :term:`FASTQ` to :term:`BAM`"""
 from bioconvert import ConvBase
 
 from bioconvert.core.decorators import in_gz, requires
+from bioconvert.core.decorators import compressor
 
 
 class FASTQ2BAM(ConvBase):
-    """Convert :term:`FASTQ` to :term:`BAM`"""
+    """Convert :term:`FASTQ` to :term:`BAM`
+
+    Methods available are based on fastqutils [FASTQUTILS]_.
+    """
     _default_method = "fastqutils"
 
     # infile: read 1, infile2: read2 if paired-end
@@ -40,7 +43,7 @@ class FASTQ2BAM(ConvBase):
         :param str outfile: The path to the output file.
         """
         super().__init__(infile, outfile)
-        # use readfq for now because pure python are fast enough
+        # use readfq for now because pure python are not fast enough
         # for production, could use seqtk which seems the fastest method though
         # Make sure that the default handles also the compresssion
         self.infile2 = infile2
@@ -59,9 +62,4 @@ class FASTQ2BAM(ConvBase):
             cmd = "fastqutils tobam -1 {} -o {}".format(
                 self.infile, self.outfile)
         self.execute(cmd)
-
-
-#TODO: could use picard as follows:
-# picard FastqToSam FASTQ=sd_0001.fastq OUTPUT=test2.bam  READ_GROUP_NAME=test
-#     SAMPLE_NAME=test LIBRARY_NAME=sim PLATFORM=pacbio
 

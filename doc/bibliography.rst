@@ -19,6 +19,12 @@ Bibliography
 
 .. [DSRC] todo
 
+.. [FASTQUTILS] todo
+
+.. [GOALIGN] todo
+
+.. [GOTREE] todo
+
 .. [MOSDEPTH] Mosdepth: quick coverage calculation for genomes and exomes
       Brent S Pedersen, Aaron R Quinlan 2018 Bioinformatics, 34(5) 
       https://doi.org/10.1093/bioinformatics/btx699
@@ -26,6 +32,8 @@ Bibliography
 .. [PANDAS] TODO
 
 .. [PIGZ] TODO
+
+.. [PLINK] todo
 
 .. [PYEXCEL] TODO
 
@@ -48,17 +56,13 @@ Bibliography
 
 .. [SQUIZZ] todo
 
+.. [UCSC] todo
+
 .. [WIGGLETOOLS] todo
 
 
 
 mappy
-pysam
 py2bit
 bedops
-plink
 sra-tools
-ucsc-bedgraphtobigwig
-ucsc-bigwigtobedgraph
-ucsc-fatotwobit
-ucsc-twobittofa

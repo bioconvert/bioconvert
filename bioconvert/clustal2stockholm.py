@@ -21,11 +21,13 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+"""Convert :term:`CLUSTAL` to :term:`STOCKHOLM` format"""
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -34,11 +36,9 @@ class CLUSTAL2STOCKHOLM(ConvBase):
     """
     Converts a sequence alignment from :term:`CLUSTAL` format to :term:`STOCKHOLM` format. ::
 
-        converter = CLUSTAL2STOCKHOLM(infile, outfile)
-        converter(method='biopython')
+    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, and
+    goalign [GOALIGN]_.
 
-    default method = biopython
-    available methods = biopython, squizz
     """
     _default_method = 'biopython'
 
@@ -52,6 +52,7 @@ class CLUSTAL2STOCKHOLM(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using biopython.
@@ -62,6 +63,7 @@ class CLUSTAL2STOCKHOLM(ConvBase):
         _log.info("Converted %d records to stockholm" % count)
 
     @requires("squizz")
+    @compressor
     def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` file in :term:`STOCKHOLM` format using squizz tool.

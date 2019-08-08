@@ -22,19 +22,26 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+"""Convert :term:`FASTA` to :term:`GENBANK` format"""
+import datetime
+from math import log, floor
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires, requires_nothing
+from bioconvert.core.decorators import compressor
 from bioconvert.readers.fasta import Fasta
 
-import datetime
-from math import log, floor
 
 __all__ = ["FASTA2GENBANK"]
 
 
 class FASTA2GENBANK(ConvBase):
-    """Convert :term:`FASTA` file to :term:`GENBANK` file"""
+    """Convert :term:`FASTA` file to :term:`GENBANK` file
+
+    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_ or 
+    Bioconvert pure implementation (default).
+
+    """
 
     # squizz works as well but keeps lower cases while 
     # biopython uses upper cases

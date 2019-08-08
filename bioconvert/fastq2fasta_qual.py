@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`FASTQ` to :term:`FASTA`"""
+"""Convert :term:`FASTQ` to :term:`FASTA` and :term:`QUAL`"""
 from bioconvert import ConvBase, bioconvert_script
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import compressor, in_gz
@@ -31,6 +31,9 @@ from bioconvert.core.decorators import requires, requires_nothing
 
 from mappy import fastx_read
 import mmap
+
+
+__all__ = ["FASTQ2FASTA_QUAL"]
 
 
 class FASTQ2FASTA_QUAL(ConvBase):

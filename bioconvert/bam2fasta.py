@@ -36,7 +36,7 @@ class BAM2FASTA(ConvBase):
     Methods available are based on samtools [SAMTOOLS]_ or bedtools [BEDTOOLS]_.
 
     .. warning:: Using the bedtools method, the R1 and R2 reads must be next to 
-	each other so that the reads are sorted similarly
+        each other so that the reads are sorted similarly
 
     .. warning:: there is no guarantee that the R1/R2 output file are sorted
         similarly in paired-end case due to supp and second reads

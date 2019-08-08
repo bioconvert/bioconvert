@@ -22,14 +22,12 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""FASTA2PHYLIP conversion """
-
+"""Convert :term:`FASTA` to :term:`PHYLIP` format"""
 import colorlog
-from Bio import SeqIO
-
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
+from Bio import SeqIO
 
 _log = colorlog.getLogger(__name__)
 
@@ -41,6 +39,9 @@ class FASTA2PHYLIP(ConvBase):
     """Converts a sequence alignment in :term:`FASTA` format to :term:`PHYLIP` format
 
     Conversion is based on Bio Python modules
+
+    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_ or 
+    goalign [GOALIGN]_.
 
     """
     _default_method = 'biopython'
@@ -55,16 +56,18 @@ class FASTA2PHYLIP(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         sequences = list(SeqIO.parse(self.infile, "fasta", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "phylip")
         _log.debug("Converted %d records to phylip" % count)
 
     @requires("squizz")
+    @compressor
     def _method_squizz(self, *args, **kwargs):
         """
         Convert fasta file in Phylip interleaved format using squizz tool.
-        The fasta file must be an alignemnt file, yhis mean all the sequences must
+        The fasta file must be an alignement file, this means that all sequences must
         have the same length (with the gap) otherwise an error will be raised
         """
         cmd = 'squizz -c PHYLIPI {infile} > {outfile}'.format(
@@ -73,12 +76,13 @@ class FASTA2PHYLIP(ConvBase):
         self.execute(cmd)
 
     @requires("go")
+    @compressor
     def _method_goalign(self, *args, **kwargs):
         """
         Convert fasta file in Phylip interleaved format using goalign tool.
         https://github.com/fredericlemoine/goalign
-        The fasta file must be an alignemnt file, yhis mean all the sequences must
-        have the same length (with the gap) otherwise an error will be raised
+        The fasta file must be an alignemnt file, this means that  all sequences 
+        must have the same length (with the gap) otherwise an error will be raised
         """
         self.install_tool('goalign')
         cmd = 'goalign reformat phylip -i {infile} -o {outfile}'.format(

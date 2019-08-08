@@ -64,8 +64,8 @@ class CRAM2FASTA(ConvBase):
         """
         # Test if input bam file is paired
         p = subprocess.Popen("samtools view -c -f 1 {}".format(
-            self.infile).split(),stdout=subprocess.PIPE, 
-		stderr=subprocess.PIPE, universal_newlines=True)
+            self.infile).split(),stdout=subprocess.PIPE,    
+                stderr=subprocess.PIPE, universal_newlines=True)
         isPaired = p.communicate()[0].strip()
 
         # Collect the extension
@@ -92,7 +92,7 @@ class CRAM2FASTA(ConvBase):
             # When the input file is paired and the output file needs to be compressed
             else:
                 cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(
-			outbasename, output_ext, outbasename, output_ext, self.infile)
+                    outbasename, output_ext, outbasename, output_ext, self.infile)
                 self.execute(cmd)
                 cmd = "{} {}_1.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)
@@ -109,6 +109,6 @@ class CRAM2FASTA(ConvBase):
             # When the input file is paired
             else:
                 cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(outbasename, 
-			output_ext, outbasename, output_ext, self.infile)
+                    output_ext, outbasename, output_ext, self.infile)
                 self.execute(cmd)
 

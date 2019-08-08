@@ -22,11 +22,9 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""FASTA2NEXUS conversion"""
-
+"""Convert :term:`FASTA` to :term:`NEXUS` format"""
 import colorlog
-
+from bioconvert.core.decorators import compressor
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
@@ -39,7 +37,7 @@ __all__ = ['FASTA2NEXUS']
 class FASTA2NEXUS(ConvBase):
     """Converts a sequence alignment in :term:`FASTA` format to :term:`NEXUS` format
 
-    Conversion is based on Bio Python modules
+    Methods available are based on squizz [GOALIGN]_.
 
     """
     _default_method = 'goalign'
@@ -54,6 +52,7 @@ class FASTA2NEXUS(ConvBase):
         self.alphabet = alphabet
 
     @requires("go")
+    @compressor
     def _method_goalign(self, *args, **kwargs):
         """
         Convert fasta file in Nexus format using goalign tool.

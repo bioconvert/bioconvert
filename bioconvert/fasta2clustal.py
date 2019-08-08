@@ -22,26 +22,23 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-""" description """
+"""Convert :term:`FASTA` to :term:`CLUSTAL` format"""
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
 
 class FASTA2CLUSTAL(ConvBase):
     """
-    Converts a sequence alignment from :term:`FASTA` format to :term:`CLUSTAL` format::
+    Converts a sequence alignment from :term:`FASTA` to :term:`CLUSTAL` format
 
-        converter = FASTA2CLUSTAL(infile, outfile)
-        converter(method='biopython')
-
-    default method = biopython
-    available methods = biopython, squizz, goalign
+    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, 
+    and goalign [GOALIGN]_.
     """
     _default_method = 'biopython'
 
@@ -55,6 +52,7 @@ class FASTA2CLUSTAL(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         """
         Convert :term:`FASTA` interleaved file in :term:`CLUSTAL` format using biopython.
@@ -65,6 +63,7 @@ class FASTA2CLUSTAL(ConvBase):
         _log.info("Converted %d records to clustal" % count)
 
     @requires("squizz")
+    @compressor
     def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`FASTA` file in :term:`CLUSTAL` format using squizz tool.
@@ -76,6 +75,7 @@ class FASTA2CLUSTAL(ConvBase):
         self.execute(cmd)
 
     @requires("go")
+    @compressor
     def _method_goalign(self, *args, **kwargs):
         """
         Convert :term:`FASTA` file in  :term:`CLUSTAL` format using goalign tool.

@@ -34,7 +34,7 @@ class EMBL2GENBANK(ConvBase):
     """Convert :term:`EMBL` file to :term:`GENBANK` file
 
 
-    Methods available are based on squizz [SQUIZZ]_ and 
+    Methods available are based on squizz [SQUIZZ]_ and
     biopython [BIOPYTHON]_.
     """
     _default_method = "biopython"

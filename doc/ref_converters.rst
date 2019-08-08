@@ -44,7 +44,7 @@ Summary
 	bioconvert.dsrc2gz
 	bioconvert.embl2fasta
 	bioconvert.embl2genbank
-	bioconvert.fasta2bed
+	bioconvert.fasta_qual2fastq
 	bioconvert.fasta2clustal
 	bioconvert.fasta2fastq
 	bioconvert.fasta2genbank
@@ -286,10 +286,11 @@ All converters documentation
     :synopsis:
     :private-members:
 
-.. automodule:: bioconvert.fasta2bed
+.. automodule:: bioconvert.fasta_qual2fastq
     :members:
     :synopsis:
     :private-members:
+
 
 .. automodule:: bioconvert.fasta2clustal
     :members:

@@ -26,6 +26,7 @@ import colorlog
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -35,13 +36,11 @@ __all__ = ['NEXUS2CLUSTAL']
 
 class NEXUS2CLUSTAL(ConvBase):
     """
-    Converts a sequence alignment from :term:`NEXUS` format to :term:`CLUSTAL` format. ::
+    Converts a sequence alignment from :term:`NEXUS` format to :term:`CLUSTAL` format. 
 
-        converter = NEXUS2CLUSTAL(infile, outfile)
-        converter(method='goalign')
+    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, and
+    goalign [GOALIGN]_.
 
-    default method = goalign
-    available methods = goalign
     """
     _default_method = 'goalign'
 
@@ -55,6 +54,7 @@ class NEXUS2CLUSTAL(ConvBase):
         self.alphabet = alphabet
 
     @requires("go")
+    @compressor
     def _method_goalign(self, *args, **kwargs):
         """
         Convert :term:`NEXUS` file in  :term:`CLUSTAL` format using goalign tool.
@@ -68,12 +68,14 @@ class NEXUS2CLUSTAL(ConvBase):
         self.execute(cmd)
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
          from Bio import AlignIO
          alignments = list(AlignIO.parse(self.infile, "nexus", alphabet=self.alphabet))
          AlignIO.write(alignments, self.outfile, "clustal")
 
     @requires("squizz")
+    @compressor
     def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`NEXUS` file in :term:`CLUSTAL` format using squizz tool.

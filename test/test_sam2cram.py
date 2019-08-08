@@ -1,20 +1,20 @@
 import os
-
-import pytest
-
 from bioconvert.sam2cram import SAM2CRAM
 from bioconvert import bioconvert_data
 from easydev import TempFile, md5
+import pytest
+from mock import patch 
 
+reference = bioconvert_data("test_measles.fa")
 
-@pytest.mark.skipif(len(SAM2CRAM.available_methods) == 0, reason="missing dependencies")
-def test_conv():
-    infile = bioconvert_data("test_measles.sam")
-    outfile = bioconvert_data("test_measles.cram")
-    reference = bioconvert_data("test_measles.fa")
+@patch('bioconvert.sam2cram.input', return_value=reference)
+def test_conv(x):
+    infile = bioconvert_data("test_measles.cram")
+    outfile = bioconvert_data("test_measles.sam")
+
     with TempFile(suffix=".cram") as tempfile:
         convert = SAM2CRAM(infile, tempfile.name, reference)
-        convert()
+        convert(reference=reference)
 
         # Check that the output is correct with a checksum
         # Note that we cannot test the md5 on a gzip file but only 
@@ -25,10 +25,15 @@ def test_conv():
         # compressed file size may change. I have seen 6115, 6608, 6141
         assert size > 5800 and size < 7000
 
-    with TempFile(suffix=".cram") as tempfile:
-        convert = SAM2CRAM(infile, tempfile.name, reference=None)
-        convert()
 
-    with TempFile(suffix=".cram") as tempfile:
-        convert = SAM2CRAM(infile, tempfile.name, reference="dummy.fa")
-        convert()
+@patch('bioconvert.sam2cram.input', return_value="not_found")
+def test_conv_error(x):
+    infile = bioconvert_data("test_measles.cram")
+    outfile = bioconvert_data("test_measles.sam")
+    with TempFile(suffix=".sam") as tempfile:
+        convert = SAM2CRAM(infile, tempfile.name)
+        try:
+            convert(method="samtools")
+            assert 0
+        except IOError:
+            assert 1

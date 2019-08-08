@@ -22,15 +22,13 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""FASTA2TWOBIT conversion"""
-import os
-
+"""Convert :term:`FASTA` to :term:`TWOBIT` format"""
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -41,7 +39,7 @@ __all__ = ['FASTA2TWOBIT']
 class FASTA2TWOBIT(ConvBase):
     """Converts a sequence alignment in :term:`FASTA` format to :term:`TWOBIT` format
 
-    Conversion is based on UCSC faToTwoBit
+    Methods available are based on UCSC faToTwoBit [UCSC]_.
 
     """
     _default_method = 'ucsc'
@@ -56,6 +54,7 @@ class FASTA2TWOBIT(ConvBase):
         self.alphabet = alphabet
 
     @requires("faToTwoBit")
+    @compressor
     def _method_ucsc(self, *args, **kwargs):
         """
         Convert fasta file in twobit format using ucsc faToTwoBit.
@@ -66,7 +65,5 @@ class FASTA2TWOBIT(ConvBase):
             outfile=self.outfile)
         self.execute(cmd)
 
-    #@requires("faToTwoBit")
-    #def _method_deeptools(self, *args, **kwargs):
 
 
