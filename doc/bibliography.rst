@@ -17,9 +17,17 @@ Bibliography
 
 .. [DEEPTOOLS] todo
 
+.. [DSRC] todo
+
 .. [MOSDEPTH] Mosdepth: quick coverage calculation for genomes and exomes
       Brent S Pedersen, Aaron R Quinlan 2018 Bioinformatics, 34(5) 
       https://doi.org/10.1093/bioinformatics/btx699
+
+.. [PANDAS] TODO
+
+.. [PIGZ] TODO
+
+.. [PYEXCEL] TODO
 
 .. [PYSAM] TODO
 

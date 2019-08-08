@@ -40,9 +40,11 @@ Summary
 	bioconvert.cram2fastq
 	bioconvert.cram2sam
 	bioconvert.csv2tsv
+	bioconvert.csv2xls
 	bioconvert.dsrc2gz
 	bioconvert.embl2fasta
 	bioconvert.embl2genbank
+	bioconvert.fasta2bed
 	bioconvert.fasta2clustal
 	bioconvert.fasta2fastq
 	bioconvert.fasta2genbank
@@ -264,6 +266,11 @@ All converters documentation
     :synopsis:
     :private-members:
 
+.. automodule:: bioconvert.csv2xls
+    :members:
+    :synopsis:
+    :private-members:
+
 .. automodule:: bioconvert.dsrc2gz
     :members:
     :synopsis:
@@ -275,6 +282,11 @@ All converters documentation
     :private-members:
 
 .. automodule:: bioconvert.embl2genbank
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.fasta2bed
     :members:
     :synopsis:
     :private-members:
