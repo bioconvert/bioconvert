@@ -240,6 +240,7 @@ class ConvBase(metaclass=ConvMeta):
     def __call__(self, *args, method_name=None, **kwargs):
         """
 
+        :param str method_name: the method to be found in :attr:`available_methods`
         :param str method: the method to be found in :attr:`available_methods`
         :param *args: positional arguments
         :param *kwargs: keyword arguments
