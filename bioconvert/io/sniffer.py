@@ -701,7 +701,7 @@ class Sniffer(object):
     def is_yaml(self, filename):
         try:
             import  yaml
-            data = yaml.load(open(filename, "r"))
+            data = yaml.load(open(filename, "r"), Loader=yaml.FullLoader)
             if data.keys():
                 return True
         except:
