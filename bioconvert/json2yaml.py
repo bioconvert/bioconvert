@@ -22,11 +22,12 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
 """Convert :term:`JSON` to :term:`YAML` format"""
-import yaml, json
+import yaml
+import json
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires, requires_nothing
+from bioconvert.core.decorators import requires, requires_nothing, compressor
+
 
 __all__ = ["JSON2YAML"]
 
@@ -56,6 +57,7 @@ class JSON2YAML(ConvBase):
         super(JSON2YAML, self).__init__(infile, outfile, *args, **kargs)
 
     @requires_nothing
+    @compressor
     def _method_yaml(self, *args, **kwargs):
         with open(self.infile, "r") as infile:
             data = json.load(infile)

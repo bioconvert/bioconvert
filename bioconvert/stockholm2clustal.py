@@ -22,25 +22,26 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-import os
+"""Converts :term:`STOCKHOLM` file to :term:`CLUSTAL` file."""
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
+
+
+__all__ = ["STOCKHOLM2CLUSTAL"]
+
 
 class STOCKHOLM2CLUSTAL(ConvBase):
     """
     Converts a sequence alignment from :term:`STOCKHOLM` format to :term:`CLUSTAL` format::
 
-        converter = STOCKHOLM2CLUSTAL(infile, outfile)
-        converter(method='biopython')
+    Methods available are based on squizz [SQUIZZ]_ and biopython [BIOPYTHON]_.
 
-    default method = biopython
-    available methods = biopython, squizz
     """
     _default_method = 'biopython'
 
@@ -50,20 +51,21 @@ class STOCKHOLM2CLUSTAL(ConvBase):
         :param str infile: input :term:`STOCKHOLM` file.
         :param str outfile: (optional) output :term:`CLUSTAL` file
         """
-        super().__init__(infile, outfile)
-        self.alphabet = alphabet
+        super(STOCKHOLM2CLUSTAL, self).__init__(infile, outfile)
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         """
         Convert :term:`STOCKHOLM` interleaved file in :term:`CLUSTAL` format using biopython.
 
         """
-        sequences = list(SeqIO.parse(self.infile, "stockholm", alphabet=self.alphabet))
+        sequences = list(SeqIO.parse(self.infile, "stockholm"))
         count = SeqIO.write(sequences, self.outfile, "clustal")
-        _log.info("Converted %d records to clustal" % count)
+        _log.debug("Converted %d records to clustal" % count)
 
     @requires("squizz")
+    @compressor
     def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`STOCKHOLM` file in :term:`CLUSTAL` format using squizz tool.

@@ -30,7 +30,7 @@ from collections import defaultdict
 
 import colorlog
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires_nothing
+from bioconvert.core.decorators import requires_nothing, compressor
 from bioconvert.io import scf
 
 _log = colorlog.getLogger(__name__)
@@ -47,6 +47,7 @@ class SCF2FASTA(ConvBase):
     """
 
     @requires_nothing
+    @compressor
     def _method_python(self, *args, **kwargs):
         sequence, qualities, comments = scf.read_scf(self.infile)
 

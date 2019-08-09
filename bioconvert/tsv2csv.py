@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`TSV` format to :term:`CSV` file"""
+"""Convert :term:`TSV` format to :term:`CSV` format"""
 import csv
 import colorlog
 
@@ -56,7 +56,7 @@ class TSV2CSV(ConvBase):
         :param str infile: tabulated file
         :param str outfile: comma-separated file
         """
-        super().__init__(infile, outfile)
+        super(TSV2CSV, self).__init__(infile, outfile)
 
     @requires_nothing
     @compressor

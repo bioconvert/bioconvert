@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`SAM` file to :term:`CRAM` file"""
+"""Convert :term:`SAM` file to :term:`CRAM` format"""
 import os
 
 from bioconvert import ConvBase

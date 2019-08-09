@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`GZ` file to :term:`BZ2` file"""
+"""Convert :term:`GZ` file to :term:`BZ2` format"""
 import bz2
 import gzip
 
@@ -37,7 +37,8 @@ __all__ = ["GZ2BZ2"]
 class GZ2BZ2(ConvBase):
     """Convert :term:`GZ` file to :term:`BZ2` file
 
-    unzip input file using pigz and compress using pbzip2
+    Unzip input file using pigz or gunzip and compress using pbzip2. Default
+    is pigz/pbzip2.
 
     """
     _threading = True

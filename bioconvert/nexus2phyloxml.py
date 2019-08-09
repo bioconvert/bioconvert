@@ -22,7 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Converts :term:`NEXUS` file to :term:`PHYLOXML` file."""
+"""Converts :term:`NEXUS` file to :term:`PHYLOXML` format."""
 import os
 
 import colorlog

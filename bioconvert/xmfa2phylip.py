@@ -22,14 +22,13 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""XMFA2PHYLIP conversion"""
+"""Convert :term:`XMFA` to :term:`PHYLIP` format"""
 
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
+from bioconvert import requires, compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -38,7 +37,11 @@ __all__ = ['XMFA2PHYLIP']
 
 
 class XMFA2PHYLIP(ConvBase):
-    """Converts a sequence alignment from :term:`XMFA` to :term:`PHYLIP` format."""
+    """Converts a sequence alignment from :term:`XMFA` to :term:`PHYLIP` format.
+
+    Method available based on biopython [BIOPYTHON]_.
+
+    """
     _default_method = 'biopython'
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
@@ -47,10 +50,11 @@ class XMFA2PHYLIP(ConvBase):
         :param str infile: input :term:`PHYLIP` file.
         :param str outfile: (optional) output :term:`NEXUS` file
         """
-        super().__init__(infile, outfile)
+        super(XMFA2PHYLIP, self).__init__(infile, outfile)
         self.alphabet = None
 
     @requires(python_libraries=["biopython"])
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         """
         Convert :term:`XMFA` interleaved file in :term:`PHYLIP` (Mauve)format.

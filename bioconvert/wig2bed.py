@@ -22,10 +22,10 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-""" description """
+"""Convert :term:`WIG` to :term:`BED` format"""
 
 from bioconvert import ConvBase
-from bioconvert import requires
+from bioconvert import requires, compressor
 
 __all__ = ["WIG2BED"]
 
@@ -33,7 +33,7 @@ __all__ = ["WIG2BED"]
 class WIG2BED(ConvBase):
     """Convert :term:`WIG` file to :term:`BED` file
 
-    Some description to be added by the developer
+    Method availabe are based on wig2bed tool.
 
     """
 
@@ -49,6 +49,7 @@ class WIG2BED(ConvBase):
         super(WIG2BED, self).__init__(infile, outfile, *args, **kargs)
 
     @requires("wig2bed")
+    @compressor
     def _method_default(self, *args, **kwargs):
         """some description"""
         cmd = "wig2bed < {} > {}".format(self.infile, self.outfile)

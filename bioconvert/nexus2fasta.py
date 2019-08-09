@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`NEXUS` to :term:`FASTA`"""
+"""Convert :term:`NEXUS` to :term:`FASTA` format"""
 
 import colorlog
 

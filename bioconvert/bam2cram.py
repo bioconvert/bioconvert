@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BAM` file to :term:`CRAM` file"""
+"""Convert :term:`BAM` file to :term:`CRAM` format"""
 import os
 from bioconvert import ConvBase
 from bioconvert.core.base import ConvArg

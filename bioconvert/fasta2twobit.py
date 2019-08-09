@@ -50,8 +50,7 @@ class FASTA2TWOBIT(ConvBase):
         :param str infile: input :term:`FASTA` file.
         :param str outfile: (optional) output :term:`TWOBIT` file
         """
-        super().__init__(infile, outfile)
-        self.alphabet = alphabet
+        super(FASTA2TWOBIT, self).__init__(infile, outfile)
 
     @requires("faToTwoBit")
     @compressor

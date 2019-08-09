@@ -22,7 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`FASTA` format to :term:`FASTQ` formats"""
+"""Convert :term:`FASTA` format to :term:`FASTQ` format"""
 from bioconvert import ConvBase
 from bioconvert.core.base import ConvArg
 import colorlog
@@ -42,13 +42,12 @@ class FASTA_QUAL2FASTQ(ConvBase):
     """
     _default_method = "pysam"
 
-
     def __init__(self, infile, outfile):
         """
         :param list infile: The path to the input FASTA file, the path to the input QUAL file
         :param str outfile: The path to the output FASTQ file
         """
-        super().__init__(infile, outfile)
+        super(FASTA_QUAL2FASTQ, self).__init__(infile, outfile)
 
     @requires(python_library="pysam")
     def _method_pysam(self, *args, **kwargs):

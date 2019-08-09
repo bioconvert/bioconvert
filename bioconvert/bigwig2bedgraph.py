@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BIGWIG` to :term:`BEDGRAPH` conversion """
+"""Convert :term:`BIGWIG` to :term:`BEDGRAPH` format """
 import os
 
 import colorlog
@@ -51,7 +51,7 @@ class BIGWIG2BEDGRAPH(ConvBase):
         :param str infile: input :term:`BIGWIG` file.
         :param str outfile: (optional) output :term:`BEDGRAPH` file
         """
-        super().__init__(infile, outfile)
+        super(BIGWIG2BEDGRAPH, self).__init__(infile, outfile)
         #self.alphabet = alphabet
 
     @requires("bigWigToBedGraph")

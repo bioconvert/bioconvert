@@ -22,7 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`FASTQ` to :term:`BAM`"""
+"""Convert :term:`FASTQ` to :term:`BAM` format"""
 from bioconvert import ConvBase
 
 from bioconvert.core.decorators import in_gz, requires
@@ -42,7 +42,7 @@ class FASTQ2BAM(ConvBase):
         :param str infile: The path to the input FASTA file.
         :param str outfile: The path to the output file.
         """
-        super().__init__(infile, outfile)
+        super(FASTQ2BAM, self).__init__(infile, outfile)
         # use readfq for now because pure python are not fast enough
         # for production, could use seqtk which seems the fastest method though
         # Make sure that the default handles also the compresssion

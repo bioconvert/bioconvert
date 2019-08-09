@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`SAM` file to :term:`BAM` file"""
+"""Convert :term:`SAM` file to :term:`BAM` format"""
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 

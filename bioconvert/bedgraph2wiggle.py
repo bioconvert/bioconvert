@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""Convert :term:`BEDGRAPH` format to :term:`WIGGLE` formats"""
+"""Convert :term:`BEDGRAPH` format to :term:`WIGGLE` format"""
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 import colorlog
@@ -34,7 +34,7 @@ class BEDGRAPH2WIGGLE(ConvBase):
         :param str infile: The path to the input BEDGRAPH file. **It must be sorted**.
         :param str outfile: The path to the output file
         """
-        super().__init__(infile, outfile)
+        super(BEDGRAPH2WIGGLE, self).__init__(infile, outfile)
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):

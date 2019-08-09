@@ -22,8 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""Convert :term:`FASTQ` to :term:`FASTA`"""
+"""Convert :term:`FASTQ` to :term:`FASTA` format"""
 from bioconvert import ConvBase, bioconvert_script
 # from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import compressor, in_gz
@@ -42,6 +41,13 @@ class FASTQ2FASTA(ConvBase):
     # input_ext = extensions.extensions.fastq
     # output_ext =  extensions.fasta
     _default_method = "readfq"
+
+    def __init__(self, infile, outfile):
+        """
+        :param str infile: The path to the input FASTA file.
+        :param str outfile: The path to the output file.
+        """
+        super(FASTQ2FASTA, self).__init__(infile, outfile)
 
     @staticmethod
     def just_name(record):
@@ -100,13 +106,6 @@ class FASTQ2FASTA(ConvBase):
                     last = None
                     yield header, seq, ''.join(seqs)  # yield a fastq record
                     break
-
-    def __init__(self, infile, outfile):
-        """
-        :param str infile: The path to the input FASTA file.
-        :param str outfile: The path to the output file.
-        """
-        super().__init__(infile, outfile)
 
     @requires(python_library="biopython")
     @compressor

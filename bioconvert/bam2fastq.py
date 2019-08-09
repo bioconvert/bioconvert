@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BAM` format to :term:`FASTQ` file"""
+"""Convert :term:`BAM` format to :term:`FASTQ` foarmat"""
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 from bioconvert.core.utils import get_extension
@@ -50,7 +50,7 @@ class BAM2FASTQ(ConvBase):
         :param str outfile:
 
         """
-        super().__init__(infile, outfile)
+        super(BAM2FASTQ, self).__init__(infile, outfile)
 
     """@requires("bamtools")
     def __method_bamtools(self, *args, **kwargs):

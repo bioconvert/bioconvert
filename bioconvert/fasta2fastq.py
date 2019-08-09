@@ -22,8 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""Convert :term:`FASTA` format to :term:`FASTQ` formats"""
+"""Convert :term:`FASTA` format to :term:`FASTQ` format"""
 from bioconvert import ConvBase
 import colorlog
 from bioconvert.core.decorators import compressor
@@ -48,7 +47,7 @@ class FASTA2FASTQ(ConvBase):
         :param str infile: The path to the input FASTA file
         :param str outfile: The path to the output FASTQ file
         """
-        super().__init__(infile, outfile)
+        super(FASTA2FASTQ, self).__init__(infile, outfile)
 
     @requires(python_library="pysam")
     @compressor

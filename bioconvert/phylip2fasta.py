@@ -22,15 +22,13 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""PHYLIP2FASTA conversion"""
-import os
-
+"""Converts :term:`PHYLIP` file to :term:`FASTA` format."""
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -41,7 +39,7 @@ __all__ = ['PHYLIP2FASTA']
 class PHYLIP2FASTA(ConvBase):
     """Converts a sequence alignment in :term:`PHYLIP` format to :term:`FASTA` format
 
-    Conversion is based on Bio Python modules
+    Methods available are based on biopython [BIOPYTHON]_, squiz [SQUIZZ]_.
 
     """
     _default_method = 'biopython'
@@ -52,16 +50,18 @@ class PHYLIP2FASTA(ConvBase):
         :param str infile: input :term:`PHYLIP` file.
         :param str outfile: (optional) output :term:`FASTA` file
         """
-        super().__init__(infile, outfile)
+        super(PHYLIP2FASTA, self).__init__(infile, outfile)
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "fasta")
-        _log.debug("Converted %d records to fasta" % count)
+        #_log.debug("Converted %d records to fasta" % count)
 
     @requires("squizz")
+    @compressor
     def _method_squizz(self, *args, **kwargs):
         """
         Convert Phylip inteleaved file in fasta format using squizz tool.
@@ -73,6 +73,7 @@ class PHYLIP2FASTA(ConvBase):
         self.execute(cmd)
 
     @requires("go")
+    @compressor
     def _method_goalign(self, *args, **kwargs):
         """
         Convert fasta file in Phylip interleaved format using goalign tool.

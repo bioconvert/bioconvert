@@ -50,7 +50,7 @@ class CLUSTAL2FASTA(ConvBase):
         :param str infile: input :term:`CLUSTAL` file.
         :param str outfile: (optional) output :term:`FASTA` file
         """
-        super().__init__(infile, outfile)
+        super(CLUSTAL2FASTA, self).__init__(infile, outfile)
         self.alphabet = alphabet
 
     @requires(python_library="biopython")

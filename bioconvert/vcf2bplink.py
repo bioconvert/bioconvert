@@ -22,6 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+"""Convert :term:`VCF` format to :term:`WBPLINK` formats"""
 
 import os
 import colorlog
@@ -50,7 +51,7 @@ class VCF2BPLINK(ConvBase):
         """
         if not outfile:
             outfile = os.path.splitext(infile)[0]
-        super().__init__(infile, outfile)
+        super(VCF2BPLINK, self).__init__(infile, outfile)
 
     @requires("plink")
     def _method_plink(self, *args, **kwargs):

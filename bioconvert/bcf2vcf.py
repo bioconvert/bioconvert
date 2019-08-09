@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BCF` file to :term:`VCF` file"""
+"""Convert :term:`BCF` file to :term:`VCF` format"""
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 

@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`BAM` file to :term:`BIGWIG` file"""
+"""Convert :term:`BAM` file to :term:`BIGWIG` format"""
 
 import colorlog
 from bioconvert import ConvBase 

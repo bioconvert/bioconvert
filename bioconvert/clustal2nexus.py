@@ -50,7 +50,7 @@ class CLUSTAL2NEXUS(ConvBase):
         :param str infile: input :term:`CLUSTAL` file.
         :param str outfile: (optional) output :term:`NEXUS` file
         """
-        super().__init__(infile, outfile)
+        super(CLUSTAL2NEXUS, self).__init__(infile, outfile)
         self.alphabet = alphabet
 
     @requires("go")

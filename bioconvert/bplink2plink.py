@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BPLINK` to :term:`PLINK`"""
+"""Convert :term:`BPLINK` to :term:`PLINK` format"""
 import colorlog
 
 from bioconvert import ConvBase
@@ -58,7 +58,7 @@ class BPLINK2PLINK(ConvBase):
         """
         if not outfile:
             outfile = infile
-        super().__init__(infile, outfile)
+        super(BPLINK2PLINK, self).__init__(infile, outfile)
 
     @requires("plink")
     def _method_plink(self, *args, **kwargs):

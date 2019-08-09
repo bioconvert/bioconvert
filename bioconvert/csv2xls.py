@@ -10,7 +10,7 @@
 #  website: https://github.com/biokit/bioconvert
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
-"""convert :term:`CSV` to :term:`XLS`"""
+"""convert :term:`CSV` to :term:`XLS` format"""
 import csv
 
 import colorlog

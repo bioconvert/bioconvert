@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BAM` format to :term:`JSON` file"""
+"""Convert :term:`BAM` format to :term:`JSON` format"""
 from bioconvert import ConvBase
 
 import colorlog
@@ -46,7 +46,7 @@ class BAM2JSON(ConvBase):
         :param str infile:
         :param str outfile:
         """
-        super().__init__(infile, outfile)
+        super(BAM2JSON, self).__init__(infile, outfile)
 
     @requires("bamtools")
     def _method_bamtools(self, *args, **kwargs):

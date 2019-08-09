@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BEDGRAPH` to :term:`BIGWIG`"""
+"""Convert :term:`BEDGRAPH` to :term:`BIGWIG` format"""
 import os
 import colorlog
 

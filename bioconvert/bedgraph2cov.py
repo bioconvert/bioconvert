@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""Convert :term:`BEDGRAPH` file to :term:`COV` file."""
+"""Convert :term:`BEDGRAPH` file to :term:`COV` format"""
 import os
 import colorlog
 

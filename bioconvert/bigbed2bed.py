@@ -48,7 +48,7 @@ class BIGBED2BED(ConvBase):
         :param str infile: input :term:`BIGBED` file.
         :param str outfile: (optional) output :term:`BED4` file
         """
-        super().__init__(infile, outfile)
+        super(BIGBED2BED, self).__init__(infile, outfile)
 
     @requires(python_library="pyBigWig")
     def _method_pybigwig(self, *args, **kwargs):

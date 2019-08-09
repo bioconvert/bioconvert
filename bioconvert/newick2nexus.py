@@ -22,7 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Converts :term:`NEWICK` file to :term:`NEXUS` file."""
+"""Converts :term:`NEWICK` file to :term:`NEXUS` format."""
 import colorlog
 
 from bioconvert import ConvBase

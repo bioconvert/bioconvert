@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BAM` format to :term:`FASTA` file"""
+"""Convert :term:`BAM` format to :term:`FASTA` format"""
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 from bioconvert.core.utils import get_extension
@@ -51,7 +51,7 @@ class BAM2FASTA(ConvBase):
         :param str outfile: FASTA file
 
         """
-        super().__init__(infile, outfile)
+        super(BAM2FASTA, self).__init__(infile, outfile)
 
     """@requires("bamtools")
     def __method_bamtools(self, *args, **kwargs):

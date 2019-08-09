@@ -35,7 +35,7 @@ class BIGBED2WIGGLE(ConvBase):
         :param str infile: The path to the input BIGBED file. **It must be sorted**.
         :param str outfile: The path to the output file
         """
-        super().__init__(infile, outfile)
+        super(BIGBED2WIGGLE, self).__init__(infile, outfile)
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):

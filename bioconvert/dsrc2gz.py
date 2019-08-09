@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-""" Convert a compressed :term:`FASTQ` from :term:`DSRC` to :term:`FASTQ` file """
+""" Convert a compressed :term:`FASTQ` from :term:`DSRC` to :term:`FASTQ` format"""
 from bioconvert import ConvBase
 import colorlog
 

@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Converts :term:`NEXUS` file to :term:`CLUSTAL` file."""
+"""Converts :term:`NEXUS` file to :term:`CLUSTAL` format."""
 import colorlog
 
 from bioconvert import ConvBase

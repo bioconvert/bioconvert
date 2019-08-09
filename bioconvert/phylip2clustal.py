@@ -22,25 +22,26 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
+"""Converts :term:`PHYLIP` file to :term:`CLUSTAL` format."""
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
 
+__all__ = ['PHYLIP2CLUSTAL']
+
+
 class PHYLIP2CLUSTAL(ConvBase):
     """
-    Converts a sequence alignment from :term:`PHYLIP` format to :term:`CLUSTAL` format::
+    Converts a sequence alignment from :term:`PHYLIP` format to :term:`CLUSTAL` format
 
-        converter = PHYLIP2CLUSTAL(infile, outfile)
-        converter(method='biopython')
+    Methods available are based on biopython [BIOPYTHON]_, squiz [SQUIZZ]_.
 
-    default method = biopython
-    available methods = biopython, squizz
     """
     _default_method = 'biopython'
 
@@ -54,6 +55,7 @@ class PHYLIP2CLUSTAL(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         """
         Convert :term:`PHYLIP` interleaved file in :term:`CLUSTAL` format using biopython.
@@ -61,9 +63,10 @@ class PHYLIP2CLUSTAL(ConvBase):
         """
         sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "clustal")
-        _log.info("Converted %d records to clustal" % count)
+        #_log.info("Converted %d records to clustal" % count)
 
     @requires("squizz")
+    @compressor
     def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`PHYLIP` interleaved file in :term:`CLUSTAL` format using squizz tool.

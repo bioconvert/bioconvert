@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`FASTQ` to :term:`FASTA`"""
+"""Convert :term:`FASTQ` to :term:`FASTA` format"""
 from Bio import SeqIO
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires_nothing

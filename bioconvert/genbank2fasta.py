@@ -22,18 +22,23 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-""" description """
+"""Convert :term:`GENBANK` to :term:`EMBL` format"""
 
 from bioconvert import ConvBase
 from bioconvert.readers.genbank import Genbank
 from bioconvert.core.decorators import requires, requires_nothing
+from bioconvert.core.decorators import  compressor
 
 __all__ = ["GENBANK2FASTA"]
 
 
 class GENBANK2FASTA(ConvBase):
-    """Convert :term:`GENBANK` file to :term:`FASTA` file"""
+    """Convert :term:`GENBANK` file to :term:`FASTA` file
+
+    Methods are based on biopython [BIOPYTHON]_, squizz [SQUIZZ] and our
+    own Bioconvert implementation.
+
+    """
     _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -45,21 +50,24 @@ class GENBANK2FASTA(ConvBase):
         """
         super(GENBANK2FASTA, self).__init__(infile, outfile, *args, **kargs)
 
-        # squizz works as welll but keeps lower cases while biopython uses upper
+        # squizz works as well but keeps lower cases while biopython uses upper
         # cases
 
     @requires("squizz")
+    @compressor
     def _method_squizz(self, *args, **kwargs):
         """Header is less informative than the one obtained with biopython"""
         cmd = "squizz -f genbank -c fasta {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         from Bio import SeqIO
         SeqIO.convert(self.infile, "genbank", self.outfile, "fasta")
 
     @requires_nothing
+    @compressor
     def _method_python(self, *args, **kwargs):
         reader = Genbank(self.infile)
 

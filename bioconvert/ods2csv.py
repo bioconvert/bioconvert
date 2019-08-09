@@ -22,8 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""Convert :term:`XLS` format to :term:`CSV` file"""
+"""Convert :term:`XLS` format to :term:`CSV` format"""
 import csv
 
 import colorlog
@@ -39,6 +38,8 @@ logger = colorlog.getLogger(__name__)
 class ODS2CSV(ConvBase):
     """Convert :term:`XLS` file into :term:`CSV` file
 
+    Method based on pyexcel [PYEXCEL].
+
     """
     _default_method = "pyexcel"
     DEFAULT_OUT_SEP = ','
@@ -50,7 +51,7 @@ class ODS2CSV(ConvBase):
         :param str infile:
         :param str outfile:
         """
-        super().__init__(infile, outfile)
+        super(ODS2CSV, self).__init__(infile, outfile)
 
     @requires(python_libraries=["pyexcel", "pyexcel-ods3"])
     def _method_pyexcel(

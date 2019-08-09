@@ -22,8 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""Convert :term:`FASTQ` to :term:`FASTA` and :term:`QUAL`"""
+"""Convert :term:`FASTQ` to :term:`FASTA` and :term:`QUAL` formats"""
 from bioconvert import ConvBase, bioconvert_script
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import compressor, in_gz
@@ -37,14 +36,12 @@ __all__ = ["FASTQ2FASTA_QUAL"]
 
 
 class FASTQ2FASTA_QUAL(ConvBase):
-    """Convert :term:`FASTQ` to :term:`FASTA`"""
+    """Convert :term:`FASTQ` to :term:`FASTA` and :term:`QUAL` formats
 
-    # use readfq for now because pure python are fast enough
-    # for production, could use seqtk which seems the fastest method
-    # though. Make sure that the default handles also the compresssion
-    # input_ext = extensions.extensions.fastq
-    # output_ext =  extensions.fasta
-    _default_method = "readfq"
+    Method based on Python.
+
+    """
+    _default_method = "python"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -54,12 +51,16 @@ class FASTQ2FASTA_QUAL(ConvBase):
         :param str outfile2: output QUAL file
 
         """
+        super(FASTQ2FASTA_QUAL, self).__init__(infile, outfile)
+
+        # Here we need to reset the infile and outfile since we have
+        # a 1-to-2 conversion.
         self.infile = infile
         self.outfile = outfile[0]
         self.outfile2 = outfile[1]
 
     @staticmethod
-    def readfq(fp):  # this is a generator function
+    def _readfq(fp):  # this is a generator function
         last = None  # this is a buffer keeping the last unprocessed line
         while True:  # mimic closure; is it a bad idea?
             if not last:  # the first record or a record following a fastq
@@ -85,10 +86,9 @@ class FASTQ2FASTA_QUAL(ConvBase):
                     break
 
     @requires_nothing
-    @compressor
-    def _method_readfq(self, *args, **kwargs):
+    def _method_python(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta, open(self.outfile2, "w") as quality, open(self.infile, "r") as fastq:
-            for (name, seq, qual) in FASTQ2FASTA_QUAL.readfq(fastq):
+            for (name, seq, qual) in FASTQ2FASTA_QUAL._readfq(fastq):
                 fasta.write(">{}\n{}\n".format(name, seq))
                 quality.write(">{}\n{}\n".format(name, qual))
 

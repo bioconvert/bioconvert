@@ -22,14 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-##############################################################################
-""" Converts Genbank format to GFF3 using biocode
-https://github.com/jorvis/biocode/
-
-We may want to do it directly in python in the future,
-without calling the external script
-"""
+"""Convert :term:`GENBANK` to :term:`GFF3` format"""
 
 from bioconvert import ConvBase
 
@@ -39,7 +32,7 @@ __all__ = ["GENBANK2GFF3"]
 class GENBANK2GFF3(ConvBase):
     """Convert :term:`GENBANK` file to :term:`GFF3` file
 
-    Some description.
+    Method based on biocode.
 
     """
     _default_method = "biocode"
@@ -51,7 +44,7 @@ class GENBANK2GFF3(ConvBase):
         :param str outfile: output GFF3 filename
 
         """
-        super().__init__(infile, outfile)
+        super(GENBANK2GFF3, self).__init__(infile, outfile)
 
 
     def _method_biocode(self, *args, **kwargs):
