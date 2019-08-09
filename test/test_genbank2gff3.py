@@ -4,14 +4,15 @@ import pytest
 from bioconvert.genbank2gff3 import GENBANK2GFF3
 
 
-"""
-@pytest.mark.parametrize("method", GENBANK2GFF.available_methods)
-def test_conv(method):
-    infile = bioconvert_data(method + ".gb")
-    outfile = bioconvert_data(method + ".gff")
+
+# This test fails with wierd pytest error message related
+# to io module ?
+# FIXME: https://github.com/bioconvert/bioconvert/issues/143
+def _test_conv():
+    infile = bioconvert_data("biocode.gb")
+    outfile = bioconvert_data("biocode.gff")
 
     with TempFile(suffix=".gff") as tempfile:
-        converter = GENBANK2GFF(infile, tempfile.name)
-        converter(method=method)
+        converter = GENBANK2GFF3(infile, tempfile.name)
+        converter(method="biocode")
         assert md5(tempfile.name) == md5(outfile)
-"""
