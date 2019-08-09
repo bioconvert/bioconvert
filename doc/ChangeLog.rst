@@ -12,8 +12,10 @@ Whats' new, what has changed
     - New layout for the output graph
 - NEW  converters:
     - cram2fasta
+    - fasta2faa
 - CHANGES:
     - cram2sam, bam2cram and related cram files have now a --reference option.
+    - removed fastq2bam and fasta2bed (no clear output format)
 
 :Revision 0.3.1: (May/June 2019)
 

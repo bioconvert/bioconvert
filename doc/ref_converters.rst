@@ -46,6 +46,7 @@ Summary
 	bioconvert.embl2genbank
 	bioconvert.fasta_qual2fastq
 	bioconvert.fasta2clustal
+	bioconvert.fasta2faa
 	bioconvert.fasta2fastq
 	bioconvert.fasta2genbank
 	bioconvert.fasta2nexus
@@ -292,6 +293,11 @@ All converters documentation
 
 
 .. automodule:: bioconvert.fasta2clustal
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.fasta2faa
     :members:
     :synopsis:
     :private-members:

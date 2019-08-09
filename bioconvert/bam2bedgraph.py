@@ -87,7 +87,6 @@ class BAM2BEDGRAPH(ConvBase):
         # For testing, we need to save into a specific temporary directory
         import tempfile
         with tempfile.TemporaryDirectory() as tmpdir:
-            print(tmpdir)
             try:
                 cmd = "mosdepth {}/.bioconvert -t {}  {}".format(tmpdir, self.threads, self.infile)
                 self.execute(cmd)

@@ -52,7 +52,6 @@ class PHYLIP2XMFA(ConvBase):
         :param str outfile: (optional) output :term:`NEXUS` file
         """
         super().__init__(infile, outfile)
-        self.alphabet = None
 
     @requires(python_libraries=["biopython"])
     @compressor
@@ -61,7 +60,7 @@ class PHYLIP2XMFA(ConvBase):
         Convert :term:`PHYLIP` interleaved file in :term:`XMFA` (Mauve)format.
 
         """
-        sequences = list(AlignIO.parse(self.infile, "phylip", alphabet=self.alphabet))
+        sequences = list(AlignIO.parse(self.infile, "phylip"))
         count = AlignIO.write(sequences, self.outfile, "mauve")
         _log.info("Converted %d records to phylip" % count)
 

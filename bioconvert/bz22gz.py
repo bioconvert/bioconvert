@@ -58,7 +58,6 @@ class BZ22GZ(ConvBase):
     @requires("bunzip2")
     def _method_bz2_gz(self, *args, **kwargs):
         # conversion
-        print(self.threads)
         cmd = "bunzip2 -c {input} | gzip > {output}".format(
             input=self.infile,
             output=self.outfile)

@@ -779,6 +779,13 @@ For example::
     1 1000000000 0 0 1 1
     1 1000000001 0 0 1 2
 
+.. _format_faa:
+
+FAA
+---
+
+Fasta formatted file storing amino acid sequences. A mutliple protein fasta file
+can have the more specific extension mpfa.
 
 .. _format_fasta:
 

@@ -120,7 +120,11 @@ Note that formats mentionned here below have dedicated description in the
         EMBL Flat File Format.
         See :ref:`format_embl` page for details.
 
+    FAA
 
+        FASTA-formatted sequence files containing amino acid sequences
+        See :ref:`format_faa` page for details.
+ 
     FASTA
 
         FASTA-formatted sequence files contain either nucleic acid sequence

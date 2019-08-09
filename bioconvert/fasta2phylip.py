@@ -41,7 +41,9 @@ class FASTA2PHYLIP(ConvBase):
     Conversion is based on Bio Python modules
 
     Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_ or 
-    goalign [GOALIGN]_.
+    goalign [GOALIGN]_. Squizz is the default 
+    (https://github.com/bioconvert/bioconvert/issues/149). Phylip created is a
+    strict phylip that is with 10 characters on the first column.
 
     """
     _default_method = 'biopython'
@@ -53,12 +55,11 @@ class FASTA2PHYLIP(ConvBase):
         :param str outfile: (optional) output :term:`PHYLIP` file
         """
         super(FASTA2PHYLIP, self).__init__(infile, outfile)
-        self.alphabet = alphabet
 
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        sequences = list(SeqIO.parse(self.infile, "fasta", alphabet=self.alphabet))
+        sequences = list(SeqIO.parse(self.infile, "fasta"))
         count = SeqIO.write(sequences, self.outfile, "phylip")
         _log.debug("Converted %d records to phylip" % count)
 

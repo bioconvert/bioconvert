@@ -146,16 +146,14 @@ If you need to include extra arguments, such as a reference file, you may add ex
 One-to-many and many-to-one conversions
 ---------------------------------------
 
-The one-to-many and many-to-one conversions are not officially implemented in
-**Bioconvert**. Note, however, that the one-to-many conversions can be
-implemented. You just need to create several files. However, it may be
-ambiguous. Indeed, we have not yet defined a way to name the conversion. For
-instance you may want to convert a :term:`FastQ` to a :term:`FastA` **and** :term:`Qual` formats at the same time. You have not yet defined a final way of doing it. It could be by creating a file named fastq_to_fasta_and_qual.py for instance, or by adding options to existing converter.
+The one-to-many and many-to-one conversions are now implemented in
+**Bioconvert**. We have only 2 instances so far namely class:`bioconvert.fastq2fasta_qual`
+and  class:`bioconvert.fasta_qual2fastq`. We have no instances of many-to-many
+so far. The underscore character purpose is to indicate a **and** connection. So
+you need QUAL *and* FASTA to create a FASTQ file.
 
-Similarly the many-to-one converters are not yet defined but a
-fasta_and_qual_to_fastq name could be an option.
-
-These features will be implemented in a future version.
+For developers, we ask the input or output formats to be sorted alphabetically
+to ease the user experience.
 
 
 .. _add_method:
