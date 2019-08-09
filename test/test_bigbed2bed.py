@@ -7,6 +7,13 @@ from bioconvert.bigbed2bed import BIGBED2BED
 import pytest
 
 
+skiptravis = pytest.mark.skipif(
+        "TRAVIS_PYTHON_VERSION" in os.environ and
+            os.environ['TRAVIS_PYTHON_VERSION'].startswith("3.5"), 
+         reason="On travis")
+
+
+@skiptravis
 @pytest.mark.parametrize("method", BIGBED2BED.available_methods)
 def test_bigwig2bedgraph_ucsc(method):
     infile = bioconvert_data("test_pybigwig.bigbed")

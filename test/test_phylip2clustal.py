@@ -5,11 +5,6 @@ from easydev import TempFile, md5
 from bioconvert import bioconvert_data
 from bioconvert.phylip2clustal import PHYLIP2CLUSTAL
 
-skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
-                                and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
-
-
-@skiptravis
 def test_phylip2clustal_biopython():
     infile = bioconvert_data("biopython.phylip")
     outfile = bioconvert_data("biopython.clustal")
@@ -21,7 +16,6 @@ def test_phylip2clustal_biopython():
         assert md5(tempfile.name) == md5(outfile)
 
 
-@skiptravis
 @pytest.mark.skipif(PHYLIP2CLUSTAL._method_squizz.is_disabled, reason="missing dependencies")
 def test_phylip2clustal_squizz():
     infile = bioconvert_data("squizz.phylip")
