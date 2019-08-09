@@ -2,6 +2,7 @@ easydev
 colorlog
 pandas
 biopython>=1.70
+biocode
 mappy
 matplotlib
 networkx
