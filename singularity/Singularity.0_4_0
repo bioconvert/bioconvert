@@ -50,6 +50,7 @@ From: ubuntu:latest
   #conda install -y graphviz==2.38 pygraphviz
 
   ######### install bioconvert #########
+  pip install biocode
   pip install bioconvert==$BIOCONVERT_VERSION
 
   # add this directory for Institut Pasteur cluster usage
