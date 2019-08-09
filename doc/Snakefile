@@ -9,22 +9,21 @@
 #
 #     snakemake -s Snakefile --cluster "-j 8 --mem 4000"
 
-from pylab import savefig
-
 inext = "fastq"
 outext = "fasta"
 command = "fastq2fasta"
 
-
 import glob
-samples = glob.glob("*{}".format(inext))
-samples = [this.replace("." + inext, "") for this in samples]
+samples = glob.glob("*.{}".format(inext))
+samples = [this.rsplit(".")[0] for this in samples]
 
 rule all:
-    input: expand("{dataset}" + "." + outext, dataset=samples)
+    input: expand("{{dataset}}.{}".format(outext), dataset=samples)
 
 rule bioconvert:
-    input: "{dataset}.{}".format(inext)
-    output: "{dataset}.{}".format(outext)
-    shell: "bioconvert {} {input} {output}".format(command)
+    input: "{{dataset}}.{}".format(inext)
+    output: "{{dataset}}.{}".format(outext)
+    run:
+        cmd = "bioconvert {} ".format(command) + "{input} {output}"
+        shell(cmd)
 

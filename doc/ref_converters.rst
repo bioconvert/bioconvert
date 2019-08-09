@@ -51,7 +51,6 @@ Summary
 	bioconvert.fasta2nexus
 	bioconvert.fasta2phylip
 	bioconvert.fasta2twobit
-	bioconvert.fastq2bam
 	bioconvert.fastq2fasta
 	bioconvert.genbank2embl
 	bioconvert.genbank2fasta
@@ -318,11 +317,6 @@ All converters documentation
     :private-members:
 
 .. automodule:: bioconvert.fasta2twobit
-    :members:
-    :synopsis:
-    :private-members:
-
-.. automodule:: bioconvert.fastq2bam
     :members:
     :synopsis:
     :private-members:
