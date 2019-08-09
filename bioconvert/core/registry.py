@@ -62,9 +62,16 @@ class Registry(object):
         Explore the directory converters to discover all converter classes
         (a concrete class which inherits from :class:`ConvBase`)
         and fill the register with the input format and output format
-        associated to this converter
+        associated to this converter.
+
+        This is called in the constructor once with
+        including_not_available_converter set to False and called at any time 
+        to :meth:`get_all_conversions` with including_not_available_converter
+        set to True.
 
         :param str path: the path of a directory to explore (not recursive)
+        :param str target:
+        :param bool including_not_available_converter:
         """
 
         target = self if target is None else target
@@ -79,7 +86,6 @@ class Registry(object):
             # Therefore, the isabstract does not return False for ConvBase
             # hence the additional check (obj_name in ["ConvBase"])
             return (issubclass(obj, bioconvert.ConvBase)
-                    and not inspect.isabstract(obj)
                     and obj_name not in ["ConvBase"])
 
         modules = pkgutil.iter_modules(path=path)
@@ -98,12 +104,12 @@ class Registry(object):
 
                     if converter is not None:
                         format_pair = (converter.input_fmt, converter.output_fmt)
-                        #_log.debug("add converter '{}' for {} -> {} in fmt_registry".format(
-                        #    converter_name, *format_pair))
                         target[(format_pair)] = converter
-                         # have all the combinaisons between the extensions of output formats of the convertes
+                        # have all the combinaisons between the extensions of 
+                        # output formats of the convertes
                         combo_input_ext = tuple(itertools.product(*converter.input_ext))
-                        # have all the combinaisons between the extensions of output formats of the convertes
+                        # have all the combinaisons between the extensions of output 
+                        # formats of the convertes
                         combo_output_ext = tuple(itertools.product(*converter.output_ext))
                         all_ext_pair = tuple(itertools.product(combo_input_ext,(combo_output_ext)))
                         for ext_pair in all_ext_pair:
@@ -111,10 +117,7 @@ class Registry(object):
                                 _log.warning("converter '{}' for {} -> {} was not added as no method is available"
                                              .format(converter_name, *ext_pair))
                             else:
-                                #_log.debug("add converter '{}' for {} -> {} in ext_registry".format(
-                                #           converter_name, *ext_pair))
                                 self.set_ext(ext_pair, converter)
-
 
     def _build_path_dict(self):
         """
@@ -303,9 +306,9 @@ class Registry(object):
 
     def get_all_conversions(self):
         """
-        :return: a generator which allow to iterate on all available conversions and their availability
-                 a conversion is encoded by a tuple of
-                 2 strings (input format, output format)
+        :return: a generator which allow to iterate on all available 
+            conversions and their availability;  a conversion is encoded 
+            by a tuple of 2 strings (input format, output format)
         :retype: generator (input format, output format, status)
         """
         all_converter = {}
@@ -341,7 +344,8 @@ class Registry(object):
         """
 
         :param bool allow_indirect: also return indirect conversion
-        :return: a generator to iterate over (in_fmt, out_fmt, converter class when direct, path when indirect)
+        :return: a generator to iterate over (in_fmt, out_fmt, converter 
+            class when direct, path when indirect)
         :rtype: a generator
         """
         # if allow_indirect:
