@@ -113,6 +113,9 @@ def main(args=None):
             filenames = ph.get_filelist()
             exts = [utils.get_extension(x, remove_compression=True) for x in filenames]
 
+
+
+                
             # We need to get the corresponding converter if any.
 
             # We assume that the input formats are ordered alphabetically
@@ -133,8 +136,24 @@ def main(args=None):
                         converter.extend(registry.get_ext((in_ext, out_ext)))
                     except KeyError:
                         pass
+            
+
             except KeyError:
                 converter = []
+
+            # For 1-to-1, if the extensions are identical but different 
+            # compression, this means we just want to decompress and 
+            # re-compress in another format.
+            if not converter and (exts[0] == exts[1]):
+                exts_with_comp = [utils.get_extension(x, remove_compression=False) 
+                    for x in filenames]
+                in_ext, out_ext = exts_with_comp[0], exts_with_comp[1]
+                comps = ['gz', 'dsrc', 'bz2']
+                if in_ext in comps and out_ext in comps:
+                    print(in_ext, out_ext)
+                    converter.extend(registry.get_ext(((in_ext,), (out_ext,))))
+
+            print(converter)
 
             # if no converter is found, print information
             if not converter:
@@ -443,8 +462,12 @@ Please feel free to join us at https://github/biokit/bioconvert
     else:
         filenames = [args.input_file]
 
-    for filename in filenames:
-        args.input_file = filename
+
+    N = len(filenames)
+    for i, filename in enumerate(filenames):
+        if N > 1:
+            _log.info("Converting {} ({}/{})".format(filename, i+1, N))
+        args.input_file = filename        
         try:
             analysis(args)
         except Exception as e:
