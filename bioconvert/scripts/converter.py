@@ -150,10 +150,8 @@ def main(args=None):
                 in_ext, out_ext = exts_with_comp[0], exts_with_comp[1]
                 comps = ['gz', 'dsrc', 'bz2']
                 if in_ext in comps and out_ext in comps:
-                    print(in_ext, out_ext)
                     converter.extend(registry.get_ext(((in_ext,), (out_ext,))))
 
-            print(converter)
 
             # if no converter is found, print information
             if not converter:
