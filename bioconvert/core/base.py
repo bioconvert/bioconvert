@@ -155,6 +155,34 @@ class ConvMeta(abc.ABCMeta):
 
 
 class ConvArg(object):
+    """This class can be used to add specific extra arguments to any converter
+
+    For instance, imagine a conversion named **A2B** that requires the
+    user to provide a reference. Then, you may want to provide the
+    `--reference` extra argument. This is possible by adding a class
+    method named get_additional_arguments that will yield instance of
+    this class for each extra argument.
+
+    ::
+
+        @classmethod
+        def get_additional_arguments(cls):
+            yield ConvArg(
+                names="--reference",
+                default=None,
+                help="the referenc"
+            )
+
+    Then, when calling bioconvert as follows,::
+
+        bioconvert A2B --help
+
+    the new argument will be shown in the list of arguments.
+
+
+    """
+
+
     black_listed_argument_for_argparse = [
         "output_argument",
     ]
