@@ -12,7 +12,7 @@ def test_registry_with_dependencies():
     rr = Registry()
     assert rr.conversion_exists(("BAM",), ("COV",))
     assert not rr.conversion_exists(("BAM",), ("DUMMY",))
-    assert rr.conversion_exists(("SRA",), ("BAM",), allow_indirect=True)
+    assert rr.conversion_exists(("BIGWIG",), ("COV",), allow_indirect=True)
 
     assert (('BAM',), ('COV',)) in rr
     assert (('NIMPORT',), ('NAOIK',)) not in rr

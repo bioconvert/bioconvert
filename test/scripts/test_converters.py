@@ -347,7 +347,7 @@ def test_converter_show_methods():
 
 def test_indirect_conversion_without_argument():
     import sys
-    infile = bioconvert_data("fastqutils_1.fastq")
+    infile = bioconvert_data("ERR3295124.fastq")
     with TempFile(suffix=".clustal") as tempfile:
         sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name, "--force"]
         # For now we want the user to explicitly indicate that (s)he agrees 
@@ -363,7 +363,8 @@ def test_indirect_conversion_without_argument():
 
 def test_indirect_conversion():
     import sys
-    infile = bioconvert_data("fastqutils_1.fastq")
+    infile = bioconvert_data("ERR3295124.fastq")
+    #infile = bioconvert_data("fastqutils_1.fastq")
     with TempFile(suffix=".clustal") as tempfile:
         sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name,
                     "--force", "--allow-indirect-conversion", "-v", "DEBUG"]
