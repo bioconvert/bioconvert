@@ -24,8 +24,8 @@ If you wish to update this page, please see the :ref:`developer_guide` page.
 
 .. _format_twobit:
 
-.2bit (twobit)
---------------
+TWOBIT
+------
 
 :Format: binary
 :Status: available
@@ -1584,7 +1584,7 @@ equivalent to the :ref:`format_xls` format.
 .. _format_paf:
 
 PAF (Pairwise mApping Format)
---------------------------------
+-----------------------------
 
 :Format: human-readable
 :Status: included
@@ -1786,10 +1786,12 @@ PLINK flat files (MAP/PED)
 :Status: included
 :Type: genotypic
 
-PLINK is a used application for analyzing genotypic data. It can be considered  the de-facto standard of the field.
+PLINK is a used application for analyzing genotypic data. It can be considered
+the de-facto standard of the field.
 
 The standard PLINK files can be a bundle of plain text files (PED & MAP dataset,
-or its transpose, TPED & :ref:`format_fam` dataset), or a bundle of binary files (BED, :ref:`format_bim` & :ref:`format_fam`) as explained in :ref:`format_plink_binary`.
+or its transpose, TPED & :ref:`format_fam` dataset), or a bundle of binary
+files (BED, :ref:`format_bim` & :ref:`format_fam`) as explained in :ref:`format_plink_binary`.
 
 PLINK provides commands to convert between text and binary formats. In
 Bioconvert, you can use the **plink2bpblink** conversion::
@@ -1863,7 +1865,7 @@ hom ancestral), 1 het, 2 dom derived using ::
 .. _format_plink_binary:
 
 PLINK binary files (BED/BIM/FAM)
--------------------------------------
+--------------------------------
 
 :Format: human-readable and biarny
 :Status: included
