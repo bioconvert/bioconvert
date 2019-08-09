@@ -40,7 +40,7 @@ class BIGWIG2BEDGRAPH(ConvBase):
     """Converts a sequence alignment in :term:`BIGWIG` format to :term:`BEDGRAPH` format
 
     Conversion is based on ucsc bigWigToBedGraph tool or pybigwig (default)
-    [PYBIGWIG]_.
+    [DEEPTOOLS]_.
 
     """
     _default_method = 'pybigwig'

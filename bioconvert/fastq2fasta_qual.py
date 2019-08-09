@@ -86,6 +86,7 @@ class FASTQ2FASTA_QUAL(ConvBase):
                     break
 
     @requires_nothing
+    @compressor
     def _method_python(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta, open(self.outfile2, "w") as quality, open(self.infile, "r") as fastq:
             for (name, seq, qual) in FASTQ2FASTA_QUAL._readfq(fastq):

@@ -4,8 +4,8 @@ from easydev import TempFile, md5
 import pytest
 from bioconvert.genbank2fasta import GENBANK2FASTA
 
-from bioconvert.readers.fasta import Fasta
-from bioconvert.readers.genbank import Genbank
+from bioconvert.io.fasta import Fasta
+from bioconvert.io.genbank import Genbank
 
 where = "testing/genbank2fasta"
 

@@ -44,9 +44,14 @@ class BAM2BIGWIG(ConvBase):
 
     Convert BAM into a binary version of :term:`WIG` format.
 
-    Methods are base on bamCoverage [BAMCOVERAGE]_ and bedGraphToBigWig from
+    Methods are base on bamCoverage [DEEPTOOLS]_ and bedGraphToBigWig from
     wiggletools [WIGGLETOOLS]_. Wiggletools method requires an extra argument
     (--chrom-sizes) therefore default one is bamCoverage for now.
+
+    Moreover, the two methods do not return exactly the same info!
+
+    You can check this by using bioconvert to convert into a human readable file
+    such as wiggle. We will use the bamCoverage as our default conversion.
 
     """
     _default_method = "bamCoverage"

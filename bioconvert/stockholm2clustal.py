@@ -38,7 +38,7 @@ __all__ = ["STOCKHOLM2CLUSTAL"]
 
 class STOCKHOLM2CLUSTAL(ConvBase):
     """
-    Converts a sequence alignment from :term:`STOCKHOLM` format to :term:`CLUSTAL` format::
+    Converts a sequence alignment from :term:`STOCKHOLM` format to :term:`CLUSTAL` format
 
     Methods available are based on squizz [SQUIZZ]_ and biopython [BIOPYTHON]_.
 

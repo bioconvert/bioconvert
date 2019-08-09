@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""Convert :term:`BAM` format to :term:`WIGGLE` format"""
+"""Convert :term:`BAM`  to :term:`WIGGLE` format"""
 from bioconvert import ConvBase
 import colorlog
 

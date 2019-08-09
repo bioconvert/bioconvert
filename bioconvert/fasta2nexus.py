@@ -49,7 +49,6 @@ class FASTA2NEXUS(ConvBase):
         :param str outfile: (optional) output :term:`NEXUS` file
         """
         super(FASTA2NEXUS, self).__init__(infile, outfile)
-        self.alphabet = alphabet
 
     @requires("go")
     @compressor

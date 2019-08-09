@@ -25,7 +25,7 @@
 """Convert :term:`GENBANK` to :term:`EMBL` format"""
 
 from bioconvert import ConvBase
-from bioconvert.readers.genbank import Genbank
+from bioconvert.io.genbank import Genbank
 from bioconvert.core.decorators import requires, requires_nothing
 from bioconvert.core.decorators import  compressor
 

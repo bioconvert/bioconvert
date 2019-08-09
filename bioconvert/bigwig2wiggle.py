@@ -25,7 +25,7 @@ __all__ = ["BIGWIG2WIGGLE"]
 class BIGWIG2WIGGLE(ConvBase):
     """Convert sorted :term:`BIGWIG` file into :term:`WIGGLE` file 
 
-    Methods available are based on pybigwig [PYBIGWIG]_.
+    Methods available are based on pybigwig [DEEPTOOLS]_.
 
     """
     _default_method = "wiggletools"

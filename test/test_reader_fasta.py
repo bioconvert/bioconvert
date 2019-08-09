@@ -1,5 +1,5 @@
 from bioconvert import bioconvert_data
-from bioconvert.readers.fasta import Fasta
+from bioconvert.io.fasta import Fasta
 
 import pytest
 

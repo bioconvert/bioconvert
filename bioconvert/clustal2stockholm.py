@@ -34,7 +34,7 @@ _log = colorlog.getLogger(__name__)
 
 class CLUSTAL2STOCKHOLM(ConvBase):
     """
-    Converts a sequence alignment from :term:`CLUSTAL` format to :term:`STOCKHOLM` format. ::
+    Converts a sequence alignment from :term:`CLUSTAL` format to :term:`STOCKHOLM` format. 
 
     Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, and
     goalign [GOALIGN]_.
@@ -47,6 +47,7 @@ class CLUSTAL2STOCKHOLM(ConvBase):
 
         :param str infile: input :term:`CLUSTAL` file.
         :param str outfile: (optional) output :term:`STOCKHOLM` file
+
         """
         super(CLUSTAL2STOCKHOLM, self).__init__(infile, outfile)
         self.alphabet = alphabet
