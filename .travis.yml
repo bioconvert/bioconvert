@@ -14,12 +14,22 @@ matrix:
       os: linux
       sudo: required
       python: 3.6
-    - name: "Python 3.7.2 running in macOS"
+    - name: "Python running in macOS"
       os: osx
+      language: sh
       sudo: required
-      language: generic
-      #osx_image: xcode10.2
-
+      env:
+          - TOXENV=py3
+          - HOMEBREW_NO_INSTALL_CLEANUP=1
+          - HOMEBREW_NO_ANALYTICS
+      before_cache:
+          - rm -f "$HOME/Library/Caches/pip/log/debug.log"
+      cache:
+        directories:
+          - "$HOME/Library/Caches/pip"
+      addons:
+          homebrew:
+              packages: python3
 
 branches:
   only:

@@ -1,3 +1,4 @@
 dsrc
 mosdepth
 sambamba
+deeptools
