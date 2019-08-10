@@ -3,7 +3,6 @@ bcftools==1.8
 bedops
 bedtools
 deeptools
-dsrc
 go=1.10.3
 pbzip2
 pigz
