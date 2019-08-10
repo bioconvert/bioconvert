@@ -21,15 +21,14 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-""" description """
+"""Convert :term:`BZ2` to :term:`GZ` format"""
 import bz2
 import gzip
 
 from bioconvert import ConvBase
+from bioconvert.core.decorators import requires, requires_nothing
 
 import colorlog
-
-from bioconvert.core.decorators import requires, requires_nothing
 
 logger = colorlog.getLogger(__name__)
 
@@ -40,11 +39,12 @@ __all__ = ["BZ22GZ"]
 class BZ22GZ(ConvBase):
     """Convert :term:`BZ2` file to :term:`GZ` file
 
-    Some description.
+    Methods based on bunzip2 or zlib/bz2 Python libraries.
 
     """
 
     _default_method = "bz2_gz"
+    _threading = True
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -64,6 +64,6 @@ class BZ22GZ(ConvBase):
         self.execute(cmd)
 
     @requires_nothing
-    def _method_python(self):
+    def _method_python(self, *args, **kargs):
         with bz2.open(self.infile, 'rb') as f, gzip.open(self.outfile, 'wb')as g:
             g.write(f.read())

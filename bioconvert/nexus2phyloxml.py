@@ -22,8 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""Converts :term:`NEXUS` file to :term:`PHYLOXML` file."""
+"""Converts :term:`NEXUS` file to :term:`PHYLOXML` format."""
 import os
 
 import colorlog
@@ -31,6 +30,7 @@ from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -40,7 +40,11 @@ __all__ = ['NEXUS2PHYLOXML']
 
 class NEXUS2PHYLOXML(ConvBase):
     """
-    Converts a tree file from :term:`NEXUS` format to :term:`PHYLOXML` format. ::
+    Converts a tree file from :term:`NEXUS` format to :term:`PHYLOXML` format. 
+
+    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, and
+    goalign [GOALIGN]_.
+
     """
     _default_method = 'gotree'
 
@@ -53,7 +57,8 @@ class NEXUS2PHYLOXML(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("conda")
+    @requires("go")
+    @compressor
     def _method_gotree(self, *args, **kwargs):
         """uses gotree tool:
 

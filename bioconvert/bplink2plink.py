@@ -21,6 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+"""Convert :term:`BPLINK` to :term:`PLINK` format"""
 import colorlog
 
 from bioconvert import ConvBase
@@ -32,9 +33,19 @@ _log = colorlog.getLogger(__name__)
 
 class BPLINK2PLINK(ConvBase):
     """Converts a genotype dataset bed+bim+fam in :term:`BPLINK` format to
-    ped+map :term:`PLINK` format
+    ped+map :term:`PLINK` format.
 
-    Conversion is based on plink executable
+    Conversion is based on plink [PLINK]_ executable.
+
+    .. warning:: **plink** takes several inputs and outputs and does not need
+        extensions. What is required is a prefix. Bioconvert usage is therefore::
+
+            bioconvert bplink2plink plink_toy
+
+        Since there is no extension, you must be explicit by providing the
+        conversion name (bplink2plink). This command will search for 3 input 
+        files plink_toy.bed, plink_toy.bim and plink_toy.fam. It will then 
+        create two output files named plink_toy.ped and plink_toy.map
 
     """
     _default_method = 'plink'
@@ -42,12 +53,12 @@ class BPLINK2PLINK(ConvBase):
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
 
-        :param str infile: input :term:`BPLINK` file.
-        :param str outfile: (optional) output :term:`PLINK` file
+        :param str infile: input :term:`BPLINK` files.
+        :param str outfile: (optional) output :term:`PLINK` files.
         """
         if not outfile:
             outfile = infile
-        super().__init__(infile, outfile)
+        super(BPLINK2PLINK, self).__init__(infile, outfile)
 
     @requires("plink")
     def _method_plink(self, *args, **kwargs):

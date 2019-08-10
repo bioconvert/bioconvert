@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""BEDGRAPH2BIGWIG conversion """
+"""Convert :term:`BEDGRAPH` to :term:`BIGWIG` format"""
 import os
 import colorlog
 
@@ -36,9 +36,10 @@ __all__ = ["BEDGRAPH2BIGWIG"]
 
 
 class BEDGRAPH2BIGWIG(ConvBase):
-    """Converts a sequence alignment in :term:`BEDGRAPH` format to :term:`BIGWIG` format
+    """Converts :term:`BEDGRAPH` format to :term:`BIGWIG` format
 
-    Conversion is based on ucsc bedGraph2BigWig tool
+    Conversion is based on bedGraph2BigWig tool. Note that an 
+    argument --chrom-sizes is required.
 
     """
     _default_method = 'ucsc'
@@ -56,7 +57,7 @@ class BEDGRAPH2BIGWIG(ConvBase):
         """
         Convert bedgraph file in bigwig format using ucsc tool.
         https://genome.ucsc.edu/goldenpath/help/bigWig.html
-        
+
         http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes
         """
         chrom_sizes = kwargs.get("chrom_sizes", None)

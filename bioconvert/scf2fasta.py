@@ -30,15 +30,15 @@ from collections import defaultdict
 
 import colorlog
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires_nothing
+from bioconvert.core.decorators import requires_nothing, compressor
 from bioconvert.io import scf
 
 _log = colorlog.getLogger(__name__)
 
-__all__ =["SCF2Fasta"]
+__all__ =["SCF2FASTA"]
 
 
-class SCF2Fasta(ConvBase):
+class SCF2FASTA(ConvBase):
     """
     Converts a binary SCF/ABI file to Fasta format.
 
@@ -47,6 +47,7 @@ class SCF2Fasta(ConvBase):
     """
 
     @requires_nothing
+    @compressor
     def _method_python(self, *args, **kwargs):
         sequence, qualities, comments = scf.read_scf(self.infile)
 

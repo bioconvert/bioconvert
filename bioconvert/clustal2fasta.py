@@ -21,30 +21,27 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-import os
+"""Convert :term:`CLUSTAL` to :term:`FASTA` format"""
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
-from bioconvert.core import extensions
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
+
+__all__ = ["CLUSTAL2FASTA"]
 
 
 class CLUSTAL2FASTA(ConvBase):
     """
-    Converts a sequence alignment from :term:`CLUSTAL` format to :term:`FASTA` format. ::
+    Converts a sequence alignment from :term:`CLUSTAL` to :term:`FASTA` format. 
 
-        converter = CLUSTAL2FASTA(infile, outfile)
-        converter(method='biopython')
+    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, and
+    goalign [GOALIGN]_.
 
-    default method = biopython
-    available methods = biopython, squizz, goalign
     """
-
-    #input_ext = extensions.clustal
-    #output_ext = extensions.fasta
     _default_method = 'biopython'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
@@ -53,39 +50,39 @@ class CLUSTAL2FASTA(ConvBase):
         :param str infile: input :term:`CLUSTAL` file.
         :param str outfile: (optional) output :term:`FASTA` file
         """
-        super().__init__(infile, outfile)
+        super(CLUSTAL2FASTA, self).__init__(infile, outfile)
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
-    def _method_biopython(self, threads=None, *args, **kwargs):
+    @compressor
+    def _method_biopython(self, *args, **kwargs):
         """
-        Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using biopython.
+        Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format.
 
-        :param threads: not used.
         """
         sequences = list(SeqIO.parse(self.infile, "clustal", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "fasta")
         _log.info("Converted %d records to fasta" % count)
 
     @requires("squizz")
-    def _method_squizz(self, threads=None, *args, **kwargs):
+    @compressor
+    def _method_squizz(self, *args, **kwargs):
         """
-        Convert :term:`CLUSTAL` file in :term:`FASTA` format using squizz tool.
+        Convert :term:`CLUSTAL` file in :term:`FASTA` format.
 
-        :param threads: not used.
         """
         cmd = 'squizz -c FASTA {infile} > {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
 
-    @requires("conda")
-    def _method_goalign(self, threads=None, *args, **kwargs):
+    @requires("go")
+    @compressor
+    def _method_goalign(self, *args, **kwargs):
         """
-        Convert :term:`CLUSTAL` file in  :term:`FASTA` format using goalign tool.
+        Convert :term:`CLUSTAL` file in  :term:`FASTA` format using goalign.
         https://github.com/fredericlemoine/goalign
 
-        :param threads: not used.
         """
         self.install_tool('goalign')
         cmd = 'goalign reformat fasta --clustal -i {infile} -o {outfile}'.format(

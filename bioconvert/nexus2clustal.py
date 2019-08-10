@@ -21,13 +21,12 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Converts :term:`NEXUS` file to :term:`CLUSTAL` file."""
-import os
+"""Converts :term:`NEXUS` file to :term:`CLUSTAL` format."""
 import colorlog
-from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -37,13 +36,11 @@ __all__ = ['NEXUS2CLUSTAL']
 
 class NEXUS2CLUSTAL(ConvBase):
     """
-    Converts a sequence alignment from :term:`NEXUS` format to :term:`CLUSTAL` format. ::
+    Converts a sequence alignment from :term:`NEXUS` format to :term:`CLUSTAL` format. 
 
-        converter = NEXUS2CLUSTAL(infile, outfile)
-        converter(method='goalign')
+    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, and
+    goalign [GOALIGN]_.
 
-    default method = goalign
-    available methods = goalign
     """
     _default_method = 'goalign'
 
@@ -56,13 +53,13 @@ class NEXUS2CLUSTAL(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("conda")
-    def _method_goalign(self, threads=None, *args, **kwargs):
+    @requires("go")
+    @compressor
+    def _method_goalign(self, *args, **kwargs):
         """
         Convert :term:`NEXUS` file in  :term:`CLUSTAL` format using goalign tool.
         https://github.com/fredericlemoine/goalign
 
-        :param threads: not used.
         """
         self.install_tool('goalign')
         cmd = 'goalign reformat clustal --nexus -i {infile} -o {outfile}'.format(
@@ -71,13 +68,15 @@ class NEXUS2CLUSTAL(ConvBase):
         self.execute(cmd)
 
     @requires(python_library="biopython")
-    def _method_biopython(self, threads=None, *args, **kwargs):
+    @compressor
+    def _method_biopython(self, *args, **kwargs):
          from Bio import AlignIO
          alignments = list(AlignIO.parse(self.infile, "nexus", alphabet=self.alphabet))
          AlignIO.write(alignments, self.outfile, "clustal")
 
     @requires("squizz")
-    def _method_squizz(self, threads=None, *args, **kwargs):
+    @compressor
+    def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`NEXUS` file in :term:`CLUSTAL` format using squizz tool.
         The CLUSTAL output file contains the consensus line
@@ -89,9 +88,7 @@ class NEXUS2CLUSTAL(ConvBase):
             read4           -AGG
                              *
 
-        :param threads: not used
         """
-        cmd = 'squizz -c CLUSTAL {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = 'squizz -c CLUSTAL {infile} > {outfile}'
+        cmd = cmd.format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

@@ -22,14 +22,13 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-""" description """
-import os
+"""Converts :term:`PHYLIP` file to :term:`STOCKHOLM` format."""
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -39,13 +38,10 @@ __all__ = ['PHYLIP2STOCKHOLM']
 
 class PHYLIP2STOCKHOLM(ConvBase):
     """
-    Converts a sequence alignment from :term:`PHYLIP` interleaved format to :term:`STOCKHOLM` format. ::
+    Converts a sequence alignment from :term:`PHYLIP` interleaved to :term:`STOCKHOLM` 
 
-        converter = PHYLIP2STOCKHOLM(infile, outfile)
-        converter(method='biopython')
+    Methods available are based on biopython [BIOPYTHON]_, squiz [SQUIZZ]_.
 
-    default method = biopython
-    available methods = biopython, squizz
     """
     _default_method = 'biopython'
 
@@ -59,22 +55,22 @@ class PHYLIP2STOCKHOLM(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
-    def _method_biopython(self, threads=None, *args, **kwargs):
+    @compressor
+    def _method_biopython(self, *args, **kwargs):
         """
         Convert :term:`PHYLIP` interleaved file in :term:`STOCKHOLM` format using biopython.
 
-        :param threads: not used.
         """
         sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "stockholm")
         _log.info("Converted %d records to stockholm" % count)
 
     @requires("squizz")
-    def _method_squizz(self, threads=None, *args, **kwargs):
+    @compressor
+    def _method_squizz(self, *args, **kwargs):
         """
         Convert :term:`PHYLIP` interleaved file in :term:`STOCKHOLM` format using squizz tool.
 
-        :param threads: not used.
         """
         cmd = 'squizz -c STOCKHOLM {infile} > {outfile}'.format(
             infile=self.infile,

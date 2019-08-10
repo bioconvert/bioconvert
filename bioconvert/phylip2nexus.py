@@ -22,15 +22,13 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""PHYLIP2NEXUS conversion"""
-import os
-
+"""Converts :term:`PHYLIP` file to :term:`NEXUS` format."""
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -40,7 +38,10 @@ __all__ = ['PHYLIP2NEXUS']
 
 class PHYLIP2NEXUS(ConvBase):
     """
-    Converts a sequence alignment from :term:`PHYLIP` format to :term:`NEXUS` format. ::
+    Converts a sequence alignment from :term:`PHYLIP` format to :term:`NEXUS` format. 
+
+    Methods available are based on goalign [GOALIGN]_.
+
     """
     _default_method = 'goalign'
 
@@ -52,7 +53,8 @@ class PHYLIP2NEXUS(ConvBase):
         """
         super().__init__(infile, outfile)
 
-    @requires("conda")
+    @requires("go")
+    @compressor
     def _method_goalign(self, *args, **kwargs):
         """
         Convert :term:`PHYLIP` interleaved file in :term:`NEXUS` format using goalign tool.

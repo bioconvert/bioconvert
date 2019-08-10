@@ -22,8 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-""" description """
+"""Convert :term:`GENBANK` to :term:`EMBL` format """
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires

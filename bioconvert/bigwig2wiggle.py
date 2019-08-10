@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""Convert :term:`BIGWIG` format to :term:`WIGGLE` formats"""
+"""Convert :term:`BIGWIG` format to :term:`WIGGLE` format"""
 from bioconvert import ConvBase
 import colorlog
 
@@ -25,6 +25,8 @@ __all__ = ["BIGWIG2WIGGLE"]
 class BIGWIG2WIGGLE(ConvBase):
     """Convert sorted :term:`BIGWIG` file into :term:`WIGGLE` file 
 
+    Methods available are based on pybigwig [DEEPTOOLS]_.
+
     """
     _default_method = "wiggletools"
 
@@ -33,7 +35,7 @@ class BIGWIG2WIGGLE(ConvBase):
         :param str infile: The path to the input BIGWIG file. **It must be sorted**.
         :param str outfile: The path to the output file
         """
-        super().__init__(infile, outfile)
+        super(BIGWIG2WIGGLE, self).__init__(infile, outfile)
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):

@@ -23,15 +23,15 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`TSV` format to :term:`CSV` file"""
+"""Convert :term:`TSV` format to :term:`CSV` format"""
 import csv
-
 import colorlog
 
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires, requires_nothing
+from bioconvert.core.decorators import compressor, in_gz
+from bioconvert.core.base import ConvBase
 
-from bioconvert import ConvBase
 
 logger = colorlog.getLogger(__name__)
 
@@ -41,20 +41,9 @@ class TSV2CSV(ConvBase):
 
     Available methods: Python, Pandas
 
-    .. plot::
+    Methods available are based on python or Pandas [PANDAS]_.
 
-        from bioconvert.tsv2csv import TSV2CSV
-        from bioconvert import bioconvert_data, logger
-        from easydev import TempFile
-
-        logger.level='CRITICAL'
-        with TempFile(suffix=".csv") as fh:
-            infile = bioconvert_data("test_tabulated.tsv")
-            convert = TSV2CSV(infile, fh.name)
-            convert.boxplot_benchmark(N=50)
-
-    .. seealso:: :class:`~bioconvert.csv2tsv.CSV2TSV`
-
+    .. seealso:: :class:`~bioconvert.tsv2csv.CSV2TSV`
     """
     _default_method = "python"
     DEFAULT_IN_SEP = '\t'
@@ -62,14 +51,15 @@ class TSV2CSV(ConvBase):
     DEFAULT_LINE_TERMINATOR = '\n'
 
     def __init__(self, infile, outfile):
-        """.. rubric:: constructor
+        """.. rubric:: Constructor
 
-        :param str infile:
-        :param str outfile:
+        :param str infile: tabulated file
+        :param str outfile: comma-separated file
         """
-        super().__init__(infile, outfile)
+        super(TSV2CSV, self).__init__(infile, outfile)
 
     @requires_nothing
+    @compressor
     def _method_python(
             self,
             in_sep=DEFAULT_IN_SEP,
@@ -84,6 +74,7 @@ class TSV2CSV(ConvBase):
                 writer.writerow(row)
 
     @requires_nothing
+    @compressor
     def _method_python_v2(
             self,
             in_sep=DEFAULT_IN_SEP,
@@ -101,6 +92,7 @@ class TSV2CSV(ConvBase):
                 out_stream.write(line_terminator)
 
     @requires(python_library="pandas")
+    @compressor
     def _method_pandas(
             self,
             in_sep=DEFAULT_IN_SEP,

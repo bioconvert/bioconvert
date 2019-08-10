@@ -2,9 +2,9 @@ import os
 
 import pytest
 
-from bioconvert import Benchmark
+from bioconvert import Benchmark, BenchmarkMulticonvert
 from bioconvert import bioconvert_data
-from bioconvert.bam2bed import BAM2BED
+from bioconvert.bam2cov import BAM2COV
 from easydev import TempFile
 
 
@@ -18,16 +18,29 @@ def is_osx():
 @pytest.mark.skipif(is_osx(), reason="unknown failure on travis april 2019")
 def test_benchmark():
     input_file = bioconvert_data("test_measles.sorted.bam")
-    with TempFile(suffix=".bed") as fout:
-        conv = BAM2BED(input_file, fout.name)
+    with TempFile(suffix=".cov") as fout:
+        conv = BAM2COV(input_file, fout.name)
         bench = Benchmark(conv)
+        bench.include_dummy = True
         bench.run_methods()
         bench.plot()
 
         try:
-            Benchmark("BAM2BED")
+            Benchmark("BAM2COV")
             assert False
         except NotImplementedError:
             assert True
         except:
             assert False
+
+
+@pytest.mark.skipif("DISPLAY" not in os.environ, reason="no DISPLAY available, will fail otherwise")
+@pytest.mark.skipif(is_osx(), reason="unknown failure on travis april 2019")
+def test_benchmark():
+    input_file = bioconvert_data("test_measles.sorted.bam")
+    with TempFile(suffix=".cov") as fout:
+        conv = BAM2COV(input_file, fout.name)
+        bench = BenchmarkMulticonvert([conv, conv], N=5)
+        bench.include_dummy = True
+        bench.run_methods()
+        bench.plot()

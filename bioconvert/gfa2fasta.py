@@ -23,11 +23,12 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`GFA` format to :term:`FASTA` formats"""
-from bioconvert import ConvBase
+"""Convert :term:`GFA` to :term:`FASTA` format"""
+
 import colorlog
 
-from bioconvert.core.decorators import requires, requires_nothing
+from bioconvert.core.decorators import requires, requires_nothing, compressor
+from bioconvert import ConvBase
 
 logger = colorlog.getLogger(__name__)
 
@@ -38,7 +39,7 @@ __all__ = ["GFA2FASTA"]
 class GFA2FASTA(ConvBase):
     """Convert sorted :term:`GFA` file into :term:`FASTA` file 
 
-    Available methods: awk, python
+    Available methods are based on awk or python (default)
 
     .. plot::
 
@@ -47,13 +48,13 @@ class GFA2FASTA(ConvBase):
          from easydev import TempFile
 
          with TempFile(suffix=".fasta") as fh:
-             infile = bioconvert_data("test_gfa2fasta.gfa")
+             infile = bioconvert_data("test_gfa2fasta_v1.gfa")
              convert = GFA2FASTA(infile, fh.name)
              convert.boxplot_benchmark()
 
     :reference: https://github.com/GFA-spec/GFA-spec/blob/master/GFA-spec.md
 
-    .. seealso:: bioconvert.simulator.gfa
+    .. seealso:: :mod:`bioconvert.simulator.gfa`
 
     """
     _default_method = "python"
@@ -66,6 +67,7 @@ class GFA2FASTA(ConvBase):
         super().__init__(infile, outfile)
 
     @requires("awk")
+    @compressor
     def _method_awk(self, *args, **kwargs):
         """
 
@@ -80,6 +82,7 @@ class GFA2FASTA(ConvBase):
         self.execute(cmd)
 
     @requires_nothing
+    @compressor
     def _method_python(self, *args, **kwargs):
         with open(self.infile, "r") as fin:
             with open(self.outfile, "w") as fout:

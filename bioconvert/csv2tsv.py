@@ -21,32 +21,25 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`CSV` format to :term:`TSV` file"""
-
+"""Convert :term:`CSV` format to :term:`TSV` format"""
+import csv
 import colorlog
 
-from bioconvert import tsv2csv
+from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires, requires_nothing
+from bioconvert.core.decorators import compressor, in_gz
+from bioconvert.core.base import ConvBase
+
 
 logger = colorlog.getLogger(__name__)
 
 
-class CSV2TSV(tsv2csv.TSV2CSV):
+class CSV2TSV(ConvBase):
     """Convert :term:`CSV` file into :term:`TSV` file
 
     Available methods: Python, Pandas
 
-    .. plot::
-
-        from bioconvert.csv2tsv import CSV2TSV
-        from bioconvert import bioconvert_data, logger
-        from easydev import TempFile
-
-        logger.level = 'CRITICAL'
-        with TempFile(suffix=".csv") as fh:
-           infile = bioconvert_data("test_tabulated.tsv")
-           convert = CSV2TSV(infile, fh.name)
-           convert.boxplot_benchmark(N=50)
+    Methods available are based on python or Pandas [PANDAS]_.
 
     .. seealso:: :class:`~bioconvert.csv2tsv.TSV2CSV`
     """
@@ -58,12 +51,13 @@ class CSV2TSV(tsv2csv.TSV2CSV):
     def __init__(self, infile, outfile):
         """.. rubric:: Constructor
 
-        :param str infile:
-        :param str outfile:
+        :param str infile: comma-separated file
+        :param str outfile: tabulated file
         """
-        super().__init__(infile, outfile)
+        super(CSV2TSV, self).__init__(infile, outfile)
 
     @requires_nothing
+    @compressor
     def _method_python(
             self,
             in_sep=DEFAULT_IN_SEP,
@@ -73,9 +67,14 @@ class CSV2TSV(tsv2csv.TSV2CSV):
         """
         Do the conversion :term:`CSV` -> :term:`TSV` using standard Python modules
         """
-        super()._method_python(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
+        with open(self.infile, "r") as in_stream, open(self.outfile, "w") as out_stream:
+            writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)
+            reader = csv.reader(in_stream, delimiter=in_sep)
+            for row in reader:
+                writer.writerow(row)
 
     @requires_nothing
+    @compressor
     def _method_python_v2(
             self,
             in_sep=DEFAULT_IN_SEP,
@@ -87,9 +86,14 @@ class CSV2TSV(tsv2csv.TSV2CSV):
 
         .. note:: This method cannot escape nor quote output char
         """
-        super()._method_python_v2(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
+        with open(self.infile, "r") as in_stream, open(self.outfile, "w") as out_stream:
+            reader = csv.reader(in_stream, delimiter=in_sep)
+            for row in reader:
+                out_stream.write(out_sep.join(row))
+                out_stream.write(line_terminator)
 
     @requires(python_library="pandas")
+    @compressor
     def _method_pandas(
             self,
             in_sep=DEFAULT_IN_SEP,
@@ -99,4 +103,33 @@ class CSV2TSV(tsv2csv.TSV2CSV):
         """
         Do the conversion :term:`CSV` -> :term:`TSV` using Pandas library
         """
-        super()._method_pandas(in_sep=in_sep, out_sep=out_sep, *args, **kwargs)
+        import pandas as pd
+        pd.read_csv(
+            self.infile,
+            sep=in_sep,
+        ) \
+            .to_csv(
+            self.outfile,
+            sep=out_sep,
+            line_terminator=line_terminator,
+            index=False,
+            header='infer'
+        )
+
+    @classmethod
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names=["--in-sep", ],
+            default=cls.DEFAULT_IN_SEP,
+            help="The separator used in the input file",
+        )
+        yield ConvArg(
+            names=["--out-sep", ],
+            default=cls.DEFAULT_OUT_SEP,
+            help="The separator used in the output file",
+        )
+        yield ConvArg(
+            names=["--line-terminator", ],
+            default=cls.DEFAULT_LINE_TERMINATOR,
+            help="The line terminator used in the output file",
+        )

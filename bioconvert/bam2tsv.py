@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`bam` file to :term:`tsv` file"""
+"""Convert :term:`BAM` file to :term:`TSV` format"""
 import os
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -30,40 +30,32 @@ import colorlog
 
 logger = colorlog.getLogger(__name__)
 
+
 class BAM2TSV(ConvBase):
+    """Convert sorted :term:`BAM` file into :term:`TSV` stats
+
+    This is not a conversion per se but the extraction of BAM 
+    statistics saved into a TSV format. The 4 columns of the TSV file
+    are::
+
+        Reference sequence name, Sequence length,Mapped reads, Unmapped reads
+
+
+    Methods are based on samtools [SAMTOOLS]_ and pysam [PYSAM]_.
     """
 
-    .. plot::
-
-        from bioconvert.bam2tsv import BAM2TSV
-        from bioconvert import bioconvert_data
-        from easydev import TempFile
-
-        with TempFile(suffix=".tsv") as fh:
-            infile = bioconvert_data("test_measles.sorted.bam")
-            convert = BAM2TSV(infile, fh.name)
-            convert.boxplot_benchmark()
-
-
-    methods available:
-
-    - samtools
-    - pysam
-    """
     _default_method = "samtools"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile:
-        :param str outfile:
+        :param str infile: BAM file
+        :param str outfile: TSV file
 
-        command used::
+        Methods are based on samtools [SAMTOOLS]_ and pysam [PYSAM]_.
 
-            samtools index && samtools idxstats
         """
         super(BAM2TSV, self).__init__(infile, outfile, *args, **kargs)
-
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):

@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-""""Convert :term:`CRAM` file to :term:`BAM` file"""
+""""Convert :term:`CRAM` to :term:`BAM` format"""
 import re
 import os
 
@@ -90,7 +90,6 @@ class SAM2PAF(ConvBase):
 
 
     For developesr:
-
 
     Get the measles data from Sequana library (2 paired fastq files)::
 
@@ -315,7 +314,7 @@ class SAM2PAF(ConvBase):
 
         self.skipped = skipped
 
-    @requires(external_binaries=["k8", "paftools"])
-    def _method_paftools(self, *args, **kwargs):
-        cmd = "paftools sam2paf {} > {}".format(self.infile, self.outfile)
-        self.execute(cmd) 
+    #@requires(external_binaries=["k8", "paftools"])
+    #def _method_paftools(self, *args, **kwargs):
+    #    cmd = "paftools sam2paf {} > {}".format(self.infile, self.outfile)
+    #    self.execute(cmd) 

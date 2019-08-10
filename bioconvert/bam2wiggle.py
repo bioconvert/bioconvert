@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""Convert :term:`BAM` format to :term:`WIGGLE` formats"""
+"""Convert :term:`BAM`  to :term:`WIGGLE` format"""
 from bioconvert import ConvBase
 import colorlog
 
@@ -25,20 +25,21 @@ __all__ = ["BAM2WIGGLE"]
 class BAM2WIGGLE(ConvBase):
     """Convert sorted :term:`BAM` file into :term:`WIGGLE` file 
 
+    Methods available are based on wiggletools [WIGGLETOOLS]_.
+
     """
     _default_method = "wiggletools"
-    _library_to_install = " wiggletools "
 
     def __init__(self, infile, outfile):
         """
         :param str infile: The path to the input BAM file. **It must be sorted**.
         :param str outfile: The path to the output file
         """
-        super().__init__(infile, outfile)
+        super(BAM2WIGGLE, self).__init__(infile, outfile)
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):
-        """
+        """Conversion using wiggletools
 
         """
         cmd = "wiggletools {} > {}".format(self.infile, self.outfile)

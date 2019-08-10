@@ -22,27 +22,24 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""Convert :term:`Fastq` format to :term:`Fastq` formats"""
+"""Convert :term:`FASTA` format to :term:`FASTQ` format"""
 from bioconvert import ConvBase
-from bioconvert.core import extensions
 import colorlog
-
-from bioconvert.core.base import ConvArg
+from bioconvert.core.decorators import compressor
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ["Fasta2Fastq"]
+__all__ = ["FASTA2FASTQ"]
 
 
-class Fasta2Fastq(ConvBase):
+class FASTA2FASTQ(ConvBase):
     """
 
+    Methods available are based on pysam [PYSAM]_.
+
     """
-    #input_ext = extensions.fasta
-    #output_ext = extensions.fastq
     _default_method = "pysam"
 
     def __init__(self, infile, outfile):
@@ -50,9 +47,10 @@ class Fasta2Fastq(ConvBase):
         :param str infile: The path to the input FASTA file
         :param str outfile: The path to the output FASTQ file
         """
-        super().__init__(infile, outfile)
+        super(FASTA2FASTQ, self).__init__(infile, outfile)
 
     @requires(python_library="pysam")
+    @compressor
     def _method_pysam(self, quality_file=None, *args, **kwargs):
         from pysam import FastxFile
         if quality_file is None:
@@ -73,12 +71,3 @@ class Fasta2Fastq(ConvBase):
                                                                  qual.sequence))
 
 
-    @classmethod
-    def get_additional_arguments(cls):
-        yield ConvArg(
-            names="--quality-file",
-            nargs="?",
-            default=None,
-            type=ConvArg.file,
-            help="The path to the quality file.",
-        )

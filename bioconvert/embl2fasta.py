@@ -21,15 +21,21 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`EMBL` file to :term:`FASTA` file"""
+"""Convert :term:`EMBL` file to :term:`FASTA` format"""
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
+
 
 __all__ = ["EMBL2FASTA"]
 
 
 class EMBL2FASTA(ConvBase):
-    """Convert :term:`EMBL` file to :term:`FASTA` file"""
+    """Convert :term:`EMBL` file to :term:`FASTA` file
+
+    Methods available are based on squizz [SQUIZZ]_ or biopython
+    [BIOPYTHON]_.
+    """
     _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -41,15 +47,17 @@ class EMBL2FASTA(ConvBase):
         """
         super(EMBL2FASTA, self).__init__(infile, outfile, *args, **kargs)
 
-
     # did not work on example
     @requires("squizz")
+    @compressor
     def _method_squizz(self, *args, **kwargs):
         """Header is less informative than the one obtained with biopython"""
         cmd = "squizz  -f embl -c fasta {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         from Bio import SeqIO
         SeqIO.convert(self.infile, "embl", self.outfile, "fasta")
+

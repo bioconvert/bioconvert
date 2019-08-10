@@ -22,9 +22,9 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-import os
+"""Convert :term:`BPLINK` to :term:`VCF` format"""
 import colorlog
+import os
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -37,7 +37,17 @@ class BPLINK2VCF(ConvBase):
     """Converts a genotype dataset bed+bim+fam in :term:`BPLINK` format to
     vcf :term:`VCF` format
 
-    Conversion is based on plink executable
+    Conversion is based on plink [PLINK]_ executable.
+
+    .. warning:: **plink** takes several inputs and outputs and does not need
+        extensions. What is required is a prefix. Bioconvert usage is therefore::
+
+            bioconvert bplink2vcf plink_toy plink_toy.vcf
+
+        Since there is no extension, you must be explicit by providing the
+        conversion name (bplink2plink). This command will search for 3 input 
+        files plink_toy.bed, plink_toy.bim and plink_toy.fam. It will then 
+        create two output files named plink_toy.ped and plink_toy.map
 
     """
     _default_method = 'plink'
@@ -45,12 +55,12 @@ class BPLINK2VCF(ConvBase):
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
 
-        :param str infile: input :term:`BPLINK` file.
+        :param str infile: input :term:`BPLINK` files.
         :param str outfile: (optional) output :term:`VCF` file
         """
         if not outfile:
             outfile = generate_outfile_name(infile, 'vcf')
-        super().__init__(infile, outfile)
+        super(BPLINK2VCF, self).__init__(infile, outfile)
 
     @requires("plink")
     def _method_plink(self, *args, **kwargs):

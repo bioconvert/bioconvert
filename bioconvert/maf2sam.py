@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`SAM` file to :term:`BAM` file"""
+"""Convert :term:`MAF` file to :term:`SAM` format"""
 from bioconvert import ConvBase
 
 import colorlog

@@ -7,7 +7,7 @@ import pytest
 
 
 @pytest.mark.parametrize("method", BIGWIG2WIGGLE.available_methods)
-def _test_conv(method):
+def test_conv(method):
     infile = bioconvert_data("test_measles.bigwig")
     outfile = bioconvert_data("test_bigwig2wiggle.wiggle")
     md5out = md5(outfile)

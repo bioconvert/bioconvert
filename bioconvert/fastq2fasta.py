@@ -22,8 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""Convert :term:`FASTQ` to :term:`FASTA`"""
+"""Convert :term:`FASTQ` to :term:`FASTA` format"""
 from bioconvert import ConvBase, bioconvert_script
 # from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import compressor, in_gz
@@ -33,7 +32,7 @@ from mappy import fastx_read
 import mmap
 
 
-class Fastq2Fasta(ConvBase):
+class FASTQ2FASTA(ConvBase):
     """Convert :term:`FASTQ` to :term:`FASTA`"""
 
     # use readfq for now because pure python are fast enough
@@ -42,6 +41,13 @@ class Fastq2Fasta(ConvBase):
     # input_ext = extensions.extensions.fastq
     # output_ext =  extensions.fasta
     _default_method = "readfq"
+
+    def __init__(self, infile, outfile):
+        """
+        :param str infile: The path to the input FASTA file.
+        :param str outfile: The path to the output file.
+        """
+        super(FASTQ2FASTA, self).__init__(infile, outfile)
 
     @staticmethod
     def just_name(record):
@@ -67,7 +73,7 @@ class Fastq2Fasta(ConvBase):
                 FastaIO.FastaWriter(
                     fasta_out,
                     wrap=None,
-                    record2title=Fastq2Fasta.just_name).write_file(
+                    record2title=FASTQ2FASTA.just_name).write_file(
                         SeqIO.parse(infile, 'fasta'))
             else:
                 FastaIO.FastaWriter(fasta_out, wrap=None).write_file(
@@ -101,13 +107,6 @@ class Fastq2Fasta(ConvBase):
                     yield header, seq, ''.join(seqs)  # yield a fastq record
                     break
 
-    def __init__(self, infile, outfile):
-        """
-        :param str infile: The path to the input FASTA file.
-        :param str outfile: The path to the output file.
-        """
-        super().__init__(infile, outfile)
-
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
@@ -125,7 +124,7 @@ class Fastq2Fasta(ConvBase):
     @compressor
     def _method_readfq(self, *args, **kwargs):
         with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
-            for (name, seq, _) in Fastq2Fasta.readfq(fastq):
+            for (name, seq, _) in FASTQ2FASTA.readfq(fastq):
                 fasta.write(">{}\n{}\n".format(name, seq))
 
     # Does not give access to the comment part of the header
@@ -155,14 +154,13 @@ class Fastq2Fasta(ConvBase):
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
-    @requires(external_binary="bioawk")
-    @in_gz
-    def _method_bioawk(self, *args, **kwargs):
-        """This method uses bioawk, an implementation with convenient
-        bioinformatics parsing features."""
-        awkcmd = """bioawk -c fastx '{{print ">"$name" "$comment"\\n"$seq}}'"""
-        cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
-        self.execute(cmd)
+    #@requires(external_binary="bioawk")
+    #@in_gz
+    #def _method_bioawk(self, *args, **kwargs):
+    #    awkcmd = """bioawk -c fastx '{{print ">"$name" "$comment"\\n"$seq}}'"""
+    #    cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
+    #    self.execute(cmd)
+    
 
     # Somehow this does not work without specifying
     # the path to the shared libraries

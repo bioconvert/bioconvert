@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`BAM` format to :term:`BEDGRAPH` formats"""
+"""Convert :term:`BAM` format to :term:`BEDGRAPH` format"""
 from bioconvert import ConvBase
 import colorlog
 
@@ -34,57 +34,71 @@ __all__ = ["BAM2BEDGRAPH"]
 
 
 class BAM2BEDGRAPH(ConvBase):
-    """Convert sorted :term:`BAM` file into :term:`BEDGRAPH` file 
+    """Convert sorted :term:`BAM` file into :term:`BEDGRAPH` file
 
-    Available methods:
-
-    - bedtools::
-
-        bedtools genomecov -bg -ibam INPUT > OUTPUT
-
-
-    .. plot::
-
-         from bioconvert.bam2bedgraph import BAM2BEDGRAPH
-         from bioconvert import bioconvert_data
-         from easydev import TempFile
-
-         with TempFile(suffix=".bed") as fh:
-             infile = bioconvert_data("test_measles.sorted.bam")
-             convert = BAM2BEDGRAPH(infile, fh.name)
-             convert.boxplot_benchmark()
+    Compute the coverage (depth) in BEDGRAPH.
+    Regions with zero coverage are also reported.
 
 
     Note that this BEDGRAPH format is of the form::
 
         chrom chromStart chromEnd dataValue
 
+    Note that consecutive positions with same values are compressed.
 
-    that is contig name, start position, end position, coverage
+    ::
+
+        chr1    0   75  0
+        chr1    75  176 1
+        chr1    176  177 2
+
 
     .. warning:: the BAM file must be sorted. This can be achieved with
         bamtools.
+
+
+    Methods available are based on bedtools [BEDTOOLS]_ and mosdepth
+    [MOSDEPTH]_.
     """
+    # 4 minutes with bedtools and 20s with mosdepth
     _default_method = "bedtools"
+    _threading = True
+
 
     def __init__(self, infile, outfile):
         """.. rubric:: Constructor
 
-        :param str infile: The path to the input BAM file. **It must be sorted**.
+        :param str infile: The path to the input BAM file.
+            **It must be sorted**.
         :param str outfile: The path to the output file
         """
         super().__init__(infile, outfile)
 
-
     @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
-        """
-        do the conversion sorted :term:`BAM` -> :term:`BEDGRAPH` using bedtools
-
-        :return: the standard output
-        :rtype: :class:`io.StringIO` object.
-        """
-        cmd = "bedtools genomecov -bg -ibam {} > {}".format(self.infile, self.outfile)
+        """Do the conversion using bedtools"""
+        cmd = "bedtools genomecov -bga -ibam {} > {}".format(self.infile,
+                                                             self.outfile)
         self.execute(cmd)
 
+    @requires("mosdepth")
+    def _method_mosdepth(self, *args, **kwargs):
+        """Do the conversion using mosdepth"""
+        # For testing, we need to save into a specific temporary directory
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            try:
+                cmd = "mosdepth {}/.bioconvert -t {}  {}".format(tmpdir, self.threads, self.infile)
+                self.execute(cmd)
 
+                if self.outfile.endswith(".gz"):
+                    pass
+                else:
+                    cmd = "gunzip -c {}/.bioconvert.per-base.bed.gz > {}".format(tmpdir, self.outfile)
+                    self.execute(cmd)
+            except Exception as err:
+                raise(err)
+            finally:
+                cmd = "rm -f {name}/.bioconvert.per-base.bed.gz {name}/.bioconvert.per-base.bed.gz.csi"
+                cmd += " {name}/.bioconvert.mosdepth.global.dist.txt"
+                self.execute(cmd.format(name=tmpdir))

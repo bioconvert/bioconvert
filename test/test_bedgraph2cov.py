@@ -1,17 +1,15 @@
-import os
 import pytest
 from easydev import TempFile, md5
 
 from bioconvert import bioconvert_data
-from bioconvert.bedgraph2bed import BEDGRAPH2BED
-import pytest
+from bioconvert.bedgraph2cov import BEDGRAPH2COV
 
 
-@pytest.mark.parametrize("method", BEDGRAPH2BED.available_methods)
-def test_bedgraph2bed(method):
+@pytest.mark.parametrize("method", BEDGRAPH2COV.available_methods)
+def test_bedgraph2cov(method):
     infile = bioconvert_data("test_bedgraph2bed.bedgraph")
-    with TempFile(suffix=".bigwig") as tempfile:
-        converter = BEDGRAPH2BED(infile, tempfile.name)
+    with TempFile(suffix=".cov") as tempfile:
+        converter = BEDGRAPH2COV(infile, tempfile.name)
         converter(method=method)
 
         # Check that the output is correct with a checksum

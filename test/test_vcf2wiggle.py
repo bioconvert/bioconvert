@@ -1,4 +1,3 @@
-import os
 from bioconvert.vcf2wiggle import VCF2WIGGLE
 from bioconvert import bioconvert_data
 from easydev import TempFile, md5
@@ -7,9 +6,9 @@ import pytest
 
 
 @pytest.mark.parametrize("method", VCF2WIGGLE.available_methods)
-def _test_conv(method):
+def test_conv(method):
     infile = bioconvert_data("test_vcf2bcf_v1.vcf")
-    outfile = bioconvert_data("test_vcf2bcf_v1.wiggle")
+    outfile = bioconvert_data("test_vcf2wiggle.wiggle")
     md5out = md5(outfile)
 
 

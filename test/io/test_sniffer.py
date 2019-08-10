@@ -33,6 +33,3 @@ def test_sniffer_all(frmt):
         filenames = glob.glob(share + "/*{}".format(ext))
         for filename in filenames:
             ret = s.sniff(filename)
-            assert ret in [frmt, None]
-
-

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -21,7 +22,8 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""Convert :term:`SAM` file to :term:`BAM` file"""
+
+"""Convert :term:`SAM` file to :term:`BAM` format"""
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
@@ -29,36 +31,19 @@ import colorlog
 
 logger = colorlog.getLogger(__name__)
 
+__all__ = ["BAM2SAM"]
+
 
 class BAM2SAM(ConvBase):
-    """
-
-    .. plot::
-
-        from bioconvert.bam2sam import BAM2SAM
-        from bioconvert import bioconvert_data
-        from easydev import TempFile
-
-        with TempFile(suffix=".sam") as fh:
-            infile = bioconvert_data("test_measles.sorted.bam")
-            convert = BAM2SAM(infile, fh.name)
-            convert.boxplot_benchmark()
+    """Convert :term:`BAM` file to :term:`SAM` file
 
 
-    methods available:
-
-    - samtools:
-    - pysam
-    - sambamba
-
-    Could be implemented but not on bioconda:
-
-    - sam-to-bam: Ogasawara T, Cheng Y, Tzeng T-HK (2016) Sam2bam:
-        High-Performance Framework for NGS Data Preprocessing Tools. PLoS ONE
-        11(11): e0167100. doi:10.1371/journal.pone.0167100
+    Methods available are based on samtools [SAMTOOLS]_ , sam-to-bam [SAMTOBAM]_ ,
+    sambamba [SAMBAMBA]_ and pysam [PYSAM]_.
 
     """
     _default_method = "samtools"
+    _threading = True
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -66,9 +51,6 @@ class BAM2SAM(ConvBase):
         :param str infile:
         :param str outfile:
 
-        command used::
-
-            samtools view -Sbh
         """
         super(BAM2SAM, self).__init__(infile, outfile, *args, **kargs)
 
@@ -76,7 +58,8 @@ class BAM2SAM(ConvBase):
     def _method_samtools(self, *args, **kwargs):
         # -S means ignored (input format is auto-detected)
         # -h means include header in SAM output
-        cmd = "samtools view -Sh {} -O SAM -o {}".format(self.infile, self.outfile)
+        cmd = "samtools view -Sh {} --threads {} -O SAM -o {}"
+        cmd = cmd.format(self.infile, self.threads, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="pysam", external_binary="samtools")
@@ -86,6 +69,6 @@ class BAM2SAM(ConvBase):
 
     @requires("sambamba")
     def _method_sambamba(self, *args, **kwargs):
-        cmd = "sambamba view {} -o {}".format(self.infile, self.outfile)
+        cmd = "sambamba view {} -o {} -t {}"
+        cmd = cmd.format(self.infile, self.outfile, self.threads)
         self.execute(cmd)
-

@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""BIGWIG2BEDGRAPH conversion """
+"""Convert :term:`BIGWIG` to :term:`BEDGRAPH` format """
 import os
 
 import colorlog
@@ -39,7 +39,8 @@ __all__ = ["BIGWIG2BEDGRAPH"]
 class BIGWIG2BEDGRAPH(ConvBase):
     """Converts a sequence alignment in :term:`BIGWIG` format to :term:`BEDGRAPH` format
 
-    Conversion is based on ucsc bigWigToBedGraph tool
+    Conversion is based on ucsc bigWigToBedGraph tool or pybigwig (default)
+    [DEEPTOOLS]_.
 
     """
     _default_method = 'pybigwig'
@@ -50,7 +51,7 @@ class BIGWIG2BEDGRAPH(ConvBase):
         :param str infile: input :term:`BIGWIG` file.
         :param str outfile: (optional) output :term:`BEDGRAPH` file
         """
-        super().__init__(infile, outfile)
+        super(BIGWIG2BEDGRAPH, self).__init__(infile, outfile)
         #self.alphabet = alphabet
 
     @requires("bigWigToBedGraph")

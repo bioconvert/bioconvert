@@ -23,13 +23,13 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`NEXUS` to :term:`FASTA`"""
-import os
+"""Convert :term:`NEXUS` to :term:`FASTA` format"""
 
 import colorlog
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -41,7 +41,7 @@ class NEXUS2FASTA(ConvBase):
     """
     Converts a sequence alignment from :term:`NEXUS` format to :term:`FASTA` format.
     """
-    _default_method = 'goalign'
+    _default_method = 'biopython'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -52,13 +52,16 @@ class NEXUS2FASTA(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("conda")
-    def _method_goalign(self, threads=None, *args, **kwargs):
+    @requires("go")
+    @compressor
+    def _method_goalign(self, *args, **kwargs):
         """
         Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using goalign tool.
         https://github.com/fredericlemoine/goalign
 
-        :param threads: not used.
+        .. warning::
+            the sequential format is not supported
+
         """
         self.install_tool('goalign')
         cmd = 'goalign reformat fasta -i {infile} -o {outfile} -x'.format(
@@ -67,12 +70,11 @@ class NEXUS2FASTA(ConvBase):
         self.execute(cmd)
 
     @requires(python_library="biopython")
-    def _method_biopython(self, threads=None, *args, **kwargs):
+    @compressor
+    def _method_biopython(self, *args, **kwargs):
         """
-        Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using biopython.
+        Convert :term:`NEXUS` interleaved or sequential file in :term:`FASTA` format using biopython.
         The FASTA output file will be an aligned FASTA file
-
-        :param threads: not used.
 
 For instance:
 
@@ -137,11 +139,10 @@ and not ::
             AlignIO.write(alignments, output_handle, "fasta")
 
     @requires("squizz")
-    def _method_squizz(self, threads=None, *args, **kwargs):
+    @compressor
+    def _method_squizz(self, *args, **kwargs):
         """
-        Convert :term:`NEXUS` file in :term:`FASTA` format using squizz tool.
-
-        :param threads: not used
+        Convert :term:`NEXUS` sequential or interleave file in :term:`FASTA` format using squizz tool.
 
         command used::
 

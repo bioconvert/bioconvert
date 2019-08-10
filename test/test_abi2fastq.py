@@ -11,7 +11,5 @@ def test_conv(method):
         convert = ABI2FASTQ(infile, tempfile.name)
         convert()
         # Check that the output is correct with a checksum
-        # Note that awk wrap fastq while python method does not 
         assert md5(tempfile.name) in \
-            [ "a1c5028da7c0429fa5d9e8b6ef9d3691"]
- 
+            ["a1c5028da7c0429fa5d9e8b6ef9d3691"]

@@ -22,7 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
+"""Convert :term:`PLINK` to :term:`VCF` format"""
 import os
 import colorlog
 
@@ -50,7 +50,7 @@ class PLINK2VCF(ConvBase):
         """
         if not outfile:
             outfile = generate_outfile_name(infile, 'vcf')
-        super().__init__(infile, outfile)
+        super(PLINK2VCF, self).__init__(infile, outfile)
 
     @requires("plink")
     def _method_plink(self, *args, **kwargs):

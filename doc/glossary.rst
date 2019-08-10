@@ -45,8 +45,16 @@ Note that formats mentionned here below have dedicated description in the
 
     BED
 
-        Format that defines the data lines displayed in an annotation track.
-        (http://genome.ucsc.edu/FAQ/FAQformat#format1)
+        BEDGRAPH/BED format is line-oriented and allows display of continuous-valued
+        data. Similar to WIG format.
+        See the :ref:`format_bed` format page for details.
+
+
+    BED3
+
+        Variants of the BED format with 4 columns storing the track name,
+        start and end positions and values.
+        See the :ref:`format_bed4` format page for details.
 
     BED4
 
@@ -56,7 +64,8 @@ Note that formats mentionned here below have dedicated description in the
 
     BEDGRAPH
 
-        https://genome.ucsc.edu/goldenPath/help/bedgraph.html
+        BEDGRAPH/BED format is line-oriented and allows display of continuous-valued
+        data. Similar to WIG format.
         See the :ref:`format_bed` format page for details.
 
     BIGBED
@@ -85,6 +94,11 @@ Note that formats mentionned here below have dedicated description in the
         The alignment format of Clustal X and Clustal W. See
         :ref:`format_clustal` page for details.
 
+    COV
+
+        A bioconvert format to store coverage in the form of a 3 column 
+        tab-tabulated file. See :ref:`format_cov` page for details.
+
     CRAM
 
         A more compact version of BAM files used to store Sequence Alignment 
@@ -106,7 +120,11 @@ Note that formats mentionned here below have dedicated description in the
         EMBL Flat File Format.
         See :ref:`format_embl` page for details.
 
+    FAA
 
+        FASTA-formatted sequence files containing amino acid sequences
+        See :ref:`format_faa` page for details.
+ 
     FASTA
 
         FASTA-formatted sequence files contain either nucleic acid sequence
@@ -224,7 +242,8 @@ Note that formats mentionned here below have dedicated description in the
 
         **2bit** file stores multiple DNA sequences (up to 4 Gb total) in a
         compact randomly-accessible format. The file contains masking information 
-        as well as the DNA itself.
+        as well as the DNA itself. See :ref:`format_twobit` format page for
+        details.
 
     VCF
 

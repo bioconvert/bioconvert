@@ -31,14 +31,14 @@ from bioconvert import ConvBase
 from bioconvert.io import scf
 import colorlog
 
-from bioconvert.core.decorators import requires_nothing
+from bioconvert.core.decorators import requires_nothing, compressor
 
 _log = colorlog.getLogger(__name__)
 
-__all__ = ["SCF2Fastq"]
+__all__ = ["SCF2FASTQ"]
 
 
-class SCF2Fastq(ConvBase):
+class SCF2FASTQ(ConvBase):
     """
     Converts a binary :term:`SCF` file to :term:`FastQ` file
 
@@ -47,6 +47,7 @@ class SCF2Fastq(ConvBase):
     """
 
     @requires_nothing
+    @compressor
     def _method_python(self, *args, **kwargs):
         sequence, qualities, comments = scf.read_scf(self.infile)
 

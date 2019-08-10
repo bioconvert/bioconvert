@@ -22,15 +22,12 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""NEWICK2PHYLOXML conversion"""
-import os
-
+"""Converts :term:`NEWICK` file to :term:`PHYLOXML` format."""
 import colorlog
-from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -40,7 +37,10 @@ __all__ = ['NEWICK2PHYLOXML']
 
 class NEWICK2PHYLOXML(ConvBase):
     """
-    Converts a tree file from :term:`NEWICK` format to :term:`PHYLOXML` format. ::
+    Converts a tree file from :term:`NEWICK` format to :term:`PHYLOXML` format.
+
+    Methods available are based on gotree [GOTREE]_.
+
     """
     _default_method = 'gotree'
 
@@ -53,13 +53,13 @@ class NEWICK2PHYLOXML(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("conda")
-    def _method_gotree(self, threads=None, *args, **kwargs):
+    @requires("go")
+    @compressor
+    def _method_gotree(self, *args, **kwargs):
         """
         Convert :term:`NEWICK`  file in :term:`PHYLOXML` format using gotree tool.
         https://github.com/fredericlemoine/gotree
 
-        :param threads: not used.
         """
         self.install_tool('gotree')
         cmd = 'gotree reformat phyloxml -i {infile} -o {outfile} -f newick'.format(

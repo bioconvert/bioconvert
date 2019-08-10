@@ -21,12 +21,13 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-import os
+"""Convert :term:`CLUSTAL` to :term:`NEXUS` format"""
 import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -37,11 +38,9 @@ class CLUSTAL2NEXUS(ConvBase):
     """
     Converts a sequence alignment from :term:`CLUSTAL` format to :term:`NEXUS` format. ::
 
-        converter = CLUSTAL2NEXUS(infile, outfile)
-        converter(method='goalign')
+    Methods available are based on squizz [SQUIZZ] or biopython [BIOPYTHON], and
+    goalign [GOALIGN].
 
-    default method = goalign
-    available methods = goalign
     """
     _default_method = 'goalign'
 
@@ -51,16 +50,16 @@ class CLUSTAL2NEXUS(ConvBase):
         :param str infile: input :term:`CLUSTAL` file.
         :param str outfile: (optional) output :term:`NEXUS` file
         """
-        super().__init__(infile, outfile)
+        super(CLUSTAL2NEXUS, self).__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("conda")
+    @requires("go")
+    @compressor
     def _method_goalign(self, threads=None, *args, **kwargs):
         """
         Convert :term:`CLUSTAL` file in  :term:`NEXUS` format using goalign tool.
         https://github.com/fredericlemoine/goalign
 
-        :param threads: not used.
         """
         self.install_tool('goalign')
         cmd = 'goalign reformat nexus --clustal -i {infile} -o {outfile}'.format(

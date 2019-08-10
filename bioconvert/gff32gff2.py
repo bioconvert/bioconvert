@@ -23,17 +23,20 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`FASTQ` to :term:`FASTA`"""
+"""Convert :term:`GFF3` to :term:`GFF2` format"""
 from Bio import SeqIO
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires_nothing
-from bioconvert.readers.gff3 import Gff3
-
+from bioconvert import compressor
+from bioconvert.io.gff3 import Gff3
 
 class GFF32GFF2(ConvBase):
-    """Convert :term:`GFF2` to :term:`GFF3`"""
+    """Convert :term:`GFF2` to :term:`GFF3`
 
-    _default_method = "brut_binding_python"
+
+    Method available is Python-based."""
+
+    _default_method = "bioconvert"
 
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -46,7 +49,8 @@ class GFF32GFF2(ConvBase):
         super(GFF32GFF2, self).__init__(infile, outfile, *args, **kargs)
 
     @requires_nothing
-    def _method_brut_binding_python(self, *args, **kwargs):
+    @compressor
+    def _method_bioconvert(self, *args, **kwargs):
         """ This method is a basic mapping of the 9th column of gff2 to gff3.
         Other methods with smart translations must be created for specific usages.
         There is no good solution for this translation.

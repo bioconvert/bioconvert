@@ -3,7 +3,7 @@
 .. _formats:
 
 Formats
-==========
+=======
 
 Here below, we provide a list of formats used in bioinformatics or computational
 biology. Most of these formats are used in **Bioconvert** and available for
@@ -24,8 +24,8 @@ If you wish to update this page, please see the :ref:`developer_guide` page.
 
 .. _format_twobit:
 
-.2bit (twobit)
---------------
+TWOBIT
+------
 
 :Format: binary
 :Status: available
@@ -108,8 +108,8 @@ File format produced by ABI sequencing machine. It produces ABI "Sanger" capilla
     :class:`~bioconvert.abi2fastq.ABI2FASTQ`,
     :class:`~bioconvert.abi2fasta.ABI2FASTA`
 
-.. seealso:: :ref:`format_scf`, :class:`~bioconvert.scf2fasta.SCF2Fasta`,
-    :class:`~bioconvert.scf2fastq.SCF2Fastq`,
+.. seealso:: :ref:`format_scf`, :class:`~bioconvert.scf2fasta.SCF2FASTA`,
+    :class:`~bioconvert.scf2fastq.SCF2FASTQ`,
 
 .. admonition::  References
 
@@ -192,7 +192,7 @@ of nucleotide sequence alignments.
     :class:`~bioconvert.bam2sam.BAM2SAM`,
     :class:`~bioconvert.bam2cram.BAM2CRAM`,
     :class:`~bioconvert.bam2bedgraph.BAM2BEDGRAPH`,
-    :class:`~bioconvert.bam2bed.BAM2BED`,
+    :class:`~bioconvert.bam2bed.BAM2COV`,
     :class:`~bioconvert.bam2bigwig.BAM2BIGWIG`,
     :class:`~bioconvert.bam2fasta.BAM2FASTA`,
     :class:`~bioconvert.bam2fastq.BAM2FASTQ`,
@@ -264,9 +264,16 @@ BEDGRAPH
 :Status: included
 :Type: database
 
-The bedGraph format allows display of continuous-valued data in track format.
-This display type is useful for probability scores and transcriptome data. Same
-format as the :ref:`format_bed4`.
+BedGraph is a subset of BED12 format. It is a 4-columns tab-delimited file with
+chromosome name, start and end positions and the fourth column is a number that is
+often used to show coverage depth. So, this is the same format as the
+:ref:`format_bed4` format.
+Example::
+
+    chr1    0     75  0
+    chr1    75   176  1
+    chr1    176  177  2
+
 
 .. seealso:: :ref:`format_bed`
 
@@ -292,7 +299,8 @@ So, in general BED lines have 3 required fields and nine additional
 optional fields.
 
 Generally, all BED files have the same extensions (.bed) irrespective of the
-number of columns. We can refer to the 3-columns version as BED3, the 4-columns BED as BED4 and so on.
+number of columns. We can refer to the 3-columns version as BED3, the 4-columns 
+BED as :ref:`format_bed4` and so on.
 
 The number of fields per line must be consistent. If some fields are empty,
 additional column information must be filled for consistency (e.g., with a ".").
@@ -405,12 +413,15 @@ See :ref:`format_bed` section for details.
 BED4
 ----
 
-A BED4 is supported by bedtools. It is a BED file where each feature is
-described by chrom, start, end and name (with tab-delimited values). Example::
+A BED4 is a :ref:`format_bed` file where each feature is
+described by chrom, start, end and name (with tab-delimited values). The last 
+column could also be a number. Example::
 
     chr1    100    120    gene1
 
 See :ref:`format_bed` section for details.
+
+.. seealso:: :ref:`format_bedgraph`
 
 .. _format_bed5:
 
@@ -465,7 +476,8 @@ The **bigBed** format stores annotation items. BigBed files are created initiall
 
 .. admonition:: bioconvert conversions
 
-    :class:`~bioconvert.bigbed2bed.BIGBED2BED`, :class:`~bioconvert.bigbed2wiggle.BIGBED2WIGGLE`
+    :class:`~bioconvert.bigbed2bed.BIGBED2COV`, 
+    :class:`~bioconvert.bigbed2wiggle.BIGBED2WIGGLE`
 
 .. admonition:: References
 
@@ -521,7 +533,7 @@ BIM
 :Status: included
 :Type: variants
 
-The BIM formatted file is a variant information file accompanying 
+The BIM formatted file is a variant information file accompanying
 a .bed or biallelic .pgen binary genotype table. Please see :ref:`format_plink_binary` section.
 
 
@@ -559,6 +571,24 @@ The BZ2 compression is usually better than gzip for Fastq format compression (fa
     :class:`~bioconvert.gz2dsrc`
     :class:`~bioconvert.bz22gz`,
     :class:`~bioconvert.dsrc2gz`
+
+.. _format_cov:
+
+COV
+---
+
+A simple TSV file with 3 columns to store coverage in a continuous way. First
+column is contig/chromosome name, second is position and third is coverage.
+Expected positions are continuous. The :ref:`format_bedgraph` stores an extra
+column but can be a more compact way of storing coverage/depth.
+
+Example::
+
+    chr1   1    10
+    chr1   2    11
+    chr1   3    15
+    chr1   4    12
+    chr1   5    11
 
 
 .. _format_cram:
@@ -691,7 +721,26 @@ EMBL format stores sequence and its annotation together. The start of the
 annotation section is marked by a line beginning with the word "ID". The start
 of sequence section is marked by a line beginning with the word "SQ".
 The "//" (terminator) line also contains no data or comments and designates
-the end of an entry. .
+the end of an entry.
+
+
+An example sequence in EMBL format is::
+
+    ID   AB000263 standard; RNA; PRI; 368 BP.
+    XX
+    AC   AB000263;
+    XX
+    DE   Homo sapiens mRNA for prepro cortistatin like peptide, complete cds.
+    XX
+    SQ   Sequence 368 BP;
+         acaagatgcc attgtccccc ggcctcctgc tgctgctgct ctccggggcc acggccaccg        60
+         ctgccctgcc cctggagggt ggccccaccg gccgagacag cgagcatatg caggaagcgg       120
+         caggaataag gaaaagcagc ctcctgactt tcctcgcttg gtggtttgag tggacctccc       180
+         aggccagtgc cgggcccctc ataggagagg aagctcggga ggtggccagg cggcaggaag       240
+         gcgcaccccc ccagcaatcc gcgcgccggg acagaatgcc ctgcaggaac ttcttctgga       300
+         agaccttctc ctcctgcaaa taaaacctca cccatgaatg ctcacgcaag tttaattaca       360
+         gacctgaa                                                                368
+
 
 .. admonition:: Bioconvert conversions:
 
@@ -714,7 +763,7 @@ FAM
 The FAM format is used to store sample information accompanying a .bed or
 biallelic .pgen binary genotype table. Please see :ref:`format_plink_binary` section.
 
-In brief, it stores the first 6 columns of the PED file. So it is a text file 
+In brief, it stores the first 6 columns of the PED file. So it is a text file
 with no header line, and one line per sample with the following six
 fields:
 
@@ -730,34 +779,113 @@ For example::
     1 1000000000 0 0 1 1
     1 1000000001 0 0 1 2
 
+.. _format_faa:
+
+FAA
+---
+
+Fasta formatted file storing amino acid sequences. A mutliple protein fasta file
+can have the more specific extension mpfa.
 
 .. _format_fasta:
 
-FastA
+FASTA
 -----
 
 :Format: human-readable
 :Status: included
 :Type: Sequence
 
-This refers to the input FASTA file format where each record starts
-with a ">" line. Resulting sequences have a generic alphabet by default.
-There is no standard file extension for a text file containing FASTA formatted sequences. Although
-their is a plethora of ad-hoc file extensions: fasta, fas, fa, seq, fsa, fna, ffn, faa, frn, we use only fasta, fa and fst within **Bioconvert**.
 
+FASTA format is one of the most widely used sequence format. It can
+stores multiple records of sequence and their identifier.
+
+A sequence entry has a one-line header followed by one or more lines of
+sequence. The header must start with the  ">" character. The next word is the
+sequence identifier or the accession number; the rest of the line is considered
+as description.
+
+The NCBI recommandation do not allowed blank lines in the middle of FASTA files.
+Note, however, that some tools can handle blank lines by ignoring them. This is
+not recommened to include blank lines though.
+
+There is no standard file extension for a text file containing FASTA formatted sequences. Although
+their is a plethora of ad-hoc file extensions: fasta, fas, fa, seq, fsa, fna, ffn, faa, frn, we use only fasta, fa and fst within **Bioconvert** (see :attr:`~bioconvert.core.extensions`). For completeness, *fasta* is the generic fasta file, *fna* stands for fasta nucleic acid, ffn for fasta nucleotide of gene resions, *faa* for fasta amino acid, *frn* for fasta non-coding RNA, etc.
+
+An example sequence in FASTA format is::
+
+    >X65923.1 H.sapiens fau mRNA
+    TTCCTCTTTCTCGACTCCATCTTCGCGGTAGCTGGGACCGCCGTTCAGTCGCCAATATGCAGCTCTTTGT
+    CCGCGCCCAGGAGCTACACACCTTCGAGGTGACCGGCCAGGAAACGGTCGCCCAGATCAAGGCTCATGTA
+    GCCTCACTGGAGGGCATTGCCCCGGAAGATCAAGTCGTGCTCCTGGCAGGCGCGCCCCTGGAGGATGAGG
+    CCACTCTGGGCCAGTGCGGGGTGGAGGCCCTGACTACCCTGGAAGTAGCAGGCCGCATGCTTGGAGGTAA
+    AGTTCATGGTTCCCTGGCCCGTGCTGGAAAAGTGAGAGGTCAGACTCCTAAGGTGGCCAAACAGGAGAAG
+    AAGAAGAAGAAGACAGGTCGGGCTAAGCGGCGGATGCAGTACAACCGGCGCTTTGTCAACGTTGTGCCCA
+    CCTTTGGCAAGAAGAAGGGCCCCAATGCCAACTCTTAAGTCTTTTGTAATTCTGGCTTTCTCTAATAAAA
+    AAGCCACTTAGTTCAGTCAAAAAAAAAA
+
+In this example, the header (also known as description line) is formatted as::
+
+    >ID description
+
+Many variants of FASTA formats exists but differ only in the way the header is
+written. All starts with the ">" sign though. We can cite a few variants here
+below (for simplicity we give only puit 2 lines per sequence).
+
+
+The **NCBI style** defines the identifier with database name, entry ID and
+optional accession or sequence version number separated by pipes::
+
+    >embl|X65923|X65923.1 H.sampiens fau mRNA
+    TTCCTCTTTCTCGACTCCATCTTCGCGGTAGCTGGGACCGCCGTTCAGTCGCCAATATGCAGCTCTTTGT
+    CCGCGCCCAGGAGCTACACACCTTCGAGGTGACCGGCCAGGAAACGGTCGCCCAGATCAAGGCTCATGTA
+
+List of NCBI FASTA database are listed in https://tinyurl.com/y6wrzyad
+
+The **GI style** is the same as NCBI style except that the sequence GI code is
+given instead of the entry ID::
+
+    >gi|31302|gnl|genbank|X65923 (X65923.1) H.sampiens fau mRNA
+    TTCCTCTTTCTCGACTCCATCTTCGCGGTAGCTGGGACCGCCGTTCAGTCGCCAATATGCAGCTCTTTGT
+    CCGCGCCCAGGAGCTACACACCTTCGAGGTGACCGGCCAGGAAACGGTCGCCCAGATCAAGGCTCATGTA
+
+There is also a **CGC-style** FASTA format (not to be confused with
+the :ref:`format_gcg` format). Its header includes an optional database
+name as part of the identifier by  using the : sign::
+
+      >DATABASE_NAME:DI accession description
+
+      >embl:X65923 X65923.1 H.sapiens fau mRNA
+      TTCCTCTTTCTCGACTCCATCTTCGCGGTAGCTGGGACCGCCGTTCAGTCGCCAATATGCAGCTCTTTGT
+      CCGCGCCCAGGAGCTACACACCTTCGAGGTGACCGGCCAGGAAACGGTCGCCCAGATCAAGGCTCATGTA
+
+And more generally, we have the FASTA with accession and description style.
+The accession number or sequence version included after the identifier::
+
+    >X65923 X65923.1 H.sapiens fau mRNA
+    TTCCTCTTTCTCGACTCCATCTTCGCGGTAGCTGGGACCGCCGTTCAGTCGCCAATATGCAGCTCTTTGT
+    CCGCGCCCAGGAGCTACACACCTTCGAGGTGACCGGCCAGGAAACGGTCGCCCAGATCAAGGCTCATGTA
+    GCCTCACTGGAGGGCATTGCCCCGGAAGATCAAGTCGTGCTCCTGGCAGGCGCGCCCCTGGAGGATGAGG
+    CCACTCTGGGCCAGTGCGGGGTGGAGGCCCTGACTACCCTGGAAGTAGCAGGCCGCATGCTTGGAGGTAA
+    AGTTCATGGTTCCCTGGCCCGTGCTGGAAAAGTGAGAGGTCAGACTCCTAAGGTGGCCAAACAGGAGAAG
+    AAGAAGAAGAAGACAGGTCGGGCTAAGCGGCGGATGCAGTACAACCGGCGCTTTGTCAACGTTGTGCCCA
+    CCTTTGGCAAGAAGAAGGGCCCCAATGCCAACTCTTAAGTCTTTTGTAATTCTGGCTTTCTCTAATAAAA
+    AAGCCACTTAGTTCAGTCAAAAAAAAAA
+
+.. note:: original FASTA format may include comments with the ; sign. This
+   is not supported anymore in most programs.
 
 .. admonition:: Bioconvert conversions
 
-    - :class:`~bioconvert.fastq2fasta.FastQ2FastA`
-    - :class:`~bioconvert.fasta2fasta.FastA2FastQ`
-    - :class:`~bioconvert.fasta2clustal.FastA2Clustal`
-    - :class:`~bioconvert.fasta2nexus.FastA2Nexus`
-    - :class:`~bioconvert.fasta2twobit.FastA2TwoBit`
+    :class:`~bioconvert.fastq2fasta.FASTQ2FASTA`, :class:`~bioconvert.fasta2fasta.FASTA2FASTQ`,
+    :class:`~bioconvert.fasta2clustal.FASTA2CLUSTAL`, :class:`~bioconvert.fasta2nexus.FASTA2NEXUS`,
+    :class:`~bioconvert.fasta2twobit.FASTA2TWOBIT`
 
 .. seealso:: :ref:`format_fastq` and :ref:`format_qual`
 .. admonition::  References
 
     -  http://en.wikipedia.org/wiki/FASTA_format
+    -  NCBI recommandations: https://tinyurl.com/y6wrzyad
 
 
 .. _format_fastg:
@@ -785,24 +913,51 @@ FastQ
 :Status: included
 :Type: Sequence
 
-FASTQ files include sequences in :ref:`format_fasta` format and their
-qualities (:ref:`format_qual`). In general, *fastq*
-refers to Sanger style FASTQ files which encode PHRED qualities using an
-ASCII offset of 33. See also the incompatible "fastq-solexa" and "fastq-illumina"
-variants used in early Solexa/Illumina pipelines, Illumina pipeline 1.8 produces Sanger FASTQ.
-Be aware that there are different FASTQ formats for different sequencing
-technologies.
+
+FASTQ is a text-based format for storing both biological sequence (usually
+nucleotide sequence) and its corresponding quality scores (:ref:`format_qual`).
+A FASTQ format can contain several sequences. All FASTQ variations are in the
+formatting of the quality scores. Currently, the recommended variant is the
+Sanger encoding also used by Illumina 1.8. It encodes the Phred quality score
+from 0 to 93 using ASCII 33 to 126. This format is also refered
+to PHRED+33 meaning there is an offset of 33 in the ASCII code. Other variants
+such as FASTQ-solexa or earlier Illumina versions. Currently conversions included
+in **Bioconvert** do not need to be aware of the quality score encoding.
+
+
+A FASTQ file uses four lines per sequence:
+
+1. a '@' character, followed by a sequence identifier and an optional description
+2. the raw sequence letters.
+3. a '+' character, optionally followed by the same sequence identifier (and any description)
+4. quality values for the sequence in Line 2
+
+An example sequence in FASTQ format is::
+
+    @SEQUENCE_ID1
+    GTGGAAGTTCTTAGGGCATGGCAAAGAGT
+    +
+    FAFFADEDGDBGEGGBCGGHE>EEBA@@=
+    @SEQUENCE_ID2
+    GTGGAAGTTCTTAGG
+    +
+    FAFFADEDGDBGEGG
+
 
 .. admonition:: Bioconvert conversions
 
-    :class:`~bioconvert.fastq2fasta.FastQ2FastA`, :class:`~bioconvert.fasta2fasta.FastA2FastQ`
+    :class:`~bioconvert.fastq2fasta.FASTQ2FASTA`, :class:`~bioconvert.fasta2fasta.FASTA2FASTQ`
 
 .. seealso:: :ref:`format_fasta` and :ref:`format_qual`
 
 
+.. admonition:: References
+
+    - https://en.wikipedia.org/wiki/FASTQ_format
+
 .. _format_genbank:
 
-Genbank
+GENBANK
 -------
 
 :Format: human-readable
@@ -815,7 +970,25 @@ the word *LOCUS*. The start of sequence section is marked by a line beginning
 with the word *ORIGIN* and the end of the section is marked by a line with only
 "//".
 
-GenBank format for protein has been renamed GenPept.
+GenBank format for protein has been renamed **GenPept**.
+
+An example sequence in GenBank format is::
+
+    LOCUS       AB000263                 368 bp    mRNA    linear   PRI 05-FEB-1999
+    DEFINITION  Homo sapiens mRNA for prepro cortistatin like peptide, complete
+                cds.
+    ACCESSION   AB000263
+    ORIGIN
+            1 acaagatgcc attgtccccc ggcctcctgc tgctgctgct ctccggggcc acggccaccg
+           61 ctgccctgcc cctggagggt ggccccaccg gccgagacag cgagcatatg caggaagcgg
+          121 caggaataag gaaaagcagc ctcctgactt tcctcgcttg gtggtttgag tggacctccc
+          181 aggccagtgc cgggcccctc ataggagagg aagctcggga ggtggccagg cggcaggaag
+          241 gcgcaccccc ccagcaatcc gcgcgccggg acagaatgcc ctgcaggaac ttcttctgga
+          301 agaccttctc ctcctgcaaa taaaacctca cccatgaatg ctcacgcaag tttaattaca
+          361 gacctgaa
+    //
+
+
 
 .. admonition:: Bioconvert conversions
 
@@ -827,16 +1000,22 @@ GenBank format for protein has been renamed GenPept.
     - https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html
 
 
+.. _format_genpept:
+
+GENPEPT
+-------
+
+see :ref:`format_genbank`
+
+
 .. _gfa_format:
 
 GFA
 ---
 
-
 :Format: human-readable
 :Status: included
 :Type: assembly graph
-
 
 The Graphical Fragment Assembly (GFA) can be used to represent genome
 assemblies. GFA stores sequence graphs as the product of an
@@ -848,7 +1027,6 @@ and their overlap. The first field of the line identifies the type of the line.
 **Header** lines start with H. **Segment** lines start with S. **Link** lines start with L.
 A **containment** line starts with C. A **path** line starts with P.
 
-
 - Segment a continuous sequence or subsequence.
 - Link an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
 - Containment an overlap between two segments where one is contained in the other.
@@ -856,7 +1034,7 @@ A **containment** line starts with C. A **path** line starts with P.
 
 See details in the reference above.
 
-Example::
+Example:
 
     H   VN:Z:1.0
     S   11  ACCTT
@@ -885,7 +1063,7 @@ the next by a single tab.
 
 .. admonition:: Bioconvert conversions
 
-    :class:`~bioconvert.gfa2fasta.GFA2Fasta`
+    :class:`~bioconvert.gfa2fasta.GFA2FASTA`
 
 .. admonition:: References:
 
@@ -1271,7 +1449,7 @@ MAP
 :Status: included
 :Type: Genotypic
 
-PLINK is a very widely used application for analyzing genotypic data. 
+PLINK is a very widely used application for analyzing genotypic data.
 
 The fields in a MAP file are:
 
@@ -1280,7 +1458,7 @@ The fields in a MAP file are:
 - Genetic distance
 - Physical position
 
-Example of a MAP file of the standard PLINK format:: 
+Example of a MAP file of the standard PLINK format::
 
     21     rs11511647   0          26765
     X      rs3883674    0           32380
@@ -1332,6 +1510,7 @@ graph-theoretical trees with edge lengths using parentheses and commas.
 .. admonition:: References
 
     - https://en.wikipedia.org/wiki/Newick_format
+    - http://evolution.genetics.washington.edu/phylip/newicktree.html
 
 .. _format_nexus:
 
@@ -1342,9 +1521,12 @@ NEXUS
 :Status: included
 :Type: phylogeny
 
-The NEXUS multiple alignment format, also known as PAUP format.
+The NEXUS multiple alignment format, also known as PAUP format is used to
+multiple alignment or phylogentic trees.
 
-Blocks starts with *Begin NAME;* and ends with *END;*
+
+After a header to indicate the format (#NEXUS ), blocks are stored
+and start with *Begin NAME;* and end with *END;*
 
 Example of a DNA alignment::
 
@@ -1409,7 +1591,7 @@ equivalent to the :ref:`format_xls` format.
 .. _format_paf:
 
 PAF (Pairwise mApping Format)
---------------------------------
+-----------------------------
 
 :Format: human-readable
 :Status: included
@@ -1455,6 +1637,14 @@ each line.
 
     - https://github.com/lh3/miniasm/blob/master/PAF.md
 
+.. _format_pdb:
+
+PDB
+---
+
+.. todo:: coming soon
+
+
 .. _format_ped:
 
 PED
@@ -1464,7 +1654,7 @@ PED
 :Status: included
 :Type: Genotypic
 
-PLINK is a very widely used application for analyzing genotypic data. 
+PLINK is a very widely used application for analyzing genotypic data.
 
 The fields in a PED file are:
 
@@ -1597,21 +1787,23 @@ Here is an example::
 .. _format_plink_flat:
 
 PLINK flat files (MAP/PED)
--------------------------------
+--------------------------
 
 :Format: human-readable
 :Status: included
 :Type: genotypic
 
-PLINK is a used application for analyzing genotypic data. It can be considered  the de-facto standard of the field. 
+PLINK is a used application for analyzing genotypic data. It can be considered
+the de-facto standard of the field.
 
 The standard PLINK files can be a bundle of plain text files (PED & MAP dataset,
-or its transpose, TPED & :ref:`format_fam` dataset), or a bundle of binary files (BED, :ref:`format_bim` & :ref:`format_fam`) as explained in :ref:`format_plink_binary`. 
+or its transpose, TPED & :ref:`format_fam` dataset), or a bundle of binary
+files (BED, :ref:`format_bim` & :ref:`format_fam`) as explained in :ref:`format_plink_binary`.
 
 PLINK provides commands to convert between text and binary formats. In
 Bioconvert, you can use the **plink2bpblink** conversion::
 
-    bioconvert plink2bplink input_prefix output_prefix 
+    bioconvert plink2bplink input_prefix output_prefix
 
 .. note:: Since there are several input and output files, we do not provide the
    extension. Instead, we use the prefix filename.
@@ -1620,10 +1812,10 @@ Bioconvert, you can use the **plink2bpblink** conversion::
 Since PLINK files do not specify for a variant which allele is reference and which is
 alternative, importing data to a variant tools project requires matching each
 variant to the reference sequence to determine reference and alternative
-alleles 
+alleles
 
 
-The Genotypic data are separated in two flat files: MAP and PED. 
+The Genotypic data are separated in two flat files: MAP and PED.
 
 The MAP files describes the SNPs and contains those fields:
 
@@ -1680,13 +1872,15 @@ hom ancestral), 1 het, 2 dom derived using ::
 .. _format_plink_binary:
 
 PLINK binary files (BED/BIM/FAM)
--------------------------------------
+--------------------------------
 
-:Format: human-readable
+:Format: human-readable and biarny
 :Status: included
 :Type: genotypic
 
-PLINK binary format (BED, :ref:`format_bim` and :ref:`format_fam`) is a valid input for many software. If you have the :ref:`format_plink_flat` version, use PLINK to convert text to binary format if necessary. In Bioconvert, you can use the **plink2bpblink** as explained in the :ref:`format_plink_flat` section
+PLINK binary format (BED, :ref:`format_bim` and :ref:`format_fam`) is a valid input for many software. If you have the :ref:`format_plink_flat` version, use PLINK to convert text to binary format if necessary. In Bioconvert, you can use the **plink2bpblink** as explained in the :ref:`format_plink_flat` section.
+
+Here, the BED file is binary and is not to be confused with the BEDGRAPH format.
 
 .. admonition:: Bioconvert conversions
 
@@ -1712,8 +1906,8 @@ QUAL files include qualities of each nucleotide in :ref:`format_fasta` format.
 
 .. admonition:: Bioconvert conversions
 
-    - :class:`~bioconvert.fastq2fasta.FastQ2FastA`
-    - :class:`~bioconvert.fasta2fasta.FastA2FastQ`
+    - :class:`~bioconvert.fastq2fasta.FASTQ2FASTA`
+    - :class:`~bioconvert.fasta2fasta.FASTA2FASTQ`
 
 .. seealso:: :ref:`format_fasta` and :ref:`format_fastq`
 
@@ -1798,7 +1992,7 @@ SCF
 :Type: alignment
 
 
-Trace File Format - Sequence Chromatogram Format (SCF) is a binary file 
+Trace File Format - Sequence Chromatogram Format (SCF) is a binary file
 containing raw data output from automated sequencing instruments.
 
 This converter was translated from BioPerl.
@@ -1897,7 +2091,7 @@ STOCKHOLM
 :Status: included
 :Type: multiple sequence alignment
 
-Stockholm format is a multiple sequence alignment format used by Pfam and Rfam
+Stockholm format is a multiple sequence alignment format used by **Pfam** and **Rfam**
 to store protein and RNA sequence alignments.
 
 Here is a simple example::
@@ -1947,6 +2141,7 @@ instead of space.::
 
     - https://en.wikipedia.org/wiki/Stockholm_format
     - http://scikit-bio.org/docs/0.5.0/generated/skbio.io.format.stockholm.html
+    - pfam: https://en.wikipedia.org/wiki/Pfam
 
 
 
@@ -1966,13 +2161,13 @@ insertions/deletions, copy number variants and structural variants.
 
 .. admonition:: Bioconvert conversions:
 
-    - :class:`~bioconvert.bcf2vcf`
-    - :class:`~bioconvert.bcf2wiggle`
-    - :class:`~bioconvert.vcf2bcf`
-    - :class:`~bioconvert.vcf2bed`
-    - :class:`~bioconvert.vcf2wiggle`
-    - :class:`~bioconvert.vcf2plink`
-    - :class:`~bioconvert.vcf2bplink`
+    - :class:`~bioconvert.bcf2vcf.BCF2VCF`
+    - :class:`~bioconvert.bcf2wiggle.BCF2WIGGLE`
+    - :class:`~bioconvert.vcf2bcf.VCF2BCF`
+    - :class:`~bioconvert.vcf2bed.VCF2BED`
+    - :class:`~bioconvert.vcf2wiggle.VCF2WIGGLE`
+    - :class:`~bioconvert.vcf2plink.VCF2PLINK`
+    - :class:`~bioconvert.vcf2bplink.VCF2BPLINK`
 
 
 .. _format_wig:
@@ -2001,10 +2196,10 @@ or data that contains elements of varying size.
 For speed and efficiency, wiggle data is usually stored in BIGWIG format.
 
 Wiggle format is line-oriented. It is composed of declaration lines and data
-lines. There are two options: **variableStep** and **fixedStep**. 
+lines. There are two options: **variableStep** and **fixedStep**.
 
 The VariableStep format is used for data with irregular intervals between new data points,
-and is the more commonly used wiggle format. The variableStep begins with a 
+and is the more commonly used wiggle format. The variableStep begins with a
 declaration line and is followed by two columns containing chromosome positions
 and data values::
 
@@ -2026,7 +2221,7 @@ this variableStep specification::
     300702 12.5
     300703 12.5
     300704 12.5
-    300705 12.5 
+    300705 12.5
 
 is equivalent to::
 
@@ -2038,7 +2233,7 @@ The variableStep format becomes very inefficient when there are only a few data 
 about 100 bases apart, it is advisable to use BedGraph format.
 
 The **fixedStep** format is used for data with regular intervals between new data values and
-is the more compact wiggle format. The fixedStep begins with a declaration line 
+is the more compact wiggle format. The fixedStep begins with a declaration line
 and is followed by a single column of data values::
 
     fixedStep  chrom=chrN
@@ -2065,7 +2260,7 @@ declaration line::
     fixedStep chrom=chr3 start=400601 step=100 span=5
     11
     22
-    33 
+    33
 
 causes the values 11, 22, and 33 to be displayed as 5-base regions on chromosome
 3 at positions 400601-400605, 400701-400705, and 400801-400805, respectively.
@@ -2076,13 +2271,13 @@ used. As the name suggests, fixedStep wiggles require the same size step
 throughout the dataset. If not specified, a step size of 1 is used.
 
 Data values can be integer or real, postive or negative values.
-Positions specified in the input data must be in numerical order. 
+Positions specified in the input data must be in numerical order.
 
 .. warning::  BigWig files created from bedGraph format use "0-start, half-open"
     coordinates, but bigWigs that represent variableStep and fixedStep data are
     generated from wiggle files that use *1-start, fully-closed* coordinates. For
     example, for a chromosome of length N, the first position is 1 and the last
-    position is N. For more information, see: 
+    position is N. For more information, see:
 
 
 .. admonition:: Bioconvert conversions
@@ -2114,8 +2309,8 @@ sheets are to be found, you can select one or the other.
 
 .. admonition:: Bioconvert conversions:
 
-    :class:`~bioconvert.xls2csv`,
-    :class:`~bioconvert.xlsx2csv`,
+    :class:`~bioconvert.xls2csv.XLS2CSV`,
+    :class:`~bioconvert.xlsx2csv.XLSZ2CSV`,
 
 .. admonition::  References
 
@@ -2138,7 +2333,8 @@ sheets are to be found, you can select one or the other.
 
 .. admonition:: Bioconvert conversions:
 
-    :class:`~bioconvert.xls2csv.XLS2CSV`, :class:`~bioconvert.xlsx2csv.XLSX2CSV`
+    :class:`~bioconvert.xls2csv.XLS2CSV`,
+    :class:`~bioconvert.xlsx2csv.XLSX2CSV`
 
 .. seealso::  :ref:`format_xls` format.
 
@@ -2241,8 +2437,8 @@ Example::
 
 .. admonition:: Bioconvert conversions
 
-    :class:`~bioconvert.json2yaml`,
-    :class:`~bioconvert.yaml2json`.
+    :class:`~bioconvert.json2yaml.JSON2YAML`,
+    :class:`~bioconvert.yaml2json.JSON2YAML`.
 
 
 .. admonition:: References
@@ -2250,28 +2446,166 @@ Example::
     - https://en.wikipedia.org/wiki/YAML
     - https://yaml.org/refcard.html
 
-Not Included
-------------
+Others
+------
 
-- ace: Reads the contig sequences from an ACE assembly file.
-  Uses Bio.Sequencing.Ace internally clustal The alignment format of Clustal X
-  and Clustal W. See also the Bio.Clustalw module.
-- fastq-solexa    FASTQ files are a bit like FASTA files but also include
-  sequencing qualities. In Biopython, 'fastq' refers to Sanger style FASTQ files
-  which encode PHRED qualities using an ASCII offset of 33. See also the
-  incompatible 'fastq-solexa' and 'fastq-illumina' variants.
-- ig  This refers to the IntelliGenetics file format, apparently the same as the
-  MASE alignment format.
+
+ACE
+~~~-
+
+Human-readable file format used by the AceDB database, which is a genome database designed for
+the handling of bioinformatics data. The data looks like::
+
+    DNA : "HSFAU"
+    ttccttccagctactgttccttccagc
+    tactg
+
+This format is obsolet and will not be included in **Bioconvert** for now.
+BioPython seems to handle this format.
+
+ASN1
+~~~~
+
+ASN.1 Abstract Syntax Notation One, is an International Standards
+Organization (ISO) data representation format used to achieve interoperability.
+It is formal notation used for describing data transmitted by
+telecommunications protocols, regardless of language implementation and physical
+representation of these data, whatever the application, whether complex or very
+simple. NCBI uses ASN.1 for the storage and retrieval of data such as
+nucleotide and protein sequences, structures, genomes, PubMed records, and more.
+
+.. admonition:: Reference
+
+    - https://www.ncbi.nlm.nih.gov/Structure/asn1.html
+    - https://www.ncbi.nlm.nih.gov/IEB/ToolBox/SDKDOCS/ASNLIB.HTML#_AsnTool
+
+
+.. _format_gcg:
+
+GCG
+~~~
+
+:Format: human-readable
+:Status: not included
+:Type: sequence
+
+GCG format contains exactly one sequence. It begins with
+annotation lines and the start of the sequence is marked by a line ending with
+two dot ("..") characters. This line also contains the sequence identifier, the
+sequence length and a checksum. This format should only be used if the file was
+created with the GCG package.
+
+An example sequence in GCG format is::
+
+    ID   AB000263 standard; RNA; PRI; 368 BP.
+    XX
+    AC   AB000263;
+    XX
+    DE   Homo sapiens mRNA for prepro cortistatin like peptide, complete cds.
+    XX
+    SQ   Sequence 368 BP;
+    AB000263  Length: 368  Check: 4514  ..
+           1  acaagatgcc attgtccccc ggcctcctgc tgctgctgct ctccggggcc acggccaccg
+          61  ctgccctgcc cctggagggt ggccccaccg gccgagacag cgagcatatg caggaagcgg
+         121  caggaataag gaaaagcagc ctcctgactt tcctcgcttg gtggtttgag tggacctccc
+         181  aggccagtgc cgggcccctc ataggagagg aagctcggga ggtggccagg cggcaggaag
+         241  gcgcaccccc ccagcaatcc gcgcgccggg acagaatgcc ctgcaggaac ttcttctgga
+         301  agaccttctc ctcctgcaaa taaaacctca cccatgaatg ctcacgcaag tttaattaca
+         361  gacctgaa
+
+GVF
+~~~
+
+:Format: human-readable
+:Status: not included
+:Type: variant
+
+The Genome Variation Format (GVF) is a very simple file format for describing
+sequence_alteration features at nucleotide resolution relative to a reference
+genome.
+
+Example::
+
+    ##gvf-version 1.10
+    ##genome-build NCBI B36.3
+    ##sequence-region chr16 1 88827254
+
+    chr16 samtools SNV 49291141 49291141 . + . ID=ID_1;Variant_seq=A,G;Reference_seq=G;
+    chr16 samtools SNV 49291360 49291360 . + . ID=ID_2;Variant_seq=G;Reference_seq=C;
+    chr16 samtools SNV 49302125 49302125 . + . ID=ID_3;Variant_seq=T,C;Reference_seq=C;
+    chr16 samtools SNV 49302365 49302365 . + . ID=ID_4;Variant_seq=G,C;Reference_seq=C;
+    chr16 samtools SNV 49302700 49302700 . + . ID=ID_5;Variant_seq=T;Reference_seq=C;
+    chr16 samtools SNV 49303084 49303084 . + . ID=ID_6;Variant_seq=G,T;Reference_seq=T;
+    chr16 samtools SNV 49303156 49303156 . + . ID=ID_7;Variant_seq=T,C;Reference_seq=C;
+    chr16 samtools SNV 49303427 49303427 . + . ID=ID_8;Variant_seq=T,C;Reference_seq=C;
+    chr16 samtools SNV 49303596 49303596 . + . ID=ID_9;Variant_seq=T,C;Reference_seq=C;
+
+
+.. admonition:: References
+
+    - https://github.com/The-Sequence-Ontology/Specifications/blob/master/gvf.md
+
+
+IG
+--
+
+
+The IntelliGenetics (IG) format is a sequence format. It can contain
+several sequences, each consisting of a
+number of comment lines that must begin with a semicolon (";"), a line with the
+sequence name (it may not contain spaces!) and the sequence itself terminated
+with the termination character '1' for linear or '2' for circular sequences.
+
+An example sequence in IG format is::
+
+    ; comment
+    ; comment
+    AB000263
+    ACAAGATGCCATTGTCCCCCGGCCTCCTGCTGCTGCTGCTCTCCGGGGCCACGGCCACCGCTGCCCTGCC
+    CCTGGAGGGTGGCCCCACCGGCCGAGACAGCGAGCATATGCAGGAAGCGGCAGGAATAAGGAAAAGCAGC
+    CTCCTGACTTTCCTCGCTTGGTGGTTTGAGTGGACCTCCCAGGCCAGTGCCGGGCCCCTCATAGGAGAGG
+    AAGCTCGGGAGGTGGCCAGGCGGCAGGAAGGCGCACCCCCCCAGCAATCCGCGCGCCGGGACAGAATGCC
+    CTGCAGGAACTTCTTCTGGAAGACCTTCTCCTCCTGCAAATAAAACCTCACCCATGAATGCTCACGCAAG
+    TTTAATTACAGACCTGAA1
+
+PIR
+~~~
+
+:Format: human-readable
+:Status: not included
+:Type: variant
+
+The PIR (Protein Informatics Resource) may contain contain several sequences.
+A sequence in PIR format consists of One line starting with ">" character
+followed by a 2-letter code describing the sequence type (P1, F1, DL, DC, RL,
+RC, or XX), followed by a semicolon, followed by the sequence identification
+code (the database ID-code). Then, one line containing a textual
+description of the sequence and finally one or more lines containing the
+sequence itself. The end of the sequence is marked by a "*"  character.
+
+The PIR format is also often referred to as the NBRF format.
+
+Example::
+
+    >P1;CRAB_ANAPL
+    Example protein sequence. Note the final * chraacter
+    MDITIHNPLI RRPLFSWLAP SRIFDQIFGE HLQESELLPA SPSLSPFLMR
+    SPIFRMPSWL ETGLSEMRLE KDKFSVNLDV KHFSPEELKV KVLGDMVEIH
+    GKHEERQDEH GFIAREFNRK YRIPADVDPL TITSSLSLDG VLTVSAPRKQ
+    SDVPERSIPI TREEKPAIAG AQRK*
+
+
+.. admonition:: References
+
+    - https://en.wikipedia.org/wiki/Protein_Information_Resource
+
+
 - imgt    Unspecified (`*.txt`) This refers to the IMGT variant of the EMBL plain
   text file format.
 - phd     PHD files are output from PHRED, used by PHRAP and CONSED for input.
-- pir     A FASTA like' format introduced by the National Biomedical Research
-  Foundation (NBRF) for the Protein Information Resource (PIR) database, now part
-  of UniProt.
 - seqxml  Simple sequence XML file format.
 - sff  Standard Flowgram Format (SFF) files produced by 454 sequencing.
   binary files produced by Roche 454 and IonTorrent/IonProton sequencing machines.
-
 - swiss   Swiss-Prot aka UniProt format.
 - uniprot-xml     UniProt XML format, successor to the plain text Swiss-Prot
   format.
@@ -2280,10 +2614,5 @@ Not Included
   optionally .pdb, format and a topology in GROMACS format. See
   http://manual.gromacs.org/archive/4.6.7/online/pdb2gmx.html for details.
   this tool is already quite complete and will not be provided for now.
-- pfam: https://en.wikipedia.org/wiki/Pfam
 - rfam: https://en.wikipedia.org/wiki/Rfam
 
-
-
-.. sam2paf
-.. vcf2bed vcf2bplink vcf2plink vcf2wiggle

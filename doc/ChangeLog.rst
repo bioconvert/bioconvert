@@ -1,6 +1,22 @@
 Whats' new, what has changed
 ================================
 
+
+:Revisin 0.4.0: (July 2019)
+
+- NEW:
+    - 1-to-many and many-to-1 converters are now part of the API (Sulyvan
+      Dollin)
+    - Complete documentation with formats and bibliography
+    - Validation of all currently implemented converters
+    - New layout for the output graph
+- NEW  converters:
+    - cram2fasta
+    - fasta2faa
+- CHANGES:
+    - cram2sam, bam2cram and related cram files have now a --reference option.
+    - removed fastq2bam and fasta2bed (no clear output format)
+
 :Revision 0.3.1: (May/June 2019)
 
 - NEW converters:
@@ -11,10 +27,16 @@ Whats' new, what has changed
     - new method in twobit2fasta based on py2bit
 - NEW features:
     - new module io/sniffer.py
+- NEW bioconvert behaviour:
+    - bioconvert --threads option added
+    - bioconvert --extra-arguments option added
 - CHANGES:
     - rename the ggf3gff2 converter correctly into gff32gff2 and add test
     - fastq2fasta: (i) remove quality-file option to export qual (ii) remove
       method python_external (issues #215)
+    - bam2bedgraph changes: now also reports 0-coverage bases.
+    - bioconvert has now a --level option (same as --verbosity)
+    - bioconvert -c/--methods is now set to -m/--methods and 
 - OTHERS:
     - update setup.py to include all scripts in ./misc package (#214)
     - More features in bioconvert_stats standalone

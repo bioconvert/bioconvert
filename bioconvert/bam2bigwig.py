@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`BAM` file to :term:`BIGWIG` file"""
+"""Convert :term:`BAM` file to :term:`BIGWIG` format"""
 
 import colorlog
 from bioconvert import ConvBase 
@@ -42,7 +42,16 @@ __all__ = ["BAM2BIGWIG"]
 class BAM2BIGWIG(ConvBase):
     """Convert :term:`BAM` file to :term:`BIGWIG` file
 
-    Some description.
+    Convert BAM into a binary version of :term:`WIG` format.
+
+    Methods are base on bamCoverage [DEEPTOOLS]_ and bedGraphToBigWig from
+    wiggletools [WIGGLETOOLS]_. Wiggletools method requires an extra argument
+    (--chrom-sizes) therefore default one is bamCoverage for now.
+
+    Moreover, the two methods do not return exactly the same info!
+
+    You can check this by using bioconvert to convert into a human readable file
+    such as wiggle. We will use the bamCoverage as our default conversion.
 
     """
     _default_method = "bamCoverage"
@@ -52,10 +61,6 @@ class BAM2BIGWIG(ConvBase):
 
         :param str infile: input BAM file
         :param str outfile: output BIGWIG filename
-
-        command used::
-            bamCoverage -bam {} –-outFileFormat bigwig --outFileName {}
-
 
         """
         super(BAM2BIGWIG, self).__init__(infile, outfile, *args, **kargs)
@@ -69,7 +74,10 @@ class BAM2BIGWIG(ConvBase):
 
     @requires(external_binaries=["bedGraphToBigWig", "bedtools"])
     def _method_ucsc(self, *args, **kwargs):
-        """run bam2bigwig using bioconvert/bedtools bam2bedgraph and ucsc tool bedGraphToBigWig"""
+        """Run ucsc tool bedGraphToBigWig. 
+
+        Requires extra argument (chrom_sizes) required by the bioconvert
+        stanalone. """
         from bioconvert.bam2bedgraph import BAM2BEDGRAPH
         from bioconvert.bedgraph2bigwig import BEDGRAPH2BIGWIG
 
@@ -87,5 +95,5 @@ class BAM2BIGWIG(ConvBase):
             names="--chrom-sizes",
             default=None,
             help="a two-column file/URL: <chromosome name> <size in bases>. "
-                 "Used by the bedtools method only",
+                 "Used by the ucsc method only",
         )

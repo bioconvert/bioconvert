@@ -22,16 +22,12 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-##############################################################################
-"""NEXUS2NEWICK conversion"""
-import os
-
-from bioconvert import ConvBase
-
+"""Converts :term:`NEXUS` file to :term:`NEWICK` format."""
 import colorlog
 
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor
 
 _log = colorlog.getLogger(__name__)
 
@@ -41,7 +37,11 @@ __all__ = ['NEXUS2NEWICK']
 
 class NEXUS2NEWICK(ConvBase):
     """
-    Converts a tree file from :term:`NEXUS` format to :term:`NEWICK` format. ::
+    Converts a tree file from :term:`NEXUS` format to :term:`NEWICK` format. 
+
+    Methods available are based on biopython [BIOPYTHON]_ or
+    goalign [GOALIGN]_.
+
     """
     _default_method = 'gotree'
 
@@ -55,18 +55,19 @@ class NEXUS2NEWICK(ConvBase):
         self.alphabet = alphabet
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         _log.warning("biopython methods rounds up values (5 digits)")
         from Bio import Phylo
         Phylo.convert(self.infile, "nexus", self.outfile, "newick")
 
-    @requires("conda")
-    def _method_gotree(self, threads=None, *args, **kwargs):
+    @requires("go")
+    @compressor
+    def _method_gotree(self, *args, **kwargs):
         """
         Convert :term:`NEXUS`  file in :term:`NEWICK` format using gotree tool.
         https://github.com/fredericlemoine/gotree
 
-        :param threads: not used.
         """
         self.install_tool('gotree')
         cmd = 'gotree reformat newick -i {infile} -o {outfile} -f nexus'.format(

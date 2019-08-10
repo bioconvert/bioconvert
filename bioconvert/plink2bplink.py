@@ -22,7 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
+"""Convert :term:`PLINK` to :term:`BPLINK`"""
 import colorlog
 
 from bioconvert import ConvBase

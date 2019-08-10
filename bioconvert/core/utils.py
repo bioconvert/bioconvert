@@ -85,3 +85,18 @@ def get_format_from_extension(extension):
                                " for examples")
     sys.exit(1)
 
+
+def compressor(infile, comp_ext, threads=4):
+    # FIXME: could be a method in ConvBase
+
+    if comp_ext == ".gz":
+        _log.info("Compressing output into .gz")
+        shell("pigz -f -p {} {}".format(threads, infile))
+    elif comp_ext == ".bz2":
+        _log.info("Compressing output into .bz2")
+        shell("pbzip2 -f -p{} {}".format(threads, infile))
+    elif comp_ext == ".dsrc":  # !!! only for FastQ files
+        _log.info("Compressing output into .dsrc")
+        shell("dsrc c -t{} {} {}.dsrc".format(
+            inst.threads, inst.outfile, inst.infile))
+

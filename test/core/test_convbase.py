@@ -1,14 +1,27 @@
 from bioconvert import ConvBase
-from bioconvert.bam2bed import BAM2BED
+from bioconvert.bam2cov import BAM2COV
 from bioconvert import bioconvert_data
 from easydev import TempFile
 
 
 def test_convbase():
-    infile = bioconvert_data("test_measles.fa")
 
-    with TempFile(suffix=".bed") as outfile:
-        BAM2BED(infile, outfile.name)
+    # General tests
+    infile = bioconvert_data("test_measles.sorted.bam")
+    with TempFile(suffix=".cov") as outfile:
+        c = BAM2COV(infile, outfile.name)
+        c()
+        try:
+            c(method_name="wrong")
+            assert False
+        except ValueError: 
+            assert True
+
+        c.shell("ls")
+        c.execute("ls", ignore_errors=True, verbose=True)
+        c.execute("ls", ignore_errors=True, verbose=True, shell=True)
+        c._execute("ls")
+
 
     # Wrong name
     try:
@@ -64,5 +77,7 @@ def test_convbase():
     this = in2out(infile, "test.fq")
     assert this.name == "in2out"
     this()
+
+
 
 

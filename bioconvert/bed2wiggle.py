@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""Convert :term:`BED` format to :term:`WIGGLE` formats"""
+"""Convert :term:`BED` format to :term:`WIGGLE` format"""
 from bioconvert import ConvBase
 import colorlog
 
@@ -23,7 +23,9 @@ __all__ = ["BED2WIGGLE"]
 
 
 class BED2WIGGLE(ConvBase):
-    """Convert sorted :term:`BED` file into :term:`WIGGLE` file 
+    """Convert sorted :term:`BED` file into :term:`WIGGLE` file
+
+    Methods available are based on wiggletools [WIGGLETOOLS]_.
 
     """
     _default_method = "wiggletools"
@@ -33,11 +35,11 @@ class BED2WIGGLE(ConvBase):
         :param str infile: The path to the input BED file. **It must be sorted**.
         :param str outfile: The path to the output file
         """
-        super().__init__(infile, outfile)
+        super(BED2WIGGLE, self).__init__(infile, outfile)
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):
-        """
+        """Convert BED to WIGGLE using wiggletools
 
         """
         cmd = "wiggletools {} > {}".format(self.infile, self.outfile)

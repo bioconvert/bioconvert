@@ -11,7 +11,8 @@ def test_conv(method):
 
     #expected_outfile = bioconvert_data("test_fastq2qual_v1.qual")
     with TempFile(suffix=".fasta") as fout:
-        FASTQ2QUAL(infile, fout.name)
+        c = FASTQ2QUAL(infile, fout.name)
+        c()
         # TODO: check md5
 
 

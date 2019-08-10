@@ -22,8 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""TWOBIT2FASTA conversion"""
+"""Conversion from :term:`TWOBIT` to :term:`FASTA` format"""
 import os
 
 import colorlog
@@ -41,7 +40,7 @@ __all__ = ['TWOBIT2FASTA']
 class TWOBIT2FASTA(ConvBase):
     """Converts a sequence alignment in :term:`TWOBIT` format to :term:`FASTA` format
 
-    Conversion is based on UCSC twobit2fa
+    Conversion is based on UCSC [UCSC]_ and py2bit.
 
     """
     _default_method = 'py2bit'
@@ -52,7 +51,7 @@ class TWOBIT2FASTA(ConvBase):
         :param str infile: input :term:`TWOBIT` file.
         :param str outfile: (optional) output :term:`FASTA` file
         """
-        super().__init__(infile, outfile)
+        super(TWOBIT2FASTA, self).__init__(infile, outfile)
         self.alphabet = alphabet
 
     @requires("twoBitToFa")
@@ -69,7 +68,7 @@ class TWOBIT2FASTA(ConvBase):
     # py2bit is from deeptols repo
     @requires(python_library="py2bit")
     def _method_py2bit(self, *args, **kwargs):
-        print(self.infile)
+
         import py2bit
         data = py2bit.open(self.infile)
         with open(self.outfile, "w") as fout:

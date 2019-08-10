@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`VCF` file to :term:`BED` file"""
+"""Convert :term:`VCF`  to :term:`BED3` file"""
 from bioconvert import ConvBase
 import colorlog
 
@@ -37,7 +37,7 @@ __all__ = ["VCF2BED"]
 
 class VCF2BED(ConvBase):
     """
-    Convert VCF file to BED file by extracting positions.
+    Convert VCF file to BED3 file by extracting positions.
 
     The awk method implemented here below reports an interval
     of 1 for SNP, the length of the insertion or the length of

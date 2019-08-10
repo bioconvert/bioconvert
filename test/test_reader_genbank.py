@@ -1,5 +1,5 @@
 from bioconvert import bioconvert_data
-from bioconvert.readers.genbank import Genbank
+from bioconvert.io.genbank import Genbank
 
 import pytest
 

@@ -23,7 +23,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 
-"""Convert :term:`XLS` format to :term:`CSV` file"""
+"""Convert :term:`XLS` format to :term:`CSV` format"""
 
 import csv
 
@@ -31,6 +31,7 @@ import colorlog
 
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires, requires_nothing
+from bioconvert.core.decorators import compressor
 
 from bioconvert import ConvBase
 
@@ -50,7 +51,7 @@ class XLS2CSV(ConvBase):
     --line-terminator   The line terminator used in the output file
     =================== ============================================
 
-    Methods implemented: pandas and pyexcel libraries
+    Methods available are based on  pandas [PANDAS]_ and  pyexcel [PYEXCEL]_.
 
     """
     _default_method = "pandas"
@@ -63,9 +64,10 @@ class XLS2CSV(ConvBase):
         :param str infile:
         :param str outfile:
         """
-        super().__init__(infile, outfile)
+        super(XLS2CSV, self).__init__(infile, outfile)
 
     @requires(python_libraries=["pyexcel", "pyexcel-xls"])
+    @compressor
     def _method_pyexcel(self, out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR, sheet_name=0,
             *args, **kwargs):
@@ -82,6 +84,7 @@ class XLS2CSV(ConvBase):
                 writer.writerow([v for k, v in row.items()])
 
     @requires(python_libraries=["pandas", "xlrd"])
+    @compressor
     def _method_pandas(self, out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR, sheet_name=0,
             *args, **kwargs):

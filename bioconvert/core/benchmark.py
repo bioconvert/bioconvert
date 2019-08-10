@@ -56,7 +56,7 @@ class Benchmark():
 
     ::
 
-        c = Bam2Bed(infile, outfile)
+        c = BAM2COV(infile, outfile)
         b = Benchmark(c, N=5)
         b.run_methods()
         b.plot()
@@ -153,9 +153,11 @@ class BenchmarkMulticonvert(Benchmark):
 
     ::
 
-        c1 = Bam2Bed(infile1, outfile1)
-        c2 = Bam2Bed(infile2, outfile2)
-        b = Benchmark_multiconvert([c1, c2], N=5)
+        from bioconvert.bam2cov import BAM2COV
+        from bioconvert import BenchmarkMulticonvert
+        c1 = BAM2COV(infile1, outfile1)
+        c2 = BAM2COV(infile2, outfile2)
+        b = BenchmarkMulticonvert([c1, c2], N=5)
         b.run_methods()
         b.plot()
 

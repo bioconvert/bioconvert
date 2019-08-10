@@ -22,8 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""Convert :term:`VCF` file to :term:`BCF` file"""
+"""Convert :term:`VCF`  to :term:`BCF` format"""
 from bioconvert import ConvBase
 
 import colorlog
@@ -37,7 +36,9 @@ __all__ = ["VCF2BCF"]
 
 
 class VCF2BCF(ConvBase):
-    """
+    """Convert :term:`VCF` file to :term:`BCF` format
+
+    Method based  on bcftools [BCFTOOLS]_.
 
     """
 

@@ -12,3 +12,4 @@ sphinx-gallery
 numpydoc
 coveralls
 pygraphviz
+mock

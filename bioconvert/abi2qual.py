@@ -21,8 +21,11 @@ __all__ = ["ABI2QUAL"]
 class ABI2QUAL(ConvBase):
     """Convert :term:`ABI` file to :term:`QUAL` file
 
-    :term:`ABI` files are created by ABI sequencing machine and includes PHREAD quality
-    scores for base calls. This allows the creation of :term:`QUAL` files. 
+    :term:`ABI` files are created by ABI sequencing machine and
+    includes PHRED quality scores for base calls. This allows
+    the creation of :term:`QUAL` files.
+
+    Method implemented is based on BioPython [BIOPYTHON]_.
 
     """
 
@@ -50,5 +53,3 @@ class ABI2QUAL(ConvBase):
                 qual = "".join([str(x) for x in qual])
                 fout.write(">{}\n".format(header))
                 fout.write("{}\n".format(qual))
-
-

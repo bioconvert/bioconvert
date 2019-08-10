@@ -31,12 +31,13 @@ from easydev import AttrDict
 # - database
 # - variant
 
+#: List of formats and their extensions included in Bioconvert
 extensions = {
     'abi': ["abi", "ab1"],                      # sequence
     'bam': ["bam"],                             # alignment
     'bcf': ["bcf"],                             # variant
     'bed': ["bed"],                             # database
-    'bedgraph': ["bedgraph"],                   # database
+    'bedgraph': ["bedgraph", "bg"],                   # database
     'bigwig': ["bigwig", "bw"],                 # database
     'bigbed': ['bb', "bigbed"],
     'bz2': ['bz2'],                             # compression
@@ -44,9 +45,12 @@ extensions = {
     'cdao': ["cdao"],                           # phylo
     'cram': ["cram"],                           # alignment
     'clustal': ["clustal", "aln", "clw"],       # phylo
+    'cov': ["cov"],                       # coverage (chrom name,  pos, depth)
     'csv': ["csv"],                             # database
     'dsrc': ['dsrc'],                           # compression
     'embl': ['embl'],                           # annotation/sequence
+    'ena' : ['ena'],
+    'faa' : ['faa', "mpfa"],                            # fasta multiple amino acid
     'fasta': ["fasta", "fa", "fst"],            # sequence
     'fastq': ["fastq", "fq"],                   # sequence
     'genbank': ['genbank', 'gbk', "gb"],        # annotation/sequence
@@ -71,7 +75,7 @@ extensions = {
     'twobit': ['2bit'],                         # sequence
     'tsv': ["tsv"],                             # database
     'vcf': ['vcf'],                             # variant
-    'wiggle': ['wig'],
+    'wiggle': ['wig', 'wiggle'],
     'wig': ['wig'],
     'xls': ['xls'],                             # database
     'xlsx': ['xlsx'],                           # database

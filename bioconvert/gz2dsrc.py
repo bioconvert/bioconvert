@@ -21,11 +21,12 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-""" Convert a compressed fastq.gz file to :term:`DSRC` compression format """
-from bioconvert import ConvBase
+"""Convert :term:`GZ` to :term:`DSRC` format"""
+
 import colorlog
 
-from bioconvert.core.decorators import requires
+from bioconvert import ConvBase
+from bioconvert import requires
 
 logger = colorlog.getLogger(__name__)
 
@@ -49,6 +50,7 @@ class GZ2DSRC(ConvBase):
 
     """
     _default_method = "pigzdsrc"
+    _threading = True
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor

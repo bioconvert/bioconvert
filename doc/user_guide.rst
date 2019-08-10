@@ -1,13 +1,16 @@
 User Guide
-============
+==========
 
 .. contents::
 
 Quick Start
 -----------
 
-If you want to convert a format to another and you knwo the extensions of the
-output format, just try bioconvert naively::
+Most of the time, Bioconvert simply requires the input and output filenames.
+If there is no ambiguity, the extension are used to infer the type of conversion
+you wish to perform.
+
+For instance, to convert a FASTQ to a FASTA file, use this type of command::
 
     bioconvert test.fastq test.fasta
 
@@ -24,25 +27,16 @@ To obtain more specific help about a converter that you found in the list::
 
     bioconvert fastq2fasta --help
 
-.. note:: All converters are named as <INPUT_EXTENSION>2<OUTPUT_EXTENSION>
+.. note:: All converters are named as <input_extension>2<output_extension>
 
 
 Explicit conversion
---------------------
+-------------------
 
+Sometimes, Bioconvert won't be able to know what you want solely based on
+the input and ouput extensions. So, you may need to be explicit and use a
+subcommand. For instance to use the converter *fastq2fasta*, type::
 
-You can use **bioconvert** from a developer point of view, or as an end-user.
-Here we describe the standalone application that is::
-
-    bioconvert
-
-You can obtain help by using::
-
-    bioconvert --help
-
-To convert a format into another you need to provide the name of the conversion.
-For instance, to convert a fastq file into a fasta, you need to use the sub
-command **fastq2fasta**::
 
     bioconvert fastq2fasta  input.fastq output.fasta
 
@@ -54,7 +48,7 @@ for a given conversion, which may be different from one conversion to the other:
 Second, the extensions of your input and output may be non-standard or different
 from the choice made by the **bioconvert** developers. So, using the subcommand you can do::
 
-    bioconvert fastq2fasta  input.fq output.fa
+    bioconvert fastq2fasta  input.fq output.fas
 
 where the extensions can actually be whatever you want.
 
@@ -71,7 +65,7 @@ the same directory as the input file, not locally. So::
 will create the *input.fasta* file in the ~/test directory.
 
 If an output file exists, it will not be overwritten. If you want to do so, use
-the --force argument::
+the \\-\\-force argument::
 
     bioconvert fastq2fasta  input.fq output.fa --force
 
@@ -92,16 +86,59 @@ also write::
 Compression
 -----------
 
-.. todo:: this section will be coming soon
+Input files may be compressed. For instance, most FASTQ are compressed in GZ
+format. Compression are handled in some converters. Basically, most of the
+humand-readable files handle compression. For instance, all those commands
+should work and can be used to compress output files, or handle input compressed
+files::
+
+    bioconvert test.fastq.gz test.fasta
+    bioconvert test.fastq.gz test.fasta.gz
+    bioconvert test.fastq.gz test.fasta.bz2
+
+Note that you can also decompress and compress into another compression keeping
+without doing any conversion (note the fastq extension in both input and output
+files)::
+
+    bioconvert test.fastq.gz test.fastq.dsrc
+
 
 
 Parallelization
---------------------
+---------------
+
+In Bioconvert, there is a batch mode. In the explicit mode, you can use the `-X`
+argument. For instance to convert a bunch of FASTQ files into FASTA::
+
+    bioconvert fastq2fasta "*.fastq" -X
+
+Note, however, that the files are processed sequentially one by one. So, we may
+want to parallelise the computation. 
+
+Iteration with unix commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use a bash script under unix to run Bioconvert of a a set of files. For
+instance the following script takes all files with the .fastq extension and
+convert them to fasta:
 
 
-Some converters can use several threads, but if you have hundreds of files and
-wish to use several CPUs, or run bioconvert on a cluster, we provide here below
-a simple Snakefile (snakemake) that can be run easily as follows.
+.. literalinclude:: script.sh
+    :language: shell
+
+Note, however, that this is still a sequential computation. Yet, you may now
+change it slightly to run the commands on a cluster. For instance, on a SLURM
+scheduler, you can use:
+
+.. literalinclude:: script2.sh
+    :language: shell
+
+Snakemake option
+~~~~~~~~~~~~~~~~
+
+Here is another way of running your jobs in parallel using a 
+simple Snakefile (`snakemake <https://snakemake.readthedocs.io/en/stable/>`_)
+that can be run easily either locally or on a cluster.
 
 You can download the following file :download:`Snakefile` 
 

@@ -22,8 +22,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
-"""Convert :term:`FASTQ` to :term:`QUAL`"""
+"""Convert :term:`FASTQ` to :term:`QUAL` format"""
 from bioconvert import ConvBase, bioconvert_script
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires, requires_nothing
@@ -71,7 +70,7 @@ class FASTQ2QUAL(ConvBase):
         :param str infile: The path to the input FASTA file.
         :param str outfile: The path to the output file.
         """
-        super().__init__(infile, outfile)
+        super(FASTQ2QUAL, self).__init__(infile, outfile)
 
 
     @requires_nothing

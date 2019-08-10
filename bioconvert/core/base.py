@@ -74,51 +74,27 @@ class ConvMeta(abc.ABCMeta):
         if "22" in converter_name:
             input_fmt, output_fmt = converter_name.upper().split('22', 1)
             input_fmt += "2"
+            input_fmt = tuple([input_fmt])
+            output_fmt = tuple([output_fmt])
         else:
             input_fmt, output_fmt = converter_name.upper().split('2', 1)
+            input_fmt = input_fmt.upper().split("_")
+            input_fmt = tuple(input_fmt)
+            output_fmt = output_fmt.upper().split("_")
+            output_fmt = tuple(output_fmt)
+
         return input_fmt, output_fmt
+
+    @classmethod
+    def lower_tuple(cls, format_tuple):
+        format_tuple = [format.lower() for format in format_tuple]
+        return format_tuple
+
 
     def __init__(cls, name, bases, classdict):
 
         # do not check extension since modules does not require to specify
         # extension anymore
-
-        # def check_ext(ext, io_name):cls.split_converter_to_format(name.upper())
-        #     """
-        #     Check if the extension is specified correctly.
-        #     I must be a string or a sequence of string, otherwise raise an error
-        #     it should start with a dot. Otherwise fix extension and inject it in the class
-
-        #     :param ext: the value of the class attribute (input|output)_ext
-        #     :type ext: a string or a list, tuple or set of strings
-        #     :param str io_name: the type of extension, 'input' or output'
-        #     :raise TypeError:  if ext is neither a string nor a sequence of strings
-        #     """
-        #     if getextisinstance(ext, str):
-        #         if not ext.startswith('.'):
-        #             ext = '.' + ext
-        #         setattr(cls, '{}_ext'.format(io_name),  (ext, ))
-        #     elif isinstance(ext, (list, tuple, set)):
-        #         if not all([isinstance(one_ext, str) for one_ext in ext]):
-        #             raise TypeError("each element of the class attribute '{}.{}_ext' "
-        #                             "must be a string".format(cls, io_name))
-        #         else:
-        #             if not all([one_ext.startswith('.') for one_ext in ext]):
-        #                 fixed_ext = []
-        #                 for one_ext in ext:
-        #                     if one_ext.startswith('.'):
-        #                         fixed_ext.split_converter_to_format()append(one_ext)
-        #                     else:
-        #                         fixed_ext.append('.' + one_ext)
-        #                 setattr(cls, '{}_ext'.format(io_name), fixed_ext)
-        #     else:
-        #         import sys
-        #         err = "the class attribute '{}.{}_ext' " \
-        #               "must be specified in the class or subclasses".format(cls.__name__, io_name)
-        #         _log.warning("skip class '{}': {}".format(cls.__name__, err, file=sys.stderr))
-        #         raise TypeError("the class attribute '{}.{}_ext' must be specified "
-        #                         "in the class or subclasses".format(cls.__name__, io_name))
-        #     return True
 
         def is_conversion_method(item):
             """Return True if method name starts with _method_
@@ -137,30 +113,28 @@ class ConvMeta(abc.ABCMeta):
                  item.__name__ != "_method_dummy"
 
         if name != 'ConvBase':
-            input_fmt, output_fmt = cls.split_converter_to_format(name.upper())
-            # modules have no more input_ext and output_ext attributes
-            # input_ext = getattr(cls, 'input_ext')
-            # if check_ext(input_ext, 'input'):
-            #     output_ext = getattr(cls, 'output_ext')
-            #     check_ext(output_ext, 'output')
+            input_fmt, output_fmt = cls.split_converter_to_format(name)
             setattr(cls, 'input_fmt', input_fmt)
             setattr(cls, 'output_fmt', output_fmt)
+
             if not cls.input_ext:
-                try:
-                    input_ext = extensions.extensions[input_fmt.lower()]
-                    setattr(cls, 'input_ext', input_ext)
-                except KeyError:
-                    msg = "In class {} the attribut input_ext is missing".format(cls.__name__)
-                    _log.error(msg)
-                    raise BioconvertError(msg)
+                # We add all the extensions for each converter into a list.
+                input_ext = []
+                cls.input_ext = cls.lower_tuple(cls.input_fmt)
+                for format in cls.input_ext:
+                    input_ext.append(tuple(extensions.extensions[format]))
+                # then we turn the list into tuple as output_ext attribute
+                setattr(cls, 'input_ext', tuple(input_ext))
+            # if the developer did not specify an output_ext attribute
             if not cls.output_ext:
-                try:
-                    output_ext = extensions.extensions[output_fmt.lower()]
-                    setattr(cls, 'output_ext', output_ext)
-                except KeyError:
-                    msg = "In the class {} the attribut output_ext is missing".format(cls.__name__)
-                    _log.error(msg)
-                    raise BioconvertError(msg)
+                # We add all the extensions for each converter into a list.
+                output_ext = []
+                cls.output_ext = cls.lower_tuple(cls.output_fmt)
+                for format in cls.output_ext:
+                    output_ext.append(tuple(extensions.extensions[format]))
+                # then we turn the list into tuple as output_ext attribute
+                setattr(cls, 'output_ext', tuple(output_ext))
+                # if the key is not in the dictionary return an error message
             available_conv_meth = []
             for name in inspect.getmembers(cls, is_conversion_method):
                 # do not use strip() but split()
@@ -181,6 +155,34 @@ class ConvMeta(abc.ABCMeta):
 
 
 class ConvArg(object):
+    """This class can be used to add specific extra arguments to any converter
+
+    For instance, imagine a conversion named **A2B** that requires the
+    user to provide a reference. Then, you may want to provide the
+    `--reference` extra argument. This is possible by adding a class
+    method named get_additional_arguments that will yield instance of
+    this class for each extra argument.
+
+    ::
+
+        @classmethod
+        def get_additional_arguments(cls):
+            yield ConvArg(
+                names="--reference",
+                default=None,
+                help="the referenc"
+            )
+
+    Then, when calling bioconvert as follows,::
+
+        bioconvert A2B --help
+
+    the new argument will be shown in the list of arguments.
+
+
+    """
+
+
     black_listed_argument_for_argparse = [
         "output_argument",
     ]
@@ -215,7 +217,7 @@ class ConvBase(metaclass=ConvMeta):
 
     For instance: ::
 
-        class Fastq2Fasta(ConvBase):
+        class FASTQ2FASTA(ConvBase):
 
             def _method_python(self, *args, **kwargs):
                 # include your code here. You can use the infile and outfile
@@ -237,10 +239,14 @@ class ConvBase(metaclass=ConvMeta):
 
     # default method should be provided
     _default_method = None
-    _library_to_install = None
     _is_compressor = False
+    # Can be overriden and if True, new argument --thread is added automatically
+    _threading = False
+    _extra_arguments = ""
 
     # threads to be used by default if argument is required in a method
+    # this will be overriden if _threading set to True and therefore --threads
+    # set by the user. It is feed back into Bioconvert class
     threads = cpu_count()
 
     def __init__(self, infile, outfile):
@@ -249,8 +255,6 @@ class ConvBase(metaclass=ConvMeta):
         :param str infile: the path of the input file.
         :param str outfile: the path of The output file
         """
-        if not outfile:
-            outfile = generate_outfile_name(infile, self.output_ext[0])
 
         self.infile = infile
         self.outfile = outfile
@@ -264,6 +268,7 @@ class ConvBase(metaclass=ConvMeta):
     def __call__(self, *args, method_name=None, **kwargs):
         """
 
+        :param str method_name: the method to be found in :attr:`available_methods`
         :param str method: the method to be found in :attr:`available_methods`
         :param *args: positional arguments
         :param *kwargs: keyword arguments
@@ -297,7 +302,6 @@ class ConvBase(metaclass=ConvMeta):
         t2 = time.time()
         _log.info("Took {} seconds ".format(t2 - t1))
 
-    #FIXME property not use
     @property
     def name(self):
         """
@@ -317,10 +321,15 @@ class ConvBase(metaclass=ConvMeta):
 
     def execute(self, cmd, ignore_errors=False, verbose=False, shell=False):
 
+        if ">" in cmd:
+            lhs, rhs = cmd.split(">", 1)
+            cmd = lhs + self._extra_arguments + ">" + rhs
+        else:
+            cmd = cmd + self._extra_arguments
+
         if shell is True or self._execute_mode == "shell":
             self.shell(cmd)
             return
-        _log.info("CMD: {}".format(cmd))
         self._execute(cmd, ignore_errors, verbose)
 
     def _execute(self, cmd, ignore_errors=False, verbose=False):
@@ -385,13 +394,16 @@ class ConvBase(metaclass=ConvMeta):
             return output
 
     def boxplot_benchmark(self, N=5, rerun=True, include_dummy=False,
-                          to_exclude=[], to_include=[], rot_xticks=90, 
+                          to_exclude=[], to_include=[], rot_xticks=90,
                           boxplot_args={}):
         """Simple wrapper to call :class:`Benchmark` and plot the results
 
         see :class:`~bioconvert.core.benchmark.Benchmark` for details.
 
         """
+        if to_include == "all":
+            to_include = []
+
         self._benchmark = Benchmark(self, N=N, to_exclude=to_exclude,
                                     to_include=to_include)
         self._benchmark.include_dummy = include_dummy
@@ -432,19 +444,27 @@ class ConvBase(metaclass=ConvMeta):
     @classmethod
     def add_argument_to_parser(cls, sub_parser):
         sub_parser.description = cls.get_description()
-        for arg in itertools.chain(cls.get_common_arguments_for_converter(), cls.get_additional_arguments()):
+        for arg in itertools.chain(cls.get_IO_arguments(),
+                                   cls.get_common_arguments_for_converter(),
+                                   cls.get_additional_arguments()):
             arg.add_to_sub_parser(sub_parser)
 
     @classmethod
     def get_description(cls):
-        return "Allow to convert file in '%s' to '%s' format." % ConvMeta.split_converter_to_format(cls.__name__)
+        msg = "Convert file from '{}' to '{}' format. "
+        msg += "See bioconvert.readthedocs.io for details" 
+        msg = msg.format(*ConvMeta.split_converter_to_format(cls.__name__))
+        return msg
 
     @classmethod
     def get_additional_arguments(cls):
         return []
 
+
+    # common arguments for the sub command case
+    # when using bioconvert <conversion>
     @staticmethod
-    def get_common_arguments():
+    def get_IO_arguments():
         yield ConvArg(
             names="input_file",
             nargs="?",
@@ -460,6 +480,9 @@ class ConvBase(metaclass=ConvMeta):
             output_argument=True,
             help="The path where the result will be stored.",
         )
+
+    @staticmethod
+    def get_common_arguments():
         yield ConvArg(
             names=["-f", "--force", ],
             action="store_true",
@@ -477,7 +500,7 @@ class ConvBase(metaclass=ConvMeta):
             help="Let exception ending the execution be raised and displayed",
         )
         yield ConvArg(
-            names=["-m", "--batch", ],
+            names=["-X", "--batch", ],
             default=False,
             action="store_true",
             help="Allow conversion of a set of files using wildcards. You "
@@ -496,20 +519,34 @@ class ConvBase(metaclass=ConvMeta):
             help="Number of trials for each methods",
         )
         yield ConvArg(
+            names=["-B", "--benchmark-methods", ],
+            default="all",
+            nargs="+",
+            type=str,
+            help="Methods to include",
+        )
+        yield ConvArg(
             names=["-a", "--allow-indirect-conversion", ],
             default=False,
             action="store_true",
             help="Allow to chain converter when direct conversion is absent",
         )
+        yield ConvArg(
+            names=["-e", "--extra-arguments", ],
+            default="",
+            help="Any arguments accepted by the method's tool",
+        )
+
 
     @classmethod
     def get_common_arguments_for_converter(cls):
         for a in ConvBase.get_common_arguments():
             yield a
         try:
-            # Some converter does not have any method and work in __call__, so preventing to crash by searching for them
+            # Some converters do not have any method and work
+            # in __call__, so preventing to crash by searching for them
             yield ConvArg(
-                names=["-c", "--method", ],
+                names=["-m", "--method", ],
                 nargs="?",
                 default=cls._get_default_method(cls),
                 help="The method to use to do the conversion.",
@@ -525,6 +562,15 @@ class ConvBase(metaclass=ConvMeta):
             help="A converter may have several methods",
         )
 
+        if cls._threading:
+            yield ConvArg(
+               names=["-t", "--threads"],
+               #nargs=1,
+               type=int,
+               default=cls.threads,
+               help="threads to be used",
+            )
+
 
 # Implementing a class creator
 # The created class will have the correct name, will inherit from ConvBase
@@ -537,7 +583,7 @@ def make_chain(converter_map):
     """
     in_fmt = converter_map[0][0][0]
     out_fmt = converter_map[-1][0][1]
-    chain_name = "2".join([in_fmt.capitalize(), out_fmt.capitalize()])
+    chain_name = "{}2{}".format("_".join(in_fmt), "_".join(out_fmt))
     chain_attributes = {}
 
     def chain_init(self, infile, outfile):
@@ -571,9 +617,12 @@ def make_chain(converter_map):
                 step_outfile = None
                 step_output = self.outfile
             else:
-                step_outfile = TempFile(suffix=out_fmt.lower())
-                step_output = step_outfile.name
-                pipe_files.append(step_outfile)
+
+                #FIXME: for mutiple IO converters
+                if len(out_fmt) == 1:
+                    step_outfile = TempFile(suffix=out_fmt[0].lower())
+                    step_output = step_outfile.name
+                    pipe_files.append(step_outfile)
 
             conv_step(converter, step_input, step_output)
             if del_infile:

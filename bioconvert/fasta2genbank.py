@@ -22,23 +22,30 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
+"""Convert :term:`FASTA` to :term:`GENBANK` format"""
+import datetime
+from math import log, floor
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires, requires_nothing
-from bioconvert.readers.fasta import Fasta
+from bioconvert.core.decorators import compressor
+from bioconvert.io.fasta import Fasta
 
-import datetime
-from math import log, floor
 
 __all__ = ["FASTA2GENBANK"]
 
 
 class FASTA2GENBANK(ConvBase):
-    """Convert :term:`FASTA` file to :term:`GENBANK` file"""
+    """Convert :term:`FASTA` file to :term:`GENBANK` file
+
+    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_ or 
+    Bioconvert pure implementation (default).
+
+    """
 
     # squizz works as well but keeps lower cases while 
     # biopython uses upper cases
-    _default_method = "python"
+    _default_method = "bioconvert"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -50,12 +57,14 @@ class FASTA2GENBANK(ConvBase):
         super(FASTA2GENBANK, self).__init__(infile, outfile, *args, **kargs)
 
     @requires("squizz")
+    @compressor
     def _method_squizz(self, *args, **kwargs):
         """Header is less informative than the one obtained with biopython"""
         cmd = "squizz -f fasta -c genbank  {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")
+    @compressor
     def _method_biopython(self, *args, **kwargs):
         print("Using DNA alphabet for now")
         from Bio import SeqIO, Alphabet
@@ -65,7 +74,7 @@ class FASTA2GENBANK(ConvBase):
     # --- Pure python methods ---
 
     @requires_nothing
-    def _method_python(self, *args, **kwargs):
+    def _method_bioconvert(self, *args, **kwargs):
         reader = Fasta(self.infile)
 
         with open(self.outfile, "w") as writer:

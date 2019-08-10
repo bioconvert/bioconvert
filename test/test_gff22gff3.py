@@ -1,4 +1,3 @@
-import os
 
 import pytest
 from easydev import TempFile, md5

@@ -10,8 +10,8 @@ Summary
 	bioconvert.abi2fasta
 	bioconvert.abi2fastq
 	bioconvert.abi2qual
-	bioconvert.bam2bed
 	bioconvert.bam2bedgraph
+	bioconvert.bam2cov
 	bioconvert.bam2bigwig
 	bioconvert.bam2cram
 	bioconvert.bam2fasta
@@ -23,7 +23,7 @@ Summary
 	bioconvert.bcf2vcf
 	bioconvert.bcf2wiggle
 	bioconvert.bed2wiggle
-	bioconvert.bedgraph2bed
+	bioconvert.bedgraph2cov
 	bioconvert.bedgraph2bigwig
 	bioconvert.bedgraph2wiggle
 	bioconvert.bigbed2wiggle
@@ -36,23 +36,27 @@ Summary
 	bioconvert.clustal2phylip
 	bioconvert.clustal2stockholm
 	bioconvert.cram2bam
+	bioconvert.cram2fasta
+	bioconvert.cram2fastq
 	bioconvert.cram2sam
 	bioconvert.csv2tsv
+	bioconvert.csv2xls
 	bioconvert.dsrc2gz
 	bioconvert.embl2fasta
 	bioconvert.embl2genbank
+	bioconvert.fasta_qual2fastq
 	bioconvert.fasta2clustal
+	bioconvert.fasta2faa
 	bioconvert.fasta2fastq
 	bioconvert.fasta2genbank
 	bioconvert.fasta2nexus
 	bioconvert.fasta2phylip
 	bioconvert.fasta2twobit
-	bioconvert.fastq2bam
 	bioconvert.fastq2fasta
 	bioconvert.genbank2embl
 	bioconvert.genbank2fasta
 	bioconvert.genbank2gff3
-	bioconvert.gff23gff3
+	bioconvert.gff22gff3
 	bioconvert.gff32gff2
 	bioconvert.gfa2fasta
 	bioconvert.gz2bz2
@@ -95,6 +99,8 @@ Summary
 All converters documentation
 ----------------------------
 
+
+
 .. automodule:: bioconvert.abi2fasta
     :members:
     :synopsis:
@@ -105,12 +111,17 @@ All converters documentation
     :synopsis:
     :private-members:
 
-.. automodule:: bioconvert.bam2bed
+.. automodule:: bioconvert.abi2qual
     :members:
     :synopsis:
     :private-members:
 
 .. automodule:: bioconvert.bam2bedgraph
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.bam2cov
     :members:
     :synopsis:
     :private-members:
@@ -170,7 +181,7 @@ All converters documentation
     :synopsis:
     :private-members:
 
-.. automodule:: bioconvert.bedgraph2bed
+.. automodule:: bioconvert.bedgraph2cov
     :members:
     :synopsis:
     :private-members:
@@ -235,12 +246,27 @@ All converters documentation
     :synopsis:
     :private-members:
 
+.. automodule:: bioconvert.cram2fasta
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.cram2fastq
+    :members:
+    :synopsis:
+    :private-members:
+
 .. automodule:: bioconvert.cram2sam
     :members:
     :synopsis:
     :private-members:
 
 .. automodule:: bioconvert.csv2tsv
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.csv2xls
     :members:
     :synopsis:
     :private-members:
@@ -260,7 +286,18 @@ All converters documentation
     :synopsis:
     :private-members:
 
+.. automodule:: bioconvert.fasta_qual2fastq
+    :members:
+    :synopsis:
+    :private-members:
+
+
 .. automodule:: bioconvert.fasta2clustal
+    :members:
+    :synopsis:
+    :private-members:
+
+.. automodule:: bioconvert.fasta2faa
     :members:
     :synopsis:
     :private-members:
@@ -286,11 +323,6 @@ All converters documentation
     :private-members:
 
 .. automodule:: bioconvert.fasta2twobit
-    :members:
-    :synopsis:
-    :private-members:
-
-.. automodule:: bioconvert.fastq2bam
     :members:
     :synopsis:
     :private-members:

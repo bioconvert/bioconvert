@@ -21,7 +21,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-"""BIGBED2BED conversion """
+"""Convert :term:`BIGBED` format to :term:`BED` format """
 import os
 
 import colorlog
@@ -38,6 +38,7 @@ __all__ = ["BIGBED2BED"]
 class BIGBED2BED(ConvBase):
     """Converts a sequence alignment in :term:`BIGBED` format to :term:`BED4` format
 
+    Methods available are based on pybigwig [DEEPTOOLS]_.
     """
     _default_method = 'pybigwig'
 
@@ -45,9 +46,9 @@ class BIGBED2BED(ConvBase):
         """.. rubric:: constructor
 
         :param str infile: input :term:`BIGBED` file.
-        :param str outfile: (optional) output :term:`BED` file
+        :param str outfile: (optional) output :term:`BED4` file
         """
-        super().__init__(infile, outfile)
+        super(BIGBED2BED, self).__init__(infile, outfile)
 
     @requires(python_library="pyBigWig")
     def _method_pybigwig(self, *args, **kwargs):

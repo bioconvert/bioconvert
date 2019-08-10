@@ -22,7 +22,6 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
 """Convert :term:`YAML` to :term:`JSON` format"""
 import yaml
 import json
@@ -30,6 +29,7 @@ from bioconvert import ConvBase
 import colorlog
 
 from bioconvert.core.decorators import requires_nothing
+from bioconvert.core.decorators import compressor
 
 logger = colorlog.getLogger(__name__)
 
@@ -43,7 +43,6 @@ class YAML2JSON(ConvBase):
 
     .. note:: YAML comments will be lost in JSON output
 
-
     :reference: http://yaml.org/spec/1.2/spec.html#id2759572
     """
 
@@ -55,12 +54,15 @@ class YAML2JSON(ConvBase):
         """
         super(YAML2JSON, self).__init__(infile, outfile, *args, **kargs)
 
+    @requires_nothing
+    @compressor
     def get_json(self):
         """Return the JSON dictionary corresponding to the YAML input"""
         data = yaml.load(open(self.infile, "r"))
         return json.dumps(data, sort_keys=True, indent=4)
 
     @requires_nothing
+    @compressor
     def _method_python(self, *args, **kwargs):
         with open(self.outfile, "w") as outfile:
             outfile.write(self.get_json())

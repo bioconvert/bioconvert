@@ -1,5 +1,5 @@
 from bioconvert import bioconvert_data
-from bioconvert.readers.gff3 import Gff3
+from bioconvert.io.gff3 import Gff3
 
 import pytest
 

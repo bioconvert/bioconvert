@@ -11,7 +11,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 #
 ##############################################################################
-"""Convert :term:`BCF` format to :term:`WIGGLE` formats"""
+"""Convert :term:`BCF` format to :term:`WIGGLE` format"""
 from bioconvert import ConvBase
 import colorlog
 
@@ -23,7 +23,9 @@ __all__ = ["BCF2WIGGLE"]
 
 
 class BCF2WIGGLE(ConvBase):
-    """Convert sorted :term:`BCF` file into :term:`WIGGLE` file 
+    """Convert sorted :term:`BCF` file into :term:`WIGGLE` file
+
+    Methods available are based on wiggletools [WIGGLETOOLS]_.
 
     """
     _default_method = "wiggletools"
@@ -33,7 +35,7 @@ class BCF2WIGGLE(ConvBase):
         :param str infile: The path to the input BCF file. **It must be sorted**.
         :param str outfile: The path to the output file
         """
-        super().__init__(infile, outfile)
+        super(BCF2WIGGLE, self).__init__(infile, outfile)
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):
