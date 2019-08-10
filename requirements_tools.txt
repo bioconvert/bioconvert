@@ -7,7 +7,6 @@ go=1.10.3
 pbzip2
 pigz
 plink
-sambamba
 samtools>=1.9
 seqtk
 squizz
