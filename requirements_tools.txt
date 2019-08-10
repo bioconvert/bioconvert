@@ -17,3 +17,6 @@ ucsc-twobittofa
 wiggletools>=1.2.2
 sed
 mawk
+dsrc
+sambamba
+deeptools
