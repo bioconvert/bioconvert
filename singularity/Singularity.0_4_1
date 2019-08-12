@@ -8,15 +8,15 @@ From: ubuntu:latest
 %labels
   maintainer Bertrand Neron <bneron@pasteur.fr>
   package.name
-  package.version 0.4.0
-  package.homepage https://pypi.python.org/pypi/bioconvert/0.4.0
+  package.version 0.4.1
+  package.homepage https://pypi.python.org/pypi/bioconvert/0.4.1
   package.source.url
   package.source.mdm5
   package.license GPLv3
 
 %post
   ######### install system #########
-  export BIOCONVERT_VERSION="0.4.0"
+  export BIOCONVERT_VERSION="0.4.1"
 
 
   apt-get update -y

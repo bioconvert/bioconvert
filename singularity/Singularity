@@ -1,19 +1,22 @@
 BootStrap: docker
 From: ubuntu:latest
 
+###############################################
+# do not change. This is a tagged version 0.1.
+###############################################
 
 %labels
   maintainer Bertrand Neron <bneron@pasteur.fr>
   package.name
-  package.version 0.1.0
-  package.homepage https://pypi.python.org/pypi/bioconvert/0.1.0
+  package.version 0.4.1
+  package.homepage https://pypi.python.org/pypi/bioconvert/0.4.1
   package.source.url
   package.source.mdm5
   package.license GPLv3
 
 %post
   ######### install system #########
-  export BIOCONVERT_VERSION="0.1.0"
+  export BIOCONVERT_VERSION="0.4.1"
 
 
   apt-get update -y
@@ -46,13 +49,13 @@ From: ubuntu:latest
   conda install --file https://raw.githubusercontent.com/biokit/bioconvert/master/requirements_tools.txt
   #conda install -y graphviz==2.38 pygraphviz
 
-  
-
   ######### install bioconvert #########
+  pip install biocode
   pip install bioconvert==$BIOCONVERT_VERSION
 
   # add this directory for Institut Pasteur cluster usage
   if [ ! -d /pasteur ]; then mkdir /pasteur; fi
+  if [ ! -d /etc/localtime ]; then mkdir /etc/localtime; fi
 
   # Uses agg as backend instead of qt (less dependencies)
   echo "backend:tkagg" > matplotlibrc
