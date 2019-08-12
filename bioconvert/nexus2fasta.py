@@ -64,7 +64,7 @@ class NEXUS2FASTA(ConvBase):
 
         """
         self.install_tool('goalign')
-        cmd = 'goalign reformat fasta -i {infile} -o {outfile} -x'.format(
+        cmd = 'goalign reformat fasta x -i {infile} -o {outfile} -x'.format(
             infile=self.infile,
             outfile=self.outfile)
         self.execute(cmd)
