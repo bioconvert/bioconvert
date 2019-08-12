@@ -2,7 +2,7 @@ Whats' new, what has changed
 ================================
 
 
-:Revisin 0.4.0: (July 2019)
+:Revisin 0.4.0: (Aug 2019)
 
 - NEW:
     - 1-to-many and many-to-1 converters are now part of the API (Sulyvan
@@ -16,6 +16,8 @@ Whats' new, what has changed
 - CHANGES:
     - cram2sam, bam2cram and related cram files have now a --reference option.
     - removed fastq2bam and fasta2bed (no clear output format)
+- BUG FXIES:
+    - closed all bugs not related to nex converter implementation (up to #235)
 
 :Revision 0.3.1: (May/June 2019)
 
