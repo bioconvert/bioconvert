@@ -1,6 +1,11 @@
 Whats' new, what has changed
 ================================
 
+:Revision 0.4.1: 12th Aug 2019
+
+- BUG FIXES:
+
+    - nexus2fasta fix bug #235
 
 :Revisin 0.4.0: (Aug 2019)
 
@@ -17,7 +22,7 @@ Whats' new, what has changed
     - cram2sam, bam2cram and related cram files have now a --reference option.
     - removed fastq2bam and fasta2bed (no clear output format)
 - BUG FXIES:
-    - closed all bugs not related to nex converter implementation (up to #235)
+    - closed all bugs not related to new converters implementation (up to #234)
 
 :Revision 0.3.1: (May/June 2019)
 
