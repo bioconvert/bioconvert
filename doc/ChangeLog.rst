@@ -1,6 +1,14 @@
 Whats' new, what has changed
 ================================
 
+:Revision 0.4.2: 21 Aug 2019
+
+- BUG Fixes:
+
+    - Correct output extension for implicit output when input is compressed
+      (https://github.com/bioconvert/bioconvert/issues/250)
+
+
 :Revision 0.4.1: 12th Aug 2019
 
 - BUG FIXES:
