@@ -102,6 +102,7 @@ class Bioconvert(object):
 
         self.inext = []
         self.outext = []
+
         # populate the inext
         for filename in infile:
             # example: fastq.gz to fasta.bz2
@@ -185,6 +186,7 @@ class Bioconvert(object):
 
         if Lout == 1:
             outfile = outfile[0]
+
 
         self.converter = class_converter(infile, outfile)
         if threads is not None:

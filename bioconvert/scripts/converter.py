@@ -113,9 +113,6 @@ def main(args=None):
             filenames = ph.get_filelist()
             exts = [utils.get_extension(x, remove_compression=True) for x in filenames]
 
-
-
-                
             # We need to get the corresponding converter if any.
 
             # We assume that the input formats are ordered alphabetically
@@ -136,13 +133,11 @@ def main(args=None):
                         converter.extend(registry.get_ext((in_ext, out_ext)))
                     except KeyError:
                         pass
-            
-
             except KeyError:
                 converter = []
 
-            # For 1-to-1, if the extensions are identical but different 
-            # compression, this means we just want to decompress and 
+            # For 1-to-1, if the extensions are identical but different
+            # compression, this means we just want to decompress and
             # re-compress in another format.
             if not converter and (exts[0] == exts[1]):
                 exts_with_comp = [utils.get_extension(x, remove_compression=False) 
@@ -151,7 +146,6 @@ def main(args=None):
                 comps = ['gz', 'dsrc', 'bz2']
                 if in_ext in comps and out_ext in comps:
                     converter.extend(registry.get_ext(((in_ext,), (out_ext,))))
-
 
             # if no converter is found, print information
             if not converter:
@@ -508,9 +502,18 @@ def analysis(args):
                     _log.error("Input file {} does not exist (analysis)".format(file))
                     sys.exit(1)
 
+    
+
     if args.output_file is None and infile:
         outext = ConvMeta.split_converter_to_format(args.converter)
-        outfile = infile.rsplit(".", 1)[0] + "." + outext[1][0].lower()
+        if infile.split(".")[-1] in ["gz", "dsrc", "bz2"]:
+            outfile = infile.split(".", 1)[0].split(".",1)[0] 
+            outfile += "." + outext[1][0].lower() 
+
+        else:
+            outfile = infile.rsplit(".", 1)[0] + "." + outext[1][0].lower()
+
+        print(outext, outfile)    
     else:
         outfile = args.output_file
 
