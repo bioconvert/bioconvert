@@ -35,8 +35,8 @@ before_install:
     - conda config --add channels conda-forge
     - conda config --add channels bioconda
     # are not specific to using mini
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo rm -rf /dev/shm; fi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ln -s /run/shm /dev/shm; fi
+    #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo rm -rf /dev/shm; fi
+    #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ln -s /run/shm /dev/shm; fi
     # This help testing code with pylab
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
