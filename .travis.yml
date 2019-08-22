@@ -15,6 +15,9 @@ matrix:
       sudo: required
       python: 3.6
 
+services:
+  - xvfb
+
 branches:
   only:
     - master
@@ -38,8 +41,8 @@ before_install:
     #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo rm -rf /dev/shm; fi
     #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ln -s /run/shm /dev/shm; fi
     # This help testing code with pylab
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
+    #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
+    #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
 
 install:
   - echo $TRAVIS_PYTHON_VERSION
