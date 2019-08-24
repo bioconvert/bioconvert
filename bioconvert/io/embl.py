@@ -105,4 +105,4 @@ class EMBL(object):
 }
 
     def __init__(self, filename):
-        
+       pass 
