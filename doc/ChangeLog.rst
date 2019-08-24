@@ -1,6 +1,13 @@
 Whats' new, what has changed
 ================================
 
+:Revision 0.4.3: 24 Aug 2019
+
+ - Fix version in the setup which did not match the releas
+ - Remove deprecated warning
+ - Fix syntax error in embl.py module
+
+
 :Revision 0.4.2: 21 Aug 2019
 
 - BUG Fixes:
