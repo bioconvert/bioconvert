@@ -2,21 +2,21 @@ BootStrap: docker
 From: ubuntu:latest
 
 ###############################################
-# do not change. This is a tagged version 0.1.
+# do not change. This is a tagged version 0.4.2
 ###############################################
 
 %labels
   maintainer Bertrand Neron <bneron@pasteur.fr>
   package.name
-  package.version 0.4.1
-  package.homepage https://pypi.python.org/pypi/bioconvert/0.4.1
+  package.version 0.4.2
+  package.homepage https://pypi.python.org/pypi/bioconvert/0.4.2
   package.source.url
   package.source.mdm5
   package.license GPLv3
 
 %post
   ######### install system #########
-  export BIOCONVERT_VERSION="0.4.1"
+  export BIOCONVERT_VERSION="0.4.2"
 
 
   apt-get update -y
