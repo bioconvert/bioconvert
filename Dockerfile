@@ -37,4 +37,4 @@ RUN conda install --yes --file requirements.txt && \
     conda install --yes --file requirements_tools.txt && \
     pip install pypandoc && \
     pip install --upgrade pip && \
-    pip install bioconvert==0.4.2 
+    pip install bioconvert==0.4.3 
