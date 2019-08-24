@@ -1,17 +1,27 @@
-FROM python:3.6
-ENV TRAVIS_PYTHON_VERSION 3.6.4
-ENV PATH /root/miniconda3/bin:$PATH
+FROM ubuntu:19.04
 
 RUN apt-get update && \
-    apt-get install -y \
-        nano \
-        wget \
-        libglu1-mesa \
+    apt-get install -y && \
+    apt-get install -y wget bzip2 && \
+    apt-get install -y libglu1-mesa 
+
+# gzip is not needed to install bioconvert 
+# but we need it to install webapp
+# in webapp Dockerfile we running under bioconvert id
+RUN apt-get install -y unzip \ 
  && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
+RUN useradd bioconvert -g users -m 
+USER bioconvert
+
+ENV PATH /home/bioconvert/miniconda3/bin:$PATH
+
+WORKDIR /home/bioconvert
+
+RUN wget https://repo.continuum.io/miniconda/Miniconda3-4.3.14-Linux-x86_64.sh
+-O miniconda.sh && \
     chmod +x miniconda.sh && \
-    ./miniconda.sh -b && \
+    bash miniconda.sh -b -p $HOME/miniconda3 && \
     export PATH=$HOME/miniconda3/bin:$PATH && \
     hash -r && \
     conda update --yes conda && \
@@ -19,34 +29,12 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -
     conda config --add channels defaults && \
     conda config --add channels conda-forge && \
     conda config --add channels bioconda
-#     && \
-#    rm -rf /dev/shm && \
-#    ln -s /run/shm /dev/shm && \
-#    export DISPLAY=:99.0 && \
-#    sh -e /etc/init.d/xvfb start
 
-ADD requirements.txt /requirements.txt
-ADD requirements_tools.txt /requirements_tools.txt
-ADD requirements_dev.txt /requirements_dev.txt
+ADD requirements.txt requirements.txt
+ADD requirements_tools.txt requirements_tools.txt
 
-RUN conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements.txt && \
-    conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_tools.txt && \
-    conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements_dev.txt && \
-    conda install --yes python=$TRAVIS_PYTHON_VERSION  coverage && \
-    pip install pygatb --no-deps && \
+RUN conda install --yes --file requirements.txt && \
+    conda install --yes --file requirements_tools.txt && \
     pip install pypandoc && \
-    pip install biocode && \
-    pip install --upgrade pip
-
-COPY . /code/
-WORKDIR /code
-RUN cd /code/ && \
-    find -type f -name '*.pyc' -delete && \
-    find -type f -name '__pycache__' -delete && \
-    cd /code/test/ && \
-    find -type f -name '__init__.py' -delete
-
-RUN pip install -e .
-
-CMD pytest -v --durations=10  test/ --cov=bioconvert --cov-report term --timeout 300 -n 1
-#docker build . -t bioconvert && docker run -it bioconvert
+    pip install --upgrade pip && \
+    pip install bioconvert==0.4.2 
