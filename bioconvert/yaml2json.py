@@ -58,7 +58,11 @@ class YAML2JSON(ConvBase):
     @compressor
     def get_json(self):
         """Return the JSON dictionary corresponding to the YAML input"""
-        data = yaml.load(open(self.infile, "r"), Loader=yaml.FullLoader)
+        try:
+            data = yaml.load(open(self.infile, "r"), Loader=yaml.FullLoader)
+        except:
+            data = yaml.load(open(self.infile, "r"))
+
         return json.dumps(data, sort_keys=True, indent=4)
 
     @requires_nothing
