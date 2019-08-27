@@ -32,7 +32,7 @@ Bioconvert
     :target: https://conda.anaconda.org/bioconda
     
 .. image:: https://mybinder.org/badge_logo.svg
-    :target: https://mybinder.org/v2/gh/truatpasteurdotfr/bioconvert/master
+    :target: https://mybinder.org/v2/gh/bioconvert/bioconvert/master
 
 
 :contributions: Want to add a convertor ? Please join https://github.com/bioconvert/bioconvert/issues/1
