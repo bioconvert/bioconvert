@@ -18,8 +18,7 @@ ENV PATH /home/bioconvert/miniconda3/bin:$PATH
 
 WORKDIR /home/bioconvert
 
-RUN wget https://repo.continuum.io/miniconda/Miniconda3-4.3.14-Linux-x86_64.sh
--O miniconda.sh && \
+RUN wget https://repo.continuum.io/miniconda/Miniconda3-4.3.14-Linux-x86_64.sh -O miniconda.sh && \
     chmod +x miniconda.sh && \
     bash miniconda.sh -b -p $HOME/miniconda3 && \
     export PATH=$HOME/miniconda3/bin:$PATH && \
