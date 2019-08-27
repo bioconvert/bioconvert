@@ -1,0 +1,10 @@
+name: py36-bioconvert
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+  - r
+dependencies:
+  - bioconvert
+  - perl
+  - python=3.6
