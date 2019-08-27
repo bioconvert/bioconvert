@@ -6,5 +6,6 @@ channels:
   - r
 dependencies:
   - bioconvert
+  - mosdepth
   - perl
   - python=3.6
