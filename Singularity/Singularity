@@ -20,7 +20,7 @@ From: ubuntu:latest
 
 
   apt-get update -y
-  apt-get install -y wget bzip2
+  apt-get install -y wget bzip2 build-essential
   apt-get install -y libgl1-mesa-glx
 
   # install anaconda
