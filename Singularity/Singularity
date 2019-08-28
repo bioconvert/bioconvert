@@ -46,6 +46,10 @@ From: ubuntu:latest
   # The main packages for sequana:
   conda install --file https://raw.githubusercontent.com/biokit/bioconvert/master/requirements.txt
   conda install --file https://raw.githubusercontent.com/biokit/bioconvert/master/requirements_tools.txt
+  # linux only:
+  conda install mosdepth --yes
+
+
   #conda install -y graphviz==2.38 pygraphviz
 
   ######### install bioconvert #########
