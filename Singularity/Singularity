@@ -7,11 +7,10 @@ From: ubuntu:latest
 
 %labels
   maintainer Bertrand Neron <bneron@pasteur.fr>
-  package.name
+  package.name bioconvert
   package.version 0.4.3
   package.homepage https://pypi.python.org/pypi/bioconvert/0.4.3
-  package.source.url
-  package.source.mdm5
+  package.source.url https://github.com/bioconvert/bioconvert
   package.license GPLv3
 
 %post
