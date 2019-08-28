@@ -29,9 +29,9 @@ From: ubuntu:latest
       # create a new env saving space in the process. The reason for using 3.5
       # is inherent to the packages used at the moment.
       wget https://repo.continuum.io/miniconda/Miniconda3-4.2.12-Linux-x86_64.sh\
-           -O ~/anaconda.sh && \
-      bash ~/anaconda.sh -b -p /usr/local/anaconda && \
-      rm ~/anaconda.sh
+           -O anaconda.sh && \
+      bash anaconda.sh -b -p /usr/local/anaconda && \
+      rm anaconda.sh
   fi
 
   # set anaconda path
