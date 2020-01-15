@@ -21,6 +21,7 @@ From: ubuntu:latest
   apt-get update -y
   apt-get install -y wget bzip2 build-essential
   apt-get install -y libgl1-mesa-glx
+  apt-get install -y build-essential
 
   # install anaconda
   if [ ! -d /usr/local/anaconda ]; then
