@@ -360,12 +360,15 @@ Please feel free to join us at https://github/biokit/bioconvert
                             choices=["cytoscape", "cytoscape-all", ],
                             )
 
+    # FIXME why is this a try ?
+    # Possible to check whether the subcommand is valid or not
     try:
         args = arg_parser.parse_args(args)
-    except SystemExit as e:
+    except SystemExit as err:
+
         # parsing ask to stop, maybe a normal exit
-        if e.code == 0:
-            raise e
+        if err.code == 0:
+            raise err
 
         # Parsing failed, trying to guess converter
         from bioconvert.core.levenshtein import wf_levenshtein as lev
@@ -382,10 +385,9 @@ Please feel free to join us at https://github/biokit/bioconvert
                 sub_command = args[args_i]
             args_i += 1
 
-
         if sub_command is None:
             # No sub_command found, so letting the initial exception be risen
-            raise e
+            raise err
 
         conversions = []
         for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
@@ -395,19 +397,29 @@ Please feel free to join us at https://github/biokit/bioconvert
             out_fmt = ["_".join(out_fmt)]
             conversion_name = "{}2{}".format("_".join(in_fmt), "_".join(out_fmt))
             conversions.append((lev(conversion_name, sub_command), conversion_name))
+
+        conversions = [x for x in conversions if x[0]<=3]
         matches = sorted(conversions)[:5]
-        if matches[0][0] == 0:
-            # sub_command was ok, problem comes from elswhere
-            raise e
-        arg_parser.exit(
-            e.code,
-            '\n\nYour converter {}() was not found. \n'
-            'Here is a list of possible matches: {} ... '
-            '\nYou may also add the -a argument to enfore a '
-            'transitive conversion. The whole list is available using\n\n'
-            '    bioconvert --help -a \n'.format(
-                 sub_command, ', '.join([v for _, v in matches]))
-        )
+
+        # It could be a typo elsewhere, a real error in the command line such as 
+        # --verbosity INFFO. If so, the subcommand may be correct and therefore
+        # we should stop here to not confuse the users
+        if len(matches) > 0 and sub_command in [x[1] for x in matches]:
+            raise err
+
+        if len(matches) == 0:
+            # sub_command was ok, problem comes from elsewhere
+            msg = "sub command {} not found and no close candidate found. "
+            msg = msg.format(sub_command)
+        else:
+            msg = '\n\nThe converter {}() was not found. It may be a typo.\n' +\
+                'Here is a list of possible matches: {} ... '+\
+                '\nYou may also add the -a argument to enfore a '+\
+                'transitive conversion. The whole list is available using\n\n'+\
+                '    bioconvert --help -a \n'
+            msg = msg.format(sub_command, ', '.join([v for _, v in matches]))
+        _log.error(msg)
+        sys.exit(1)
 
     if args.version:
         print("{}".format(bioconvert.version))
@@ -431,9 +443,24 @@ Please feel free to join us at https://github/biokit/bioconvert
         msg += "You can list all converters by using:\n\n\tbioconvert --help"
         arg_parser.error(msg)
 
-    if not (getattr(args, "show_methods", False) or args.input_file):
+    if getattr(args, "show_methods", False) is False and args.input_file is None:
         arg_parser.error('Either specify an input_file (<INPUT_FILE>) or '
-                         'ask for available methods (--show-method)')
+                         'ask for available methods (--show-methods)')
+
+    # do we want to know the available methods ? If so, print info and quit
+    if getattr(args, "show_methods", False) is True:
+        in_fmt, out_fmt = ConvMeta.split_converter_to_format(args.converter)
+        class_converter = Registry()[(in_fmt, out_fmt)]
+        print("\nMethods available for this converter ({}) are: {}".format(
+            args.converter, class_converter.available_methods))
+        print("\nPlease see http://bioconvert.readthedocs.io/en/master/"
+              "references.html#{} for details ".format(str(class_converter).split("'")[1]))
+        if args.raise_exception:
+            return
+        sys.exit(0)
+
+
+    print("HHH")
 
     if not args.allow_indirect_conversion and \
         ConvMeta.split_converter_to_format(args.converter) not in registry:
@@ -446,10 +473,8 @@ Please feel free to join us at https://github/biokit/bioconvert
 
     # Set the logging level
     bioconvert.logger.level = args.verbosity
-
     # Figure out whether we have several input files or not
-    # Are we in batch mode ?
-    if args.batch:
+    if "*" in args.input_file or "?" in args.input_file: 
         filenames = glob.glob(args.input_file)
     else:
         filenames = [args.input_file]
@@ -459,7 +484,7 @@ Please feel free to join us at https://github/biokit/bioconvert
     for i, filename in enumerate(filenames):
         if N > 1:
             _log.info("Converting {} ({}/{})".format(filename, i+1, N))
-        args.input_file = filename        
+        args.input_file = filename
         try:
             analysis(args)
         except Exception as e:
@@ -473,15 +498,6 @@ Please feel free to join us at https://github/biokit/bioconvert
 def analysis(args):
     in_fmt, out_fmt = ConvMeta.split_converter_to_format(args.converter)
 
-    # do we want to know the available methods ? If so, print info and quit
-    if getattr(args, "show_methods", False):
-        class_converter = Registry()[(in_fmt, out_fmt)]
-        print("Methods available: {}".format(class_converter.available_methods))
-        print("\nPlease see http://bioconvert.readthedocs.io/en/master/"
-              "references.html#{} for details ".format(str(class_converter).split("'")[1]))
-        if args.raise_exception:
-            return
-        sys.exit(0)
 
     # Input and output filename
     infile = args.input_file
@@ -502,20 +518,21 @@ def analysis(args):
                     _log.error("Input file {} does not exist (analysis)".format(file))
                     sys.exit(1)
 
-    
 
     if args.output_file is None and infile:
         outext = ConvMeta.split_converter_to_format(args.converter)
         if infile.split(".")[-1] in ["gz", "dsrc", "bz2"]:
-            outfile = infile.split(".", 1)[0].split(".",1)[0] 
+            # get rid of extension gz/dsrc/bz2
+            outfile = infile.rsplit(".", 1)[0]
+            # get rid of extension itself
+            outfile = outfile .rsplit(".",1)[0] 
             outfile += "." + outext[1][0].lower() 
 
         else:
             outfile = infile.rsplit(".", 1)[0] + "." + outext[1][0].lower()
-
-        print(outext, outfile)    
     else:
         outfile = args.output_file
+
 
     # check whether a valid --thread option was provided
     if "threads" in args:
