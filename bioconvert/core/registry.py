@@ -114,7 +114,7 @@ class Registry(object):
                         all_ext_pair = tuple(itertools.product(combo_input_ext,(combo_output_ext)))
                         for ext_pair in all_ext_pair:
                             if len(converter.available_methods) == 0 and not including_not_available_converter:
-                                _log.warning("converter '{}' for {} -> {} was not added as no method is available"
+                                _log.debug("converter '{}' for {} -> {} was not added as no method is available"
                                              .format(converter_name, *ext_pair))
                             else:
                                 self.set_ext(ext_pair, converter)
