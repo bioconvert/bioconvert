@@ -1,6 +1,15 @@
 Whats' new, what has changed
 ================================
 
+:Revision 0.4.4: 11 March 2020
+
+- BUG FIXES:
+    - Fix wrong infered output names in batch mode 
+      (https://github.com/bioconvert/bioconvert/issues/252)
+- NEW converters:
+    -add fasta2fasta_agp module
+
+
 :Revision 0.4.3: 24 Aug 2019
 
  - Fix version in the setup which did not match the releas
