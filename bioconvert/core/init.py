@@ -53,8 +53,9 @@ template = '''
 ###########################################################################
 """ description """
 
+from bioconvert.core.base import ConvArg
+from bioconvert.core.decorators import requires, requires_nothing
 from bioconvert import ConvBase
-from bioconvert import requires
 
 __all__ = ["{input}2{output}"]
 
