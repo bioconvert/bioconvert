@@ -167,7 +167,7 @@ def test_not_existing_subcommand():
         converter.main()
         assert False
     except SystemExit as e:
-        assert e.code == 2
+        assert e.code in [1,2]
     except:
         assert False
 
@@ -311,7 +311,7 @@ def test_close_match():
             converter.main()
             assert False
         except SystemExit as e:
-            assert e.code == 2
+            assert e.code == 1
         except:
             assert False
 
@@ -332,7 +332,7 @@ def test_converter_with_nothing():
         converter.main()
         assert False
     except SystemExit as e:
-        assert e.code == 2
+        assert e.code >0
     except:
         assert False
 
@@ -356,7 +356,7 @@ def test_indirect_conversion_without_argument():
             converter.main()
             assert False
         except SystemExit as e:
-            assert e.code == 2
+            assert e.code >0
         except:
             assert False
 
@@ -380,7 +380,7 @@ def test_conversion_graph_error():
     try:
         converter.main()
     except SystemExit as e:
-        assert e.code == 2
+        assert e.code >0
 
 
 def test_conversion_graph():
