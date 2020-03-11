@@ -37,7 +37,7 @@ class WIG2BED(ConvBase):
 
     """
 
-    _default_method = "bedops"
+    _default_method = "wig2bed"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -50,7 +50,7 @@ class WIG2BED(ConvBase):
 
     @requires("wig2bed")
     @compressor
-    def _method_default(self, *args, **kwargs):
+    def wig2bed(self, *args, **kwargs):
         """some description"""
         cmd = "wig2bed < {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
