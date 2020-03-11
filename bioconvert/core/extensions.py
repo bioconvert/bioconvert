@@ -34,6 +34,7 @@ from easydev import AttrDict
 #: List of formats and their extensions included in Bioconvert
 extensions = {
     'abi': ["abi", "ab1"],                      # sequence
+    'agp': ["agp"],                             # assembly
     'bam': ["bam"],                             # alignment
     'bcf': ["bcf"],                             # variant
     'bed': ["bed"],                             # database
@@ -64,6 +65,7 @@ extensions = {
     'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo
     'ods': ['ods'],                             # database
     'paf': ['paf'],                             # assembly
+    'pdb': ['pdb'],
     'phylip': ['phy', 'ph', 'phylip'],          # phylo
     'phyloxml': ['phyloxml', 'xml'],            # phylo
     'plink': ['plink'],
