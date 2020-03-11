@@ -65,7 +65,7 @@ the same directory as the input file, not locally. So::
 will create the *input.fasta* file in the ~/test directory.
 
 If an output file exists, it will not be overwritten. If you want to do so, use
-the \\-\\-force argument::
+the --force argument::
 
     bioconvert fastq2fasta  input.fq output.fa --force
 
@@ -107,10 +107,9 @@ files)::
 Parallelization
 ---------------
 
-In Bioconvert, there is a batch mode. In the explicit mode, you can use the `-X`
-argument. For instance to convert a bunch of FASTQ files into FASTA::
+In Bioconvert, if the input contains a wildcard such as *** or *?* characters, then, input filenames are treated separately and converted sequentially::
 
-    bioconvert fastq2fasta "*.fastq" -X
+    bioconvert fastq2fasta "*.fastq" 
 
 Note, however, that the files are processed sequentially one by one. So, we may
 want to parallelise the computation. 
@@ -118,8 +117,8 @@ want to parallelise the computation.
 Iteration with unix commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can use a bash script under unix to run Bioconvert of a a set of files. For
-instance the following script takes all files with the .fastq extension and
+You can use a bash script under unix to run Bioconvert on a set of files. For
+instance the following script takes all files with the *.fastq* extension and
 convert them to fasta:
 
 

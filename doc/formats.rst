@@ -89,7 +89,29 @@ The index is followed by the sequence records, which contain nine fields:
     - http://genome.ucsc.edu/FAQ/FAQformat.html#format7
 
 
-.. _format_abi:
+.. _format_agp:
+
+AGP
+---
+:Format: human-readable
+:Status: 
+:Type: assembly
+
+AGP files are used to describe the assembly of a sequences from smaller
+fragments. The large object can be a contig, a scaffold (supercontig), or a chromosome. Each
+line (row) of the AGP file describes a different piece of the object, and has
+the column entries defined below. Several format exists: 1.0, 2.0, 2.1
+
+
+you can validate your AGP file using this website:
+https://www.ncbi.nlm.nih.gov/projects/genome/assembly/agp/agp_validate.cgi
+
+.. admonition::  References
+
+    - https://www.ebi.ac.uk/ena/submit/agp-files
+    - https://www.ncbi.nlm.nih.gov/assembly/agp/AGP_Validation/
+
+
 
 ABI
 ---
