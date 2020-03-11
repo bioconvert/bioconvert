@@ -42,12 +42,18 @@ class Gff3():
             line = None
 
             for line in reader:
+                
                 # Skip metadata and comments
                 if line.startswith("#"):
                     continue
 
+                # Skip empty lines
+                if not line.strip():
+                    continue
+
                 # Format checking
                 split = line.rstrip().split("\t")
+
                 if len(split) < 9:
                     # Wrong line format
                     if len(split) > 0:
@@ -104,7 +110,6 @@ class Gff3():
 
         return attributes
 
-
     @staticmethod
     def decode_small(text):
         # Tabulation
@@ -117,7 +122,6 @@ class Gff3():
         text = re.sub("%25", "%", text)
 
         return text
-
 
     @staticmethod
     def decode_complete(text):
