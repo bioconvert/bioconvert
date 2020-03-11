@@ -75,6 +75,7 @@ class FASTA2GENBANK(ConvBase):
 
     @requires_nothing
     def _method_bioconvert(self, *args, **kwargs):
+        print("Using DNA alphabet for now")
         reader = Fasta(self.infile)
 
         with open(self.outfile, "w") as writer:
@@ -84,7 +85,7 @@ class FASTA2GENBANK(ConvBase):
 
                 # Sequence header
                 now = datetime.datetime.now()
-                writer.write("LOCUS       {}{}{} bp XXXXXX              XXX {}-{}-{}\n".format(
+                writer.write("LOCUS       {}{}{} bp DNA              XXX {}-{}-{}\n".format(
                     sequence["id"],
                     " "*(max(1, 28 - len(sequence["id"]) - num_digit)),
                     seq_size,
