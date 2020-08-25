@@ -460,7 +460,6 @@ Please feel free to join us at https://github/biokit/bioconvert
         sys.exit(0)
 
 
-    print("HHH")
 
     if not args.allow_indirect_conversion and \
         ConvMeta.split_converter_to_format(args.converter) not in registry:
