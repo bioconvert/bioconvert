@@ -107,7 +107,7 @@ class Sniffer(object):
             return candidates[0]
         else:
             _log.warning("Sniffer found several candidates: {}".format(candidates))
-            
+
             return candidates
 
     def _is_blank_line(self, line):

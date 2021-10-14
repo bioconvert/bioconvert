@@ -32,7 +32,7 @@ import bioconvert
 
 _log = colorlog.getLogger(__name__)
 
-__all__ = ['Registry']
+__all__ = ["Registry"]
 
 
 class Registry(object):
@@ -57,7 +57,9 @@ class Registry(object):
         self._fill_registry(bioconvert.__path__)
         self._build_path_dict()
 
-    def _fill_registry(self, path, target=None, including_not_available_converter=False):
+    def _fill_registry(
+        self, path, target=None, including_not_available_converter=False
+    ):
         """
         Explore the directory converters to discover all converter classes
         (a concrete class which inherits from :class:`ConvBase`)
@@ -65,7 +67,7 @@ class Registry(object):
         associated to this converter.
 
         This is called in the constructor once with
-        including_not_available_converter set to False and called at any time 
+        including_not_available_converter set to False and called at any time
         to :meth:`get_all_conversions` with including_not_available_converter
         set to True.
 
@@ -85,12 +87,11 @@ class Registry(object):
             # Note that on some Python version, the isabstract is buggy.
             # Therefore, the isabstract does not return False for ConvBase
             # hence the additional check (obj_name in ["ConvBase"])
-            return (issubclass(obj, bioconvert.ConvBase)
-                    and obj_name not in ["ConvBase"])
+            return issubclass(obj, bioconvert.ConvBase) and obj_name not in ["ConvBase"]
 
         modules = pkgutil.iter_modules(path=path)
         for _, module_name, *_ in modules:
-            if module_name != '__init__':
+            if module_name != "__init__":
                 try:
                     module = importlib.import_module("bioconvert." + module_name)
                 except (ImportError, TypeError) as err:
@@ -105,17 +106,27 @@ class Registry(object):
                     if converter is not None:
                         format_pair = (converter.input_fmt, converter.output_fmt)
                         target[(format_pair)] = converter
-                        # have all the combinaisons between the extensions of 
+                        # have all the combinaisons between the extensions of
                         # output formats of the convertes
                         combo_input_ext = tuple(itertools.product(*converter.input_ext))
-                        # have all the combinaisons between the extensions of output 
+                        # have all the combinaisons between the extensions of output
                         # formats of the convertes
-                        combo_output_ext = tuple(itertools.product(*converter.output_ext))
-                        all_ext_pair = tuple(itertools.product(combo_input_ext,(combo_output_ext)))
+                        combo_output_ext = tuple(
+                            itertools.product(*converter.output_ext)
+                        )
+                        all_ext_pair = tuple(
+                            itertools.product(combo_input_ext, (combo_output_ext))
+                        )
                         for ext_pair in all_ext_pair:
-                            if len(converter.available_methods) == 0 and not including_not_available_converter:
-                                _log.debug("converter '{}' for {} -> {} was not added as no method is available"
-                                             .format(converter_name, *ext_pair))
+                            if (
+                                len(converter.available_methods) == 0
+                                and not including_not_available_converter
+                            ):
+                                _log.debug(
+                                    "converter '{}' for {} -> {} was not added as no method is available".format(
+                                        converter_name, *ext_pair
+                                    )
+                                )
                             else:
                                 self.set_ext(ext_pair, converter)
 
@@ -125,6 +136,7 @@ class Registry(object):
         from one format to another.
         """
         from networkx import DiGraph, all_pairs_shortest_path
+
         # all_pairs_shortest_path yields pairs (n, d) where
         # * n is a node
         # * d is a dict where
@@ -137,14 +149,20 @@ class Registry(object):
         # * the value is a shortest path between these nodes.
 
         # self._path_dict[in_fmt][out_fmt] = [in_fmt, ..., out_fmt]
-        self._path_dict = dict(all_pairs_shortest_path(
-            # Directed graph of available in_fmt -> out_fmt conversions
-            DiGraph(self.get_conversions())))
+        self._path_dict = dict(
+            all_pairs_shortest_path(
+                # Directed graph of available in_fmt -> out_fmt conversions
+                DiGraph(self.get_conversions())
+            )
+        )
 
         # self._path_dict_ext[in_ext][out_ext] = [in_ext, ..., out_ext]
-        self._path_dict_ext = dict(all_pairs_shortest_path(
-            # Directed graph of available in_ext -> out_ext conversions
-            DiGraph(self.get_conversions_from_ext())))
+        self._path_dict_ext = dict(
+            all_pairs_shortest_path(
+                # Directed graph of available in_ext -> out_ext conversions
+                DiGraph(self.get_conversions_from_ext())
+            )
+        )
 
     def conversion_path(self, input_fmt, output_fmt):
         """
@@ -173,8 +191,11 @@ class Registry(object):
         :type convertor: :class:`ConvBase` object
         """
         if format_pair in self._fmt_registry:
-            raise KeyError('an other converter already exists for {} -> {}'
-                           .format("_".join(format_pair[0]),"_".join(format_pair[1])))
+            raise KeyError(
+                "an other converter already exists for {} -> {}".format(
+                    "_".join(format_pair[0]), "_".join(format_pair[1])
+                )
+            )
         self._fmt_registry[format_pair] = convertor
 
     def _check_input_ext(self, ext_pair):
@@ -243,20 +264,20 @@ class Registry(object):
 
         # make sure we have a pair
         if len(format_pair) != 2:
-            raise ValueError( "input must have 2 items")
+            raise ValueError("input must have 2 items")
 
         # make sure each item is a string or tuple/list and convert into tuples
         # first item
         if isinstance(format_pair[0], str):
-            format_pair = ( (format_pair[0], ), format_pair[1])
+            format_pair = ((format_pair[0],), format_pair[1])
         elif isinstance(format_pair[0], list):
-            format_pair = ( tuple(format_pair[0]), format_pair[1])
+            format_pair = (tuple(format_pair[0]), format_pair[1])
 
         # second item
         if isinstance(format_pair[1], str):
-            format_pair = ( format_pair[0], (format_pair[1],))
+            format_pair = (format_pair[0], (format_pair[1],))
         elif isinstance(format_pair[1], list):
-            format_pair = ( format_pair[0], tuple(format_pair[1]))
+            format_pair = (format_pair[0], tuple(format_pair[1]))
 
         # make sure it is upper case
         for item in format_pair[1]:
@@ -306,17 +327,22 @@ class Registry(object):
 
     def get_all_conversions(self):
         """
-        :return: a generator which allow to iterate on all available 
-            conversions and their availability;  a conversion is encoded 
+        :return: a generator which allow to iterate on all available
+            conversions and their availability;  a conversion is encoded
             by a tuple of 2 strings (input format, output format)
         :retype: generator (input format, output format, status)
         """
         all_converter = {}
-        self._fill_registry(bioconvert.__path__, target=all_converter,
-            including_not_available_converter=True)
+        self._fill_registry(
+            bioconvert.__path__,
+            target=all_converter,
+            including_not_available_converter=True,
+        )
 
         for i, o in all_converter:
-            yield i, o, (i, o) in self._fmt_registry and len(self._fmt_registry[(i, o)].available_methods) > 0
+            yield i, o, (i, o) in self._fmt_registry and len(
+                self._fmt_registry[(i, o)].available_methods
+            ) > 0
 
     def conversion_exists(self, input_fmt, output_fmt, allow_indirect=False):
         """
@@ -329,9 +355,9 @@ class Registry(object):
         input_fmt = tuple([x.upper() for x in input_fmt])
         output_fmt = tuple([x.upper() for x in output_fmt])
 
-        return ((input_fmt, output_fmt) in self._fmt_registry
-                or (allow_indirect
-                    and len(self.conversion_path(input_fmt, output_fmt))))
+        return (input_fmt, output_fmt) in self._fmt_registry or (
+            allow_indirect and len(self.conversion_path(input_fmt, output_fmt))
+        )
 
     def get_info(self):
         converters = set([self[this] for this in self._fmt_registry])
@@ -344,7 +370,7 @@ class Registry(object):
         """
 
         :param bool allow_indirect: also return indirect conversion
-        :return: a generator to iterate over (in_fmt, out_fmt, converter 
+        :return: a generator to iterate over (in_fmt, out_fmt, converter
             class when direct, path when indirect)
         :rtype: a generator
         """
@@ -368,21 +394,22 @@ class Registry(object):
         F = data["formats"]
         M = data["methods"]
         txt = "Number of formats: {}".format(F)
-        txt +="\n" + "Number of converters: {}".format(C)
+        txt += "\n" + "Number of converters: {}".format(C)
         txt += "\n" + "Number of methods : {}".format(M)
         return txt
 
     def info(self):
         info = self.get_info()
         _converters = [x for x in info.items()]
-        _data = [info[k] for k,v in info.items()]
+        _data = [info[k] for k, v in info.items()]
         C = len(_converters)
         M = sum(_data)
 
         F = len(set([x for items in self.get_all_conversions() for x in items]))
 
         return {
-            "formats": F, 
-            "converters": C, 
+            "formats": F,
+            "converters": C,
             "methods": M,
-            "methods_per_converter": round(float(M)/C,2)}
+            "methods_per_converter": round(float(M) / C, 2),
+        }

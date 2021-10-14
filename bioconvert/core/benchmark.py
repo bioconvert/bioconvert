@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -24,10 +23,11 @@
 """Tools for benchmarking"""
 from collections import defaultdict
 from itertools import chain
-from pandas import np
+import numpy as np
 from easydev import Timer, Progress
 
 import colorlog
+
 _log = colorlog.getLogger(__name__)
 
 
@@ -35,7 +35,7 @@ __all__ = ["Benchmark", "BenchmarkMulticonvert"]
 
 
 def gmean(a, axis=0, dtype=None):
-    # A copy/paste of scipy.stats.mstats.gmean function to 
+    # A copy/paste of scipy.stats.mstats.gmean function to
     # avoid the scipy dependency
     if not isinstance(a, np.ndarray):
         # if not an ndarray object attempt to convert it
@@ -51,7 +51,7 @@ def gmean(a, axis=0, dtype=None):
     return np.exp(log_a.mean(axis=axis))
 
 
-class Benchmark():
+class Benchmark:
     """Convenient class to benchmark several methods for a given converter
 
     ::
@@ -62,6 +62,7 @@ class Benchmark():
         b.plot()
 
     """
+
     def __init__(self, obj, N=5, to_exclude=None, to_include=None):
         """.. rubric:: Constructor
 
@@ -96,7 +97,7 @@ class Benchmark():
         methods = self.converter.available_methods[:]  # a copy !
 
         if self.include_dummy:
-            methods += ['dummy']
+            methods += ["dummy"]
 
         if self.to_include:
             methods = [x for x in methods if x in self.to_include]
@@ -110,12 +111,11 @@ class Benchmark():
             for i in range(self.N):
                 with Timer(times):
                     self.converter(method=method)
-                pb.animate(i+1)
+                pb.animate(i + 1)
             results[method] = times
         self.results = results
 
-    def plot(self, rerun=False, ylabel="Time (seconds)", rot_xticks=0, 
-             boxplot_args={}):
+    def plot(self, rerun=False, ylabel="Time (seconds)", rot_xticks=0, boxplot_args={}):
         """Plots the benchmark results, running the benchmarks
         if needed or if *rerun* is True.
 
@@ -124,6 +124,7 @@ class Benchmark():
         :return: dataframe with all results
         """
         import pylab
+
         if self.results is None or rerun is True:
             self.run_methods()
 
@@ -133,14 +134,14 @@ class Benchmark():
         methods = sorted(data, key=lambda x: pylab.mean(data[x]))
         pylab.boxplot([data[x] for x in methods], **boxplot_args)
         # pylab.xticks([1+this for this in range(len(methods))], methods)
-        if "vert" in boxplot_args and boxplot_args['vert'] is False:
+        if "vert" in boxplot_args and boxplot_args["vert"] is False:
             pylab.yticks(*zip(*enumerate(methods, start=1)), rotation=rot_xticks)
             pylab.xlabel(ylabel)
-            #pylab.xlim([0, len(methods)+1])
+            # pylab.xlim([0, len(methods)+1])
         else:
             pylab.xticks(*zip(*enumerate(methods, start=1)), rotation=rot_xticks)
             pylab.ylabel(ylabel)
-            pylab.xlim([0, len(methods)+1])
+            pylab.xlim([0, len(methods) + 1])
 
         pylab.grid(True)
         pylab.tight_layout()
@@ -162,6 +163,7 @@ class BenchmarkMulticonvert(Benchmark):
         b.plot()
 
     """
+
     def __init__(self, objs, **kwargs):
         """.. rubric:: constructor
 
@@ -186,7 +188,7 @@ class BenchmarkMulticonvert(Benchmark):
         methods = sorted(methods)
 
         if self.include_dummy:
-            methods += ['dummy']
+            methods += ["dummy"]
 
         if self.to_include:
             methods = [x for x in methods if x in self.to_include]
@@ -203,16 +205,17 @@ class BenchmarkMulticonvert(Benchmark):
                 for converter in self.converters:
                     with Timer(times[converter.infile]):
                         converter(method=method)
-                pb.animate(i+1)
+                pb.animate(i + 1)
             # Normalize times so that each converter has comparable times
             mean_time = gmean(np.fromiter(chain(*times.values()), dtype=float))
             # median of ratios to geometric mean (c.f. DESeq normalization)
-            scales = {conv: np.median(np.asarray(conv_times) / mean_time)
-                      for conv, conv_times in times.items()}
+            scales = {
+                conv: np.median(np.asarray(conv_times) / mean_time)
+                for conv, conv_times in times.items()
+            }
             for (conv, conv_times) in times.items():
                 scale = scales[conv]
-                results[method].extend(
-                    [conv_time / scale for conv_time in conv_times])
+                results[method].extend([conv_time / scale for conv_time in conv_times])
         self.results = results
 
     def plot(self, rerun=False, ylabel="Time (normalized seconds)"):

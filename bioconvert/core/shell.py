@@ -33,6 +33,7 @@ import os
 import subprocess as sp
 
 import colorlog
+
 _log = colorlog.getLogger(__name__)
 
 
@@ -52,32 +53,29 @@ class shell:
 
     @classmethod
     def prefix(cls, prefix):
-        cls._process_prefix = prefix 
+        cls._process_prefix = prefix
 
     @classmethod
     def suffix(cls, suffix):
         cls._process_suffix = suffix
 
-    def __new__(cls, cmd, *args,
-                is_async=False,
-                iterable=False,
-                read=False, **kwargs):
+    def __new__(cls, cmd, *args, is_async=False, iterable=False, read=False, **kwargs):
         if "stepout" in kwargs:
             raise KeyError("Argument stepout is not allowed in shell command.")
 
         stdout = sp.PIPE if iterable or is_async or read else STDOUT
 
-        close_fds = sys.platform != 'win32'
+        close_fds = sys.platform != "win32"
 
         _log.debug(cmd)
-        proc = sp.Popen("{} {} {}".format(
-                            cls._process_prefix,
-                            cmd.rstrip(),
-                            cls._process_suffix),
-                        bufsize=-1,
-                        shell=True,
-                        stdout=stdout,
-                        close_fds=close_fds, **cls._process_args)
+        proc = sp.Popen(
+            "{} {} {}".format(cls._process_prefix, cmd.rstrip(), cls._process_suffix),
+            bufsize=-1,
+            shell=True,
+            stdout=stdout,
+            close_fds=close_fds,
+            **cls._process_args
+        )
 
         ret = None
         if iterable:

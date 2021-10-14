@@ -26,16 +26,16 @@ from os.path import exists
 from easydev import md5
 
 
-__all__ = ['download_singularity_image']
+__all__ = ["download_singularity_image"]
 
 
-def download_singularity_image(outfile, container_path, md5value=None,
-                               force=False):
+def download_singularity_image(outfile, container_path, md5value=None, force=False):
 
     assert outfile.endswith(".simg"), "output filename must be .simg"
 
     # download singularity
     from bioconvert import configuration as config
+
     # note that in singularity v2.4, whatever extension you put, it is
     # replaced by simg
     singfile = "{}/{}".format(config.user_config_dir, outfile)
@@ -53,22 +53,10 @@ def download_singularity_image(outfile, container_path, md5value=None,
         print(cmd)
         try:
             from bioconvert.core.shell import shell
+
             shell(cmd)
         except:
             import os
+
             os.system(cmd)
     return singfile
-
-
-
-
-
-
-
-
-
-
-
-
-
-

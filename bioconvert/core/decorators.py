@@ -46,8 +46,7 @@ def make_in_gz_tester(converter):
     def is_in_gz(method):
         """Accesses the function corresponding to *method* and tells whether it
         has the *in_gz* tag."""
-        return hasattr(getattr(
-            converter, "_method_{}".format(method)), "in_gz")
+        return hasattr(getattr(converter, "_method_{}".format(method)), "in_gz")
 
     return is_in_gz
 
@@ -84,8 +83,11 @@ def compressor(func):
             (_, base_suffix) = splitext(ungz_name)
             with TempFile(suffix=base_suffix) as ungz_infile:
                 inst.infile = ungz_infile.name
-                inst.shell("unpigz -c -p {} {} > {}".format(
-                    inst.threads, infile_name, inst.infile))
+                inst.shell(
+                    "unpigz -c -p {} {} > {}".format(
+                        inst.threads, infile_name, inst.infile
+                    )
+                )
                 # computation
                 results = func(inst, *args, **kwargs)
             inst.infile = infile_name
@@ -104,8 +106,11 @@ def compressor(func):
             inst.outfile = inst.outfile + ".bz2"
         elif output_compressed == ".dsrc":  # !!! only for FastQ files
             _log.info("Compressing output into .dsrc")
-            inst.shell("dsrc c -t{} {} {}.dsrc".format(
-                inst.threads, inst.outfile, inst.outfile))
+            inst.shell(
+                "dsrc c -t{} {} {}.dsrc".format(
+                    inst.threads, inst.outfile, inst.outfile
+                )
+            )
             inst.outfile = inst.outfile + ".dsrc"
         return results
 
@@ -145,8 +150,11 @@ def out_compressor(func):
             inst.outfile = inst.outfile + ".bz2"
         elif output_compressed == ".dsrc":  # !!! only for FastQ files
             _log.info("Compressing output into .dsrc")
-            inst.shell("dsrc c -t{} {} {}.dsrc".format(
-                inst.threads, inst.outfile, inst.outfile))
+            inst.shell(
+                "dsrc c -t{} {} {}.dsrc".format(
+                    inst.threads, inst.outfile, inst.outfile
+                )
+            )
             inst.outfile = inst.outfile + ".dsrc"
         return results
 
@@ -160,10 +168,10 @@ def requires_nothing(func):
 
 
 def requires(
-        external_binary=None,
-        python_library=None,
-        external_binaries=None,
-        python_libraries=None,
+    external_binary=None,
+    python_library=None,
+    external_binaries=None,
+    python_libraries=None,
 ):
     """
 
@@ -241,7 +249,19 @@ def get_known_dependencies_with_availability(as_dict=False):
         )
     ret = []
     for binary, status in sorted(getattr(requires, "__missing_binaries", {}).items()):
-        ret.append((binary, not status, "binary",))
+        ret.append(
+            (
+                binary,
+                not status,
+                "binary",
+            )
+        )
     for library, status in sorted(getattr(requires, "__missing_libraries", {}).items()):
-        ret.append((library, not status, "library",))
+        ret.append(
+            (
+                library,
+                not status,
+                "library",
+            )
+        )
     return ret
