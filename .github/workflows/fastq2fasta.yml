@@ -1,4 +1,4 @@
-name: arrayexpress Testing
+name: fastq2fasta Testing
 
 on:
   workflow_dispatch:

@@ -16,21 +16,15 @@ Bioconvert
     :target: http://bioconvert.readthedocs.org/en/master/?badge=master
     :alt: Documentation Status
 
-.. .. image:: https://badges.gitter.im/bioconvert/bioconvert.svg
-    :target: https://gitter.im/bioconvert/Lobby?source=orgpage
-
 .. image::  https://img.shields.io/github/issues/bioconvert/bioconvert.svg
     :target:  https://github.com/bioconvert/bioconvert/issues
-
-.. image:: https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg
-   :target: https://singularity-hub.org/collections/135
 
 .. image:: https://anaconda.org/bioconda/bioconvert/badges/platforms.svg
    :target: https://anaconda.org/bioconda/bioconvert
 
 .. image::  https://anaconda.org/bioconda/bioconvert/badges/installer/conda.svg
     :target: https://conda.anaconda.org/bioconda
-    
+
 .. image:: https://mybinder.org/badge_logo.svg
     :target: https://mybinder.org/v2/gh/bioconvert/bioconvert/master
 

@@ -6,8 +6,6 @@ on:
     branches:
       - master
       - dev
-    paths:
-      - bioconvert/core/*py
   pull_request:
     branches-ignore: []
 
@@ -40,5 +38,5 @@ jobs:
         pip install .
     - name: Test with pytest
       run: |
-        pytest -n 1 --cov-report term --cov=bioconvert --cov bioservices.core test/core/test_*py
+        pytest -n 1 --cov-report term --cov=bioconvert 
 
