@@ -6,10 +6,13 @@ on:
     branches:
       - master
       - dev
+      - refactoring 
     paths:
       - bioconvert/fastq2fasta.py
   pull_request:
     branches-ignore: []
+    paths:
+      - bioconvert/fastq2fasta.py
 
 jobs:
   build-linux:
@@ -31,8 +34,8 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies conda
       run: |
-        conda install -c conda-forge mamba --quiet
-        mamba install -c conda-forge -c bioconda --quiet -y
+        conda install -c conda-forge --quiet mamba 
+        mamba install -c conda-forge -c bioconda --quiet -y samtools
     - name: Install sequana with pip
       run: |
         pip install -r requirements.txt
