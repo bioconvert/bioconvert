@@ -6,6 +6,7 @@ on:
     branches:
       - master
       - dev
+      - refactoring
   pull_request:
     branches-ignore: []
 
