@@ -1,0 +1,44 @@
+name: fastq2fasta Testing
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - dev
+    paths:
+      - bioconvert/fastq2fasta.py
+  pull_request:
+    branches-ignore: []
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+      matrix:
+        python: [3.7, 3.8, 3.9]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.X
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python }}
+    - name: conda
+      run: |
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        echo $CONDA/bin >> $GITHUB_PATH
+    - name: Install dependencies conda
+      run: |
+        conda install -c conda-forge mamba --quiet
+        mamba install -c conda-forge -c bioconda --quiet -y
+    - name: Install sequana with pip
+      run: |
+        pip install -r requirements.txt
+        pip install -r requirements_dev.txt
+        pip install .
+    - name: Test with pytest
+      run: |
+        pytest -n 1  --cov-report term --cov=bioconvert.fastq2fasta test/test_fastq2fasta.py
+

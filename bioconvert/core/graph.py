@@ -29,11 +29,12 @@ import colorlog
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ["create_graph", "get_conversions_wrapped",
-           "create_graph_for_cytoscape"]
+__all__ = ["create_graph", "get_conversions_wrapped", "create_graph_for_cytoscape"]
 
 
-def create_graph(filename, layout="dot", use_singularity=False, color_for_disabled_converter='red'):
+def create_graph(
+    filename, layout="dot", use_singularity=False, color_for_disabled_converter="red"
+):
     """
 
     :param filename: should end in .png or .svg or .dot
@@ -45,12 +46,14 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
 
     """
     from bioconvert.core.registry import Registry
+
     rr = Registry()
 
     try:
         if filename.endswith(".dot") or use_singularity is True:
             raise Exception()
         from pygraphviz import AGraph
+
         dg = AGraph(directed=True)
 
         url = "https://bioconvert.readthedocs.io/en/master/formats.html#{}"
@@ -58,30 +61,56 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
         for a, b, s in rr.get_all_conversions():
             if len(a) == 1 and len(b) == 1:
 
-                dg.add_node(a[0], shape="rectangle", style="filled",
-                    url=url.format(a[0].upper()))
-                dg.add_node(b[0], shape="rectangle", style="filled",
-                    url=url.format(b[0].upper()))
-                dg.add_edge(a[0], b[0], color='black' if s else color_for_disabled_converter)
+                dg.add_node(
+                    a[0],
+                    shape="rectangle",
+                    style="filled",
+                    url=url.format(a[0].upper()),
+                )
+                dg.add_node(
+                    b[0],
+                    shape="rectangle",
+                    style="filled",
+                    url=url.format(b[0].upper()),
+                )
+                dg.add_edge(
+                    a[0], b[0], color="black" if s else color_for_disabled_converter
+                )
             else:
                 and_node = "_".join(a) + "_and_" + "_".join(b)
 
-                dg.add_node(and_node, label="", fillcolor="black", width=.1,
-                    height=.1, styled="filled", fixedsize=True, shape="circle")
+                dg.add_node(
+                    and_node,
+                    label="",
+                    fillcolor="black",
+                    width=0.1,
+                    height=0.1,
+                    styled="filled",
+                    fixedsize=True,
+                    shape="circle",
+                )
 
                 for this in a:
-                    dg.add_edge(this, and_node, color="black" if s else color_for_disabled_converter)
+                    dg.add_edge(
+                        this,
+                        and_node,
+                        color="black" if s else color_for_disabled_converter,
+                    )
 
                 for this in b:
-                    dg.add_edge(and_node, this, color="black" if s else color_for_disabled_converter)
+                    dg.add_edge(
+                        and_node,
+                        this,
+                        color="black" if s else color_for_disabled_converter,
+                    )
 
         for name in dg.nodes():
-            if dg.degree(name)<5:
+            if dg.degree(name) < 5:
                 dg.get_node(name).attr["fillcolor"] = "white"
-            elif dg.degree(name)<10:
+            elif dg.degree(name) < 10:
                 # yellow
                 dg.get_node(name).attr["fillcolor"] = "yellow"
-            elif dg.degree(name)<20:
+            elif dg.degree(name) < 20:
                 # orange
                 dg.get_node(name).attr["fillcolor"] = "orange"
             else:
@@ -100,17 +129,17 @@ strict digraph{
     node [label="\\N"];
 
     """
-        nodes = set([item for items in rr.get_all_conversions() 
-            for item in items[0:1]])
+        nodes = set([item for items in rr.get_all_conversions() for item in items[0:1]])
 
         for node in nodes:
-            dot += "\"{}\";\n".format(node)
+            dot += '"{}";\n'.format(node)
         for a, b, s in rr.get_all_conversions():
-            dot += "\"{}\" -> \"{}\";\n".format(a, b)
+            dot += '"{}" -> "{}";\n'.format(a, b)
         dot += "}\n"
 
         from easydev import TempFile
         from bioconvert import shell
+
         dotfile = TempFile(suffix=".dot")
         with open(dotfile.name, "w") as fout:
             fout.write(dot)
@@ -118,13 +147,15 @@ strict digraph{
         dotpath = ""
         if use_singularity:
             from bioconvert.core.downloader import download_singularity_image
+
             singfile = download_singularity_image(
                 "graphviz.simg",
                 "shub://cokelaer/graphviz4all:v1",
-                "4288088d91c848e5e3a327282a1ab3d1")
+                "4288088d91c848e5e3a327282a1ab3d1",
+            )
 
             dotpath = "singularity run {} ".format(singfile)
-            on_rtd = environ.get('READTHEDOCS', None) == 'True'
+            on_rtd = environ.get("READTHEDOCS", None) == "True"
             if on_rtd:
                 dotpath = ""
 
@@ -135,6 +166,7 @@ strict digraph{
             shell(cmd)
         except:
             import os
+
             os.system(cmd)
 
 
@@ -150,11 +182,12 @@ def get_conversions_wrapped(registry, all_conversions=False):
 def create_graph_for_cytoscape(all_converter=False):
     """
 
-    :param all_converter: use all converters or only the ones 
+    :param all_converter: use all converters or only the ones
         available in the current installation
     :return:
     """
     from bioconvert.core.registry import Registry
+
     registry = Registry()
     graph_nodes = []
     graph_edges = []
@@ -186,12 +219,14 @@ def create_graph_for_cytoscape(all_converter=False):
     for i, o, _ in get_conversions_wrapped(registry, all_converter):
         i_as_node = get_or_create(i)
         o_as_node = get_or_create(o)
-        graph_edges.append({
-            "data": {
-                "id": "e" + str(len(graph_edges)),
-                "source": i_as_node["data"]["id"],
-                "target": o_as_node["data"]["id"],
+        graph_edges.append(
+            {
+                "data": {
+                    "id": "e" + str(len(graph_edges)),
+                    "source": i_as_node["data"]["id"],
+                    "target": o_as_node["data"]["id"],
+                }
             }
-        })
+        )
 
     return graph
