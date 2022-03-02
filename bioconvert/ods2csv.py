@@ -66,7 +66,7 @@ class ODS2CSV(ConvBase):
         with open(self.outfile, "w") as out_stream:
             writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)
             first_row = True
-            for row in pyexcel.get_records(file_name=self.infile):
+            for row in pyexcel.get_records(file_name=self.infile, sheet_name=sheet_name):
                 if first_row:
                     writer.writerow([k for k, v in row.items()])
                     first_row = False
