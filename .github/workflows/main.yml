@@ -1,4 +1,4 @@
-name: Core Testing
+name: Main Testing
 
 on:
   workflow_dispatch:
@@ -17,8 +17,17 @@ jobs:
       max-parallel: 5
       matrix:
         python: [3.7, 3.8, 3.9]
+      fail-fast: false
+
 
     steps:
+
+    - name: install graphviz
+      run: |
+        sudo apt-get install -y graphviz-dev
+    - name: curl  # for pybigwig
+      run: |
+        sudo apt-get install libcurl4-gnutls-dev
     - uses: actions/checkout@v2
     - name: Set up Python 3.X
       uses: actions/setup-python@v2
@@ -30,9 +39,9 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies conda
       run: |
-        conda install -c conda-forge mamba --quiet
-        mamba install -c conda-forge -c bioconda --quiet -y
-    - name: Install sequana with pip
+        conda install -c conda-forge --quiet mamba python=${{ matrix.python }}
+        mamba install -c conda-forge -c bioconda --quiet -y samtools bedtools bamtools mosdepth pbzip2 pigz dsrc sambamba squizz
+    - name: Install bioconvert with pip
       run: |
         pip install -r requirements.txt
         pip install -r requirements_dev.txt

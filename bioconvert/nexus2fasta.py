@@ -135,7 +135,7 @@ and not ::
 """
         from Bio import AlignIO
         with open(self.outfile, "w") as output_handle:
-            alignments = list(AlignIO.parse(self.infile, "nexus", alphabet=self.alphabet))
+            alignments = list(AlignIO.parse(self.infile, "nexus"))
             AlignIO.write(alignments, output_handle, "fasta")
 
     @requires("squizz")
