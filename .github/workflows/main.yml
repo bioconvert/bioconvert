@@ -21,11 +21,13 @@ jobs:
 
 
     steps:
-    # for pybigwig
-    - name: curl
+
+    - name: install graphviz
+      run: |
+        sudo apt-get install -y graphviz-dev
+    - name: curl  # for pybigwig
       run: |
         sudo apt-get install libcurl4-gnutls-dev
-        sudo apt install graphviz-dev
     - uses: actions/checkout@v2
     - name: Set up Python 3.X
       uses: actions/setup-python@v2
@@ -38,7 +40,7 @@ jobs:
     - name: Install dependencies conda
       run: |
         conda install -c conda-forge --quiet mamba python=${{ matrix.python }}
-        mamba install -c conda-forge -c bioconda --quiet -y samtools bamtools mosdepth pbzip2 pigz dsrc sambamba
+        mamba install -c conda-forge -c bioconda --quiet -y samtools bedtools bamtools mosdepth pbzip2 pigz dsrc sambamba squizz
     - name: Install bioconvert with pip
       run: |
         pip install -r requirements.txt

@@ -11,6 +11,7 @@ pysam
 pyexcel
 pyexcel-ods3
 pyexcel-xls
+pyexcel-xlsx
 xlrd
 pyBigWig
 py2bit

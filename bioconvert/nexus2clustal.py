@@ -71,7 +71,7 @@ class NEXUS2CLUSTAL(ConvBase):
     @compressor
     def _method_biopython(self, *args, **kwargs):
          from Bio import AlignIO
-         alignments = list(AlignIO.parse(self.infile, "nexus", alphabet=self.alphabet))
+         alignments = list(AlignIO.parse(self.infile, "nexus"))
          AlignIO.write(alignments, self.outfile, "clustal")
 
     @requires("squizz")

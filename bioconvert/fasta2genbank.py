@@ -66,10 +66,8 @@ class FASTA2GENBANK(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        print("Using DNA alphabet for now")
-        from Bio import SeqIO, Alphabet
-        SeqIO.convert(self.infile, "fasta", self.outfile, "genbank",
-            alphabet=Alphabet.generic_dna)
+        from Bio import SeqIO
+        SeqIO.convert(self.infile, "fasta", self.outfile, "genbank", "DNA")
 
     # --- Pure python methods ---
 
