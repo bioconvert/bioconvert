@@ -120,6 +120,12 @@ class FASTQ2FASTA(ConvBase):
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
+    @requires(external_binary="seqkit")
+    def _method_seqkit(self, *args, **kwargs):
+        # support gz files natively
+        cmd = "seqkit fq2fa {} > {}".format(self.infile, self.outfile)
+        self.execute(cmd)
+
     @requires_nothing
     @compressor
     def _method_readfq(self, *args, **kwargs):
