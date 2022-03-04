@@ -58,6 +58,18 @@ Usage
     bioconvert bam2bed input.bam output.bed
     bioconvert --help
 
+Contributors
+============
+
+Setting up and maintaining Bioconvert has been possible thanks to users and contributors. 
+Thanks to all:
+
+.. image:: https://contrib.rocks/image?repo=bioconvert/bioconvert
+    :target: https://github.com/bioconvert/bioconvert/graphs/contributors
+
+
+
+
 Available Converters
 #######################
 
