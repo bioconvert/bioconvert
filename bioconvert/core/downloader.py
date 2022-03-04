@@ -22,7 +22,6 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Download singularity image"""
-from logging import raiseExceptions
 from os.path import exists
 from easydev import md5
 
