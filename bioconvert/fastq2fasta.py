@@ -111,6 +111,9 @@ class FASTQ2FASTA(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
+        """For this method we use the biopython package Bio.SeqIO.
+
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
         records = SeqIO.parse(self.infile, 'fastq')
         SeqIO.write(records, self.outfile, 'fasta')
@@ -118,18 +121,27 @@ class FASTQ2FASTA(ConvBase):
     @requires(external_binary="seqtk")
     def _method_seqtk(self, *args, **kwargs):
         # support gz files natively
+        """For this method we use the SHELL Seqtk tool.
+        
+        `Documentation of the Seqtk method <https://github.com/lh3/seqtk>`_"""
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(external_binary="seqkit")
     def _method_seqkit(self, *args, **kwargs):
         # support gz files natively
+        """For this method we use the SHELL Seqkit tool.
+        
+        `Documentation of the Seqkit method <https://github.com/shenwei356/seqkit>`_"""
         cmd = "seqkit fq2fa {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires_nothing
     @compressor
     def _method_readfq(self, *args, **kwargs):
+        """This method is inspired by Readfq coded by Heng Li.
+        
+        `original Readfq method <https://github.com/lh3/readfq>`_"""
         with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
             for (name, seq, _) in FASTQ2FASTA.readfq(fastq):
                 fasta.write(">{}\n{}\n".format(name, seq))
@@ -137,6 +149,10 @@ class FASTQ2FASTA(ConvBase):
     # Does not give access to the comment part of the header
     @requires(python_library="mappy")
     def _method_mappy(self, *args, **kwargs):
+        """This method provides a fast and accurate C program to align genomic 
+        sequences and transcribe nucleotides.
+        
+        `mappy method <https://pypi.org/project/mappy/>`_"""
         with open(self.outfile, "w") as fasta:
             for (name, seq, _) in fastx_read(self.infile):
                 fasta.write(">{}\n{}\n".format(name, seq))
@@ -144,6 +160,9 @@ class FASTQ2FASTA(ConvBase):
     @requires("awk")
     @compressor
     def _method_awk(self, *args, **kwargs):
+        """Here we use the awk method.
+
+        `awk documentation <https://www.gnu.org/software/gawk/manual/gawk.html>`_"""
         # Note1: since we use .format, we need to escape the { and } characters
         # Note2: the \n need to be escaped for Popen to work
         awkcmd = """awk '{{if(NR%4==1) {{printf(">%s\\n",substr($0,2));}} else if(NR%4==2) print;}}' """
@@ -154,7 +173,9 @@ class FASTQ2FASTA(ConvBase):
     @compressor
     def _method_mawk(self, *args, **kwargs):
         """This variant of the awk method uses mawk, a lighter and faster
-        implementation of awk."""
+        implementation of awk.
+
+        `mawk documentation <https://invisible-island.net/mawk/manpage/mawk.html>`_"""
         # Note1: since we use .format, we need to escape the { and } characters
         # Note2: the \n need to be escaped for Popen to work
         awkcmd = """mawk '{{if(NR%4==1) {{printf(">%s\\n",substr($0,2));}} else if(NR%4==2) print;}}' """
@@ -180,36 +201,58 @@ class FASTQ2FASTA(ConvBase):
 
     @requires("awk")
     def _method_awk_v2(self, *args, **kwargs):
+        """Here we are using the awk method, but we are not doing the same UNIX command.
+
+        `awk documentation <https://www.gnu.org/software/gawk/manual/gawk.html>`_"""
         awkcmd = """awk '{{print ">"substr($0,2);getline;print;getline;getline}}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
     @requires("mawk")
     def _method_mawk_v2(self, *args, **kwargs):
+        """This variant of the awk method uses mawk, a lighter and faster
+        implementation of awk, but we are not doing the same UNIX command.
+
+        `mawk documentation <https://invisible-island.net/mawk/manpage/mawk.html>`_"""
         awkcmd = """mawk '{{print ">"substr($0,2);getline;print;getline;getline}}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
     @requires("sed")
     def _method_sed(self, *args, **kwargs):
+        """This method uses the UNIX function sed which is a non-interactive editor.
+        
+        `sed documentation <https://www.gnu.org/software/sed/manual/sed.html>`_"""
         cmd = """sed -n '1~4s/^@/>/p;2~4p' """
         cmd = "{} {} > {}".format(cmd, self.infile, self.outfile)
         self.execute(cmd)
 
     @requires("sed")
     def _method_sed_v2(self, *args, **kwargs):
+        """This method uses the UNIX function sed which is a non-interactive editor,
+         but we are not doing the same UNIX command.
+        
+        `sed documentation <https://www.gnu.org/software/sed/manual/sed.html>`_"""
         cmd = """sed -n 's/^@/>/p;n;p;n;n'"""
         cmd = "{} {} > {}".format(cmd, self.infile, self.outfile)
         self.execute(cmd)
 
     @requires("mawk")
     def _method_mawk_v3(self, *args, **kwargs):
+        """This variant of the awk method uses mawk, a lighter and faster
+        implementation of awk, but we are not doing the same UNIX command.
+
+        `mawk documentation <https://invisible-island.net/mawk/manpage/mawk.html>`_"""
         awkcmd = """mawk '(++n<=0){next}(n!=1){print;n=-2;next}{print">"substr($0,2)}'"""
         cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
         self.execute(cmd)
 
     @requires("perl")
     def _method_perl(self, *args, **kwargs):
+        """This method uses the perl command which will call the 
+        \"fastq2fasta.pl\" script.
+        
+        `Perl documentation <https://perldoc.perl.org/>`_"""
         perlcmd = "perl {}".format(bioconvert_script("fastq2fasta.pl"))
         cmd = "{} {} {}".format(perlcmd, self.infile, self.outfile)
         self.execute(cmd)
@@ -217,6 +260,7 @@ class FASTQ2FASTA(ConvBase):
     @requires_nothing
     @compressor
     def _method_python_internal(self, *args, **kwargs):
+        """This method is an internal creation."""
         with open(self.infile, "r+") as inp:
 
             with open(self.outfile, "wb") as out:

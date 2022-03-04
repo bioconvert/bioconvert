@@ -22,6 +22,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Download singularity image"""
+from logging import raiseExceptions
 from os.path import exists
 from easydev import md5
 
@@ -56,7 +57,7 @@ def download_singularity_image(outfile, container_path, md5value=None, force=Fal
 
             shell(cmd)
         except:
-            import os
-
-            os.system(cmd)
+            # import os
+            raise Exception
+            # os.system(cmd)
     return singfile

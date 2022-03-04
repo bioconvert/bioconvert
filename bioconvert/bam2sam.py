@@ -42,7 +42,8 @@ class BAM2SAM(ConvBase):
     sambamba [SAMBAMBA]_ and pysam [PYSAM]_.
 
     """
-    _default_method = "samtools"
+    #_default_method = "samtools"
+    _default_method = "sambamba"
     _threading = True
 
     def __init__(self, infile, outfile, *args, **kargs):
