@@ -13,7 +13,7 @@ metainfo = {
         'Cokelaer': ('Thomas Cokelaer', 'thomas.cokelaer@pasteur.fr'),
         },
     'version': version,
-    'license': 'BSD',
+    'license': 'GPLv3',
     'download_url': ['http://pypi.python.org/pypi/bioconvert'],
     'url': ['http://pypi.python.org/pypi/bioconvert'],
     'description': 'convert between bioinformatics formats',

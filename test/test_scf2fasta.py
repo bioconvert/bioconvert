@@ -1,16 +1,18 @@
 import pytest
 from bioconvert.scf2fasta import SCF2FASTA
 from bioconvert.io.scf import read_from_buffer, delta
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
+
+
+from . import test_dir
 
 def test_conv():
     # Scf V2 file
-    infile_v2 = bioconvert_data("sample_v2.scf")
-    expected_outfile_v2 = bioconvert_data("sample_v2.fasta")
+    infile_v2 = f"{test_dir}/data/scf2fasta/sample_v2.scf"
+    expected_outfile_v2 = f"{test_dir}/data/scf2fasta/sample_v2.fasta"
     # Scf V3 file
-    infile_v3 = bioconvert_data("sample_v3.scf")
-    expected_outfile_v3 = bioconvert_data("sample_v3.fasta")
+    infile_v3 = f"{test_dir}/data/scf2fasta/sample_v3.scf"
+    expected_outfile_v3 = f"{test_dir}/data/scf2fasta/sample_v3.fasta"
 
     with TempFile(suffix=".fasta") as tempfile:
         convert = SCF2FASTA(infile_v2, tempfile.name)
