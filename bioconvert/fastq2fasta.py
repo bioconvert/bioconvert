@@ -40,7 +40,6 @@ class FASTQ2FASTA(ConvBase):
     # though. Make sure that the default handles also the compresssion
     # input_ext = extensions.extensions.fastq
     # output_ext =  extensions.fasta
-    #_default_method = "readfq"
     _default_method = "python_internal"
 
     def __init__(self, infile, outfile):
