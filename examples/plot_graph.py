@@ -50,7 +50,11 @@ mpl.rcParams['figure.dpi']= 250
 # image like in the following example by setting the use_singularity
 # parameter to True. This would work under Linux. Not tested on other systems
 # yet.
-create_graph("conversion.png", use_singularity=True)
+try:
+    create_graph("conversion.png", use_singularity=True)
+except:
+    create_graph("conversion.png", use_singularity=False)
+
 
 #####################################################
 #

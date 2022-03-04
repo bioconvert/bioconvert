@@ -148,23 +148,30 @@ strict digraph{
         if use_singularity:
             from bioconvert.core.downloader import download_singularity_image
 
-            singfile = download_singularity_image(
+            try : 
+                singfile = download_singularity_image(
                 "graphviz.simg",
                 "shub://cokelaer/graphviz4all:v1",
                 "4288088d91c848e5e3a327282a1ab3d1",
-            )
+                )
 
-            dotpath = "singularity run {} ".format(singfile)
-            on_rtd = environ.get("READTHEDOCS", None) == "True"
-            if on_rtd:
-                dotpath = ""
+            except Exception: 
+                print("Warning ! Singularity must be installed if you want to you used it ! Switching to local graphviz executable if available")
+
+            else :
+
+                dotpath = "singularity run {} ".format(singfile)
+                on_rtd = environ.get("READTHEDOCS", None) == "True"
+                if on_rtd:
+                    dotpath = ""
+
 
         ext = filename.rsplit(".", 1)[1]
         cmd = "{}dot -T{} {} -o {}".format(dotpath, ext, dotfile.name, filename)
         print(dotfile.name)
         try:
             shell(cmd)
-        except:
+        except Exception:
             import os
 
             os.system(cmd)
