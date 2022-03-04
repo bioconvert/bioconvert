@@ -155,7 +155,7 @@ strict digraph{
                 "4288088d91c848e5e3a327282a1ab3d1",
                 )
 
-            except : 
+            except Exception: 
                 print("Warning ! Singularity must be installed if you want to you used it ! Switching to local graphviz executable if available")
 
             else :
@@ -171,7 +171,7 @@ strict digraph{
         print(dotfile.name)
         try:
             shell(cmd)
-        except:
+        except Exception:
             import os
 
             os.system(cmd)

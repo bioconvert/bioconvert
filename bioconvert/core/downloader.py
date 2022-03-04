@@ -57,7 +57,5 @@ def download_singularity_image(outfile, container_path, md5value=None, force=Fal
 
             shell(cmd)
         except:
-            # import os
             raise Exception
-            # os.system(cmd)
     return singfile
