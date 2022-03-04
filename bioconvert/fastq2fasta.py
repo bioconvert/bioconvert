@@ -3,7 +3,7 @@
 # of life science data from one format to another.                        #
 #                                                                         #
 # Authors: see CONTRIBUTORS.rst                                           #
-# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
+# Copyright © 2018-2022  Institut Pasteur, Paris and CNRS.                     #
 # See the COPYRIGHT file for details                                      #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
@@ -32,7 +32,17 @@ from bioconvert.core.decorators import (compressor, in_gz, requires,
 
 
 class FASTQ2FASTA(ConvBase):
-    """Convert :term:`FASTQ` to :term:`FASTA`"""
+    """Convert :term:`FASTQ` to :term:`FASTA`
+
+    This converter has lots of methods. Some of them have also been 
+    removed or commented with time. BioPython for instance is commented
+    due to poo performance compared to others. Does not mean that it is 
+    not to be considered. Performances are decrease due to lot of sanity checks.
+
+    Similarly, bioawk and python_external method are commented because 
+    redundant with other equivalent method.
+
+    """
 
     # use readfq for now because pure python are fast enough
     # for production, could use seqtk which seems the fastest method
@@ -160,15 +170,6 @@ class FASTQ2FASTA(ConvBase):
     #    awkcmd = """bioawk -c fastx '{{print ">"$name" "$comment"\\n"$seq}}'"""
     #    cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
     #    self.execute(cmd)
-
-    # Somehow this does not work without specifying
-    # the path to the shared libraries
-    # @in_gz
-    # def _method_fqtools(self, *args, **kwargs):
-    #     """This method uses fqtools."""
-    #     fqtoolscmd = """LD_LIBRARY_PATH="/home/bli/lib" fqtools fasta"""
-    #     cmd = "{} {} > {}".format(fqtoolscmd, self.infile, self.outfile)
-    #     self.execute(cmd)
 
     @requires("awk")
     def _method_awk(self, *args, **kwargs):
