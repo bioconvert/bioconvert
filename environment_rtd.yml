@@ -19,7 +19,7 @@ dependencies:
 - easydev
 - pip
 - pyyaml
-- pillow=4.0
+- pillow
 - bedtools          # used in gallery and bam2bed
 - singularity
 - pigz
@@ -27,7 +27,9 @@ dependencies:
 - sambamba
 - bioawk
 - seqtk
+- seqkit
 - graphviz   # provides dot for RTD
+- icu
 
 - pip:
   - docutils<0.13.1 # https://github.com/sphinx-doc/sphinx/issues/3212
