@@ -1,13 +1,16 @@
 Bioconvert
-==========
+##########
 
 **Bioconvert** is a collaborative project to facilitate the interconversion of life science data from one format to another.
 
 .. image:: https://badge.fury.io/py/bioconvert.svg
     :target: https://pypi.python.org/pypi/bioconvert
 
-.. image:: https://secure.travis-ci.org/bioconvert/bioconvert.png
-    :target: http://travis-ci.org/bioconvert/bioconvert
+.. image:: https://github.com/bioconvert/bioconvert/actions/workflows/main.yml/badge.svg?branch=master
+    :target: https://github.com/bioconvert/bioconvert/actions/workflows/main.yml
+
+.. image:: https://github.com/bioconvert/bioconvert/actions/workflows/main.yml/badge.svg?branch=refactoring
+    :target: https://github.com/bioconvert/bioconvert/actions/workflows/main.yml
 
 .. image:: https://coveralls.io/repos/github/bioconvert/bioconvert/badge.svg?branch=master
    :target: https://coveralls.io/github/bioconvert/bioconvert?branch=master
@@ -32,6 +35,19 @@ Bioconvert
 :contributions: Want to add a convertor ? Please join https://github.com/bioconvert/bioconvert/issues/1
 :issues: Please use https://github.com/bioconvert/bioconvert/issues
 
+Overview
+########
+
+
+Life science uses many different formats. They may be old, or with complex syntax and converting those formats may be a challenge. Bioconvert aims at providing a common tool / interface to convert life science data formats from one to another.
+
+Many conversion tools already exist but they may be dispersed, focused on few specific formats, difficult to install, or not optimised. With Bioconvert, we plan to cover a wide spectrum of format conversions; we will re-use existing tools when possible and provide facilities to compare different conversion tools or methods via benchmarking. New implementations are provided when considered better than existing ones.
+
+In Aug 2019, we had 46 formats, 98 direct conversions (156 different methods). More conversions are possible when calling bioconvert several times.
+
+In Aug 2018, we had 43 formats, 79 direct conversions (129 different methods). More conversions are possible when calling bioconvert several times.
+
+In June 2018, we had 66 direct conversions (120 different methods). More conversions are possible when calling bioconvert several times.
 
 Installation
 ###############
@@ -51,21 +67,35 @@ details.
 Usage
 ##########
 
-::
+From the command line, you can convert a :term:`FastQ` file into 
+a :term:`FastA` file as follows (compressed or not)::
 
     bioconvert fastq2fasta input.fastq output.fasta
-    bioconvert gz2dsrc input.fq.gz output.dsrc2
-    bioconvert bam2bed input.bam output.bed
+    bioconvert fastq2fasta input.fq    output.fasta
+    bioconvert fastq2fasta input.fq.gz output.fasta.gz
+    bioconvert fastq2fasta input.fq.gz output.fasta.bz2
+
+When there is no ambiguity, you can be implicit::
+
+     bioconvert input.fastq output.fasta
+
+
+For help, just type::
+
     bioconvert --help
+    bioconvert fastq2fasta --help
 
-Contributors
-============
 
-Setting up and maintaining Bioconvert has been possible thanks to users and contributors. 
-Thanks to all:
+From a Python shell::
 
-.. image:: https://contrib.rocks/image?repo=bioconvert/bioconvert
-    :target: https://github.com/bioconvert/bioconvert/graphs/contributors
+    # import a converter
+    from bioconvert.fastq2fasta import FASTQ2FASTA
+
+    # Instanciate with infile/outfile names
+    convert = FASTQ2FASTA(infile, outfile)
+
+    # the conversion itself
+    convert()
 
 
 
@@ -75,5 +105,22 @@ Available Converters
 
 .. image:: https://raw.githubusercontent.com/bioconvert/bioconvert/master/doc/conversion.png
     :width: 80%
+
+==================== ==============================================================================================================
+Converters              CI testing
+==================== ==============================================================================================================
+fastq2fasta          .. image:: https://github.com/bioconvert/bioconvert/bioservices/actions/workflows/fastq2fasta.yml/badge.svg
+                         :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta.yml
+==================== ==============================================================================================================
+
+Contributors
+############
+
+Setting up and maintaining Bioconvert has been possible thanks to users and contributors. 
+Thanks to all:
+
+.. image:: https://contrib.rocks/image?repo=bioconvert/bioconvert
+    :target: https://github.com/bioconvert/bioconvert/graphs/contributors
+
 
 

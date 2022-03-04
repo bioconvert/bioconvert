@@ -4,7 +4,6 @@ IO functions
 
 .. autosummary::
 
-    bioconvert.io.sniffer
     bioconvert.io.maf
     bioconvert.io.scf
 
