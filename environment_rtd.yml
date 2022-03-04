@@ -13,6 +13,7 @@ dependencies:
 - numpy
 - matplotlib
 - pandas
+- pyBigWig
 - scipy
 - pysam
 - pillow
