@@ -106,14 +106,22 @@ Available Converters
 .. image:: https://raw.githubusercontent.com/bioconvert/bioconvert/master/doc/conversion.png
     :width: 80%
 
-==================== ==============================================================================================================
-Converters              CI testing
-==================== ==============================================================================================================
-fastq2fasta          .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta.yml/badge.svg
-                         :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta.yml
-bam2sam              .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2sam.yml/badge.svg
-                         :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2sam.yml
-==================== ==============================================================================================================
+.. list-table:: Conversion table
+    :widths: 20 40 40
+    :header-rows: 1
+
+    * - Converters
+      - CI testing
+      - Benchmarking
+    * - fastq2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta.yml
+      - link IMG benchmarking fastq2fasta
+    * - bam2sam
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2sam.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2sam.yml
+      - link IMG benchmarking bam2sam
+
 
 Contributors
 ############
