@@ -40,7 +40,7 @@ class FASTQ2FASTA(ConvBase):
     # though. Make sure that the default handles also the compresssion
     # input_ext = extensions.extensions.fastq
     # output_ext =  extensions.fasta
-    #_default_method = "readfq"
+    #: default value
     _default_method = "python_internal"
 
     def __init__(self, infile, outfile):
@@ -234,7 +234,8 @@ class FASTQ2FASTA(ConvBase):
     @requires_nothing
     @compressor
     def _method_python_internal(self, *args, **kwargs):
-        """Bioconvert implementation in pure Python."""
+        """Bioconvert implementation in pure Python. 
+        This is the default method because it is the fastest."""
         with open(self.infile, "r+") as inp:
 
             with open(self.outfile, "wb") as out:
