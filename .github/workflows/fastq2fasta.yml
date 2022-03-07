@@ -6,7 +6,7 @@ on:
     branches:
       - master
       - dev
-      - refactoring 
+      - refactoring
     paths:
       - bioconvert/fastq2fasta.py
   pull_request:

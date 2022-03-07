@@ -1,4 +1,4 @@
-name: abi2fasta Testing 
+name: abi2fasta Testing
 
 on:
   workflow_dispatch:
