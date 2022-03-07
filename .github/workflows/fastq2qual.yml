@@ -1,4 +1,4 @@
-name: fastq2fasta Testing
+name: fastq2qual Testing
 
 on:
   workflow_dispatch:
@@ -8,11 +8,11 @@ on:
       - dev
       - refactoring 
     paths:
-      - bioconvert/fastq2fasta.py
+      - bioconvert/fastq2qual.py
   pull_request:
     branches-ignore: []
     paths:
-      - bioconvert/fastq2fasta.py
+      - bioconvert/fastq2qual.py
 
 jobs:
   build-linux:
@@ -50,4 +50,4 @@ jobs:
         pip install .
     - name: Test with pytest
       run: |
-        pytest -n 1  --cov-report term --cov=bioconvert.fastq2fasta test/test_fastq2fasta.py
+        pytest -n 1  --cov-report term --cov=bioconvert.fastq2qual test/test_fastq2qual.py

@@ -125,6 +125,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fasta.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fasta.yml
       - link IMG benchmarking abi2fasta
+    * - fastq2qual
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2qual.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2qual.yml
+      - link IMG benchmarking fastq2qual
 
 
 Contributors
