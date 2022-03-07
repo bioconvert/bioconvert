@@ -23,6 +23,13 @@ jobs:
         python: [3.7, 3.8, 3.9]
 
     steps:
+
+    - name: install graphviz
+      run: |
+        sudo apt-get install -y graphviz-dev
+    - name: curl  # for pybigwig
+      run: |
+        sudo apt-get install libcurl4-gnutls-dev
     - uses: actions/checkout@v2
     - name: Set up Python 3.X
       uses: actions/setup-python@v2
