@@ -109,8 +109,10 @@ Available Converters
 ==================== ==============================================================================================================
 Converters              CI testing
 ==================== ==============================================================================================================
-fastq2fasta          .. image:: https://github.com/bioconvert/bioconvert/bioservices/actions/workflows/fastq2fasta.yml/badge.svg
+fastq2fasta          .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta.yml/badge.svg
                          :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta.yml
+bam2sam              .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2sam.yml/badge.svg
+                         :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2sam.yml
 ==================== ==============================================================================================================
 
 Contributors
