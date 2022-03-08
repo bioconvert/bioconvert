@@ -161,6 +161,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2sam.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/cram2sam.yml
       - link IMG benchmarking cram2sam
+    * - sam2cram
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2cram.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2cram.yml
+      - link IMG benchmarking sam2cram
 
 
 Contributors
