@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #  This file is part of Bioconvert software
 #
-#  Copyright (c) 2017 - Bioconvert Development Team
+#  Copyright (c) 2017-2022 - Bioconvert Development Team
 #
 #  Distributed under the terms of the 3-clause BSD license.
 #  The full license is in the LICENSE file, distributed with this software.
@@ -43,8 +42,7 @@ class ABI2FASTA(ConvBase):
     @requires(python_library="biopython")
     def _method_biopython(self, *args, **kwargs):
         """For this method we use the biopython package Bio.SeqIO. 
-        This is the default method because it is the only method implemented.
-
+        
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
         records = SeqIO.parse(self.infile, "abi")
