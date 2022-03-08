@@ -1,11 +1,39 @@
-name: py36-bioconvert
+name: bioconvert
+
 channels:
-  - bioconda
-  - conda-forge
-  - defaults
-  - r
+- bioconda
+- conda-forge
+- defaults
+- r
+
 dependencies:
-  - bioconvert
-  - mosdepth
-  - perl
-  - python=3.6
+- python=3.7
+- bedtools
+- biopython
+- bioawk
+- colorlog
+- biopython
+- numpy
+- matplotlib
+- pandas
+- pyBigWig
+- mawk
+- scipy
+- pysam
+- pillow
+- easydev
+- plink
+- pyyaml
+- pillow
+- singularity
+- pigz
+- dsrc
+- sambamba
+- seqtk
+- seqkit
+- wiggletools
+- graphviz   # provides dot for RTD
+- ucsc-wigtobigwig
+- ucsc-twobittofa
+- ucsc-fatotwobit
+- ucsc-bigwigtobedgraph

@@ -223,3 +223,15 @@ Thanks to all:
 
 .. image:: https://contrib.rocks/image?repo=bioconvert/bioconvert
     :target: https://github.com/bioconvert/bioconvert/graphs/contributors
+
+
+Changes
+########
+
+========= ====================================================================
+Version   Description
+========= ====================================================================
+0.5.0     * Add CI actions for all converters
+          * remove sniffer (now in biosniff)
+========= ====================================================================
+
