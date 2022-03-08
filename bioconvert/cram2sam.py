@@ -42,6 +42,7 @@ class CRAM2SAM(ConvBase):
 
     Methods available are based on samtools [SAMTOOLS]_.
     """
+    #: Default value
     _default_method = "samtools"
     _threading = True
 
@@ -67,6 +68,9 @@ class CRAM2SAM(ConvBase):
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
+        """Here we use the SAMtools tool.
+
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         # -h means include header in SAM output
         reference = kwargs.get("reference", None)
         if reference is None:
