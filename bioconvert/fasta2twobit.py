@@ -42,6 +42,7 @@ class FASTA2TWOBIT(ConvBase):
     Methods available are based on UCSC faToTwoBit [UCSC]_.
 
     """
+    #: default value
     _default_method = 'ucsc'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
@@ -55,10 +56,9 @@ class FASTA2TWOBIT(ConvBase):
     @requires("faToTwoBit")
     @compressor
     def _method_ucsc(self, *args, **kwargs):
-        """
-        Convert fasta file in twobit format using ucsc faToTwoBit.
-        https://genome.ucsc.edu/goldenPath/help/twoBit.html
-        """
+        """Convert fasta file in twobit format using ucsc faToTwoBit.
+
+        `uscsc faToTwoBit Documentation <https://genome.ucsc.edu/goldenPath/help/twoBit.html>`_"""
         cmd = 'faToTwoBit {infile} {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)

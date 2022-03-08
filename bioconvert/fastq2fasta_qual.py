@@ -41,6 +41,7 @@ class FASTQ2FASTA_QUAL(ConvBase):
     Method based on Python.
 
     """
+    #: Default value
     _default_method = "python"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -88,6 +89,9 @@ class FASTQ2FASTA_QUAL(ConvBase):
     @requires_nothing
     @compressor
     def _method_python(self, *args, **kwargs):
+        """This method is inspired by Readfq coded by Heng Li.
+        
+        `original Readfq method <https://github.com/lh3/readfq>`_"""
         with open(self.outfile, "w") as fasta, open(self.outfile2, "w") as quality, open(self.infile, "r") as fastq:
             for (name, seq, qual) in FASTQ2FASTA_QUAL._readfq(fastq):
                 fasta.write(">{}\n{}\n".format(name, seq))

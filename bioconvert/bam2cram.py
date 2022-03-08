@@ -42,6 +42,7 @@ class BAM2CRAM(ConvBase):
 
     Methods available are based on samtools [SAMTOOLS]_.
     """
+    #: Default value
     _default_method = "samtools"
     _threading = True
 
@@ -67,6 +68,9 @@ class BAM2CRAM(ConvBase):
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
+        """Here we use the SAMtools tool.
+
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         # -C means output is CRAM
 
         reference = kwargs.get("reference", None)

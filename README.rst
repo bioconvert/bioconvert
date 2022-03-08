@@ -129,6 +129,34 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2qual.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2qual.yml
       - link IMG benchmarking fastq2qual
+    * - fasta2fastq
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fastq.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fastq.yml
+      - link IMG benchmarking fasta2fastq
+    * - sam2bam
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml
+      - link IMG benchmarking sam2bam
+    * - fasta2twobit
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2twobit.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2twobit.yml
+      - link IMG benchmarking fasta2twobit
+    * - twobit2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml
+      - link IMG benchmarking twobit2fasta
+    * - fasta_qual2fastq
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta_qual2fastq.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta_qual2fastq.yml
+      - link IMG benchmarking fasta_qual2fastq
+    * - fastq2fasta_qual
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta_qual.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta_qual.yml
+      - link IMG benchmarking fastq2fasta_qual
+    * - bam2cram
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cram.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cram.yml
+      - link IMG benchmarking bam2cram
 
 
 Contributors
@@ -139,6 +167,3 @@ Thanks to all:
 
 .. image:: https://contrib.rocks/image?repo=bioconvert/bioconvert
     :target: https://github.com/bioconvert/bioconvert/graphs/contributors
-
-
-

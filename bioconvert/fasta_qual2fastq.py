@@ -40,6 +40,7 @@ class FASTA_QUAL2FASTQ(ConvBase):
     Method based on pysam [PYSAM]_.
 
     """
+    #: Default value
     _default_method = "pysam"
 
     def __init__(self, infile, outfile):
@@ -51,6 +52,9 @@ class FASTA_QUAL2FASTQ(ConvBase):
 
     @requires(python_library="pysam")
     def _method_pysam(self, *args, **kwargs):
+        """This method uses the FastxFile function of the Pysam python module.
+        
+        `FastxFile documentation <https://pysam.readthedocs.io/en/latest/api.html#pysam.FastxFile.close>`_"""
         from pysam import FastxFile
         if self.infile[1] is None:
             _log.error("No quality file provided. Please add a quality file path ")
