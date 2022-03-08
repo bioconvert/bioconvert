@@ -189,6 +189,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml
       - link IMG benchmarking gz2dsrc
+    * - dsrc2gz
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml
+      - link IMG benchmarking dsrc2gz
 
 
 Contributors
