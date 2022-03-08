@@ -43,6 +43,7 @@ class FASTA2FAA(ConvBase):
     Methods available is a bioconvert implementation.
 
     """
+    #: Default value
     _default_method = "bioconvert"
 
     def __init__(self, infile, outfile):
@@ -74,6 +75,7 @@ class FASTA2FAA(ConvBase):
 
     @compressor
     def _method_bioconvert(self, *args, **kwargs):
+        """Internal method written by Thomas COKELAER."""
         data = Fasta(self.infile)
         with open(self.outfile, "w") as fout:
             for line in data.read():
