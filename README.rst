@@ -129,10 +129,14 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2qual.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2qual.yml
       - link IMG benchmarking fastq2qual
-    - fasta2fastq
+    * - fasta2fastq
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fastq.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fastq.yml
       - link IMG benchmarking fasta2fastq
+    * - sam2bam
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml
+      - link IMG benchmarking sam2bam
 
 
 Contributors
