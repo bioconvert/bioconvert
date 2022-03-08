@@ -163,6 +163,3 @@ Thanks to all:
 
 .. image:: https://contrib.rocks/image?repo=bioconvert/bioconvert
     :target: https://github.com/bioconvert/bioconvert/graphs/contributors
-
-
-
