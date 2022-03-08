@@ -177,6 +177,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2faa.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2faa.yml
       - link IMG benchmarking fasta2faa
+    * - gz2bz2
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml
+      - link IMG benchmarking gz2bz2
 
 
 Contributors

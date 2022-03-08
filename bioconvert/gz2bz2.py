@@ -43,6 +43,7 @@ class GZ2BZ2(ConvBase):
     """
     _threading = True
 
+    #: Default value
     _default_method = 'pigz_pbzip2'
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -56,7 +57,10 @@ class GZ2BZ2(ConvBase):
 
     @requires(external_binaries=["pigz", "pbzip2", ])
     def _method_pigz_pbzip2(self, *args, **kwargs):
-        """some description"""
+        """Method that uses pigz pbzip2.
+        
+        `pigz documentation <https://linux.die.net/man/1/pigz>`_
+        `pbzip2 documentation <https://linux.die.net/man/1/pbzip2>`_"""
 
         # conversion
         cmd = "pigz -d -c -p {threads} {input} | pbzip2 -p{threads} > {output}"
@@ -67,7 +71,10 @@ class GZ2BZ2(ConvBase):
 
     @requires(external_binaries=["gunzip", "bzip2", ])
     def _method_gunzip_bzip2(self, *args, **kwargs):
-        """Single theaded conversion"""
+        """Single theaded conversion. Method that uses gunzip bzip2.
+        
+        `gunzip documentation <https://linux.die.net/man/1/gunzip>`_
+        `bzip2 documentation <http://www.delafond.org/traducmanfr/man/man1/bzip2.1.html>`_"""
         cmd = "gunzip --to-stdout {input} | bzip2 > {output}"
         self.execute(cmd.format(
             input=self.infile,
@@ -75,6 +82,7 @@ class GZ2BZ2(ConvBase):
 
     @requires_nothing
     def _method_python(self):
+        """Internal method"""
         with gzip.open(self.infile, 'rb') as f, bz2.open(self.outfile, 'wb')as g:
             g.write(f.read())
 
