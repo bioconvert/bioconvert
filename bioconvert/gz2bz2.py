@@ -61,7 +61,6 @@ class GZ2BZ2(ConvBase):
         
         `pigz documentation <https://linux.die.net/man/1/pigz>`_
         `pbzip2 documentation <https://linux.die.net/man/1/pbzip2>`_"""
-
         # conversion
         cmd = "pigz -d -c -p {threads} {input} | pbzip2 -p{threads} > {output}"
         self.execute(cmd.format(

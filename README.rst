@@ -181,6 +181,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml
       - link IMG benchmarking gz2bz2
+    * - bz22gz
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml
+      - link IMG benchmarking bz22gz
 
 
 Contributors
