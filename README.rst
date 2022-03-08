@@ -145,6 +145,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml
       - link IMG benchmarking twobit2fasta
+    * - fasta_qual2fastq
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta_qual2fastq.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta_qual2fastq.yml
+      - link IMG benchmarking fasta_qual2fastq
 
 
 Contributors
