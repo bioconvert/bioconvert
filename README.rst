@@ -137,6 +137,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml
       - link IMG benchmarking sam2bam
+    * - fasta2twobit
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2twobit.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2twobit.yml
+      - link IMG benchmarking fasta2twobit
 
 
 Contributors
