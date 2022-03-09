@@ -193,6 +193,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml
       - link IMG benchmarking dsrc2gz
+    * - gff22gff3
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff22gff3.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/gff22gff3.yml
+      - link IMG benchmarking gff22gff3
 
 
 Contributors
