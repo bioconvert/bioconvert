@@ -35,6 +35,7 @@ class GENBANK2GFF3(ConvBase):
     Method based on biocode.
 
     """
+    #: Default value
     _default_method = "biocode"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -49,9 +50,10 @@ class GENBANK2GFF3(ConvBase):
 
     def _method_biocode(self, *args, **kwargs):
         """Uses scripts from biocode
-        See: https://github.com/jorvis/biocode/
-        https://github.com/jorvis/biocode/blob/master/gff/convert_genbank_to_gff3.py
-        """
+        
+        `See: <https://github.com/jorvis/biocode/>`_
+        
+        `See: <https://github.com/jorvis/biocode/blob/master/gff/convert_genbank_to_gff3.py>`_"""
         cmd = "convert_genbank_to_gff3.py -i {} -o {} --no_fasta".format(
             self.infile, self.outfile)
         self.execute(cmd)

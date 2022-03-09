@@ -201,6 +201,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff32gff2.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gff32gff2.yml
       - link IMG benchmarking gff32gff2
+    * - genbank2gff3
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2gff3.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2gff3.yml
+      - link IMG benchmarking genbank2gff3
 
 
 Contributors
