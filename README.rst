@@ -157,6 +157,42 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cram.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cram.yml
       - link IMG benchmarking bam2cram
+    * - cram2sam
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2sam.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/cram2sam.yml
+      - link IMG benchmarking cram2sam
+    * - sam2cram
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2cram.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2cram.yml
+      - link IMG benchmarking sam2cram
+    * - abi2fastq
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fastq.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fastq.yml
+      - link IMG benchmarking abi2fastq
+    * - sra2fastq
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml
+      - link IMG benchmarking sra2fastq
+    * - fasta2faa
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2faa.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2faa.yml
+      - link IMG benchmarking fasta2faa
+    * - gz2bz2
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml
+      - link IMG benchmarking gz2bz2
+    * - bz22gz
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml
+      - link IMG benchmarking bz22gz
+    * - gz2dsrc
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml
+      - link IMG benchmarking gz2dsrc
+    * - dsrc2gz
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml
+      - link IMG benchmarking dsrc2gz
 
 
 Contributors
