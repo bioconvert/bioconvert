@@ -36,6 +36,7 @@ class GFF32GFF2(ConvBase):
 
     Method available is Python-based."""
 
+    #: Default value
     _default_method = "bioconvert"
 
 

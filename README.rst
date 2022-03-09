@@ -193,6 +193,26 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml
       - link IMG benchmarking dsrc2gz
+    * - gff22gff3
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff22gff3.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/gff22gff3.yml
+      - link IMG benchmarking gff22gff3
+    * - gff32gff2
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff32gff2.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/gff32gff2.yml
+      - link IMG benchmarking gff32gff2
+    * - genbank2gff3
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2gff3.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2gff3.yml
+      - link IMG benchmarking genbank2gff3
+    * - genbank2embl
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2embl.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2embl.yml
+      - link IMG benchmarking genbank2embl
+    * - embl2genbank
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/embl2genbank.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/embl2genbank.yml
+      - link IMG benchmarking embl2genbank
 
 
 Contributors

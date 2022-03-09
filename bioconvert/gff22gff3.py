@@ -36,6 +36,7 @@ __all__ = ["GFF22GFF3"]
 class GFF22GFF3(ConvBase):
     """Convert :term:`GFF2` to :term:`GFF3`"""
 
+    #: Default value
     _default_method = "bioconvert"
 
     def __init__(self, infile, outfile, *args, **kargs):

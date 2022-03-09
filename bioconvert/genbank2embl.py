@@ -36,6 +36,7 @@ class GENBANK2EMBL(ConvBase):
     Some description.
 
     """
+    #: Default value
     _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -49,11 +50,16 @@ class GENBANK2EMBL(ConvBase):
 
     @requires("squizz")
     def _method_squizz(self, *args, **kwargs):
-        """Header is less informative than the one obtained with biopython"""
+        """Header is less informative than the one obtained with biopython
+        
+        """
         cmd = "squizz -f genbank -c embl {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")
     def _method_biopython(self, *args, **kwargs):
+        """For this method we use the biopython package Bio.SeqIO. 
+        
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
         SeqIO.convert(self.infile, "genbank", self.outfile, "embl")
