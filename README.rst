@@ -213,6 +213,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/embl2genbank.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/embl2genbank.yml
       - link IMG benchmarking embl2genbank
+    * - embl2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/embl2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/embl2fasta.yml
+      - link IMG benchmarking embl2fasta
 
 
 Contributors
