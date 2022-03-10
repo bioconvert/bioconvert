@@ -45,6 +45,7 @@ class FASTA2GENBANK(ConvBase):
 
     # squizz works as well but keeps lower cases while 
     # biopython uses upper cases
+    #: Default value
     _default_method = "bioconvert"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -59,7 +60,9 @@ class FASTA2GENBANK(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """Header is less informative than the one obtained with biopython"""
+        """Header is less informative than the one obtained with biopython
+        
+        """
         cmd = "squizz -f fasta -c genbank  {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
