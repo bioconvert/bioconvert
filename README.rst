@@ -225,6 +225,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2fasta.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2fasta.yml
       - link IMG benchmarking genbank2fasta
+    * - xlsx2csv
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml
+      - link IMG benchmarking xlsx2csv
     
 
 
