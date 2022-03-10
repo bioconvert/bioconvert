@@ -45,6 +45,7 @@ class TSV2CSV(ConvBase):
 
     .. seealso:: :class:`~bioconvert.tsv2csv.CSV2TSV`
     """
+    #: Default value
     _default_method = "python"
     DEFAULT_IN_SEP = '\t'
     DEFAULT_OUT_SEP = ','
@@ -66,7 +67,9 @@ class TSV2CSV(ConvBase):
             out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
-        """Do the conversion :term:`TSV` -> :term:`CSV` using csv module"""
+        """Do the conversion :term:`TSV` -> :term:`CSV` using csv module.
+        
+        `csv documentation <https://docs.python.org/3/library/csv.html>`_"""
         with open(self.infile, "r") as in_stream, open(self.outfile, "w") as out_stream:
             writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)
             reader = csv.reader(in_stream, delimiter=in_sep)
@@ -84,7 +87,8 @@ class TSV2CSV(ConvBase):
         """Do the conversion :term:`TSV` -> :term:`CSV` using csv module
 
         .. note:: Note that this method cannot escape nor quote output char
-        """
+
+        `csv documentation <https://docs.python.org/3/library/csv.html>`_"""
         with open(self.infile, "r") as in_stream, open(self.outfile, "w") as out_stream:
             reader = csv.reader(in_stream, delimiter=in_sep)
             for row in reader:
@@ -99,7 +103,9 @@ class TSV2CSV(ConvBase):
             out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
-        """Do the conversion :term:`TSV` -> :term:`CSV` using Pandas library"""
+        """Do the conversion :term:`TSV` -> :term:`CSV` using Pandas library
+        
+        `pandas documentation <https://pandas.pydata.org/docs/>`_"""
         import pandas as pd
         pd.read_csv(
             self.infile,
