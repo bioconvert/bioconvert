@@ -33,6 +33,7 @@ class CSV2XLS(ConvBase):
     or pandas [PANDAS]_.
 
     """
+    #: Default value
     _default_method = "pandas"
     DEFAULT_IN_SEP = ','
     DEFAULT_LINE_TERMINATOR = '\n'
@@ -54,10 +55,9 @@ class CSV2XLS(ConvBase):
             in_sep=DEFAULT_IN_SEP,
             sheet_name=DEFAULT_SHEET_NAME,
             *args, **kwargs):
-        """
-        Do the conversion :term:`CSV` -> :term:`XLS` using pyexcel modules
+        """Do the conversion :term:`CSV` -> :term:`XLS` using pyexcel modules.
 
-        """
+        `pyexcel documentation <http://docs.pyexcel.org/en/latest/>`_"""
         rows = []
         with open(self.infile, "r") as in_stream:
             reader = csv.reader(in_stream, delimiter=in_sep)
@@ -77,10 +77,9 @@ class CSV2XLS(ConvBase):
             in_sep=DEFAULT_IN_SEP,
             sheet_name=DEFAULT_SHEET_NAME,
             *args, **kwargs):
-        """
-        Do the conversion :term:`CSV` -> :term:`XLS` using Panda modules
+        """Do the conversion :term:`CSV` -> :term:`XLS` using Panda modules.
 
-        """
+        `pandas documentation <https://pandas.pydata.org/docs/>`_"""
         import pandas as pd
         writer = pd.ExcelWriter(self.outfile)
         pd.read_csv(
