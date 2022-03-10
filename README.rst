@@ -245,6 +245,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml
       - link IMG benchmarking tsv2csv
+    * - csv2tsv
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/csv2tsv.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/csv2tsv.yml
+      - link IMG benchmarking csv2tsv
     
 
 
