@@ -39,6 +39,7 @@ class GENBANK2FASTA(ConvBase):
     own Bioconvert implementation.
 
     """
+    #: Default value
     _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
