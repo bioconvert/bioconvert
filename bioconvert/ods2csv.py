@@ -41,6 +41,7 @@ class ODS2CSV(ConvBase):
     Method based on pyexcel [PYEXCEL].
 
     """
+    #: Default value
     _default_method = "pyexcel"
     DEFAULT_OUT_SEP = ','
     DEFAULT_LINE_TERMINATOR = '\n'
@@ -60,8 +61,9 @@ class ODS2CSV(ConvBase):
             line_terminator=DEFAULT_LINE_TERMINATOR,
             sheet_name=0,
             *args, **kwargs):
-        """Do the conversion :term:`XLS` -> :term:`CSV` using Panda library"""
-
+        """Do the conversion :term:`XLS` -> :term:`CSV` using Panda library
+        
+        `pyexcel documentation <http://docs.pyexcel.org/en/latest/>`_"""
         import pyexcel
         with open(self.outfile, "w") as out_stream:
             writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)
