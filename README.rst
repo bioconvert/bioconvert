@@ -229,6 +229,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml
       - link IMG benchmarking xlsx2csv
+    * - xls2csv
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml
+      - link IMG benchmarking xls2csv
     
 
 
