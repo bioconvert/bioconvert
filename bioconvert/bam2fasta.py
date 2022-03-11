@@ -42,6 +42,7 @@ class BAM2FASTA(ConvBase):
         similarly in paired-end case due to supp and second reads
 
     """
+    #: Default value
     _default_method = "samtools"
 
     def __init__(self, infile, outfile):
@@ -76,11 +77,11 @@ class BAM2FASTA(ConvBase):
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """
-        do the conversion :term:`BAM` -> :term:`FASTA` using samtools
+        do the conversion :term:`BAM` -> :term:`FASTA` using samtools.
 
         .. note:: fasta are on one line
-        """
 
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         # Test if input bam file is paired
         p = subprocess.Popen("samtools view -c -f 1 {}".format(
             self.infile).split(), stdout=subprocess.PIPE, 
