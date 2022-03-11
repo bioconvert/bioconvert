@@ -38,6 +38,7 @@ class BAM2JSON(ConvBase):
 
     """
 
+    #: Default value
     _default_method = "bamtools"
 
     def __init__(self, infile, outfile):
@@ -50,7 +51,9 @@ class BAM2JSON(ConvBase):
 
     @requires("bamtools")
     def _method_bamtools(self, *args, **kwargs):
-        """Do the conversion :term:`BAM` -> :term:`JSON` using bamtools """
+        """Do the conversion :term:`BAM` -> :term:`JSON` using bamtools.
+        
+        `BAMTools documentation <https://hcc.unl.edu/docs/applications/app_specific/bioinformatics_tools/data_manipulation_tools/bamtools/running_bamtools_commands/>`_"""
 
         cmd = "bamtools convert -format json -in {0} -out {1}".format(
             self.infile, self.outfile
