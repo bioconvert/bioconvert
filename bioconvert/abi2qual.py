@@ -29,6 +29,7 @@ class ABI2QUAL(ConvBase):
 
     """
 
+    #: Default value
     _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -42,6 +43,9 @@ class ABI2QUAL(ConvBase):
 
     @requires(python_library="biopython")
     def _method_biopython(self, *args, **kwargs):
+        """For this method we use the biopython package Bio.SeqIO. 
+        
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
         records = SeqIO.parse(self.infile, "abi")
         # output using SeqIO.write(records, self.outfile, "qual") is not

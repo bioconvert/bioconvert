@@ -257,6 +257,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml
       - link IMG benchmarking maf2sam
+    * - abi2qual
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/abi2qual.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/abi2qual.yml
+      - link IMG benchmarking abi2qual
     
 
 
