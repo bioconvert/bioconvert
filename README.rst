@@ -169,6 +169,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bcf2vcf.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bcf2vcf.yml
       - link IMG benchmarking bcf2vcf
+    * - bcf2wiggle
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bcf2wiggle.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bcf2wiggle.yml
+      - link IMG benchmarking bcf2wiggle
     * - bz22gz
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml
