@@ -40,6 +40,7 @@ class BIGBED2BED(ConvBase):
 
     Methods available are based on pybigwig [DEEPTOOLS]_.
     """
+    #: Default value 
     _default_method = 'pybigwig'
 
     def __init__(self, infile, outfile):#=None, alphabet=None, *args, **kwargs):
@@ -52,8 +53,9 @@ class BIGBED2BED(ConvBase):
 
     @requires(python_library="pyBigWig")
     def _method_pybigwig(self, *args, **kwargs):
-        """
-        """
+        """In this method we use the python extension written in C, pyBigWig.
+
+        `pyBigWig documentation <https://github.com/deeptools/pyBigWig>`_"""
         import pyBigWig
         bw = pyBigWig.open(self.infile)
         assert bw.isBigBed() is True, "Not a valid bigBed file"
