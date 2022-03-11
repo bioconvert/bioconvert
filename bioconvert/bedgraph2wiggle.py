@@ -27,6 +27,7 @@ class BEDGRAPH2WIGGLE(ConvBase):
     Methods available are based on wiggletools [WIGGLETOOLS]_.
 
     """
+    #: Default value
     _default_method = "wiggletools"
 
     def __init__(self, infile, outfile):
@@ -38,10 +39,10 @@ class BEDGRAPH2WIGGLE(ConvBase):
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):
-        """wiggletools based method
+        """wiggletools based method. Extension must be .bg.
 
-        Extension must be .bg
-        """
+
+        `wiggletools documentation <https://github.com/Ensembl/WiggleTools>`_"""
         if self.infile.endswith(".bg") is False:
             raise ValueError("The input bedgraph file must have the .bg extension (wiggletools requirements)")
         cmd = "wiggletools {} > {}".format(self.infile, self.outfile)
