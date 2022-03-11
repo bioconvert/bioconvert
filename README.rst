@@ -181,6 +181,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2bigwig.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2bigwig.yml
       - link IMG benchmarking bedgraph2bigwig
+    * - bedgraph2cov
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2cov.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2cov.yml
+      - link IMG benchmarking bedgraph2cov
     * - bz22gz
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml
