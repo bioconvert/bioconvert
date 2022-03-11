@@ -212,7 +212,6 @@ class BenchmarkMulticonvert(Benchmark):
             # median of ratios to geometric mean (c.f. DESeq normalization)
             scales = {
                 conv: np.median(np.asarray(conv_times) / mean_time) 
-                #conv: np.median(np.asarray(conv_times)) # changement
                 for conv, conv_times in times.items()
             }
             for (conv, conv_times) in times.items():

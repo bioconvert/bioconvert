@@ -265,6 +265,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bedgraph.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bedgraph.yml
       - link IMG benchmarking bam2bedgraph
+    * - bam2bigwig
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bigwig.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bigwig.yml
+      - link IMG benchmarking bam2bigwig
     
 
 
