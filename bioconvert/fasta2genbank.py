@@ -80,7 +80,6 @@ class FASTA2GENBANK(ConvBase):
     @requires_nothing
     def _method_bioconvert(self, *args, **kwargs):
         """Internal method"""
-        print("Using DNA alphabet for now")
         reader = Fasta(self.infile)
 
         with open(self.outfile, "w") as writer:
