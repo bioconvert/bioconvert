@@ -44,6 +44,7 @@ class BAM2TSV(ConvBase):
     Methods are based on samtools [SAMTOOLS]_ and pysam [PYSAM]_.
     """
 
+    #: Default value
     _default_method = "samtools"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -59,6 +60,9 @@ class BAM2TSV(ConvBase):
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
+        """Here we use the SAMtools tool.
+
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         with open(self.outfile, 'wt') as out:
             out.write("Reference sequence name\tSequence length\t"
                       "Mapped reads\tUnmapped reads{}".format(os.linesep))
@@ -68,6 +72,9 @@ class BAM2TSV(ConvBase):
 
     @requires(python_library="pysam", external_binary="samtools")
     def _method_pysam(self, *args, **kwargs):
+        """We use here the python module Pysam.
+        
+        `Pysam documentation <https://pysam.readthedocs.io/en/latest/api.html>`_"""
         import pysam
         # index the bam file
         pysam.index(self.infile)

@@ -207,10 +207,12 @@ class BenchmarkMulticonvert(Benchmark):
                         converter(method=method)
                 pb.animate(i + 1)
             # Normalize times so that each converter has comparable times
-            mean_time = gmean(np.fromiter(chain(*times.values()), dtype=float))
+            # mean_time = gmean(np.fromiter(chain(*times.values()), dtype=float)) changement 
+            mean_time = mean(np.fromiter(chain(*times.values()), dtype=float))
             # median of ratios to geometric mean (c.f. DESeq normalization)
             scales = {
-                conv: np.median(np.asarray(conv_times) / mean_time)
+                conv: np.median(np.asarray(conv_times) / mean_time) 
+                #conv: np.median(np.asarray(conv_times)) # changement
                 for conv, conv_times in times.items()
             }
             for (conv, conv_times) in times.items():

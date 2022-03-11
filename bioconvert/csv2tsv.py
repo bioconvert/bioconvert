@@ -43,6 +43,7 @@ class CSV2TSV(ConvBase):
 
     .. seealso:: :class:`~bioconvert.csv2tsv.TSV2CSV`
     """
+    #: Default value
     _default_method = "python"
     DEFAULT_IN_SEP = ','
     DEFAULT_OUT_SEP = '\t'
@@ -64,9 +65,9 @@ class CSV2TSV(ConvBase):
             out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
-        """
-        Do the conversion :term:`CSV` -> :term:`TSV` using standard Python modules
-        """
+        """Do the conversion :term:`CSV` -> :term:`TSV` using standard Python modules.
+
+        `csv documentation <https://docs.python.org/3/library/csv.html>`_"""
         with open(self.infile, "r") as in_stream, open(self.outfile, "w") as out_stream:
             writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)
             reader = csv.reader(in_stream, delimiter=in_sep)
@@ -81,11 +82,11 @@ class CSV2TSV(ConvBase):
             out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
-        """
-        Do the conversion :term:`CSV` -> :term:`CSV` using csv module
+        """Do the conversion :term:`CSV` -> :term:`CSV` using csv module.
 
         .. note:: This method cannot escape nor quote output char
-        """
+        
+        `csv documentation <https://docs.python.org/3/library/csv.html>`_"""
         with open(self.infile, "r") as in_stream, open(self.outfile, "w") as out_stream:
             reader = csv.reader(in_stream, delimiter=in_sep)
             for row in reader:
@@ -100,9 +101,10 @@ class CSV2TSV(ConvBase):
             out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR,
             *args, **kwargs):
-        """
-        Do the conversion :term:`CSV` -> :term:`TSV` using Pandas library
-        """
+        """Do the conversion :term:`CSV` -> :term:`TSV` using Pandas library
+        
+        
+        `pandas documentation <https://pandas.pydata.org/docs/>`_"""
         import pandas as pd
         pd.read_csv(
             self.infile,

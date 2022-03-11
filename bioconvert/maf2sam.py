@@ -55,6 +55,9 @@ class MAF2SAM(ConvBase):
         super().__init__(infile, outfile)
 
     def _method_python(self, *args, **kwargs):
+        """Internal module
+        
+        `MAF documentation <https://bioconvert.readthedocs.io/en/refactoring/ref_io.html#module-bioconvert.io.maf>`_"""
         from bioconvert.io import maf
         conv = maf.MAF(self.infile, self.outfile)
         conv.to_sam()

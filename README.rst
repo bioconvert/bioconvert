@@ -217,6 +217,47 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/embl2fasta.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/embl2fasta.yml
       - link IMG benchmarking embl2fasta
+    * - fasta2genbank
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2genbank.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2genbank.yml
+      - link IMG benchmarking fasta2genbank
+    * - genbank2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2fasta.yml
+      - link IMG benchmarking genbank2fasta
+    * - xlsx2csv
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml
+      - link IMG benchmarking xlsx2csv
+    * - xls2csv
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml
+      - link IMG benchmarking xls2csv
+    * - csv2xls
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/csv2xls.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/csv2xls.yml
+      - link IMG benchmarking csv2xls
+    * - ods2csv
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml
+      - link IMG benchmarking ods2csv
+    * - tsv2csv
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml
+      - link IMG benchmarking tsv2csv
+    * - csv2tsv
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/csv2tsv.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/csv2tsv.yml
+      - link IMG benchmarking csv2tsv
+    * - bam2tsv
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2tsv.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2tsv.yml
+      - link IMG benchmarking bam2tsv
+    * - maf2sam
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml
+      - link IMG benchmarking maf2sam
+    
 
 
 Contributors

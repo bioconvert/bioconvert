@@ -54,6 +54,7 @@ class XLSX2CSV(ConvBase):
     Methods available are based on  pandas [PANDAS]_ and  pyexcel [PYEXCEL]_.
 
     """
+    #: Default value
     _default_method = "pandas"
     DEFAULT_OUT_SEP = ','
     DEFAULT_LINE_TERMINATOR = '\n'
@@ -71,7 +72,9 @@ class XLSX2CSV(ConvBase):
     def _method_pyexcel(self, out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR, sheet_name=0,
             *args, **kwargs):
-        """Do the conversion :term:`XLSX` -> :term:`CSV` using pyexcel library"""
+        """Do the conversion :term:`XLSX` -> :term:`CSV` using pyexcel library
+        
+        `pyexcel documentation <http://docs.pyexcel.org/en/latest/>`_"""
         import pyexcel
 
         with open(self.outfile, "w") as out_stream:
@@ -88,7 +91,9 @@ class XLSX2CSV(ConvBase):
     def _method_pandas(self, out_sep=DEFAULT_OUT_SEP,
             line_terminator=DEFAULT_LINE_TERMINATOR, sheet_name=0,
             *args, **kwargs):
-        """Do the conversion :term:`XLSX` -> :term:`CSV` using Pandas library"""
+        """Do the conversion :term:`XLSX` -> :term:`CSV` using Pandas library.
+        
+        `pandas documentation <https://pandas.pydata.org/docs/>`_"""
         import pandas as pd
 
         df = pd.read_excel(self.infile, sheet_name=sheet_name)
