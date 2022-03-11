@@ -193,6 +193,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigbed2bed.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bigbed2bed.yml
       - link IMG benchmarking bigbed2bed
+    * - bigbed2wiggle
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigbed2wiggle.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bigbed2wiggle.yml
+      - link IMG benchmarking bigbed2wiggle
     * - bz22gz
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml
