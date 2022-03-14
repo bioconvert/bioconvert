@@ -329,6 +329,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2gff3.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2gff3.yml
       - link IMG benchmarking genbank2gff3
+    * - gfa2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gfa2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/gfa2fasta.yml
+      - link IMG benchmarking gfa2fasta
     * - gff22gff3
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff22gff3.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gff22gff3.yml

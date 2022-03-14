@@ -57,6 +57,7 @@ class GFA2FASTA(ConvBase):
     .. seealso:: :mod:`bioconvert.simulator.gfa`
 
     """
+    #: Default value
     _default_method = "python"
 
     def __init__(self, infile, outfile):
@@ -69,7 +70,9 @@ class GFA2FASTA(ConvBase):
     @requires("awk")
     @compressor
     def _method_awk(self, *args, **kwargs):
-        """
+        """For this method, we use the awk tools.
+
+        `awk documentation <https://www.gnu.org/software/gawk/manual/gawk.html>`_
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
@@ -84,6 +87,7 @@ class GFA2FASTA(ConvBase):
     @requires_nothing
     @compressor
     def _method_python(self, *args, **kwargs):
+        """Internal method"""
         with open(self.infile, "r") as fin:
             with open(self.outfile, "w") as fout:
                 for i, line in enumerate(fin.readlines()):
