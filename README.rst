@@ -393,6 +393,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2clustal.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2clustal.yml
       - link IMG benchmarking phylip2clustal
+    * - phylip2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2fasta.yml
+      - link IMG benchmarking phylip2fasta
     * - sam2bam
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml
