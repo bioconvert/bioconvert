@@ -42,6 +42,7 @@ class NEWICK2PHYLOXML(ConvBase):
     Methods available are based on gotree [GOTREE]_.
 
     """
+    #: Default value
     _default_method = 'gotree'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
@@ -56,11 +57,9 @@ class NEWICK2PHYLOXML(ConvBase):
     @requires("go")
     @compressor
     def _method_gotree(self, *args, **kwargs):
-        """
-        Convert :term:`NEWICK`  file in :term:`PHYLOXML` format using gotree tool.
-        https://github.com/fredericlemoine/gotree
+        """Convert :term:`NEWICK`  file in :term:`PHYLOXML` format using gotree tool.
 
-        """
+        `gotree documentation <https://github.com/fredericlemoine/gotree>`_"""
         self.install_tool('gotree')
         cmd = 'gotree reformat phyloxml -i {infile} -o {outfile} -f newick'.format(
             infile=self.infile,
