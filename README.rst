@@ -205,6 +205,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigwig2wiggle.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bigwig2wiggle.yml
       - link IMG benchmarking bigwig2wiggle
+    * - bplink2plink
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2plink.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2plink.yml
+      - link IMG benchmarking bplink2plink
     * - bz22gz
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml
