@@ -485,6 +485,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2wiggle.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2wiggle.yml
       - link IMG benchmarking vcf2wiggle
+    * - wig2bed
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/wig2bed.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/wig2bed.yml
+      - link IMG benchmarking wig2bed
     * - xls2csv
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml

@@ -37,6 +37,7 @@ class WIG2BED(ConvBase):
 
     """
 
+    #: Default value
     _default_method = "wig2bed"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -51,7 +52,9 @@ class WIG2BED(ConvBase):
     @requires("wig2bed")
     @compressor
     def wig2bed(self, *args, **kwargs):
-        """some description"""
+        """For this method, we use the wig2bed tool.
+        
+        `wig2bed documentation <https://bedops.readthedocs.io/en/latest/content/reference/file-management/conversion/wig2bed.html>`_"""
         cmd = "wig2bed < {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
