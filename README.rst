@@ -413,6 +413,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2newick.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2newick.yml
       - link IMG benchmarking phyloxml2newick
+    * - phyloxml2nexus
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2nexus.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2nexus.yml
+      - link IMG benchmarking phyloxml2nexus
     * - sam2bam
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml
