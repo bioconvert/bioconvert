@@ -41,6 +41,7 @@ class BAM2FASTQ(ConvBase):
         similarly in paired-end case due to supp and second reads
 
     """
+    #: Default value
     _default_method = "samtools"
 
     def __init__(self, infile, outfile):
@@ -69,7 +70,7 @@ class BAM2FASTQ(ConvBase):
     def _method_bedtools(self, *args, **kwargs):
         """Do the conversion :term:`BAM` -> :term:`Fastq` using bedtools
 
-        """
+        `bedtools documentation <https://bedtools.readthedocs.io/en/latest/>`_"""
         outbasename = os.path.splitext(self.outfile)[0]
 
         cmd = "bedtools bamtofastq -i {} -fq {}".format(self.infile, self.outfile)
@@ -110,7 +111,7 @@ class BAM2FASTQ(ConvBase):
     def _method_samtools(self, *args, **kwargs):
         """Do the conversion :term:`BAM` -> :term:`FASTQ` using samtools
 
-        """
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         cmd = "samtools fastq {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
         # Test if input bam file is paired

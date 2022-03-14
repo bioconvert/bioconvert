@@ -28,6 +28,7 @@ class BIGBED2WIGGLE(ConvBase):
 
     Methods available are based on wiggletools [WIGGLETOOLS]_.
     """
+    #: Default value
     _default_method = "wiggletools"
 
     def __init__(self, infile, outfile):
@@ -39,9 +40,9 @@ class BIGBED2WIGGLE(ConvBase):
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):
-        """
+        """Conversion using wiggletools
 
-        """
+        `wiggletools documentation <https://github.com/Ensembl/WiggleTools>`_"""
         import os
         from easydev import TempFile
 

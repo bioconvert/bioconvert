@@ -54,6 +54,7 @@ class BAM2BIGWIG(ConvBase):
     such as wiggle. We will use the bamCoverage as our default conversion.
 
     """
+    #: Default value
     _default_method = "bamCoverage"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -67,7 +68,9 @@ class BAM2BIGWIG(ConvBase):
 
     @requires("bamCoverage")
     def _method_bamCoverage(self, *args, **kwargs):
-        """run bamCoverage package"""
+        """run bamCoverage package.
+        
+        `bamCoverage documentation <https://deeptools.readthedocs.io/en/develop/content/tools/bamCoverage.html>`_"""
         cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {}".format(
                 self.infile, self.outfile)
         self.execute(cmd)
@@ -77,7 +80,8 @@ class BAM2BIGWIG(ConvBase):
         """Run ucsc tool bedGraphToBigWig. 
 
         Requires extra argument (chrom_sizes) required by the bioconvert
-        stanalone. """
+        stanalone.
+        """
         from bioconvert.bam2bedgraph import BAM2BEDGRAPH
         from bioconvert.bedgraph2bigwig import BEDGRAPH2BIGWIG
 

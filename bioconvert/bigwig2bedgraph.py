@@ -43,6 +43,7 @@ class BIGWIG2BEDGRAPH(ConvBase):
     [DEEPTOOLS]_.
 
     """
+    #: Default value
     _default_method = 'pybigwig'
 
     def __init__(self, infile, outfile):#=None, alphabet=None, *args, **kwargs):
@@ -56,10 +57,9 @@ class BIGWIG2BEDGRAPH(ConvBase):
 
     @requires("bigWigToBedGraph")
     def _method_ucsc(self, *args, **kwargs):
-        """
-        Convert bigwig file in bedgraph format using ucsc tool.
-        https://genome.ucsc.edu/goldenPath/help/bedgraph.html
-        """
+        """Convert bigwig file in bedgraph format using ucsc tool.
+
+        `ucsc.bedgraph documentation <https://genome.ucsc.edu/goldenPath/help/bedgraph.html>`_"""
         cmd = 'bigWigToBedGraph {infile}  {outfile}'.format(
             infile=self.infile,
             outfile=self.outfile)
@@ -67,6 +67,9 @@ class BIGWIG2BEDGRAPH(ConvBase):
 
     @requires(python_library="pyBigWig")
     def _method_pybigwig(self, *args, **kwargs):
+        """In this method we use the python extension written in C, pyBigWig.
+
+        `pyBigWig documentation <https://github.com/deeptools/pyBigWig>`_"""
         import pyBigWig
         bw = pyBigWig.open(self.infile)
         assert bw.isBigWig() is True, "Not a valid bigWig file"

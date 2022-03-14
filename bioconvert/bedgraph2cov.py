@@ -48,6 +48,7 @@ class BEDGRAPH2COV(ConvBase):
     Method available is a Bioconvert implementation (Python).
 
     """
+    #: Default value
     _default_method = 'python'
 
     def __init__(self, infile, outfile): 
@@ -59,9 +60,7 @@ class BEDGRAPH2COV(ConvBase):
         super(BEDGRAPH2COV, self).__init__(infile, outfile)
 
     def _method_python(self, *args, **kwargs):
-        """
-        Convert bedgraph file in coverage .
-        """
+        """Convert bedgraph file in coverage. Internal method."""
         with open(self.infile, "r") as fin:
             with open(self.outfile, "w") as fout:
                 for i, line in enumerate(fin.readlines()):

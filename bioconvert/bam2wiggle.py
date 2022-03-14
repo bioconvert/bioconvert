@@ -41,7 +41,7 @@ class BAM2WIGGLE(ConvBase):
     def _method_wiggletools(self, *args, **kwargs):
         """Conversion using wiggletools
 
-        """
+        `wiggletools documentation <https://github.com/Ensembl/WiggleTools>`_"""
         cmd = "wiggletools {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 

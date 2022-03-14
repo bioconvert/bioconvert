@@ -51,6 +51,7 @@ class BAM2COV(ConvBase):
 
     Methods available are based on samtools [SAMTOOLS]_ or bedtools [BEDTOOLS]_.
     """
+    #: Default value
     #_default_method = "samtools"
     _default_method = "bedtools"
 
@@ -64,12 +65,16 @@ class BAM2COV(ConvBase):
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
-        """Do the conversion sorted :term:`BAM` -> :term:`BED` using samtools"""
+        """Do the conversion sorted :term:`BAM` -> :term:`BED` using samtools
+        
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         cmd = "samtools depth -aa {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
-        """Do the conversion sorted :term:`BAM` -> :term:`BED` using bedtools"""
+        """Do the conversion sorted :term:`BAM` -> :term:`BED` using bedtools
+        
+        `bedtools documentation <https://bedtools.readthedocs.io/en/latest/>`_"""
         cmd = "bedtools genomecov -d -ibam {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
