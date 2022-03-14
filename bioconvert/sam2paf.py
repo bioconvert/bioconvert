@@ -108,6 +108,7 @@ class SAM2PAF(ConvBase):
     fields (see example above).
 
     """
+    #: Default value
     _default_method = "python"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -125,6 +126,7 @@ class SAM2PAF(ConvBase):
 
     @requires_nothing
     def _method_python(self, *args, **kwargs):
+        """Internal method"""
         pattern = r"(\d+)([MIDSHNX=])"
 
         extra_fields = kwargs.get("extra_fields", "SAM")

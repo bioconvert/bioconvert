@@ -433,6 +433,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2cram.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2cram.yml
       - link IMG benchmarking sam2cram
+    * - sam2paf
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2paf.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2paf.yml
+      - link IMG benchmarking sam2paf
     * - sra2fastq
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml
