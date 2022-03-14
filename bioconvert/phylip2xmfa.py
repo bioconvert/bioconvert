@@ -43,6 +43,7 @@ class PHYLIP2XMFA(ConvBase):
     Methods available are based on biopython [BIOPYTHON]_.
 
     """
+    #: Default value
     _default_method = 'biopython'
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
@@ -56,10 +57,9 @@ class PHYLIP2XMFA(ConvBase):
     @requires(python_libraries=["biopython"])
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """
-        Convert :term:`PHYLIP` interleaved file in :term:`XMFA` (Mauve)format.
+        """Convert :term:`PHYLIP` interleaved file in :term:`XMFA` (Mauve)format.
 
-        """
+        `Bio.AlignIO <https://biopython.org/docs/1.76/api/Bio.AlignIO.html>`_"""
         sequences = list(AlignIO.parse(self.infile, "phylip"))
         count = AlignIO.write(sequences, self.outfile, "mauve")
         _log.info("Converted %d records to phylip" % count)
