@@ -477,6 +477,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bplink.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bplink.yml
       - link IMG benchmarking vcf2bplink
+    * - vcf2plink
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2plink.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2plink.yml
+      - link IMG benchmarking vcf2plink
     * - xls2csv
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml
