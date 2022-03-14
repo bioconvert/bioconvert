@@ -449,6 +449,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml
       - link IMG benchmarking sra2fastq
+    * - stockholm2clustal
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2clustal.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2clustal.yml
+      - link IMG benchmarking stockholm2clustal
     * - tsv2csv
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml
