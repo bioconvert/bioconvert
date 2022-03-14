@@ -49,6 +49,7 @@ class SCF2FASTA(ConvBase):
     @requires_nothing
     @compressor
     def _method_python(self, *args, **kwargs):
+        """Internal method"""
         sequence, qualities, comments = scf.read_scf(self.infile)
 
         # Wrinting output file

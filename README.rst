@@ -437,6 +437,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2paf.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2paf.yml
       - link IMG benchmarking sam2paf
+    * - scf2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fasta.yml
+      - link IMG benchmarking scf2fasta
     * - sra2fastq
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml
