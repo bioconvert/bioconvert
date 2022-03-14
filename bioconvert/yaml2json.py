@@ -57,7 +57,7 @@ class YAML2JSON(ConvBase):
     @requires_nothing
     @compressor
     def get_json(self):
-        """Return the JSON dictionary corresponding to the YAML input"""
+        """Return the JSON dictionary corresponding to the YAML input. Internal method."""
         try:
             data = yaml.load(open(self.infile, "r"), Loader=yaml.FullLoader)
         except:
@@ -68,5 +68,6 @@ class YAML2JSON(ConvBase):
     @requires_nothing
     @compressor
     def _method_python(self, *args, **kwargs):
+        """Internal method"""
         with open(self.outfile, "w") as outfile:
             outfile.write(self.get_json())

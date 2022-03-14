@@ -501,6 +501,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xmfa2phylip.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xmfa2phylip.yml
       - link IMG benchmarking xmfa2phylip
+    * - yaml2json
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/yaml2json.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/yaml2json.yml
+      - link IMG benchmarking yaml2json
     
 
 
