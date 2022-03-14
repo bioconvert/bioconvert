@@ -465,6 +465,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml
       - link IMG benchmarking twobit2fasta
+    * - vcf2bcf
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bcf.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bcf.yml
+      - link IMG benchmarking vcf2bcf
     * - xls2csv
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml
