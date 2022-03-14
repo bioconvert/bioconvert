@@ -297,6 +297,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2nexus.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2nexus.yml
       - link IMG benchmarking fasta2nexus
+    * - fasta2phylip
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2phylip.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2phylip.yml
+      - link IMG benchmarking fasta2phylip
     * - fasta2twobit
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2twobit.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2twobit.yml
