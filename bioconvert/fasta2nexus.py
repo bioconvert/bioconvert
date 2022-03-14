@@ -40,6 +40,7 @@ class FASTA2NEXUS(ConvBase):
     Methods available are based on squizz [GOALIGN]_.
 
     """
+    #: Default value
     _default_method = 'goalign'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
@@ -53,12 +54,12 @@ class FASTA2NEXUS(ConvBase):
     @requires("go")
     @compressor
     def _method_goalign(self, *args, **kwargs):
-        """
-        Convert fasta file in Nexus format using goalign tool.
-        https://github.com/fredericlemoine/goalign
+        """Convert fasta file in Nexus format using goalign tool.
+
+        `goalign documentation <https://github.com/fredericlemoine/goalign>`_
 
         The fasta file must be an alignemnt file, yhis mean all the sequences must
-        have the same length (with the gap) otherwise an error will be raised
+        have the same length (with the gap) otherwise an error will be raised.
         """
         self.install_tool('goalign')
         cmd = 'goalign reformat nexus -i {infile} -o {outfile}'.format(
