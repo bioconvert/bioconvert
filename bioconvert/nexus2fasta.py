@@ -41,6 +41,7 @@ class NEXUS2FASTA(ConvBase):
     """
     Converts a sequence alignment from :term:`NEXUS` format to :term:`FASTA` format.
     """
+    #: Default value
     _default_method = 'biopython'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
@@ -55,9 +56,9 @@ class NEXUS2FASTA(ConvBase):
     @requires("go")
     @compressor
     def _method_goalign(self, *args, **kwargs):
-        """
-        Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using goalign tool.
-        https://github.com/fredericlemoine/goalign
+        """Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using goalign tool.
+
+        `goalign documentation <https://github.com/fredericlemoine/goalign>`_
 
         .. warning::
             the sequential format is not supported
@@ -72,9 +73,10 @@ class NEXUS2FASTA(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """
-        Convert :term:`NEXUS` interleaved or sequential file in :term:`FASTA` format using biopython.
-        The FASTA output file will be an aligned FASTA file
+        """Convert :term:`NEXUS` interleaved or sequential file in :term:`FASTA` format using biopython.
+        The FASTA output file will be an aligned FASTA file.
+
+        `Bio.AlignIO <https://biopython.org/docs/1.76/api/Bio.AlignIO.html>`_
 
 For instance:
 
@@ -141,8 +143,7 @@ and not ::
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """
-        Convert :term:`NEXUS` sequential or interleave file in :term:`FASTA` format using squizz tool.
+        """Convert :term:`NEXUS` sequential or interleave file in :term:`FASTA` format using squizz tool.
 
         command used::
 

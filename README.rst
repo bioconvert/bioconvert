@@ -369,6 +369,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2clustal.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/newick2clustal.yml
       - link IMG benchmarking newick2clustal
+    * - newick2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/newick2fasta.yml
+      - link IMG benchmarking newick2fasta
     * - ods2csv
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml
