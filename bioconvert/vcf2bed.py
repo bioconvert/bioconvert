@@ -43,12 +43,14 @@ class VCF2BED(ConvBase):
     of 1 for SNP, the length of the insertion or the length of
     the deleted part in case of deletion.
     """
+    #: Default value
     _default_method = "awk"
 
     @requires("awk")
     def _method_awk(self, *args, **kwargs):
-        """
-        do the conversion :term:`VCF` -> :term:`BED` using awk
+        """do the conversion :term:`VCF` -> :term:`BED` using awk
+
+        `awk documentation <https://www.gnu.org/software/gawk/manual/gawk.html>`_
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
