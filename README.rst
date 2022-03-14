@@ -349,6 +349,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml
       - link IMG benchmarking gz2dsrc
+    * - json2yaml
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/json2yaml.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/json2yaml.yml
+      - link IMG benchmarking json2yaml
     * - maf2sam
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml
