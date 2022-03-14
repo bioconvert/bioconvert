@@ -365,14 +365,18 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2phyloxml.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/newick2phyloxml.yml
       - link IMG benchmarking newick2phyloxml
-    * - newick2clustal
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2clustal.yml/badge.svg?branch=refactoring
-            :target: https://github.com/bioconvert/bioconvert/actions/workflows/newick2clustal.yml
-      - link IMG benchmarking newick2clustal
-    * - newick2fasta
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2fasta.yml/badge.svg?branch=refactoring
-            :target: https://github.com/bioconvert/bioconvert/actions/workflows/newick2fasta.yml
-      - link IMG benchmarking newick2fasta
+    * - nexus2clustal
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2clustal.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2clustal.yml
+      - link IMG benchmarking nexus2clustal
+    * - nexusfasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexusfasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexusfasta.yml
+      - link IMG benchmarking nexusfasta
+    * - nexus2newick
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2newick.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2newick.yml
+      - link IMG benchmarking nexus2newick
     * - ods2csv
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml
