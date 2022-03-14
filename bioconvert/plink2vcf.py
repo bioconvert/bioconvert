@@ -40,6 +40,7 @@ class PLINK2VCF(ConvBase):
     Conversion is based on plink executable
 
     """
+    #: Default value
     _default_method = 'plink'
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
@@ -54,9 +55,9 @@ class PLINK2VCF(ConvBase):
 
     @requires("plink")
     def _method_plink(self, *args, **kwargs):
-        """
-        Convert using plink executable.
-        """
+        """Convert using plink executable.
+
+        `plink documentation <http://hpc.ilri.cgiar.org/beca/training/data_mgt_2017/BackgroundMaterial/PlinkTutorial.pdf>`_"""
         outfile = self.outfile
         if os.path.splitext(outfile)[1] == '.vcf':
             outfile = os.path.splitext(outfile)[0]
