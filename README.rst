@@ -221,6 +221,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2fasta.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2fasta.yml
       - link IMG benchmarking clustal2fasta
+    * - clustal2nexus
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2nexus.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2nexus.yml
+      - link IMG benchmarking clustal2nexus
     * - cram2sam
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2sam.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/cram2sam.yml
