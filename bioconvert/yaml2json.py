@@ -46,6 +46,9 @@ class YAML2JSON(ConvBase):
     :reference: http://yaml.org/spec/1.2/spec.html#id2759572
     """
 
+    #: Default value
+    _default_method = "python"
+
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
@@ -57,7 +60,7 @@ class YAML2JSON(ConvBase):
     @requires_nothing
     @compressor
     def get_json(self):
-        """Return the JSON dictionary corresponding to the YAML input. Internal method."""
+        """Return the JSON dictionary corresponding to the YAML input."""
         try:
             data = yaml.load(open(self.infile, "r"), Loader=yaml.FullLoader)
         except:

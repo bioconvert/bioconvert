@@ -37,6 +37,8 @@ __all__ = ["SAM2BAM"]
 class SAM2BAM(ConvBase):
     """Convert :term:`SAM` file to :term:`BAM` file"""
 
+    #: Default value
+    _default_method = "samtools"
     _threading = True
 
     def __init__(self, infile, outfile, *args, **kargs):

@@ -48,6 +48,9 @@ class JSON2YAML(ConvBase):
 
     """
 
+    #: Default value
+    _default_method = "yaml"
+
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 

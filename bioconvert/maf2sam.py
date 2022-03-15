@@ -51,6 +51,9 @@ class MAF2SAM(ConvBase):
     bioconvert.io.maf can be considered original. 
     """
 
+    #: Default value
+    _default_method = "python"
+
     def __init__(self, infile, outfile):
         super().__init__(infile, outfile)
 
