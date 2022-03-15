@@ -369,10 +369,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2clustal.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2clustal.yml
       - link IMG benchmarking nexus2clustal
-    * - nexusfasta
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexusfasta.yml/badge.svg?branch=refactoring
-            :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexusfasta.yml
-      - link IMG benchmarking nexusfasta
+    * - nexus2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2fasta.yml
+      - link IMG benchmarking nexus2fasta
     * - nexus2newick
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2newick.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2newick.yml
