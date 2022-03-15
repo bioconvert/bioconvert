@@ -24,7 +24,9 @@
 from collections import defaultdict
 from itertools import chain
 import numpy as np
-from easydev import Timer, Progress
+#from easydev import Timer, Progress
+from easydev import Timer
+from tqdm import tqdm
 
 import colorlog
 
@@ -105,13 +107,10 @@ class Benchmark:
             methods = [x for x in methods if x not in self.to_exclude]
 
         for method in methods:
-            print("\nEvaluating method {}".format(method))
             times = []
-            pb = Progress(self.N)
-            for i in range(self.N):
+            for i in tqdm(range(self.N), desc = "Evaluating method {}".format(method)):
                 with Timer(times):
                     self.converter(method=method)
-                pb.animate(i + 1)
             results[method] = times
         self.results = results
 
