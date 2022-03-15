@@ -205,10 +205,46 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigwig2wiggle.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bigwig2wiggle.yml
       - link IMG benchmarking bigwig2wiggle
+    * - bplink2plink
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2plink.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2plink.yml
+      - link IMG benchmarking bplink2plink
+    * - bplink2vcf
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2vcf.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2vcf.yml
+      - link IMG benchmarking bplink2vcf
     * - bz22gz
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml
       - link IMG benchmarking bz22gz
+    * - clustal2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2fasta.yml
+      - link IMG benchmarking clustal2fasta
+    * - clustal2nexus
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2nexus.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2nexus.yml
+      - link IMG benchmarking clustal2nexus
+    * - clustal2phylip
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2phylip.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2phylip.yml
+      - link IMG benchmarking clustal2phylip
+    * - clustal2stockholm
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2stockholm.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2stockholm.yml
+      - link IMG benchmarking clustal2stockholm
+    * - cram2bam
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2bam.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/cram2bam.yml
+      - link IMG benchmarking cram2bam
+    * - cram2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/cram2fasta.yml
+      - link IMG benchmarking cram2fasta
+    * - cram2fastq
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2fastq.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/cram2fastq.yml
+      - link IMG benchmarking cram2fastq
     * - cram2sam
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2sam.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/cram2sam.yml
@@ -237,10 +273,18 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta_qual2fastq.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta_qual2fastq.yml
       - link IMG benchmarking fasta_qual2fastq
+    * - fasta2clustal
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2clustal.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2clustal.yml
+      - link IMG benchmarking fasta2clustal
     * - fasta2faa
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2faa.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2faa.yml
       - link IMG benchmarking fasta2faa
+    * - fasta2fasta_agp
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fasta_agp.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fasta_agp.yml
+      - link IMG benchmarking fasta2fasta_agp
     * - fasta2fastq
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fastq.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fastq.yml
@@ -249,6 +293,14 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2genbank.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2genbank.yml
       - link IMG benchmarking fasta2genbank
+    * - fasta2nexus
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2nexus.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2nexus.yml
+      - link IMG benchmarking fasta2nexus
+    * - fasta2phylip
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2phylip.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2phylip.yml
+      - link IMG benchmarking fasta2phylip
     * - fasta2twobit
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2twobit.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2twobit.yml
@@ -277,6 +329,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2gff3.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2gff3.yml
       - link IMG benchmarking genbank2gff3
+    * - gfa2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gfa2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/gfa2fasta.yml
+      - link IMG benchmarking gfa2fasta
     * - gff22gff3
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff22gff3.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gff22gff3.yml
@@ -293,14 +349,82 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml
       - link IMG benchmarking gz2dsrc
+    * - json2yaml
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/json2yaml.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/json2yaml.yml
+      - link IMG benchmarking json2yaml
     * - maf2sam
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml
       - link IMG benchmarking maf2sam
+    * - newick2nexus
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2nexus.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/newick2nexus.yml
+      - link IMG benchmarking newick2nexus
+    * - newick2phyloxml
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2phyloxml.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/newick2phyloxml.yml
+      - link IMG benchmarking newick2phyloxml
+    * - nexus2clustal
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2clustal.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2clustal.yml
+      - link IMG benchmarking nexus2clustal
+    * - nexusfasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexusfasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexusfasta.yml
+      - link IMG benchmarking nexusfasta
+    * - nexus2newick
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2newick.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2newick.yml
+      - link IMG benchmarking nexus2newick
+    * - nexus2phylip
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2phylip.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2phylip.yml
+      - link IMG benchmarking nexus2phylip
+    * - nexus2phyloxml
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2phyloxml.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2phyloxml.yml
+      - link IMG benchmarking nexus2phyloxml
     * - ods2csv
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml
       - link IMG benchmarking ods2csv
+    * - phylip2clustal
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2clustal.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2clustal.yml
+      - link IMG benchmarking phylip2clustal
+    * - phylip2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2fasta.yml
+      - link IMG benchmarking phylip2fasta
+    * - phylip2nexus
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2nexus.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2nexus.yml
+      - link IMG benchmarking phylip2nexus
+    * - phylip2stockholm
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2stockholm.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2stockholm.yml
+      - link IMG benchmarking phylip2stockholm
+    * - phylip2xmfa
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2xmfa.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2xmfa.yml
+      - link IMG benchmarking phylip2xmfa
+    * - phyloxml2newick
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2newick.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2newick.yml
+      - link IMG benchmarking phyloxml2newick
+    * - phyloxml2nexus
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2nexus.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2nexus.yml
+      - link IMG benchmarking phyloxml2nexus
+    * - plink2bplink
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/plink2bplink.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/plink2bplink.yml
+      - link IMG benchmarking plink2bplink
+    * - plink2vcf
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/plink2vcf.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/plink2vcf.yml
+      - link IMG benchmarking plink2vcf
     * - sam2bam
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml
@@ -309,10 +433,30 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2cram.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2cram.yml
       - link IMG benchmarking sam2cram
+    * - sam2paf
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2paf.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2paf.yml
+      - link IMG benchmarking sam2paf
+    * - scf2fasta
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fasta.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fasta.yml
+      - link IMG benchmarking scf2fasta
+    * - scf2fastq
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fastq.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fastq.yml
+      - link IMG benchmarking scf2fastq
     * - sra2fastq
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml
       - link IMG benchmarking sra2fastq
+    * - stockholm2clustal
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2clustal.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2clustal.yml
+      - link IMG benchmarking stockholm2clustal
+    * - stockholm2phylip
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2phylip.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2phylip.yml
+      - link IMG benchmarking stockholm2phylip
     * - tsv2csv
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml
@@ -321,6 +465,30 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml
       - link IMG benchmarking twobit2fasta
+    * - vcf2bcf
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bcf.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bcf.yml
+      - link IMG benchmarking vcf2bcf
+    * - vcf2bed
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bed.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bed.yml
+      - link IMG benchmarking vcf2bed
+    * - vcf2bplink
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bplink.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bplink.yml
+      - link IMG benchmarking vcf2bplink
+    * - vcf2plink
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2plink.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2plink.yml
+      - link IMG benchmarking vcf2plink
+    * - vcf2wiggle
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2wiggle.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2wiggle.yml
+      - link IMG benchmarking vcf2wiggle
+    * - wig2bed
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/wig2bed.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/wig2bed.yml
+      - link IMG benchmarking wig2bed
     * - xls2csv
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml
@@ -329,6 +497,14 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml/badge.svg?branch=refactoring
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml
       - link IMG benchmarking xlsx2csv
+    * - xmfa2phylip
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xmfa2phylip.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/xmfa2phylip.yml
+      - link IMG benchmarking xmfa2phylip
+    * - yaml2json
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/yaml2json.yml/badge.svg?branch=refactoring
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/yaml2json.yml
+      - link IMG benchmarking yaml2json
     
 
 

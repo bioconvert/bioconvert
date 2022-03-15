@@ -42,6 +42,7 @@ class CLUSTAL2PHYLIP(ConvBase):
     goalign [GOALIGN]_.
 
     """
+    #: Default value
     _default_method = 'biopython'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
@@ -56,10 +57,9 @@ class CLUSTAL2PHYLIP(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """
-        Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using biopython.
+        """Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using biopython.
 
-        """
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         sequences = list(SeqIO.parse(self.infile, "clustal", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "phylip")
         _log.info("Converted %d records to phylip" % count)
@@ -67,8 +67,7 @@ class CLUSTAL2PHYLIP(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """
-        Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using squizz tool.
+        """Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using squizz tool.
 
         """
         cmd = 'squizz -c PHYLIPI {infile} > {outfile}'.format(

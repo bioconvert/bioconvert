@@ -42,6 +42,7 @@ class CRAM2FASTA(ConvBase):
     Methods available are based on samtools [SAMTOOLS]_.
 
     """
+    #: Default value
     _default_method = "samtools"
     _threading = True
 
@@ -56,12 +57,12 @@ class CRAM2FASTA(ConvBase):
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
-        """
-        do the conversion :term:`BAM` -> :term:`FASTA` using samtools
+        """do the conversion :term:`BAM` -> :term:`FASTA` using samtools
+
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_
 
 
-        .. note:: fasta are on one line
-        """
+        .. note:: fasta are on one line"""
         # Test if input bam file is paired
         p = subprocess.Popen("samtools view -c -f 1 {}".format(
             self.infile).split(),stdout=subprocess.PIPE,    

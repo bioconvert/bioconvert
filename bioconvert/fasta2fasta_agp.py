@@ -99,6 +99,7 @@ https://github.com/bcgsc/abyss/blob/master/bin/abyss-fatoagp
 
     """
 
+    #: Default value
     _default_method = "python"
     min_scaffold_length = 200
     min_stretch_of_Ns = 10
@@ -129,8 +130,7 @@ https://github.com/bcgsc/abyss/blob/master/bin/abyss-fatoagp
 
     @requires_nothing
     def _method_python(self, *args, **kwargs):
-        """Converts the input FASTA (scaffold) into FASTA (contigs) and AGP"""
-
+        """Converts the input FASTA (scaffold) into FASTA (contigs) and AGP. Internal method"""
         min_scaffold_length = kwargs.get("min_scaffold_length",
                                          self.min_scaffold_length)
         stretch_of_Ns = kwargs.get("min_stretch_of_Ns", self.min_stretch_of_Ns)

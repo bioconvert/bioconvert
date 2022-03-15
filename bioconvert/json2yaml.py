@@ -48,6 +48,9 @@ class JSON2YAML(ConvBase):
 
     """
 
+    #: Default value
+    _default_method = "yaml"
+
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
@@ -59,6 +62,7 @@ class JSON2YAML(ConvBase):
     @requires_nothing
     @compressor
     def _method_yaml(self, *args, **kwargs):
+        """Internal method"""
         with open(self.infile, "r") as infile:
             data = json.load(infile)
         with open(self.outfile, "w") as outfile:

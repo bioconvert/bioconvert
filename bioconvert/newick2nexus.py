@@ -42,6 +42,7 @@ class NEWICK2NEXUS(ConvBase):
     Methods available are based on gotree  [GOTREE]_.
 
     """
+    #: Default value
     _default_method = 'gotree'
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
@@ -55,11 +56,9 @@ class NEWICK2NEXUS(ConvBase):
     @requires("go")
     @compressor
     def _method_gotree(self, *args, **kwargs):
-        """
-        Convert :term:`NEWICK`  file in :term:`NEXUS` format using gotree tool.
-        https://github.com/fredericlemoine/gotree
+        """Convert :term:`NEWICK`  file in :term:`NEXUS` format using gotree tool.
 
-        """
+        `gotree documentation <https://github.com/fredericlemoine/gotree>`_"""
         self.install_tool('gotree')
         cmd = 'gotree reformat nexus -i {infile} -o {outfile} -f newick'
         cmd = cmd.format(infile=self.infile, outfile=self.outfile)

@@ -46,6 +46,7 @@ class NEXUS2PHYLOXML(ConvBase):
     goalign [GOALIGN]_.
 
     """
+    #: Default value
     _default_method = 'gotree'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
@@ -62,9 +63,7 @@ class NEXUS2PHYLOXML(ConvBase):
     def _method_gotree(self, *args, **kwargs):
         """uses gotree tool:
 
-        https://github.com/fredericlemoine/gotree
-
-        """
+        `gotree documentation <https://github.com/fredericlemoine/gotree>`_"""
         self.install_tool('gotree')
         cmd = 'gotree reformat phyloxml -i {infile} -o {outfile} -f nexus'.format(
             infile=self.infile,

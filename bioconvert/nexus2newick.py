@@ -43,6 +43,7 @@ class NEXUS2NEWICK(ConvBase):
     goalign [GOALIGN]_.
 
     """
+    #: Default value
     _default_method = 'gotree'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
@@ -57,6 +58,9 @@ class NEXUS2NEWICK(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
+        """For this method we use the biopython package Bio.Phylo. 
+        
+        `Bio.Phylo Documentation <https://biopython.org/wiki/Phylo>`_"""
         _log.warning("biopython methods rounds up values (5 digits)")
         from Bio import Phylo
         Phylo.convert(self.infile, "nexus", self.outfile, "newick")
@@ -64,11 +68,9 @@ class NEXUS2NEWICK(ConvBase):
     @requires("go")
     @compressor
     def _method_gotree(self, *args, **kwargs):
-        """
-        Convert :term:`NEXUS`  file in :term:`NEWICK` format using gotree tool.
-        https://github.com/fredericlemoine/gotree
+        """Convert :term:`NEXUS`  file in :term:`NEWICK` format using gotree tool.
 
-        """
+        `gotree documentation <https://github.com/fredericlemoine/gotree>`_"""
         self.install_tool('gotree')
         cmd = 'gotree reformat newick -i {infile} -o {outfile} -f nexus'.format(
             infile=self.infile,

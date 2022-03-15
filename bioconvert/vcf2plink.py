@@ -41,10 +41,15 @@ class VCF2PLINK(ConvBase):
     Conversion is based on plink executable
 
     """
+    #: Default value
     _default_method = 'plink'
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
-        """.. rubric:: constructor
+        """For this method, we use the plink tool.
+        
+        `plink documentation <http://hpc.ilri.cgiar.org/beca/training/data_mgt_2017/BackgroundMaterial/PlinkTutorial.pdf>`_
+        
+        .. rubric:: constructor
 
         :param str infile: input :term:`PLINK` file.
         :param str outfile: (optional) output :term:`BPLINK` file

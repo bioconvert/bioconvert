@@ -42,9 +42,14 @@ class VCF2BCF(ConvBase):
 
     """
 
+    #: Default value
+    _default_method = "bcftools"
+
     @requires("bcftools")
     def _method_bcftools(self, *args, **kwargs):
-        """
+        """For this method, we use the BCFtools tool
+
+        `BCFtools documentation <https://samtools.github.io/bcftools/bcftools.html>`_
 
         command used::
 

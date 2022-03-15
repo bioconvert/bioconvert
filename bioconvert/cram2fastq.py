@@ -41,6 +41,7 @@ class CRAM2FASTQ(ConvBase):
     Methods available are based on samtools [SAMTOOLS]_.
 
     """
+    #: Default value
     _default_method = "samtools"
     _threading = True
 
@@ -57,7 +58,7 @@ class CRAM2FASTQ(ConvBase):
     def _method_samtools(self, *args, **kwargs):
         """Do the conversion :term:`BAM` -> :term:`FASTQ` using samtools
 
-        """
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         cmd = "samtools fastq {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
         # Test if input bam file is paired

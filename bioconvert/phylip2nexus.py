@@ -43,6 +43,7 @@ class PHYLIP2NEXUS(ConvBase):
     Methods available are based on goalign [GOALIGN]_.
 
     """
+    #: Default value
     _default_method = 'goalign'
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
@@ -56,11 +57,9 @@ class PHYLIP2NEXUS(ConvBase):
     @requires("go")
     @compressor
     def _method_goalign(self, *args, **kwargs):
-        """
-        Convert :term:`PHYLIP` interleaved file in :term:`NEXUS` format using goalign tool.
-        https://github.com/fredericlemoine/goalign
+        """Convert :term:`PHYLIP` interleaved file in :term:`NEXUS` format using goalign tool.
 
-        """
+        `goalign documentation <https://github.com/fredericlemoine/goalign>`_"""
         self.install_tool('goalign')
         cmd = 'goalign reformat nexus -i {infile} -o {outfile} -p'.format(
             infile=self.infile,

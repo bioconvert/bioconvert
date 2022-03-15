@@ -46,9 +46,13 @@ class SCF2FASTQ(ConvBase):
     :param str outfile: output name file
     """
 
+    #: Default value
+    _default_method = "python"
+
     @requires_nothing
     @compressor
     def _method_python(self, *args, **kwargs):
+        """Internal method"""
         sequence, qualities, comments = scf.read_scf(self.infile)
 
         # Wrinting output file

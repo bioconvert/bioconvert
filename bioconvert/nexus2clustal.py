@@ -42,6 +42,7 @@ class NEXUS2CLUSTAL(ConvBase):
     goalign [GOALIGN]_.
 
     """
+    #: Default value
     _default_method = 'goalign'
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
@@ -56,11 +57,9 @@ class NEXUS2CLUSTAL(ConvBase):
     @requires("go")
     @compressor
     def _method_goalign(self, *args, **kwargs):
-        """
-        Convert :term:`NEXUS` file in  :term:`CLUSTAL` format using goalign tool.
-        https://github.com/fredericlemoine/goalign
+        """Convert :term:`NEXUS` file in  :term:`CLUSTAL` format using goalign tool.
 
-        """
+        `goalign documentation <https://github.com/fredericlemoine/goalign>`_"""
         self.install_tool('goalign')
         cmd = 'goalign reformat clustal --nexus -i {infile} -o {outfile}'.format(
             infile=self.infile,
@@ -70,15 +69,17 @@ class NEXUS2CLUSTAL(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-         from Bio import AlignIO
-         alignments = list(AlignIO.parse(self.infile, "nexus"))
-         AlignIO.write(alignments, self.outfile, "clustal")
+        """For this method we use the biopython package Bio.AlignIO.
+        
+        `Bio.AlignIO <https://biopython.org/docs/1.76/api/Bio.AlignIO.html>`_"""
+        from Bio import AlignIO
+        alignments = list(AlignIO.parse(self.infile, "nexus"))
+        AlignIO.write(alignments, self.outfile, "clustal")
 
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """
-        Convert :term:`NEXUS` file in :term:`CLUSTAL` format using squizz tool.
+        """Convert :term:`NEXUS` file in :term:`CLUSTAL` format using squizz tool.
         The CLUSTAL output file contains the consensus line
 
         for instance ::
