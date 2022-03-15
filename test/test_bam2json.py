@@ -1,9 +1,9 @@
 import json
 from bioconvert.bam2json import BAM2JSON
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
 
+from . import test_dir
 
 def ordered(obj):
     """
@@ -38,8 +38,8 @@ def read_bamtools_json(path):
 
 @pytest.mark.parametrize("method", BAM2JSON.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("test_measles.sorted.bam")
-    outfile = bioconvert_data("test_measles.sorted.json")
+    infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
+    outfile = f"{test_dir}/data/json/test_measles.sorted.json"
     with TempFile(suffix=".json") as tempfile:
         # Make conversion
         convert = BAM2JSON(infile, tempfile.name)

@@ -1,13 +1,12 @@
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
 from bioconvert.genbank2embl import GENBANK2EMBL
 
-
+from . import test_dir
 
 @pytest.mark.parametrize("method", GENBANK2EMBL.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("testing/genbank2fasta/JB409847.gbk")
+    infile = f"{test_dir}/data/genbank/JB409847.gbk"
 
     with TempFile(suffix=".embl") as tempfile:
         converter = GENBANK2EMBL(infile, tempfile.name)

@@ -1,9 +1,10 @@
 from bioconvert.bam2bigwig import BAM2BIGWIG
 from bioconvert.bam2bedgraph import BAM2BEDGRAPH
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
 import os
+
+from . import test_dir
 
 # commented due to constant failure on travis with py3.5
 
@@ -17,17 +18,17 @@ skiptravis = pytest.mark.skipif( "TRAVIS_PYTHON_VERSION" in os.environ,
 def test_conv(method):
 
     # the input file
-    infile = bioconvert_data('test_measles.sorted.bam')
+    infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
 
     # What is the expected md5sum of the final output file ?
-    expected_outputfile = bioconvert_data('test_measles.bigwig')
+    expected_outputfile = f"{test_dir}/data/bigwig/test_measles.bigwig"
     md5out= md5(expected_outputfile)
 
     # Call convert and check that the output file created has the correct md5sum
     with TempFile(suffix=".bigwig") as outfile:
         if (method == 'ucsc'):
             convert = BAM2BIGWIG(infile, outfile.name)
-            convert(method=method, chrom_sizes=bioconvert_data("measles.chrom.sizes"))
+            convert(method=method, chrom_sizes=f"{test_dir}/data/bam/measles.chrom.sizes")
         else:
             try:
                 convert = BAM2BIGWIG(infile, outfile.name)

@@ -2,10 +2,10 @@ import os
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.bigwig2bedgraph import BIGWIG2BEDGRAPH
 import pytest
 
+from . import test_dir
 
 skiptravis = pytest.mark.skipif(
         "TRAVIS_PYTHON_VERSION" in os.environ and
@@ -16,8 +16,8 @@ skiptravis = pytest.mark.skipif(
 @skiptravis
 @pytest.mark.parametrize("method", BIGWIG2BEDGRAPH.available_methods)
 def test_bigwig2bedgraph_ucsc(method):
-    infile = bioconvert_data("ucsc.bigwig")
-    outfile = bioconvert_data("ucsc.bedgraph")
+    infile = f"{test_dir}/data/bigwig/ucsc.bigwig"
+    outfile = f"{test_dir}/data/bedgraph/ucsc.bedgraph"
     with TempFile(suffix=".bedgraph") as tempfile:
         converter = BIGWIG2BEDGRAPH(infile, tempfile.name)
         converter(method=method)

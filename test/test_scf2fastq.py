@@ -8,11 +8,11 @@ from . import test_dir
 
 def test_conv():
     # Scf V2 file
-    infile_v2 = f"{test_dir}/data/scf2fastq/sample_v2.scf"
-    expected_outfile_v2 = f"{test_dir}/data/scf2fastq/sample_v2.fastq"
+    infile_v2 = f"{test_dir}/data/scf/sample_v2.scf"
+    expected_outfile_v2 = f"{test_dir}/data/fastq/sample_v2.fastq"
     # Scf V3 file
-    infile_v3 = f"{test_dir}/data/scf2fastq/sample_v3.scf"
-    expected_outfile_v3 = f"{test_dir}/data/scf2fastq/sample_v3.fastq"
+    infile_v3 = f"{test_dir}/data/scf/sample_v3.scf"
+    expected_outfile_v3 = f"{test_dir}/data/fastq/sample_v3.fastq"
 
     with TempFile(suffix=".fastq") as tempfile:
         convert = SCF2FASTQ(infile_v2, tempfile.name)

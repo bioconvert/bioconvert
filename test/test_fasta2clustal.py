@@ -3,8 +3,9 @@ import pytest
 import hashlib
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.fasta2clustal import FASTA2CLUSTAL
+
+from . import test_dir
 
 skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
                                 and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
@@ -13,8 +14,8 @@ skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
 
 @skiptravis
 def test_fasta2clustal_biopython():
-    infile = bioconvert_data("biopython.fasta")
-    outfile = bioconvert_data("biopython.clustal")
+    infile = f"{test_dir}/data/fasta/biopython.fasta"
+    outfile = f"{test_dir}/data/clustal/biopython.clustal"
     with TempFile(suffix=".clustal") as tempfile:
         converter = FASTA2CLUSTAL(infile, tempfile.name)
         converter(method='biopython')
@@ -26,8 +27,8 @@ def test_fasta2clustal_biopython():
 @skiptravis
 @pytest.mark.skipif(FASTA2CLUSTAL._method_squizz.is_disabled, reason="missing dependencies")
 def test_fasta2clustal_squizz():
-    infile = bioconvert_data("squizz.fasta")
-    outfile = bioconvert_data("squizz.clustal")
+    infile = f"{test_dir}/data/fasta/squizz.fasta"
+    outfile = f"{test_dir}/data/clustal/squizz.clustal"
     with TempFile(suffix=".clustal") as tempfile:
         converter = FASTA2CLUSTAL(infile, tempfile.name)
         converter(method='squizz')
@@ -38,8 +39,8 @@ def test_fasta2clustal_squizz():
 @skiptravis
 @pytest.mark.skipif(FASTA2CLUSTAL._method_goalign.is_disabled, reason="missing dependencies")
 def test_fasta2clustal_goalign():
-    infile = bioconvert_data("goalign.fasta")
-    outfile = bioconvert_data("goalign.clustal")
+    infile = f"{test_dir}/data/fasta/goalign.fasta"
+    outfile = f"{test_dir}/data/clustal/goalign.clustal"
     with TempFile(suffix=".clustal") as tempfile:
         converter = FASTA2CLUSTAL(infile, tempfile.name)
         converter(method='goalign')

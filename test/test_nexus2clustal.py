@@ -3,8 +3,9 @@ import pytest
 import hashlib
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.nexus2clustal import NEXUS2CLUSTAL
+
+from . import test_dir
 
 skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
                                 and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), 
@@ -14,8 +15,8 @@ skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
 @skiptravis
 @pytest.mark.skipif(NEXUS2CLUSTAL._method_goalign.is_disabled, reason="missing dependencies")
 def test_nexus2clustal_goalign():
-    infile = bioconvert_data("goalign.nexus")
-    outfile = bioconvert_data("goalign.clustal")
+    infile = f"{test_dir}/data/nexus/goalign.nexus"
+    outfile = f"{test_dir}/data/clustal/goalign.clustal"
     with TempFile(suffix=".nexus") as tempfile:
         converter = NEXUS2CLUSTAL(infile, tempfile.name)
         converter(method='goalign')
@@ -34,8 +35,8 @@ def test_nexus2clustal_goalign():
         assert hashlib.md5(out.encode('utf-8')).hexdigest() == md5(outfile)
 
 def test_nexus2clustal_biopython():
-    infile = bioconvert_data("nexus2clustal_biopython.nexus")
-    outfile = bioconvert_data("nexus2clustal_biopython.clustal")
+    infile = f"{test_dir}/data/nexus/nexus2clustal_biopython.nexus"
+    outfile = f"{test_dir}/data/clustal/nexus2clustal_biopython.clustal"
     with TempFile(suffix=".nexus") as tempfile:
         converter = NEXUS2CLUSTAL(infile, tempfile.name)
         converter(method='biopython')
@@ -44,8 +45,8 @@ def test_nexus2clustal_biopython():
         assert md5(tempfile.name) == md5(outfile)
 
 def test_nexus2clustal_squizz():
-    infile = bioconvert_data("nexus2clustal_squizz.nexus")
-    outfile = bioconvert_data("nexus2clustal_squizz.clustal")
+    infile = f"{test_dir}/data/nexus/nexus2clustal_squizz.nexus"
+    outfile = f"{test_dir}/data/clustal/nexus2clustal_squizz.clustal"
     with TempFile(suffix=".nexus") as tempfile:
         converter = NEXUS2CLUSTAL(infile, tempfile.name)
         converter(method='squizz')

@@ -1,13 +1,13 @@
 import pytest
 from easydev import TempFile
 
-from bioconvert import bioconvert_data
 from bioconvert.cram2fastq import CRAM2FASTQ
 
+from . import test_dir
 
 @pytest.mark.skipif(CRAM2FASTQ._method_samtools.is_disabled, reason="missing dependencies")
 def test_conv():
-    infile = bioconvert_data("test_measles.cram")
+    infile = f"{test_dir}/data/cram/test_measles.cram"
 
     with TempFile(suffix=".fastq") as tempfile:
         convert = CRAM2FASTQ(infile, tempfile.name )
@@ -18,7 +18,7 @@ def test_conv():
             convert = CRAM2FASTQ(infile, tempfile.name )
             convert(method="samtools")
 
-    infile = bioconvert_data("test_measles_unpaired.sorted.cram")
+    infile = f"{test_dir}/data/cram/test_measles_unpaired.sorted.cram"
     with TempFile(suffix=".fastq") as tempfile:
         convert = CRAM2FASTQ(infile, tempfile.name )
         convert(method="samtools")

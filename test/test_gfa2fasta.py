@@ -1,11 +1,12 @@
 from bioconvert.gfa2fasta import GFA2FASTA
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
 
+from . import test_dir
+
 @pytest.mark.parametrize("method", GFA2FASTA.available_methods)
 def test_conv_1(method):
-    infile = bioconvert_data("test_gfa2fasta_v1.gfa")
+    infile = f"{test_dir}/data/gfa/test_gfa2fasta_v1.gfa"
     with TempFile(suffix=".fasta") as tempfile:
         convert = GFA2FASTA(infile, tempfile.name)
         convert()
@@ -21,8 +22,8 @@ def test_conv_1(method):
 
 @pytest.mark.parametrize("method", GFA2FASTA.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("test_gfa2fasta.gfa")
-    expected_outfile = bioconvert_data("test_gfa2fasta.fasta")
+    infile = f"{test_dir}/data/gfa/test_gfa2fasta.gfa"
+    expected_outfile = f"{test_dir}/data/fasta/test_gfa2fasta.fasta"
     md5out = md5(expected_outfile)
 
     with TempFile(suffix=".fasta") as outfile:

@@ -2,15 +2,16 @@ import pytest
 from easydev import TempFile, md5
 import filecmp 
 
-from bioconvert import bioconvert_data
 from bioconvert.sam2bam import SAM2BAM
 from bioconvert.bam2sam import BAM2SAM
+
+from . import test_dir
 
 
 @pytest.mark.skipif(len(SAM2BAM.available_methods) == 0, reason="missing dependencies")
 def test_conv():
-    infile = bioconvert_data("test_measles.sam")
-    outfile = bioconvert_data("test_measles.bam")
+    infile = f"{test_dir}/data/sam/test_measles.sam"
+    outfile = f"{test_dir}/data/bam/test_measles.bam"
     with TempFile(suffix=".bam") as tempfile:
         convert = SAM2BAM(infile, tempfile.name)
         convert()
@@ -25,4 +26,3 @@ def test_conv():
             convert()
 
             filecmp.cmp(samfile.name, infile)
-

@@ -1,8 +1,8 @@
-from bioconvert import bioconvert_data
 from bioconvert.io.gff3 import Gff3
 
 import pytest
 
+from . import test_dir
 
 expected_values = [{'seqid': 'ctg123', 'type': 'gene', 'start': 1000, 'stop': 9000, 'strand': '+', 'attributes': {'ID': 'gene00001', 'Name': 'EDEN'}}
 , {'seqid': 'ctg123', 'type': 'TF_binding_site', 'start': 1000, 'stop': 1012, 'strand': '+', 'attributes': {'ID': 'tfbs00001', 'Parent': 'gene00001'}}
@@ -30,7 +30,7 @@ expected_values = [{'seqid': 'ctg123', 'type': 'gene', 'start': 1000, 'stop': 90
 
 
 def test_load():
-    infile = bioconvert_data("GFF3/gff3_example.gff")
+    infile = f"{test_dir}/data/GFF3/gff3_example.gff"
     reader_gff3 = Gff3(infile)
 
     for expected_value, file_value in zip(expected_values, reader_gff3.read()):

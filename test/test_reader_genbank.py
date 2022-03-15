@@ -1,11 +1,11 @@
-from bioconvert import bioconvert_data
 from bioconvert.io.genbank import Genbank
 
 import pytest
 
+from . import test_dir
 
 def test_load():
-    infile = bioconvert_data("test_genbank.gbk")
+    infile = f"{test_dir}/data/genbank/test_genbank.gbk"
     reader = Genbank(infile)
 
     for gbk in reader.read():
@@ -99,4 +99,3 @@ def test_load():
         # 'ORIGIN': 'gaattccggcctgctgccgggccgcccgacccgccgggccacacggcagagccgcctgaagcccagcgctgaggctgcacttttccgagggcttgacatcagggtctatgtttaagtcttagctcttgcttacaaagaccacggcaattccttctctgaagccctcgcagccccacagcgccctcgcagccccagcctgc'}
         assert len(gbk["ORIGIN"]) == int(gbk["LOCUS"]["length"]) == 200
         assert gbk["ORIGIN"] == "gaattccggcctgctgccgggccgcccgacccgccgggccacacggcagagccgcctgaagcccagcgctgaggctgcacttttccgagggcttgacatcagggtctatgtttaagtcttagctcttgcttacaaagaccacggcaattccttctctgaagccctcgcagccccacagcgccctcgcagccccagcctgc"
-

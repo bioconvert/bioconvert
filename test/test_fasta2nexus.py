@@ -1,14 +1,14 @@
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.fasta2nexus import FASTA2NEXUS
 
+from . import test_dir
 
 @pytest.mark.parametrize("method", FASTA2NEXUS.available_methods)
 def test_fa2nx_biopython(method):
-    infile = bioconvert_data(method + ".fasta")
-    outfile = bioconvert_data(method + ".nexus")
+    infile = f"{test_dir}/data/fasta/{method}.fasta"
+    outfile = f"{test_dir}/data/nexus/{method}.nexus"
     with TempFile(suffix=".nx") as tempfile:
         converter = FASTA2NEXUS(infile, tempfile.name)
         converter(method=method)

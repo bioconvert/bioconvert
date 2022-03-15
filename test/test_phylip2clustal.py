@@ -2,12 +2,13 @@ import os
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.phylip2clustal import PHYLIP2CLUSTAL
 
+from . import test_dir
+
 def test_phylip2clustal_biopython():
-    infile = bioconvert_data("biopython.phylip")
-    outfile = bioconvert_data("biopython.clustal")
+    infile = f"{test_dir}/data/phylip/biopython.phylip"
+    outfile = f"{test_dir}/data/clustal/biopython.clustal"
     with TempFile(suffix=".fasta") as tempfile:
         converter = PHYLIP2CLUSTAL(infile, tempfile.name)
         converter(method='biopython')
@@ -18,8 +19,8 @@ def test_phylip2clustal_biopython():
 
 @pytest.mark.skipif(PHYLIP2CLUSTAL._method_squizz.is_disabled, reason="missing dependencies")
 def test_phylip2clustal_squizz():
-    infile = bioconvert_data("squizz.phylip")
-    outfile = bioconvert_data("squizz.clustal")
+    infile = f"{test_dir}/data/phylip/squizz.phylip"
+    outfile = f"{test_dir}/data/clustal/squizz.clustal"
     with TempFile(suffix=".clustal") as tempfile:
         converter = PHYLIP2CLUSTAL(infile, tempfile.name)
         converter(method='squizz')

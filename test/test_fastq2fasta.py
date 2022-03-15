@@ -8,9 +8,9 @@ from . import test_dir
 # TODO: Add test of the unwrap_fasta method
 @pytest.mark.parametrize("method", FASTQ2FASTA.available_methods)
 def test_conv(method):
-    infile = f"{test_dir}/data/fastq2fasta/test_fastq2fasta_v1.fastq"
+    infile = f"{test_dir}/data/fastq/test_fastq2fasta_v1.fastq"
 
-    expected_outfile = f"{test_dir}/data/fastq2fasta/test_fastq2fasta_v1.fasta"
+    expected_outfile = f"{test_dir}/data/fasta/test_fastq2fasta_v1.fasta"
     with TempFile(suffix=".fasta") as expected_unwrapped:
         FASTQ2FASTA.unwrap_fasta(
             expected_outfile, expected_unwrapped.name, strip_comment=True)
@@ -43,9 +43,9 @@ def test_in_gz(method):
     for sample_name in ["test_fastq2fasta_v1",
                         "sample_v2", "sample_v3",  
                         "sample_v4"]:
-        infile = f"{test_dir}/data/fastq2fasta/{sample_name}.fastq.gz"
+        infile = f"{test_dir}/data/gz/{sample_name}.fastq.gz"
 
-        expected_outfile = f"{test_dir}/data/fastq2fasta/{sample_name}.fasta"
+        expected_outfile = f"{test_dir}/data/fasta/{sample_name}.fasta"
         with TempFile(suffix=".fasta") as expected_unwrapped:
             FASTQ2FASTA.unwrap_fasta(
                 expected_outfile, expected_unwrapped.name, strip_comment=True)
@@ -68,9 +68,9 @@ def test_in_gz(method):
 def test_more_samples(method):
     for sample_name in ["sample_v2", "sample_v3", "sample_v4"]:
 
-        infile = f"{test_dir}/data/fastq2fasta/{sample_name}.fastq"
+        infile = f"{test_dir}/data/fastq/{sample_name}.fastq"
 
-        expected_outfile = f"{test_dir}/data/fastq2fasta/{sample_name}.fasta"
+        expected_outfile = f"{test_dir}/data/fasta/{sample_name}.fasta"
         with TempFile(suffix=".fasta") as expected_unwrapped:
             FASTQ2FASTA.unwrap_fasta(
                 expected_outfile, expected_unwrapped.name, strip_comment=True)

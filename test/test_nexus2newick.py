@@ -1,14 +1,14 @@
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.nexus2newick import NEXUS2NEWICK
 
+from . import test_dir
 
 @pytest.mark.parametrize("method", NEXUS2NEWICK.available_methods)
 def test_nx2nw_biopython(method):
-    infile = bioconvert_data(method + ".nexus")
-    outfile = bioconvert_data(method + ".newick")
+    infile = f"{test_dir}/data/nexus/{method}.nexus"
+    outfile = f"{test_dir}/data/newick/{method}.newick"
     md5sum = md5(outfile)
     with TempFile(suffix=".newick") as tempfile:
         converter = NEXUS2NEWICK(infile, tempfile.name)
