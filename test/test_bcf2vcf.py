@@ -10,5 +10,3 @@ def test_conv(method):
     with TempFile(suffix=".vcf") as tempfile:
         convert = BCF2VCF(infile, tempfile.name)
         convert(method=method)
-
-

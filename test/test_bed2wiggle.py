@@ -16,4 +16,3 @@ def test_conv(method):
         convert(method=method)
 
         assert md5(tempfile.name) == md5out, "{} failed".format(method)
-

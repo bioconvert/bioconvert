@@ -7,12 +7,7 @@ from bioconvert.nexus2clustal import NEXUS2CLUSTAL
 
 from . import test_dir
 
-skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
-                                and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), 
-                                reason="On travis")
 
-
-@skiptravis
 @pytest.mark.skipif(NEXUS2CLUSTAL._method_goalign.is_disabled, reason="missing dependencies")
 def test_nexus2clustal_goalign():
     infile = f"{test_dir}/data/nexus/goalign.nexus"

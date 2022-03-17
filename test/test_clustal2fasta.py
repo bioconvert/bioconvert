@@ -6,11 +6,6 @@ from bioconvert.clustal2fasta import CLUSTAL2FASTA
 
 from . import test_dir
 
-skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
-                                and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
-
-
-@skiptravis
 def test_clustal2fasta_biopython():
     infile = f"{test_dir}/data/clustal/biopython.clustal"
     outfile = f"{test_dir}/data/fasta/biopython.fasta"
@@ -22,7 +17,6 @@ def test_clustal2fasta_biopython():
         assert md5(tempfile.name) == md5(outfile)
 
 
-@skiptravis
 @pytest.mark.skipif(CLUSTAL2FASTA._method_squizz.is_disabled, reason="missing dependencies")
 def test_clustal2fasta_squizz():
     infile = f"{test_dir}/data/clustal/squizz.clustal"
@@ -35,7 +29,6 @@ def test_clustal2fasta_squizz():
         assert md5(tempfile.name) == md5(outfile)
 
 
-@skiptravis
 @pytest.mark.skipif(CLUSTAL2FASTA._method_goalign.is_disabled, reason="missing dependencies")
 def test_clustal2fasta_goalign():
     infile = f"{test_dir}/data/clustal/goalign.clustal"

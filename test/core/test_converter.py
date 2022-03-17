@@ -1,5 +1,4 @@
 from bioconvert import Bioconvert
-from bioconvert import bioconvert_data
 from easydev import TempFile
 
 import pytest
@@ -7,17 +6,18 @@ import pytest
 from bioconvert.bam2fasta import BAM2FASTA
 from bioconvert.gz2bz2 import GZ2BZ2
 
+from .. import test_dir
 
 @pytest.mark.skipif(len(BAM2FASTA.available_methods) == 0, reason="missing dependencies")
 def test_bioconvert():
-    infile = bioconvert_data("test_measles.sorted.bam")
+    infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
     with TempFile(suffix=".fasta") as fout:
         c = Bioconvert(infile, fout.name, force=True)
         c()
 
 
 def test_bioconvert_force_false():
-    infile = bioconvert_data("ERR3295124.fastq")
+    infile = f"{test_dir}/data/fastq/ERR3295124.fastq"
     with TempFile(suffix=".fasta") as fout:
         c = Bioconvert(infile, fout.name, force=True)
         c()
@@ -36,7 +36,7 @@ def test_bioconvert_dsrc_only_for_fastq():
 
 @pytest.mark.skipif(len(GZ2BZ2.available_methods) == 0, reason="missing dependencies")
 def test_bioconvert_decompression_compression_mode():
-    infile = bioconvert_data("measles_R1.fastq.gz")
+    infile = f"{test_dir}/data/gz/measles_R1.fastq.gz"
     with TempFile(suffix=".fastq.bz2") as fout:
         c = Bioconvert(infile, fout.name, force=True)
 
@@ -50,7 +50,7 @@ def test_indirect_conversion_impossible():
 
 
 def test_indirect_conversion():
-    infile = bioconvert_data("ERR3295124.fastq")
+    infile = f"{test_dir}/data/fastq/ERR3295124.fastq"
     with TempFile(suffix=".clustal") as fout:
         c = Bioconvert(infile, fout.name, force=True)
         c()

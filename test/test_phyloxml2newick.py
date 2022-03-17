@@ -7,7 +7,7 @@ from . import test_dir
 
 @pytest.mark.parametrize("method", PHYLOXML2NEWICK.available_methods)
 def test_xml2nw_biopython(method):
-    infile = f"{test_dir}/data/xml/{method}.xml"
+    infile = f"{test_dir}/data/phyloxml/{method}.xml"
     outfile = f"{test_dir}/data/newick/{method}.newick"
     with TempFile(suffix=".newick") as tempfile:
         converter = PHYLOXML2NEWICK(infile, tempfile.name)

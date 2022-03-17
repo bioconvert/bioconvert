@@ -7,7 +7,7 @@ from . import test_dir
 
 @pytest.mark.parametrize("method", PHYLOXML2NEXUS.available_methods)
 def test_xml2nx_biopython(method):
-    infile = f"{test_dir}/data/xml/{method}.xml"
+    infile = f"{test_dir}/data/phyloxml/{method}.xml"
     outfile = f"{test_dir}/data/nexus/{method}.nexus"
     with TempFile(suffix=".nexus") as tempfile:
         converter = PHYLOXML2NEXUS(infile, tempfile.name)

@@ -39,4 +39,3 @@ def test_methods(method):
             convert = BAM2FASTA(infile, tempfile.name)
             convert(method=method)
             # no check, just running 
-

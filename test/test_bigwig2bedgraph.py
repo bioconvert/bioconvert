@@ -7,13 +7,6 @@ import pytest
 
 from . import test_dir
 
-skiptravis = pytest.mark.skipif(
-        "TRAVIS_PYTHON_VERSION" in os.environ and
-            os.environ['TRAVIS_PYTHON_VERSION'].startswith("3.5"), 
-         reason="On travis")
-
-
-@skiptravis
 @pytest.mark.parametrize("method", BIGWIG2BEDGRAPH.available_methods)
 def test_bigwig2bedgraph_ucsc(method):
     infile = f"{test_dir}/data/bigwig/ucsc.bigwig"

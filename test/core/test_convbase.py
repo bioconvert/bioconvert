@@ -1,13 +1,13 @@
 from bioconvert import ConvBase
 from bioconvert.bam2cov import BAM2COV
-from bioconvert import bioconvert_data
 from easydev import TempFile
 
+from .. import test_dir
 
 def test_convbase():
 
     # General tests
-    infile = bioconvert_data("test_measles.sorted.bam")
+    infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
     with TempFile(suffix=".cov") as outfile:
         c = BAM2COV(infile, outfile.name)
         c()
@@ -77,7 +77,3 @@ def test_convbase():
     this = in2out(infile, "test.fq")
     assert this.name == "in2out"
     this()
-
-
-
-

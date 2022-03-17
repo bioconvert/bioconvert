@@ -6,14 +6,7 @@ import os
 
 from . import test_dir
 
-# commented due to constant failure on travis with py3.5
 
-
-skiptravis = pytest.mark.skipif( "TRAVIS_PYTHON_VERSION" in os.environ,
-    reason="fails on travis (deeptools and numpy not compatible)")
-
-
-@skiptravis
 @pytest.mark.parametrize("method", BAM2BIGWIG.available_methods)
 def test_conv(method):
 

@@ -2,9 +2,9 @@ from bioconvert.io.maf import MAF
 from bioconvert.io import maf
 from easydev import TempFile
 
-from . import test_dir
+from .. import test_dir
 
-filename = f"{test_dir}../data/maf/test_maf2sam.maf"
+filename = f"{test_dir}/data/maf/test_maf2sam.maf"
 
 
 def test_read_maf():

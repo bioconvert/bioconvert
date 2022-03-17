@@ -5,11 +5,6 @@ import os
 
 from . import test_dir
 
-skiptravis = pytest.mark.skipif( "TRAVIS_PYTHON_VERSION" in os.environ and
-    os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
-
-
-@skiptravis
 def test_conv():
     infile = f"{test_dir}/data/yaml/test_v1.yaml"
     expected_outile = f"{test_dir}/data/json/test_v1.json"
