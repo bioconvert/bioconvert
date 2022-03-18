@@ -112,7 +112,6 @@ class ConvMeta(abc.ABCMeta):
             return (
                 inspect.isfunction(item)
                 and item.__name__.startswith("_method_")
-                and item.__name__ != "_method_dummy"
             )
 
         if name != "ConvBase":
@@ -258,6 +257,7 @@ class ConvBase(metaclass=ConvMeta):
     _threading = False
     _extra_arguments = ""
 
+
     # threads to be used by default if argument is required in a method
     # this will be overriden if _threading set to True and therefore --threads
     # set by the user. It is feed back into Bioconvert class
@@ -298,9 +298,8 @@ class ConvBase(metaclass=ConvMeta):
         method_name = method_name or self.default
 
         # If not, we need to check the name
-        # "dummy" is a method used to evaluate the cost of the
         # execute() method for the benchmark
-        if method_name not in self.available_methods + ["dummy"]:
+        if method_name not in self.available_methods:
             msg = "Methods available are {}".format(self.available_methods)
             _log.error(msg)
             raise ValueError(msg)
@@ -312,6 +311,7 @@ class ConvBase(metaclass=ConvMeta):
         # call the method itself
 
         t1 = time.time()
+
         method_reference(*args, **kwargs)
         t2 = time.time()
         _log.info("Took {} seconds ".format(t2 - t1))
@@ -323,10 +323,6 @@ class ConvBase(metaclass=ConvMeta):
         """
         return type(self).__name__
 
-    def _method_dummy(self, *args, **kwargs):
-        # The execute commands has a large initialisation cost (about a second)
-        # This commands does not and can be used to evaluate that cost
-        self.execute("")
 
     def shell(self, cmd):
         from bioconvert.core.shell import shell
@@ -408,7 +404,6 @@ class ConvBase(metaclass=ConvMeta):
         self,
         N=5,
         rerun=True,
-        include_dummy=False,
         to_exclude=[],
         to_include=[],
         rot_xticks=90,
@@ -425,7 +420,6 @@ class ConvBase(metaclass=ConvMeta):
         self._benchmark = Benchmark(
             self, N=N, to_exclude=to_exclude, to_include=to_include
         )
-        self._benchmark.include_dummy = include_dummy
         data = self._benchmark.plot(
             rerun=rerun, rot_xticks=rot_xticks, boxplot_args=boxplot_args
         )

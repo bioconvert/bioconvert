@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from bioconvert import Benchmark, BenchmarkMulticonvert
+from bioconvert import Benchmark
 from bioconvert.bam2cov import BAM2COV
 from easydev import TempFile
 
@@ -14,7 +14,6 @@ def test_benchmark():
     with TempFile(suffix=".cov") as fout:
         conv = BAM2COV(input_file, fout.name)
         bench = Benchmark(conv)
-        bench.include_dummy = True
         bench.run_methods()
         bench.plot()
 

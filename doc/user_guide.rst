@@ -109,10 +109,10 @@ Parallelization
 
 In Bioconvert, if the input contains a wildcard such as *** or *?* characters, then, input filenames are treated separately and converted sequentially::
 
-    bioconvert fastq2fasta "*.fastq" 
+    bioconvert fastq2fasta "*.fastq"
 
 Note, however, that the files are processed sequentially one by one. So, we may
-want to parallelise the computation. 
+want to parallelise the computation.
 
 Iteration with unix commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
