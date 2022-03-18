@@ -40,8 +40,9 @@ class CLUSTAL2STOCKHOLM(ConvBase):
     goalign [GOALIGN]_.
 
     """
+
     #: Default value
-    _default_method = 'biopython'
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -70,7 +71,7 @@ class CLUSTAL2STOCKHOLM(ConvBase):
         Convert :term:`CLUSTAL` file in :term:`STOCKHOLM` format using squizz tool.
 
         """
-        cmd = 'squizz -c STOCKHOLM {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c STOCKHOLM {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

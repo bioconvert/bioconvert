@@ -58,7 +58,7 @@ class SAM2BAM(ConvBase):
         # -S means ignored (input format is auto-detected)
         # -b means output to BAM format
         # -h means include header in SAM output
-        cmd = "samtools view -Sbh -@ {} {} > {}".format(self.threads,
-                                                        self.infile,
-                                                        self.outfile)
+        cmd = "samtools view -Sbh -@ {} {} > {}".format(
+            self.threads, self.infile, self.outfile
+        )
         self.execute(cmd)

@@ -40,6 +40,7 @@ class FASTA_QUAL2FASTQ(ConvBase):
     Method based on pysam [PYSAM]_.
 
     """
+
     #: Default value
     _default_method = "pysam"
 
@@ -56,23 +57,29 @@ class FASTA_QUAL2FASTQ(ConvBase):
         
         `FastxFile documentation <https://pysam.readthedocs.io/en/latest/api.html#pysam.FastxFile.close>`_"""
         from pysam import FastxFile
+
         if self.infile[1] is None:
             _log.error("No quality file provided. Please add a quality file path ")
             sys.exit(1)
 
-        else: # length must be equal and identifiers sorted similarly
+        else:  # length must be equal and identifiers sorted similarly
             with open(self.outfile, "w") as fastq_out:
-                for seq, qual in zip(FastxFile(self.infile[0]), FastxFile(self.infile[1])):
+                for seq, qual in zip(
+                    FastxFile(self.infile[0]), FastxFile(self.infile[1])
+                ):
                     assert seq.name == qual.name
                     if seq.comment:
-                        fastq_out.write("@{0} {1}\n{2}\n+\n{3}\n".format(seq.name,
-                                                                 seq.comment,
-                                                                 seq.sequence,
-                                                                 qual.sequence))
+                        fastq_out.write(
+                            "@{0} {1}\n{2}\n+\n{3}\n".format(
+                                seq.name, seq.comment, seq.sequence, qual.sequence
+                            )
+                        )
                     else:
-                        fastq_out.write("@{0}\n{1}\n+\n{2}\n".format(seq.name,
-                                                                 seq.sequence,
-                                                                 qual.sequence))
+                        fastq_out.write(
+                            "@{0}\n{1}\n+\n{2}\n".format(
+                                seq.name, seq.sequence, qual.sequence
+                            )
+                        )
 
     @staticmethod
     def get_IO_arguments():

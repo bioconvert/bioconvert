@@ -42,8 +42,9 @@ class CLUSTAL2NEXUS(ConvBase):
     goalign [GOALIGN].
 
     """
+
     #: Default value
-    _default_method = 'goalign'
+    _default_method = "goalign"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -60,8 +61,8 @@ class CLUSTAL2NEXUS(ConvBase):
         """Convert :term:`CLUSTAL` file in  :term:`NEXUS` format using goalign tool.
 
         `goalign docuMentation <https://github.com/fredericlemoine/goalign>`_"""
-        self.install_tool('goalign')
-        cmd = 'goalign reformat nexus --clustal -i {infile} -o {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("goalign")
+        cmd = "goalign reformat nexus --clustal -i {infile} -o {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

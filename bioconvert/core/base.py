@@ -109,10 +109,7 @@ class ConvMeta(abc.ABCMeta):
             :rtype: boolean
             """
 
-            return (
-                inspect.isfunction(item)
-                and item.__name__.startswith("_method_")
-            )
+            return inspect.isfunction(item) and item.__name__.startswith("_method_")
 
         if name != "ConvBase":
             input_fmt, output_fmt = cls.split_converter_to_format(name)
@@ -145,8 +142,7 @@ class ConvMeta(abc.ABCMeta):
                 if is_disabled is None:
                     _log.debug(
                         "converter '{}': method {} is not decorated, we expect it to work all time".format(
-                            cls.__name__,
-                            conv_meth,
+                            cls.__name__, conv_meth,
                         )
                     )
                     is_disabled = False
@@ -155,8 +151,7 @@ class ConvMeta(abc.ABCMeta):
                 else:
                     _log.warning(
                         "converter '{}': method {} is not available".format(
-                            cls.__name__,
-                            conv_meth,
+                            cls.__name__, conv_meth,
                         )
                     )
             setattr(cls, "available_methods", available_conv_meth)
@@ -257,7 +252,6 @@ class ConvBase(metaclass=ConvMeta):
     _threading = False
     _extra_arguments = ""
 
-
     # threads to be used by default if argument is required in a method
     # this will be overriden if _threading set to True and therefore --threads
     # set by the user. It is feed back into Bioconvert class
@@ -322,7 +316,6 @@ class ConvBase(metaclass=ConvMeta):
         The name of the class
         """
         return type(self).__name__
-
 
     def shell(self, cmd):
         from bioconvert.core.shell import shell
@@ -499,34 +492,23 @@ class ConvBase(metaclass=ConvMeta):
     @staticmethod
     def get_common_arguments():
         yield ConvArg(
-            names=[
-                "-f",
-                "--force",
-            ],
+            names=["-f", "--force",],
             action="store_true",
             help="if outfile exists, it is overwritten with this option",
         )
         yield ConvArg(
-            names=[
-                "-v",
-                "--verbosity",
-            ],
+            names=["-v", "--verbosity",],
             default=bioconvert.logger.level,
             help="Set the outpout verbosity.",
             choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         )
         yield ConvArg(
-            names=[
-                "--raise-exception",
-            ],
+            names=["--raise-exception",],
             action="store_true",
             help="Let exception ending the execution be raised and displayed",
         )
         yield ConvArg(
-            names=[
-                "-X",
-                "--batch",
-            ],
+            names=["-X", "--batch",],
             default=False,
             action="store_true",
             help="Allow conversion of a set of files using wildcards. You "
@@ -534,47 +516,32 @@ class ConvBase(metaclass=ConvMeta):
             "--batch 'test*fastq' ",
         )
         yield ConvArg(
-            names=[
-                "-b",
-                "--benchmark",
-            ],
+            names=["-b", "--benchmark",],
             default=False,
             action="store_true",
             help="Running all available methods",
         )
         yield ConvArg(
-            names=[
-                "-N",
-                "--benchmark-N",
-            ],
+            names=["-N", "--benchmark-N",],
             default=5,
             type=int,
             help="Number of trials for each methods",
         )
         yield ConvArg(
-            names=[
-                "-B",
-                "--benchmark-methods",
-            ],
+            names=["-B", "--benchmark-methods",],
             default="all",
             nargs="+",
             type=str,
             help="Methods to include",
         )
         yield ConvArg(
-            names=[
-                "-a",
-                "--allow-indirect-conversion",
-            ],
+            names=["-a", "--allow-indirect-conversion",],
             default=False,
             action="store_true",
             help="Allow to chain converter when direct conversion is absent",
         )
         yield ConvArg(
-            names=[
-                "-e",
-                "--extra-arguments",
-            ],
+            names=["-e", "--extra-arguments",],
             default="",
             help="Any arguments accepted by the method's tool",
         )
@@ -587,10 +554,7 @@ class ConvBase(metaclass=ConvMeta):
             # Some converters do not have any method and work
             # in __call__, so preventing to crash by searching for them
             yield ConvArg(
-                names=[
-                    "-m",
-                    "--method",
-                ],
+                names=["-m", "--method",],
                 nargs="?",
                 default=cls._get_default_method(cls),
                 help="The method to use to do the conversion.",
@@ -604,10 +568,7 @@ class ConvBase(metaclass=ConvMeta):
             )
             pass
         yield ConvArg(
-            names=[
-                "-s",
-                "--show-methods",
-            ],
+            names=["-s", "--show-methods",],
             default=False,
             action="store_true",
             help="A converter may have several methods",

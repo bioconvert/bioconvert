@@ -3,6 +3,7 @@ import copy
 from collections import defaultdict
 
 import colorlog
+
 _log = colorlog.getLogger(__name__)
 
 
@@ -31,17 +32,29 @@ def read_scf(infile):
         char[18] spare -> Unused
         """
         buff = input_file.read(56)
-        magic_number, samples, samples_offset, bases, bases_left_clip, \
-        bases_right_clip, bases_offset, comments_size, comments_offset, \
-        version, sample_size, code_set, private_size, \
-        private_offset = struct.unpack("!4s 8I 4s 4I", buff)
+        (
+            magic_number,
+            samples,
+            samples_offset,
+            bases,
+            bases_left_clip,
+            bases_right_clip,
+            bases_offset,
+            comments_size,
+            comments_offset,
+            version,
+            sample_size,
+            code_set,
+            private_size,
+            private_offset,
+        ) = struct.unpack("!4s 8I 4s 4I", buff)
         # Header is supposed to be 128B
         if samples_offset != 128:
             print("Warning: possible bad file")
         # End of header, unused data
-        spare_size = samples_offset - 56 # Should be 72
+        spare_size = samples_offset - 56  # Should be 72
         buff = input_file.read(spare_size)
-        #spare = struct.unpack("!%dI" % (spare_size/4), buff)
+        # spare = struct.unpack("!%dI" % (spare_size/4), buff)
 
         # Trying to replicate the next_seq perl function
         # V2
@@ -65,8 +78,8 @@ def read_scf(infile):
                 # uchar prob_T -> Probability of it being an T
                 # char base -> Called base character
                 # uchar[3] spare -> Spare
-                read = struct.unpack("!I B B B B s 3B", buff[i:i+12])
-                #indices = read[0]
+                read = struct.unpack("!I B B B B s 3B", buff[i : i + 12])
+                # indices = read[0]
                 curbase = read[5].lower().decode("utf-8")
                 if curbase == "a":
                     currqual = read[1]
@@ -149,10 +162,9 @@ def read_scf(infile):
         # 1 bytes is added to comments for unknown reason (2 in V3)
         while input_file.tell() < comments_offset + comments_size - 1:
             tmp = input_file.read(1)
-            comments += struct.unpack('c', tmp)[0].decode("utf-8")
+            comments += struct.unpack("c", tmp)[0].decode("utf-8")
 
     return sequence, qualities, comments
-
 
 
 # Return 'length' bits of file 'f_file' starting at offset 'offset'
@@ -166,10 +178,16 @@ def read_from_buffer(f_file, length, offset):
         buff2 = f_file.read(missing_length)
         buff += buff2
         if len(buff) != length:
-            print("Unexpected end of file while reading from SCF file. I \
-                  should have read " + str(length) + " but instead got " +
-                  str(len(buff)) + "! Current file position is " +
-                  str(f_file.tell()) + ".")
+            print(
+                "Unexpected end of file while reading from SCF file. I \
+                  should have read "
+                + str(length)
+                + " but instead got "
+                + str(len(buff))
+                + "! Current file position is "
+                + str(f_file.tell())
+                + "."
+            )
     return buff
 
 
@@ -178,11 +196,11 @@ def get_v3_base_accuracies(buff):
     # 4 keys: a, c, g and t
     accuracies = defaultdict(list)
     length = len(buff)
-    qlength = int(length/4)
+    qlength = int(length / 4)
     offset = 0
     # For all bases
     for curbase in "acgt":
-        read = struct.unpack('%dB' % qlength, buff[offset:offset+qlength])
+        read = struct.unpack("%dB" % qlength, buff[offset : offset + qlength])
         for i in read:
             accuracies[curbase].append(i)
         offset += qlength
@@ -213,9 +231,9 @@ def get_v3_quality(sequence, accuracies):
 def delta(rsamples, direction):
     samples = copy.deepcopy(rsamples)
     if direction == "forward":
-        for i in range(len(samples)-1, 1, -1):
-            samples[i] = samples[i] - 2*samples[i-1] + samples[i-2]
-        samples[1] = samples[1] - 2*samples[0]
+        for i in range(len(samples) - 1, 1, -1):
+            samples[i] = samples[i] - 2 * samples[i - 1] + samples[i - 2]
+        samples[1] = samples[1] - 2 * samples[0]
     elif direction == "backward":
         p_sample1 = 0
         p_sample2 = 0
@@ -224,8 +242,7 @@ def delta(rsamples, direction):
             samples[i] = p_sample1 + p_sample2
             p_sample2 = samples[i]
     else:
-        msg="Bad direction in 'delta'. Use\" forward\" or\" backward\"."
+        msg = 'Bad direction in \'delta\'. Use" forward" or" backward".'
         _log.critical(msg)
         raise Exception(msg)
     return samples
-

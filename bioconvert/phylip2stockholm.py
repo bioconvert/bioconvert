@@ -33,7 +33,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['PHYLIP2STOCKHOLM']
+__all__ = ["PHYLIP2STOCKHOLM"]
 
 
 class PHYLIP2STOCKHOLM(ConvBase):
@@ -43,8 +43,9 @@ class PHYLIP2STOCKHOLM(ConvBase):
     Methods available are based on biopython [BIOPYTHON]_, squiz [SQUIZZ]_.
 
     """
+
     #: Default value
-    _default_method = 'biopython'
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -71,7 +72,7 @@ class PHYLIP2STOCKHOLM(ConvBase):
         """Convert :term:`PHYLIP` interleaved file in :term:`STOCKHOLM` format using squizz tool.
 
         """
-        cmd = 'squizz -c STOCKHOLM {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c STOCKHOLM {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

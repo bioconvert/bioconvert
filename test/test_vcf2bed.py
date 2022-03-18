@@ -3,6 +3,7 @@ from easydev import TempFile, md5
 
 from . import test_dir
 
+
 def test_conv():
     infile = f"{test_dir}/data/vcf/test_vcf2bcf_v1.vcf"
     outfile = f"{test_dir}/data/bed/test_vcf2bed_v1.bed"

@@ -43,26 +43,27 @@ class BIGWIG2BEDGRAPH(ConvBase):
     [DEEPTOOLS]_.
 
     """
-    #: Default value
-    _default_method = 'pybigwig'
 
-    def __init__(self, infile, outfile):#=None, alphabet=None, *args, **kwargs):
+    #: Default value
+    _default_method = "pybigwig"
+
+    def __init__(self, infile, outfile):  # =None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
 
         :param str infile: input :term:`BIGWIG` file.
         :param str outfile: (optional) output :term:`BEDGRAPH` file
         """
         super(BIGWIG2BEDGRAPH, self).__init__(infile, outfile)
-        #self.alphabet = alphabet
+        # self.alphabet = alphabet
 
     @requires("bigWigToBedGraph")
     def _method_ucsc(self, *args, **kwargs):
         """Convert bigwig file in bedgraph format using ucsc tool.
 
         `ucsc.bedgraph documentation <https://genome.ucsc.edu/goldenPath/help/bedgraph.html>`_"""
-        cmd = 'bigWigToBedGraph {infile}  {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "bigWigToBedGraph {infile}  {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     @requires(python_library="pyBigWig")
@@ -71,16 +72,14 @@ class BIGWIG2BEDGRAPH(ConvBase):
 
         `pyBigWig documentation <https://github.com/deeptools/pyBigWig>`_"""
         import pyBigWig
+
         bw = pyBigWig.open(self.infile)
         assert bw.isBigWig() is True, "Not a valid bigWig file"
 
         with open(self.outfile, "w") as fout:
-            for chrom in  bw.chroms():
+            for chrom in bw.chroms():
                 for tup in bw.intervals(chrom):
                     s, e, val = tup
                     if int(val) == val:
                         val = int(val)
                     fout.write("{}\t{}\t{}\t{}\n".format(chrom, s, e, val))
-
-
-

@@ -4,7 +4,8 @@ from bioconvert.io.scf import read_from_buffer, delta
 
 from easydev import TempFile, md5
 
-from . import test_dir 
+from . import test_dir
+
 
 def test_conv():
     # Scf V2 file
@@ -25,6 +26,7 @@ def test_conv():
         # Check that the output is correct with a checksum
         assert md5(tempfile.name) == md5(expected_outfile_v3)
 
+
 def test_read_from_buffer(tmpdir):
     """Test function 'read_from_buffer(f_file, length, offset)'"""
     tmp_file = tmpdir.join("test.tmp")
@@ -33,6 +35,7 @@ def test_read_from_buffer(tmpdir):
     f_file = tmp_file.open("r")
     assert read_from_buffer(f_file, 20, 1) == "Fake1\nWQSDESDFZQS"
 
+
 def test_delta():
     """Test function 'delta(rsamples, direction)'"""
     rsamples = [170, -81, -41, -25, -11, 3]
@@ -40,7 +43,9 @@ def test_delta():
     direction = "pwet"
     with pytest.raises(Exception) as excinfo:
         delta(rsamples, direction)
-    assert str(excinfo.value) == "Bad direction in 'delta'. Use\" forward\" or\" backward\"."
+    assert (
+        str(excinfo.value) == 'Bad direction in \'delta\'. Use" forward" or" backward".'
+    )
 
     # Forward
     direction = "forward"

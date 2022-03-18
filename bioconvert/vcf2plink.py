@@ -41,8 +41,9 @@ class VCF2PLINK(ConvBase):
     Conversion is based on plink executable
 
     """
+
     #: Default value
-    _default_method = 'plink'
+    _default_method = "plink"
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """For this method, we use the plink tool.
@@ -63,7 +64,7 @@ class VCF2PLINK(ConvBase):
         """
         Convert using plink executable.
         """
-        cmd = 'plink --vcf {infile} --recode --out {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "plink --vcf {infile} --recode --out {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

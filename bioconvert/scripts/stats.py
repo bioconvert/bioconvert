@@ -40,34 +40,37 @@ def main(args=None):
     if args is None:
         args = sys.argv[1:]
 
-    arg_parser = argparse.ArgumentParser(prog="bioconvert",
-                                         description="""Convertor infer the
+    arg_parser = argparse.ArgumentParser(
+        prog="bioconvert",
+        description="""Convertor infer the
                                          formats from the first command. We do
                                          not scan the input file. Therefore
                                          users must ensure that their input
                                          format files are properly
                                          formatted.""",
-                                         formatter_class=argparse.RawDescriptionHelpFormatter,
-                                         epilog="""
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
 Please visit http://bioconvert.readthedocs.org for more information about the
 project or formats available.
 
 Bioconvert is an open source collaborative project. Please feel free to 
 join us at https://github/biokit/bioconvert
-""")
+""",
+    )
 
-
-    arg_parser.add_argument("-v", "--verbosity",
-                            default=bioconvert.logger.level,
-                            help="Set the outpout verbosity.",
-                            choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-                            )
+    arg_parser.add_argument(
+        "-v",
+        "--verbosity",
+        default=bioconvert.logger.level,
+        help="Set the outpout verbosity.",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+    )
     arg_parser.add_argument("--no-plot", action="store_true")
 
     args = arg_parser.parse_args(args)
 
-
     from bioconvert.core.registry import Registry
+
     r = Registry()
     info = r.get_info()
 
@@ -75,13 +78,12 @@ join us at https://github/biokit/bioconvert
     converters = [x for x in info.items()]
 
     # the number of methods per converter
-    data = [info[k] for k,v in info.items()]
+    data = [info[k] for k, v in info.items()]
 
     # the number of formats
     A1 = [x[0] for x in list(r.get_conversions())]
     A2 = [x[1] for x in list(r.get_conversions())]
     formats = set(A1 + A2)
-
 
     print("Number of formats: {}".format(len(formats)))
     print("Number of converters: {}".format(len(converters)))
@@ -89,12 +91,12 @@ join us at https://github/biokit/bioconvert
 
     if args.no_plot is False:
         from pylab import hist, clf, xlabel, grid, show
+
         clf()
         hist(data, range(17), ec="k", zorder=2, align="left")
         xlabel("Number of methods")
         grid(zorder=-1)
         show()
-
 
 
 if __name__ == "__main__":

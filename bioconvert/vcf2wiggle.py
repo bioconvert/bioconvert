@@ -38,6 +38,7 @@ class VCF2WIGGLE(ConvBase):
     """Convert sorted :term:`VCF` file into :term:`WIGGLE` file 
 
     """
+
     #: Default value
     _default_method = "wiggletools"
 
@@ -55,4 +56,3 @@ class VCF2WIGGLE(ConvBase):
         `wiggletools documentation <https://github.com/Ensembl/WiggleTools>`_"""
         cmd = "wiggletools {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
-

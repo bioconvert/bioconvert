@@ -16,5 +16,5 @@ def test_conv():
         with TempFile(suffix=".fastq") as fout3:
             c = FASTA_QUAL2FASTQ((fout1.name, fout2.name), fout3.name)
             c()
-            md2  = md5(fout3.name)
+            md2 = md5(fout3.name)
     assert md1 == md2

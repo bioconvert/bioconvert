@@ -15,13 +15,15 @@ def test_conv(method):
 
     # What is the expected md5sum of the final output file ?
     expected_outputfile = f"{test_dir}/data/bigwig/test_measles.bigwig"
-    md5out= md5(expected_outputfile)
+    md5out = md5(expected_outputfile)
 
     # Call convert and check that the output file created has the correct md5sum
     with TempFile(suffix=".bigwig") as outfile:
-        if (method == 'ucsc'):
+        if method == "ucsc":
             convert = BAM2BIGWIG(infile, outfile.name)
-            convert(method=method, chrom_sizes=f"{test_dir}/data/bam/measles.chrom.sizes")
+            convert(
+                method=method, chrom_sizes=f"{test_dir}/data/bam/measles.chrom.sizes"
+            )
         else:
             try:
                 convert = BAM2BIGWIG(infile, outfile.name)
@@ -29,4 +31,4 @@ def test_conv(method):
             except:
                 pass
             # TODO. Failed in oct 2018. why . bamCoverage version in header ?
-            #assert md5(outfile.name) == md5out, "{} failed".format(method)
+            # assert md5(outfile.name) == md5out, "{} failed".format(method)

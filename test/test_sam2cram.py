@@ -2,13 +2,14 @@ import os
 from bioconvert.sam2cram import SAM2CRAM
 from easydev import TempFile, md5
 import pytest
-from mock import patch 
+from mock import patch
 
 from . import test_dir
 
 reference = f"{test_dir}/data/fasta/test_measles.fa"
 
-@patch('bioconvert.sam2cram.input', return_value=reference)
+
+@patch("bioconvert.sam2cram.input", return_value=reference)
 def test_conv(x):
     infile = f"{test_dir}/data/cram/test_measles.cram"
     outfile = f"{test_dir}/data/sam/test_measles.sam"
@@ -27,7 +28,7 @@ def test_conv(x):
         assert size > 5800 and size < 10000
 
 
-@patch('bioconvert.sam2cram.input', return_value="not_found")
+@patch("bioconvert.sam2cram.input", return_value="not_found")
 def test_conv_error(x):
     infile = f"{test_dir}/data/cram/test_measles.cram"
     outfile = f"{test_dir}/data/sam/test_measles.sam"

@@ -63,11 +63,14 @@ class BAM2TSV(ConvBase):
         """Here we use the SAMtools tool.
 
         `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
-        with open(self.outfile, 'wt') as out:
-            out.write("Reference sequence name\tSequence length\t"
-                      "Mapped reads\tUnmapped reads{}".format(os.linesep))
-        cmd = ("samtools index {0} && samtools idxstats {0} >> {1}"
-                .format(self.infile, self.outfile))
+        with open(self.outfile, "wt") as out:
+            out.write(
+                "Reference sequence name\tSequence length\t"
+                "Mapped reads\tUnmapped reads{}".format(os.linesep)
+            )
+        cmd = "samtools index {0} && samtools idxstats {0} >> {1}".format(
+            self.infile, self.outfile
+        )
         self.execute(cmd)
 
     @requires(python_library="pysam", external_binary="samtools")
@@ -76,11 +79,14 @@ class BAM2TSV(ConvBase):
         
         `Pysam documentation <https://pysam.readthedocs.io/en/latest/api.html>`_"""
         import pysam
+
         # index the bam file
         pysam.index(self.infile)
         # create count table
-        with open(self.outfile, 'wt') as out:
-            out.write("Reference sequence name\tSequence length\t"
-                      "Mapped reads\tUnmapped reads{}".format(os.linesep))
+        with open(self.outfile, "wt") as out:
+            out.write(
+                "Reference sequence name\tSequence length\t"
+                "Mapped reads\tUnmapped reads{}".format(os.linesep)
+            )
             for line in pysam.idxstats(self.infile):
-                out.write(line) 
+                out.write(line)

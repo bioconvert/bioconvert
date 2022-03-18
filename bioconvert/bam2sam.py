@@ -42,6 +42,7 @@ class BAM2SAM(ConvBase):
     sambamba [SAMBAMBA]_ and pysam [PYSAM]_.
 
     """
+
     #: default value
     _default_method = "sambamba"
     _threading = True
@@ -72,6 +73,7 @@ class BAM2SAM(ConvBase):
         
         `Pysam documentation <https://pysam.readthedocs.io/en/latest/api.html>`_"""
         import pysam
+
         pysam.sort("-o", self.outfile, self.infile)
 
     @requires("sambamba")

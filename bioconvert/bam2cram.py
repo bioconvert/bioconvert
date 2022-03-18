@@ -42,6 +42,7 @@ class BAM2CRAM(ConvBase):
 
     Methods available are based on samtools [SAMTOOLS]_.
     """
+
     #: Default value
     _default_method = "samtools"
     _threading = True
@@ -78,7 +79,8 @@ class BAM2CRAM(ConvBase):
             reference = self._get_reference()
 
         cmd = "samtools view -@ {} -C {} -T {} -o {}".format(
-            self.threads, self.infile, reference, self.outfile)
+            self.threads, self.infile, reference, self.outfile
+        )
         self.execute(cmd)
 
     @classmethod
@@ -86,6 +88,5 @@ class BAM2CRAM(ConvBase):
         yield ConvArg(
             names="--reference",
             default=None,
-            help="the reference used (FASTA format). If not provided, prompt will appear"
-            )
-
+            help="the reference used (FASTA format). If not provided, prompt will appear",
+        )

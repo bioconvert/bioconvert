@@ -28,6 +28,7 @@ class BIGBED2WIGGLE(ConvBase):
 
     Methods available are based on wiggletools [WIGGLETOOLS]_.
     """
+
     #: Default value
     _default_method = "wiggletools"
 
@@ -46,7 +47,7 @@ class BIGBED2WIGGLE(ConvBase):
         import os
         from easydev import TempFile
 
-        # with need a unique name, that does not exists for the symlink 
+        # with need a unique name, that does not exists for the symlink
         # Fixes #233
         fname = None
         with TempFile(suffix=".bb") as ftemp:
@@ -58,7 +59,7 @@ class BIGBED2WIGGLE(ConvBase):
             cmd = "wiggletools {} > {}".format(ftemp.name, self.outfile)
             self.execute(cmd)
         except Exception as err:
-            raise(err)
+            raise (err)
         finally:
             # clean symlink
             os.unlink(fname)

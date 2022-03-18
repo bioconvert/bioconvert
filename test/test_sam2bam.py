@@ -1,6 +1,6 @@
 import pytest
 from easydev import TempFile, md5
-import filecmp 
+import filecmp
 
 from bioconvert.sam2bam import SAM2BAM
 from bioconvert.bam2sam import BAM2SAM
@@ -16,7 +16,7 @@ def test_conv():
         convert = SAM2BAM(infile, tempfile.name)
         convert()
 
-        # Difficult to test the md5 since bam is binary 
+        # Difficult to test the md5 since bam is binary
         # recurrent problem is the version stored in the file that keeps
         # changing
         # However, we can reverse back the bam 2 sam and they should agree since

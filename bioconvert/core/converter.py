@@ -173,8 +173,7 @@ class Bioconvert(object):
                 )
             else:
                 msg = "Requested input format ('{}') to output format ('{}') is not available in bioconvert".format(
-                    self.in_fmt,
-                    self.out_fmt,
+                    self.in_fmt, self.out_fmt,
                 )
                 _log.critical(msg)
                 _log.critical(

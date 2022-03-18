@@ -6,6 +6,7 @@ from easydev import md5
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", VCF2BPLINK.available_methods)
 def test_vcf2bplink(method):
     infile = f"{test_dir}/data/vcf/plink_toy.vcf"
@@ -14,6 +15,6 @@ def test_vcf2bplink(method):
         converter = VCF2BPLINK(infile, outfile)
         converter(method=method)
 
-        assert os.path.isfile(outfile+".bed")
-        assert os.path.isfile(outfile+".bim")
-        assert os.path.isfile(outfile+".fam")
+        assert os.path.isfile(outfile + ".bed")
+        assert os.path.isfile(outfile + ".bim")
+        assert os.path.isfile(outfile + ".fam")

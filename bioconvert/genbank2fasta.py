@@ -27,7 +27,7 @@
 from bioconvert import ConvBase
 from bioconvert.io.genbank import Genbank
 from bioconvert.core.decorators import requires, requires_nothing
-from bioconvert.core.decorators import  compressor
+from bioconvert.core.decorators import compressor
 
 __all__ = ["GENBANK2FASTA"]
 
@@ -39,6 +39,7 @@ class GENBANK2FASTA(ConvBase):
     own Bioconvert implementation.
 
     """
+
     #: Default value
     _default_method = "biopython"
 
@@ -70,6 +71,7 @@ class GENBANK2FASTA(ConvBase):
         
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
+
         SeqIO.convert(self.infile, "genbank", self.outfile, "fasta")
 
     @requires_nothing
@@ -81,9 +83,18 @@ class GENBANK2FASTA(ConvBase):
         with open(self.outfile, "w") as writer:
             for idx, entry in enumerate(reader.read()):
                 if "ORIGIN" in entry:
-                    writer.write(">{} {}\n{}\n".format(
-                        entry["VERSION"]["id"] if "VERSION" in entry else entry["LOCUS"]["id"],
-                        entry["DEFINITION"] if "DEFINITION" in entry else "",
-                        entry["ORIGIN"]))
+                    writer.write(
+                        ">{} {}\n{}\n".format(
+                            entry["VERSION"]["id"]
+                            if "VERSION" in entry
+                            else entry["LOCUS"]["id"],
+                            entry["DEFINITION"] if "DEFINITION" in entry else "",
+                            entry["ORIGIN"],
+                        )
+                    )
                 else:
-                    print("Impossible to create a sequence for the entry number {}. Sequence not found after the keyword ORIGIN".format(idx))
+                    print(
+                        "Impossible to create a sequence for the entry number {}. Sequence not found after the keyword ORIGIN".format(
+                            idx
+                        )
+                    )

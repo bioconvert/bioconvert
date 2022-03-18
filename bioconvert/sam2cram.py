@@ -47,6 +47,7 @@ class SAM2CRAM(ConvBase):
 
     Methods available are based on samtools [SAMTOOLS]_.
     """
+
     #: Default value
     _default_method = "samtools"
     _threading = True
@@ -83,7 +84,8 @@ class SAM2CRAM(ConvBase):
             reference = self._get_reference()
 
         cmd = "samtools view -@ {} -C {} -T {} > {}".format(
-            self.threads, self.infile, reference, self.outfile)
+            self.threads, self.infile, reference, self.outfile
+        )
         try:
             self.execute(cmd)
         except:
@@ -95,6 +97,6 @@ class SAM2CRAM(ConvBase):
             names="--reference",
             nargs=1,
             default=None,
-            #type=ConvArg.file,
+            # type=ConvArg.file,
             help="reference used",
         )

@@ -24,6 +24,7 @@
 ###########################################################################
 """Convert :term:`FASTQ` to :term:`FASTA` format"""
 from bioconvert import ConvBase, bioconvert_script
+
 # from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import compressor, in_gz
 from bioconvert.core.decorators import requires, requires_nothing
@@ -69,16 +70,16 @@ class FASTQ2FASTA(ConvBase):
         """
         from Bio.SeqIO import FastaIO
         from Bio import SeqIO
+
         with open(outfile, "w") as fasta_out:
             if strip_comment:
                 FastaIO.FastaWriter(
-                    fasta_out,
-                    wrap=None,
-                    record2title=FASTQ2FASTA.just_name).write_file(
-                        SeqIO.parse(infile, 'fasta'))
+                    fasta_out, wrap=None, record2title=FASTQ2FASTA.just_name
+                ).write_file(SeqIO.parse(infile, "fasta"))
             else:
                 FastaIO.FastaWriter(fasta_out, wrap=None).write_file(
-                    SeqIO.parse(infile, 'fasta'))
+                    SeqIO.parse(infile, "fasta")
+                )
 
     # Adapted from the readfq code by Heng Li
     # (https://raw.githubusercontent.com/lh3/readfq/master/readfq.py)
@@ -95,17 +96,17 @@ class FASTQ2FASTA(ConvBase):
                 break
             header, seqs, last = last[1:], [], None
             for l in fp:  # read the sequence
-                if l[0] in '@+':
+                if l[0] in "@+":
                     last = l[:-1]
                     break
                 seqs.append(l[:-1])
-            seq, leng, seqs = ''.join(seqs), 0, []
+            seq, leng, seqs = "".join(seqs), 0, []
             for l in fp:  # read the quality
                 seqs.append(l[:-1])
                 leng += len(l) - 1
                 if leng >= len(seq):  # have read enough quality
                     last = None
-                    yield header, seq, ''.join(seqs)  # yield a fastq record
+                    yield header, seq, "".join(seqs)  # yield a fastq record
                     break
 
     # @requires(python_library="biopython")
@@ -157,13 +158,12 @@ class FASTQ2FASTA(ConvBase):
             for (name, seq, _) in fastx_read(self.infile):
                 fasta.write(">{}\n{}\n".format(name, seq))
 
-    #@requires(external_binary="bioawk")
-    #@in_gz
-    #def _method_bioawk(self, *args, **kwargs):
+    # @requires(external_binary="bioawk")
+    # @in_gz
+    # def _method_bioawk(self, *args, **kwargs):
     #    awkcmd = """bioawk -c fastx '{{print ">"$name" "$comment"\\n"$seq}}'"""
     #    cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
     #    self.execute(cmd)
-    
 
     # Somehow this does not work without specifying
     # the path to the shared libraries

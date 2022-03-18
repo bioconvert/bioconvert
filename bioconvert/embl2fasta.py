@@ -36,6 +36,7 @@ class EMBL2FASTA(ConvBase):
     Methods available are based on squizz [SQUIZZ]_ or biopython
     [BIOPYTHON]_.
     """
+
     #: Default value
     _default_method = "biopython"
 
@@ -65,5 +66,5 @@ class EMBL2FASTA(ConvBase):
         
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
-        SeqIO.convert(self.infile, "embl", self.outfile, "fasta")
 
+        SeqIO.convert(self.infile, "embl", self.outfile, "fasta")

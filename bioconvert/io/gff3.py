@@ -25,7 +25,7 @@
 import re
 
 
-class Gff3():
+class Gff3:
     """Read a gff v3 file
 
     See the format description at
@@ -33,6 +33,7 @@ class Gff3():
 
 
     """
+
     def __init__(self, filename):
         self.filename = filename
 
@@ -42,7 +43,7 @@ class Gff3():
             line = None
 
             for line in reader:
-                
+
                 # Skip metadata and comments
                 if line.startswith("#"):
                     continue
@@ -57,7 +58,9 @@ class Gff3():
                 if len(split) < 9:
                     # Wrong line format
                     if len(split) > 0:
-                        print("Impossible to read the following line regarding the gff3 specifications")
+                        print(
+                            "Impossible to read the following line regarding the gff3 specifications"
+                        )
                         print(line)
                     continue
 
@@ -65,7 +68,6 @@ class Gff3():
                 annotation["attributes"] = self.process_attributes(split[8])
 
                 yield annotation
-
 
     def process_main_fields(self, fields):
         annotation = {}
@@ -92,18 +94,17 @@ class Gff3():
 
         return annotation
 
-
     def process_attributes(self, text):
         attributes = {}
 
         # split into mutliple attributes
         split = text.split(";")
         for attr in split:
-            #find the separator
+            # find the separator
             idx = attr.find("=")
 
             # parse tags and associated values
-            value = self.decode_complete(attr[idx+1:])
+            value = self.decode_complete(attr[idx + 1 :])
             if len(value) == 1:
                 value = value[0]
             attributes[self.decode_complete(attr[:idx])] = value

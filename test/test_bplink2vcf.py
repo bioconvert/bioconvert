@@ -6,6 +6,7 @@ from easydev import md5
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", BPLINK2VCF.available_methods)
 def test_bplink2vcf(method):
     infile = os.path.splitext(f"{test_dir}/data/bed/plink_toy.bed")[0]

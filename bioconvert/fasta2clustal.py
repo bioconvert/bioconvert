@@ -40,8 +40,9 @@ class FASTA2CLUSTAL(ConvBase):
     Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, 
     and goalign [GOALIGN]_.
     """
-    #: Default value 
-    _default_method = 'biopython'
+
+    #: Default value
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -68,9 +69,9 @@ class FASTA2CLUSTAL(ConvBase):
         """Convert :term:`FASTA` file in :term:`CLUSTAL` format using squizz tool.
 
         """
-        cmd = 'squizz -c CLUSTAL {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c CLUSTAL {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     @requires("go")
@@ -79,9 +80,8 @@ class FASTA2CLUSTAL(ConvBase):
         """Convert :term:`FASTA` file in  :term:`CLUSTAL` format using goalign tool.
 
         `goalign documentation <https://github.com/fredericlemoine/goalign>`_"""
-        self.install_tool('goalign')
-        cmd = 'goalign reformat clustal -i {infile} -o {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("goalign")
+        cmd = "goalign reformat clustal -i {infile} -o {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
-        

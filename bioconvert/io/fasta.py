@@ -24,14 +24,15 @@
 ###########################################################################
 
 
-class Fasta():
+class Fasta:
     """Read a fasta file"""
+
     def __init__(self, filename):
         self.filename = filename
 
     def read(self):
         """ Read fasta sequence by sequence creating a generator """
-        sequence = {"id":"", "comment":"", "value":""}
+        sequence = {"id": "", "comment": "", "value": ""}
 
         with open(self.filename) as reader:
             line = None
@@ -46,14 +47,14 @@ class Fasta():
                         yield sequence
 
                     # create new sequence
-                    sequence = {"id":"", "comment":"", "value":""}
+                    sequence = {"id": "", "comment": "", "value": ""}
                     # Parse header to split into id and comment
                     idx = line.find(" ")
                     if idx == -1:
                         sequence["id"] = line[1:]
                     else:
                         sequence["id"] = line[1:idx]
-                        sequence["comment"] = line[idx+1:]
+                        sequence["comment"] = line[idx + 1 :]
 
                 # Sequence case
                 else:

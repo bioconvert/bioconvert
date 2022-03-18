@@ -32,7 +32,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['NEWICK2PHYLOXML']
+__all__ = ["NEWICK2PHYLOXML"]
 
 
 class NEWICK2PHYLOXML(ConvBase):
@@ -42,8 +42,9 @@ class NEWICK2PHYLOXML(ConvBase):
     Methods available are based on gotree [GOTREE]_.
 
     """
+
     #: Default value
-    _default_method = 'gotree'
+    _default_method = "gotree"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -60,8 +61,8 @@ class NEWICK2PHYLOXML(ConvBase):
         """Convert :term:`NEWICK`  file in :term:`PHYLOXML` format using gotree tool.
 
         `gotree documentation <https://github.com/fredericlemoine/gotree>`_"""
-        self.install_tool('gotree')
-        cmd = 'gotree reformat phyloxml -i {infile} -o {outfile} -f newick'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("gotree")
+        cmd = "gotree reformat phyloxml -i {infile} -o {outfile} -f newick".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

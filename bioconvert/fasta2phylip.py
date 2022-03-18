@@ -46,8 +46,9 @@ class FASTA2PHYLIP(ConvBase):
     strict phylip that is with 10 characters on the first column.
 
     """
+
     #: Default value
-    _default_method = 'biopython'
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -73,9 +74,9 @@ class FASTA2PHYLIP(ConvBase):
         """Convert fasta file in Phylip interleaved format using squizz tool.
         The fasta file must be an alignement file, this means that all sequences must
         have the same length (with the gap) otherwise an error will be raised."""
-        cmd = 'squizz -c PHYLIPI {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c PHYLIPI {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     @requires("go")
@@ -88,8 +89,8 @@ class FASTA2PHYLIP(ConvBase):
         The fasta file must be an alignemnt file, this means that  all sequences 
         must have the same length (with the gap) otherwise an error will be raised
         """
-        self.install_tool('goalign')
-        cmd = 'goalign reformat phylip -i {infile} -o {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("goalign")
+        cmd = "goalign reformat phylip -i {infile} -o {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

@@ -34,15 +34,16 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['NEXUS2FASTA']
+__all__ = ["NEXUS2FASTA"]
 
 
 class NEXUS2FASTA(ConvBase):
     """
     Converts a sequence alignment from :term:`NEXUS` format to :term:`FASTA` format.
     """
+
     #: Default value
-    _default_method = 'biopython'
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -64,10 +65,10 @@ class NEXUS2FASTA(ConvBase):
             the sequential format is not supported
 
         """
-        self.install_tool('goalign')
-        cmd = 'goalign reformat fasta x -i {infile} -o {outfile} -x'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("goalign")
+        cmd = "goalign reformat fasta x -i {infile} -o {outfile} -x".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     @requires(python_library="biopython")
@@ -136,6 +137,7 @@ and not ::
     CCCAGATTGTTGACTGATAAGTAGGACCTCAGTCGTGACT
 """
         from Bio import AlignIO
+
         with open(self.outfile, "w") as output_handle:
             alignments = list(AlignIO.parse(self.infile, "nexus"))
             AlignIO.write(alignments, output_handle, "fasta")
@@ -149,7 +151,7 @@ and not ::
 
             squizz -c FASTA infile > outfile
         """
-        cmd = 'squizz -c FASTA {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c FASTA {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

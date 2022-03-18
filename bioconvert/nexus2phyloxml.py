@@ -35,7 +35,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['NEXUS2PHYLOXML']
+__all__ = ["NEXUS2PHYLOXML"]
 
 
 class NEXUS2PHYLOXML(ConvBase):
@@ -46,8 +46,9 @@ class NEXUS2PHYLOXML(ConvBase):
     goalign [GOALIGN]_.
 
     """
+
     #: Default value
-    _default_method = 'gotree'
+    _default_method = "gotree"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -64,8 +65,8 @@ class NEXUS2PHYLOXML(ConvBase):
         """uses gotree tool:
 
         `gotree documentation <https://github.com/fredericlemoine/gotree>`_"""
-        self.install_tool('gotree')
-        cmd = 'gotree reformat phyloxml -i {infile} -o {outfile} -f nexus'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("gotree")
+        cmd = "gotree reformat phyloxml -i {infile} -o {outfile} -f nexus".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

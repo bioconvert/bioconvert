@@ -34,7 +34,7 @@ from bioconvert.core.decorators import requires
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['TWOBIT2FASTA']
+__all__ = ["TWOBIT2FASTA"]
 
 
 class TWOBIT2FASTA(ConvBase):
@@ -43,8 +43,9 @@ class TWOBIT2FASTA(ConvBase):
     Conversion is based on UCSC [UCSC]_ and py2bit.
 
     """
+
     #: Default value
-    _default_method = 'py2bit'
+    _default_method = "py2bit"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -60,9 +61,9 @@ class TWOBIT2FASTA(ConvBase):
         """Convert twobit file in fasta format using ucsc twobittofa.
 
         `uscsc faToTwoBit Documentation <https://genome.ucsc.edu/goldenPath/help/twoBit.html>`_"""
-        cmd = 'twoBitToFa {infile} {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "twoBitToFa {infile} {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     # py2bit is from deeptols repo
@@ -72,9 +73,9 @@ class TWOBIT2FASTA(ConvBase):
         
         `py2bit documentation <https://github.com/deeptools/py2bit>`_"""
         import py2bit
+
         data = py2bit.open(self.infile)
         with open(self.outfile, "w") as fout:
             for chrom in sorted(data.chroms()):
                 seq = data.sequence(chrom)
                 fout.write(">{}\n{}\n".format(chrom, seq))
-

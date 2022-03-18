@@ -4,6 +4,7 @@ import pytest
 
 from . import test_dir
 
+
 def test_conv():
     infile = f"{test_dir}/data/fasta/test_fasta2faa.fasta"
     expected_outfile = f"{test_dir}/data/faa/test_fasta2faa.faa"
@@ -12,4 +13,3 @@ def test_conv():
         convert = FASTA2FAA(infile, outfile.name)
         convert(method="bioconvert")
         assert md5(outfile.name) == md5(expected_outfile)
-

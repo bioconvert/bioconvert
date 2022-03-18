@@ -41,8 +41,9 @@ class VCF2BPLINK(ConvBase):
     Conversion is based on plink executable
 
     """
+
     #: Default value
-    _default_method = 'plink'
+    _default_method = "plink"
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -59,7 +60,7 @@ class VCF2BPLINK(ConvBase):
         """Convert using plink executable.
 
         `plink documentation <http://hpc.ilri.cgiar.org/beca/training/data_mgt_2017/BackgroundMaterial/PlinkTutorial.pdf>`_"""
-        cmd = 'plink --vcf {infile} --make-bed --out {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "plink --vcf {infile} --make-bed --out {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

@@ -51,8 +51,9 @@ class BAM2COV(ConvBase):
 
     Methods available are based on samtools [SAMTOOLS]_ or bedtools [BEDTOOLS]_.
     """
+
     #: Default value
-    #_default_method = "samtools"
+    # _default_method = "samtools"
     _default_method = "bedtools"
 
     def __init__(self, infile, outfile):

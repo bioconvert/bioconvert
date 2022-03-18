@@ -42,10 +42,11 @@ class BEDGRAPH2BIGWIG(ConvBase):
     argument --chrom-sizes is required.
 
     """
-    #: Default value
-    _default_method = 'ucsc'
 
-    def __init__(self, infile, outfile): #, alphabet=None, *args, **kwargs):
+    #: Default value
+    _default_method = "ucsc"
+
+    def __init__(self, infile, outfile):  # , alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
 
         :param str infile: input :term:`BEDGRAPH` file.
@@ -64,12 +65,10 @@ class BEDGRAPH2BIGWIG(ConvBase):
         if chrom_sizes is None:
             raise ValueError("Must provide --chrom-sizes option")
 
-        cmd = 'bedGraphToBigWig {infile}  {chrom_sizes} {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile, 
-            chrom_sizes=chrom_sizes)
+        cmd = "bedGraphToBigWig {infile}  {chrom_sizes} {outfile}".format(
+            infile=self.infile, outfile=self.outfile, chrom_sizes=chrom_sizes
+        )
         self.execute(cmd)
-
 
     @classmethod
     def get_additional_arguments(cls):
@@ -78,5 +77,3 @@ class BEDGRAPH2BIGWIG(ConvBase):
             default=None,
             help="a two-column file/URL: <chromosome name> <size in bases>",
         )
-
-

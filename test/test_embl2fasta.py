@@ -4,6 +4,7 @@ from bioconvert.embl2fasta import EMBL2FASTA
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", EMBL2FASTA.available_methods)
 def test_conv(method):
     infile = f"{test_dir}/data/embl/JB409847.embl"

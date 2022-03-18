@@ -8,8 +8,10 @@ reg = Registry()
 convs = list(reg.get_info())
 names = sorted([l.__module__ for l in convs])
 
+
 def underline(text, character="-"):
     return text + "\n" + character * len(text) + "\n"
+
 
 print(underline("Reference converters", "="))
 print(underline("Summary", "-"))
@@ -21,9 +23,12 @@ for name in names:
 print(underline("All converters documentation", "-"))
 print()
 for name in names:
-    print("""
+    print(
+        """
 .. automodule:: {}
     :members:
     :synopsis:
-    :private-members:""".format(name))
-
+    :private-members:""".format(
+            name
+        )
+    )

@@ -11,8 +11,9 @@ def test_read_maf():
 
     with TempFile(suffix=".sam") as fout:
         maf = MAF(filename, fout.name)
-        #maf.count_insertions()
+        # maf.count_insertions()
         maf.to_sam()
-        
+
+
 def test_others():
     maf.mapqFromProb("0.5")
