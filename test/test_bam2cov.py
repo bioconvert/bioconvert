@@ -1,11 +1,12 @@
 from bioconvert.bam2cov import BAM2COV
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
 
+from . import test_dir
+
 @pytest.mark.parametrize("method", BAM2COV.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("test_measles.sorted.bam")
+    infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
     with TempFile(suffix=".cov") as tempfile:
         convert = BAM2COV(infile, tempfile.name)
         convert(method=method)

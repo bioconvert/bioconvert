@@ -1,13 +1,13 @@
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.phylip2stockholm import PHYLIP2STOCKHOLM
 
+from . import test_dir
 
 def test_phylip2stockholm_biopython():
-    infile = bioconvert_data("biopython.phylip")
-    outfile = bioconvert_data("biopython.stockholm")
+    infile = f"{test_dir}/data/phylip/biopython.phylip"
+    outfile = f"{test_dir}/data/stockholm/biopython.stockholm"
     with TempFile(suffix=".fasta") as tempfile:
         converter = PHYLIP2STOCKHOLM(infile, tempfile.name)
         converter(method='biopython')
@@ -18,8 +18,8 @@ def test_phylip2stockholm_biopython():
 
 @pytest.mark.skipif(PHYLIP2STOCKHOLM._method_squizz.is_disabled, reason="missing dependencies")
 def test_phylip2stockholm_squizz():
-    infile = bioconvert_data("squizz.phylip")
-    outfile = bioconvert_data("squizz.stockholm")
+    infile = f"{test_dir}/data/phylip/squizz.phylip"
+    outfile = f"{test_dir}/data/stockholm/squizz.stockholm"
     with TempFile(suffix=".stockholm") as tempfile:
         converter = PHYLIP2STOCKHOLM(infile, tempfile.name)
         converter(method='squizz')

@@ -80,6 +80,6 @@ class BAM2SAM(ConvBase):
         This is the default method because it is the fastest.
         
         `Sambamba documentation <https://lomereiter.github.io/sambamba/docs/sambamba-view.html>`_"""
-        cmd = "sambamba view {} -o {} -t {}"
+        cmd = "sambamba view --header {} -o {} -t {}"
         cmd = cmd.format(self.infile, self.outfile, self.threads)
         self.execute(cmd)

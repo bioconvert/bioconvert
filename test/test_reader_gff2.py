@@ -1,8 +1,8 @@
-from bioconvert import bioconvert_data
 from bioconvert.io.gff2 import Gff2
 
 import pytest
 
+from . import test_dir
 
 expected_values = [{'seqid': 'chr1', 'source': 'processed_transcript', 'type': 'exon', 'start': 11869, 'stop': 12227, 'strand': '+', 'attributes': {'gene_id': 'ENSG00000223972', 'transcript_id': 'ENST00000456328', 'exon_number': '1', 'gene_name': 'DDX11L1', 'gene_biotype': 'pseudogene', 'transcript_name': 'DDX11L1-002', 'exon_id': 'ENSE00002234944'}}
 , {'seqid': 'chr1', 'source': 'processed_transcript', 'type': 'exon', 'start': 12613, 'stop': 12721, 'strand': '+', 'attributes': {'gene_id': 'ENSG00000223972', 'transcript_id': 'ENST00000456328', 'exon_number': '2', 'gene_name': 'DDX11L1', 'gene_biotype': 'pseudogene', 'transcript_name': 'DDX11L1-002', 'exon_id': 'ENSE00003582793'}}
@@ -84,7 +84,7 @@ expected_values = [{'seqid': 'chr1', 'source': 'processed_transcript', 'type': '
 
 
 def test_load():
-    infile = bioconvert_data("GFF2/gff2_example.gff")
+    infile = f"{test_dir}/data/GFF2/gff2_example.gff"
     reader_gff2 = Gff2(infile)
 
     for expected_value, file_value in zip(expected_values, reader_gff2.read()):

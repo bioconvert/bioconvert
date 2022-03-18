@@ -1,14 +1,14 @@
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.twobit2fasta import TWOBIT2FASTA
 
+from . import test_dir
 
 @pytest.mark.parametrize("method", TWOBIT2FASTA.available_methods)
 def test_twobit2fasta_ucsc(method):
-    infile = bioconvert_data("ucsc.2bit")
-    outfile = bioconvert_data("ucsc.fasta")
+    infile = f"{test_dir}/data/twobit/ucsc.2bit"
+    outfile = f"{test_dir}/data/fasta/ucsc.fasta"
     with TempFile(suffix=".fasta") as tempfile:
         converter = TWOBIT2FASTA(infile, tempfile.name)
         converter(method=method)

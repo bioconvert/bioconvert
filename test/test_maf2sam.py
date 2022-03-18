@@ -1,11 +1,11 @@
 from bioconvert.maf2sam import MAF2SAM
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 
+from . import test_dir
 
 def test_conv():
-    infile = bioconvert_data("test_maf2sam.maf")
-    outfile = bioconvert_data("test_maf2sam.sam")
+    infile = f"{test_dir}/data/maf/test_maf2sam.maf"
+    outfile = f"{test_dir}/data/sam/test_maf2sam.sam"
     with TempFile(suffix=".sam") as tempfile:
         convert = MAF2SAM(infile, tempfile.name)
         convert(method="python")
@@ -23,5 +23,3 @@ def test_conv():
         data2 = "\n".join(data2)
 
         assert data1 == data2
-
-        

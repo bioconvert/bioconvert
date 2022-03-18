@@ -1,13 +1,12 @@
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
 from bioconvert.embl2genbank import EMBL2GENBANK
 
-
+from . import test_dir
 
 @pytest.mark.parametrize("method", EMBL2GENBANK.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("JB409847.embl")
+    infile = f"{test_dir}/data/embl/JB409847.embl"
 
     with TempFile(suffix=".gbk") as tempfile:
         converter = EMBL2GENBANK(infile, tempfile.name)
@@ -24,5 +23,3 @@ def test_conv(method):
             #     assert md5(tempfile.name) == "????"
         else:
             raise NotImplementedError
-
-

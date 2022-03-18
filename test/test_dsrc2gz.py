@@ -6,14 +6,14 @@ from easydev import TempFile
 
 from bioconvert.dsrc2gz import DSRC2GZ
 
+from . import test_dir
 
 @pytest.mark.skipif(len(DSRC2GZ.available_methods) == 0, reason="missing dependencies")
 def test_gz2dsrc():
     """
     Test that fastq gz file is converted as expected to a fastq .dsrc file
     """
-    from bioconvert import bioconvert_data
-    infile = bioconvert_data("test_SP1.fq.dsrc")
+    infile = f"{test_dir}/data/dsrc/test_SP1.fq.dsrc"
 
     with TempFile(suffix=".fq.gz") as tempfile:
         converter = DSRC2GZ(infile, tempfile.name)

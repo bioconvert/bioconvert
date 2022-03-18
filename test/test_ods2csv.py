@@ -1,16 +1,16 @@
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.ods2csv import ODS2CSV
 
+from . import test_dir
 
 @pytest.mark.parametrize("method", ODS2CSV.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("test_tabulated.ods")
+    infile = f"{test_dir}/data/ods/test_tabulated.ods"
     expected_outfiles = [
-        bioconvert_data("test_tabulated.csv"),
-        bioconvert_data("test_tabulated_with_3_more_blank_lines.csv"),
+        f"{test_dir}/data/csv/test_tabulated.csv",
+        f"{test_dir}/data/csv/test_tabulated_with_3_more_blank_lines.csv",
     ]
     with TempFile(suffix=".csv") as tempfile:
         convert = ODS2CSV(infile, tempfile.name)

@@ -1,16 +1,14 @@
 import pytest
 
 from bioconvert.bam2fastq import BAM2FASTQ
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 
-
-
+from . import test_dir
 
 @pytest.mark.parametrize("method", BAM2FASTQ.available_methods)
 def test_conv_all_methods(method):
 
-    infile = bioconvert_data("test_measles.sorted.bam")
+    infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
     with TempFile(suffix=".fastq") as tempfile:
         convert = BAM2FASTQ(infile, tempfile.name)
         convert(method=method)
@@ -20,7 +18,7 @@ def test_conv_all_methods(method):
             convert = BAM2FASTQ(infile, tempfile.name)
             convert(method=method)
 
-    infile = bioconvert_data("test_measles_unpaired.sorted.bam")
+    infile = f"{test_dir}/data/bam/test_measles_unpaired.sorted.bam"
     with TempFile(suffix=".fastq") as tempfile:
         convert = BAM2FASTQ(infile, tempfile.name)
         convert(method=method)
@@ -32,7 +30,7 @@ def test_conv_all_methods(method):
 
 def test_method_bedtools():
 
-    infile = bioconvert_data("test_measles.sorted.bam")
+    infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
     with TempFile(suffix=".fastq") as tempfile:
         convert = BAM2FASTQ(infile, tempfile.name)
         convert(method="bedtools")

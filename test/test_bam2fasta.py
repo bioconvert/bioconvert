@@ -1,15 +1,14 @@
 import pytest
 
 from bioconvert.bam2fasta import BAM2FASTA
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 
-
+from . import test_dir
 
 #@pytest.mark.skipif(BAM2FASTA._method_samtools.is_disabled, reason="missing dependencies")
 @pytest.mark.parametrize("method", BAM2FASTA.available_methods)
 def test_methods(method):
-    infile = bioconvert_data("test_measles.sorted.bam")
+    infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
 
     with TempFile(suffix=".fa") as tempfile:
         convert = BAM2FASTA(infile, tempfile.name)
@@ -27,7 +26,7 @@ def test_methods(method):
             convert(method=method)
             # no check, just running 
 
-    infile = bioconvert_data("test_measles_unpaired.sorted.bam")
+    infile = f"{test_dir}/data/bam/test_measles_unpaired.sorted.bam"
 
     with TempFile(suffix=".fa") as tempfile:
         convert = BAM2FASTA(infile, tempfile.name)
@@ -40,4 +39,3 @@ def test_methods(method):
             convert = BAM2FASTA(infile, tempfile.name)
             convert(method=method)
             # no check, just running 
-

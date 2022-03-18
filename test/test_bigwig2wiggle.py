@@ -1,15 +1,14 @@
 import os
 from bioconvert.bigwig2wiggle import BIGWIG2WIGGLE
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
 
-
+from . import test_dir
 
 @pytest.mark.parametrize("method", BIGWIG2WIGGLE.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("test_measles.bigwig")
-    outfile = bioconvert_data("test_bigwig2wiggle.wiggle")
+    infile = f"{test_dir}/data/bigwig/test_measles.bigwig"
+    outfile = f"{test_dir}/data/wiggle/test_bigwig2wiggle.wiggle"
     md5out = md5(outfile)
 
 
@@ -18,4 +17,3 @@ def test_conv(method):
         convert(method=method)
 
         assert md5(tempfile.name) == md5out, "{} failed".format(method)
-

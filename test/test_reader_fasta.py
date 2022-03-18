@@ -1,4 +1,3 @@
-from bioconvert import bioconvert_data
 from bioconvert.io.fasta import Fasta
 
 import pytest
@@ -10,11 +9,10 @@ comments = ["HWI-ST1253F_0122:4:1101:1135:2068 length=50", "HWI-ST1253F_0122:4:1
 values = ["TNGATTGAGGTGACAGTTTCTGAGTTAAACTGCAGATCGGAAGAGCACAC", "TACGTTTATAGTTTAATGGGCCAATAATTGGTCAGATCGGAAGAGCACAC", "ANGGTGCTTGGACTACATATGGTTGAGGGTTGTACTGAAGATCGGAAGAG", "ATTCGACAGTAAGAAGAACAAATCGTGTAATCTGCAGATCGGAAGAGCAC", "TTCGNGCTTGGACTACATATGGTTGAGGGTTGTAGGAAAGATCGGAAGAG", "AAAANTCAGTTTGGGCGCGTCAGCATTGTTTTGGAGATCGGAAGAGCACA", "TTGGNTCTGCTAGGGTGCTATGAAATCTCTCCCAGATCGGAAGAGCACAC", "GAAGNCACGGTCGCCATATGAAAGGTGCTATGGTAGATCGGAAGAGCACA"]
 
 def test_load():
-    infile = f"{test_dir}/data/fastq2fasta/sample_v4.fasta"
+    infile = f"{test_dir}/data/fasta/sample_v4.fasta"
     reader_fasta = Fasta(infile)
 
     for fasta_entry, id, comment, value in zip(reader_fasta.read(), ids, comments, values):
         assert fasta_entry["id"] == id
         assert fasta_entry["comment"] == comment
         assert fasta_entry["value"] == value
-

@@ -5,15 +5,13 @@ import pytest
 
 
 from . import test_dir
+
 @pytest.mark.parametrize("method", FASTQ2QUAL.available_methods)
 def test_conv(method):
-    infile = f"{test_dir}/data/fastq2qual/test_fastq2fasta_v1.fastq"
+    infile = f"{test_dir}/data/fastq/test_fastq2fasta_v1.fastq"
 
     #expected_outfile = bioconvert_data("test_fastq2qual_v1.qual")
     with TempFile(suffix=".fasta") as fout:
         c = FASTQ2QUAL(infile, fout.name)
         c()
         # TODO: check md5
-
-
-

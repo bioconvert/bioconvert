@@ -1,9 +1,9 @@
 import pytest
 import sys
 from bioconvert.bam2tsv import BAM2TSV
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 
+from . import test_dir
 
 @pytest.mark.skipif(len(BAM2TSV.available_methods) == 0, reason="missing dependencies")
 def test_bam2tsv():
@@ -11,7 +11,7 @@ def test_bam2tsv():
     # you will need data for instance "mydata.fastq and mydata.fasta".
     # Put it in bioconvert/bioconvert/data
     # you can then use ::
-    infile = bioconvert_data("test_measles.sorted.bam")
+    infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
     #expected_outfile = bioconvert_data("test_measles.tsv")
     with TempFile(suffix=".tsv") as tempfile:
         convert = BAM2TSV(infile, tempfile.name)

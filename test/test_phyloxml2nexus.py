@@ -1,14 +1,14 @@
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.phyloxml2nexus import PHYLOXML2NEXUS
 
+from . import test_dir
 
 @pytest.mark.parametrize("method", PHYLOXML2NEXUS.available_methods)
 def test_xml2nx_biopython(method):
-    infile = bioconvert_data(method + ".xml")
-    outfile = bioconvert_data(method + ".nexus")
+    infile = f"{test_dir}/data/phyloxml/{method}.xml"
+    outfile = f"{test_dir}/data/nexus/{method}.nexus"
     with TempFile(suffix=".nexus") as tempfile:
         converter = PHYLOXML2NEXUS(infile, tempfile.name)
         converter(method=method)

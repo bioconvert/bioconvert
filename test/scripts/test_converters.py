@@ -5,15 +5,13 @@ import pytest
 from easydev import TempFile, md5
 import sys
 
-from bioconvert import bioconvert_data
 from bioconvert.bam2cov import BAM2COV
 from bioconvert.scripts import converter
 
-
 from . import test_dir
 
-fastq_file = f"{test_dir}/../data/fastq2fasta/test_fastq2fasta_v1.fastq"
-fasta_file = f"{test_dir}/../data/fastq2fasta/test_fastq2fasta_v1.fasta"
+fastq_file = f"{test_dir}/../data/fastq/test_fastq2fasta_v1.fastq"
+fasta_file = f"{test_dir}/../data/fasta/test_fastq2fasta_v1.fasta"
 
 def test_converter_compression():
 
@@ -75,7 +73,7 @@ def test_converter_without_converter():
 
 @pytest.mark.skipif(BAM2COV._method_bedtools.is_disabled, reason="missing dependencies")
 def test_converter2():
-    infile = bioconvert_data("test_measles.sorted.bam")
+    infile = f"{test_dir}/../data/bam/test_measles.sorted.bam"
     with TempFile(suffix=".bed") as tempfile:
         sys.argv = ["bioconvert", "bam2cov", infile, tempfile.name,
                     "--method", "bedtools", "--force"]
@@ -85,7 +83,7 @@ def test_converter2():
 # FIXME 3/3/22
 def _test_plink_no_extension():
 
-    infile = bioconvert_data("plink_toy.ped")
+    infile = f"{test_dir}/../data/plink/plink_toy.ped"
     infile = infile.replace(".ped", "")
 
     with TempFile(suffix="") as outfile:
@@ -111,7 +109,7 @@ def test_converter_no_outfile_without_srs_argv():
 
 
 def test_converter_output_format():
-    infile = bioconvert_data("test_measles.sorted.bam")
+    infile = f"{test_dir}/../data/bam/test_measles.sorted.bam"
     with TempFile() as tempfile:
         sys.argv = ["bioconvert", infile, tempfile.name,
                     "--output-format", "bed", "--force"]
@@ -325,7 +323,7 @@ def test_converter_show_methods():
         assert e.code == 0
 
 def test_indirect_conversion_without_argument():
-    infile = bioconvert_data("ERR3295124.fastq")
+    infile = f"{test_dir}/../data/fastq/ERR3295124.fastq"
     with TempFile(suffix=".clustal") as tempfile:
         sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name, "--force"]
         # For now we want the user to explicitly indicate that (s)he agrees 
@@ -340,7 +338,7 @@ def test_indirect_conversion_without_argument():
 
 
 def test_indirect_conversion():
-    infile = bioconvert_data("ERR3295124.fastq")
+    infile = f"{test_dir}/../data/fastq/ERR3295124.fastq"
     #infile = bioconvert_data("fastqutils_1.fastq")
     with TempFile(suffix=".clustal") as tempfile:
         sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name,

@@ -1,14 +1,14 @@
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.phylip2xmfa import PHYLIP2XMFA
 
+from . import test_dir
 
 @pytest.mark.parametrize("method", PHYLIP2XMFA.available_methods)
 def test_phy2xmfa(method):
-    infile = bioconvert_data(method + ".phylip")
-    outfile = bioconvert_data("test_phylip2xmfa.xmfa")
+    infile = f"{test_dir}/data/phylip/{method}.phylip"
+    outfile = f"{test_dir}/data/xmfa/test_phylip2xmfa.xmfa"
     with TempFile(suffix=".xmfa") as tempfile:
         converter = PHYLIP2XMFA(infile, tempfile.name)
         converter(method=method)
