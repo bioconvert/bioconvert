@@ -32,7 +32,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['NEXUS2PHYLIP']
+__all__ = ["NEXUS2PHYLIP"]
 
 
 class NEXUS2PHYLIP(ConvBase):
@@ -42,8 +42,9 @@ class NEXUS2PHYLIP(ConvBase):
     Methods available are based on goalign [GOALIGN]_.
 
     """
+
     #: Default value
-    _default_method = 'goalign'
+    _default_method = "goalign"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -60,8 +61,8 @@ class NEXUS2PHYLIP(ConvBase):
         """Convert :term:`NEXUS` interleaved file in :term:`PHYLIP` format using goalign tool.
 
         `goalign documentation <https://github.com/fredericlemoine/goalign>`_"""
-        self.install_tool('goalign')
-        cmd = 'goalign reformat phylip -i {infile} -o {outfile} -x'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("goalign")
+        cmd = "goalign reformat phylip -i {infile} -o {outfile} -x".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

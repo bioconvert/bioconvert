@@ -5,6 +5,7 @@ from bioconvert.phyloxml2nexus import PHYLOXML2NEXUS
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", PHYLOXML2NEXUS.available_methods)
 def test_xml2nx_biopython(method):
     infile = f"{test_dir}/data/phyloxml/{method}.xml"

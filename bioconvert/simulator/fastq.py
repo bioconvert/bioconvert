@@ -22,7 +22,7 @@
 ###########################################################################
 
 
-class FastqSim():
+class FastqSim:
     def __init__(self, outfile):
         self.outfile = outfile
         self.nreads = 1000000
@@ -39,4 +39,3 @@ class FastqSim():
                 fout.write("ACGT" * (RL // 4) + "A" * (RL % 4) + "\n")
                 fout.write("+\n")
                 fout.write("C" * RL + "\n")
-

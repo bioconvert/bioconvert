@@ -27,6 +27,7 @@
 from bioconvert import ConvBase
 
 import colorlog
+
 logger = colorlog.getLogger(__name__)
 
 __all__ = ["MAF2SAM"]
@@ -62,6 +63,6 @@ class MAF2SAM(ConvBase):
         
         `MAF documentation <https://bioconvert.readthedocs.io/en/refactoring/ref_io.html#module-bioconvert.io.maf>`_"""
         from bioconvert.io import maf
+
         conv = maf.MAF(self.infile, self.outfile)
         conv.to_sam()
-

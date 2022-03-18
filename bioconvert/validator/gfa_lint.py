@@ -21,10 +21,11 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 import colorlog
+
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['GFALint']
+__all__ = ["GFALint"]
 
 
 class GFALint(object):
@@ -32,12 +33,12 @@ class GFALint(object):
 
     see https://github.com/sjackman/gfalint/
     """
+
     def __init__(self, filename):
         self.filename = filename
 
-
     def validate(self):
-        # read line by line. Checks 
+        # read line by line. Checks
         # - lines start with HT, VT or ED
         # - lines must be tab delimited
         # - lines VT must have 2 fields only
@@ -48,5 +49,6 @@ class GFALint(object):
                 elif len(line.strip()) == 0:
                     _log.warning("Found empty line on line {}".format(line))
                 else:
-                    raise ValueError("Unknown starting field ({}) on line {}".format((line[0], i)))
-
+                    raise ValueError(
+                        "Unknown starting field ({}) on line {}".format((line[0], i))
+                    )

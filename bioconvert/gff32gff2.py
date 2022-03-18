@@ -30,6 +30,7 @@ from bioconvert.core.decorators import requires_nothing
 from bioconvert import compressor
 from bioconvert.io.gff3 import Gff3
 
+
 class GFF32GFF2(ConvBase):
     """Convert :term:`GFF2` to :term:`GFF3`
 
@@ -38,7 +39,6 @@ class GFF32GFF2(ConvBase):
 
     #: Default value
     _default_method = "bioconvert"
-
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -61,16 +61,22 @@ class GFF32GFF2(ConvBase):
         with open(self.outfile, "w") as gff2_writer:
             for annotation in gff3_reader.read():
                 # Write the 8 first columns
-                gff2_writer.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t".format(
-                    annotation["seqid"],
-                    annotation["source"] if "source" in annotation else ".", # optional sourse
-                    annotation["type"], # should be verified for ontology matching
-                    annotation["start"],
-                    annotation["stop"],
-                    annotation["score"] if "score" in annotation else ".", # Score
-                    annotation["strand"] if "strand" in annotation else ".", # starnd
-                    annotation["phase"] if "phase" in annotation else "." # phase
-                ))
+                gff2_writer.write(
+                    "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t".format(
+                        annotation["seqid"],
+                        annotation["source"]
+                        if "source" in annotation
+                        else ".",  # optional sourse
+                        annotation["type"],  # should be verified for ontology matching
+                        annotation["start"],
+                        annotation["stop"],
+                        annotation["score"] if "score" in annotation else ".",  # Score
+                        annotation["strand"]
+                        if "strand" in annotation
+                        else ".",  # starnd
+                        annotation["phase"] if "phase" in annotation else ".",  # phase
+                    )
+                )
                 # Write the 9th column using new standards but without smart translations
                 if len(annotation["attributes"]) > 0:
                     attributes = []
@@ -78,7 +84,7 @@ class GFF32GFF2(ConvBase):
                         if isinstance(value, list):
                             value = ",".join(value)
                         # add the value
-                        attributes.append("{} \"{}\"".format(key, value))
+                        attributes.append('{} "{}"'.format(key, value))
 
                     gff2_writer.write("; ".join(attributes) + "\n")
                 else:

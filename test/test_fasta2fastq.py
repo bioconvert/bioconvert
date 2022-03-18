@@ -23,13 +23,9 @@ def test_conv(method):
     with TempFile(suffix=".fastq") as outfile:
         convert = FASTA2FASTQ(infile, outfile.name)
         convert(method=method)
-        assert md5(outfile.name) == md5out_no_qual, \
-            "{} failed".format(method)
+        assert md5(outfile.name) == md5out_no_qual, "{} failed".format(method)
 
     with TempFile(suffix=".fastq") as outfile:
         convert = FASTA2FASTQ(infile, outfile.name)
         convert(method=method, quality_file=qual_file)
-        assert md5(outfile.name) == md5out_qual, \
-            "{} failed".format(method)
-
-        
+        assert md5(outfile.name) == md5out_qual, "{} failed".format(method)

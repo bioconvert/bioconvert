@@ -36,7 +36,6 @@ _log = colorlog.getLogger(__name__)
 __all__ = ["Benchmark"]
 
 
-
 class Benchmark:
     """Convenient class to benchmark several methods for a given converter
 
@@ -76,7 +75,6 @@ class Benchmark:
         else:
             self.to_include = to_include
 
-
     def run_methods(self):
         """Runs the benchmarks, and stores the timings in *self.results*."""
         results = {}
@@ -89,11 +87,11 @@ class Benchmark:
 
         for method in methods:
             times = []
-            for i in tqdm(range(self.N), desc = "Evaluating method {}".format(method)):
+            for i in tqdm(range(self.N), desc="Evaluating method {}".format(method)):
                 with Timer(times):
                     # Need to get all extrq qrguments for specify method e.g Bam2BIGWIG.uscs method
                     kwargs = {"method": method}
-                    for k,v in self.converter.others.items():
+                    for k, v in self.converter.others.items():
                         kwargs[k] = v
                     self.converter(**kwargs)
             results[method] = times
@@ -131,5 +129,3 @@ class Benchmark:
         pylab.tight_layout()
 
         return data
-
-

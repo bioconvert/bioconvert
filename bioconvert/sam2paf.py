@@ -108,6 +108,7 @@ class SAM2PAF(ConvBase):
     fields (see example above).
 
     """
+
     #: Default value
     _default_method = "python"
 
@@ -150,34 +151,47 @@ class SAM2PAF(ConvBase):
                             else:
                                 raise ValueError(
                                     "Could not parse SQ line to extract the length "
-                                    "(LN: field missing maybe ?)")
+                                    "(LN: field missing maybe ?)"
+                                )
                         continue
 
                     t = line.split()
                     flag = int(t[1])
 
-                    if (t[9] != "*" and t[10] != "*" and len(t[9]) != len(t[10])):
-                        raise ValueError("ERROR at line " + str(lineno) +
-                            ":inconsistent SEQ and QUAL lengths - " +
-                            str( len(t[9])) + " != " + str(len(t[10])))
+                    if t[9] != "*" and t[10] != "*" and len(t[9]) != len(t[10]):
+                        raise ValueError(
+                            "ERROR at line "
+                            + str(lineno)
+                            + ":inconsistent SEQ and QUAL lengths - "
+                            + str(len(t[9]))
+                            + " != "
+                            + str(len(t[10]))
+                        )
 
-                    if (t[2] == '*' or (flag & 4)):
+                    if t[2] == "*" or (flag & 4):
                         skipped += 1
                         continue
 
                     # if flag is 256 and pri_only, we skip the alignment
-                    if (pri_only and (flag & 0x100)):
+                    if pri_only and (flag & 0x100):
                         continue
 
                     # Get the reference length for this alignment
                     if t[2] in reference_lengths:
                         tlen = reference_lengths[t[2]]
                     else:
-                        raise KeyError("can't find the length of contig {}".format(t[2]))
+                        raise KeyError(
+                            "can't find the length of contig {}".format(t[2])
+                        )
 
                     # The reference is known but the length is not
-                    if (tlen == -1) :
-                        raise ValueError("ERROR at line " + str(lineno) + ": can't find the length of contig " + str(t[2]))
+                    if tlen == -1:
+                        raise ValueError(
+                            "ERROR at line "
+                            + str(lineno)
+                            + ": can't find the length of contig "
+                            + str(t[2])
+                        )
 
                     # TODO explain what are the nn and NM tags
                     match = re.findall(r"\tnn:i:(\d+)", line)
@@ -197,46 +211,50 @@ class SAM2PAF(ConvBase):
 
                     # See sequana.cigar for more information
                     clip = [0, 0]
-                    I = [0, 0]      # Insertion
-                    D = [0, 0]      # Deletion
-                    M, N = 0, 0     # Matches
-                    ql, tl, mm = 0, 0, 0,
+                    I = [0, 0]  # Insertion
+                    D = [0, 0]  # Deletion
+                    M, N = 0, 0  # Matches
+                    ql, tl, mm = (
+                        0,
+                        0,
+                        0,
+                    )
                     ext_cigar = False
                     n_cigar = 0
 
                     Zacc = ""
                     for count, letter in re.findall(pattern, t[5]):
                         l = int(count)
-                        if (letter == 'M'):
+                        if letter == "M":
                             M += l
                             ql += l
                             tl += l
                             ext_cigar = False
                             Zacc += "{}M".format(count)
-                        elif (letter == 'I'):
+                        elif letter == "I":
                             I[0] += 1
                             I[1] += l
                             ql += l
                             Zacc += "{}I".format(count)
-                        elif (letter == 'D'):
+                        elif letter == "D":
                             D[0] += 1
                             D[1] += l
                             tl += l
                             Zacc += "{}D".format(count)
-                        elif (letter == 'N'):
+                        elif letter == "N":
                             N += l
                             tl += l
-                        elif (letter == 'S'):
-                            clip[0 if M==0 else 1] = l
-                            ql += l
-                        elif (letter == 'H'):
+                        elif letter == "S":
                             clip[0 if M == 0 else 1] = l
-                        elif (letter == '='):
+                            ql += l
+                        elif letter == "H":
+                            clip[0 if M == 0 else 1] = l
+                        elif letter == "=":
                             M += l
                             ql += l
                             tl += l
                             ext_cigar = True
-                        elif (letter == 'X'):
+                        elif letter == "X":
                             M += l
                             ql += l
                             tl += l
@@ -246,27 +264,45 @@ class SAM2PAF(ConvBase):
 
                     prefix_msg = "at line {}: ".format(lineno) + "{}"
 
-                    if (n_cigar > 65535):
-                         logger.warning(prefix_msg.format(str(n_cigar) +
-                                        " CIGAR operations"))
+                    if n_cigar > 65535:
+                        logger.warning(
+                            prefix_msg.format(str(n_cigar) + " CIGAR operations")
+                        )
 
-                    if (tl + int(t[3]) - 1 > tlen):
-                        logger.warning(prefix_msg.format("alignment end "
-                            "position larger than ref length; skipped"))
+                    if tl + int(t[3]) - 1 > tlen:
+                        logger.warning(
+                            prefix_msg.format(
+                                "alignment end "
+                                "position larger than ref length; skipped"
+                            )
+                        )
                         continue
 
-                    if (t[9] != '*' and len(t[9]) != ql) :
-                        logger.warning(prefix_msg.format(
-                            " SEQ length inconsistent with CIGAR(" +
-                            str(len(t[9])) + " != " + str(ql) + "); skipped"))
+                    if t[9] != "*" and len(t[9]) != ql:
+                        logger.warning(
+                            prefix_msg.format(
+                                " SEQ length inconsistent with CIGAR("
+                                + str(len(t[9]))
+                                + " != "
+                                + str(ql)
+                                + "); skipped"
+                            )
+                        )
                         continue
 
-                    if (have_NM is False or ext_cigar):
-                         NM = I[1] + D[1] + mm
+                    if have_NM is False or ext_cigar:
+                        NM = I[1] + D[1] + mm
 
-                    if (NM < I[1] + D[1] + mm):
-                        logger.warning(prefix_msg.format(" NM is less than the total number of gaps (" 
-                            + str(NM) + " < " + str(I[1]+D[1]+mm) + ")"))
+                    if NM < I[1] + D[1] + mm:
+                        logger.warning(
+                            prefix_msg.format(
+                                " NM is less than the total number of gaps ("
+                                + str(NM)
+                                + " < "
+                                + str(I[1] + D[1] + mm)
+                                + ")"
+                            )
+                        )
                         NM = I[1] + D[1] + mm
 
                     # extra information to store in the PAF after the 12
@@ -274,18 +310,19 @@ class SAM2PAF(ConvBase):
                     # deletions (io/in and do/di) and mm is the number of other
                     # substitutions ? NM -I[1] -D[1]
                     extra = [
-                            "mm:i:"+ str(NM-I[1]-D[1]),
-                            "io:i:"+str(I[0]),
-                            "in:i:"+str(I[1]),
-                            "do:i:"+str(D[0]),
-                            "dn:i:"+ str(D[1])]
+                        "mm:i:" + str(NM - I[1] - D[1]),
+                        "io:i:" + str(I[0]),
+                        "in:i:" + str(I[1]),
+                        "do:i:" + str(D[0]),
+                        "dn:i:" + str(D[1]),
+                    ]
 
                     match = M - (NM - I[1] - D[1])
                     blen = M + I[1] + D[1]
                     qlen = M + I[1] + clip[0] + clip[1]
 
                     # What does flag 16 means ?
-                    if (flag & 16):
+                    if flag & 16:
                         qs = clip[1]
                         qe = qlen - clip[0]
                     else:
@@ -300,15 +337,32 @@ class SAM2PAF(ConvBase):
                     ## generated by minimap2
 
                     # The 12 compulsary fields to have a valid PAF format
-                    a = [t[0], qlen, qs, qe, "-" if flag & 16 else '+', t[2],
-                         tlen, ts, te, match+nn, blen-nn, t[4]]
+                    a = [
+                        t[0],
+                        qlen,
+                        qs,
+                        qe,
+                        "-" if flag & 16 else "+",
+                        t[2],
+                        tlen,
+                        ts,
+                        te,
+                        match + nn,
+                        blen - nn,
+                        t[4],
+                    ]
                     # cast to string and save in file
                     a = [str(x) for x in a]
 
                     # What extra fields do we want to add ?
                     # original fields found in the SAM file ?
-                    if extra_fields == "SAM" and len(t)>11:
-                        fout.write("\t".join(a) + "\t" + "\t".join(t[11:]) + "\tcg:Z:{}\n".format(Zacc))
+                    if extra_fields == "SAM" and len(t) > 11:
+                        fout.write(
+                            "\t".join(a)
+                            + "\t"
+                            + "\t".join(t[11:])
+                            + "\tcg:Z:{}\n".format(Zacc)
+                        )
                     elif extra_fields == "summary":
                         fout.write("\t".join(a) + "\t" + "\t".join(extra) + "\n")
                     elif extra_fields is None:
@@ -316,7 +370,7 @@ class SAM2PAF(ConvBase):
 
         self.skipped = skipped
 
-    #@requires(external_binaries=["k8", "paftools"])
-    #def _method_paftools(self, *args, **kwargs):
+    # @requires(external_binaries=["k8", "paftools"])
+    # def _method_paftools(self, *args, **kwargs):
     #    cmd = "paftools sam2paf {} > {}".format(self.infile, self.outfile)
-    #    self.execute(cmd) 
+    #    self.execute(cmd)

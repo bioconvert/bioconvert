@@ -36,12 +36,12 @@ Plot directed graph of possible conversion
 from bioconvert.core.graph import create_graph
 
 
-
 #####################################################
-# If you use pygraphviz, you can have a good quality 
+# If you use pygraphviz, you can have a good quality
 # image using:
 import matplotlib as mpl
-mpl.rcParams['figure.dpi']= 250
+
+mpl.rcParams["figure.dpi"] = 250
 
 ############################################################
 # In order to create the following image, you need graphviz
@@ -59,8 +59,9 @@ except:
 #####################################################
 #
 from pylab import imshow, imread, xticks, yticks, gca
+
 imshow(imread("conversion.png"), interpolation="nearest")
 xticks([])
 yticks([])
 ax = gca()
-ax.axis('off')
+ax.axis("off")

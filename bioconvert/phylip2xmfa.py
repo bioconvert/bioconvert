@@ -33,7 +33,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['PHYLIP2XMFA']
+__all__ = ["PHYLIP2XMFA"]
 
 
 class PHYLIP2XMFA(ConvBase):
@@ -43,8 +43,9 @@ class PHYLIP2XMFA(ConvBase):
     Methods available are based on biopython [BIOPYTHON]_.
 
     """
+
     #: Default value
-    _default_method = 'biopython'
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -63,5 +64,3 @@ class PHYLIP2XMFA(ConvBase):
         sequences = list(AlignIO.parse(self.infile, "phylip"))
         count = AlignIO.write(sequences, self.outfile, "mauve")
         _log.info("Converted %d records to phylip" % count)
-
-

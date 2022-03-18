@@ -7,6 +7,7 @@ from bioconvert.fasta2genbank import FASTA2GENBANK
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", FASTA2GENBANK.available_methods)
 def test_conv(method):
     infile = f"{test_dir}/data/fasta/test_measles.fa"

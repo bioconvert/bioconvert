@@ -35,7 +35,7 @@ from bioconvert.io import scf
 
 _log = colorlog.getLogger(__name__)
 
-__all__ =["SCF2FASTA"]
+__all__ = ["SCF2FASTA"]
 
 
 class SCF2FASTA(ConvBase):
@@ -57,7 +57,9 @@ class SCF2FASTA(ConvBase):
 
         # Wrinting output file
         with open(self.outfile, "w") as output_file:
-            output_file.write(">" + comments.replace("\n", "-").replace(" ", "_") + "\n")
+            output_file.write(
+                ">" + comments.replace("\n", "-").replace(" ", "_") + "\n"
+            )
             output_file.write(sequence + "\n")
 
         """
@@ -90,8 +92,6 @@ class SCF2FASTA(ConvBase):
         """
 
 
-
-
 """
 http://staden.sourceforge.net/manual/formats_unix_2.html
 http://doc.bioperl.org/bioperl-live/Bio/SeqIO/scf.html#POD6
@@ -117,4 +117,3 @@ Number of bases * 3                    Reserved for future use
 Comments size                          Comments
 Private data size                      Private data
 """
-

@@ -33,7 +33,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['PHYLIP2CLUSTAL']
+__all__ = ["PHYLIP2CLUSTAL"]
 
 
 class PHYLIP2CLUSTAL(ConvBase):
@@ -43,8 +43,9 @@ class PHYLIP2CLUSTAL(ConvBase):
     Methods available are based on biopython [BIOPYTHON]_, squiz [SQUIZZ]_.
 
     """
+
     #: Default value
-    _default_method = 'biopython'
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -63,7 +64,7 @@ class PHYLIP2CLUSTAL(ConvBase):
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "clustal")
-        #_log.info("Converted %d records to clustal" % count)
+        # _log.info("Converted %d records to clustal" % count)
 
     @requires("squizz")
     @compressor
@@ -71,7 +72,7 @@ class PHYLIP2CLUSTAL(ConvBase):
         """Convert :term:`PHYLIP` interleaved file in :term:`CLUSTAL` format using squizz tool.
 
         """
-        cmd = 'squizz -c CLUSTAL {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c CLUSTAL {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

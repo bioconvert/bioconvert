@@ -48,8 +48,9 @@ class BPLINK2PLINK(ConvBase):
         create two output files named plink_toy.ped and plink_toy.map
 
     """
+
     #: Default value
-    _default_method = 'plink'
+    _default_method = "plink"
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -66,7 +67,7 @@ class BPLINK2PLINK(ConvBase):
         """Convert plink file in text using plink executable.
 
         `plink documentation <http://hpc.ilri.cgiar.org/beca/training/data_mgt_2017/BackgroundMaterial/PlinkTutorial.pdf>`_"""
-        cmd = 'plink --bfile {infile} --recode --out {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "plink --bfile {infile} --recode --out {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

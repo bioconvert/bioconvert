@@ -8,6 +8,7 @@ from bioconvert.io.genbank import Genbank
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", GENBANK2FASTA.available_methods)
 def test_conv(method):
     infile = f"{test_dir}/data/genbank/JB409847.gbk"

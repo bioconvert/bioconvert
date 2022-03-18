@@ -62,16 +62,22 @@ class GFF22GFF3(ConvBase):
         with open(self.outfile, "w") as gff3_writer:
             for annotation in gff2_reader.read():
                 # Write the 8 first columns
-                gff3_writer.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t".format(
-                    annotation["seqid"],
-                    annotation["source"] if "source" in annotation else ".", # optional sourse
-                    annotation["type"], # should be verified for ontology matching
-                    annotation["start"],
-                    annotation["stop"],
-                    annotation["score"] if "score" in annotation else ".", # Score
-                    annotation["strand"] if "strand" in annotation else ".", # starnd
-                    annotation["phase"] if "phase" in annotation else "." # phase
-                ))
+                gff3_writer.write(
+                    "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t".format(
+                        annotation["seqid"],
+                        annotation["source"]
+                        if "source" in annotation
+                        else ".",  # optional sourse
+                        annotation["type"],  # should be verified for ontology matching
+                        annotation["start"],
+                        annotation["stop"],
+                        annotation["score"] if "score" in annotation else ".",  # Score
+                        annotation["strand"]
+                        if "strand" in annotation
+                        else ".",  # starnd
+                        annotation["phase"] if "phase" in annotation else ".",  # phase
+                    )
+                )
                 # Write the 9th column using new standards but without smart translations
                 if len(annotation["attributes"]) > 0:
                     attributes = []

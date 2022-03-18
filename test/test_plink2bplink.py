@@ -6,6 +6,7 @@ from easydev import md5
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", PLINK2BPLINK.available_methods)
 def test_plink2bplink(method):
     infile = os.path.splitext(f"{test_dir}/data/plink/plink_toy.ped")[0]

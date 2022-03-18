@@ -5,6 +5,7 @@ from bioconvert.nexus2fasta import NEXUS2FASTA
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", NEXUS2FASTA.available_methods)
 def test_nx2fa_biopython(method):
     if method == "goalign":

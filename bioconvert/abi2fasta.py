@@ -27,6 +27,7 @@ class ABI2FASTA(ConvBase):
     Method implemented is based on BioPython [BIOPYTHON]_.
 
     """
+
     #: Default value
     _default_method = "biopython"
 
@@ -45,5 +46,6 @@ class ABI2FASTA(ConvBase):
         
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
+
         records = SeqIO.parse(self.infile, "abi")
         SeqIO.write(records, self.outfile, "fasta")

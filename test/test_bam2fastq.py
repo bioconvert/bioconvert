@@ -5,6 +5,7 @@ from easydev import TempFile, md5
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", BAM2FASTQ.available_methods)
 def test_conv_all_methods(method):
 
@@ -13,7 +14,7 @@ def test_conv_all_methods(method):
         convert = BAM2FASTQ(infile, tempfile.name)
         convert(method=method)
 
-    for ext in ['gz', 'bz2', 'dsrc']:
+    for ext in ["gz", "bz2", "dsrc"]:
         with TempFile(suffix=".fastq.{}".format(ext)) as tempfile:
             convert = BAM2FASTQ(infile, tempfile.name)
             convert(method=method)
@@ -23,10 +24,11 @@ def test_conv_all_methods(method):
         convert = BAM2FASTQ(infile, tempfile.name)
         convert(method=method)
 
-    for ext in ['gz', 'bz2', 'dsrc']:
+    for ext in ["gz", "bz2", "dsrc"]:
         with TempFile(suffix=".fastq.{}".format(ext)) as tempfile:
             convert = BAM2FASTQ(infile, tempfile.name)
             convert(method=method)
+
 
 def test_method_bedtools():
 
@@ -34,5 +36,6 @@ def test_method_bedtools():
     with TempFile(suffix=".fastq") as tempfile:
         convert = BAM2FASTQ(infile, tempfile.name)
         convert(method="bedtools")
+
 
 test_method_bedtools()

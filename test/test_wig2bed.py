@@ -5,6 +5,7 @@ from bioconvert.wig2bed import WIG2BED
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", WIG2BED.available_methods)
 def test_nx2xml_biopython(method):
     infile = f"{test_dir}/data/wig/test_wig2bed.wig"

@@ -5,6 +5,7 @@ import pytest
 
 from . import test_dir
 
+
 def ordered(obj):
     """
     recursively sort any lists it finds.
@@ -26,13 +27,13 @@ def read_bamtools_json(path):
     :return: list of dictionnary corresponding to JSON
     :rtype: LIST of JSON
     """
-    with open(path, 'r') as jsonfile:
+    with open(path, "r") as jsonfile:
         json_list = []
         for line in jsonfile:
             json_list.append(json.loads(line))
     # Remove filename content which is necessary going to be different
     for read in json_list:
-        del read['filename']
+        del read["filename"]
     return json_list
 
 

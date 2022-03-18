@@ -21,10 +21,11 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 import colorlog
+
 _log = colorlog.getLogger(__name__)
 import re
 
-__all__ = ['SAMLint']
+__all__ = ["SAMLint"]
 
 
 class SAMLint(object):
@@ -38,6 +39,7 @@ class SAMLint(object):
         SAMLint(filename).validate()
 
     """
+
     def __init__(self, filename):
         self.filename = filename
 
@@ -54,14 +56,9 @@ class SAMLint(object):
                     msg = "Lines must contain at least 11 fields."
                     msg += "Found {} on line {}"
                     raise ValueError(msg.format(len(fields), lineno))
-                if len(fields)>11:
+                if len(fields) > 11:
                     for field in fields[11:]:
                         if re.match(r"(\S+):(\S+):(\S+)", field) is None:
                             msg = "Optional fields must follow the tag:type:value "
                             msg += "format. Found {} on line {}"
                             raise ValueError(msg.format(len(fields), lineno))
-
-
-
-
-

@@ -4,6 +4,7 @@ from easydev import TempFile, md5
 
 from . import test_dir
 
+
 def test_conv():
     infile = f"{test_dir}/data/sam/test_sam2paf_v1.sam"
     outfile = f"{test_dir}/data/paf/test_sam2paf_v1.paf"
@@ -26,6 +27,7 @@ def test_bad1_input():
         except ValueError:
             assert True
 
+
 def test_bad2_input():
     infile = f"{test_dir}/data/sam/test_sam2paf_bad2.sam"
     with TempFile(suffix=".paf") as tempfile:
@@ -40,7 +42,7 @@ def test_bad2_input():
 def test_conv_extra():
     # calls with SAM/summary/None ar extra_fields argument
     # call with pri_only = False/True
-    # Input contains a cigar with all fields MINSH=X 
+    # Input contains a cigar with all fields MINSH=X
     infile = f"{test_dir}/data/sam/test_sam2paf_extra.sam"
 
     with TempFile(suffix=".paf") as tempfile:

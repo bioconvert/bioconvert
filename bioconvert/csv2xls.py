@@ -33,10 +33,11 @@ class CSV2XLS(ConvBase):
     or pandas [PANDAS]_.
 
     """
+
     #: Default value
     _default_method = "pandas"
-    DEFAULT_IN_SEP = ','
-    DEFAULT_LINE_TERMINATOR = '\n'
+    DEFAULT_IN_SEP = ","
+    DEFAULT_LINE_TERMINATOR = "\n"
     DEFAULT_SHEET_NAME = "Sheet 1"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -51,10 +52,8 @@ class CSV2XLS(ConvBase):
     @requires(python_libraries=["pyexcel", "pyexcel-xls"])
     @compressor
     def _method_pyexcel(
-            self,
-            in_sep=DEFAULT_IN_SEP,
-            sheet_name=DEFAULT_SHEET_NAME,
-            *args, **kwargs):
+        self, in_sep=DEFAULT_IN_SEP, sheet_name=DEFAULT_SHEET_NAME, *args, **kwargs
+    ):
         """Do the conversion :term:`CSV` -> :term:`XLS` using pyexcel modules.
 
         `pyexcel documentation <http://docs.pyexcel.org/en/latest/>`_"""
@@ -66,6 +65,7 @@ class CSV2XLS(ConvBase):
 
         from pyexcel_xls import save_data
         from collections import OrderedDict
+
         data = OrderedDict()
         data.update({sheet_name: rows})
         save_data(self.outfile, data)
@@ -73,36 +73,28 @@ class CSV2XLS(ConvBase):
     @requires(python_libraries=["pandas"])
     @compressor
     def _method_pandas(
-            self,
-            in_sep=DEFAULT_IN_SEP,
-            sheet_name=DEFAULT_SHEET_NAME,
-            *args, **kwargs):
+        self, in_sep=DEFAULT_IN_SEP, sheet_name=DEFAULT_SHEET_NAME, *args, **kwargs
+    ):
         """Do the conversion :term:`CSV` -> :term:`XLS` using Panda modules.
 
         `pandas documentation <https://pandas.pydata.org/docs/>`_"""
         import pandas as pd
+
         writer = pd.ExcelWriter(self.outfile)
-        pd.read_csv(
-            self.infile,
-            sep=in_sep,
-            header='infer',
-        ) \
-            .to_excel(
-            excel_writer=writer,
-            sheet_name=sheet_name,
-            index=False,
+        pd.read_csv(self.infile, sep=in_sep, header="infer",).to_excel(
+            excel_writer=writer, sheet_name=sheet_name, index=False,
         )
         writer.save()
 
     @classmethod
     def get_additional_arguments(cls):
         yield ConvArg(
-            names=["--sheet-name", ],
+            names=["--sheet-name",],
             default=cls.DEFAULT_SHEET_NAME,
             help="The name of the sheet to create",
         )
         yield ConvArg(
-            names=["--in-sep", ],
+            names=["--in-sep",],
             default=cls.DEFAULT_IN_SEP,
             help="The separator used in the input file",
         )

@@ -5,6 +5,7 @@ from bioconvert.nexus2newick import NEXUS2NEWICK
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", NEXUS2NEWICK.available_methods)
 def test_nx2nw_biopython(method):
     infile = f"{test_dir}/data/nexus/{method}.nexus"

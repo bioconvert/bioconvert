@@ -9,6 +9,7 @@ from . import test_dir
 
 url = "http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes"
 
+
 @pytest.mark.parametrize("method", BEDGRAPH2BIGWIG.available_methods)
 def test_bigwig2bedgraph_ucsc(method):
     infile = f"{test_dir}/data/bedgraph/ucsc.bedgraph"

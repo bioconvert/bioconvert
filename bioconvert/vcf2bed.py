@@ -43,6 +43,7 @@ class VCF2BED(ConvBase):
     of 1 for SNP, the length of the insertion or the length of
     the deleted part in case of deletion.
     """
+
     #: Default value
     _default_method = "awk"
 

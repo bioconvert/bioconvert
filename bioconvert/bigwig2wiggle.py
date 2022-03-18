@@ -28,6 +28,7 @@ class BIGWIG2WIGGLE(ConvBase):
     Methods available are based on pybigwig [DEEPTOOLS]_.
 
     """
+
     #: Default value
     _default_method = "wiggletools"
 
@@ -45,4 +46,3 @@ class BIGWIG2WIGGLE(ConvBase):
         `wiggletools documentation <https://github.com/Ensembl/WiggleTools>`_"""
         cmd = "wiggletools {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
-

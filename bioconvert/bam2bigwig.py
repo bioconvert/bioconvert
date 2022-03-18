@@ -26,7 +26,7 @@
 """Convert :term:`BAM` file to :term:`BIGWIG` format"""
 
 import colorlog
-from bioconvert import ConvBase 
+from bioconvert import ConvBase
 from bioconvert.core.base import ConvArg
 
 
@@ -54,6 +54,7 @@ class BAM2BIGWIG(ConvBase):
     such as wiggle. We will use the bamCoverage as our default conversion.
 
     """
+
     #: Default value
     _default_method = "bamCoverage"
 
@@ -72,7 +73,8 @@ class BAM2BIGWIG(ConvBase):
         
         `bamCoverage documentation <https://deeptools.readthedocs.io/en/develop/content/tools/bamCoverage.html>`_"""
         cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {}".format(
-                self.infile, self.outfile)
+            self.infile, self.outfile
+        )
         self.execute(cmd)
 
     @requires(external_binaries=["bedGraphToBigWig", "bedtools"])
@@ -87,7 +89,7 @@ class BAM2BIGWIG(ConvBase):
 
         chrom_sizes = kwargs.get("chrom_sizes", None)
 
-        with TempFile(suffix='.bedgraph') as fh:
+        with TempFile(suffix=".bedgraph") as fh:
             convertbam2bed = BAM2BEDGRAPH(self.infile, fh.name)
             convertbam2bed()
             convertbed2bw = BEDGRAPH2BIGWIG(fh.name, self.outfile)
@@ -99,5 +101,5 @@ class BAM2BIGWIG(ConvBase):
             names="--chrom-sizes",
             default=None,
             help="a two-column file/URL: <chromosome name> <size in bases>. "
-                 "Used by the ucsc method only",
+            "Used by the ucsc method only",
         )

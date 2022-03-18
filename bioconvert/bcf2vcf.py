@@ -26,6 +26,7 @@ from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 import colorlog
+
 logger = colorlog.getLogger(__name__)
 
 
@@ -35,6 +36,7 @@ class BCF2VCF(ConvBase):
     Methods available are based on bcftools [BCFTOOLS]_.
 
     """
+
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
@@ -55,6 +57,3 @@ class BCF2VCF(ConvBase):
         # piping between bcftools subcommands to speed up performance
         cmd = "bcftools view {} -O v -o {}".format(self.infile, self.outfile)
         self.execute(cmd)
-
-
-

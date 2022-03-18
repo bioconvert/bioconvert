@@ -42,6 +42,7 @@ class BZ22GZ(ConvBase):
     Methods based on bunzip2 or zlib/bz2 Python libraries.
 
     """
+
     #: Default value
     _default_method = "bz2_gz"
     _threading = True
@@ -63,12 +64,12 @@ class BZ22GZ(ConvBase):
         `gzip documentation <https://www.gnu.org/software/gzip/manual/gzip.html>`_"""
         # conversion
         cmd = "bunzip2 -c {input} | gzip > {output}".format(
-            input=self.infile,
-            output=self.outfile)
+            input=self.infile, output=self.outfile
+        )
         self.execute(cmd)
 
     @requires_nothing
     def _method_python(self, *args, **kargs):
         """Internal method"""
-        with bz2.open(self.infile, 'rb') as f, gzip.open(self.outfile, 'wb')as g:
+        with bz2.open(self.infile, "rb") as f, gzip.open(self.outfile, "wb") as g:
             g.write(f.read())

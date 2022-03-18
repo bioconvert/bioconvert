@@ -5,6 +5,7 @@ from bioconvert.ods2csv import ODS2CSV
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", ODS2CSV.available_methods)
 def test_conv(method):
     infile = f"{test_dir}/data/ods/test_tabulated.ods"

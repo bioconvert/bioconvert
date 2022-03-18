@@ -4,6 +4,7 @@ from easydev import TempFile, md5
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", ABI2QUAL.available_methods)
 def test_conv(method):
     infile = f"{test_dir}/data/abi/310.ab1"

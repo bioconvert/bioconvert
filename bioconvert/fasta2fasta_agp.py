@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
@@ -116,23 +115,25 @@ https://github.com/bcgsc/abyss/blob/master/bin/abyss-fatoagp
         self.outfile_agp = outfile[1]
 
     def _mask_scatigs(self, x, min_scatigs=10):
-        # scaftigs shorter than this length will be masked with "N"s 
+        # scaftigs shorter than this length will be masked with "N"s
         # AAAAAAAAAAAAA-NNNNN-GG-NNNNNN-AAAAAAAAAAAAA
-        # Here the GG will be masked. 
+        # Here the GG will be masked.
         def tt():
             if len(x) == 0:
                 return "N"
-            elif len(x)<=min_scatigs:
+            elif len(x) <= min_scatigs:
                 return len(x) * "N"
             else:
                 return x
+
         return "".join([tt(x) for x in f.split("N")])
 
     @requires_nothing
     def _method_python(self, *args, **kwargs):
         """Converts the input FASTA (scaffold) into FASTA (contigs) and AGP. Internal method"""
-        min_scaffold_length = kwargs.get("min_scaffold_length",
-                                         self.min_scaffold_length)
+        min_scaffold_length = kwargs.get(
+            "min_scaffold_length", self.min_scaffold_length
+        )
         stretch_of_Ns = kwargs.get("min_stretch_of_Ns", self.min_stretch_of_Ns)
         stretch_of_Ns = "N" * stretch_of_Ns
 
@@ -143,13 +144,13 @@ https://github.com/bcgsc/abyss/blob/master/bin/abyss-fatoagp
                 if line.startswith(">"):
                     counter += 1
 
-        # a simple lambda function 
+        # a simple lambda function
         ZFILL = int(log10(counter)) + 1
+
         def _frmt(counter):
-            return '{}'.format(str(counter).zfill(ZFILL))
+            return "{}".format(str(counter).zfill(ZFILL))
 
-
-        # We scan the input scaffold file and create (1) the contig fasta file 
+        # We scan the input scaffold file and create (1) the contig fasta file
         # and (2) the AGP file.
         scaffold_counter = 0
         contig_counter = 0
@@ -161,7 +162,6 @@ https://github.com/bcgsc/abyss/blob/master/bin/abyss-fatoagp
         # NNNN should be trimmed
 
         # mask scaftigs shorter than -S threshold with "N"s
-
 
         with open(self.infile, "r") as fin:
             fout_fasta = open(self.outfile_fasta, "w")
@@ -178,8 +178,17 @@ https://github.com/bcgsc/abyss/blob/master/bin/abyss-fatoagp
 
                     # Save the previous AGP line if required
                     L = len(current)
-                    data = ["scaffold_" + _frmt(scaffold_counter), 1, L, 1, "W", 
-                            "contig_" + _frmt(contig_counter), 1, L, "+"]
+                    data = [
+                        "scaffold_" + _frmt(scaffold_counter),
+                        1,
+                        L,
+                        1,
+                        "W",
+                        "contig_" + _frmt(contig_counter),
+                        1,
+                        L,
+                        "+",
+                    ]
                     data = [str(x) for x in data]
                     fout_agp.write("\t".join(data) + "\n")
 
@@ -208,10 +217,19 @@ https://github.com/bcgsc/abyss/blob/master/bin/abyss-fatoagp
             fout_fasta.write(">contig_" + _frmt(scaffold_counter) + "\n")
             fout_fasta.write("{}\n".format(current))
             L = len(current)
-            data = ["scaffold_" + _frmt(scaffold_counter), 1, L, 1, "W", 
-                    "contig_" + _frmt(contig_counter), 1, L, "+"]
+            data = [
+                "scaffold_" + _frmt(scaffold_counter),
+                1,
+                L,
+                1,
+                "W",
+                "contig_" + _frmt(contig_counter),
+                1,
+                L,
+                "+",
+            ]
             data = [str(x) for x in data]
-            fout_agp.write("\t".join(data)+"\n")
+            fout_agp.write("\t".join(data) + "\n")
             fout_agp.close()
             fout_fasta.close()
 
@@ -221,14 +239,14 @@ https://github.com/bcgsc/abyss/blob/master/bin/abyss-fatoagp
             names="--min-scaffold-length",
             default=FASTA2FASTA_AGP.min_scaffold_length,
             type=int,
-            help="minimum scaffold length"
-            )
+            help="minimum scaffold length",
+        )
         yield ConvArg(
             names="--min-stretch-of-N",
             default=FASTA2FASTA_AGP.min_stretch_of_Ns,
             type=int,
-            help="minimum stretch of Ns to split a scaffold"
-            )
+            help="minimum stretch of Ns to split a scaffold",
+        )
 
     @staticmethod
     def get_IO_arguments():
@@ -240,7 +258,7 @@ https://github.com/bcgsc/abyss/blob/master/bin/abyss-fatoagp
         )
         yield ConvArg(
             names="output_file",
-            nargs= 2,
+            nargs=2,
             default=None,
             type=ConvArg.file,
             output_argument=True,

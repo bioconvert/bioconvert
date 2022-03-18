@@ -10,9 +10,9 @@ def test_require_binaries():
     # test cache now
     g = requires(external_binary="mv")(f)
     assert g.is_disabled is False
-    g = requires(external_binaries=["ls", ])(f)
+    g = requires(external_binaries=["ls",])(f)
     assert g.is_disabled is False
-    g = requires(external_binaries=["ls", "mv", ])(f)
+    g = requires(external_binaries=["ls", "mv",])(f)
     assert g.is_disabled is False
 
     g = requires(external_binary="tagada1")(f)
@@ -33,9 +33,9 @@ def test_require_libraries():
     # test cache now
     g = requires(python_library="pandas")(f)
     assert g.is_disabled is False
-    g = requires(python_libraries=["pip", ])(f)
+    g = requires(python_libraries=["pip",])(f)
     assert g.is_disabled is False
-    g = requires(python_libraries=["pip", "pandas", ])(f)
+    g = requires(python_libraries=["pip", "pandas",])(f)
     assert g.is_disabled is False
 
     g = requires(python_library="tagada3")(f)

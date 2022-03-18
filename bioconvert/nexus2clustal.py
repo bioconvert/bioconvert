@@ -31,7 +31,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['NEXUS2CLUSTAL']
+__all__ = ["NEXUS2CLUSTAL"]
 
 
 class NEXUS2CLUSTAL(ConvBase):
@@ -42,8 +42,9 @@ class NEXUS2CLUSTAL(ConvBase):
     goalign [GOALIGN]_.
 
     """
+
     #: Default value
-    _default_method = 'goalign'
+    _default_method = "goalign"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -60,10 +61,10 @@ class NEXUS2CLUSTAL(ConvBase):
         """Convert :term:`NEXUS` file in  :term:`CLUSTAL` format using goalign tool.
 
         `goalign documentation <https://github.com/fredericlemoine/goalign>`_"""
-        self.install_tool('goalign')
-        cmd = 'goalign reformat clustal --nexus -i {infile} -o {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("goalign")
+        cmd = "goalign reformat clustal --nexus -i {infile} -o {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     @requires(python_library="biopython")
@@ -73,6 +74,7 @@ class NEXUS2CLUSTAL(ConvBase):
         
         `Bio.AlignIO <https://biopython.org/docs/1.76/api/Bio.AlignIO.html>`_"""
         from Bio import AlignIO
+
         alignments = list(AlignIO.parse(self.infile, "nexus"))
         AlignIO.write(alignments, self.outfile, "clustal")
 
@@ -90,6 +92,6 @@ class NEXUS2CLUSTAL(ConvBase):
                              *
 
         """
-        cmd = 'squizz -c CLUSTAL {infile} > {outfile}'
+        cmd = "squizz -c CLUSTAL {infile} > {outfile}"
         cmd = cmd.format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

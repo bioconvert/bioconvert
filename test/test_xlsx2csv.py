@@ -5,6 +5,7 @@ from bioconvert.xlsx2csv import XLSX2CSV
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", XLSX2CSV.available_methods)
 def test_conv(method):
     infile = f"{test_dir}/data/xlsx/test_tabulated.xlsx"

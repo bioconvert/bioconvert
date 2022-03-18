@@ -13,6 +13,7 @@ from . import test_dir
 fastq_file = f"{test_dir}/../data/fastq/test_fastq2fasta_v1.fastq"
 fasta_file = f"{test_dir}/../data/fasta/test_fastq2fasta_v1.fasta"
 
+
 def test_converter_compression():
 
     with TempFile(suffix=".fasta.gz") as tempfile:
@@ -38,10 +39,18 @@ def test_converter_compression():
 
 def test_converter_wrong_input_file():
     with TempFile(suffix=".fasta") as tempfile1, TempFile(suffix=".fasta") as tempfile2:
-        cmd = "bioconvert fastq2fasta {} {} --force".format("missing.fastq", tempfile1.name)
+        cmd = "bioconvert fastq2fasta {} {} --force".format(
+            "missing.fastq", tempfile1.name
+        )
         p = subprocess.Popen(cmd, shell=True)
         assert p.wait() == 1
-        sys.argv = ["bioconvert", "fastq2fasta", "missing.fastq", tempfile2.name, "--force"]
+        sys.argv = [
+            "bioconvert",
+            "fastq2fasta",
+            "missing.fastq",
+            tempfile2.name,
+            "--force",
+        ]
         try:
             converter.main()
             assert False
@@ -75,8 +84,15 @@ def test_converter_without_converter():
 def test_converter2():
     infile = f"{test_dir}/../data/bam/test_measles.sorted.bam"
     with TempFile(suffix=".bed") as tempfile:
-        sys.argv = ["bioconvert", "bam2cov", infile, tempfile.name,
-                    "--method", "bedtools", "--force"]
+        sys.argv = [
+            "bioconvert",
+            "bam2cov",
+            infile,
+            tempfile.name,
+            "--method",
+            "bedtools",
+            "--force",
+        ]
         converter.main()
 
 
@@ -95,7 +111,13 @@ def test_converter_no_outfile():
     infile = fastq_file
     with TempFile(suffix=".fastq") as tempfile:
         shutil.copy(infile, tempfile.name)
-        sys.argv = ["bioconvert", "fastq2fasta", tempfile.name, "--force", "--raise-exception"]
+        sys.argv = [
+            "bioconvert",
+            "fastq2fasta",
+            tempfile.name,
+            "--force",
+            "--raise-exception",
+        ]
         converter.main()
         # os.remove(infile[:-3] + "sam")
 
@@ -104,15 +126,27 @@ def test_converter_no_outfile_without_srs_argv():
     infile = fastq_file
     with TempFile(suffix=".fastq") as tempfile:
         shutil.copy(infile, tempfile.name)
-        args = ["bioconvert", "fastq2fasta", tempfile.name, "--force", "--raise-exception"]
+        args = [
+            "bioconvert",
+            "fastq2fasta",
+            tempfile.name,
+            "--force",
+            "--raise-exception",
+        ]
         converter.main(args[1:])
 
 
 def test_converter_output_format():
     infile = f"{test_dir}/../data/bam/test_measles.sorted.bam"
     with TempFile() as tempfile:
-        sys.argv = ["bioconvert", infile, tempfile.name,
-                    "--output-format", "bed", "--force"]
+        sys.argv = [
+            "bioconvert",
+            infile,
+            tempfile.name,
+            "--output-format",
+            "bed",
+            "--force",
+        ]
         try:
             converter.main()
         except SystemExit:
@@ -129,7 +163,7 @@ def test_no_converter_specified():
     except Exception as e:
         assert type(e) == SystemExit
     try:
-        sys.argv = ["bioconvert", '--verbosity', 'DEBUG']
+        sys.argv = ["bioconvert", "--verbosity", "DEBUG"]
         converter.main()
         assert False
     except SystemExit as e:
@@ -155,7 +189,7 @@ def test_not_existing_subcommand():
         converter.main()
         assert False
     except SystemExit as e:
-        assert e.code in [1,2]
+        assert e.code in [1, 2]
     except:
         assert False
 
@@ -274,19 +308,32 @@ def test_wrong_verbose():
 def test_verbose():
     infile = fastq_file
     with TempFile(suffix=".tt") as tempfile:
-        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile.name,
-                    "--force", "-v", "CRITICAL"]
+        sys.argv = [
+            "bioconvert",
+            "fastq2fasta",
+            infile,
+            tempfile.name,
+            "--force",
+            "-v",
+            "CRITICAL",
+        ]
         converter.main()
-        sys.argv = ["bioconvert","fastq2fasta", infile, tempfile.name,
-                    "--force","--verbosity", "CRITICAL"]
+        sys.argv = [
+            "bioconvert",
+            "fastq2fasta",
+            infile,
+            tempfile.name,
+            "--force",
+            "--verbosity",
+            "CRITICAL",
+        ]
         converter.main()
 
 
 def test_close_match():
     infile = fastq_file
     with TempFile(suffix=".tt") as tempfile:
-        sys.argv = ["bioconvert", "fastq2fastpp", infile, tempfile.name,
-                    "--force"]
+        sys.argv = ["bioconvert", "fastq2fastpp", infile, tempfile.name, "--force"]
         try:
             converter.main()
             assert False
@@ -299,8 +346,7 @@ def test_close_match():
 def test_batch():
     infile = fastq_file
     with TempFile(suffix=".tt") as tempfile:
-        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile.name,
-                    "--force", "-m"]
+        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile.name, "--force", "-m"]
         converter.main()
 
 
@@ -310,7 +356,7 @@ def test_converter_with_nothing():
         converter.main()
         assert False
     except SystemExit as e:
-        assert e.code >0
+        assert e.code > 0
     except:
         assert False
 
@@ -322,30 +368,47 @@ def test_converter_show_methods():
     except SystemExit as e:
         assert e.code == 0
 
+
 def test_indirect_conversion_without_argument():
     infile = f"{test_dir}/../data/fastq/ERR3295124.fastq"
     with TempFile(suffix=".clustal") as tempfile:
         sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name, "--force"]
-        # For now we want the user to explicitly indicate that (s)he agrees 
+        # For now we want the user to explicitly indicate that (s)he agrees
         # with an indirect conversion
         try:
             converter.main()
             assert False
         except SystemExit as e:
-            assert e.code >0
+            assert e.code > 0
         except:
             assert False
 
 
 def test_indirect_conversion():
     infile = f"{test_dir}/../data/fastq/ERR3295124.fastq"
-    #infile = bioconvert_data("fastqutils_1.fastq")
+    # infile = bioconvert_data("fastqutils_1.fastq")
     with TempFile(suffix=".clustal") as tempfile:
-        sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name,
-                    "--force", "--allow-indirect-conversion", "-v", "DEBUG"]
+        sys.argv = [
+            "bioconvert",
+            "fastq2clustal",
+            infile,
+            tempfile.name,
+            "--force",
+            "--allow-indirect-conversion",
+            "-v",
+            "DEBUG",
+        ]
         converter.main()
-        sys.argv = ["bioconvert", "fastq2clustal", infile, tempfile.name,
-                    "--force", "-a", "-v", "DEBUG"]
+        sys.argv = [
+            "bioconvert",
+            "fastq2clustal",
+            infile,
+            tempfile.name,
+            "--force",
+            "-a",
+            "-v",
+            "DEBUG",
+        ]
         converter.main()
 
 
@@ -354,7 +417,7 @@ def test_conversion_graph_error():
     try:
         converter.main()
     except SystemExit as e:
-        assert e.code >0
+        assert e.code > 0
 
 
 def test_conversion_graph():
@@ -377,7 +440,9 @@ def is_osx():
     return False
 
 
-@pytest.mark.skipif("DISPLAY" not in os.environ, reason="no DISPLAY available, will fail otherwise")
+@pytest.mark.skipif(
+    "DISPLAY" not in os.environ, reason="no DISPLAY available, will fail otherwise"
+)
 @pytest.mark.skipif(is_osx(), reason="unknown failure on travis april 2019")
 def test_converter_benchmark():
     infile = fastq_file
@@ -385,6 +450,13 @@ def test_converter_benchmark():
         cmd = "bioconvert fastq2fasta {} {} --force -b".format(infile, tempfile1.name)
         p = subprocess.Popen(cmd, shell=True)
         assert p.wait() == 0
-        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile2.name, "--force", "-b"]
+        sys.argv = [
+            "bioconvert",
+            "fastq2fasta",
+            infile,
+            tempfile2.name,
+            "--force",
+            "-b",
+        ]
         converter.main()
         assert md5(tempfile1.name) == md5(tempfile2.name)

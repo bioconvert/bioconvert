@@ -5,6 +5,7 @@ import os
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", BAM2BEDGRAPH.available_methods)
 def test_conv(method):
     infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
@@ -14,7 +15,6 @@ def test_conv(method):
 
         # changes after 3.1
         assert md5(tempfile.name) == "5be280e9f74e9ff1128ff1d2fe3e0812"
-
 
 
 def is_osx():
@@ -34,7 +34,6 @@ def test_conv_mosdepth_gz():
 
 def test_conv_mosdepth_wrong_input():
     infile = f"{test_dir}/data/sam/test_measles.sam"
-
 
     with TempFile(suffix=".bedgraph.gz") as tempfile:
         try:

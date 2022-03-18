@@ -7,6 +7,7 @@ from bioconvert.csv2tsv import CSV2TSV
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", CSV2TSV.available_methods)
 def test_conv(method):
     infile = f"{test_dir}/data/csv/test_tabulated.csv"

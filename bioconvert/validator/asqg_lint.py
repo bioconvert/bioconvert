@@ -23,19 +23,20 @@
 ###########################################################################
 """ASQG validator"""
 import colorlog
+
 _log = colorlog.getLogger(__name__)
 
 
-class ASQGLint():
+class ASQGLint:
     """ASQG format validator
 
     """
+
     def __init__(self, filename):
         self.filename = filename
 
-
     def validate(self):
-        # read line by line. Checks 
+        # read line by line. Checks
         # - lines start with HT, VT or ED
         # - lines must be tab delimited
         # - lines VT must have 2 fields only
@@ -45,14 +46,17 @@ class ASQGLint():
                     pass
                 elif line[0:2] == "VT":
                     if len(line.split()) < 3:
-                        raise ValueError("Incorrect format on line {}. ".format(i) +
-                            "Line starting with VT must have at least 3 fields")
+                        raise ValueError(
+                            "Incorrect format on line {}. ".format(i)
+                            + "Line starting with VT must have at least 3 fields"
+                        )
                 elif line[0:2] == "ED":
                     if len(line.split()) != 11:
-                        raise ValueError("Incorrect format on line {}. ".format(i) +
-                            "Line starting with ED must have 10 fields + ED prefix")
+                        raise ValueError(
+                            "Incorrect format on line {}. ".format(i)
+                            + "Line starting with ED must have 10 fields + ED prefix"
+                        )
                 elif len(line.strip()) == 0:
                     _log.warning("Found empty line on line {}".format(line))
                 else:
                     raise ValueError()
-

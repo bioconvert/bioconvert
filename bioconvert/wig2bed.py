@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
@@ -57,4 +56,3 @@ class WIG2BED(ConvBase):
         `wig2bed documentation <https://bedops.readthedocs.io/en/latest/content/reference/file-management/conversion/wig2bed.html>`_"""
         cmd = "wig2bed < {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
-

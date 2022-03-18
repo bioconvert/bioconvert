@@ -36,6 +36,7 @@ class GENBANK2EMBL(ConvBase):
     Some description.
 
     """
+
     #: Default value
     _default_method = "biopython"
 
@@ -62,4 +63,5 @@ class GENBANK2EMBL(ConvBase):
         
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
+
         SeqIO.convert(self.infile, "genbank", self.outfile, "embl")

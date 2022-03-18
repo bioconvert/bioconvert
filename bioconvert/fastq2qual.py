@@ -25,8 +25,15 @@
 """Convert :term:`FASTQ` to :term:`QUAL` format"""
 from bioconvert import ConvBase, bioconvert_script
 from bioconvert.core.base import ConvArg
-from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires, requires_nothing
+from bioconvert.core.decorators import (
+    compressor,
+    out_compressor,
+    in_gz,
+    requires,
+    requires_nothing,
+)
 from bioconvert import logger
+
 logger.__name__ = "fastq2qual"
 
 
@@ -53,17 +60,17 @@ class FASTQ2QUAL(ConvBase):
                 break
             header, seqs, last = last[1:], [], None
             for l in fp:  # read the sequence
-                if l[0] in '@+':
+                if l[0] in "@+":
                     last = l[:-1]
                     break
                 seqs.append(l[:-1])
-            seq, leng, seqs = ''.join(seqs), 0, []
+            seq, leng, seqs = "".join(seqs), 0, []
             for l in fp:  # read the quality
                 seqs.append(l[:-1])
                 leng += len(l) - 1
                 if leng >= len(seq):  # have read enough quality
                     last = None
-                    yield header, seq, ''.join(seqs)  # yield a fastq record
+                    yield header, seq, "".join(seqs)  # yield a fastq record
                     break
 
     def __init__(self, infile, outfile):
@@ -72,7 +79,6 @@ class FASTQ2QUAL(ConvBase):
         :param str outfile: The path to the output file.
         """
         super(FASTQ2QUAL, self).__init__(infile, outfile)
-
 
     @requires_nothing
     @compressor
@@ -83,8 +89,3 @@ class FASTQ2QUAL(ConvBase):
         with open(self.outfile, "w") as outfile, open(self.infile, "r") as fastq:
             for (name, seq, qual) in FASTQ2QUAL._readfq(fastq):
                 outfile.write(">{}\n{}\n".format(name, qual))
-
-
-
-
-

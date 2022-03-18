@@ -42,8 +42,9 @@ class CLUSTAL2PHYLIP(ConvBase):
     goalign [GOALIGN]_.
 
     """
+
     #: Default value
-    _default_method = 'biopython'
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -70,8 +71,7 @@ class CLUSTAL2PHYLIP(ConvBase):
         """Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using squizz tool.
 
         """
-        cmd = 'squizz -c PHYLIPI {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c PHYLIPI {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
-

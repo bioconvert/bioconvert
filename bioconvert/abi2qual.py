@@ -47,13 +47,14 @@ class ABI2QUAL(ConvBase):
         
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
+
         records = SeqIO.parse(self.infile, "abi")
         # output using SeqIO.write(records, self.outfile, "qual") is not
         # standard so we write our own conversion here below
         with open(self.outfile, "w") as fout:
             for rec in records:
                 header = rec.name
-                qual = rec.letter_annotations['phred_quality']
+                qual = rec.letter_annotations["phred_quality"]
                 qual = "".join([str(x) for x in qual])
                 fout.write(">{}\n".format(header))
                 fout.write("{}\n".format(qual))

@@ -7,6 +7,7 @@ import pytest
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", BIGBED2BED.available_methods)
 def test_bigwig2bedgraph_ucsc(method):
     infile = f"{test_dir}/data/bigbed/test_pybigwig.bigbed"

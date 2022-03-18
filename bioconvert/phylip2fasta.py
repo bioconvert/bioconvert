@@ -33,7 +33,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['PHYLIP2FASTA']
+__all__ = ["PHYLIP2FASTA"]
 
 
 class PHYLIP2FASTA(ConvBase):
@@ -42,8 +42,9 @@ class PHYLIP2FASTA(ConvBase):
     Methods available are based on biopython [BIOPYTHON]_, squiz [SQUIZZ]_.
 
     """
+
     #: default value
-    _default_method = 'biopython'
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -62,16 +63,16 @@ class PHYLIP2FASTA(ConvBase):
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "fasta")
-        #_log.debug("Converted %d records to fasta" % count)
+        # _log.debug("Converted %d records to fasta" % count)
 
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
         """Convert Phylip inteleaved file in fasta format using squizz tool.
         The fasta file is an alignemnt, that means the gap are conserved."""
-        cmd = 'squizz -c FASTA {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c FASTA {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     @requires("go")
@@ -83,8 +84,8 @@ class PHYLIP2FASTA(ConvBase):
 
         The fasta file must be an alignemnt file, yhis mean all the sequences must
         have the same length (with the gap) otherwise an error will be raised"""
-        self.install_tool('goalign')
-        cmd = 'goalign reformat fasta -i {infile} -p -o {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("goalign")
+        cmd = "goalign reformat fasta -i {infile} -p -o {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

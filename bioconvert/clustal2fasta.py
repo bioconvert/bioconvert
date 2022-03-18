@@ -42,8 +42,9 @@ class CLUSTAL2FASTA(ConvBase):
     goalign [GOALIGN]_.
 
     """
+
     #: Default value
-    _default_method = 'biopython'
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -70,9 +71,9 @@ class CLUSTAL2FASTA(ConvBase):
         """Convert :term:`CLUSTAL` file in :term:`FASTA` format.
 
         """
-        cmd = 'squizz -c FASTA {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c FASTA {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     @requires("go")
@@ -81,8 +82,8 @@ class CLUSTAL2FASTA(ConvBase):
         """Convert :term:`CLUSTAL` file in  :term:`FASTA` format using goalign.
 
         `goalign documentation <https://github.com/fredericlemoine/goalign>`_"""
-        self.install_tool('goalign')
-        cmd = 'goalign reformat fasta --clustal -i {infile} -o {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("goalign")
+        cmd = "goalign reformat fasta --clustal -i {infile} -o {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

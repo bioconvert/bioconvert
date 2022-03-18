@@ -5,6 +5,7 @@ from bioconvert.nexus2phylip import NEXUS2PHYLIP
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", NEXUS2PHYLIP.available_methods)
 def test_nx2phy_biopython(method):
     infile = f"{test_dir}/data/nexus/{method}.nexus"
@@ -14,5 +15,5 @@ def test_nx2phy_biopython(method):
         converter(method=method)
 
         # Check that the output is correct with a checksum
-        #assert md5(tempfile.name) == md5(outfile)
-        #https://github.com/bioconvert/bioconvert/issues#149
+        # assert md5(tempfile.name) == md5(outfile)
+        # https://github.com/bioconvert/bioconvert/issues#149

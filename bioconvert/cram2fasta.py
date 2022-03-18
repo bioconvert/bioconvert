@@ -42,6 +42,7 @@ class CRAM2FASTA(ConvBase):
     Methods available are based on samtools [SAMTOOLS]_.
 
     """
+
     #: Default value
     _default_method = "samtools"
     _threading = True
@@ -64,21 +65,23 @@ class CRAM2FASTA(ConvBase):
 
         .. note:: fasta are on one line"""
         # Test if input bam file is paired
-        p = subprocess.Popen("samtools view -c -f 1 {}".format(
-            self.infile).split(),stdout=subprocess.PIPE,    
-                stderr=subprocess.PIPE, universal_newlines=True)
+        p = subprocess.Popen(
+            "samtools view -c -f 1 {}".format(self.infile).split(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
         isPaired = p.communicate()[0].strip()
 
         # Collect the extension
         ext = os.path.splitext(self.outfile)[1]
 
-
         # FIXME: this compression code may be factorised ?
         output_ext = get_extension(self.outfile, remove_compression=True)
 
         # If the output file extension is compress extension
-        if ext in [".gz",".bz2"]:
-            outbasename = os.path.splitext(self.outfile)[0].split(".",1)[0]
+        if ext in [".gz", ".bz2"]:
+            outbasename = os.path.splitext(self.outfile)[0].split(".", 1)[0]
 
             if ext == ".gz":
                 compresscmd = "gzip -f"
@@ -86,14 +89,17 @@ class CRAM2FASTA(ConvBase):
                 compresscmd = "pbzip2 -f"
             # When the input file is not paired and the output file needs to be compressed
             if isPaired == "0":
-                cmd = "samtools fasta {} > {}.{}".format(self.infile, outbasename, output_ext)
+                cmd = "samtools fasta {} > {}.{}".format(
+                    self.infile, outbasename, output_ext
+                )
                 self.execute(cmd)
                 cmd = "{} {}.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)
             # When the input file is paired and the output file needs to be compressed
             else:
                 cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(
-                    outbasename, output_ext, outbasename, output_ext, self.infile)
+                    outbasename, output_ext, outbasename, output_ext, self.infile
+                )
                 self.execute(cmd)
                 cmd = "{} {}_1.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)
@@ -109,7 +115,7 @@ class CRAM2FASTA(ConvBase):
                 self.execute(cmd)
             # When the input file is paired
             else:
-                cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(outbasename, 
-                    output_ext, outbasename, output_ext, self.infile)
+                cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(
+                    outbasename, output_ext, outbasename, output_ext, self.infile
+                )
                 self.execute(cmd)
-

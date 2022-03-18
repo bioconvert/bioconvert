@@ -66,7 +66,7 @@ class JSON2YAML(ConvBase):
         with open(self.infile, "r") as infile:
             data = json.load(infile)
         with open(self.outfile, "w") as outfile:
-            yamldata = yaml.dump(data, Dumper=yaml.dumper.Dumper,
-                default_flow_style="", indent=4)
+            yamldata = yaml.dump(
+                data, Dumper=yaml.dumper.Dumper, default_flow_style="", indent=4
+            )
             outfile.write(yamldata)
-

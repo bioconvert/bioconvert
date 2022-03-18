@@ -8,7 +8,10 @@ from bioconvert.gz2bz2 import GZ2BZ2
 
 from .. import test_dir
 
-@pytest.mark.skipif(len(BAM2FASTA.available_methods) == 0, reason="missing dependencies")
+
+@pytest.mark.skipif(
+    len(BAM2FASTA.available_methods) == 0, reason="missing dependencies"
+)
 def test_bioconvert():
     infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
     with TempFile(suffix=".fasta") as fout:
@@ -44,9 +47,13 @@ def test_bioconvert_decompression_compression_mode():
 def test_indirect_conversion_impossible():
     with TempFile(suffix=".json") as fout, TempFile(suffix=".paf") as fin:
         with pytest.raises(Exception) as err:
-            Bioconvert(fin.name, fout.name, force=True,)
-            assert (str(err.value)
-                    == "Requested input format ('JSON') to output format ('PAF') is not available in bioconvert")
+            Bioconvert(
+                fin.name, fout.name, force=True,
+            )
+            assert (
+                str(err.value)
+                == "Requested input format ('JSON') to output format ('PAF') is not available in bioconvert"
+            )
 
 
 def test_indirect_conversion():

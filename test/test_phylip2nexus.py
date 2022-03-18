@@ -5,6 +5,7 @@ from bioconvert.phylip2nexus import PHYLIP2NEXUS
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", PHYLIP2NEXUS.available_methods)
 def test_phy2nx_biopython(method):
     infile = f"{test_dir}/data/phylip/{method}.phylip"

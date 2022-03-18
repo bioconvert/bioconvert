@@ -10,7 +10,8 @@ from . import test_dir
 
 reference = f"{test_dir}/data/fasta/test_measles.fa"
 
-@patch('bioconvert.cram2bam.input', return_value=reference)
+
+@patch("bioconvert.cram2bam.input", return_value=reference)
 def test_conv(x):
     infile = f"{test_dir}/data/bam/test_measles.bam"
     outfile = f"{test_dir}/data/cram/test_measles.cram"
@@ -23,7 +24,8 @@ def test_conv(x):
         convert = CRAM2BAM(infile, tempfile.name)
         convert(method="samtools")
 
-@patch('bioconvert.cram2bam.input', return_value="not_found")
+
+@patch("bioconvert.cram2bam.input", return_value="not_found")
 def test_conv_error(x):
     infile = f"{test_dir}/data/cram/test_measles.cram"
     outfile = f"{test_dir}/data/bam/test_measles.bam"

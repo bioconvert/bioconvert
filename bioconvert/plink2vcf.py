@@ -40,8 +40,9 @@ class PLINK2VCF(ConvBase):
     Conversion is based on plink executable
 
     """
+
     #: Default value
-    _default_method = 'plink'
+    _default_method = "plink"
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -50,7 +51,7 @@ class PLINK2VCF(ConvBase):
         :param str outfile: (optional) output :term:`VCF` file
         """
         if not outfile:
-            outfile = generate_outfile_name(infile, 'vcf')
+            outfile = generate_outfile_name(infile, "vcf")
         super(PLINK2VCF, self).__init__(infile, outfile)
 
     @requires("plink")
@@ -59,9 +60,9 @@ class PLINK2VCF(ConvBase):
 
         `plink documentation <http://hpc.ilri.cgiar.org/beca/training/data_mgt_2017/BackgroundMaterial/PlinkTutorial.pdf>`_"""
         outfile = self.outfile
-        if os.path.splitext(outfile)[1] == '.vcf':
+        if os.path.splitext(outfile)[1] == ".vcf":
             outfile = os.path.splitext(outfile)[0]
-        cmd = 'plink --file {infile} --recode vcf --out {outfile}'.format(
-            infile=self.infile,
-            outfile=outfile)
+        cmd = "plink --file {infile} --recode vcf --out {outfile}".format(
+            infile=self.infile, outfile=outfile
+        )
         self.execute(cmd)

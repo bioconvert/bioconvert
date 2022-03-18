@@ -5,6 +5,7 @@ import pytest
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", BED2WIGGLE.available_methods)
 def test_conv(method):
     infile = f"{test_dir}/data/bed/ucsc.bed"

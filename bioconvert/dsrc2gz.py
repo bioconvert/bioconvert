@@ -39,6 +39,7 @@ class DSRC2GZ(ConvBase):
     Methods available are based on dsrc [DSRC]_ and pigz [PIGZ]_.
 
     """
+
     #: Default value
     _default_method = "dsrcpigz"
     _threading = True
@@ -60,9 +61,6 @@ class DSRC2GZ(ConvBase):
         `pigz documentation <https://linux.die.net/man/1/pigz>`_
         `dsrc documentation <https://github.com/refresh-bio/DSRC>`_"""
         cmd = "dsrc d -s -t {threads} {input} | pigz -c -p {threads} > {output}"
-        self.execute(cmd.format(
-            threads=self.threads,
-            input=self.infile,
-            output=self.outfile))
-
-
+        self.execute(
+            cmd.format(threads=self.threads, input=self.infile, output=self.outfile)
+        )

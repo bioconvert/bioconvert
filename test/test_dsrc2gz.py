@@ -8,6 +8,7 @@ from bioconvert.dsrc2gz import DSRC2GZ
 
 from . import test_dir
 
+
 @pytest.mark.skipif(len(DSRC2GZ.available_methods) == 0, reason="missing dependencies")
 def test_gz2dsrc():
     """

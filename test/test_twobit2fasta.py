@@ -5,6 +5,7 @@ from bioconvert.twobit2fasta import TWOBIT2FASTA
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", TWOBIT2FASTA.available_methods)
 def test_twobit2fasta_ucsc(method):
     infile = f"{test_dir}/data/twobit/ucsc.2bit"

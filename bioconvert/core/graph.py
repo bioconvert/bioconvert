@@ -148,23 +148,24 @@ strict digraph{
         if use_singularity:
             from bioconvert.core.downloader import download_singularity_image
 
-            try : 
+            try:
                 singfile = download_singularity_image(
-                "graphviz.simg",
-                "shub://cokelaer/graphviz4all:v1",
-                "4288088d91c848e5e3a327282a1ab3d1",
+                    "graphviz.simg",
+                    "shub://cokelaer/graphviz4all:v1",
+                    "4288088d91c848e5e3a327282a1ab3d1",
                 )
 
-            except Exception: 
-                print("Warning ! Singularity must be installed if you want to you used it ! Switching to local graphviz executable if available")
+            except Exception:
+                print(
+                    "Warning ! Singularity must be installed if you want to you used it ! Switching to local graphviz executable if available"
+                )
 
-            else :
+            else:
 
                 dotpath = "singularity run {} ".format(singfile)
                 on_rtd = environ.get("READTHEDOCS", None) == "True"
                 if on_rtd:
                     dotpath = ""
-
 
         ext = filename.rsplit(".", 1)[1]
         cmd = "{}dot -T{} {} -o {}".format(dotpath, ext, dotfile.name, filename)
@@ -199,13 +200,8 @@ def create_graph_for_cytoscape(all_converter=False):
     graph_nodes = []
     graph_edges = []
     graph = {
-        "data": {
-            "selected": False,
-        },
-        "elements": {
-            "nodes": graph_nodes,
-            "edges": graph_edges,
-        },
+        "data": {"selected": False,},
+        "elements": {"nodes": graph_nodes, "edges": graph_edges,},
     }
     nodes = {}
 
@@ -213,12 +209,7 @@ def create_graph_for_cytoscape(all_converter=False):
         try:
             return nodes[fmt]
         except:
-            ret = {
-                "data": {
-                    "id": "n" + str(len(nodes)),
-                    "name": fmt,
-                }
-            }
+            ret = {"data": {"id": "n" + str(len(nodes)), "name": fmt,}}
             nodes[fmt] = ret
             graph_nodes.append(ret)
             return ret

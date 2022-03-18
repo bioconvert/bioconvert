@@ -33,7 +33,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['FASTA2TWOBIT']
+__all__ = ["FASTA2TWOBIT"]
 
 
 class FASTA2TWOBIT(ConvBase):
@@ -42,8 +42,9 @@ class FASTA2TWOBIT(ConvBase):
     Methods available are based on UCSC faToTwoBit [UCSC]_.
 
     """
+
     #: default value
-    _default_method = 'ucsc'
+    _default_method = "ucsc"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -59,10 +60,7 @@ class FASTA2TWOBIT(ConvBase):
         """Convert fasta file in twobit format using ucsc faToTwoBit.
 
         `uscsc faToTwoBit Documentation <https://genome.ucsc.edu/goldenPath/help/twoBit.html>`_"""
-        cmd = 'faToTwoBit {infile} {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "faToTwoBit {infile} {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
-
-
-

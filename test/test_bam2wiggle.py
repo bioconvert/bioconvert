@@ -5,6 +5,7 @@ import pytest
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", BAM2WIGGLE.available_methods)
 def test_conv(method):
     infile = f"{test_dir}/data/bam/test_measles.sorted.bam"
@@ -16,4 +17,3 @@ def test_conv(method):
         convert(method=method)
 
         assert md5(tempfile.name) == md5out, "{} failed".format(method)
-

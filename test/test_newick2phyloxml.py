@@ -5,6 +5,7 @@ from bioconvert.newick2phyloxml import NEWICK2PHYLOXML
 
 from . import test_dir
 
+
 @pytest.mark.parametrize("method", NEWICK2PHYLOXML.available_methods)
 def test_nw2xml_biopython(method):
     infile = f"{test_dir}/data/newick/{method}.newick"
