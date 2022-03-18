@@ -8,10 +8,6 @@ IO functions
     bioconvert.io.scf
 
 
-.. automodule:: bioconvert.io.sniffer
-    :members:
-    :synopsis:
-
 .. automodule:: bioconvert.io.scf
     :members:
     :synopsis:

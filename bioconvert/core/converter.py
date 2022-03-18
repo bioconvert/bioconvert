@@ -60,11 +60,6 @@ class Bioconvert(object):
             otherwise raises an error
 
         """
-        # don't check the input file because there are cases where input parameter is just a prefix
-        # if os.path.exists(infile) is False:
-        #     msg = "Incorrect input file: %s" % infile
-        #     _log.error(msg)
-        #     raise ValueError(msg)
 
         # check existence of output file. If it exists,
         # fails except if force argument is set to True
@@ -208,6 +203,9 @@ class Bioconvert(object):
                 self.converter.name, self.converter.threads
             )
         )
+
+        # For the benchmarking only
+        self.converter.others = {}
 
     def __call__(self, *args, **kwargs):
         self.converter(*args, **kwargs)

@@ -11,9 +11,7 @@ In order to help developers comparing their methods, we provide a benchmark
 framework. One simply need to add his method inside the converter (see :ref:`developer_guide`) and use the method :meth:`~bioconvert.core.ConvBase.boxplot_benchmark`.
 
 In practice, you would need a large test file. We do not provide such files
-inside bioconverter. However, we provide some utilities to generate dummy data.
-For the moment, only FastQ dummy generator is provided in
-:mod:`bioconvert.simulator.fastq`.
+inside bioconverter.
 
 In practice, you could use the following code to generate the boxplot:
 
@@ -44,12 +42,9 @@ Here, the boxplot_benchmark methods s called 5 times for each available method.
 Be aware that the pure Python methods may be faster for small data set due to
 a non-negligeable cost of using subprocess (we are working on an alternative at the moment). 
 
-We have a dummy method, which does nothing else that calling a subprocess that
-does ... nothing. You could use it that way::
-
-    c.boxplot_benchmark(include_dummy=True)
-
-and see that indeed this takes 1 second ! So we need more data.
+You can try to provide a FastQ file with only 1 read and realise that it takes
+about a second in all method. This is a incompressible delay so benchmarking needs 
+large files to be meaningfule !
 
 If we use 1,000,000 reads instead of just 2,000, we would get this results
 (which may change depending on your system and IO performance):

@@ -547,18 +547,22 @@ def analysis(args):
     conv = Bioconvert(
         infile,
         outfile,
-        #in_fmt=in_fmt,
-        #out_fmt=out_fmt,
         force=args.force,
         threads=threads,
         extra=extra_arguments
     )
 
+    for k,v in args.__dict__.items():
+        if k not in ["level", "verbosity","dependency_report","version",
+            "conversion_graph","input_file","output_file", "force", "extra_arguments",
+"allow_indirect_conversion","method","show_methods", "converter", 'raise_exception', 'batch', 'benchmark',
+'benchmark_N', 'benchmark_methods']:
+            conv.converter.others[k] = v
+
+
     if args.benchmark:
         conv.boxplot_benchmark(N=args.benchmark_N,
             to_include=args.benchmark_methods)
-
-        print(args.benchmark_methods)
         import pylab
 
         try:
@@ -567,9 +571,8 @@ def analysis(args):
         except:
             outpng = "benchmark_{}.png".format(conv.converter.name)
             pylab.savefig(outpng, dpi=200)
-        bioconvert.logger.info("File {} created")
+        bioconvert.logger.info(f"File {outpng} created")
     else:
-        # params["method"] = args.method
         conv(**vars(args))
 
 

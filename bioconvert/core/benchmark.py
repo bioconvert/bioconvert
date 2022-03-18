@@ -23,8 +23,8 @@
 """Tools for benchmarking"""
 from collections import defaultdict
 from itertools import chain
+
 import numpy as np
-#from easydev import Timer, Progress
 from easydev import Timer
 from tqdm import tqdm
 
@@ -33,24 +33,8 @@ import colorlog
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ["Benchmark", "BenchmarkMulticonvert"]
+__all__ = ["Benchmark"]
 
-
-def gmean(a, axis=0, dtype=None):
-    # A copy/paste of scipy.stats.mstats.gmean function to
-    # avoid the scipy dependency
-    if not isinstance(a, np.ndarray):
-        # if not an ndarray object attempt to convert it
-        log_a = np.log(np.array(a, dtype=dtype))
-    elif dtype:
-        # Must change the default dtype allowing array type
-        if isinstance(a, np.ma.MaskedArray):
-            log_a = np.log(np.ma.asarray(a, dtype=dtype))
-        else:
-            log_a = np.log(np.asarray(a, dtype=dtype))
-    else:
-        log_a = np.log(a)
-    return np.exp(log_a.mean(axis=axis))
 
 
 class Benchmark:
@@ -83,7 +67,6 @@ class Benchmark:
         self.converter = obj
         self.N = N
         self.results = None
-        self.include_dummy = False
         if to_exclude is None:
             self.to_exclude = []
         else:
@@ -93,13 +76,11 @@ class Benchmark:
         else:
             self.to_include = to_include
 
+
     def run_methods(self):
         """Runs the benchmarks, and stores the timings in *self.results*."""
         results = {}
         methods = self.converter.available_methods[:]  # a copy !
-
-        if self.include_dummy:
-            methods += ["dummy"]
 
         if self.to_include:
             methods = [x for x in methods if x in self.to_include]
@@ -110,7 +91,11 @@ class Benchmark:
             times = []
             for i in tqdm(range(self.N), desc = "Evaluating method {}".format(method)):
                 with Timer(times):
-                    self.converter(method=method)
+                    # Need to get all extrq qrguments for specify method e.g Bam2BIGWIG.uscs method
+                    kwargs = {"method": method}
+                    for k,v in self.converter.others.items():
+                        kwargs[k] = v
+                    self.converter(**kwargs)
             results[method] = times
         self.results = results
 
@@ -148,75 +133,3 @@ class Benchmark:
         return data
 
 
-class BenchmarkMulticonvert(Benchmark):
-    """Convenient class to benchmark several methods for a series of converters
-
-    ::
-
-        from bioconvert.bam2cov import BAM2COV
-        from bioconvert import BenchmarkMulticonvert
-        c1 = BAM2COV(infile1, outfile1)
-        c2 = BAM2COV(infile2, outfile2)
-        b = BenchmarkMulticonvert([c1, c2], N=5)
-        b.run_methods()
-        b.plot()
-
-    """
-
-    def __init__(self, objs, **kwargs):
-        """.. rubric:: constructor
-
-        :param list objs: a list of converters
-        :param int N: number of replicates
-        :param list to_exclude: method to exclude from the benchmark
-
-        """
-
-        # Set self.converter to None
-        super().__init__(None, **kwargs)
-        self.converters = objs
-
-    def run_methods(self):
-        results = defaultdict(list)
-        # We only test the methods common to all converters
-        # (The intended use is with a list of converters all
-        # having the same methods, but different input files)
-        methods = set(self.converters[0].available_methods[:])  # a copy !
-        for converter in self.converters[1:]:
-            methods &= set(converter.available_methods[:])
-        methods = sorted(methods)
-
-        if self.include_dummy:
-            methods += ["dummy"]
-
-        if self.to_include:
-            methods = [x for x in methods if x in self.to_include]
-        elif self.to_exclude:
-            methods = [x for x in methods if x not in self.to_exclude]
-
-        for method in methods:
-            print("\nEvaluating method {}".format(method))
-            # key: converter.infile
-            # value: list of times
-            times = defaultdict(list)
-            pb = Progress(self.N)
-            for i in range(self.N):
-                for converter in self.converters:
-                    with Timer(times[converter.infile]):
-                        converter(method=method)
-                pb.animate(i + 1)
-            # Normalize times so that each converter has comparable times
-            # mean_time = gmean(np.fromiter(chain(*times.values()), dtype=float)) changement 
-            mean_time = mean(np.fromiter(chain(*times.values()), dtype=float))
-            # median of ratios to geometric mean (c.f. DESeq normalization)
-            scales = {
-                conv: np.median(np.asarray(conv_times) / mean_time) 
-                for conv, conv_times in times.items()
-            }
-            for (conv, conv_times) in times.items():
-                scale = scales[conv]
-                results[method].extend([conv_time / scale for conv_time in conv_times])
-        self.results = results
-
-    def plot(self, rerun=False, ylabel="Time (normalized seconds)"):
-        super().plot(rerun, ylabel)

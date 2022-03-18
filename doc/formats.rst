@@ -112,6 +112,7 @@ https://www.ncbi.nlm.nih.gov/projects/genome/assembly/agp/agp_validate.cgi
     - https://www.ncbi.nlm.nih.gov/assembly/agp/AGP_Validation/
 
 
+.. _format_abi:
 
 ABI
 ---

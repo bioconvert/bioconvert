@@ -4,7 +4,7 @@ from easydev import TempFile, md5
 import pytest
 
 
-
+from . import test_dir
 @pytest.mark.parametrize("method", BIGBED2WIGGLE.available_methods)
 def test_conv(method):
     infile = f"{test_dir}/data/bigbed/ucsc.bigbed"
