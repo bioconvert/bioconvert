@@ -45,7 +45,8 @@ class GZ2BZ2(ConvBase):
     _threading = True
 
     #: Default value
-    _default_method = "pigz_pbzip2"
+    #_default_method = "pigz_pbzip2"
+    _default_method = "python"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
