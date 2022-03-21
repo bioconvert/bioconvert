@@ -45,8 +45,7 @@ class GZ2BZ2(ConvBase):
     _threading = True
 
     #: Default value
-    #_default_method = "pigz_pbzip2"
-    _default_method = "python"
+    _default_method = "pigz_pbzip2"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -83,7 +82,7 @@ class GZ2BZ2(ConvBase):
         self.execute(cmd.format(input=self.infile, output=self.outfile))
 
     @requires_nothing
-    def _method_python(self):
+    def _method_python(self, *args, **kwargs):
         """Internal method"""
         with gzip.open(self.infile, "rb") as f, bz2.open(self.outfile, "wb") as g:
             g.write(f.read())
