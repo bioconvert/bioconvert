@@ -82,7 +82,7 @@ class GZ2BZ2(ConvBase):
         self.execute(cmd.format(input=self.infile, output=self.outfile))
 
     @requires_nothing
-    def _method_python(self):
+    def _method_python(self, *args, **kwargs):
         """Internal method"""
         with gzip.open(self.infile, "rb") as f, bz2.open(self.outfile, "wb") as g:
             g.write(f.read())
