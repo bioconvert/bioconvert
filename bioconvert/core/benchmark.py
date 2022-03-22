@@ -21,6 +21,7 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Tools for benchmarking"""
+from asyncore import write
 from collections import defaultdict
 from itertools import chain
 
@@ -29,6 +30,8 @@ from easydev import Timer
 from tqdm import tqdm
 
 import colorlog
+# rajout test
+import json
 
 _log = colorlog.getLogger(__name__)
 
@@ -89,7 +92,7 @@ class Benchmark:
             times = []
             for i in tqdm(range(self.N), desc="Evaluating method {}".format(method)):
                 with Timer(times):
-                    # Need to get all extrq qrguments for specify method e.g Bam2BIGWIG.uscs method
+                    # Need to get all extra arguments for specify method e.g Bam2BIGWIG.uscs method
                     kwargs = {"method": method}
                     for k, v in self.converter.others.items():
                         kwargs[k] = v
@@ -114,6 +117,63 @@ class Benchmark:
         data = self.results.copy()
 
         methods = sorted(data, key=lambda x: pylab.mean(data[x]))
+        ########### rajout test ###########
+        import statistics
+        import csv
+        from pathlib import Path
+        
+        converter_name = str(self.converter).split('.')[1]
+        benchmark = 1
+        fileObj = Path(f"{converter_name}.csv")
+        
+        if(fileObj.exists()):
+            with open(f"{converter_name}.csv",'a',newline='') as f:  # Ouverture du fichier CSV en rajout de ligne
+                with open(f"{converter_name}.csv",'r',newline='') as read:  #Ouverture du fichier CSV en lecture
+                    my_reader = csv.reader(read)
+                    for line in my_reader: # line est une liste de valeurs de colonnes
+                        if(line[0] != "Benchmark"):
+                            if(benchmark < int(line[0])): # ligne[0] est la valeur de la 1ère colonne de la ligne considéré
+                                benchmark = int(line[0])
+                    benchmark = benchmark + 1
+                write=csv.writer(f)  
+                for key, value in data.items():
+                    for i in value:
+                        l = []
+                        l.append(benchmark)
+                        l.append(key)
+                        l.append(i)
+                        write.writerow(l)
+                    #l.append(statistics.mean(value))
+                    #l.append(min(value))
+                    #l.append(max(value))
+                    #l.append(len(value))
+                    #quartile = statistics.quantiles(value)
+                    #quart = quartile[0]
+                    #quart_3 = quartile[2]
+                    #l.append(quart)
+                    #l.append(quart_3)
+        else : 
+            with open(f"{converter_name}.csv",'w',newline='') as f:  #Ouverture du fichier CSV en écriture
+                write=csv.writer(f)  
+                #write.writerow(["Benchmark", "Method", "Mean", "Min", "Max", "Number of value", "25%", "75%"])
+                write.writerow(["Benchmark", "Method", "Value"])
+                for key, value in data.items():
+                    for i in value:
+                        l = []
+                        l.append(benchmark)
+                        l.append(key)
+                        l.append(i)
+                        write.writerow(l)
+                    #l.append(statistics.mean(value))
+                    #l.append(min(value))
+                    #l.append(max(value))
+                    #l.append(len(value))
+                    #quartile = statistics.quantiles(value)
+                    #quart = quartile[0]
+                    #quart_3 = quartile[2]
+                    #l.append(quart)
+                    #l.append(quart_3)
+        ###################################
         pylab.boxplot([data[x] for x in methods], **boxplot_args)
         # pylab.xticks([1+this for this in range(len(methods))], methods)
         if "vert" in boxplot_args and boxplot_args["vert"] is False:
