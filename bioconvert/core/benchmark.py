@@ -114,7 +114,6 @@ class Benchmark:
         data = self.results.copy()
 
         methods = sorted(data, key=lambda x: pylab.mean(data[x]))
-
         pylab.boxplot([data[x] for x in methods], **boxplot_args)
         # pylab.xticks([1+this for this in range(len(methods))], methods)
         if "vert" in boxplot_args and boxplot_args["vert"] is False:
