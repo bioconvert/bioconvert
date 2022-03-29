@@ -37,8 +37,8 @@ metainfo = {
 with open("README.rst") as f:
     readme = f.read()
 
-#requirements = open("requirements.txt").read().split()
-requirements = {["easydev", "biosniff", "colorlog", "pandas", "biopython>=1.70", "mappy", "matplotlib", "networkx", "pyyaml", "pysam", "pyexcel", "pyexcel-ods3", "pyexcel-xls", "pyexcel-xlsx", "xlrd", "pyBigWig", "py2bit"]}
+requirements = open("requirements.txt").read().split()
+#requirements = {["easydev", "biosniff", "colorlog", "pandas", "biopython>=1.70", "mappy", "matplotlib", "networkx", "pyyaml", "pysam", "pyexcel", "pyexcel-ods3", "pyexcel-xls", "pyexcel-xlsx", "xlrd", "pyBigWig", "py2bit"]}
 
 on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 if on_rtd:
