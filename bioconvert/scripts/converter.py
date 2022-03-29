@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -30,8 +28,9 @@ import json
 import sys
 import colorlog
 import textwrap
+import json
 
-import bioconvert
+from bioconvert import logger, version
 from bioconvert import ConvBase
 from bioconvert.core import graph
 from bioconvert.core import utils
@@ -210,23 +209,23 @@ def main(args=None):
                 sys.exit(1)
 
     # Set the default level
-    bioconvert.logger.level = "ERROR"
+    logger.level = "ERROR"
 
     # Changing the log level before argparse is run
     try:
-        bioconvert.logger.level = args[args.index("-l") + 1]
+        logger.level = args[args.index("-l") + 1]
     except:
         pass
     try:
-        bioconvert.logger.level = args[args.index("--level") + 1]
+        logger.level = args[args.index("--level") + 1]
     except:
         pass
     try:
-        bioconvert.logger.level = args[args.index("-v") + 1]
+        logger.level = args[args.index("-v") + 1]
     except:
         pass
     try:
-        bioconvert.logger.level = args[args.index("--verbosity") + 1]
+        logger.level = args[args.index("--verbosity") + 1]
     except:
         pass
 
@@ -358,7 +357,7 @@ Please feel free to join us at https://github/biokit/bioconvert
     arg_parser.add_argument(
         "-v",
         "--verbosity",
-        default=bioconvert.logger.level,
+        default=logger.level,
         help="Set the outpout verbosity.",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
     )
@@ -366,7 +365,7 @@ Please feel free to join us at https://github/biokit/bioconvert
     arg_parser.add_argument(
         "-l",
         "--level",
-        default=bioconvert.logger.level,
+        default=logger.level,
         help="Set the outpout verbosity. Same as --verbosity",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
     )
@@ -408,7 +407,6 @@ Please feel free to join us at https://github/biokit/bioconvert
 
         # Parsing failed, trying to guess converter
         from bioconvert.core.levenshtein import wf_levenshtein as lev
-
         sub_command = None
         args_i = 0
         while sub_command is None and args_i < len(args):
@@ -462,7 +460,7 @@ Please feel free to join us at https://github/biokit/bioconvert
         sys.exit(1)
 
     if args.version:
-        print("{}".format(bioconvert.version))
+        print("{}".format(version))
         sys.exit(0)
 
     if args.dependency_report:
@@ -528,7 +526,7 @@ Please feel free to join us at https://github/biokit/bioconvert
     args.raise_exception = args.raise_exception or args.verbosity == "DEBUG"
 
     # Set the logging level
-    bioconvert.logger.level = args.verbosity
+    logger.level = args.verbosity
     # Figure out whether we have several input files or not
     if "*" in args.input_file or "?" in args.input_file:
         filenames = glob.glob(args.input_file)
@@ -546,7 +544,7 @@ Please feel free to join us at https://github/biokit/bioconvert
             if args.raise_exception:
                 raise e
             else:
-                bioconvert.logger.error(e)
+                logger.error(e)
             sys.exit(1)
 
 
@@ -597,7 +595,7 @@ def analysis(args):
         extra_arguments = args.extra_arguments
 
     # Call a generic wrapper of all available conversion
-    conv = Bioconvert(
+    bioconv = Bioconvert(
         infile, outfile, force=args.force, threads=threads, extra=extra_arguments
     )
 
@@ -622,21 +620,21 @@ def analysis(args):
             "benchmark_N",
             "benchmark_methods",
         ]:
-            conv.converter.others[k] = v
+            bioconv.converter.others[k] = v
 
     if args.benchmark:
-        conv.boxplot_benchmark(N=args.benchmark_N, to_include=args.benchmark_methods)
+        results = bioconv.converter.boxplot_benchmark(N=args.benchmark_N, to_include=args.benchmark_methods)
         import pylab
 
-        try:
-            outpng = "benchmark_{}.png".format(conv.name)
-            pylab.savefig(outpng, dpi=200)
-        except:
-            outpng = "benchmark_{}.png".format(conv.converter.name)
-            pylab.savefig(outpng, dpi=200)
-        bioconvert.logger.info(f"File {outpng} created")
+        if args.benchmark_save_image:
+            pylab.savefig(f"{args.benchmark_tag}.png", dpi=200)
+            logger.info(f"File {args.benchmark_tag}.png created")
+
+        with open(f"{args.benchmark_tag}.json", "w") as fout:
+            json.dump(results, fout, indent=True, sort_keys=True)
+            logger.info(f"Saved results in {args.benchmark_tag}.json")
     else:
-        conv(**vars(args))
+        bioconv(**vars(args))
 
 
 if __name__ == "__main__":

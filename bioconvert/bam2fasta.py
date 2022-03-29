@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -35,7 +34,7 @@ class BAM2FASTA(ConvBase):
 
     Methods available are based on samtools [SAMTOOLS]_ or bedtools [BEDTOOLS]_.
 
-    .. warning:: Using the bedtools method, the R1 and R2 reads must be next to 
+    .. warning:: Using the bedtools method, the R1 and R2 reads must be next to
         each other so that the reads are sorted similarly
 
     .. warning:: there is no guarantee that the R1/R2 output file are sorted
@@ -58,12 +57,12 @@ class BAM2FASTA(ConvBase):
     """@requires("bamtools")
     def __method_bamtools(self, *args, **kwargs):
         #  fastq are split on several lines (80 characters)
-        # this method contains supplementary reads and we don't know 
+        # this method contains supplementary reads and we don't know
         # what to do with them for now. So, this method is
         # commented. Indeed final R1 and R2 files will not be paired.
 
         cmd = "bamtools stats -in '%s' | sed '12!d' | awk '{print $3}' " % (self.infile)
-        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, 
+        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,universal_newlines=True)
         isPaired = ps.communicate()[0].strip()
 

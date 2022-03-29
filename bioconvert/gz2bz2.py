@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -22,7 +20,6 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
 """Convert :term:`GZ` file to :term:`BZ2` format"""
 import bz2
 import gzip
@@ -61,7 +58,7 @@ class GZ2BZ2(ConvBase):
     )
     def _method_pigz_pbzip2(self, *args, **kwargs):
         """Method that uses pigz pbzip2.
-        
+
         `pigz documentation <https://linux.die.net/man/1/pigz>`_
         `pbzip2 documentation <https://linux.die.net/man/1/pbzip2>`_"""
         # conversion
@@ -75,7 +72,7 @@ class GZ2BZ2(ConvBase):
     )
     def _method_gunzip_bzip2(self, *args, **kwargs):
         """Single theaded conversion. Method that uses gunzip bzip2.
-        
+
         `gunzip documentation <https://linux.die.net/man/1/gunzip>`_
         `bzip2 documentation <http://www.delafond.org/traducmanfr/man/man1/bzip2.1.html>`_"""
         cmd = "gunzip --to-stdout {input} | bzip2 > {output}"

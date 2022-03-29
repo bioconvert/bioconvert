@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -53,7 +51,7 @@ class SAM2BAM(ConvBase):
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """ Do the conversion :term:`SAM` -> :term:`BAM` using samtools
-        
+
         `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         # -S means ignored (input format is auto-detected)
         # -b means output to BAM format

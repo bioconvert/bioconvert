@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -123,7 +121,7 @@ class FASTQ2FASTA(ConvBase):
     def _method_seqtk(self, *args, **kwargs):
         # support gz files natively
         """We use the Seqtk library.
-        
+
         `Documentation of the Seqtk method <https://github.com/lh3/seqtk>`_"""
         cmd = "seqtk seq -A {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
@@ -132,7 +130,7 @@ class FASTQ2FASTA(ConvBase):
     def _method_seqkit(self, *args, **kwargs):
         # support gz files natively
         """We use the Seqkit library.
-        
+
         `Documentation of the Seqkit method <https://github.com/shenwei356/seqkit>`_"""
         cmd = "seqkit fq2fa {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
@@ -141,7 +139,7 @@ class FASTQ2FASTA(ConvBase):
     @compressor
     def _method_readfq(self, *args, **kwargs):
         """This method is inspired by Readfq coded by Heng Li.
-        
+
         `original Readfq method <https://github.com/lh3/readfq>`_"""
         with open(self.outfile, "w") as fasta, open(self.infile, "r") as fastq:
             for (name, seq, _) in FASTQ2FASTA.readfq(fastq):
@@ -150,9 +148,9 @@ class FASTQ2FASTA(ConvBase):
     # Does not give access to the comment part of the header
     @requires(python_library="mappy")
     def _method_mappy(self, *args, **kwargs):
-        """This method provides a fast and accurate C program to align genomic 
+        """This method provides a fast and accurate C program to align genomic
         sequences and transcribe nucleotides.
-        
+
         `mappy method <https://pypi.org/project/mappy/>`_"""
         with open(self.outfile, "w") as fasta:
             for (name, seq, _) in fastx_read(self.infile):
@@ -180,7 +178,7 @@ class FASTQ2FASTA(ConvBase):
 
         .. note::  Another method with awk has been tested but is less efficient. Here is which one was used:
 
-            :: 
+            ::
 
                 box.awkcmd = \"\"\"awk \'{{if(NR%4==1) {{printf(\">%s\\n\",substr($0,2));}} else if(NR%4==2) print;}}\' \"\"\"
 
@@ -212,7 +210,7 @@ class FASTQ2FASTA(ConvBase):
 
         .. note::  Another method with sed has been tested but is less efficient. Here is which one was used:
 
-            :: 
+            ::
 
                 cmd = \"\"\"sed -n \'s/^@/>/p;n;p;n;n\'\"\"\"
 
@@ -223,9 +221,9 @@ class FASTQ2FASTA(ConvBase):
 
     @requires("perl")
     def _method_perl(self, *args, **kwargs):
-        """This method uses the perl command which will call the 
+        """This method uses the perl command which will call the
         \"fastq2fasta.pl\" script.
-        
+
         `Perl documentation <https://perldoc.perl.org/>`_"""
         perlcmd = "perl {}".format(bioconvert_script("fastq2fasta.pl"))
         cmd = "{} {} {}".format(perlcmd, self.infile, self.outfile)
@@ -234,7 +232,7 @@ class FASTQ2FASTA(ConvBase):
     @requires_nothing
     @compressor
     def _method_python_internal(self, *args, **kwargs):
-        """Bioconvert implementation in pure Python. 
+        """Bioconvert implementation in pure Python.
         This is the default method because it is the fastest."""
         with open(self.infile, "r+") as inp:
 

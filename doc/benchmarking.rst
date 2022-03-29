@@ -26,10 +26,10 @@ In practice, you could use the following code to generate the boxplot:
     infile = TempFile(suffix=".fastq")
     outfile = TempFile(suffix=".fasta")
     fs = FastqSim(infile.name)
-    fs.nreads = 2000 # 1,000,000 by default
+    fs.nreads = 20000 # 1,000,000 by default
     fs.simulate()
 
-    # Perfrm the benchmarking
+    # Perform the benchmarking
     from bioconvert.fastq2fasta import FASTQ2FASTA
     c = FASTQ2FASTA(infile.name, outfile.name)
     c.boxplot_benchmark(to_exclude=["GATB"])
@@ -40,19 +40,18 @@ In practice, you could use the following code to generate the boxplot:
 Here, the boxplot_benchmark methods s called 5 times for each available method.
 
 Be aware that the pure Python methods may be faster for small data set due to
-a non-negligeable cost of using subprocess (we are working on an alternative at the moment). 
+a non-negligeable cost of using subprocess. 
 
 You can try to provide a FastQ file with only 1 read and realise that it takes
 about a second in all method. This is a incompressible delay so benchmarking needs 
-large files to be meaningfule !
+large files to be meaningful !
 
-If we use 1,000,000 reads instead of just 2,000, we would get this results
+If we use 1,000,000 reads instead of just 20,000, we would get different results
 (which may change depending on your system and IO performance):
 
 .. image:: benchmark.png
 
-If we substract the subprocess cost from methods that use it (issue that should
-be solved soon), then we would get this result
+If we substract the subprocess cost from methods that use it, then we would get this result
 
 .. image:: benchmark2.png
 

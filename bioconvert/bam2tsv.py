@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -34,7 +33,7 @@ logger = colorlog.getLogger(__name__)
 class BAM2TSV(ConvBase):
     """Convert sorted :term:`BAM` file into :term:`TSV` stats
 
-    This is not a conversion per se but the extraction of BAM 
+    This is not a conversion per se but the extraction of BAM
     statistics saved into a TSV format. The 4 columns of the TSV file
     are::
 
@@ -76,7 +75,7 @@ class BAM2TSV(ConvBase):
     @requires(python_library="pysam", external_binary="samtools")
     def _method_pysam(self, *args, **kwargs):
         """We use here the python module Pysam.
-        
+
         `Pysam documentation <https://pysam.readthedocs.io/en/latest/api.html>`_"""
         import pysam
 

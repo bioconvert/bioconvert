@@ -119,7 +119,6 @@ class Benchmark:
         if "vert" in boxplot_args and boxplot_args["vert"] is False:
             pylab.yticks(*zip(*enumerate(methods, start=1)), rotation=rot_xticks)
             pylab.xlabel(ylabel)
-            # pylab.xlim([0, len(methods)+1])
         else:
             pylab.xticks(*zip(*enumerate(methods, start=1)), rotation=rot_xticks)
             pylab.ylabel(ylabel)

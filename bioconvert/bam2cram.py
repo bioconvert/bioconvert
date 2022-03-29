@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -37,7 +36,7 @@ class BAM2CRAM(ConvBase):
     """Convert :term:`BAM` file to :term:`CRAM` file
 
     The conversion requires the reference corresponding to the input file
-    It can be provided as an argument with the standalone (*-\\-reference*). 
+    It can be provided as an argument with the standalone (*-\\-reference*).
     Otherwise, users are asked to provide it.
 
     Methods available are based on samtools [SAMTOOLS]_.

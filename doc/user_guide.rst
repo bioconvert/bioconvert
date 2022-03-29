@@ -107,7 +107,7 @@ files)::
 Parallelization
 ---------------
 
-In Bioconvert, if the input contains a wildcard such as *** or *?* characters, then, input filenames are treated separately and converted sequentially::
+In Bioconvert, if the input contains a wildcard such as ``*`` or ``?`` characters, then, input filenames are treated separately and converted sequentially::
 
     bioconvert fastq2fasta "*.fastq"
 

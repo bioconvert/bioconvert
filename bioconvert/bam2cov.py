@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -33,7 +32,7 @@ __all__ = ["BAM2COV"]
 
 
 class BAM2COV(ConvBase):
-    """Convert sorted :term:`BAM` file into :term:`COV` file 
+    """Convert sorted :term:`BAM` file into :term:`COV` file
 
 
     Note that the COV format is of the form::
@@ -67,7 +66,7 @@ class BAM2COV(ConvBase):
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """Do the conversion sorted :term:`BAM` -> :term:`BED` using samtools
-        
+
         `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         cmd = "samtools depth -aa {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
@@ -75,7 +74,7 @@ class BAM2COV(ConvBase):
     @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
         """Do the conversion sorted :term:`BAM` -> :term:`BED` using bedtools
-        
+
         `bedtools documentation <https://bedtools.readthedocs.io/en/latest/>`_"""
         cmd = "bedtools genomecov -d -ibam {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
