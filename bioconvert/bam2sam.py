@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -70,7 +68,7 @@ class BAM2SAM(ConvBase):
     @requires(python_library="pysam", external_binary="samtools")
     def _method_pysam(self, *args, **kwargs):
         """We use here the python module Pysam.
-        
+
         `Pysam documentation <https://pysam.readthedocs.io/en/latest/api.html>`_"""
         import pysam
 
@@ -78,9 +76,9 @@ class BAM2SAM(ConvBase):
 
     @requires("sambamba")
     def _method_sambamba(self, *args, **kwargs):
-        """Here we use the Sambamba tool. 
+        """Here we use the Sambamba tool.
         This is the default method because it is the fastest.
-        
+
         `Sambamba documentation <https://lomereiter.github.io/sambamba/docs/sambamba-view.html>`_"""
         cmd = "sambamba view --header {} -o {} -t {}"
         cmd = cmd.format(self.infile, self.outfile, self.threads)

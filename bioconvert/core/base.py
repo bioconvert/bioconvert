@@ -252,6 +252,9 @@ class ConvBase(metaclass=ConvMeta):
     _threading = False
     _extra_arguments = ""
 
+    # Used for the benchmarking only
+    others = {}
+
     # threads to be used by default if argument is required in a method
     # this will be overriden if _threading set to True and therefore --threads
     # set by the user. It is feed back into Bioconvert class
@@ -528,11 +531,21 @@ class ConvBase(metaclass=ConvMeta):
             help="Number of trials for each methods",
         )
         yield ConvArg(
-            names=["-B", "--benchmark-methods",],
+            names=["-T", "--benchmark-tag",],
+            default="bioconvert",
+            help="Save results (json and image) named after this tag",
+        )
+        yield ConvArg(
+            names=["-I", "--benchmark-save-image",],
+            action="store_true",
+            help="Save results in this image",
+        )
+        yield ConvArg(
+            names=["-M", "--benchmark-methods",],
             default="all",
             nargs="+",
             type=str,
-            help="Methods to include",
+            help="Methods to include. Provide list as space-separated method names. Use -s  to get the full list.",
         )
         yield ConvArg(
             names=["-a", "--allow-indirect-conversion",],
