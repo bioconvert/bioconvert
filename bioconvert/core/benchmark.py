@@ -21,14 +21,15 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Tools for benchmarking"""
-from collections import defaultdict
-from itertools import chain
-
-import numpy as np
-from easydev import Timer
-from tqdm import tqdm
 
 import colorlog
+import pylab
+import numpy as np
+
+from collections import defaultdict
+from itertools import chain
+from easydev import Timer
+from tqdm import tqdm
 
 _log = colorlog.getLogger(__name__)
 
@@ -89,7 +90,7 @@ class Benchmark:
             times = []
             for i in tqdm(range(self.N), desc="Evaluating method {}".format(method)):
                 with Timer(times):
-                    # Need to get all extrq qrguments for specify method e.g Bam2BIGWIG.uscs method
+                    # Need to get all extra arguments for specify method e.g Bam2BIGWIG.uscs method
                     kwargs = {"method": method}
                     for k, v in self.converter.others.items():
                         kwargs[k] = v
@@ -105,7 +106,6 @@ class Benchmark:
         :param boxplot_args: dictionary with any of the pylab.boxplot arguments
         :return: dataframe with all results
         """
-        import pylab
 
         if self.results is None or rerun is True:
             self.run_methods()
