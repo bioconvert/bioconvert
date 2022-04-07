@@ -42,7 +42,7 @@ on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 if on_rtd:
     # mock, pillow, sphinx, sphinx_rtd_theme installed on RTD
     # but we also need numpydoc and sphinx_gallery
-    extra_packages = ["numpydoc", "sphinx_gallery"] 
+    extra_packages = ["numpydoc", "sphinx_gallery"]
     requirements += extra_packages
 
 
@@ -64,8 +64,27 @@ setup(
     zip_safe=False,
     packages=find_packages(),
     install_requires=requirements,
-    extras_require={"testing": ["pytest", "pytest-cov", "pytest-env", "pytest-xdist", "pytest-mock", "pytest-timeout", "pytest-runner", "mock", "coveralls"],
-                    "doc": ["pillow", "sphinx", "sphinx_rtd_theme", "sphinx_gallery", "numpydoc", "pygraphviz", ]},
+    extras_require={
+        "testing": [
+            "pytest",
+            "pytest-cov",
+            "pytest-env",
+            "pytest-xdist",
+            "pytest-mock",
+            "pytest-timeout",
+            "pytest-runner",
+            "mock",
+            "coveralls",
+        ],
+        "doc": [
+            "pillow",
+            "sphinx",
+            "sphinx_rtd_theme",
+            "sphinx_gallery",
+            "numpydoc",
+            "pygraphviz",
+        ],
+    },
     # This is recursive include of data files
     exclude_package_data={"": ["__pycache__"]},
     package_data={

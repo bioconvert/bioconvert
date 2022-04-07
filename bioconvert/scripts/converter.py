@@ -407,6 +407,7 @@ Please feel free to join us at https://github/biokit/bioconvert
 
         # Parsing failed, trying to guess converter
         from bioconvert.core.levenshtein import wf_levenshtein as lev
+
         sub_command = None
         args_i = 0
         while sub_command is None and args_i < len(args):
@@ -623,7 +624,9 @@ def analysis(args):
             bioconv.converter.others[k] = v
 
     if args.benchmark:
-        results = bioconv.converter.boxplot_benchmark(N=args.benchmark_N, to_include=args.benchmark_methods)
+        results = bioconv.converter.boxplot_benchmark(
+            N=args.benchmark_N, to_include=args.benchmark_methods
+        )
         import pylab
 
         if args.benchmark_save_image:

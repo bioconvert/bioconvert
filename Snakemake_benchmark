@@ -1,0 +1,64 @@
+# this snakemake makes it possible to benchmark the conversions
+# written in the conversions variable by downloading the necessary
+# files from the zenodo site and creating the necessary directories.
+#
+# How to run ? If you have 8 cores:
+#
+#     snakemake -s Snakemake_benchmark --cores 8
+#
+# on a SLURM framework, :
+#
+#     snakemake -s Snakemake_benchmark --cluster "-j 8 --mem 4000"
+
+# The number of times we run the benchmark to try to smooth out errors
+I = 5
+
+# The conversions that we want to test and whose name corresponds to the file extensions
+conversions = ["bam2bedgraph", "fastq2fasta", "bam2sam"]
+
+rule all:
+    input: expand("json/test_{conversion}.json", conversion=conversions),
+           expand("multi_benchmark/multi_benchmark_test_{conversion}.png", conversion=conversions)
+
+# Function that will be used to define the extension of the file to be tested
+def my_function_in(wildcards):
+    data_in, data_out = wildcards.conversions.split("2")
+    return f"input/test.{data_in}"
+
+rule download : 
+    output : "input/test.fastq",
+             "input/test.bam",
+             "input/test.bam.bai",
+             "input/test.sam"
+    shell : 
+        """
+        mkdir output
+        mkdir json
+        mkdir multi_benchmark
+        wget https://zenodo.org/record/6405971/files/measles.sorted.bam -O input/test.bam
+        wget https://zenodo.org/record/6405971/files/measles.sorted.bam.bai -O input/test.bam.bai
+        wget https://zenodo.org/record/6405971/files/measles.sorted.sam -O input/test.sam
+        wget https://zenodo.org/record/6405971/files/SRR10769787.fastq.gz
+        gunzip SRR10769787.fastq.gz
+        mv SRR10769787.fastq input/test.fastq
+        """
+
+rule generic_conversions :
+    input : my_function_in
+    output : out = temp("output/test_{conversions}_{i}.out"),
+             json = "json/test_{conversions}_{i}.json"
+    shell :
+        """
+        bioconvert {wildcards.conversions} -b -N 10 -T json/test_{wildcards.conversions}_{wildcards.i} {input} {output.out} -f
+        """
+
+rule generic_concatenate : 
+    input : expand("json/test_{conversion}_{i}.json", i = range(1,I+1), conversion=conversions)
+    output : json = "json/test_{conversions}.json",
+             png = "multi_benchmark/multi_benchmark_test_{conversions}.png"
+    run : 
+        from bioconvert.core.benchmark import plot_max, concatenete
+        concatenate(f"json/test_{wildcards.conversions}", I)
+        plot_max(f"json/test_{wildcards.conversions}")
+
+    

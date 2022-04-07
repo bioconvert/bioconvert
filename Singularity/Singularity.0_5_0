@@ -1,0 +1,57 @@
+Bootstrap: docker
+From: ubuntu:latest
+
+%post
+    ####### Install system #######
+    export BIOCONVERT_VERSION="0.5.0"
+
+    apt-get update -y && apt-get -y install wget libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6 libcurl4-openssl-dev build-essential git
+
+    # install Miniconda
+    # wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && chmod +x Miniconda3-latest-Linux-x86_64.sh && bash Miniconda3-latest-Linux-x86_64.sh -bfp /usr/local
+    if [ ! -d /usr/local/anaconda ]; then
+        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/anaconda.sh \
+        && chmod +x ~/anaconda.sh && bash ~/anaconda.sh -bfp /usr/local/anaconda && rm ~/anaconda.sh
+    fi
+
+    # set anaconda path
+    export PATH=$PATH:/usr/local/anaconda/bin
+    conda update conda
+
+    conda config --add channels r
+    conda config --add channels defaults
+    conda config --add channels conda-forge
+    conda config --add channels bioconda
+
+    # install mamba for speed
+    conda install -c conda-forge mamba
+
+
+    ####### Install bioconvert #######
+    pip install biocode
+    git clone https://github.com/bioconvert/bioconvert.git
+    cd bioconvert
+    git checkout -b refactoring
+    pip install .
+
+
+    # The main package for anaconda
+    mamba install --file requirements_tools.txt -q -y
+
+    # add this directory for Institut Pasteur cluster usage
+    if [ ! -d /pasteur ]; then mkdir /pasteur; fi
+    if [ ! -d /etc/localtime ]; then mkdir /etc/localtime; fi
+
+    # Uses agg as backend instead of qt (less dependencies)
+    echo "backend:tkagg" > matplotlibrc
+
+    ####### Clean image #######
+    apt-get autoremove -y
+    apt-get clean -y
+    mamba clean -y --all
+
+%environment
+    export PATH=$PATH:/usr/local/anaconda/bin
+
+%runscript
+    exec /usr/local/anaconda/bin/bioconvert "$@"
