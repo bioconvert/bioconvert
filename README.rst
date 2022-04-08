@@ -43,11 +43,11 @@ Life science uses many different formats. They may be old, or with complex synta
 
 Many conversion tools already exist but they may be dispersed, focused on few specific formats, difficult to install, or not optimised. With Bioconvert, we plan to cover a wide spectrum of format conversions; we will re-use existing tools when possible and provide facilities to compare different conversion tools or methods via benchmarking. New implementations are provided when considered better than existing ones.
 
-In Aug 2019, we had 46 formats, 98 direct conversions (156 different methods). More conversions are possible when calling bioconvert several times.
+In March 202, we had 48 formats, 98 direct conversions (125 different methods). 
 
-In Aug 2018, we had 43 formats, 79 direct conversions (129 different methods). More conversions are possible when calling bioconvert several times.
+.. image:: https://raw.githubusercontent.com/bioconvert/bioconvert/master/doc/conversion.png
+    :width: 80%
 
-In June 2018, we had 66 direct conversions (120 different methods). More conversions are possible when calling bioconvert several times.
 
 Installation
 ###############
@@ -103,8 +103,6 @@ From a Python shell::
 Available Converters
 #######################
 
-.. image:: https://raw.githubusercontent.com/bioconvert/bioconvert/master/doc/conversion.png
-    :width: 80%
 
 .. list-table:: Conversion table
     :widths: 20 40 40
@@ -525,6 +523,9 @@ Changes
 Version   Description
 ========= ====================================================================
 0.5.0     * Add CI actions for all converters
-          * remove sniffer (now in biosniff)
+          * remove sniffer (now in biosniff onpypi)
+          * A complete benchmarking suite
+          * documentation and test for all converters
+          * removed the validatods (we assume intputs are correct)
 ========= ====================================================================
 
