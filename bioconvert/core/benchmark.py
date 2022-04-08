@@ -37,7 +37,7 @@ from tqdm import tqdm
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ["Benchmark"]
+__all__ = ["Benchmark", "plot_multi_benchmark_max"]
 
 
 class Benchmark:
@@ -133,37 +133,53 @@ class Benchmark:
         return data
 
 
-def concatenate(path_js, benchmark_num):
+def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png"):
+    """Plotting function for the Snakefile_benchmark to be found in the doc
+
+    The json file looks like::
+
+
+        {
+          "awk":{
+            "0":0.777020216,
+            "1":0.9638044834,
+            "2":1.7623617649,
+            "3":0.8348755836
+          },
+          "seqtk":{
+            "0":1.0024843216,
+            "1":0.6313509941,
+            "2":1.4048073292,
+            "3":1.0554351807
+          },
+          "Benchmark":{
+            "0":1,
+            "1":1,
+            "2":2,
+            "3":2
+          }
+        }
+
+    Number of benchmark is infered from field 'Benchmark'.
+
+    """
     # open and read JSON file
-    df = pd.read_json(f"{path_js}_1.json")
-    # Creation of another column containing the benchmarking number
-    df = df.assign(Benchmark=1)
+    df = pd.read_json(path_json)
 
-    for i in range(2, int(benchmark_num) + 1):
-        # open and read JSON file
-        df_temp = pd.read_json(f"{path_js}_{i}.json")
-        # Creation of another column containing the benchmarking number
-        df_temp = df_temp.assign(Benchmark=i + 1)
-        # Concatenation of the two JSON objects
-        df = pd.concat([df, df_temp], axis=0)
-    # The index is reset to avoid problems when exporting the final JSON file
-    df.reset_index(inplace=True, drop=True)
-    # Creation of the path variable which will be used to give the name of the output JSON file
-    path = f"{path_js}.json"
-    # Exporting the JSON object to a JSON file
-    df.to_json(path, indent=4)
+    # how many runs per method ?
+    N = len(df['Benchmark']) / len(df['Benchmark'].unique())
+    N = len(df['Benchmark']) / N
 
-
-def plot_max(path_json):
-    # open and read JSON file
-    df = pd.read_json(f"{path_json}.json")
     # Retrieving method names
-    method = list(df)
+    methods = list(df)
+
     # Removed the entry from the list that matches benchmark
-    del method[-1]
+    methods.remove('Benchmark')
+
     # We rotate the JSON object in relation to the benchmark number to be able to group them by methods
     df2 = df.pivot(columns="Benchmark")
-    # Display of the boxplots with font at 7 and the gris is removed to make it easier to read
+
+    # Display of the boxplots with font at 7 and the grid is removed to make it easier to read
     df2.boxplot(fontsize=7, grid=False)
 
     # Initializing the x-axis title placement list
@@ -174,7 +190,7 @@ def plot_max(path_json):
     median_best = 0
     # Initialization of the variable that will be used to save the name of the method with the lowest median
     best_method = None
-    for i in method:
+    for i in methods:
         if sep != 0:
             # Creation of a separation between methods
             plt.axvline(sep + 0.5, ls="--", color="red")
@@ -185,23 +201,23 @@ def plot_max(path_json):
             median_best = median
             best_method = i
         # We plot the median of each method
-        plt.hlines(y=median, xmin=0.5 + sep, xmax=5.5 + sep, color="orange")
-        l.append(sep + 3)
-        sep += 5
+        plt.hlines(y=median, xmin=0.5 + sep, xmax=N+0.5 + sep, color="orange")
+        l.append(sep + (N/2+0.5))
+        sep += N
 
     # The name of each method is displayed on the x-axis
-    plt.xticks(l, method)
+    plt.xticks(l, methods)
     # Creation of the path variable which will give the title of the output PNG image
     path = path_json.split("/")[1]
     # Backup of the benchmark of the different conversion in the form of a PNG image
-    plt.savefig(f"multi_benchmark/multi_benchmark_{path}.png", dpi=200)
+    plt.savefig(output_filename, dpi=200)
 
     ############################## T-TEST ##############################
     # We recover the different times of the best method
     value_best_method = df[best_method]
     # Initialization of the dictionary which will save the results of the t-test of each method
     t_test = dict()
-    for i in method:
+    for i in methods:
         if i != best_method:
             # We recover the different times of the method
             value_method = df[i]
@@ -214,7 +230,6 @@ def plot_max(path_json):
             P_dict = {"p-value": P_value}
             D_dict = {"Degree of freedom": degrees_f}
             t_test[i] = (T_dict, P_dict, D_dict)
-    print(t_test)
 
     ############################## MULTITEST ##############################
     # Initialization of the list which will store all the p-values of the previous t-tests
@@ -239,5 +254,5 @@ def plot_max(path_json):
 
     for i in range(len(list_method)):
         print(
-            f"- By comparing the {list_method[i]} method with the best method which is {best_method}, we check H0 : {areSignificant[i]} and its corrected P-value is : {correctedPvalues[i]}"
+            f"- By comparing the {list_method[i]} method with the best one ({best_method}), we check H0: {areSignificant[i]} with corrected P-value: {correctedPvalues[i]}"
         )

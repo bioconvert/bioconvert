@@ -1,12 +1,12 @@
 import os
 
 import pytest
-
 from bioconvert import Benchmark
 from bioconvert.bam2cov import BAM2COV
 from easydev import TempFile
 
 from .. import test_dir
+from . import test_dir as local_test_dir
 
 
 @pytest.mark.skipif(
@@ -27,3 +27,11 @@ def test_benchmark():
             assert True
         except:
             assert False
+
+
+@pytest.mark.flaky(reruns=5)
+def test_multi_benchmark_plot(tmpdir):
+
+    outpng = tmpdir.join("test.png")
+    from bioconvert.core.benchmark import plot_multi_benchmark_max
+    plot_multi_benchmark_max(f"{local_test_dir}/data/test_fastq2fasta.json", output_filename=outpng)
