@@ -82,9 +82,7 @@ rule generic_concatenate:
     run:
         import pandas as pd
         # open and read JSON file
-        print("A")
         df = pd.read_json(input[0])
-        print(df)
 
         # Creation of another column containing the benchmarking number
         df = df.assign(Benchmark=1)
@@ -114,6 +112,6 @@ rule plot:
         png = "multi_benchmark/multi_benchmark_test_{conversion}.png"
     run:
         from bioconvert.core.benchmark import plot_multi_benchmark_max
-        plot_multi_benchmark_max(input.json, output_filename=output.png) #, N=params.number_of_runs_per_method)
+        plot_multi_benchmark_max(input.json, output_filename=output.png) 
 
 
