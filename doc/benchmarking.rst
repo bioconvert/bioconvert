@@ -3,6 +3,9 @@
 Benchmarking
 ============
 
+Introduction
+------------
+
 Converters (e.g. :class:`~bioconvert.fastq2fasta.FASTQ2FASTA`) may have several
 methods implemented. A developer may also want to compare his/her method with 
 those available in bioconvert.
@@ -62,7 +65,16 @@ are systematically shifted by about 0.5 to 1 second (cost of the subprocess).
 So, your benchmarks should last  more than a few seconds.
 
 
+Multiple benchmarking for more robustness
+-------------------------------------------
 
+With th previous method, even though you can decrease the error bars using more trials per method, we still suffer from
+local computation or IO access that may bias the results. We provide a Snakefile here: :download:`Snakefile_benchmark`
+that allows to run the previous benchmarking several times. So at the end you have a benchmark ... of benchmarks
+somehow. We found it far more robust. Here is an example for the fastq2fasta case where each method was run 3 times and
+in each case, 10 instances of conversion were performed. The orange vertical lines give the median and a final statement
+indicates whther the final best method is significantly better than the others. 
 
+.. image:: multi_benchmark.png
 
 
