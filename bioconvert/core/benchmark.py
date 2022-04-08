@@ -22,12 +22,15 @@
 ###########################################################################
 """Tools for benchmarking"""
 
-import colorlog
-import pylab
-import numpy as np
+import statistics
 
-from collections import defaultdict
-from itertools import chain
+import colorlog
+import matplotlib.pyplot as plt
+import pandas as pd
+import pylab
+import statsmodels.api
+import statsmodels.formula.api
+import statsmodels.stats.multitest
 from easydev import Timer
 from tqdm import tqdm
 
@@ -128,3 +131,113 @@ class Benchmark:
         pylab.tight_layout()
 
         return data
+
+
+def concatenate(path_js, benchmark_num):
+    # open and read JSON file
+    df = pd.read_json(f"{path_js}_1.json")
+    # Creation of another column containing the benchmarking number
+    df = df.assign(Benchmark=1)
+
+    for i in range(2, int(benchmark_num) + 1):
+        # open and read JSON file
+        df_temp = pd.read_json(f"{path_js}_{i}.json")
+        # Creation of another column containing the benchmarking number
+        df_temp = df_temp.assign(Benchmark=i + 1)
+        # Concatenation of the two JSON objects
+        df = pd.concat([df, df_temp], axis=0)
+    # The index is reset to avoid problems when exporting the final JSON file
+    df.reset_index(inplace=True, drop=True)
+    # Creation of the path variable which will be used to give the name of the output JSON file
+    path = f"{path_js}.json"
+    # Exporting the JSON object to a JSON file
+    df.to_json(path, indent=4)
+
+
+def plot_max(path_json):
+    # open and read JSON file
+    df = pd.read_json(f"{path_json}.json")
+    # Retrieving method names
+    method = list(df)
+    # Removed the entry from the list that matches benchmark
+    del method[-1]
+    # We rotate the JSON object in relation to the benchmark number to be able to group them by methods
+    df2 = df.pivot(columns="Benchmark")
+    # Display of the boxplots with font at 7 and the gris is removed to make it easier to read
+    df2.boxplot(fontsize=7, grid=False)
+
+    # Initializing the x-axis title placement list
+    l = []
+    # Initialization of the variable which will be used to separate the different methods
+    sep = 0
+    # Initialization of the variable that will be used to save the lowest median
+    median_best = 0
+    # Initialization of the variable that will be used to save the name of the method with the lowest median
+    best_method = None
+    for i in method:
+        if sep != 0:
+            # Creation of a separation between methods
+            plt.axvline(sep + 0.5, ls="--", color="red")
+        # Calculation of the median for a method
+        median = statistics.median(df[i])
+        if median_best == 0 or median_best >= median:
+            # If the calculated median is lower than the recorded one, the old median and the old method are placed by the new one
+            median_best = median
+            best_method = i
+        # We plot the median of each method
+        plt.hlines(y=median, xmin=0.5 + sep, xmax=5.5 + sep, color="orange")
+        l.append(sep + 3)
+        sep += 5
+
+    # The name of each method is displayed on the x-axis
+    plt.xticks(l, method)
+    # Creation of the path variable which will give the title of the output PNG image
+    path = path_json.split("/")[1]
+    # Backup of the benchmark of the different conversion in the form of a PNG image
+    plt.savefig(f"multi_benchmark/multi_benchmark_{path}.png", dpi=200)
+
+    ############################## T-TEST ##############################
+    # We recover the different times of the best method
+    value_best_method = df[best_method]
+    # Initialization of the dictionary which will save the results of the t-test of each method
+    t_test = dict()
+    for i in method:
+        if i != best_method:
+            # We recover the different times of the method
+            value_method = df[i]
+            # Application of the t-test between the best method and all the other methods and saving these results in the dictionnary t_test
+            comp = statsmodels.stats.weightstats.CompareMeans.from_data(
+                value_best_method, value_method
+            )
+            (T_stats, P_value, degrees_f) = comp.ttest_ind()
+            T_dict = {"t-stats": T_stats}
+            P_dict = {"p-value": P_value}
+            D_dict = {"Degree of freedom": degrees_f}
+            t_test[i] = (T_dict, P_dict, D_dict)
+    print(t_test)
+
+    ############################## MULTITEST ##############################
+    # Initialization of the list which will store all the p-values of the previous t-tests
+    list_p_value = []
+    # Initialization of the list which will store all the methods other than the best method
+    list_method = []
+
+    for i in t_test:
+        # Retrieval of the p-values and the name of the different methods
+        list_p_value.append(t_test[i][1]["p-value"])
+        list_method.append(i)
+
+    # Application of the multitest on the different conversion methods using the bonferroni method
+    (
+        areSignificant,
+        correctedPvalues,
+        _,
+        _,
+    ) = statsmodels.stats.multitest.multipletests(
+        list_p_value, alpha=0.05, method="bonferroni"
+    )
+
+    for i in range(len(list_method)):
+        print(
+            f"- By comparing the {list_method[i]} method with the best method which is {best_method}, we check H0 : {areSignificant[i]} and its corrected P-value is : {correctedPvalues[i]}"
+        )
