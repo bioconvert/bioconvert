@@ -79,7 +79,7 @@ class CSV2XLS(ConvBase):
         `pandas documentation <https://pandas.pydata.org/docs/>`_"""
         import pandas as pd
 
-        writer = pd.ExcelWriter(self.outfile)
+        writer = pd.ExcelWriter(self.outfile, engine='openpyxl')
         pd.read_csv(self.infile, sep=in_sep, header="infer",).to_excel(
             excel_writer=writer, sheet_name=sheet_name, index=False,
         )
