@@ -16,7 +16,7 @@ mpl.use('Agg')
 
 
 # The number of times we run the benchmark to try to smooth out errors
-I = 10
+I = 5
 # For a given benchmark, how many trials ?
 number_of_runs_per_method = 10
 
@@ -26,30 +26,32 @@ conversions = ["bam2bedgraph", "fastq2fasta", "bam2sam"]
 
 rule all:
     input:
+        expand("json/test_{conversion}_{i}.json", conversion=conversions, i=range(1,I+1)),
         expand("json/test_{conversion}.json", conversion=conversions),
-        expand("multi_benchmark/multi_benchmark_test_{conversion}.png", conversion=conversions)
+        expand("multi_benchmark/multi_benchmark_{conversion}.png", conversion=conversions)
 
 
 rule download :
-    output: "input/test.fastq",
-             "input/test.bam",
-             "input/test.bam.bai",
-             "input/test.sam"
+    output: "inputs/test.fastq",
+            "inputs/test.bam",
+            "inputs/test.bam.bai",
+            "inputs/test.sam"
     shell:
         """
-        wget https://zenodo.org/record/6405971/files/measles.sorted.bam -O input/test.bam
-        wget https://zenodo.org/record/6405971/files/measles.sorted.bam.bai -O input/test.bam.bai
-        wget https://zenodo.org/record/6405971/files/measles.sorted.sam -O input/test.sam
+        wget https://zenodo.org/record/6405971/files/measles.sorted.bam -O inputs/test.bam
+        wget https://zenodo.org/record/6405971/files/measles.sorted.bam.bai -O inputs/test.bam.bai
+        wget https://zenodo.org/record/6405971/files/measles.sorted.sam -O inputs/test.sam
         wget https://zenodo.org/record/6405971/files/SRR10769787.fastq.gz
         gunzip SRR10769787.fastq.gz
-        mv SRR10769787.fastq input/test.fastq
+        mv SRR10769787.fastq inputs/test.fastq
         """
 
 
 # Function that will be used to define the extension of the file to be tested
 def generic_conversions_function_in(wildcards):
-    data_in, data_out = wildcards.conversions.split("2")
-    return f"input/test.{data_in}"
+    data_in, data_out = wildcards.conversion.split("2")
+    return f"inputs/test.{data_in}"
+
 
 rule generic_conversions:
     """Computation of conversion is done here"""
@@ -63,13 +65,13 @@ rule generic_conversions:
         N= number_of_runs_per_method
     shell :
         """
-        bioconvert {wildcards.conversions} -b -N {params.N} -T json/test_{wildcards.conversions}_{wildcards.i} {input} {output.out} -f
+        bioconvert {wildcards.conversion} -b -N {params.N} -T json/test_{wildcards.conversion}_{wildcards.i} {input} {output.out} -f
         """
 
-
 def generic_concatenate_function_in(wildcards):
-    filenames = glob.glob(f"json/test_{wildcards.conversion}_*.json")
+    filenames = [f"json/test_{wildcards.conversion}_" + str(i) + ".json" for i in range(1,I+1)]
     return filenames
+
 
 rule generic_concatenate:
     """Aggregate all json results"""
@@ -103,15 +105,16 @@ rule generic_concatenate:
         df.to_json(output.json, indent=4)
 
 
-
 rule plot:
     """plotting in form of boxplots"""
     input:
         json = "json/test_{conversion}.json",
     output:
-        png = "multi_benchmark/multi_benchmark_test_{conversion}.png"
+        png = "multi_benchmark/multi_benchmark_{conversion}.png"
     run:
         from bioconvert.core.benchmark import plot_multi_benchmark_max
         plot_multi_benchmark_max(input.json, output_filename=output.png) 
 
 
+# essential for the pipeline to work
+ruleorder: generic_conversions > generic_concatenate 
