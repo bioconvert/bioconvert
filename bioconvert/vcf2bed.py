@@ -55,5 +55,5 @@ class VCF2BED(ConvBase):
         :rtype: :class:`io.StringIO` object.
         """
         awkcmd = """awk '{{if(length($4) > length($5)) print $1,($2-1),($2+length($4)-1); else print $1,($2-1),($2+length($5)-1)}}' OFS='\t'"""
-        cmd = """awk '! /\#/' {} | {} > {}""".format(self.infile, awkcmd, self.outfile)
+        cmd = """awk '! /^#/' {} | {} > {}""".format(self.infile, awkcmd, self.outfile)
         self.execute(cmd)

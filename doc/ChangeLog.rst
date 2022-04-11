@@ -1,12 +1,16 @@
 Whats' new, what has changed
 ================================
 
+
+
+
 :Revision 0.4.4: 11 March 2020
 
-- BUG FIXES:
-    - Fix wrong infered output names in batch mode 
-      (https://github.com/bioconvert/bioconvert/issues/252)
-- NEW converters:
+  - BUG FIXES:
+
+    - Fix wrong infered output names in batch mode (https://github.com/bioconvert/bioconvert/issues/252)
+  - NEW converters:
+
     -add fasta2fasta_agp module
 
 
@@ -19,7 +23,7 @@ Whats' new, what has changed
 
 :Revision 0.4.2: 21 Aug 2019
 
-- BUG Fixes:
+  - BUG Fixes:
 
     - Correct output extension for implicit output when input is compressed
       (https://github.com/bioconvert/bioconvert/issues/250)
@@ -27,48 +31,52 @@ Whats' new, what has changed
 
 :Revision 0.4.1: 12th Aug 2019
 
-- BUG FIXES:
+  - BUG FIXES:
 
     - nexus2fasta fix bug #235
 
 :Revisin 0.4.0: (Aug 2019)
 
-- NEW:
+  - NEW:
+
     - 1-to-many and many-to-1 converters are now part of the API (Sulyvan
       Dollin)
     - Complete documentation with formats and bibliography
     - Validation of all currently implemented converters
     - New layout for the output graph
-- NEW  converters:
+  - NEW  converters:
+
     - cram2fasta
     - fasta2faa
-- CHANGES:
+  - CHANGES:
+
     - cram2sam, bam2cram and related cram files have now a --reference option.
     - removed fastq2bam and fasta2bed (no clear output format)
-- BUG FXIES:
+  - BUG FXIES:
+
     - closed all bugs not related to new converters implementation (up to #234)
 
 :Revision 0.3.1: (May/June 2019)
 
-- NEW converters:
+  - NEW converters:
     - bigbed2bed based on pyBigWig
     - abi2qual
-- NEW methods:
+  - NEW methods:
     - new method in bigwig2bedgraph based on pyBigWig
     - new method in twobit2fasta based on py2bit
-- NEW features:
+  - NEW features:
     - new module io/sniffer.py
-- NEW bioconvert behaviour:
+  - NEW bioconvert behaviour:
     - bioconvert --threads option added
     - bioconvert --extra-arguments option added
-- CHANGES:
+  - CHANGES:
     - rename the ggf3gff2 converter correctly into gff32gff2 and add test
     - fastq2fasta: (i) remove quality-file option to export qual (ii) remove
       method python_external (issues #215)
     - bam2bedgraph changes: now also reports 0-coverage bases.
     - bioconvert has now a --level option (same as --verbosity)
     - bioconvert -c/--methods is now set to -m/--methods and 
-- OTHERS:
+  - OTHERS:
     - update setup.py to include all scripts in ./misc package (#214)
     - More features in bioconvert_stats standalone
     - update the singularity recipes for v 0.3.0
@@ -76,7 +84,7 @@ Whats' new, what has changed
     - Fix https://github.com/bioconvert/bioconvert/issues/204
     - add pytest-env plugin in the developer requirements
     - mv utils/ modules  into new directory ./io
-- BUG FIXES:
+  - BUG FIXES:
     - https://github.com/bioconvert/bioconvert/issues/226
 
 :Revision 0.3.0: April/May 2019

@@ -73,6 +73,7 @@ setup(
             "pytest-mock",
             "pytest-timeout",
             "pytest-runner",
+            "pytest-rerunfailures",
             "mock",
             "coveralls",
         ],

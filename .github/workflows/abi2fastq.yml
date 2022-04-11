@@ -47,8 +47,7 @@ jobs:
     - name: Install bioconvert with pip
       run: |
         pip install -r requirements.txt
-        pip install -r requirements_dev.txt
-        pip install .
+        pip install .[testing]
     - name: Test with pytest
       run: |
         pytest -n 1  --cov-report term --cov=bioconvert.abi2fastq test/test_abi2fastq.py

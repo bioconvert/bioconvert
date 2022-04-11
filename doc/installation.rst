@@ -4,13 +4,10 @@
 Installation
 ============
 
-In order to install **Bioconvert**, you can use the **pip** method but
-you may not get all functionalities available. Instead, we recommend
-**bioconda** that will install the Python dependencies as well as the
-third-party packages.
+**Bioconvert** is developed in Python so you can use the **pip** method to install it easily.
+Note, however, that you will lack lots of functionalities since **Bioconvert** relies on third-party software.
 
-**Bioconvert** depends on many external resources and we therefore recommend the
-**bioconda** method that installs pre-compiled libraries. 
+We therefore recommend to also use **bioconda** to install those dependencies.
 
 
 pip installation

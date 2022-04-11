@@ -61,7 +61,7 @@ class YAML2JSON(ConvBase):
         """Return the JSON dictionary corresponding to the YAML input."""
         try:
             data = yaml.load(open(self.infile, "r"), Loader=yaml.FullLoader)
-        except:
+        except: #pragma: no cover
             data = yaml.load(open(self.infile, "r"))
 
         return json.dumps(data, sort_keys=True, indent=4)
