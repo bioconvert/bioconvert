@@ -40,7 +40,7 @@ Life science uses many different formats. They may be old, or with complex synta
 
 Many conversion tools already exist but they may be dispersed, focused on few specific formats, difficult to install, or not optimised. With Bioconvert, we plan to cover a wide spectrum of format conversions; we will re-use existing tools when possible and provide facilities to compare different conversion tools or methods via benchmarking. New implementations are provided when considered better than existing ones.
 
-In March 2022, we had 48 formats, 98 direct conversions (125 different methods). 
+In March 2022, we had 48 formats, 98 direct conversions (125 different methods).
 
 .. image:: https://raw.githubusercontent.com/bioconvert/bioconvert/master/doc/conversion.png
     :width: 80%
@@ -64,8 +64,8 @@ details.
 Usage
 ##########
 
-From the command line, you can convert a :term:`FastQ` file into 
-a :term:`FastA` file as follows (compressed or not)::
+From the command line, you can convert a `FastQ` file into
+a `FastA` file as follows (compressed or not)::
 
     bioconvert fastq2fasta input.fastq output.fasta
     bioconvert fastq2fasta input.fq    output.fasta
@@ -108,405 +108,405 @@ Available Converters
     * - Converters
       - CI testing
       - Benchmarking
-    * - :mod:`~bioconvert.abi2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fasta.yml/badge.svg?branch=refactoring
+    * - `abi2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.abi2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fasta.yml
-      - link IMG benchmarking abi2fasta
-    * - :mod:`~bioconvert.abi2fastq`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fastq.yml/badge.svg?branch=refactoring
+      -
+    * - `abi2fastq <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.abi2fastq>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fastq.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fastq.yml
-      - link IMG benchmarking abi2fastq
-    * - :mod:`~bioconvert.abi2qual`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/abi2qual.yml/badge.svg?branch=refactoring
+      -
+    * - `abi2qual <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.abi2qual>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/abi2qual.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/abi2qual.yml
-      - link IMG benchmarking abi2qual
-    * - :mod:`~bioconvert.bam2bedgraph`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bedgraph.yml/badge.svg?branch=refactoring
+      -
+    * - `bam2bedgraph <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bam2bedgraph>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bedgraph.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bedgraph.yml
-      - link IMG benchmarking bam2bedgraph
-    * - :mod:`~bioconvert.bam2bigwig`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bigwig.yml/badge.svg?branch=refactoring
+      -
+    * - `bam2bigwig <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bam2bigwig>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bigwig.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bigwig.yml
-      - link IMG benchmarking bam2bigwig
-    * - :mod:`~bioconvert.bam2cov`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cov.yml/badge.svg?branch=refactoring
+      -
+    * - `bam2cov <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bam2cov>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cov.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cov.yml
-      - link IMG benchmarking bam2cov
-    * - :mod:`~bioconvert.bam2cram`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cram.yml/badge.svg?branch=refactoring
+      -
+    * - `bam2cram <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bam2cram>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cram.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cram.yml
-      - link IMG benchmarking bam2cram
-    * - :mod:`~bioconvert.bam2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2fasta.yml/badge.svg?branch=refactoring
+      -
+    * - `bam2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bam2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2fasta.yml
-      - link IMG benchmarking bam2fasta
-    * - :mod:`~bioconvert.bam2fastq`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2fastq.yml/badge.svg?branch=refactoring
+      -
+    * - `bam2fastq <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bam2fastq>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2fastq.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2fastq.yml
-      - link IMG benchmarking bam2fastq
-    * - :mod:`~bioconvert.bam2json`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2json.yml/badge.svg?branch=refactoring
+      -
+    * - `bam2json <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bam2json>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2json.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2json.yml
-      - link IMG benchmarking bam2json
-    * - :mod:`~bioconvert.bam2sam`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2sam.yml/badge.svg?branch=refactoring
+      -
+    * - `bam2sam <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bam2sam>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2sam.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2sam.yml
-      - link IMG benchmarking bam2sam
-    * - :mod:`~bioconvert.bam2tsv`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2tsv.yml/badge.svg?branch=refactoring
+      -
+    * - `bam2tsv <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bam2tsv>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2tsv.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2tsv.yml
-      - link IMG benchmarking bam2tsv
-    * - :mod:`~bioconvert.bam2wiggle`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2wiggle.yml/badge.svg?branch=refactoring
+      -
+    * - `bam2wiggle <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bam2wiggle>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2wiggle.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2wiggle.yml
-      - link IMG benchmarking bam2wiggle
-    * - :mod:`~bioconvert.bcf2vcf`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bcf2vcf.yml/badge.svg?branch=refactoring
+      -
+    * - `bcf2vcf <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bcf2vcf>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bcf2vcf.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bcf2vcf.yml
-      - link IMG benchmarking bcf2vcf
-    * - :mod:`~bioconvert.bcf2wiggle`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bcf2wiggle.yml/badge.svg?branch=refactoring
+      -
+    * - `bcf2wiggle <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bcf2wiggle>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bcf2wiggle.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bcf2wiggle.yml
-      - link IMG benchmarking bcf2wiggle
-    * - :mod:`~bioconvert.bed2wiggle`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bed2wiggle.yml/badge.svg?branch=refactoring
+      -
+    * - `bed2wiggle <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bed2wiggle>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bed2wiggle.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bed2wiggle.yml
-      - link IMG benchmarking bed2wiggle
-    * - :mod:`~bioconvert.bedgraph2bigwig`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2bigwig.yml/badge.svg?branch=refactoring
+      -
+    * - `bedgraph2bigwig <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bedgraph2bigwig>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2bigwig.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2bigwig.yml
-      - link IMG benchmarking bedgraph2bigwig
-    * - :mod:`~bioconvert.bedgraph2cov`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2cov.yml/badge.svg?branch=refactoring
+      -
+    * - `bedgraph2cov <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bedgraph2cov>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2cov.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2cov.yml
-      - link IMG benchmarking bedgraph2cov
-    * - :mod:`~bioconvert.bedgraph2wiggle`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2wiggle.yml/badge.svg?branch=refactoring
+      -
+    * - `bedgraph2wiggle <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bedgraph2wiggle>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2wiggle.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bedgraph2wiggle.yml
-      - link IMG benchmarking bedgraph2wiggle
-    * - :mod:`~bioconvert.bigbed2bed`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigbed2bed.yml/badge.svg?branch=refactoring
+      -
+    * - `bigbed2bed <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bigbed2bed>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigbed2bed.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bigbed2bed.yml
-      - link IMG benchmarking bigbed2bed
-    * - :mod:`~bioconvert.bigbed2wiggle`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigbed2wiggle.yml/badge.svg?branch=refactoring
+      -
+    * - `bigbed2wiggle <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bigbed2wiggle>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigbed2wiggle.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bigbed2wiggle.yml
-      - link IMG benchmarking bigbed2wiggle
-    * - :mod:`~bioconvert.bigwig2bedgraph`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigwig2bedgraph.yml/badge.svg?branch=refactoring
+      -
+    * - `bigwig2bedgraph <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bigwig2bedgraph>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigwig2bedgraph.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bigwig2bedgraph.yml
-      - link IMG benchmarking bigwig2bedgraph
-    * - :mod:`~bioconvert.bigwig2wiggle`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigwig2wiggle.yml/badge.svg?branch=refactoring
+      -
+    * - `bigwig2wiggle <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bigwig2wiggle>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bigwig2wiggle.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bigwig2wiggle.yml
-      - link IMG benchmarking bigwig2wiggle
-    * - :mod:`~bioconvert.bplink2plink`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2plink.yml/badge.svg?branch=refactoring
+      -
+    * - `bplink2plink <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bplink2plink>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2plink.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2plink.yml
-      - link IMG benchmarking bplink2plink
-    * - :mod:`~bioconvert.bplink2vcf`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2vcf.yml/badge.svg?branch=refactoring
+      -
+    * - `bplink2vcf <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bplink2vcf>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2vcf.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bplink2vcf.yml
-      - link IMG benchmarking bplink2vcf
-    * - :mod:`~bioconvert.bz22gz`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml/badge.svg?branch=refactoring
+      -
+    * - `bz22gz <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.bz22gz>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bz22gz.yml
-      - link IMG benchmarking bz22gz
-    * - :mod:`~bioconvert.clustal2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2fasta.yml/badge.svg?branch=refactoring
+      -
+    * - `clustal2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.clustal2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2fasta.yml
-      - link IMG benchmarking clustal2fasta
-    * - :mod:`~bioconvert.clustal2nexus`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2nexus.yml/badge.svg?branch=refactoring
+      -
+    * - `clustal2nexus <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.clustal2nexus>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2nexus.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2nexus.yml
-      - link IMG benchmarking clustal2nexus
-    * - :mod:`~bioconvert.clustal2phylip`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2phylip.yml/badge.svg?branch=refactoring
+      -
+    * - `clustal2phylip <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.clustal2phylip>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2phylip.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2phylip.yml
-      - link IMG benchmarking clustal2phylip`
-    * - :mod:`~bioconvert.clustal2stockholm`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2stockholm.yml/badge.svg?branch=refactoring
+      -
+    * - `clustal2stockholm <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.clustal2stockholm>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2stockholm.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/clustal2stockholm.yml
-      - link IMG benchmarking clustal2stockholm
-    * - :mod:`~bioconvert.cram2bam`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2bam.yml/badge.svg?branch=refactoring
+      -
+    * - `cram2bam <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.cram2bam>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2bam.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/cram2bam.yml
-      - link IMG benchmarking cram2bam
-    * - :mod:`~bioconvert.cram2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2fasta.yml/badge.svg?branch=refactoring
+      -
+    * - `cram2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.cram2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/cram2fasta.yml
-      - link IMG benchmarking cram2fasta
-    * - :mod:`~bioconvert.cram2fastq`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2fastq.yml/badge.svg?branch=refactoring
+      -
+    * - `cram2fastq <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.cram2fastq>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2fastq.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/cram2fastq.yml
-      - link IMG benchmarking cram2fastq
-    * - :mod:`~bioconvert.cram2sam`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2sam.yml/badge.svg?branch=refactoring
+      -
+    * - `cram2sam <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.cram2sam>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/cram2sam.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/cram2sam.yml
-      - link IMG benchmarking cram2sam
-    * - :mod:`~bioconvert.csv2tsv`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/csv2tsv.yml/badge.svg?branch=refactoring
+      -
+    * - `csv2tsv <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.csv2tsv>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/csv2tsv.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/csv2tsv.yml
-      - link IMG benchmarking csv2tsv
-    * - :mod:`~bioconvert.csv2xls`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/csv2xls.yml/badge.svg?branch=refactoring
+      -
+    * - `csv2xls <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.csv2xls>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/csv2xls.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/csv2xls.yml
-      - link IMG benchmarking csv2xls
-    * - :mod:`~bioconvert.dsrc2gz`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml/badge.svg?branch=refactoring
+      -
+    * - `dsrc2gz <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.dsrc2gz>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml
-      - link IMG benchmarking dsrc2gz
-    * - :mod:`~bioconvert.embl2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/embl2fasta.yml/badge.svg?branch=refactoring
+      -
+    * - `embl2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.embl2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/embl2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/embl2fasta.yml
-      - link IMG benchmarking embl2fasta
-    * - :mod:`~bioconvert.embl2genbank`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/embl2genbank.yml/badge.svg?branch=refactoring
+      -
+    * - `embl2genbank <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.embl2genbank>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/embl2genbank.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/embl2genbank.yml
-      - link IMG benchmarking embl2genbank
-    * - :mod:`~bioconvert.fasta_qual2fastq`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta_qual2fastq.yml/badge.svg?branch=refactoring
-            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta_qual2fastq.yml
-      - link IMG benchmarking fasta_qual2fastq
-    * - :mod:`~bioconvert.fasta2clustal`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2clustal.yml/badge.svg?branch=refactoring
+      -
+    * - `fasta2clustal <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fasta2clustal>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2clustal.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2clustal.yml
-      - link IMG benchmarking fasta2clustal
-    * - :mod:`~bioconvert.fasta2faa`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2faa.yml/badge.svg?branch=refactoring
+      -
+    * - `fasta2faa <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fasta2faa>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2faa.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2faa.yml
-      - link IMG benchmarking fasta2faa
-    * - :mod:`~bioconvert.fasta2fasta_agp`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fasta_agp.yml/badge.svg?branch=refactoring
+      -
+    * - `fasta2fasta_agp <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fasta2fasta_agp>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fasta_agp.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fasta_agp.yml
-      - link IMG benchmarking fasta2fasta_agp
-    * - :mod:`~bioconvert.fasta2fastq`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fastq.yml/badge.svg?branch=refactoring
+      -
+    * - `fasta2fastq <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fasta2fastq>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fastq.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2fastq.yml
-      - link IMG benchmarking fasta2fastq
-    * - :mod:`~bioconvert.fasta2genbank`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2genbank.yml/badge.svg?branch=refactoring
+      -
+    * - `fasta2genbank <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fasta2genbank>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2genbank.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2genbank.yml
-      - link IMG benchmarking fasta2genbank
-    * - :mod:`~bioconvert.fasta2nexus`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2nexus.yml/badge.svg?branch=refactoring
+      -
+    * - `fasta2nexus <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fasta2nexus>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2nexus.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2nexus.yml
-      - link IMG benchmarking fasta2nexus
-    * - :mod:`~bioconvert.fasta2phylip`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2phylip.yml/badge.svg?branch=refactoring
+      -
+    * - `fasta2phylip <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fasta2phylip>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2phylip.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2phylip.yml
-      - link IMG benchmarking fasta2phylip
-    * - :mod:`~bioconvert.fasta2twobit`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2twobit.yml/badge.svg?branch=refactoring
+      -
+    * - `fasta2twobit <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fasta2twobit>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2twobit.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta2twobit.yml
-      - link IMG benchmarking fasta2twobit
-    * - :mod:`~bioconvert.fastq2fasta_qual`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta_qual.yml/badge.svg?branch=refactoring
-            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta_qual.yml
-      - link IMG benchmarking fastq2fasta_qual
-    * - :mod:`~bioconvert.fastq2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta.yml/badge.svg?branch=refactoring
+      -
+    * - `fasta_qual2fastq <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fasta_qual2fastq>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fasta_qual2fastq.yml/badge.svg?branch=master
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fasta_qual2fastq.yml
+      -
+    * - `fastq2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fastq2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta.yml
-      - link IMG benchmarking fastq2fasta
-    * - :mod:`~bioconvert.fastq2qual`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2qual.yml/badge.svg?branch=refactoring
+      -  `available <_static/benchmark_fastq2fasta.png>`_
+    * - `fastq2fasta_qual <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fastq2fasta_qual>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta_qual.yml/badge.svg?branch=master
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2fasta_qual.yml
+      -
+    * - `fastq2qual <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.fastq2qual>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2qual.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/fastq2qual.yml
-      - link IMG benchmarking fastq2qual
-    * - :mod:`~bioconvert.genbank2embl`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2embl.yml/badge.svg?branch=refactoring
+      -
+    * - `genbank2embl <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.genbank2embl>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2embl.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2embl.yml
-      - link IMG benchmarking genbank2embl
-    * - :mod:`~bioconvert.genbank2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2fasta.yml/badge.svg?branch=refactoring
+      -
+    * - `genbank2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.genbank2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2fasta.yml
-      - link IMG benchmarking genbank2fasta
-    * - :mod:`~bioconvert.genbank2gff3`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2gff3.yml/badge.svg?branch=refactoring
+      -
+    * - `genbank2gff3 <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.genbank2gff3>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2gff3.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/genbank2gff3.yml
-      - link IMG benchmarking genbank2gff3
-    * - :mod:`~bioconvert.gfa2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gfa2fasta.yml/badge.svg?branch=refactoring
+      -
+    * - `gfa2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.gfa2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gfa2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gfa2fasta.yml
-      - link IMG benchmarking gfa2fasta
-    * - :mod:`~bioconvert.gff22gff3`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff22gff3.yml/badge.svg?branch=refactoring
+      -
+    * - `gff22gff3 <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.gff22gff3>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff22gff3.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gff22gff3.yml
-      - link IMG benchmarking gff22gff3
-    * - :mod:`~bioconvert.gff32gff2`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff32gff2.yml/badge.svg?branch=refactoring
+      -
+    * - `gff32gff2 <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.gff32gff2>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff32gff2.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gff32gff2.yml
-      - link IMG benchmarking gff32gff2
-    * - :mod:`~bioconvert.gz2bz2`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml/badge.svg?branch=refactoring
+      -
+    * - `gz2bz2 <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.gz2bz2>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml
-      - link IMG benchmarking gz2bz2
-    * - :mod:`~bioconvert.gz2dsrc`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml/badge.svg?branch=refactoring
+      -
+    * - `gz2dsrc <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.gz2dsrc>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml
-      - link IMG benchmarking gz2dsrc
-    * - :mod:`~bioconvert.json2yaml`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/json2yaml.yml/badge.svg?branch=refactoring
+      -
+    * - `json2yaml <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.json2yaml>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/json2yaml.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/json2yaml.yml
-      - link IMG benchmarking json2yaml
-    * - :mod:`~bioconvert.maf2sam`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml/badge.svg?branch=refactoring
+      -
+    * - `maf2sam <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.maf2sam>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml
-      - link IMG benchmarking maf2sam
-    * - :mod:`~bioconvert.newick2nexus`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2nexus.yml/badge.svg?branch=refactoring
+      -
+    * - `newick2nexus <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.newick2nexus>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2nexus.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/newick2nexus.yml
-      - link IMG benchmarking newick2nexus
-    * - :mod:`~bioconvert.newick2phyloxml`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2phyloxml.yml/badge.svg?branch=refactoring
+      -
+    * - `newick2phyloxml <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.newick2phyloxml>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2phyloxml.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/newick2phyloxml.yml
-      - link IMG benchmarking newick2phyloxml
-    * - :mod:`~bioconvert.nexus2clustal`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2clustal.yml/badge.svg?branch=refactoring
+      -
+    * - `nexus2clustal <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.nexus2clustal>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2clustal.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2clustal.yml
-      - link IMG benchmarking nexus2clustal
-    * - :mod:`~bioconvert.nexus2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2fasta.yml/badge.svg?branch=refactoring
+      -
+    * - `nexus2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.nexus2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2fasta.yml
-      - link IMG benchmarking nexus2fasta
-    * - :mod:`~bioconvert.nexus2newick`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2newick.yml/badge.svg?branch=refactoring
+      -
+    * - `nexus2newick <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.nexus2newick>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2newick.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2newick.yml
-      - link IMG benchmarking nexus2newick
-    * - :mod:`~bioconvert.nexus2phylip`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2phylip.yml/badge.svg?branch=refactoring
+      -
+    * - `nexus2phylip <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.nexus2phylip>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2phylip.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2phylip.yml
-      - link IMG benchmarking nexus2phylip
-    * - :mod:`~bioconvert.nexus2phyloxml`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2phyloxml.yml/badge.svg?branch=refactoring
+      -
+    * - `nexus2phyloxml <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.nexus2phyloxml>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2phyloxml.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/nexus2phyloxml.yml
-      - link IMG benchmarking nexus2phyloxml
-    * - :mod:`~bioconvert.ods2csv`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml/badge.svg?branch=refactoring
+      -
+    * - `ods2csv <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.ods2csv>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml
-      - link IMG benchmarking ods2csv
-    * - :mod:`~bioconvert.phylip2clustal`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2clustal.yml/badge.svg?branch=refactoring
+      -
+    * - `phylip2clustal <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.phylip2clustal>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2clustal.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2clustal.yml
-      - link IMG benchmarking phylip2clustal
-    * - :mod:`~bioconvert.phylip2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2fasta.yml/badge.svg?branch=refactoring
+      -
+    * - `phylip2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.phylip2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2fasta.yml
-      - link IMG benchmarking phylip2fasta
-    * - :mod:`~bioconvert.phylip2nexus`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2nexus.yml/badge.svg?branch=refactoring
+      -
+    * - `phylip2nexus <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.phylip2nexus>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2nexus.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2nexus.yml
-      - link IMG benchmarking phylip2nexus
-    * - :mod:`~bioconvert.phylip2stockholm`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2stockholm.yml/badge.svg?branch=refactoring
+      -
+    * - `phylip2stockholm <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.phylip2stockholm>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2stockholm.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2stockholm.yml
-      - link IMG benchmarking phylip2stockholm
-    * - :mod:`~bioconvert.phylip2xmfa`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2xmfa.yml/badge.svg?branch=refactoring
+      -
+    * - `phylip2xmfa <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.phylip2xmfa>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2xmfa.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2xmfa.yml
-      - link IMG benchmarking phylip2xmfa
-    * - :mod:`~bioconvert.phyloxml2newick`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2newick.yml/badge.svg?branch=refactoring
+      -
+    * - `phyloxml2newick <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.phyloxml2newick>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2newick.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2newick.yml
-      - link IMG benchmarking phyloxml2newick
-    * - :mod:`~bioconvert.phyloxml2nexus`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2nexus.yml/badge.svg?branch=refactoring
+      -
+    * - `phyloxml2nexus <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.phyloxml2nexus>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2nexus.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/phyloxml2nexus.yml
-      - link IMG benchmarking phyloxml2nexus
-    * - :mod:`~bioconvert.plink2bplink`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/plink2bplink.yml/badge.svg?branch=refactoring
+      -
+    * - `plink2bplink <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.plink2bplink>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/plink2bplink.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/plink2bplink.yml
-      - link IMG benchmarking plink2bplink
-    * - :mod:`~bioconvert.plink2vcf`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/plink2vcf.yml/badge.svg?branch=refactoring
+      -
+    * - `plink2vcf <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.plink2vcf>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/plink2vcf.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/plink2vcf.yml
-      - link IMG benchmarking plink2vcf
-    * - :mod:`~bioconvert.sam2bam`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml/badge.svg?branch=refactoring
+      -
+    * - `sam2bam <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.sam2bam>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2bam.yml
-      - link IMG benchmarking sam2bam
-    * - :mod:`~bioconvert.sam2cram`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2cram.yml/badge.svg?branch=refactoring
+      -
+    * - `sam2cram <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.sam2cram>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2cram.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2cram.yml
-      - link IMG benchmarking sam2cram
-    * - :mod:`~bioconvert.sam2paf`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2paf.yml/badge.svg?branch=refactoring
+      -
+    * - `sam2paf <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.sam2paf>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sam2paf.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sam2paf.yml
-      - link IMG benchmarking sam2paf
-    * - :mod:`~bioconvert.scf2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fasta.yml/badge.svg?branch=refactoring
+      -
+    * - `scf2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.scf2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fasta.yml
-      - link IMG benchmarking scf2fasta
-    * - :mod:`~bioconvert.scf2fastq`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fastq.yml/badge.svg?branch=refactoring
+      -
+    * - `scf2fastq <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.scf2fastq>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fastq.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/scf2fastq.yml
-      - link IMG benchmarking scf2fastq
-    * - :mod:`~bioconvert.sra2fastq`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml/badge.svg?branch=refactoring
+      -
+    * - `sra2fastq <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.sra2fastq>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/sra2fastq.yml
-      - link IMG benchmarking sra2fastq
-    * - :mod:`~bioconvert.stockholm2clustal`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2clustal.yml/badge.svg?branch=refactoring
+      -
+    * - `stockholm2clustal <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.stockholm2clustal>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2clustal.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2clustal.yml
-      - link IMG benchmarking stockholm2clustal
-    * - :mod:`~bioconvert.stockholm2phylip`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2phylip.yml/badge.svg?branch=refactoring
+      -
+    * - `stockholm2phylip <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.stockholm2phylip>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2phylip.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/stockholm2phylip.yml
-      - link IMG benchmarking stockholm2phylip
-    * - :mod:`~bioconvert.tsv2csv`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml/badge.svg?branch=refactoring
+      -
+    * - `tsv2csv <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.tsv2csv>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml
-      - link IMG benchmarking tsv2csv
-    * - :mod:`~bioconvert.twobit2fasta`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml/badge.svg?branch=refactoring
+      -
+    * - `twobit2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.twobit2fasta>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml
-      - link IMG benchmarking twobit2fasta
-    * - :mod:`~bioconvert.vcf2bcf`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bcf.yml/badge.svg?branch=refactoring
+      -
+    * - `vcf2bcf <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.vcf2bcf>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bcf.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bcf.yml
-      - link IMG benchmarking vcf2bcf
-    * - :mod:`~bioconvert.vcf2bed`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bed.yml/badge.svg?branch=refactoring
+      -
+    * - `vcf2bed <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.vcf2bed>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bed.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bed.yml
-      - link IMG benchmarking vcf2bed
-    * - :mod:`~bioconvert.vcf2bplink`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bplink.yml/badge.svg?branch=refactoring
+      -
+    * - `vcf2bplink <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.vcf2bplink>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bplink.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2bplink.yml
-      - link IMG benchmarking vcf2bplink
-    * - :mod:`~bioconvert.vcf2plink`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2plink.yml/badge.svg?branch=refactoring
+      -
+    * - `vcf2plink <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.vcf2plink>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2plink.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2plink.yml
-      - link IMG benchmarking vcf2plink
-    * - :mod:`~bioconvert.vcf2wiggle`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2wiggle.yml/badge.svg?branch=refactoring
+      -
+    * - `vcf2wiggle <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.vcf2wiggle>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2wiggle.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/vcf2wiggle.yml
-      - link IMG benchmarking vcf2wiggle
-    * - :mod:`~bioconvert.wig2bed`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/wig2bed.yml/badge.svg?branch=refactoring
+      -
+    * - `wig2bed <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.wig2bed>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/wig2bed.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/wig2bed.yml
-      - link IMG benchmarking wig2bed
-    * - :mod:`~bioconvert.xls2csv`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml/badge.svg?branch=refactoring
+      -
+    * - `xls2csv <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.xls2csv>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xls2csv.yml
-      - link IMG benchmarking xls2csv    
-    * - :mod:`~bioconvert.xlsx2csv`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml/badge.svg?branch=refactoring
+      -
+    * - `xlsx2csv <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.xlsx2csv>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml
-      - link IMG benchmarking xlsx2csv
-    * - :mod:`~bioconvert.xmfa2phylip`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xmfa2phylip.yml/badge.svg?branch=refactoring
+      -
+    * - `xmfa2phylip <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.xmfa2phylip>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xmfa2phylip.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xmfa2phylip.yml
-      - link IMG benchmarking xmfa2phylip
-    * - :mod:`~bioconvert.yaml2json`
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/yaml2json.yml/badge.svg?branch=refactoring
+      -
+    * - `yaml2json <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.yaml2json>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/yaml2json.yml/badge.svg?branch=master
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/yaml2json.yml
-      - link IMG benchmarking yaml2json
-    
+      -
+
 
 
 Contributors
 ############
 
-Setting up and maintaining Bioconvert has been possible thanks to users and contributors. 
+Setting up and maintaining Bioconvert has been possible thanks to users and contributors.
 Thanks to all:
 
 .. image:: https://contrib.rocks/image?repo=bioconvert/bioconvert
@@ -521,8 +521,8 @@ Version   Description
 ========= ==============================================================================
 0.5.0     * Add CI actions for all converters
           * remove sniffer (now in biosniff on pypi https://pypi.org/project/biosniff/)
-          * A complete benchmarking suite (see doc/Snakefile_benchmark file and 
-            :ref:`benchmarking`)
+          * A complete benchmarking suite (see doc/Snakefile_benchmark file and
+            `benchmarking`)
           * documentation and tests for all converters
           * removed the validators (we assume intputs are correct)
 ========= ==============================================================================
