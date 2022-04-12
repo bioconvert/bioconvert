@@ -14,12 +14,8 @@ For instance, to convert a FASTQ to a FASTA file, use this type of command::
 
     bioconvert test.fastq test.fasta
 
-If the converter fastq to fasta exists in **Bioconvert**, it will work out of
+If the converter *fastq* to *fasta*² exists in **Bioconvert**, it will work out of
 the box. In order to get a list of all possible conversions, just type::
-
-    bioconvert
-
-or for more details::
 
     bioconvert --help
 

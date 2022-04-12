@@ -32,7 +32,7 @@ __all__ = ["FASTA2FASTA_AGP"]
 
 
 class FASTA2FASTA_AGP(ConvBase):
-    """Convert :term:`FASTA` file of scaffolds tp a FASTA file of
+    """Convert :term:`FASTA` file of scaffolds to a FASTA file of
     contigs and an :term:`AGP` file
 
     Method implemented in Python by bioconvert developers.
@@ -47,7 +47,7 @@ class FASTA2FASTA_AGP(ConvBase):
     if input sequence is on several lines, the output contig file
     will save the sequence on a single line
 
-    convierts to upper cases
+    converts to upper cases
 
     version 2.0 (columns 9 not empty)
     columns are:
