@@ -57,15 +57,10 @@ Mapping
 
 Now, from fastq files, we can perform an alignment on the reference genome using bwa for example::
 
+    bwa index staphylococcus_aureus.fasta
     bwa mem -M -t 4 staphylococcus_aureus.fasta ERR043367_1.fastq ERR043367_2.fastq > ERR043367.sam
 
 .. admonition:: **Find the reference genome of staphylococcus aureus with the accession FN433596 on** `NCBI <https://www.ncbi.nlm.nih.gov/nuccore/FN433596>`_ :
-
-   To convert the reference genbank file in a fasta file you can use bioconvert::
-
-    bioconvert genbank2fasta staphylococcus_aureus.gb
-
-   And bioconvert will generate the fasta file (staphylococcus_aureus.fasta)
 
 We get a sam file that we can visualize but if you want to reduce the size of the file.
 
@@ -103,7 +98,7 @@ We can therefore say that there is a possible variation in the number of copies.
 In order to confirm what we saw,
 We want to convert our alignment (BAM) to a BED file to know the number of reads mapped by position::
 
-    bioconvert ERR043367.bam ERR043367.bed
+    bioconvert bam2bedgraph ERR043367.bam ERR043367.bed
 
 In this bed file, we can check the visual results obtained a little earlier
 with word processing tools that allow us to get some quick statistics like the average coverage (168)

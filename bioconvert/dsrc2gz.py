@@ -58,8 +58,12 @@ class DSRC2GZ(ConvBase):
         Method that uses pigz and dsrc.
 
         `pigz documentation <https://linux.die.net/man/1/pigz>`_
-        `dsrc documentation <https://github.com/refresh-bio/DSRC>`_"""
-        cmd = "dsrc d -s -t {threads} {input} | pigz -c -p {threads} > {output}"
+        `dsrc documentation <https://github.com/refresh-bio/DSRC>`_
+
+        option threadig does not work with the dsrc version from conda so we 
+        do not add the -t threads option
+        """
+        cmd = "dsrc d -s  {input} | pigz -c -p {threads} > {output}"
         self.execute(
             cmd.format(threads=self.threads, input=self.infile, output=self.outfile)
         )

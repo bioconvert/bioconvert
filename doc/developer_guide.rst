@@ -315,14 +315,16 @@ do so, go to the ``./test`` directory and add a file named ``test_fastq2fasta.py
     from bioconvert import bioconvert_data
     from easydev import TempFile, md5
 
+    from . import test_dir
+
     @pytest.mark.parametrize("method", FASTQ2FASTA.available_methods)
     def test_fastq2fasta(method):
         # your code here
         # you will need data for instance "mydata.fastq and mydata.fasta".
         # Put it in bioconvert/bioconvert/data
         # you can then use ::
-        infile = bioconvert_data("test_mydata.fastq")
-        expected_outfile = bioconvert_data("test_mydata.fasta")
+        infile = f"{test_dir}/data/fastq/test_mydata.fastq"
+        expected_outfile = f"{test_dir}/data/fasta/test_mydata.fasta"
         with TempFile(suffix=".fasta") as tempfile:
             converter = FASTQ2FASTA(infile, tempfile.name)
             converter(method=method)
@@ -337,9 +339,6 @@ on line 7 we serialize the tests by looping through the methods available in the
 converter using the pytest.mark.parametrize function. That way, the test 
 file remains short and do not need to be duplicated.
 
-In this test, we added a data file in the ``bioconvert/data`` directory.
-Indeed the :func:`~bioconvert.bioconvert_data` function finds the data location
-automatically if the file is in ``bioconvert/data`` directory.
 
 
 .. _add_test_file:
@@ -347,23 +346,7 @@ automatically if the file is in ``bioconvert/data`` directory.
 How to add a test file
 ----------------------
 
-Files used for testing should be added in ``./bioconvert/data/testing/converter_name.ext``
-or ``./bioconvert/data/tes_converter_name.ext``
-
-
-For instance test files for the sam2paf converter should be added in
-``bioconvert/data/`` and named as::
-
-    - test_sam2paf_file1.sam
-    - test_sam2paf_file1.paf
-
-If you add the files in a new subdirectory::
-
-    - bioconvert/data/testing/sam2paf/test_sam2paf_file1.sam
-
-then you should add an ``__init__.py`` file in it and a README.rst to explain
-how to generate the file for instance.
-
+Files used for testing should be added in ``./bioconvert/test/data/ext/converter_name.ext``.
 
 How to locally run the tests
 ----------------------------
