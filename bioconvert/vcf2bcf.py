@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -42,9 +40,14 @@ class VCF2BCF(ConvBase):
 
     """
 
+    #: Default value
+    _default_method = "bcftools"
+
     @requires("bcftools")
     def _method_bcftools(self, *args, **kwargs):
-        """
+        """For this method, we use the BCFtools tool
+
+        `BCFtools documentation <https://samtools.github.io/bcftools/bcftools.html>`_
 
         command used::
 
@@ -56,13 +59,10 @@ class VCF2BCF(ConvBase):
         """
         # -S means ignored (input format is VCF)
         # -b output BCF instead of VCF
-        #cmd = "bcftools view -Sb {} >  {}".format(self.infile, self.outfile)
+        # cmd = "bcftools view -Sb {} >  {}".format(self.infile, self.outfile)
 
         # -O, --output-type b|u|z|v Output compressed BCF (b), uncompressed BCF
         # (u), compressed VCF (z), uncompressed VCF (v). Use the -Ou option when
         # piping between bcftools subcommands to speed up performance
         cmd = "bcftools view {} -O b -o {}".format(self.infile, self.outfile)
         self.execute(cmd)
-
-
-

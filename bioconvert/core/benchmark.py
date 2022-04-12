@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -22,36 +21,26 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Tools for benchmarking"""
-from collections import defaultdict
-from itertools import chain
-from pandas import np
-from easydev import Timer, Progress
+
+import statistics
 
 import colorlog
+import matplotlib.pyplot as plt
+import pandas as pd
+import pylab
+import statsmodels.api
+import statsmodels.formula.api
+import statsmodels.stats.multitest
+from easydev import Timer
+from tqdm import tqdm
+
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ["Benchmark", "BenchmarkMulticonvert"]
+__all__ = ["Benchmark", "plot_multi_benchmark_max"]
 
 
-def gmean(a, axis=0, dtype=None):
-    # A copy/paste of scipy.stats.mstats.gmean function to 
-    # avoid the scipy dependency
-    if not isinstance(a, np.ndarray):
-        # if not an ndarray object attempt to convert it
-        log_a = np.log(np.array(a, dtype=dtype))
-    elif dtype:
-        # Must change the default dtype allowing array type
-        if isinstance(a, np.ma.MaskedArray):
-            log_a = np.log(np.ma.asarray(a, dtype=dtype))
-        else:
-            log_a = np.log(np.asarray(a, dtype=dtype))
-    else:
-        log_a = np.log(a)
-    return np.exp(log_a.mean(axis=axis))
-
-
-class Benchmark():
+class Benchmark:
     """Convenient class to benchmark several methods for a given converter
 
     ::
@@ -62,6 +51,7 @@ class Benchmark():
         b.plot()
 
     """
+
     def __init__(self, obj, N=5, to_exclude=None, to_include=None):
         """.. rubric:: Constructor
 
@@ -80,7 +70,6 @@ class Benchmark():
         self.converter = obj
         self.N = N
         self.results = None
-        self.include_dummy = False
         if to_exclude is None:
             self.to_exclude = []
         else:
@@ -95,27 +84,24 @@ class Benchmark():
         results = {}
         methods = self.converter.available_methods[:]  # a copy !
 
-        if self.include_dummy:
-            methods += ['dummy']
-
         if self.to_include:
             methods = [x for x in methods if x in self.to_include]
         elif self.to_exclude:
             methods = [x for x in methods if x not in self.to_exclude]
 
         for method in methods:
-            print("\nEvaluating method {}".format(method))
             times = []
-            pb = Progress(self.N)
-            for i in range(self.N):
+            for i in tqdm(range(self.N), desc="Evaluating method {}".format(method)):
                 with Timer(times):
-                    self.converter(method=method)
-                pb.animate(i+1)
+                    # Need to get all extra arguments for specify method e.g Bam2BIGWIG.uscs method
+                    kwargs = {"method": method}
+                    for k, v in self.converter.others.items():
+                        kwargs[k] = v
+                    self.converter(**kwargs)
             results[method] = times
         self.results = results
 
-    def plot(self, rerun=False, ylabel="Time (seconds)", rot_xticks=0, 
-             boxplot_args={}):
+    def plot(self, rerun=False, ylabel="Time (seconds)", rot_xticks=0, boxplot_args={}):
         """Plots the benchmark results, running the benchmarks
         if needed or if *rerun* is True.
 
@@ -123,7 +109,7 @@ class Benchmark():
         :param boxplot_args: dictionary with any of the pylab.boxplot arguments
         :return: dataframe with all results
         """
-        import pylab
+
         if self.results is None or rerun is True:
             self.run_methods()
 
@@ -133,14 +119,13 @@ class Benchmark():
         methods = sorted(data, key=lambda x: pylab.mean(data[x]))
         pylab.boxplot([data[x] for x in methods], **boxplot_args)
         # pylab.xticks([1+this for this in range(len(methods))], methods)
-        if "vert" in boxplot_args and boxplot_args['vert'] is False:
+        if "vert" in boxplot_args and boxplot_args["vert"] is False:
             pylab.yticks(*zip(*enumerate(methods, start=1)), rotation=rot_xticks)
             pylab.xlabel(ylabel)
-            #pylab.xlim([0, len(methods)+1])
         else:
             pylab.xticks(*zip(*enumerate(methods, start=1)), rotation=rot_xticks)
             pylab.ylabel(ylabel)
-            pylab.xlim([0, len(methods)+1])
+            pylab.xlim([0, len(methods) + 1])
 
         pylab.grid(True)
         pylab.tight_layout()
@@ -148,72 +133,126 @@ class Benchmark():
         return data
 
 
-class BenchmarkMulticonvert(Benchmark):
-    """Convenient class to benchmark several methods for a series of converters
+def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png"):
+    """Plotting function for the Snakefile_benchmark to be found in the doc
 
-    ::
+    The json file looks like::
 
-        from bioconvert.bam2cov import BAM2COV
-        from bioconvert import BenchmarkMulticonvert
-        c1 = BAM2COV(infile1, outfile1)
-        c2 = BAM2COV(infile2, outfile2)
-        b = BenchmarkMulticonvert([c1, c2], N=5)
-        b.run_methods()
-        b.plot()
+
+        {
+          "awk":{
+            "0":0.777020216,
+            "1":0.9638044834,
+            "2":1.7623617649,
+            "3":0.8348755836
+          },
+          "seqtk":{
+            "0":1.0024843216,
+            "1":0.6313509941,
+            "2":1.4048073292,
+            "3":1.0554351807
+          },
+          "Benchmark":{
+            "0":1,
+            "1":1,
+            "2":2,
+            "3":2
+          }
+        }
+
+    Number of benchmark is infered from field 'Benchmark'.
 
     """
-    def __init__(self, objs, **kwargs):
-        """.. rubric:: constructor
+    # open and read JSON file
+    df = pd.read_json(path_json)
 
-        :param list objs: a list of converters
-        :param int N: number of replicates
-        :param list to_exclude: method to exclude from the benchmark
+    # how many runs per method ?
+    N = len(df['Benchmark']) / len(df['Benchmark'].unique())
+    N = len(df['Benchmark']) / N
 
-        """
+    # Retrieving method names
+    methods = list(df)
 
-        # Set self.converter to None
-        super().__init__(None, **kwargs)
-        self.converters = objs
+    # Removed the entry from the list that matches benchmark
+    methods.remove('Benchmark')
 
-    def run_methods(self):
-        results = defaultdict(list)
-        # We only test the methods common to all converters
-        # (The intended use is with a list of converters all
-        # having the same methods, but different input files)
-        methods = set(self.converters[0].available_methods[:])  # a copy !
-        for converter in self.converters[1:]:
-            methods &= set(converter.available_methods[:])
-        methods = sorted(methods)
+    # We rotate the JSON object in relation to the benchmark number to be able to group them by methods
+    df2 = df.pivot(columns="Benchmark")
 
-        if self.include_dummy:
-            methods += ['dummy']
+    # Display of the boxplots with font at 7 and the grid is removed to make it easier to read
+    df2.boxplot(fontsize=7, grid=False)
 
-        if self.to_include:
-            methods = [x for x in methods if x in self.to_include]
-        elif self.to_exclude:
-            methods = [x for x in methods if x not in self.to_exclude]
+    # Initializing the x-axis title placement list
+    l = []
+    # Initialization of the variable which will be used to separate the different methods
+    sep = 0
+    # Initialization of the variable that will be used to save the lowest median
+    median_best = 0
+    # Initialization of the variable that will be used to save the name of the method with the lowest median
+    best_method = None
+    for i in methods:
+        if sep != 0:
+            # Creation of a separation between methods
+            plt.axvline(sep + 0.5, ls="--", color="red")
+        # Calculation of the median for a method
+        median = statistics.median(df[i])
+        if median_best == 0 or median_best >= median:
+            # If the calculated median is lower than the recorded one, the old median and the old method are placed by the new one
+            median_best = median
+            best_method = i
+        # We plot the median of each method
+        plt.hlines(y=median, xmin=0.5 + sep, xmax=N+0.5 + sep, color="orange")
+        l.append(sep + (N/2+0.5))
+        sep += N
 
-        for method in methods:
-            print("\nEvaluating method {}".format(method))
-            # key: converter.infile
-            # value: list of times
-            times = defaultdict(list)
-            pb = Progress(self.N)
-            for i in range(self.N):
-                for converter in self.converters:
-                    with Timer(times[converter.infile]):
-                        converter(method=method)
-                pb.animate(i+1)
-            # Normalize times so that each converter has comparable times
-            mean_time = gmean(np.fromiter(chain(*times.values()), dtype=float))
-            # median of ratios to geometric mean (c.f. DESeq normalization)
-            scales = {conv: np.median(np.asarray(conv_times) / mean_time)
-                      for conv, conv_times in times.items()}
-            for (conv, conv_times) in times.items():
-                scale = scales[conv]
-                results[method].extend(
-                    [conv_time / scale for conv_time in conv_times])
-        self.results = results
+    # The name of each method is displayed on the x-axis
+    plt.xticks(l, methods)
+    # Creation of the path variable which will give the title of the output PNG image
+    path = path_json.split("/")[1]
+    # Backup of the benchmark of the different conversion in the form of a PNG image
+    plt.savefig(output_filename, dpi=200)
 
-    def plot(self, rerun=False, ylabel="Time (normalized seconds)"):
-        super().plot(rerun, ylabel)
+    ############################## T-TEST ##############################
+    # We recover the different times of the best method
+    value_best_method = df[best_method]
+    # Initialization of the dictionary which will save the results of the t-test of each method
+    t_test = dict()
+    for i in methods:
+        if i != best_method:
+            # We recover the different times of the method
+            value_method = df[i]
+            # Application of the t-test between the best method and all the other methods and saving these results in the dictionnary t_test
+            comp = statsmodels.stats.weightstats.CompareMeans.from_data(
+                value_best_method, value_method
+            )
+            (T_stats, P_value, degrees_f) = comp.ttest_ind()
+            T_dict = {"t-stats": T_stats}
+            P_dict = {"p-value": P_value}
+            D_dict = {"Degree of freedom": degrees_f}
+            t_test[i] = (T_dict, P_dict, D_dict)
+
+    ############################## MULTITEST ##############################
+    # Initialization of the list which will store all the p-values of the previous t-tests
+    list_p_value = []
+    # Initialization of the list which will store all the methods other than the best method
+    list_method = []
+
+    for i in t_test:
+        # Retrieval of the p-values and the name of the different methods
+        list_p_value.append(t_test[i][1]["p-value"])
+        list_method.append(i)
+
+    # Application of the multitest on the different conversion methods using the bonferroni method
+    (
+        areSignificant,
+        correctedPvalues,
+        _,
+        _,
+    ) = statsmodels.stats.multitest.multipletests(
+        list_p_value, alpha=0.05, method="bonferroni"
+    )
+
+    for i in range(len(list_method)):
+        print(
+            f"- By comparing the {list_method[i]} method with the best one ({best_method}), we check H0: {areSignificant[i]} with corrected P-value: {correctedPvalues[i]}"
+        )

@@ -7,28 +7,34 @@ channels:
 - r
 
 dependencies:
-- python=3.5
+- python=3.7
+- bedtools
+- biopython
+- bioawk
 - colorlog
 - biopython
 - numpy
 - matplotlib
 - pandas
+- pyBigWig
+- mawk
 - scipy
 - pysam
 - pillow
 - easydev
 - pip
 - pyyaml
-- pillow=4.0
-- bedtools          # used in gallery and bam2bed
+- pillow
 - singularity
 - pigz
 - dsrc
 - sambamba
-- bioawk
 - seqtk
-- graphviz=2.38   # provides dot for RTD
-- icu=56
+- seqkit
+- wiggletools
+- graphviz   # provides dot for RTD
+- icu
+
 
 - pip:
   - docutils<0.13.1 # https://github.com/sphinx-doc/sphinx/issues/3212

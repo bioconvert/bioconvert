@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -43,16 +41,19 @@ class VCF2BED(ConvBase):
     of 1 for SNP, the length of the insertion or the length of
     the deleted part in case of deletion.
     """
+
+    #: Default value
     _default_method = "awk"
 
     @requires("awk")
     def _method_awk(self, *args, **kwargs):
-        """
-        do the conversion :term:`VCF` -> :term:`BED` using awk
+        """do the conversion :term:`VCF` -> :term:`BED` using awk
+
+        `awk documentation <https://www.gnu.org/software/gawk/manual/gawk.html>`_
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
         """
         awkcmd = """awk '{{if(length($4) > length($5)) print $1,($2-1),($2+length($4)-1); else print $1,($2-1),($2+length($5)-1)}}' OFS='\t'"""
-        cmd = """awk '! /\#/' {} | {} > {}""".format(self.infile, awkcmd, self.outfile)
+        cmd = """awk '! /^#/' {} | {} > {}""".format(self.infile, awkcmd, self.outfile)
         self.execute(cmd)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 #  This file is part of Bioconvert software
 #
@@ -48,9 +47,11 @@ class BEDGRAPH2COV(ConvBase):
     Method available is a Bioconvert implementation (Python).
 
     """
-    _default_method = 'python'
 
-    def __init__(self, infile, outfile): 
+    #: Default value
+    _default_method = "python"
+
+    def __init__(self, infile, outfile):
         """.. rubric:: constructor
 
         :param str infile: input :term:`BEDGRAPH` file.
@@ -59,13 +60,11 @@ class BEDGRAPH2COV(ConvBase):
         super(BEDGRAPH2COV, self).__init__(infile, outfile)
 
     def _method_python(self, *args, **kwargs):
-        """
-        Convert bedgraph file in coverage .
-        """
+        """Convert bedgraph file in coverage. Internal method."""
         with open(self.infile, "r") as fin:
             with open(self.outfile, "w") as fout:
                 for i, line in enumerate(fin.readlines()):
                     chrom, start, end, score = line.split()
                     assert start < end
-                    for this in range(int(start), int(end)+1):
+                    for this in range(int(start), int(end) + 1):
                         fout.write("{}\t{}\t{}\n".format(chrom, this, score))

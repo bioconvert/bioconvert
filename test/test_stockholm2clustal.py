@@ -2,34 +2,31 @@ import os
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.stockholm2clustal import STOCKHOLM2CLUSTAL
 
-skiptravis = pytest.mark.skipif("TRAVIS_PYTHON_VERSION" in os.environ
-                                and os.environ['TRAVIS_PYTHON_VERSION'].startswith("2"), reason="On travis")
+from . import test_dir
 
 
-
-@skiptravis
 def test_stockholm2clustal_biopython():
-    infile = bioconvert_data("biopython.stockholm")
-    outfile = bioconvert_data("biopython.clustal")
+    infile = f"{test_dir}/data/stockholm/biopython.stockholm"
+    outfile = f"{test_dir}/data/clustal/biopython.clustal"
     with TempFile(suffix=".clustal") as tempfile:
         converter = STOCKHOLM2CLUSTAL(infile, tempfile.name)
-        converter(method='biopython')
+        converter(method="biopython")
 
         # Check that the output is correct with a checksum
         assert md5(tempfile.name) == md5(outfile)
 
 
-@skiptravis
-@pytest.mark.skipif(STOCKHOLM2CLUSTAL._method_squizz.is_disabled, reason="missing dependencies")
+@pytest.mark.skipif(
+    STOCKHOLM2CLUSTAL._method_squizz.is_disabled, reason="missing dependencies"
+)
 def test_stockholm2clustal_squizz():
-    infile = bioconvert_data("squizz.stockholm")
-    outfile = bioconvert_data("squizz.clustal")
+    infile = f"{test_dir}/data/stockholm/squizz.stockholm"
+    outfile = f"{test_dir}/data/clustal/squizz.clustal"
     with TempFile(suffix=".clustal") as tempfile:
         converter = STOCKHOLM2CLUSTAL(infile, tempfile.name)
-        converter(method='squizz')
+        converter(method="squizz")
 
         # Check that the output is correct with a checksum
         assert md5(tempfile.name) == md5(outfile)

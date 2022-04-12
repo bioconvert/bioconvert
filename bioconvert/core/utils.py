@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -28,8 +27,7 @@ import bioconvert
 from bioconvert.core.extensions import extensions
 
 
-__all__ = ["get_extension", "get_format_from_extension",
-    "generate_outfile_name"]
+__all__ = ["get_extension", "get_format_from_extension", "generate_outfile_name"]
 
 
 def get_extension(filename, remove_compression=False):
@@ -64,7 +62,7 @@ def generate_outfile_name(infile, out_extension):
     :return: The file path with the given extension
     :rtype: str
     """
-    return '{}.{}'.format(os.path.splitext(infile)[0], out_extension)
+    return "{}.{}".format(os.path.splitext(infile)[0], out_extension)
 
 
 def get_format_from_extension(extension):
@@ -80,9 +78,12 @@ def get_format_from_extension(extension):
             return fmt.upper()
 
     # The extension was not found
-    bioconvert.logger.critical("No format was found for extension '{}'".format(extension))
-    bioconvert.logger.critical("Use --formats to know the available formats and --help"
-                               " for examples")
+    bioconvert.logger.critical(
+        "No format was found for extension '{}'".format(extension)
+    )
+    bioconvert.logger.critical(
+        "Use --formats to know the available formats and --help" " for examples"
+    )
     sys.exit(1)
 
 
@@ -97,6 +98,4 @@ def compressor(infile, comp_ext, threads=4):
         shell("pbzip2 -f -p{} {}".format(threads, infile))
     elif comp_ext == ".dsrc":  # !!! only for FastQ files
         _log.info("Compressing output into .dsrc")
-        shell("dsrc c -t{} {} {}.dsrc".format(
-            inst.threads, inst.outfile, inst.infile))
-
+        shell("dsrc c -t{} {} {}.dsrc".format(inst.threads, inst.outfile, inst.infile))

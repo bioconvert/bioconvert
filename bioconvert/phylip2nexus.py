@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -33,7 +31,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['PHYLIP2NEXUS']
+__all__ = ["PHYLIP2NEXUS"]
 
 
 class PHYLIP2NEXUS(ConvBase):
@@ -43,7 +41,9 @@ class PHYLIP2NEXUS(ConvBase):
     Methods available are based on goalign [GOALIGN]_.
 
     """
-    _default_method = 'goalign'
+
+    #: Default value
+    _default_method = "goalign"
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -56,13 +56,11 @@ class PHYLIP2NEXUS(ConvBase):
     @requires("go")
     @compressor
     def _method_goalign(self, *args, **kwargs):
-        """
-        Convert :term:`PHYLIP` interleaved file in :term:`NEXUS` format using goalign tool.
-        https://github.com/fredericlemoine/goalign
+        """Convert :term:`PHYLIP` interleaved file in :term:`NEXUS` format using goalign tool.
 
-        """
-        self.install_tool('goalign')
-        cmd = 'goalign reformat nexus -i {infile} -o {outfile} -p'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        `goalign documentation <https://github.com/fredericlemoine/goalign>`_"""
+        self.install_tool("goalign")
+        cmd = "goalign reformat nexus -i {infile} -o {outfile} -p".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

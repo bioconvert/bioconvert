@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -24,7 +23,7 @@
 """Utility used by the script bioconvert_init to initiate a new plugin"""
 import os
 
-__all__ = ['InitConverter']
+__all__ = ["InitConverter"]
 
 
 template = '''
@@ -87,11 +86,11 @@ class {input}2{output}(ConvBase):
 '''
 
 
-class InitConverter():
+class InitConverter:
     """Class to create a new plugin based on a simple template
 
     If the input/output formats are not known by bioconvert (not available in
-    the module core/extensions.py then, the developer will need to add two 
+    the module core/extensions.py then, the developer will need to add two
     attributes manually::
 
         input_ext = ["yourextension"]
@@ -100,13 +99,15 @@ class InitConverter():
     We recommand to use the script bioconvert_init
 
     """
+
     def __init__(self, inputext, outputext):
         self.input = inputext
         self.output = outputext
 
     def get_content(self):
         return template.format(
-                input=self.input.upper(),
-                output=self.output.upper(),
-                inputext=self.input,
-                outputext=self.output)
+            input=self.input.upper(),
+            output=self.output.upper(),
+            inputext=self.input,
+            outputext=self.output,
+        )

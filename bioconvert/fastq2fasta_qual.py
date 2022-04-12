@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -41,6 +39,8 @@ class FASTQ2FASTA_QUAL(ConvBase):
     Method based on Python.
 
     """
+
+    #: Default value
     _default_method = "python"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -72,23 +72,28 @@ class FASTQ2FASTA_QUAL(ConvBase):
                 break
             header, seqs, last = last[1:], [], None
             for l in fp:  # read the sequence
-                if l[0] in '@+':
+                if l[0] in "@+":
                     last = l[:-1]
                     break
                 seqs.append(l[:-1])
-            seq, leng, seqs = ''.join(seqs), 0, []
+            seq, leng, seqs = "".join(seqs), 0, []
             for l in fp:  # read the quality
                 seqs.append(l[:-1])
                 leng += len(l) - 1
                 if leng >= len(seq):  # have read enough quality
                     last = None
-                    yield header, seq, ''.join(seqs)  # yield a fastq record
+                    yield header, seq, "".join(seqs)  # yield a fastq record
                     break
 
     @requires_nothing
     @compressor
     def _method_python(self, *args, **kwargs):
-        with open(self.outfile, "w") as fasta, open(self.outfile2, "w") as quality, open(self.infile, "r") as fastq:
+        """This method is inspired by Readfq coded by Heng Li.
+
+        `original Readfq method <https://github.com/lh3/readfq>`_"""
+        with open(self.outfile, "w") as fasta, open(
+            self.outfile2, "w"
+        ) as quality, open(self.infile, "r") as fastq:
             for (name, seq, qual) in FASTQ2FASTA_QUAL._readfq(fastq):
                 fasta.write(">{}\n{}\n".format(name, seq))
                 quality.write(">{}\n{}\n".format(name, qual))
@@ -103,7 +108,7 @@ class FASTQ2FASTA_QUAL(ConvBase):
         )
         yield ConvArg(
             names="output_file",
-            nargs= 2,
+            nargs=2,
             default=None,
             type=ConvArg.file,
             output_argument=True,

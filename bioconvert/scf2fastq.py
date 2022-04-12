@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -46,21 +44,29 @@ class SCF2FASTQ(ConvBase):
     :param str outfile: output name file
     """
 
+    #: Default value
+    _default_method = "python"
+
     @requires_nothing
     @compressor
     def _method_python(self, *args, **kwargs):
+        """Internal method"""
         sequence, qualities, comments = scf.read_scf(self.infile)
 
         # Wrinting output file
         with open(self.outfile, "w") as output_file:
-            output_file.write("@" + comments.replace("\n", "-").replace(" ", "_") + "\n")
+            output_file.write(
+                "@" + comments.replace("\n", "-").replace(" ", "_") + "\n"
+            )
             output_file.write(sequence + "\n")
-            output_file.write("+" + comments.replace("\n", "-").replace(" ", "_") + "\n")
+            output_file.write(
+                "+" + comments.replace("\n", "-").replace(" ", "_") + "\n"
+            )
             for i in qualities:
                 if i > 92:
                     output_file.write(chr(126))
                 else:
-                    output_file.write(chr(i+34))
+                    output_file.write(chr(i + 34))
             output_file.write("\n")
 
         """
@@ -93,8 +99,6 @@ class SCF2FASTQ(ConvBase):
         """
 
 
-
-
 """
 http://staden.sourceforge.net/manual/formats_unix_2.html
 http://doc.bioperl.org/bioperl-live/Bio/SeqIO/scf.html#POD6
@@ -120,4 +124,3 @@ Number of bases * 3                    Reserved for future use
 Comments size                          Comments
 Private data size                      Private data
 """
-

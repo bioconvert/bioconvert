@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -41,9 +39,11 @@ class ODS2CSV(ConvBase):
     Method based on pyexcel [PYEXCEL].
 
     """
+
+    #: Default value
     _default_method = "pyexcel"
-    DEFAULT_OUT_SEP = ','
-    DEFAULT_LINE_TERMINATOR = '\n'
+    DEFAULT_OUT_SEP = ","
+    DEFAULT_LINE_TERMINATOR = "\n"
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
@@ -55,18 +55,26 @@ class ODS2CSV(ConvBase):
 
     @requires(python_libraries=["pyexcel", "pyexcel-ods3"])
     def _method_pyexcel(
-            self,
-            out_sep=DEFAULT_OUT_SEP,
-            line_terminator=DEFAULT_LINE_TERMINATOR,
-            sheet_name=0,
-            *args, **kwargs):
-        """Do the conversion :term:`XLS` -> :term:`CSV` using Panda library"""
-
+        self,
+        out_sep=DEFAULT_OUT_SEP,
+        line_terminator=DEFAULT_LINE_TERMINATOR,
+        sheet_name=0,
+        *args,
+        **kwargs
+    ):
+        """Do the conversion :term:`XLS` -> :term:`CSV` using Panda library
+        
+        `pyexcel documentation <http://docs.pyexcel.org/en/latest/>`_"""
         import pyexcel
+
         with open(self.outfile, "w") as out_stream:
-            writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)
+            writer = csv.writer(
+                out_stream, delimiter=out_sep, lineterminator=line_terminator
+            )
             first_row = True
-            for row in pyexcel.get_records(file_name=self.infile, sheet_name=sheet_name):
+            for row in pyexcel.get_records(
+                file_name=self.infile, sheet_name=sheet_name
+            ):
                 if first_row:
                     writer.writerow([k for k, v in row.items()])
                     first_row = False
@@ -75,17 +83,17 @@ class ODS2CSV(ConvBase):
     @classmethod
     def get_additional_arguments(cls):
         yield ConvArg(
-            names=["--sheet-name", ],
+            names=["--sheet-name",],
             default=0,
             help="The name or id of the sheet to convert",
         )
         yield ConvArg(
-            names=["--out-sep", ],
+            names=["--out-sep",],
             default=cls.DEFAULT_OUT_SEP,
             help="The separator used in the output file",
         )
         yield ConvArg(
-            names=["--line-terminator", ],
+            names=["--line-terminator",],
             default=cls.DEFAULT_LINE_TERMINATOR,
             help="The line terminator used in the output file",
         )

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -34,7 +32,7 @@ from bioconvert.core.decorators import requires
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['TWOBIT2FASTA']
+__all__ = ["TWOBIT2FASTA"]
 
 
 class TWOBIT2FASTA(ConvBase):
@@ -43,7 +41,9 @@ class TWOBIT2FASTA(ConvBase):
     Conversion is based on UCSC [UCSC]_ and py2bit.
 
     """
-    _default_method = 'py2bit'
+
+    #: Default value
+    _default_method = "py2bit"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -56,23 +56,24 @@ class TWOBIT2FASTA(ConvBase):
 
     @requires("twoBitToFa")
     def _method_ucsc(self, *args, **kwargs):
-        """
-        Convert twobit file in fasta format using ucsc twobittofa.
-        https://genome.ucsc.edu/goldenPath/help/twoBit.html
-        """
-        cmd = 'twoBitToFa {infile} {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        """Convert twobit file in fasta format using ucsc twobittofa.
+
+        `uscsc faToTwoBit Documentation <https://genome.ucsc.edu/goldenPath/help/twoBit.html>`_"""
+        cmd = "twoBitToFa {infile} {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     # py2bit is from deeptols repo
     @requires(python_library="py2bit")
     def _method_py2bit(self, *args, **kwargs):
-
+        """This method uses the py2bit python extension.
+        
+        `py2bit documentation <https://github.com/deeptools/py2bit>`_"""
         import py2bit
+
         data = py2bit.open(self.infile)
         with open(self.outfile, "w") as fout:
             for chrom in sorted(data.chroms()):
                 seq = data.sequence(chrom)
                 fout.write(">{}\n{}\n".format(chrom, seq))
-

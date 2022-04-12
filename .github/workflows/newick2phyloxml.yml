@@ -1,0 +1,54 @@
+name: newick2phyloxml Testing
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - dev
+      - refactoring
+    paths:
+      - bioconvert/newick2phyloxml.py
+  pull_request:
+    branches-ignore: []
+    paths:
+      - bioconvert/newick2phyloxml.py
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+      matrix:
+        python: [3.7, 3.8, 3.9]
+      fail-fast: false
+
+    steps:
+
+    - name: install graphviz
+      run: |
+        sudo apt-get install -y graphviz-dev
+    - name: curl  # for pybigwig
+      run: |
+        sudo apt-get install libcurl4-gnutls-dev
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.X
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python }}
+    - name: conda
+      run: |
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        echo $CONDA/bin >> $GITHUB_PATH
+    - name: Install dependencies conda
+      run: |
+        conda install -c conda-forge --quiet mamba python=${{ matrix.python }}
+        mamba install -c conda-forge -c bioconda --quiet -y samtools bedtools bamtools mosdepth pbzip2 pigz dsrc sambamba squizz
+    - name: Install bioconvert with pip
+      run: |
+        pip install -r requirements.txt
+        pip install -r requirements_dev.txt
+        pip install .
+    - name: Test with pytest
+      run: |
+        pytest -n 1  --cov-report term --cov=bioconvert.newick2phyloxml test/test_newick2phyloxml.py

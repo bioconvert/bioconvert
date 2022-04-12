@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -33,7 +31,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['STOCKHOLM2PHYLIP']
+__all__ = ["STOCKHOLM2PHYLIP"]
 
 
 class STOCKHOLM2PHYLIP(ConvBase):
@@ -44,7 +42,9 @@ class STOCKHOLM2PHYLIP(ConvBase):
     biopython [BIOPYTHON]_.
 
     """
-    _default_method = 'biopython'
+
+    #: Default value
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -57,10 +57,9 @@ class STOCKHOLM2PHYLIP(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """
-        Convert :term:`STOCKHOLM` interleaved file in :term:`PHYLIP` format using biopython.
+        """Convert :term:`STOCKHOLM` interleaved file in :term:`PHYLIP` format using biopython.
 
-        """
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         sequences = list(SeqIO.parse(self.infile, "stockholm"))
         count = SeqIO.write(sequences, self.outfile, "phylip")
         _log.info("Converted %d records to phylip" % count)
@@ -68,11 +67,10 @@ class STOCKHOLM2PHYLIP(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """
-        Convert :term:`STOCKHOLM` interleaved file in :term:`PHYLIP` interleaved format using squizz tool.
+        """Convert :term:`STOCKHOLM` interleaved file in :term:`PHYLIP` interleaved format using squizz tool.
 
         """
-        cmd = 'squizz -c PHYLIPI {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c PHYLIPI {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

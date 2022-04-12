@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -33,7 +31,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['PHYLIP2CLUSTAL']
+__all__ = ["PHYLIP2CLUSTAL"]
 
 
 class PHYLIP2CLUSTAL(ConvBase):
@@ -43,7 +41,9 @@ class PHYLIP2CLUSTAL(ConvBase):
     Methods available are based on biopython [BIOPYTHON]_, squiz [SQUIZZ]_.
 
     """
-    _default_method = 'biopython'
+
+    #: Default value
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -57,22 +57,20 @@ class PHYLIP2CLUSTAL(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """
-        Convert :term:`PHYLIP` interleaved file in :term:`CLUSTAL` format using biopython.
+        """Convert :term:`PHYLIP` interleaved file in :term:`CLUSTAL` format using biopython.
 
-        """
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "clustal")
-        #_log.info("Converted %d records to clustal" % count)
+        # _log.info("Converted %d records to clustal" % count)
 
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """
-        Convert :term:`PHYLIP` interleaved file in :term:`CLUSTAL` format using squizz tool.
+        """Convert :term:`PHYLIP` interleaved file in :term:`CLUSTAL` format using squizz tool.
 
         """
-        cmd = 'squizz -c CLUSTAL {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c CLUSTAL {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

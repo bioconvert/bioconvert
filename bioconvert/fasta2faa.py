@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -43,6 +41,8 @@ class FASTA2FAA(ConvBase):
     Methods available is a bioconvert implementation.
 
     """
+
+    #: Default value
     _default_method = "bioconvert"
 
     def __init__(self, infile, outfile):
@@ -53,37 +53,86 @@ class FASTA2FAA(ConvBase):
         super(FASTA2FAA, self).__init__(infile, outfile)
 
         self.codons = {
-            'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',
-            'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T',
-            'AAC':'N', 'AAT':'N', 'AAA':'K', 'AAG':'K',
-            'AGC':'S', 'AGT':'S', 'AGA':'R', 'AGG':'R',
-            'CTA':'L', 'CTC':'L', 'CTG':'L', 'CTT':'L',
-            'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCT':'P',
-            'CAC':'H', 'CAT':'H', 'CAA':'Q', 'CAG':'Q',
-            'CGA':'R', 'CGC':'R', 'CGG':'R', 'CGT':'R',
-            'GTA':'V', 'GTC':'V', 'GTG':'V', 'GTT':'V',
-            'GCA':'A', 'GCC':'A', 'GCG':'A', 'GCT':'A',
-            'GAC':'D', 'GAT':'D', 'GAA':'E', 'GAG':'E',
-            'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGT':'G',
-            'TCA':'S', 'TCC':'S', 'TCG':'S', 'TCT':'S',
-            'TTC':'F', 'TTT':'F', 'TTA':'L', 'TTG':'L',
-            'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_',
-            'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W',
+            "ATA": "I",
+            "ATC": "I",
+            "ATT": "I",
+            "ATG": "M",
+            "ACA": "T",
+            "ACC": "T",
+            "ACG": "T",
+            "ACT": "T",
+            "AAC": "N",
+            "AAT": "N",
+            "AAA": "K",
+            "AAG": "K",
+            "AGC": "S",
+            "AGT": "S",
+            "AGA": "R",
+            "AGG": "R",
+            "CTA": "L",
+            "CTC": "L",
+            "CTG": "L",
+            "CTT": "L",
+            "CCA": "P",
+            "CCC": "P",
+            "CCG": "P",
+            "CCT": "P",
+            "CAC": "H",
+            "CAT": "H",
+            "CAA": "Q",
+            "CAG": "Q",
+            "CGA": "R",
+            "CGC": "R",
+            "CGG": "R",
+            "CGT": "R",
+            "GTA": "V",
+            "GTC": "V",
+            "GTG": "V",
+            "GTT": "V",
+            "GCA": "A",
+            "GCC": "A",
+            "GCG": "A",
+            "GCT": "A",
+            "GAC": "D",
+            "GAT": "D",
+            "GAA": "E",
+            "GAG": "E",
+            "GGA": "G",
+            "GGC": "G",
+            "GGG": "G",
+            "GGT": "G",
+            "TCA": "S",
+            "TCC": "S",
+            "TCG": "S",
+            "TCT": "S",
+            "TTC": "F",
+            "TTT": "F",
+            "TTA": "L",
+            "TTG": "L",
+            "TAC": "Y",
+            "TAT": "Y",
+            "TAA": "_",
+            "TAG": "_",
+            "TGC": "C",
+            "TGT": "C",
+            "TGA": "_",
+            "TGG": "W",
         }
-
 
     @compressor
     def _method_bioconvert(self, *args, **kwargs):
+        """Internal method."""
         data = Fasta(self.infile)
         with open(self.outfile, "w") as fout:
             for line in data.read():
-                fout.write(">{}\t{}\n".format(line['id'], line['comment']))
-                seq = line['value']
+                fout.write(">{}\t{}\n".format(line["id"], line["comment"]))
+                seq = line["value"]
 
                 # translate the sequence
-                aa = "".join((self.codons.get(seq[i:i+3], "X") for i in range(0, len(seq), 3)))
+                aa = "".join(
+                    (
+                        self.codons.get(seq[i : i + 3], "X")
+                        for i in range(0, len(seq), 3)
+                    )
+                )
                 fout.write("\n".join(textwrap.wrap(aa, 60)) + "\n")
-
-
-
-

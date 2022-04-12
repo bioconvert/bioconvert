@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -37,11 +36,13 @@ class BAM2CRAM(ConvBase):
     """Convert :term:`BAM` file to :term:`CRAM` file
 
     The conversion requires the reference corresponding to the input file
-    It can be provided as an argument with the standalone (*-\\-reference*). 
+    It can be provided as an argument with the standalone (*-\\-reference*).
     Otherwise, users are asked to provide it.
 
     Methods available are based on samtools [SAMTOOLS]_.
     """
+
+    #: Default value
     _default_method = "samtools"
     _threading = True
 
@@ -67,6 +68,9 @@ class BAM2CRAM(ConvBase):
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
+        """Here we use the SAMtools tool.
+
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         # -C means output is CRAM
 
         reference = kwargs.get("reference", None)
@@ -74,7 +78,8 @@ class BAM2CRAM(ConvBase):
             reference = self._get_reference()
 
         cmd = "samtools view -@ {} -C {} -T {} -o {}".format(
-            self.threads, self.infile, reference, self.outfile)
+            self.threads, self.infile, reference, self.outfile
+        )
         self.execute(cmd)
 
     @classmethod
@@ -82,6 +87,5 @@ class BAM2CRAM(ConvBase):
         yield ConvArg(
             names="--reference",
             default=None,
-            help="the reference used (FASTA format). If not provided, prompt will appear"
-            )
-
+            help="the reference used (FASTA format). If not provided, prompt will appear",
+        )

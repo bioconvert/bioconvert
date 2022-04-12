@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -43,6 +42,7 @@ class BZ22GZ(ConvBase):
 
     """
 
+    #: Default value
     _default_method = "bz2_gz"
     _threading = True
 
@@ -57,13 +57,18 @@ class BZ22GZ(ConvBase):
 
     @requires("bunzip2")
     def _method_bz2_gz(self, *args, **kwargs):
+        """Method that uses bunzip2 gzip.
+        
+        `bunzip2 documentation <https://docs.oracle.com/cd/E86824_01/html/E54763/bunzip2-1.html>`_
+        `gzip documentation <https://www.gnu.org/software/gzip/manual/gzip.html>`_"""
         # conversion
         cmd = "bunzip2 -c {input} | gzip > {output}".format(
-            input=self.infile,
-            output=self.outfile)
+            input=self.infile, output=self.outfile
+        )
         self.execute(cmd)
 
     @requires_nothing
     def _method_python(self, *args, **kargs):
-        with bz2.open(self.infile, 'rb') as f, gzip.open(self.outfile, 'wb')as g:
+        """Internal method"""
+        with bz2.open(self.infile, "rb") as f, gzip.open(self.outfile, "wb") as g:
             g.write(f.read())

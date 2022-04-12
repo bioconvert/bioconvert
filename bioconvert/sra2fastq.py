@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -43,14 +41,13 @@ class SRA2FASTQ(ConvBase):
     This may take some times since the files are downloaded from SRA website.
 
     """
+
+    #: Default value
     _default_method = "sratoolkit"
 
     # If test: will take only the first 10 reads from the sra file
     def __init__(self, infile, outfile, test=False):
-        """.. rubric:: constructor
-    
-        :param str infile:
-        :param str outfile:
+        """.. rubric:: constructorhttps://edwards.flinders.edu.au/fastq-dump/
 
         library used: sra-toolkit
         """
@@ -59,9 +56,9 @@ class SRA2FASTQ(ConvBase):
 
     @requires("fastq-dump")
     def _method_sratoolkit(self, *args, **kwargs):
-        """
-        Uses Sratoolkit (fastq-dump) to convert a sra file to fastq
-        """
+        """Uses Sratoolkit (fastq-dump) to convert a sra file to fastq
+
+        `Fastq-dump documentation <https://edwards.flinders.edu.au/fastq-dump/>`_"""
         inname = os.path.split(os.path.splitext(self.infile)[0])[1]
         outbasename, ext = os.path.splitext(self.outfile)
         compresscmd = ""
@@ -84,33 +81,37 @@ class SRA2FASTQ(ConvBase):
             testcmd = "-X 10"
         if self.isPairedSRA(infile):
             cmd = "fastq-dump {} {} --split-files -O {} {}".format(
-                testcmd, compresscmd, tmpdir, infile)
+                testcmd, compresscmd, tmpdir, infile
+            )
             self.execute(cmd)
             cmd = "mv {}/{}_1.fastq{} {}_1.fastq{}".format(
-                tmpdir, inname, gzext, outbasename, gzext)
+                tmpdir, inname, gzext, outbasename, gzext
+            )
             self.execute(cmd)
             cmd = "mv {}/{}_2.fastq{} {}_2.fastq{}".format(
-                tmpdir, inname, gzext, outbasename, gzext)
+                tmpdir, inname, gzext, outbasename, gzext
+            )
             self.execute(cmd)
         else:
             cmd = "fastq-dump {} {} -O {} {}".format(
-                testcmd, compresscmd, tmpdir, infile)
+                testcmd, compresscmd, tmpdir, infile
+            )
             self.execute(cmd)
-            cmd = "mv {}/{}.fastq{} {}".format(tmpdir,
-                                               inname, gzext, self.outfile)
+            cmd = "mv {}/{}.fastq{} {}".format(tmpdir, inname, gzext, self.outfile)
             self.execute(cmd)
         shutil.rmtree(tmpdir)
 
     def isPairedSRA(self, filename):
         try:
             contents = subprocess.check_output(
-                ["fastq-dump", "-X", "1", "-Z", "--split-spot", filename])
+                ["fastq-dump", "-X", "1", "-Z", "--split-spot", filename]
+            )
         except subprocess.CalledProcessError:
             raise Exception("Error running fastq-dump on", filename)
 
-        if(contents.count(b'\n') == 4):
+        if contents.count(b"\n") == 4:
             return False
-        elif(contents.count(b'\n') == 8):
+        elif contents.count(b"\n") == 8:
             return True
         else:
             raise Exception("Unexpected output from fast-dump on ", filename)

@@ -2,16 +2,18 @@ import os
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.bedgraph2bigwig import BEDGRAPH2BIGWIG
 import pytest
 
+from . import test_dir
+
 url = "http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes"
+
 
 @pytest.mark.parametrize("method", BEDGRAPH2BIGWIG.available_methods)
 def test_bigwig2bedgraph_ucsc(method):
-    infile = bioconvert_data("ucsc.bedgraph")
-    outfile = bioconvert_data("ucsc.bigwig")
+    infile = f"{test_dir}/data/bedgraph/ucsc.bedgraph"
+    outfile = f"{test_dir}/data/bigwig/ucsc.bigwig"
     with TempFile(suffix=".bigwig") as tempfile:
         converter = BEDGRAPH2BIGWIG(infile, tempfile.name)
         converter(method=method, chrom_sizes=url)

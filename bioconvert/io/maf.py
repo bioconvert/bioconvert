@@ -23,6 +23,7 @@
 from itertools import groupby
 import math
 
+
 class MAFLine(object):
     """A reader for :term:`MAF` format.
 
@@ -42,9 +43,10 @@ class MAFLine(object):
     query. The query (second line) starts at zero.
 
     """
+
     def __init__(self, line):
         self._items = line.split()
-        assert self._items[0] in 'aspq', self._items
+        assert self._items[0] in "aspq", self._items
 
     @property
     def name(self):
@@ -63,7 +65,7 @@ class MAFLine(object):
         return self._items[4]
 
     @property
-    def alignment_start(self): # alignment start
+    def alignment_start(self):  # alignment start
         return int(self._items[2])
 
     @property
@@ -80,6 +82,7 @@ class MAFLine(object):
 
 class MAF(object):
     """A reader for :term:`MAF` format."""
+
     def __init__(self, filename, outfile=None):
         self.filename = filename
         self.outfile = outfile
@@ -92,8 +95,8 @@ class MAF(object):
         letters = len(alnString) - gaps - forwardFrameshifts - reverseFrameshifts
         return letters, forwardFrameshifts, reverseFrameshifts
 
-#    @SQ SN:NC_002929    LN:4086189
-#    @PG ID:bioconvert VN:?? CL:bioconvert input.maf output.sam
+    #    @SQ SN:NC_002929    LN:4086189
+    #    @PG ID:bioconvert VN:?? CL:bioconvert input.maf output.sam
 
     def to_sam(self):
         # identifier flag ref start qual cigar * 0 0 sequence_ref qual NM: MD:
@@ -117,13 +120,18 @@ class MAF(object):
                 if m.mode == "s" and top is True:
                     if m.name not in names:
                         names.add(m.name)
-                        fout.write("@SQ\tSN:{}\tLN:{}\n".format(m.name,
-                                                                m.sequence_size))
+                        fout.write(
+                            "@SQ\tSN:{}\tLN:{}\n".format(m.name, m.sequence_size)
+                        )
                     top = False
 
         from bioconvert import version
-        fout.write("@PG\tID:{0}\tPN:{0}\tVN:{1}\tCL:{0} {2} {3}\n".format(
-            "bioconvert", version, self.filename, self.outfile))
+
+        fout.write(
+            "@PG\tID:{0}\tPN:{0}\tVN:{1}\tCL:{0} {2} {3}\n".format(
+                "bioconvert", version, self.filename, self.outfile
+            )
+        )
 
         with open(self.filename, "r") as fin:
             for line in fin:
@@ -148,7 +156,7 @@ class MAF(object):
                     print(this)
 
                 # now that we have the two lines, save into SAM file
-                if len(s)>2:
+                if len(s) > 2:
                     raise NotImplementedError("mutliple alignment not implemented yet")
 
                 if len(s) == 2:
@@ -156,7 +164,9 @@ class MAF(object):
                     query = MAFLine(s[1])
 
                     if ref.strand != "+":
-                        raise Exception("for SAM, the 1st strand in each alignment must be +")
+                        raise Exception(
+                            "for SAM, the 1st strand in each alignment must be +"
+                        )
 
                     flag = self.get_flag(ref.alignment, query.strand)
 
@@ -170,23 +180,34 @@ class MAF(object):
                     else:
                         mapq = "255"  # missing  254 is maximum
 
-                    pos = int(ref.alignment_start) + 1 # convert to 1-based coordinate
-                    data = [query.name, flag, ref.name, pos, mapq, cigar, "*",0,0,
-                            query.alignment.replace("-","").upper(), qual]
-                    #MD
-                    #XS
-                    #RG:Z:1
+                    pos = int(ref.alignment_start) + 1  # convert to 1-based coordinate
+                    data = [
+                        query.name,
+                        flag,
+                        ref.name,
+                        pos,
+                        mapq,
+                        cigar,
+                        "*",
+                        0,
+                        0,
+                        query.alignment.replace("-", "").upper(),
+                        qual,
+                    ]
+                    # MD
+                    # XS
+                    # RG:Z:1
                     if "score" in tags:
-                        data.append("AS:i:{}".format(tags['score']))
+                        data.append("AS:i:{}".format(tags["score"]))
 
                     if "expect" in tags:
-                        data.append("EZ:Z:{}".format(tags['expect']))
+                        data.append("EZ:Z:{}".format(tags["expect"]))
 
-
-                    #try: mapq = mapqFromProb(maf.namesAndValues["mismap"])
-                    #except KeyError: mapq = mapqMissing
-                    editDistance = sum(1 for x, y in zip(ref.alignment, query.alignment) 
-                        if x != y)
+                    # try: mapq = mapqFromProb(maf.namesAndValues["mismap"])
+                    # except KeyError: mapq = mapqMissing
+                    editDistance = sum(
+                        1 for x, y in zip(ref.alignment, query.alignment) if x != y
+                    )
                     # no special treatment of ambiguous bases: might be a minor bug
                     editDistance = "NM:i:" + str(editDistance)
 
@@ -203,26 +224,37 @@ class MAF(object):
     def get_flag(self, qName, query_strand):
         if qName.endswith("/1"):
             qName = qName[:-2]
-            if query_strand == "+": flag = "99"  # 1 + 2 + 32 + 64
-            else:              flag = "83"  # 1 + 2 + 16 + 64
+            if query_strand == "+":
+                flag = "99"  # 1 + 2 + 32 + 64
+            else:
+                flag = "83"  # 1 + 2 + 16 + 64
         elif qName.endswith("/2"):
             qName = qName[:-2]
-            if query_strand == "+": flag = "163"  # 1 + 2 + 32 + 128
-            else:              flag = "147"  # 1 + 2 + 16 + 128
+            if query_strand == "+":
+                flag = "163"  # 1 + 2 + 32 + 128
+            else:
+                flag = "147"  # 1 + 2 + 16 + 128
         else:
-            if query_strand == "+": flag = "0"
-            else:              flag = "16"
+            if query_strand == "+":
+                flag = "0"
+            else:
+                flag = "16"
         return flag
 
 
 def mapqFromProb(probString):
     mapqMaximum = 100
-    try: p = float(probString)
-    except ValueError: raise Exception("bad probability: " + probString)
-    if p < 0 or p > 1: raise Exception("bad probability: " + probString)
-    if p == 0: return mapqMaximum
+    try:
+        p = float(probString)
+    except ValueError:
+        raise Exception("bad probability: " + probString)
+    if p < 0 or p > 1:
+        raise Exception("bad probability: " + probString)
+    if p == 0:
+        return mapqMaximum
     phred = -10 * math.log(p, 10)
-    if phred >= mapqMaximum: return str(mapqMaximum)
+    if phred >= mapqMaximum:
+        return str(mapqMaximum)
     return str(int(round(phred)))
 
 
@@ -254,12 +286,7 @@ def cigarParts(beg, alignmentColumns, end):
 
 def get_cigar(m1, m2):
     qRevStart = m2.sequence_size - m2.alignment_start - m2.alignment_size
-    cigar = "".join(cigarParts(m2.alignment_start,
-                               zip(m1.alignment, m2.alignment),
-                               qRevStart))
+    cigar = "".join(
+        cigarParts(m2.alignment_start, zip(m1.alignment, m2.alignment), qRevStart)
+    )
     return cigar
-
-
-
-
-

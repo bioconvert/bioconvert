@@ -33,58 +33,56 @@ from easydev import AttrDict
 
 #: List of formats and their extensions included in Bioconvert
 extensions = {
-    'abi': ["abi", "ab1"],                      # sequence
-    'agp': ["agp"],                             # assembly
-    'bam': ["bam"],                             # alignment
-    'bcf': ["bcf"],                             # variant
-    'bed': ["bed"],                             # database
-    'bedgraph': ["bedgraph", "bg"],                   # database
-    'bigwig': ["bigwig", "bw"],                 # database
-    'bigbed': ['bb', "bigbed"],
-    'bz2': ['bz2'],                             # compression
-    'bplink': ['bplink'],
-    'cdao': ["cdao"],                           # phylo
-    'cram': ["cram"],                           # alignment
-    'clustal': ["clustal", "aln", "clw"],       # phylo
-    'cov': ["cov"],                       # coverage (chrom name,  pos, depth)
-    'csv': ["csv"],                             # database
-    'dsrc': ['dsrc'],                           # compression
-    'embl': ['embl'],                           # annotation/sequence
-    'ena' : ['ena'],
-    'faa' : ['faa', "mpfa"],                            # fasta multiple amino acid
-    'fasta': ["fasta", "fa", "fst"],            # sequence
-    'fastq': ["fastq", "fq"],                   # sequence
-    'genbank': ['genbank', 'gbk', "gb"],        # annotation/sequence
-    'gfa': ['gfa'],                             # assembly
-    'gff2': ['gff'],
-    'gff3': ['gff3'],                           # annotation
-    'gz': ['gz'],
-    'json': ['json'],                           # database
-    'maf': ["maf"],     # !! this is MIRA format, not mutation alignment format
-    'newick': ["newick", "nw", "nhx", "nwk"],   # phylo
-    'nexus': ["nexus", "nx", "nex", "nxs"],     # phylo
-    'ods': ['ods'],                             # database
-    'paf': ['paf'],                             # assembly
-    'pdb': ['pdb'],
-    'phylip': ['phy', 'ph', 'phylip'],          # phylo
-    'phyloxml': ['phyloxml', 'xml'],            # phylo
-    'plink': ['plink'],
-    'qual': ['qual'],                           # seauence
-    'sam': ["sam"],                             # alignement
-    'scf': ["scf"],                             # alignement
-    'sra': ["sra"],                             # sra format
-    'stockholm': ['sto', 'sth', 'stk', 'stockholm'], # alignment
-    'twobit': ['2bit'],                         # sequence
-    'tsv': ["tsv"],                             # database
-    'vcf': ['vcf'],                             # variant
-    'wiggle': ['wig', 'wiggle'],
-    'wig': ['wig'],
-    'xls': ['xls'],                             # database
-    'xlsx': ['xlsx'],                           # database
-    'xmfa': ['xmfa'],
-    'yaml': ['yaml', 'YAML']                    # database
-
-
+    "abi": ["abi", "ab1"],  # sequence
+    "agp": ["agp"],  # assembly
+    "bam": ["bam"],  # alignment
+    "bcf": ["bcf"],  # variant
+    "bed": ["bed"],  # database
+    "bedgraph": ["bedgraph", "bg"],  # database
+    "bigwig": ["bigwig", "bw"],  # database
+    "bigbed": ["bb", "bigbed"],
+    "bz2": ["bz2"],  # compression
+    "bplink": ["bplink"],
+    "cdao": ["cdao"],  # phylo
+    "cram": ["cram"],  # alignment
+    "clustal": ["clustal", "aln", "clw"],  # phylo
+    "cov": ["cov"],  # coverage (chrom name,  pos, depth)
+    "csv": ["csv"],  # database
+    "dsrc": ["dsrc"],  # compression
+    "embl": ["embl"],  # annotation/sequence
+    "ena": ["ena"],
+    "faa": ["faa", "mpfa"],  # fasta multiple amino acid
+    "fasta": ["fasta", "fa", "fst"],  # sequence
+    "fastq": ["fastq", "fq"],  # sequence
+    "genbank": ["genbank", "gbk", "gb"],  # annotation/sequence
+    "gfa": ["gfa"],  # assembly
+    "gff2": ["gff"],
+    "gff3": ["gff3"],  # annotation
+    "gz": ["gz"],
+    "json": ["json"],  # database
+    "maf": ["maf"],  # !! this is MIRA format, not mutation alignment format
+    "newick": ["newick", "nw", "nhx", "nwk"],  # phylo
+    "nexus": ["nexus", "nx", "nex", "nxs"],  # phylo
+    "ods": ["ods"],  # database
+    "paf": ["paf"],  # assembly
+    "pdb": ["pdb"],
+    "phylip": ["phy", "ph", "phylip"],  # phylo
+    "phyloxml": ["phyloxml", "xml"],  # phylo
+    "plink": ["plink"],
+    "qual": ["qual"],  # seauence
+    "sam": ["sam"],  # alignement
+    "scf": ["scf"],  # alignement
+    "sra": ["sra"],  # sra format
+    "stockholm": ["sto", "sth", "stk", "stockholm"],  # alignment
+    "twobit": ["2bit"],  # sequence
+    "tsv": ["tsv"],  # database
+    "vcf": ["vcf"],  # variant
+    "wiggle": ["wig", "wiggle"],
+    "wig": ["wig"],
+    "xls": ["xls"],  # database
+    "xlsx": ["xlsx"],  # database
+    "xmfa": ["xmfa"],
+    "yaml": ["yaml", "YAML"],  # database
 }
 
 extensions = AttrDict(**extensions)

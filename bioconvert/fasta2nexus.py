@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -31,7 +29,7 @@ from bioconvert.core.decorators import requires
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['FASTA2NEXUS']
+__all__ = ["FASTA2NEXUS"]
 
 
 class FASTA2NEXUS(ConvBase):
@@ -40,7 +38,9 @@ class FASTA2NEXUS(ConvBase):
     Methods available are based on squizz [GOALIGN]_.
 
     """
-    _default_method = 'goalign'
+
+    #: Default value
+    _default_method = "goalign"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -53,15 +53,15 @@ class FASTA2NEXUS(ConvBase):
     @requires("go")
     @compressor
     def _method_goalign(self, *args, **kwargs):
-        """
-        Convert fasta file in Nexus format using goalign tool.
-        https://github.com/fredericlemoine/goalign
+        """Convert fasta file in Nexus format using goalign tool.
+
+        `goalign documentation <https://github.com/fredericlemoine/goalign>`_
 
         The fasta file must be an alignemnt file, yhis mean all the sequences must
-        have the same length (with the gap) otherwise an error will be raised
+        have the same length (with the gap) otherwise an error will be raised.
         """
-        self.install_tool('goalign')
-        cmd = 'goalign reformat nexus -i {infile} -o {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("goalign")
+        cmd = "goalign reformat nexus -i {infile} -o {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

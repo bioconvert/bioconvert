@@ -1,0 +1,24 @@
+
+version: 2
+
+conda:
+    environment: environment_rtd.yml
+
+build:
+  image: latest
+
+formats:
+    - htmlzip
+
+python:
+    version: 3.7
+    install:
+      - method: pip
+        path: .
+
+
+sphinx:
+    builder: html
+    configuration: doc/conf.py
+    fail_on_warning: false
+

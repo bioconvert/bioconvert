@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -40,6 +39,7 @@ class DSRC2GZ(ConvBase):
 
     """
 
+    #: Default value
     _default_method = "dsrcpigz"
     _threading = True
 
@@ -54,12 +54,16 @@ class DSRC2GZ(ConvBase):
 
     @requires("dsrc")
     def _method_dsrcpigz(self, *args, **kwargs):
-        """Do the conversion dsrc -> :term:`GZ`"""
+        """Do the conversion dsrc -> :term:`GZ`.
+        Method that uses pigz and dsrc.
 
-        cmd = "dsrc d -s -t {threads} {input} | pigz -c -p {threads} > {output}"
-        self.execute(cmd.format(
-            threads=self.threads,
-            input=self.infile,
-            output=self.outfile))
+        `pigz documentation <https://linux.die.net/man/1/pigz>`_
+        `dsrc documentation <https://github.com/refresh-bio/DSRC>`_
 
-
+        option threadig does not work with the dsrc version from conda so we 
+        do not add the -t threads option
+        """
+        cmd = "dsrc d -s  {input} | pigz -c -p {threads} > {output}"
+        self.execute(
+            cmd.format(threads=self.threads, input=self.infile, output=self.outfile)
+        )

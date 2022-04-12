@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -57,6 +55,8 @@ class GFA2FASTA(ConvBase):
     .. seealso:: :mod:`bioconvert.simulator.gfa`
 
     """
+
+    #: Default value
     _default_method = "python"
 
     def __init__(self, infile, outfile):
@@ -69,7 +69,9 @@ class GFA2FASTA(ConvBase):
     @requires("awk")
     @compressor
     def _method_awk(self, *args, **kwargs):
-        """
+        """For this method, we use the awk tools.
+
+        `awk documentation <https://www.gnu.org/software/gawk/manual/gawk.html>`_
 
         :return: the standard output
         :rtype: :class:`io.StringIO` object.
@@ -78,12 +80,15 @@ class GFA2FASTA(ConvBase):
         """
         # Note1: since we use .format, we need to escape the { and } characters
         # Note2: the \n need to be escaped for Popen to work
-        cmd = """awk '/^S/{{print ">"$2"\\n"$3}}' {} | fold > {}""".format(self.infile, self.outfile)
+        cmd = """awk '/^S/{{print ">"$2"\\n"$3}}' {} | fold > {}""".format(
+            self.infile, self.outfile
+        )
         self.execute(cmd)
 
     @requires_nothing
     @compressor
     def _method_python(self, *args, **kwargs):
+        """Internal method"""
         with open(self.infile, "r") as fin:
             with open(self.outfile, "w") as fout:
                 for i, line in enumerate(fin.readlines()):
@@ -92,9 +97,12 @@ class GFA2FASTA(ConvBase):
                         if len(args) == 3:
                             fout.write(">{}\n{}\n".format(args[1], args[2]))
                         elif len(args) == 4:
-                            fout.write(">{}\n{}\n".format(args[1]+" " + args[3], args[2]))
+                            fout.write(
+                                ">{}\n{}\n".format(args[1] + " " + args[3], args[2])
+                            )
                         else:
-                            raise ValueError("Illformed line on line {}. Expected 3 or 4 values".format(i))
-
-
-
+                            raise ValueError(
+                                "Illformed line on line {}. Expected 3 or 4 values".format(
+                                    i
+                                )
+                            )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 #  This file is part of Bioconvert software
 #
@@ -28,6 +27,7 @@ class BAM2WIGGLE(ConvBase):
     Methods available are based on wiggletools [WIGGLETOOLS]_.
 
     """
+
     _default_method = "wiggletools"
 
     def __init__(self, infile, outfile):
@@ -41,7 +41,6 @@ class BAM2WIGGLE(ConvBase):
     def _method_wiggletools(self, *args, **kwargs):
         """Conversion using wiggletools
 
-        """
+        `wiggletools documentation <https://github.com/Ensembl/WiggleTools>`_"""
         cmd = "wiggletools {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
-

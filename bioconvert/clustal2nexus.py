@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -42,7 +41,9 @@ class CLUSTAL2NEXUS(ConvBase):
     goalign [GOALIGN].
 
     """
-    _default_method = 'goalign'
+
+    #: Default value
+    _default_method = "goalign"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -56,13 +57,11 @@ class CLUSTAL2NEXUS(ConvBase):
     @requires("go")
     @compressor
     def _method_goalign(self, threads=None, *args, **kwargs):
-        """
-        Convert :term:`CLUSTAL` file in  :term:`NEXUS` format using goalign tool.
-        https://github.com/fredericlemoine/goalign
+        """Convert :term:`CLUSTAL` file in  :term:`NEXUS` format using goalign tool.
 
-        """
-        self.install_tool('goalign')
-        cmd = 'goalign reformat nexus --clustal -i {infile} -o {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        `goalign docuMentation <https://github.com/fredericlemoine/goalign>`_"""
+        self.install_tool("goalign")
+        cmd = "goalign reformat nexus --clustal -i {infile} -o {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

@@ -1,13 +1,13 @@
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
 from bioconvert.embl2genbank import EMBL2GENBANK
 
+from . import test_dir
 
 
 @pytest.mark.parametrize("method", EMBL2GENBANK.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("JB409847.embl")
+    infile = f"{test_dir}/data/embl/JB409847.embl"
 
     with TempFile(suffix=".gbk") as tempfile:
         converter = EMBL2GENBANK(infile, tempfile.name)
@@ -15,8 +15,10 @@ def test_conv(method):
 
         # Check that the output is correct with a checksum
         if method == "biopython":
-            assert md5(tempfile.name) == "cdd34902975a68e58ad5f105b44ff495" or \
-                md5(tempfile.name) == "63002093c1aaef8c3a6fd693c2bbd9f4"
+            assert (
+                md5(tempfile.name) == "cdd34902975a68e58ad5f105b44ff495"
+                or md5(tempfile.name) == "63002093c1aaef8c3a6fd693c2bbd9f4"
+            )
         elif method == "squizz":
             pass
             # TODO
@@ -24,5 +26,3 @@ def test_conv(method):
             #     assert md5(tempfile.name) == "????"
         else:
             raise NotImplementedError
-
-

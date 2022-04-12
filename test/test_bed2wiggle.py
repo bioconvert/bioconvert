@@ -1,15 +1,15 @@
 import os
 from bioconvert.bed2wiggle import BED2WIGGLE
-from bioconvert import bioconvert_data
 from easydev import TempFile, md5
 import pytest
 
+from . import test_dir
 
 
 @pytest.mark.parametrize("method", BED2WIGGLE.available_methods)
 def test_conv(method):
-    infile = bioconvert_data("ucsc.bed")
-    outfile = bioconvert_data("test_ucsc_bed2wiggle.wiggle")
+    infile = f"{test_dir}/data/bed/ucsc.bed"
+    outfile = f"{test_dir}/data/wiggle/test_ucsc_bed2wiggle.wiggle"
     md5out = md5(outfile)
 
     with TempFile(suffix=".wiggle") as tempfile:
@@ -17,4 +17,3 @@ def test_conv(method):
         convert(method=method)
 
         assert md5(tempfile.name) == md5out, "{} failed".format(method)
-

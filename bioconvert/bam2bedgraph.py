@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -60,10 +59,11 @@ class BAM2BEDGRAPH(ConvBase):
     Methods available are based on bedtools [BEDTOOLS]_ and mosdepth
     [MOSDEPTH]_.
     """
+
     # 4 minutes with bedtools and 20s with mosdepth
+    #: Default value
     _default_method = "bedtools"
     _threading = True
-
 
     def __init__(self, infile, outfile):
         """.. rubric:: Constructor
@@ -76,28 +76,36 @@ class BAM2BEDGRAPH(ConvBase):
 
     @requires("bedtools")
     def _method_bedtools(self, *args, **kwargs):
-        """Do the conversion using bedtools"""
-        cmd = "bedtools genomecov -bga -ibam {} > {}".format(self.infile,
-                                                             self.outfile)
+        """Do the conversion using bedtools.
+
+        `bedtools documentation <https://bedtools.readthedocs.io/en/latest/>`_"""
+        cmd = "bedtools genomecov -bga -ibam {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires("mosdepth")
     def _method_mosdepth(self, *args, **kwargs):
-        """Do the conversion using mosdepth"""
+        """Do the conversion using mosdepth.
+
+        `mosdepth documentation <https://github.com/brentp/mosdepth>`_"""
         # For testing, we need to save into a specific temporary directory
         import tempfile
+
         with tempfile.TemporaryDirectory() as tmpdir:
             try:
-                cmd = "mosdepth {}/.bioconvert -t {}  {}".format(tmpdir, self.threads, self.infile)
+                cmd = "mosdepth {}/.bioconvert -t {}  {}".format(
+                    tmpdir, self.threads, self.infile
+                )
                 self.execute(cmd)
 
                 if self.outfile.endswith(".gz"):
                     pass
                 else:
-                    cmd = "gunzip -c {}/.bioconvert.per-base.bed.gz > {}".format(tmpdir, self.outfile)
+                    cmd = "gunzip -c {}/.bioconvert.per-base.bed.gz > {}".format(
+                        tmpdir, self.outfile
+                    )
                     self.execute(cmd)
             except Exception as err:
-                raise(err)
+                raise (err)
             finally:
                 cmd = "rm -f {name}/.bioconvert.per-base.bed.gz {name}/.bioconvert.per-base.bed.gz.csi"
                 cmd += " {name}/.bioconvert.mosdepth.global.dist.txt"

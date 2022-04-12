@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -47,6 +45,8 @@ class SAM2CRAM(ConvBase):
 
     Methods available are based on samtools [SAMTOOLS]_.
     """
+
+    #: Default value
     _default_method = "samtools"
     _threading = True
 
@@ -72,6 +72,9 @@ class SAM2CRAM(ConvBase):
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
+        """Here we use the SAMtools tool.
+
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         # -C means output is CRAM
 
         reference = kwargs.get("reference", None)
@@ -79,7 +82,8 @@ class SAM2CRAM(ConvBase):
             reference = self._get_reference()
 
         cmd = "samtools view -@ {} -C {} -T {} > {}".format(
-            self.threads, self.infile, reference, self.outfile)
+            self.threads, self.infile, reference, self.outfile
+        )
         try:
             self.execute(cmd)
         except:
@@ -91,6 +95,6 @@ class SAM2CRAM(ConvBase):
             names="--reference",
             nargs=1,
             default=None,
-            #type=ConvArg.file,
+            # type=ConvArg.file,
             help="reference used",
         )

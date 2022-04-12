@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -46,8 +45,7 @@ def make_in_gz_tester(converter):
     def is_in_gz(method):
         """Accesses the function corresponding to *method* and tells whether it
         has the *in_gz* tag."""
-        return hasattr(getattr(
-            converter, "_method_{}".format(method)), "in_gz")
+        return hasattr(getattr(converter, "_method_{}".format(method)), "in_gz")
 
     return is_in_gz
 
@@ -84,8 +82,11 @@ def compressor(func):
             (_, base_suffix) = splitext(ungz_name)
             with TempFile(suffix=base_suffix) as ungz_infile:
                 inst.infile = ungz_infile.name
-                inst.shell("unpigz -c -p {} {} > {}".format(
-                    inst.threads, infile_name, inst.infile))
+                inst.shell(
+                    "unpigz -c -p {} {} > {}".format(
+                        inst.threads, infile_name, inst.infile
+                    )
+                )
                 # computation
                 results = func(inst, *args, **kwargs)
             inst.infile = infile_name
@@ -104,8 +105,11 @@ def compressor(func):
             inst.outfile = inst.outfile + ".bz2"
         elif output_compressed == ".dsrc":  # !!! only for FastQ files
             _log.info("Compressing output into .dsrc")
-            inst.shell("dsrc c -t{} {} {}.dsrc".format(
-                inst.threads, inst.outfile, inst.outfile))
+            inst.shell(
+                "dsrc c -t{} {} {}.dsrc".format(
+                    inst.threads, inst.outfile, inst.outfile
+                )
+            )
             inst.outfile = inst.outfile + ".dsrc"
         return results
 
@@ -145,8 +149,11 @@ def out_compressor(func):
             inst.outfile = inst.outfile + ".bz2"
         elif output_compressed == ".dsrc":  # !!! only for FastQ files
             _log.info("Compressing output into .dsrc")
-            inst.shell("dsrc c -t{} {} {}.dsrc".format(
-                inst.threads, inst.outfile, inst.outfile))
+            inst.shell(
+                "dsrc c -t{} {} {}.dsrc".format(
+                    inst.threads, inst.outfile, inst.outfile
+                )
+            )
             inst.outfile = inst.outfile + ".dsrc"
         return results
 
@@ -160,10 +167,10 @@ def requires_nothing(func):
 
 
 def requires(
-        external_binary=None,
-        python_library=None,
-        external_binaries=None,
-        python_libraries=None,
+    external_binary=None,
+    python_library=None,
+    external_binaries=None,
+    python_libraries=None,
 ):
     """
 
@@ -228,16 +235,11 @@ def get_known_dependencies_with_availability(as_dict=False):
         external_binaries = {}
         python_libraries = {}
         for binary, missing in getattr(requires, "__missing_binaries", {}).items():
-            external_binaries[binary] = dict(
-                available=not missing,
-            )
+            external_binaries[binary] = dict(available=not missing,)
         for library, missing in getattr(requires, "__missing_libraries", {}).items():
-            python_libraries[library] = dict(
-                available=not missing,
-            )
+            python_libraries[library] = dict(available=not missing,)
         return dict(
-            external_binaries=external_binaries,
-            python_libraries=python_libraries,
+            external_binaries=external_binaries, python_libraries=python_libraries,
         )
     ret = []
     for binary, status in sorted(getattr(requires, "__missing_binaries", {}).items()):

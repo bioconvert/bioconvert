@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -27,7 +25,7 @@
 from bioconvert import ConvBase
 from bioconvert.io.genbank import Genbank
 from bioconvert.core.decorators import requires, requires_nothing
-from bioconvert.core.decorators import  compressor
+from bioconvert.core.decorators import compressor
 
 __all__ = ["GENBANK2FASTA"]
 
@@ -39,6 +37,8 @@ class GENBANK2FASTA(ConvBase):
     own Bioconvert implementation.
 
     """
+
+    #: Default value
     _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -56,27 +56,43 @@ class GENBANK2FASTA(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """Header is less informative than the one obtained with biopython"""
+        """Header is less informative than the one obtained with biopython
+        
+        """
         cmd = "squizz -f genbank -c fasta {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
+        """For this method we use the biopython package Bio.SeqIO. 
+        
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
+
         SeqIO.convert(self.infile, "genbank", self.outfile, "fasta")
 
     @requires_nothing
     @compressor
     def _method_python(self, *args, **kwargs):
+        "Internal method."
         reader = Genbank(self.infile)
 
         with open(self.outfile, "w") as writer:
             for idx, entry in enumerate(reader.read()):
                 if "ORIGIN" in entry:
-                    writer.write(">{} {}\n{}\n".format(
-                        entry["VERSION"]["id"] if "VERSION" in entry else entry["LOCUS"]["id"],
-                        entry["DEFINITION"] if "DEFINITION" in entry else "",
-                        entry["ORIGIN"]))
+                    writer.write(
+                        ">{} {}\n{}\n".format(
+                            entry["VERSION"]["id"]
+                            if "VERSION" in entry
+                            else entry["LOCUS"]["id"],
+                            entry["DEFINITION"] if "DEFINITION" in entry else "",
+                            entry["ORIGIN"],
+                        )
+                    )
                 else:
-                    print("Impossible to create a sequence for the entry number {}. Sequence not found after the keyword ORIGIN".format(idx))
+                    print(
+                        "Impossible to create a sequence for the entry number {}. Sequence not found after the keyword ORIGIN".format(
+                            idx
+                        )
+                    )

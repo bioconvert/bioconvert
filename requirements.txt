@@ -1,4 +1,6 @@
 easydev
+biosniff
+biocode
 colorlog
 pandas
 biopython>=1.70
@@ -10,6 +12,8 @@ pysam
 pyexcel
 pyexcel-ods3
 pyexcel-xls
+pyexcel-xlsx
 xlrd
 pyBigWig
 py2bit
+statsmodels

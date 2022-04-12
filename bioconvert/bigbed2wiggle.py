@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 #  This file is part of Bioconvert software
 #
@@ -28,6 +27,8 @@ class BIGBED2WIGGLE(ConvBase):
 
     Methods available are based on wiggletools [WIGGLETOOLS]_.
     """
+
+    #: Default value
     _default_method = "wiggletools"
 
     def __init__(self, infile, outfile):
@@ -39,13 +40,13 @@ class BIGBED2WIGGLE(ConvBase):
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):
-        """
+        """Conversion using wiggletools
 
-        """
+        `wiggletools documentation <https://github.com/Ensembl/WiggleTools>`_"""
         import os
         from easydev import TempFile
 
-        # with need a unique name, that does not exists for the symlink 
+        # with need a unique name, that does not exists for the symlink
         # Fixes #233
         fname = None
         with TempFile(suffix=".bb") as ftemp:
@@ -57,7 +58,7 @@ class BIGBED2WIGGLE(ConvBase):
             cmd = "wiggletools {} > {}".format(ftemp.name, self.outfile)
             self.execute(cmd)
         except Exception as err:
-            raise(err)
+            raise (err)
         finally:
             # clean symlink
             os.unlink(fname)

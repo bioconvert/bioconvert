@@ -23,13 +23,14 @@
 """Naive GFA simulator for testing"""
 
 
-class GFASim():
+class GFASim:
     """Simple GFA simulator
 
 
 
 
     """
+
     def __init__(self, outfile):
         self.outfile = outfile
         self.nreads = 1000000
@@ -39,8 +40,5 @@ class GFASim():
         RL = self.read_length
         with open(self.outfile, "w") as fout:
             for i in range(self.nreads):
-                sequence = "ACGT" * (RL // 4) + "A" * (RL % 4) 
+                sequence = "ACGT" * (RL // 4) + "A" * (RL % 4)
                 fout.write("S contig{} {}\n".format(i, sequence))
-
-
-

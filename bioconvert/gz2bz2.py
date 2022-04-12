@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -22,7 +20,6 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
 """Convert :term:`GZ` file to :term:`BZ2` format"""
 import bz2
 import gzip
@@ -41,9 +38,11 @@ class GZ2BZ2(ConvBase):
     is pigz/pbzip2.
 
     """
+
     _threading = True
 
-    _default_method = 'pigz_pbzip2'
+    #: Default value
+    _default_method = "pigz_pbzip2"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -54,27 +53,33 @@ class GZ2BZ2(ConvBase):
         """
         super(GZ2BZ2, self).__init__(infile, outfile, *args, **kargs)
 
-    @requires(external_binaries=["pigz", "pbzip2", ])
+    @requires(
+        external_binaries=["pigz", "pbzip2",]
+    )
     def _method_pigz_pbzip2(self, *args, **kwargs):
-        """some description"""
+        """Method that uses pigz pbzip2.
 
+        `pigz documentation <https://linux.die.net/man/1/pigz>`_
+        `pbzip2 documentation <https://linux.die.net/man/1/pbzip2>`_"""
         # conversion
         cmd = "pigz -d -c -p {threads} {input} | pbzip2 -p{threads} > {output}"
-        self.execute(cmd.format(
-            threads=self.threads,
-            input=self.infile,
-            output=self.outfile))
+        self.execute(
+            cmd.format(threads=self.threads, input=self.infile, output=self.outfile)
+        )
 
-    @requires(external_binaries=["gunzip", "bzip2", ])
+    @requires(
+        external_binaries=["gunzip", "bzip2",]
+    )
     def _method_gunzip_bzip2(self, *args, **kwargs):
-        """Single theaded conversion"""
+        """Single theaded conversion. Method that uses gunzip bzip2.
+
+        `gunzip documentation <https://linux.die.net/man/1/gunzip>`_
+        `bzip2 documentation <http://www.delafond.org/traducmanfr/man/man1/bzip2.1.html>`_"""
         cmd = "gunzip --to-stdout {input} | bzip2 > {output}"
-        self.execute(cmd.format(
-            input=self.infile,
-            output=self.outfile))
+        self.execute(cmd.format(input=self.infile, output=self.outfile))
 
     @requires_nothing
-    def _method_python(self):
-        with gzip.open(self.infile, 'rb') as f, bz2.open(self.outfile, 'wb')as g:
+    def _method_python(self, *args, **kwargs):
+        """Internal method"""
+        with gzip.open(self.infile, "rb") as f, bz2.open(self.outfile, "wb") as g:
             g.write(f.read())
-

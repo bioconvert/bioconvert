@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -34,14 +32,16 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['NEXUS2FASTA']
+__all__ = ["NEXUS2FASTA"]
 
 
 class NEXUS2FASTA(ConvBase):
     """
     Converts a sequence alignment from :term:`NEXUS` format to :term:`FASTA` format.
     """
-    _default_method = 'biopython'
+
+    #: Default value
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -55,26 +55,27 @@ class NEXUS2FASTA(ConvBase):
     @requires("go")
     @compressor
     def _method_goalign(self, *args, **kwargs):
-        """
-        Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using goalign tool.
-        https://github.com/fredericlemoine/goalign
+        """Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using goalign tool.
+
+        `goalign documentation <https://github.com/fredericlemoine/goalign>`_
 
         .. warning::
             the sequential format is not supported
 
         """
-        self.install_tool('goalign')
-        cmd = 'goalign reformat fasta x -i {infile} -o {outfile} -x'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        self.install_tool("goalign")
+        cmd = "goalign reformat fasta x -i {infile} -o {outfile} -x".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """
-        Convert :term:`NEXUS` interleaved or sequential file in :term:`FASTA` format using biopython.
-        The FASTA output file will be an aligned FASTA file
+        """Convert :term:`NEXUS` interleaved or sequential file in :term:`FASTA` format using biopython.
+        The FASTA output file will be an aligned FASTA file.
+
+        `Bio.AlignIO <https://biopython.org/docs/1.76/api/Bio.AlignIO.html>`_
 
 For instance:
 
@@ -134,21 +135,21 @@ and not ::
     CCCAGATTGTTGACTGATAAGTAGGACCTCAGTCGTGACT
 """
         from Bio import AlignIO
+
         with open(self.outfile, "w") as output_handle:
-            alignments = list(AlignIO.parse(self.infile, "nexus", alphabet=self.alphabet))
+            alignments = list(AlignIO.parse(self.infile, "nexus"))
             AlignIO.write(alignments, output_handle, "fasta")
 
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """
-        Convert :term:`NEXUS` sequential or interleave file in :term:`FASTA` format using squizz tool.
+        """Convert :term:`NEXUS` sequential or interleave file in :term:`FASTA` format using squizz tool.
 
         command used::
 
             squizz -c FASTA infile > outfile
         """
-        cmd = 'squizz -c FASTA {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c FASTA {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

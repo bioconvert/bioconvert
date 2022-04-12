@@ -14,8 +14,8 @@ def test_conv(method):
     # Compress it
     gzip_string = gzip.compress(content_ref, 9)
     # Generate two tmp file
-    gzip_file = TempFile(suffix='gzip')
-    gz_file = TempFile(suffix='gz')
+    gzip_file = TempFile(suffix="gzip")
+    gz_file = TempFile(suffix="gz")
     # Write the gzip file with compressed fake sequence
     with open(gzip_file.name, "wb") as gzip_to_write:
         gzip_to_write.write(gzip_string)
@@ -25,7 +25,7 @@ def test_conv(method):
     converter(method=method)
 
     # gunzip result file
-    with bz2.open(gz_file.name, 'rb') as gz_to_read:
+    with bz2.open(gz_file.name, "rb") as gz_to_read:
         content = gz_to_read.read()
 
     # check conversion

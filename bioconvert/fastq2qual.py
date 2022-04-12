@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -25,8 +23,15 @@
 """Convert :term:`FASTQ` to :term:`QUAL` format"""
 from bioconvert import ConvBase, bioconvert_script
 from bioconvert.core.base import ConvArg
-from bioconvert.core.decorators import compressor, out_compressor, in_gz, requires, requires_nothing
+from bioconvert.core.decorators import (
+    compressor,
+    out_compressor,
+    in_gz,
+    requires,
+    requires_nothing,
+)
 from bioconvert import logger
+
 logger.__name__ = "fastq2qual"
 
 
@@ -36,6 +41,7 @@ class FASTQ2QUAL(ConvBase):
     # use readfq for now because pure python are fast enough
     # for production, could use seqtk which seems the fastest method though
     # Make sure that the default handles also the compresssion
+    #: Default value
     _default_method = "readfq"
 
     # (https://raw.githubusercontent.com/lh3/readfq/master/readfq.py)
@@ -52,17 +58,17 @@ class FASTQ2QUAL(ConvBase):
                 break
             header, seqs, last = last[1:], [], None
             for l in fp:  # read the sequence
-                if l[0] in '@+':
+                if l[0] in "@+":
                     last = l[:-1]
                     break
                 seqs.append(l[:-1])
-            seq, leng, seqs = ''.join(seqs), 0, []
+            seq, leng, seqs = "".join(seqs), 0, []
             for l in fp:  # read the quality
                 seqs.append(l[:-1])
                 leng += len(l) - 1
                 if leng >= len(seq):  # have read enough quality
                     last = None
-                    yield header, seq, ''.join(seqs)  # yield a fastq record
+                    yield header, seq, "".join(seqs)  # yield a fastq record
                     break
 
     def __init__(self, infile, outfile):
@@ -72,15 +78,12 @@ class FASTQ2QUAL(ConvBase):
         """
         super(FASTQ2QUAL, self).__init__(infile, outfile)
 
-
     @requires_nothing
     @compressor
     def _method_readfq(self, *args, **kwargs):
+        """This method is inspired by Readfq coded by Heng Li.
+        
+        `original Readfq method <https://github.com/lh3/readfq>`_"""
         with open(self.outfile, "w") as outfile, open(self.infile, "r") as fastq:
             for (name, seq, qual) in FASTQ2QUAL._readfq(fastq):
                 outfile.write(">{}\n{}\n".format(name, qual))
-
-
-
-
-

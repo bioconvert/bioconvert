@@ -1,14 +1,15 @@
 import pytest
 from easydev import TempFile, md5
 
-from bioconvert import bioconvert_data
 from bioconvert.phyloxml2newick import PHYLOXML2NEWICK
+
+from . import test_dir
 
 
 @pytest.mark.parametrize("method", PHYLOXML2NEWICK.available_methods)
 def test_xml2nw_biopython(method):
-    infile = bioconvert_data(method + ".xml")
-    outfile = bioconvert_data(method + ".newick")
+    infile = f"{test_dir}/data/phyloxml/{method}.xml"
+    outfile = f"{test_dir}/data/newick/{method}.newick"
     with TempFile(suffix=".newick") as tempfile:
         converter = PHYLOXML2NEWICK(infile, tempfile.name)
         converter(method=method)

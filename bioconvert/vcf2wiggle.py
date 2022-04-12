@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -38,6 +36,8 @@ class VCF2WIGGLE(ConvBase):
     """Convert sorted :term:`VCF` file into :term:`WIGGLE` file 
 
     """
+
+    #: Default value
     _default_method = "wiggletools"
 
     def __init__(self, infile, outfile):
@@ -49,9 +49,8 @@ class VCF2WIGGLE(ConvBase):
 
     @requires("wiggletools")
     def _method_wiggletools(self, *args, **kwargs):
-        """
+        """Conversion using wiggletools
 
-        """
+        `wiggletools documentation <https://github.com/Ensembl/WiggleTools>`_"""
         cmd = "wiggletools {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)
-

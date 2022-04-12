@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -37,6 +35,8 @@ __all__ = ["SAM2BAM"]
 class SAM2BAM(ConvBase):
     """Convert :term:`SAM` file to :term:`BAM` file"""
 
+    #: Default value
+    _default_method = "samtools"
     _threading = True
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -50,11 +50,13 @@ class SAM2BAM(ConvBase):
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
-        """ Do the conversion :term:`SAM` -> :term:`BAM` using samtools"""
+        """ Do the conversion :term:`SAM` -> :term:`BAM` using samtools
+
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         # -S means ignored (input format is auto-detected)
         # -b means output to BAM format
         # -h means include header in SAM output
-        cmd = "samtools view -Sbh -@ {} {} > {}".format(self.threads,
-                                                        self.infile,
-                                                        self.outfile)
+        cmd = "samtools view -Sbh -@ {} {} > {}".format(
+            self.threads, self.infile, self.outfile
+        )
         self.execute(cmd)

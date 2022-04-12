@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -62,7 +61,6 @@ def classic_levenshtein(string_1, string_2):
         )
 
 
-
 def wf_levenshtein(string_1, string_2):
     """
     Calculates the Levenshtein distance between two strings.
@@ -95,10 +93,9 @@ def wf_levenshtein(string_1, string_2):
                 d[i + j * len_1] = d[i - 1 + (j - 1) * len_1]
             else:
                 d[i + j * len_1] = min(
-                   d[i - 1 + j * len_1] + 1,        # deletion
-                   d[i + (j - 1) * len_1] + 1,      # insertion
-                   d[i - 1 + (j - 1) * len_1] + 1,  # substitution
+                    d[i - 1 + j * len_1] + 1,  # deletion
+                    d[i + (j - 1) * len_1] + 1,  # insertion
+                    d[i - 1 + (j - 1) * len_1] + 1,  # substitution
                 )
 
     return d[-1]
-

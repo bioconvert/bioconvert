@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #  This file is part of Bioconvert software
 #
-#  Copyright (c) 2017 - Bioconvert Development Team
+#  Copyright (c) 2017-2022 - Bioconvert Development Team
 #
 #  Distributed under the terms of the 3-clause BSD license.
 #  The full license is in the LICENSE file, distributed with this software.
@@ -11,9 +10,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """Convert :term:`ABI` format to :term:`FASTA` format"""
-from bioconvert import ConvBase
-from bioconvert import requires
-
+from bioconvert import ConvBase, requires
 
 __all__ = ["ABI2FASTA"]
 
@@ -29,6 +26,7 @@ class ABI2FASTA(ConvBase):
 
     """
 
+    #: Default value
     _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -42,6 +40,10 @@ class ABI2FASTA(ConvBase):
 
     @requires(python_library="biopython")
     def _method_biopython(self, *args, **kwargs):
+        """For this method we use the biopython package Bio.SeqIO. 
+        
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
+
         records = SeqIO.parse(self.infile, "abi")
         SeqIO.write(records, self.outfile, "fasta")

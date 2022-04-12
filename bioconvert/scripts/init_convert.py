@@ -33,31 +33,27 @@ def main(args=None):
     if args is None:
         args = sys.argv[1:]
 
-
     from easydev.console import purple, underline
 
-    arg_parser = argparse.ArgumentParser(prog="bioconvert_init",
-                                         epilog=" ----    ",
-                                         description="""DESCRIPTION:
+    arg_parser = argparse.ArgumentParser(
+        prog="bioconvert_init",
+        epilog=" ----    ",
+        description="""DESCRIPTION:
 
 Create a Python module to ease addition of new converters
 
-""")
-    arg_parser.add_argument("-i", "--input-extension",
-                            help="input_extension")
-    arg_parser.add_argument("-o", "--output-extension",
-                            help="output_extension")
+""",
+    )
+    arg_parser.add_argument("-i", "--input-extension", help="input_extension")
+    arg_parser.add_argument("-o", "--output-extension", help="output_extension")
 
     args = arg_parser.parse_args()
 
-
     from bioconvert.core.init import InitConverter
+
     ic = InitConverter(args.input_extension, args.output_extension)
     print(ic.get_content())
 
 
 if __name__ == "__main__":
     main()
-
-
-

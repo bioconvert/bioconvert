@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -35,7 +33,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['NEXUS2PHYLOXML']
+__all__ = ["NEXUS2PHYLOXML"]
 
 
 class NEXUS2PHYLOXML(ConvBase):
@@ -46,7 +44,9 @@ class NEXUS2PHYLOXML(ConvBase):
     goalign [GOALIGN]_.
 
     """
-    _default_method = 'gotree'
+
+    #: Default value
+    _default_method = "gotree"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -62,11 +62,9 @@ class NEXUS2PHYLOXML(ConvBase):
     def _method_gotree(self, *args, **kwargs):
         """uses gotree tool:
 
-        https://github.com/fredericlemoine/gotree
-
-        """
-        self.install_tool('gotree')
-        cmd = 'gotree reformat phyloxml -i {infile} -o {outfile} -f nexus'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        `gotree documentation <https://github.com/fredericlemoine/gotree>`_"""
+        self.install_tool("gotree")
+        cmd = "gotree reformat phyloxml -i {infile} -o {outfile} -f nexus".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

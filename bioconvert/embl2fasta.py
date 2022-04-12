@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -36,6 +35,8 @@ class EMBL2FASTA(ConvBase):
     Methods available are based on squizz [SQUIZZ]_ or biopython
     [BIOPYTHON]_.
     """
+
+    #: Default value
     _default_method = "biopython"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -51,13 +52,18 @@ class EMBL2FASTA(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """Header is less informative than the one obtained with biopython"""
+        """Header is less informative than the one obtained with biopython
+        
+        """
         cmd = "squizz  -f embl -c fasta {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
+        """For this method we use the biopython package Bio.SeqIO. 
+        
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
-        SeqIO.convert(self.infile, "embl", self.outfile, "fasta")
 
+        SeqIO.convert(self.infile, "embl", self.outfile, "fasta")

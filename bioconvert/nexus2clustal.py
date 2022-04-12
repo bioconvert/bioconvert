@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -31,7 +30,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['NEXUS2CLUSTAL']
+__all__ = ["NEXUS2CLUSTAL"]
 
 
 class NEXUS2CLUSTAL(ConvBase):
@@ -42,7 +41,9 @@ class NEXUS2CLUSTAL(ConvBase):
     goalign [GOALIGN]_.
 
     """
-    _default_method = 'goalign'
+
+    #: Default value
+    _default_method = "goalign"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -56,29 +57,30 @@ class NEXUS2CLUSTAL(ConvBase):
     @requires("go")
     @compressor
     def _method_goalign(self, *args, **kwargs):
-        """
-        Convert :term:`NEXUS` file in  :term:`CLUSTAL` format using goalign tool.
-        https://github.com/fredericlemoine/goalign
+        """Convert :term:`NEXUS` file in  :term:`CLUSTAL` format using goalign tool.
 
-        """
-        self.install_tool('goalign')
-        cmd = 'goalign reformat clustal --nexus -i {infile} -o {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        `goalign documentation <https://github.com/fredericlemoine/goalign>`_"""
+        self.install_tool("goalign")
+        cmd = "goalign reformat clustal --nexus -i {infile} -o {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-         from Bio import AlignIO
-         alignments = list(AlignIO.parse(self.infile, "nexus", alphabet=self.alphabet))
-         AlignIO.write(alignments, self.outfile, "clustal")
+        """For this method we use the biopython package Bio.AlignIO.
+        
+        `Bio.AlignIO <https://biopython.org/docs/1.76/api/Bio.AlignIO.html>`_"""
+        from Bio import AlignIO
+
+        alignments = list(AlignIO.parse(self.infile, "nexus"))
+        AlignIO.write(alignments, self.outfile, "clustal")
 
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """
-        Convert :term:`NEXUS` file in :term:`CLUSTAL` format using squizz tool.
+        """Convert :term:`NEXUS` file in :term:`CLUSTAL` format using squizz tool.
         The CLUSTAL output file contains the consensus line
 
         for instance ::
@@ -89,6 +91,6 @@ class NEXUS2CLUSTAL(ConvBase):
                              *
 
         """
-        cmd = 'squizz -c CLUSTAL {infile} > {outfile}'
+        cmd = "squizz -c CLUSTAL {infile} > {outfile}"
         cmd = cmd.format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

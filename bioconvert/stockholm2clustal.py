@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -43,7 +41,9 @@ class STOCKHOLM2CLUSTAL(ConvBase):
     Methods available are based on squizz [SQUIZZ]_ and biopython [BIOPYTHON]_.
 
     """
-    _default_method = 'biopython'
+
+    #: Default value
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -56,10 +56,9 @@ class STOCKHOLM2CLUSTAL(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """
-        Convert :term:`STOCKHOLM` interleaved file in :term:`CLUSTAL` format using biopython.
+        """Convert :term:`STOCKHOLM` interleaved file in :term:`CLUSTAL` format using biopython.
 
-        """
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         sequences = list(SeqIO.parse(self.infile, "stockholm"))
         count = SeqIO.write(sequences, self.outfile, "clustal")
         _log.debug("Converted %d records to clustal" % count)
@@ -67,11 +66,10 @@ class STOCKHOLM2CLUSTAL(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """
-        Convert :term:`STOCKHOLM` file in :term:`CLUSTAL` format using squizz tool.
+        """Convert :term:`STOCKHOLM` file in :term:`CLUSTAL` format using squizz tool.
 
         """
-        cmd = 'squizz -c CLUSTAL {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c CLUSTAL {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

@@ -14,12 +14,8 @@ For instance, to convert a FASTQ to a FASTA file, use this type of command::
 
     bioconvert test.fastq test.fasta
 
-If the converter fastq to fasta exists in **Bioconvert**, it will work out of
+If the converter *fastq* to *fasta*² exists in **Bioconvert**, it will work out of
 the box. In order to get a list of all possible conversions, just type::
-
-    bioconvert
-
-or for more details::
 
     bioconvert --help
 
@@ -107,12 +103,12 @@ files)::
 Parallelization
 ---------------
 
-In Bioconvert, if the input contains a wildcard such as *** or *?* characters, then, input filenames are treated separately and converted sequentially::
+In Bioconvert, if the input contains a wildcard such as ``*`` or ``?`` characters, then, input filenames are treated separately and converted sequentially::
 
-    bioconvert fastq2fasta "*.fastq" 
+    bioconvert fastq2fasta "*.fastq"
 
 Note, however, that the files are processed sequentially one by one. So, we may
-want to parallelise the computation. 
+want to parallelise the computation.
 
 Iteration with unix commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

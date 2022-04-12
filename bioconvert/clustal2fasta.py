@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -42,7 +41,9 @@ class CLUSTAL2FASTA(ConvBase):
     goalign [GOALIGN]_.
 
     """
-    _default_method = 'biopython'
+
+    #: Default value
+    _default_method = "biopython"
 
     def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -56,10 +57,9 @@ class CLUSTAL2FASTA(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """
-        Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format.
+        """Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format.
 
-        """
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         sequences = list(SeqIO.parse(self.infile, "clustal", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "fasta")
         _log.info("Converted %d records to fasta" % count)
@@ -67,25 +67,22 @@ class CLUSTAL2FASTA(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """
-        Convert :term:`CLUSTAL` file in :term:`FASTA` format.
+        """Convert :term:`CLUSTAL` file in :term:`FASTA` format.
 
         """
-        cmd = 'squizz -c FASTA {infile} > {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        cmd = "squizz -c FASTA {infile} > {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)
 
     @requires("go")
     @compressor
     def _method_goalign(self, *args, **kwargs):
-        """
-        Convert :term:`CLUSTAL` file in  :term:`FASTA` format using goalign.
-        https://github.com/fredericlemoine/goalign
+        """Convert :term:`CLUSTAL` file in  :term:`FASTA` format using goalign.
 
-        """
-        self.install_tool('goalign')
-        cmd = 'goalign reformat fasta --clustal -i {infile} -o {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile)
+        `goalign documentation <https://github.com/fredericlemoine/goalign>`_"""
+        self.install_tool("goalign")
+        cmd = "goalign reformat fasta --clustal -i {infile} -o {outfile}".format(
+            infile=self.infile, outfile=self.outfile
+        )
         self.execute(cmd)

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -27,6 +25,7 @@
 from bioconvert import ConvBase
 
 import colorlog
+
 logger = colorlog.getLogger(__name__)
 
 __all__ = ["MAF2SAM"]
@@ -51,11 +50,17 @@ class MAF2SAM(ConvBase):
     bioconvert.io.maf can be considered original. 
     """
 
+    #: Default value
+    _default_method = "python"
+
     def __init__(self, infile, outfile):
         super().__init__(infile, outfile)
 
     def _method_python(self, *args, **kwargs):
+        """Internal module
+        
+        `MAF documentation <https://bioconvert.readthedocs.io/en/refactoring/ref_io.html#module-bioconvert.io.maf>`_"""
         from bioconvert.io import maf
+
         conv = maf.MAF(self.infile, self.outfile)
         conv.to_sam()
-

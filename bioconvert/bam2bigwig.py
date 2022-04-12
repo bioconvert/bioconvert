@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -22,11 +20,10 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
 """Convert :term:`BAM` file to :term:`BIGWIG` format"""
 
 import colorlog
-from bioconvert import ConvBase 
+from bioconvert import ConvBase
 from bioconvert.core.base import ConvArg
 
 
@@ -54,6 +51,8 @@ class BAM2BIGWIG(ConvBase):
     such as wiggle. We will use the bamCoverage as our default conversion.
 
     """
+
+    #: Default value
     _default_method = "bamCoverage"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -67,9 +66,12 @@ class BAM2BIGWIG(ConvBase):
 
     @requires("bamCoverage")
     def _method_bamCoverage(self, *args, **kwargs):
-        """run bamCoverage package"""
+        """run bamCoverage package.
+        
+        `bamCoverage documentation <https://deeptools.readthedocs.io/en/develop/content/tools/bamCoverage.html>`_"""
         cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {}".format(
-                self.infile, self.outfile)
+            self.infile, self.outfile
+        )
         self.execute(cmd)
 
     @requires(external_binaries=["bedGraphToBigWig", "bedtools"])
@@ -77,13 +79,14 @@ class BAM2BIGWIG(ConvBase):
         """Run ucsc tool bedGraphToBigWig. 
 
         Requires extra argument (chrom_sizes) required by the bioconvert
-        stanalone. """
+        stanalone.
+        """
         from bioconvert.bam2bedgraph import BAM2BEDGRAPH
         from bioconvert.bedgraph2bigwig import BEDGRAPH2BIGWIG
 
         chrom_sizes = kwargs.get("chrom_sizes", None)
 
-        with TempFile(suffix='.bedgraph') as fh:
+        with TempFile(suffix=".bedgraph") as fh:
             convertbam2bed = BAM2BEDGRAPH(self.infile, fh.name)
             convertbam2bed()
             convertbed2bw = BEDGRAPH2BIGWIG(fh.name, self.outfile)
@@ -95,5 +98,5 @@ class BAM2BIGWIG(ConvBase):
             names="--chrom-sizes",
             default=None,
             help="a two-column file/URL: <chromosome name> <size in bases>. "
-                 "Used by the ucsc method only",
+            "Used by the ucsc method only",
         )

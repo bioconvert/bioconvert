@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -42,9 +41,11 @@ class BEDGRAPH2BIGWIG(ConvBase):
     argument --chrom-sizes is required.
 
     """
-    _default_method = 'ucsc'
 
-    def __init__(self, infile, outfile): #, alphabet=None, *args, **kwargs):
+    #: Default value
+    _default_method = "ucsc"
+
+    def __init__(self, infile, outfile):  # , alphabet=None, *args, **kwargs):
         """.. rubric:: constructor
 
         :param str infile: input :term:`BEDGRAPH` file.
@@ -54,22 +55,19 @@ class BEDGRAPH2BIGWIG(ConvBase):
 
     @requires("bedGraphToBigWig")
     def _method_ucsc(self, *args, **kwargs):
-        """
-        Convert bedgraph file in bigwig format using ucsc tool.
-        https://genome.ucsc.edu/goldenpath/help/bigWig.html
+        """Convert bedgraph file in bigwig format using ucsc tool.
 
-        http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes
-        """
+        `bigWig documentation <https://genome.ucsc.edu/goldenpath/help/bigWig.html>`_
+
+        `chromosome size <http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes>`_"""
         chrom_sizes = kwargs.get("chrom_sizes", None)
         if chrom_sizes is None:
             raise ValueError("Must provide --chrom-sizes option")
 
-        cmd = 'bedGraphToBigWig {infile}  {chrom_sizes} {outfile}'.format(
-            infile=self.infile,
-            outfile=self.outfile, 
-            chrom_sizes=chrom_sizes)
+        cmd = "bedGraphToBigWig {infile}  {chrom_sizes} {outfile}".format(
+            infile=self.infile, outfile=self.outfile, chrom_sizes=chrom_sizes
+        )
         self.execute(cmd)
-
 
     @classmethod
     def get_additional_arguments(cls):
@@ -78,5 +76,3 @@ class BEDGRAPH2BIGWIG(ConvBase):
             default=None,
             help="a two-column file/URL: <chromosome name> <size in bases>",
         )
-
-

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -30,8 +28,9 @@ import json
 import sys
 import colorlog
 import textwrap
+import json
 
-import bioconvert
+from bioconvert import logger, version
 from bioconvert import ConvBase
 from bioconvert.core import graph
 from bioconvert.core import utils
@@ -48,7 +47,7 @@ def error(msg):
     sys.exit(1)
 
 
-class ParserHelper():
+class ParserHelper:
     """
     convenient variable to check implicit/explicit mode and
     get information about the arguments
@@ -60,13 +59,17 @@ class ParserHelper():
         if len(self.args) == 0:
             error("Please provide at least some arguments. See --help")
 
-        if args[0].lower() not in list(registry.get_converters_names()) \
-                and "." in args[0]:
+        if (
+            args[0].lower() not in list(registry.get_converters_names())
+            and "." in args[0]
+        ):
             self.mode = "implicit"
             # we shoule have at least 2 entries in implicit mode and the first
             # input filename must exists (1 to 1 or many to 1)
             if len(args) < 2:
-                error("In implicit mode, you must define your input and output file (only 1 provided)")
+                error(
+                    "In implicit mode, you must define your input and output file (only 1 provided)"
+                )
         else:
             self.mode = "explicit"
         _log.debug("parsing mode {}".format(self.mode))
@@ -140,47 +143,56 @@ def main(args=None):
             # compression, this means we just want to decompress and
             # re-compress in another format.
             if not converter and (exts[0] == exts[1]):
-                exts_with_comp = [utils.get_extension(x, remove_compression=False) 
-                    for x in filenames]
+                exts_with_comp = [
+                    utils.get_extension(x, remove_compression=False) for x in filenames
+                ]
                 in_ext, out_ext = exts_with_comp[0], exts_with_comp[1]
-                comps = ['gz', 'dsrc', 'bz2']
+                comps = ["gz", "dsrc", "bz2"]
                 if in_ext in comps and out_ext in comps:
                     converter.extend(registry.get_ext(((in_ext,), (out_ext,))))
 
             # if no converter is found, print information
             if not converter:
-                msg = '\nBioconvert does not support conversion {} -> {}. \n\n'
+                msg = "\nBioconvert does not support conversion {} -> {}. \n\n"
                 msg = msg.format(in_ext, out_ext)
 
                 # maybe it is an indirect conversion ? let us look at the
                 # digraph
                 try:
                     _path = registry._path_dict_ext[in_ext][out_ext]
-                    #Here, we have a transitive list of tuples to go from A to C
+                    # Here, we have a transitive list of tuples to go from A to C
                     # example from fq to clustal returns:
                     # [('fq',), ('fa',), ('clustal',)]
                     # If we naively build the converter from those names
                     # (fq2clustal), this is a non official converter name. The
                     # official one is fastq2clustal, so we need some hack here:
-                    in_name, int_name, out_name  = _path
-                    a = registry._ext_registry[in_name, int_name][0].__name__.split("2")[0]
-                    b = registry._ext_registry[int_name, out_name][0].__name__.split("2")[1]
+                    in_name, int_name, out_name = _path
+                    a = registry._ext_registry[in_name, int_name][0].__name__.split(
+                        "2"
+                    )[0]
+                    b = registry._ext_registry[int_name, out_name][0].__name__.split(
+                        "2"
+                    )[1]
 
                     convname = "2".join([a, b]).lower()
 
-                    msg += "\n".join(textwrap.wrap(
-                        "Note, however, that an indirect conversion through"
-                        " an intermediate format is possible for your input and "
-                        " output format. To do so, you need to use the -a option "
-                        " and be explicit about the type of conversion. To get "
-                        " the list of possible direct and indirect conversion, "
-                        " please use:\n\n"))
+                    msg += "\n".join(
+                        textwrap.wrap(
+                            "Note, however, that an indirect conversion through"
+                            " an intermediate format is possible for your input and "
+                            " output format. To do so, you need to use the -a option "
+                            " and be explicit about the type of conversion. To get "
+                            " the list of possible direct and indirect conversion, "
+                            " please use:\n\n"
+                        )
+                    )
                     msg += "\n\n    bioconvert --help -a\n\n"
                     msg += "For help and with your input/output most probably"
                     msg += "the command should be: \n\n    bioconvert {} {} -a\n\n ".format(
-                            convname, " ".join(ph.get_filelist()))
+                        convname, " ".join(ph.get_filelist())
+                    )
                 except KeyError:
-                    pass # not converter found in the path 
+                    pass  # not converter found in the path
                 error(msg)
 
             # if the ext_pair matches a single converter
@@ -188,24 +200,34 @@ def main(args=None):
                 args.insert(0, converter[0].__name__.lower())
             # if the ext_pair matches multiple converters
             else:
-                _log.error("Ambiguous extension.\n"
-                           "You must specify the right conversion  Please "
-                           "choose a conversion from: \n\n"
-                           "{}".format("\n".join([c.__name__.lower() for c in converter])))
+                _log.error(
+                    "Ambiguous extension.\n"
+                    "You must specify the right conversion  Please "
+                    "choose a conversion from: \n\n"
+                    "{}".format("\n".join([c.__name__.lower() for c in converter]))
+                )
                 sys.exit(1)
 
     # Set the default level
-    bioconvert.logger.level = "ERROR"
+    logger.level = "ERROR"
 
     # Changing the log level before argparse is run
-    try: bioconvert.logger.level = args[args.index("-l") + 1]
-    except: pass
-    try: bioconvert.logger.level = args[args.index("--level") + 1]
-    except: pass
-    try: bioconvert.logger.level = args[args.index("-v") + 1]
-    except: pass
-    try: bioconvert.logger.level = args[args.index("--verbosity") + 1]
-    except: pass
+    try:
+        logger.level = args[args.index("-l") + 1]
+    except:
+        pass
+    try:
+        logger.level = args[args.index("--level") + 1]
+    except:
+        pass
+    try:
+        logger.level = args[args.index("-v") + 1]
+    except:
+        pass
+    try:
+        logger.level = args[args.index("--verbosity") + 1]
+    except:
+        pass
 
     # if there is the ability to convert from A to B to C, we must set
     # the option -a (--allow_indirect_conversion)
@@ -224,16 +246,17 @@ def main(args=None):
         pass
 
     # Now, the instanciation of the main bioconvert user interface
-    arg_parser = argparse.ArgumentParser(prog="bioconvert",
-                                         description="",
-                                         #""Convertor infer the
-                                         #formats from the first command. We do
-                                         #not scan the input file. Therefore
-                                         #users must ensure that their input
-                                         #format files are properly
-                                         #formatted.""",
-                                         formatter_class=argparse.RawDescriptionHelpFormatter,
-                                         epilog="""
+    arg_parser = argparse.ArgumentParser(
+        prog="bioconvert",
+        description="",
+        # ""Convertor infer the
+        # formats from the first command. We do
+        # not scan the input file. Therefore
+        # users must ensure that their input
+        # format files are properly
+        # formatted.""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
 Bioconvert contains tens of converters whose list is available as follows:
 
     bioconvert --help
@@ -263,12 +286,14 @@ shows all possible indirect conversions:
 Please visit http://bioconvert.readthedocs.org for more information about the
 project or formats available. Would you wish to help, please join our open 
 source collaborative project at https://github/bioconvert/bioconvert
-""")
+""",
+    )
 
-    subparsers = arg_parser.add_subparsers(help='sub-command help',
-                                           dest='converter', )
+    subparsers = arg_parser.add_subparsers(help="sub-command help", dest="converter",)
 
-    max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
+    max_converter_width = 2 + max(
+        [len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()]
+    )
 
     def sorting_tuple_string(item):
         if type(item) is tuple:
@@ -277,32 +302,35 @@ source collaborative project at https://github/bioconvert/bioconvert
             return item[0]
 
     # show all possible conversion including indirect conversion
-    for in_fmt, out_fmt, converter, path in \
-            sorted(registry.iter_converters(allow_indirect_conversion), key=sorting_tuple_string):
-        in_fmt= ConvBase.lower_tuple(in_fmt)
+    for in_fmt, out_fmt, converter, path in sorted(
+        registry.iter_converters(allow_indirect_conversion), key=sorting_tuple_string
+    ):
+        in_fmt = ConvBase.lower_tuple(in_fmt)
         in_fmt = ["_".join(in_fmt)]
 
-        out_fmt=ConvBase.lower_tuple(out_fmt)
+        out_fmt = ConvBase.lower_tuple(out_fmt)
         out_fmt = ["_".join(out_fmt)]
 
         sub_parser_name = "{}2{}".format("_".join(in_fmt), "_".join(out_fmt))
 
         if converter:
-            link_char = '-'
+            link_char = "-"
             if len(converter.available_methods) < 1:
-                help_details = " (no available methods please see the doc" \
-                               " for install the necessary libraries) "
+                help_details = (
+                    " (no available methods please see the doc"
+                    " for install the necessary libraries) "
+                )
             else:
                 help_details = " (%i methods)" % len(converter.available_methods)
-        else :#if path:
-            link_char = '~'
+        else:  # if path:
+            link_char = "~"
             if len(path) == 3:
                 help_details = " (w/ 1 intermediate)"
             else:
                 help_details = " (w/ %i intermediates)" % (len(path) - 2)
 
-        help_text = '{}to{}> {}{}'.format(
-            ("_".join(in_fmt) + ' ').ljust(max_converter_width, link_char),
+        help_text = "{}to{}> {}{}".format(
+            ("_".join(in_fmt) + " ").ljust(max_converter_width, link_char),
             link_char,
             ("_".join(out_fmt)),
             help_details,
@@ -324,41 +352,48 @@ Please feel free to join us at https://github/biokit/bioconvert
             for a in ConvBase.get_common_arguments():
                 a.add_to_sub_parser(sub_parser)
 
-
     # arguments when no explicit conversion provided.
 
-    arg_parser.add_argument("-v", "--verbosity",
-                            default=bioconvert.logger.level,
-                            help="Set the outpout verbosity.",
-                            choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-                            )
+    arg_parser.add_argument(
+        "-v",
+        "--verbosity",
+        default=logger.level,
+        help="Set the outpout verbosity.",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+    )
 
-    arg_parser.add_argument("-l", "--level",
-                            default=bioconvert.logger.level,
-                            help="Set the outpout verbosity. Same as --verbosity",
-                            choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-                            )
+    arg_parser.add_argument(
+        "-l",
+        "--level",
+        default=logger.level,
+        help="Set the outpout verbosity. Same as --verbosity",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+    )
 
-    arg_parser.add_argument("--dependency-report",
-                            action="store_true",
-                            default=False,
-                            help="Output all bioconvert dependencies in json and exit")
+    arg_parser.add_argument(
+        "--dependency-report",
+        action="store_true",
+        default=False,
+        help="Output all bioconvert dependencies in json and exit",
+    )
 
-    arg_parser.add_argument("-a", "--allow-indirect-conversion",
-                            action="store_true",
-                            help="Show all possible indirect conversions "
-                                 "(labelled as intermediate)")
+    arg_parser.add_argument(
+        "-a",
+        "--allow-indirect-conversion",
+        action="store_true",
+        help="Show all possible indirect conversions " "(labelled as intermediate)",
+    )
 
-    arg_parser.add_argument("--version",
-                            action="store_true",
-                            default=False,
-                            help="Show version")
+    arg_parser.add_argument(
+        "--version", action="store_true", default=False, help="Show version"
+    )
 
-    arg_parser.add_argument("--conversion-graph",
-                            nargs="?",
-                            default=None,
-                            choices=["cytoscape", "cytoscape-all", ],
-                            )
+    arg_parser.add_argument(
+        "--conversion-graph",
+        nargs="?",
+        default=None,
+        choices=["cytoscape", "cytoscape-all",],
+    )
 
     # FIXME why is this a try ?
     # Possible to check whether the subcommand is valid or not
@@ -376,11 +411,11 @@ Please feel free to join us at https://github/biokit/bioconvert
         sub_command = None
         args_i = 0
         while sub_command is None and args_i < len(args):
-            if args[args_i][0] != '-' and (
-                    args_i == 0
-                    or args[args_i - 1] != '-v'
-                    and args[args_i - 1] != '--verbose'
-                    and args[args_i - 1] != '--conversion-graph'
+            if args[args_i][0] != "-" and (
+                args_i == 0
+                or args[args_i - 1] != "-v"
+                and args[args_i - 1] != "--verbose"
+                and args[args_i - 1] != "--conversion-graph"
             ):
                 sub_command = args[args_i]
             args_i += 1
@@ -390,7 +425,9 @@ Please feel free to join us at https://github/biokit/bioconvert
             raise err
 
         conversions = []
-        for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
+        for in_fmt, out_fmt, converter, path in registry.iter_converters(
+            allow_indirect_conversion
+        ):
             in_fmt = ConvBase.lower_tuple(in_fmt)
             in_fmt = ["_".join(in_fmt)]
             out_fmt = ConvBase.lower_tuple(out_fmt)
@@ -398,10 +435,10 @@ Please feel free to join us at https://github/biokit/bioconvert
             conversion_name = "{}2{}".format("_".join(in_fmt), "_".join(out_fmt))
             conversions.append((lev(conversion_name, sub_command), conversion_name))
 
-        conversions = [x for x in conversions if x[0]<=3]
+        conversions = [x for x in conversions if x[0] <= 3]
         matches = sorted(conversions)[:5]
 
-        # It could be a typo elsewhere, a real error in the command line such as 
+        # It could be a typo elsewhere, a real error in the command line such as
         # --verbosity INFFO. If so, the subcommand may be correct and therefore
         # we should stop here to not confuse the users
         if len(matches) > 0 and sub_command in [x[1] for x in matches]:
@@ -412,30 +449,40 @@ Please feel free to join us at https://github/biokit/bioconvert
             msg = "sub command {} not found and no close candidate found. "
             msg = msg.format(sub_command)
         else:
-            msg = '\n\nThe converter {}() was not found. It may be a typo.\n' +\
-                'Here is a list of possible matches: {} ... '+\
-                '\nYou may also add the -a argument to enfore a '+\
-                'transitive conversion. The whole list is available using\n\n'+\
-                '    bioconvert --help -a \n'
-            msg = msg.format(sub_command, ', '.join([v for _, v in matches]))
+            msg = (
+                "\n\nThe converter {}() was not found. It may be a typo.\n"
+                + "Here is a list of possible matches: {} ... "
+                + "\nYou may also add the -a argument to enfore a "
+                + "transitive conversion. The whole list is available using\n\n"
+                + "    bioconvert --help -a \n"
+            )
+            msg = msg.format(sub_command, ", ".join([v for _, v in matches]))
         _log.error(msg)
         sys.exit(1)
 
     if args.version:
-        print("{}".format(bioconvert.version))
+        print("{}".format(version))
         sys.exit(0)
 
     if args.dependency_report:
-        print(json.dumps(get_known_dependencies_with_availability(as_dict=True), sort_keys=True, indent=4, ))
+        print(
+            json.dumps(
+                get_known_dependencies_with_availability(as_dict=True),
+                sort_keys=True,
+                indent=4,
+            )
+        )
         sys.exit(0)
 
     if args.conversion_graph:
         if args.conversion_graph.startswith("cytoscape"):
             all_converter = args.conversion_graph == "cytoscape-all"
-            print(json.dumps(
-                graph.create_graph_for_cytoscape(all_converter=all_converter),
-                indent=4,
-            ))
+            print(
+                json.dumps(
+                    graph.create_graph_for_cytoscape(all_converter=all_converter),
+                    indent=4,
+                )
+            )
         sys.exit(0)
 
     if args.converter is None:
@@ -444,45 +491,53 @@ Please feel free to join us at https://github/biokit/bioconvert
         arg_parser.error(msg)
 
     if getattr(args, "show_methods", False) is False and args.input_file is None:
-        arg_parser.error('Either specify an input_file (<INPUT_FILE>) or '
-                         'ask for available methods (--show-methods)')
+        arg_parser.error(
+            "Either specify an input_file (<INPUT_FILE>) or "
+            "ask for available methods (--show-methods)"
+        )
 
     # do we want to know the available methods ? If so, print info and quit
     if getattr(args, "show_methods", False) is True:
         in_fmt, out_fmt = ConvMeta.split_converter_to_format(args.converter)
         class_converter = Registry()[(in_fmt, out_fmt)]
-        print("\nMethods available for this converter ({}) are: {}".format(
-            args.converter, class_converter.available_methods))
-        print("\nPlease see http://bioconvert.readthedocs.io/en/master/"
-              "references.html#{} for details ".format(str(class_converter).split("'")[1]))
+        print(
+            "\nMethods available for this converter ({}) are: {}".format(
+                args.converter, class_converter.available_methods
+            )
+        )
+        print(
+            "\nPlease see http://bioconvert.readthedocs.io/en/master/"
+            "references.html#{} for details ".format(str(class_converter).split("'")[1])
+        )
         if args.raise_exception:
             return
         sys.exit(0)
 
+    if (
+        not args.allow_indirect_conversion
+        and ConvMeta.split_converter_to_format(args.converter) not in registry
+    ):
 
-
-    if not args.allow_indirect_conversion and \
-        ConvMeta.split_converter_to_format(args.converter) not in registry:
-
-        arg_parser.error('The conversion {} is not available directly, '
-                         'you have to accept that we chain converter to do'
-                         ' so (--allow-indirect-conversion or -a)'.format(args.converter))
+        arg_parser.error(
+            "The conversion {} is not available directly, "
+            "you have to accept that we chain converter to do"
+            " so (--allow-indirect-conversion or -a)".format(args.converter)
+        )
 
     args.raise_exception = args.raise_exception or args.verbosity == "DEBUG"
 
     # Set the logging level
-    bioconvert.logger.level = args.verbosity
+    logger.level = args.verbosity
     # Figure out whether we have several input files or not
-    if "*" in args.input_file or "?" in args.input_file: 
+    if "*" in args.input_file or "?" in args.input_file:
         filenames = glob.glob(args.input_file)
     else:
         filenames = [args.input_file]
 
-
     N = len(filenames)
     for i, filename in enumerate(filenames):
         if N > 1:
-            _log.info("Converting {} ({}/{})".format(filename, i+1, N))
+            _log.info("Converting {} ({}/{})".format(filename, i + 1, N))
         args.input_file = filename
         try:
             analysis(args)
@@ -490,13 +545,12 @@ Please feel free to join us at https://github/biokit/bioconvert
             if args.raise_exception:
                 raise e
             else:
-                bioconvert.logger.error(e)
+                logger.error(e)
             sys.exit(1)
 
 
 def analysis(args):
     in_fmt, out_fmt = ConvMeta.split_converter_to_format(args.converter)
-
 
     # Input and output filename
     infile = args.input_file
@@ -517,21 +571,19 @@ def analysis(args):
                     _log.error("Input file {} does not exist (analysis)".format(file))
                     sys.exit(1)
 
-
     if args.output_file is None and infile:
         outext = ConvMeta.split_converter_to_format(args.converter)
         if infile.split(".")[-1] in ["gz", "dsrc", "bz2"]:
             # get rid of extension gz/dsrc/bz2
             outfile = infile.rsplit(".", 1)[0]
             # get rid of extension itself
-            outfile = outfile .rsplit(".",1)[0] 
-            outfile += "." + outext[1][0].lower() 
+            outfile = outfile.rsplit(".", 1)[0]
+            outfile += "." + outext[1][0].lower()
 
         else:
             outfile = infile.rsplit(".", 1)[0] + "." + outext[1][0].lower()
     else:
         outfile = args.output_file
-
 
     # check whether a valid --thread option was provided
     if "threads" in args:
@@ -544,33 +596,48 @@ def analysis(args):
         extra_arguments = args.extra_arguments
 
     # Call a generic wrapper of all available conversion
-    conv = Bioconvert(
-        infile,
-        outfile,
-        #in_fmt=in_fmt,
-        #out_fmt=out_fmt,
-        force=args.force,
-        threads=threads,
-        extra=extra_arguments
+    bioconv = Bioconvert(
+        infile, outfile, force=args.force, threads=threads, extra=extra_arguments
     )
 
-    if args.benchmark:
-        conv.boxplot_benchmark(N=args.benchmark_N,
-            to_include=args.benchmark_methods)
+    for k, v in args.__dict__.items():
+        if k not in [
+            "level",
+            "verbosity",
+            "dependency_report",
+            "version",
+            "conversion_graph",
+            "input_file",
+            "output_file",
+            "force",
+            "extra_arguments",
+            "allow_indirect_conversion",
+            "method",
+            "show_methods",
+            "converter",
+            "raise_exception",
+            "batch",
+            "benchmark",
+            "benchmark_N",
+            "benchmark_methods",
+        ]:
+            bioconv.converter.others[k] = v
 
-        print(args.benchmark_methods)
+    if args.benchmark:
+        results = bioconv.converter.boxplot_benchmark(
+            N=args.benchmark_N, to_include=args.benchmark_methods
+        )
         import pylab
 
-        try:
-            outpng = "benchmark_{}.png".format(conv.name)
-            pylab.savefig(outpng, dpi=200)
-        except:
-            outpng = "benchmark_{}.png".format(conv.converter.name)
-            pylab.savefig(outpng, dpi=200)
-        bioconvert.logger.info("File {} created")
+        if args.benchmark_save_image:
+            pylab.savefig(f"{args.benchmark_tag}.png", dpi=200)
+            logger.info(f"File {args.benchmark_tag}.png created")
+
+        with open(f"{args.benchmark_tag}.json", "w") as fout:
+            json.dump(results, fout, indent=True, sort_keys=True)
+            logger.info(f"Saved results in {args.benchmark_tag}.json")
     else:
-        # params["method"] = args.method
-        conv(**vars(args))
+        bioconv(**vars(args))
 
 
 if __name__ == "__main__":

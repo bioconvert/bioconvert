@@ -1,0 +1,120 @@
+# this snakemake makes it possible to benchmark the conversions
+# written in the conversions variable by downloading the necessary
+# files from the zenodo site and creating the necessary directories.
+#
+# How to run ? If you have 8 cores:
+#
+#     snakemake -s Snakemake_benchmark --cores 8
+#
+# on a SLURM framework, :
+#
+#     snakemake -s Snakemake_benchmark --cluster "-j 8 --mem 4000"
+import glob
+
+import matplotlib as mpl
+mpl.use('Agg')
+
+
+# The number of times we run the benchmark to try to smooth out errors
+I = 5
+# For a given benchmark, how many trials ?
+number_of_runs_per_method = 10
+
+# The conversions that we want to test and whose name corresponds to the file extensions
+conversions = ["bam2bedgraph", "fastq2fasta", "bam2sam"]
+
+
+rule all:
+    input:
+        expand("json/test_{conversion}_{i}.json", conversion=conversions, i=range(1,I+1)),
+        expand("json/test_{conversion}.json", conversion=conversions),
+        expand("multi_benchmark/multi_benchmark_{conversion}.png", conversion=conversions)
+
+
+rule download :
+    output: "inputs/test.fastq",
+            "inputs/test.bam",
+            "inputs/test.bam.bai",
+            "inputs/test.sam"
+    shell:
+        """
+        wget https://zenodo.org/record/6405971/files/measles.sorted.bam -O inputs/test.bam
+        wget https://zenodo.org/record/6405971/files/measles.sorted.bam.bai -O inputs/test.bam.bai
+        wget https://zenodo.org/record/6405971/files/measles.sorted.sam -O inputs/test.sam
+        wget https://zenodo.org/record/6405971/files/SRR10769787.fastq.gz
+        gunzip SRR10769787.fastq.gz
+        mv SRR10769787.fastq inputs/test.fastq
+        """
+
+
+# Function that will be used to define the extension of the file to be tested
+def generic_conversions_function_in(wildcards):
+    data_in, data_out = wildcards.conversion.split("2")
+    return f"inputs/test.{data_in}"
+
+
+rule generic_conversions:
+    """Computation of conversion is done here"""
+    input:
+        generic_conversions_function_in
+    output:
+        out = temp("output/test_{conversion}_{i}.out"),
+        json = "json/test_{conversion}_{i}.json"
+    params:
+        # For a given method and given run, how many time to we run it ?
+        N= number_of_runs_per_method
+    shell :
+        """
+        bioconvert {wildcards.conversion} -b -N {params.N} -T json/test_{wildcards.conversion}_{wildcards.i} {input} {output.out} -f
+        """
+
+def generic_concatenate_function_in(wildcards):
+    filenames = [f"json/test_{wildcards.conversion}_" + str(i) + ".json" for i in range(1,I+1)]
+    return filenames
+
+
+rule generic_concatenate:
+    """Aggregate all json results"""
+    input:
+        generic_concatenate_function_in
+    output:
+        json = "json/test_{conversion}.json",
+    params:
+        benchmark_num=I
+    run:
+        import pandas as pd
+        # open and read JSON file
+        df = pd.read_json(input[0])
+
+        # Creation of another column containing the benchmarking number
+        df = df.assign(Benchmark=1)
+
+        for i in range(2, int(params.benchmark_num) + 1):
+            # open and read JSON file
+            df_temp = pd.read_json(input[i-1])
+
+            # Creation of another column containing the benchmarking number
+            df_temp = df_temp.assign(Benchmark=i + 1)
+
+            # Concatenation of the two JSON objects
+            df = pd.concat([df, df_temp], axis=0)
+        # The index is reset to avoid problems when exporting the final JSON file
+        df.reset_index(inplace=True, drop=True)
+        # Creation of the path variable which will be used to give the name of the output JSON file
+        # Exporting the JSON object to a JSON file
+        df.to_json(output.json, indent=4)
+
+
+rule plot:
+    """plotting in form of boxplots"""
+    input:
+        json = "json/test_{conversion}.json",
+    output:
+        png = "multi_benchmark/multi_benchmark_{conversion}.png"
+    run:
+        from bioconvert.core.benchmark import plot_multi_benchmark_max
+        plot_multi_benchmark_max(input.json, output_filename=output.png) 
+
+
+# essential for the pipeline to work
+ruleorder: generic_conversions > generic_concatenate 

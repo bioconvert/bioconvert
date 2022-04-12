@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -32,7 +30,7 @@ from bioconvert.core.decorators import compressor
 _log = colorlog.getLogger(__name__)
 
 
-__all__ = ['PHYLOXML2NEXUS']
+__all__ = ["PHYLOXML2NEXUS"]
 
 
 class PHYLOXML2NEXUS(ConvBase):
@@ -42,8 +40,9 @@ class PHYLOXML2NEXUS(ConvBase):
     Methods available are based on gotree [GOTREE]_.
 
     """
-    _default_method = 'gotree'
 
+    #: Default value
+    _default_method = "gotree"
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """.. rubric:: constructor
@@ -56,12 +55,10 @@ class PHYLOXML2NEXUS(ConvBase):
     @requires("go")
     @compressor
     def _method_gotree(self, *args, **kwargs):
-        """
-        Convert :term:`PHYLOXML`  file in :term:`NEXUS` format using gotree tool.
-        https://github.com/fredericlemoine/gotree
+        """Convert :term:`PHYLOXML`  file in :term:`NEXUS` format using gotree tool.
 
-        """
-        self.install_tool('gotree')
-        cmd = 'gotree reformat nexus -i {infile} -o {outfile} -f phyloxml'
+        `gotree documentation <https://github.com/fredericlemoine/gotree>`_"""
+        self.install_tool("gotree")
+        cmd = "gotree reformat nexus -i {infile} -o {outfile} -f phyloxml"
         cmd = cmd.format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

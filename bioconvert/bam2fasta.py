@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -35,13 +34,15 @@ class BAM2FASTA(ConvBase):
 
     Methods available are based on samtools [SAMTOOLS]_ or bedtools [BEDTOOLS]_.
 
-    .. warning:: Using the bedtools method, the R1 and R2 reads must be next to 
+    .. warning:: Using the bedtools method, the R1 and R2 reads must be next to
         each other so that the reads are sorted similarly
 
     .. warning:: there is no guarantee that the R1/R2 output file are sorted
         similarly in paired-end case due to supp and second reads
 
     """
+
+    #: Default value
     _default_method = "samtools"
 
     def __init__(self, infile, outfile):
@@ -56,12 +57,12 @@ class BAM2FASTA(ConvBase):
     """@requires("bamtools")
     def __method_bamtools(self, *args, **kwargs):
         #  fastq are split on several lines (80 characters)
-        # this method contains supplementary reads and we don't know 
+        # this method contains supplementary reads and we don't know
         # what to do with them for now. So, this method is
         # commented. Indeed final R1 and R2 files will not be paired.
 
         cmd = "bamtools stats -in '%s' | sed '12!d' | awk '{print $3}' " % (self.infile)
-        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, 
+        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,universal_newlines=True)
         isPaired = ps.communicate()[0].strip()
 
@@ -76,15 +77,18 @@ class BAM2FASTA(ConvBase):
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
         """
-        do the conversion :term:`BAM` -> :term:`FASTA` using samtools
+        do the conversion :term:`BAM` -> :term:`FASTA` using samtools.
 
         .. note:: fasta are on one line
-        """
 
+        `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         # Test if input bam file is paired
-        p = subprocess.Popen("samtools view -c -f 1 {}".format(
-            self.infile).split(), stdout=subprocess.PIPE, 
-            stderr=subprocess.PIPE, universal_newlines=True)
+        p = subprocess.Popen(
+            "samtools view -c -f 1 {}".format(self.infile).split(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
 
         isPaired = p.communicate()[0].strip()
 
@@ -96,8 +100,8 @@ class BAM2FASTA(ConvBase):
         output_ext = get_extension(self.outfile, remove_compression=True)
 
         # If the output file extension is compress extension
-        if ext in [".gz",".bz2"]:
-            outbasename = os.path.splitext(self.outfile)[0].split(".",1)[0]
+        if ext in [".gz", ".bz2"]:
+            outbasename = os.path.splitext(self.outfile)[0].split(".", 1)[0]
 
             if ext == ".gz":
                 compresscmd = "gzip -f"
@@ -106,15 +110,17 @@ class BAM2FASTA(ConvBase):
 
             # When the input file is not paired and the output file needs to be compressed
             if isPaired == "0":
-                cmd = "samtools fasta {} > {}.{}".format(self.infile,
-                    outbasename, output_ext)
+                cmd = "samtools fasta {} > {}.{}".format(
+                    self.infile, outbasename, output_ext
+                )
                 self.execute(cmd)
                 cmd = "{} {}.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)
             # When the input file is paired and the output file needs to be compressed
             else:
-                cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(outbasename, 
-                    output_ext, outbasename, output_ext, self.infile)
+                cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(
+                    outbasename, output_ext, outbasename, output_ext, self.infile
+                )
                 self.execute(cmd)
                 cmd = "{} {}_1.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)
@@ -129,6 +135,7 @@ class BAM2FASTA(ConvBase):
                 self.execute(cmd)
             # When the input file is paired
             else:
-                cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(outbasename,
-                    output_ext, outbasename, output_ext, self.infile)
+                cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(
+                    outbasename, output_ext, outbasename, output_ext, self.infile
+                )
                 self.execute(cmd)

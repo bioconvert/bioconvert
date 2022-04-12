@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ###########################################################################
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
@@ -43,8 +41,9 @@ class FASTA2GENBANK(ConvBase):
 
     """
 
-    # squizz works as well but keeps lower cases while 
+    # squizz works as well but keeps lower cases while
     # biopython uses upper cases
+    #: Default value
     _default_method = "bioconvert"
 
     def __init__(self, infile, outfile, *args, **kargs):
@@ -59,23 +58,27 @@ class FASTA2GENBANK(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """Header is less informative than the one obtained with biopython"""
+        """Header is less informative than the one obtained with biopython
+        
+        """
         cmd = "squizz -f fasta -c genbank  {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        print("Using DNA alphabet for now")
-        from Bio import SeqIO, Alphabet
-        SeqIO.convert(self.infile, "fasta", self.outfile, "genbank",
-            alphabet=Alphabet.generic_dna)
+        """For this method we use the biopython package Bio.SeqIO. 
+        
+        `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
+        from Bio import SeqIO
+
+        SeqIO.convert(self.infile, "fasta", self.outfile, "genbank", "DNA")
 
     # --- Pure python methods ---
 
     @requires_nothing
     def _method_bioconvert(self, *args, **kwargs):
-        print("Using DNA alphabet for now")
+        """Internal method"""
         reader = Fasta(self.infile)
 
         with open(self.outfile, "w") as writer:
@@ -85,31 +88,38 @@ class FASTA2GENBANK(ConvBase):
 
                 # Sequence header
                 now = datetime.datetime.now()
-                writer.write("LOCUS       {}{}{} bp DNA              XXX {}-{}-{}\n".format(
-                    sequence["id"],
-                    " "*(max(1, 28 - len(sequence["id"]) - num_digit)),
-                    seq_size,
-                    now.day, now.month, now.year))
+                writer.write(
+                    "LOCUS       {}{}{} bp DNA              XXX {}-{}-{}\n".format(
+                        sequence["id"],
+                        " " * (max(1, 28 - len(sequence["id"]) - num_digit)),
+                        seq_size,
+                        now.day,
+                        now.month,
+                        now.year,
+                    )
+                )
                 writer.write("DEFINITION  {}\n".format(sequence["comment"]))
                 writer.write("ORIGIN      \n")
 
                 # Print sequence
                 for seq_idx in range(0, seq_size, 60):
                     # Write line header (idx in the sequence)
-                    idx_num_digit = floor(log(seq_idx+1, 10)) + 1
-                    writer.write("{}{}".format(" "*(9 - idx_num_digit), seq_idx+1))
+                    idx_num_digit = floor(log(seq_idx + 1, 10)) + 1
+                    writer.write("{}{}".format(" " * (9 - idx_num_digit), seq_idx + 1))
 
                     # write the sequence itself
                     for i in range(6):
-                        begin = seq_idx+i*10
-                        end = seq_idx+(i+1)*10
+                        begin = seq_idx + i * 10
+                        end = seq_idx + (i + 1) * 10
 
                         # sequence over before this slice
                         if begin >= seq_size:
                             break
                         # sequence over during this slice
                         elif end > seq_size:
-                            writer.write(" {}".format(sequence["value"][begin:seq_size]))
+                            writer.write(
+                                " {}".format(sequence["value"][begin:seq_size])
+                            )
                         else:
                             writer.write(" {}".format(sequence["value"][begin:end]))
 
