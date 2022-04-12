@@ -9,9 +9,6 @@ Bioconvert
 .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/main.yml/badge.svg?branch=master
     :target: https://github.com/bioconvert/bioconvert/actions/workflows/main.yml
 
-.. image:: https://github.com/bioconvert/bioconvert/actions/workflows/main.yml/badge.svg?branch=refactoring
-    :target: https://github.com/bioconvert/bioconvert/actions/workflows/main.yml
-
 .. image:: https://coveralls.io/repos/github/bioconvert/bioconvert/badge.svg?branch=master
    :target: https://coveralls.io/github/bioconvert/bioconvert?branch=master
 
@@ -109,7 +106,7 @@ Available Converters
       - CI testing
       - Benchmarking
     * - `abi2fasta <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.abi2fasta>`_
-      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fasta.yml/badge.svg?branch=master
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fasta.yml/badge.svg        
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/abi2fasta.yml
       -
     * - `abi2fastq <https://bioconvert.readthedocs.io/en/master/ref_converters.html#module-bioconvert.abi2fastq>`_
