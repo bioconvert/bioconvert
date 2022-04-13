@@ -1,6 +1,7 @@
 easydev
 biosniff
 colorlog
+deeptools
 pandas
 biopython>=1.70
 mappy
@@ -16,3 +17,4 @@ xlrd
 pyBigWig
 py2bit
 statsmodels
+tqdm

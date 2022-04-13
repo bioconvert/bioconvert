@@ -453,8 +453,7 @@ Requirements files
   the doc
 - requirements_dev.txt : packages required for testing or building the doc (not
   required to run the bioconvert package
-- requirements_tools.txt : all conda dependencies
-
+- environment.yml is a conda list of all dependencies
 
 How to update bioconvert on bioconda
 ------------------------------------

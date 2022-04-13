@@ -516,6 +516,7 @@ Changes
 ========= ==============================================================================
 Version   Description
 ========= ==============================================================================
+0.5.2     * Update requirements and environment.yml and add a conda spec-file.txt file
 0.5.1     * add genbank2gff3 requirement material in bioconvert.utils.biocode
 0.5.0     * Add CI actions for all converters
           * remove sniffer (now in biosniff on pypi https://pypi.org/project/biosniff/)
