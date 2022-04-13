@@ -1,6 +1,5 @@
 easydev
 biosniff
-biocode
 colorlog
 pandas
 biopython>=1.70
