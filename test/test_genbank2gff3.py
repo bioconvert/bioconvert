@@ -7,7 +7,7 @@ from . import test_dir
 # This test fails with wierd pytest error message related
 # to io module ?
 # FIXME: https://github.com/bioconvert/bioconvert/issues/143
-def _test_conv():
+def test_conv():
     infile = f"{test_dir}/data/genbank/biocode.gb"
     outfile = f"{test_dir}/data/GFF3/biocode.gff"
 

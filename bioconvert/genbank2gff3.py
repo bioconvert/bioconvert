@@ -47,11 +47,20 @@ class GENBANK2GFF3(ConvBase):
         super(GENBANK2GFF3, self).__init__(infile, outfile)
 
     def _method_biocode(self, *args, **kwargs):
-        """Uses scripts from biocode
-        
-        Please see `Main entry  <https://github.com/jorvis/biocode/>`_ and specific converter
-        `here: <https://github.com/jorvis/biocode/blob/master/gff/convert_genbank_to_gff3.py>`_"""
-        cmd = "convert_genbank_to_gff3.py -i {} -o {} --no_fasta".format(
-            self.infile, self.outfile
-        )
-        self.execute(cmd)
+        """Uses scripts from biocode copied and modified in bioconvert.utils.biocode
+
+        Please see `Main entry  <https://github.com/jorvis/biocode/>`_ 
+        """
+        from bioconvert.utils.biocode.convert_genbank_to_gff3 import gbk2gff3
+        gbk2gff3(self.infile, self.outfile, fasta=False)
+
+
+
+
+
+
+
+
+
+
+

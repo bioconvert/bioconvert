@@ -3,6 +3,8 @@ CONTRIBUTORS
 
 This is a list of people who have made contributions.
 
+Feel free to add your name if missing
+
 People are listed alphabetically,
 
 - Anne Biton
