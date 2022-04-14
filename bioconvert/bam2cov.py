@@ -21,9 +21,9 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`BAM` format to :term:`COV` format"""
-from bioconvert import ConvBase
 import colorlog
 
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)

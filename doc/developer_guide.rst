@@ -495,3 +495,14 @@ Type, Format and Status. Please choose one of the following values:
 - Format: binary, human-readable
 - Status: deprecated, included, not included
 
+
+Docker
+------
+In order to create the docker file, use this command::
+
+    docker build .
+
+The Dockerfile found next to setup.py is self-content and has been tested for v0.5.2 ; it uses the spec-file.txt that was generated in a conda environment using 
+
+    conda list --explicit
+

@@ -22,9 +22,7 @@
 ###########################################################################
 """Convert :term:`EMBL` file to :term:`FASTA` format"""
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
-
+from bioconvert.core.decorators import compressor, requires
 
 __all__ = ["EMBL2FASTA"]
 
@@ -52,17 +50,15 @@ class EMBL2FASTA(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """Header is less informative than the one obtained with biopython
-        
-        """
+        """Header is less informative than the one obtained with biopython"""
         cmd = "squizz  -f embl -c fasta {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """For this method we use the biopython package Bio.SeqIO. 
-        
+        """For this method we use the biopython package Bio.SeqIO.
+
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
 

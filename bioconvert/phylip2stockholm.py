@@ -25,8 +25,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -36,7 +35,7 @@ __all__ = ["PHYLIP2STOCKHOLM"]
 
 class PHYLIP2STOCKHOLM(ConvBase):
     """
-    Converts a sequence alignment from :term:`PHYLIP` interleaved to :term:`STOCKHOLM` 
+    Converts a sequence alignment from :term:`PHYLIP` interleaved to :term:`STOCKHOLM`
 
     Methods available are based on biopython [BIOPYTHON]_, squiz [SQUIZZ]_.
 
@@ -67,10 +66,6 @@ class PHYLIP2STOCKHOLM(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """Convert :term:`PHYLIP` interleaved file in :term:`STOCKHOLM` format using squizz tool.
-
-        """
-        cmd = "squizz -c STOCKHOLM {infile} > {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        """Convert :term:`PHYLIP` interleaved file in :term:`STOCKHOLM` format using squizz tool."""
+        cmd = "squizz -c STOCKHOLM {infile} > {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

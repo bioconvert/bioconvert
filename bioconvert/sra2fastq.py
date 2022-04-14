@@ -22,12 +22,12 @@
 ###########################################################################
 """Convert :term:`SRA` format to :term:`FASTA` format"""
 
-from bioconvert import ConvBase
-import subprocess
 import os
-import tempfile
 import shutil
+import subprocess
+import tempfile
 
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 
@@ -80,22 +80,14 @@ class SRA2FASTQ(ConvBase):
         if self.test:
             testcmd = "-X 10"
         if self.isPairedSRA(infile):
-            cmd = "fastq-dump {} {} --split-files -O {} {}".format(
-                testcmd, compresscmd, tmpdir, infile
-            )
+            cmd = "fastq-dump {} {} --split-files -O {} {}".format(testcmd, compresscmd, tmpdir, infile)
             self.execute(cmd)
-            cmd = "mv {}/{}_1.fastq{} {}_1.fastq{}".format(
-                tmpdir, inname, gzext, outbasename, gzext
-            )
+            cmd = "mv {}/{}_1.fastq{} {}_1.fastq{}".format(tmpdir, inname, gzext, outbasename, gzext)
             self.execute(cmd)
-            cmd = "mv {}/{}_2.fastq{} {}_2.fastq{}".format(
-                tmpdir, inname, gzext, outbasename, gzext
-            )
+            cmd = "mv {}/{}_2.fastq{} {}_2.fastq{}".format(tmpdir, inname, gzext, outbasename, gzext)
             self.execute(cmd)
         else:
-            cmd = "fastq-dump {} {} -O {} {}".format(
-                testcmd, compresscmd, tmpdir, infile
-            )
+            cmd = "fastq-dump {} {} -O {} {}".format(testcmd, compresscmd, tmpdir, infile)
             self.execute(cmd)
             cmd = "mv {}/{}.fastq{} {}".format(tmpdir, inname, gzext, self.outfile)
             self.execute(cmd)
@@ -103,9 +95,7 @@ class SRA2FASTQ(ConvBase):
 
     def isPairedSRA(self, filename):
         try:
-            contents = subprocess.check_output(
-                ["fastq-dump", "-X", "1", "-Z", "--split-spot", filename]
-            )
+            contents = subprocess.check_output(["fastq-dump", "-X", "1", "-Z", "--split-spot", filename])
         except subprocess.CalledProcessError:
             raise Exception("Error running fastq-dump on", filename)
 

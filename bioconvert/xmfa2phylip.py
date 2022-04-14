@@ -25,8 +25,7 @@
 import colorlog
 from Bio import SeqIO
 
-from bioconvert import ConvBase
-from bioconvert import requires, compressor
+from bioconvert import ConvBase, compressor, requires
 
 _log = colorlog.getLogger(__name__)
 

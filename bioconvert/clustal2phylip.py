@@ -25,8 +25,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -67,10 +66,6 @@ class CLUSTAL2PHYLIP(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using squizz tool.
-
-        """
-        cmd = "squizz -c PHYLIPI {infile} > {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        """Convert :term:`CLUSTAL` interleaved file in :term:`PHYLIP` format using squizz tool."""
+        cmd = "squizz -c PHYLIPI {infile} > {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

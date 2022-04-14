@@ -11,9 +11,9 @@
 #
 ##############################################################################
 """Convert :term:`BIGBED` format to :term:`WIGGLE` format"""
-from bioconvert import ConvBase
 import colorlog
 
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
@@ -44,6 +44,7 @@ class BIGBED2WIGGLE(ConvBase):
 
         `wiggletools documentation <https://github.com/Ensembl/WiggleTools>`_"""
         import os
+
         from easydev import TempFile
 
         # with need a unique name, that does not exists for the symlink

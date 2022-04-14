@@ -22,9 +22,9 @@
 ###########################################################################
 
 """Convert :term:`MAF` file to :term:`SAM` format"""
-from bioconvert import ConvBase
-
 import colorlog
+
+from bioconvert import ConvBase
 
 logger = colorlog.getLogger(__name__)
 
@@ -47,7 +47,7 @@ class MAF2SAM(ConvBase):
 
     Those two codes were in Py2 at the time of this implementation. We re-used
     some of the information from maf-convert but the code in
-    bioconvert.io.maf can be considered original. 
+    bioconvert.io.maf can be considered original.
     """
 
     #: Default value
@@ -58,7 +58,7 @@ class MAF2SAM(ConvBase):
 
     def _method_python(self, *args, **kwargs):
         """Internal module
-        
+
         `MAF documentation <https://bioconvert.readthedocs.io/en/refactoring/ref_io.html#module-bioconvert.io.maf>`_"""
         from bioconvert.io import maf
 

@@ -21,13 +21,13 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`YAML` to :term:`JSON` format"""
-import yaml
 import json
-from bioconvert import ConvBase
-import colorlog
 
-from bioconvert.core.decorators import requires_nothing
-from bioconvert.core.decorators import compressor
+import colorlog
+import yaml
+
+from bioconvert import ConvBase
+from bioconvert.core.decorators import compressor, requires_nothing
 
 logger = colorlog.getLogger(__name__)
 
@@ -61,7 +61,7 @@ class YAML2JSON(ConvBase):
         """Return the JSON dictionary corresponding to the YAML input."""
         try:
             data = yaml.load(open(self.infile, "r"), Loader=yaml.FullLoader)
-        except: #pragma: no cover
+        except:  # pragma: no cover
             data = yaml.load(open(self.infile, "r"))
 
         return json.dumps(data, sort_keys=True, indent=4)

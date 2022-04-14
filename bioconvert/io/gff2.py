@@ -28,8 +28,8 @@ import re
 
 class Gff2:
     """Read a gff v3 file
-	See the format description at https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md
-	"""
+    See the format description at https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md
+    """
 
     def __init__(self, filename):
         self.filename = filename
@@ -46,9 +46,7 @@ class Gff2:
                 if len(split) < 9:
                     # Wrong line format
                     if len(split) > 0:
-                        print(
-                            "Impossible to read the following line regarding the gff3 specifications"
-                        )
+                        print("Impossible to read the following line regarding the gff3 specifications")
                         print(line)
                     continue
 

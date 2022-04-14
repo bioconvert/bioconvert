@@ -24,8 +24,7 @@
 
 import colorlog
 
-from bioconvert import ConvBase
-from bioconvert import requires
+from bioconvert import ConvBase, requires
 
 logger = colorlog.getLogger(__name__)
 
@@ -74,6 +73,4 @@ class GZ2DSRC(ConvBase):
         `pigz documentation <https://linux.die.net/man/1/pigz>`_
         `dsrc documentation <https://github.com/refresh-bio/DSRC>`_"""
         cmd = "pigz -d -c -p {threads} {input} | dsrc c -s -t{threads} {output}"
-        self.execute(
-            cmd.format(threads=self.threads, input=self.infile, output=self.outfile)
-        )
+        self.execute(cmd.format(threads=self.threads, input=self.infile, output=self.outfile))

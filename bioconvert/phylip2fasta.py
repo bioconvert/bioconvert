@@ -25,8 +25,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -56,8 +55,8 @@ class PHYLIP2FASTA(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """For this method we use the biopython package Bio.SeqIO. 
-        
+        """For this method we use the biopython package Bio.SeqIO.
+
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
         count = SeqIO.write(sequences, self.outfile, "fasta")
@@ -68,9 +67,7 @@ class PHYLIP2FASTA(ConvBase):
     def _method_squizz(self, *args, **kwargs):
         """Convert Phylip inteleaved file in fasta format using squizz tool.
         The fasta file is an alignemnt, that means the gap are conserved."""
-        cmd = "squizz -c FASTA {infile} > {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "squizz -c FASTA {infile} > {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)
 
     @requires("go")
@@ -83,7 +80,5 @@ class PHYLIP2FASTA(ConvBase):
         The fasta file must be an alignemnt file, yhis mean all the sequences must
         have the same length (with the gap) otherwise an error will be raised"""
         self.install_tool("goalign")
-        cmd = "goalign reformat fasta -i {infile} -p -o {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "goalign reformat fasta -i {infile} -p -o {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

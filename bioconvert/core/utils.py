@@ -23,9 +23,9 @@
 """misc utility functions """
 import os
 import sys
+
 import bioconvert
 from bioconvert.core.extensions import extensions
-
 
 __all__ = ["get_extension", "get_format_from_extension", "generate_outfile_name"]
 
@@ -78,12 +78,8 @@ def get_format_from_extension(extension):
             return fmt.upper()
 
     # The extension was not found
-    bioconvert.logger.critical(
-        "No format was found for extension '{}'".format(extension)
-    )
-    bioconvert.logger.critical(
-        "Use --formats to know the available formats and --help" " for examples"
-    )
+    bioconvert.logger.critical("No format was found for extension '{}'".format(extension))
+    bioconvert.logger.critical("Use --formats to know the available formats and --help" " for examples")
     sys.exit(1)
 
 

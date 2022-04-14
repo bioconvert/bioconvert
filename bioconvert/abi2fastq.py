@@ -10,9 +10,7 @@
 #  documentation: http://bioconvert.readthedocs.io
 ##############################################################################
 """Convert :term:`ABI` format to :term:`FASTQ` format"""
-from bioconvert import ConvBase
-from bioconvert import requires
-
+from bioconvert import ConvBase, requires
 
 __all__ = ["ABI2FASTQ"]
 

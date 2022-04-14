@@ -22,10 +22,10 @@
 ###########################################################################
 """Convert :term:`BEDGRAPH` to :term:`BIGWIG` format"""
 import os
+
 import colorlog
 
 from bioconvert.core.base import ConvArg, ConvBase
-
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
@@ -37,7 +37,7 @@ __all__ = ["BEDGRAPH2BIGWIG"]
 class BEDGRAPH2BIGWIG(ConvBase):
     """Converts :term:`BEDGRAPH` format to :term:`BIGWIG` format
 
-    Conversion is based on bedGraph2BigWig tool. Note that an 
+    Conversion is based on bedGraph2BigWig tool. Note that an
     argument --chrom-sizes is required.
 
     """

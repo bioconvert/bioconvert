@@ -21,16 +21,10 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`FASTQ` to :term:`QUAL` format"""
-from bioconvert import ConvBase, bioconvert_script
+from bioconvert import ConvBase, bioconvert_script, logger
 from bioconvert.core.base import ConvArg
-from bioconvert.core.decorators import (
-    compressor,
-    out_compressor,
-    in_gz,
-    requires,
-    requires_nothing,
-)
-from bioconvert import logger
+from bioconvert.core.decorators import (compressor, in_gz, out_compressor,
+                                        requires, requires_nothing)
 
 logger.__name__ = "fastq2qual"
 
@@ -82,7 +76,7 @@ class FASTQ2QUAL(ConvBase):
     @compressor
     def _method_readfq(self, *args, **kwargs):
         """This method is inspired by Readfq coded by Heng Li.
-        
+
         `original Readfq method <https://github.com/lh3/readfq>`_"""
         with open(self.outfile, "w") as outfile, open(self.infile, "r") as fastq:
             for (name, seq, qual) in FASTQ2QUAL._readfq(fastq):

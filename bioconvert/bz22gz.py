@@ -24,10 +24,10 @@
 import bz2
 import gzip
 
+import colorlog
+
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires, requires_nothing
-
-import colorlog
 
 logger = colorlog.getLogger(__name__)
 
@@ -58,13 +58,11 @@ class BZ22GZ(ConvBase):
     @requires("bunzip2")
     def _method_bz2_gz(self, *args, **kwargs):
         """Method that uses bunzip2 gzip.
-        
+
         `bunzip2 documentation <https://docs.oracle.com/cd/E86824_01/html/E54763/bunzip2-1.html>`_
         `gzip documentation <https://www.gnu.org/software/gzip/manual/gzip.html>`_"""
         # conversion
-        cmd = "bunzip2 -c {input} | gzip > {output}".format(
-            input=self.infile, output=self.outfile
-        )
+        cmd = "bunzip2 -c {input} | gzip > {output}".format(input=self.infile, output=self.outfile)
         self.execute(cmd)
 
     @requires_nothing

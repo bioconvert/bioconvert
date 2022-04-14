@@ -25,10 +25,10 @@
 
 
 class Genbank:
-    """ Genbank file format parser.
-	This parser is based on the format description presented on the NCIBI website
-	https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html
-	"""
+    """Genbank file format parser.
+    This parser is based on the format description presented on the NCIBI website
+    https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html
+    """
 
     authorized_keywords = [
         "LOCUS",
@@ -107,14 +107,14 @@ class Genbank:
     # --------------- Sub-parser by keyword ---------------
 
     def parse_locus(self, line):
-        """ Parse the LOCUS line.
-		The line is splited into 5 values as follow :
-		- Sequence id
-		- Sequence length
-		- Molecule type (can be multiple values. Please read the genbank documentation for values)
-		- Genbank division
-		- Modification date
-		"""
+        """Parse the LOCUS line.
+        The line is splited into 5 values as follow :
+        - Sequence id
+        - Sequence length
+        - Molecule type (can be multiple values. Please read the genbank documentation for values)
+        - Genbank division
+        - Modification date
+        """
         # split the locus line
         split = line.split()
         # Add false values for if the number of values is incorect
@@ -136,17 +136,15 @@ class Genbank:
         }
 
     def parse_definition(self, line):
-        """ Parse the DEFINITION section.
-		This section contains a text without format restriction.
-		"""
+        """Parse the DEFINITION section.
+        This section contains a text without format restriction.
+        """
         # first call
         if not "DEFINITION" in self.sequence:
             # remove the DEFINITION keyword from the text
             self.sequence["DEFINITION"] = line[line.find(" ") + 1 :]
         else:
-            self.sequence["DEFINITION"] = "{} {}".format(
-                self.sequence["DEFINITION"], line
-            )
+            self.sequence["DEFINITION"] = "{} {}".format(self.sequence["DEFINITION"], line)
 
     def parse_accession(self, line):
         """ Parse the text as a uniq accession number"""
@@ -162,15 +160,13 @@ class Genbank:
                 self.sequence["ACCESSION"]["other"] = " ".join(split[2:])
         # In case of multi line
         elif "ACCESSION" in self.sequence and "other" in self.sequence["ACCESSION"]:
-            self.sequence["ACCESSION"]["other"] = "{} {}".format(
-                self.sequence["ACCESSION"]["other"], " ".join(split)
-            )
+            self.sequence["ACCESSION"]["other"] = "{} {}".format(self.sequence["ACCESSION"]["other"], " ".join(split))
 
     def parse_version(self, line):
-        """ Parse the text as the version number.
-		This value should begin by the accession id a point and then the sequence version number
-		Just after the version id the GI identifier can be parsed too
-		"""
+        """Parse the text as the version number.
+        This value should begin by the accession id a point and then the sequence version number
+        Just after the version id the GI identifier can be parsed too
+        """
         split = line.split()
 
         # First line of the version
@@ -188,37 +184,33 @@ class Genbank:
                 self.sequence["VERSION"]["other"] = " ".join(split[2:])
         # In case of multi line
         elif "VERSION" in self.sequence and "other" in self.sequence["VERSION"]:
-            self.sequence["VERSION"]["other"] = "{} {}".format(
-                self.sequence["VERSION"]["other"], " ".join(split)
-            )
+            self.sequence["VERSION"]["other"] = "{} {}".format(self.sequence["VERSION"]["other"], " ".join(split))
 
     def parse_keywords(self, line):
-        """ This field is deprecated
-		See the documentation for more info
-		"""
+        """This field is deprecated
+        See the documentation for more info
+        """
         if not line.startswith("KEYWORDS ."):
             self.sequence["KEYWORDS"] = line[line.find(" ") + 1 :]
 
     def parse_source(self, line):
-        """ Parse the SOURCE label.
-		Just after the SOURCE keyword there is a short description.
-		The complete description is expected after the optional keyword ORGANISM
-		"""
+        """Parse the SOURCE label.
+        Just after the SOURCE keyword there is a short description.
+        The complete description is expected after the optional keyword ORGANISM
+        """
         if line.startswith("SOURCE"):
             self.sequence["SOURCE"] = {"short": line[line.find(" ") + 1 :]}
         elif line.startswith("ORGANISM"):
             self.parsing_function = self.parse_organism
             self.parse_organism(line)
         else:
-            self.sequence["SOURCE"]["short"] = "{} {}".format(
-                self.sequence["SOURCE"]["short"], line
-            )
+            self.sequence["SOURCE"]["short"] = "{} {}".format(self.sequence["SOURCE"]["short"], line)
 
     def parse_organism(self, line):
-        """ Parse the source organism.
-		After the ORGANISM keyword the name of the organism is expected.
-		The folowing lines are dedicated to the lineage description
-		"""
+        """Parse the source organism.
+        After the ORGANISM keyword the name of the organism is expected.
+        The folowing lines are dedicated to the lineage description
+        """
         if line.startswith("ORGANISM"):
             self.sequence["SOURCE"]["ORGANISM"] = {"name": line[line.find(" ") + 1 :]}
         else:
@@ -232,9 +224,9 @@ class Genbank:
     reference_keywords = ["AUTHORS", "TITLE", "JOURNAL", "PUBMED", "REMARK"]
 
     def parse_reference(self, line):
-        """ Parse the publication sections
-		The keyword REFERENCE can appear as much as you want
-		"""
+        """Parse the publication sections
+        The keyword REFERENCE can appear as much as you want
+        """
         # Add the publication list
         if not "REFERENCE" in self.sequence:
             self.sequence["REFERENCE"] = []
@@ -265,9 +257,9 @@ class Genbank:
         self.parsing_function(line)
 
     def is_in_the_correct_subtree(self, line, expected_keyword):
-        """ Verify if is in the right subtree of the reference parser.
-		If not, parse with the right subtree and return False
-		"""
+        """Verify if is in the right subtree of the reference parser.
+        If not, parse with the right subtree and return False
+        """
         keyword = line[: line.find(" ")]
         # if must go in another branch of the reference parsing
         if keyword == expected_keyword:
@@ -331,8 +323,7 @@ class Genbank:
             self.ref["REMARK"] = "{} {}".format(self.ref["REMARK"], line)
 
     def parse_comment(self, line):
-        """ Parse the COMMENT field as a text
-		"""
+        """Parse the COMMENT field as a text"""
         if line.startswith("COMMENT"):
             self.sequence["COMMENT"] = line[line.find(" ") + 1 :]
         else:
@@ -514,12 +505,12 @@ class Genbank:
     ]
 
     def parse_feature(self, line):
-        """ Parse the features.
-		The list of feature used is extracted from the appendix II of the oficial ref.
-		For more informations: http://www.insdc.org/documents/feature_table.html#7.2
-		The list of qualifier are also extracted from the official documetation, appendix III
-		More informations: http://www.insdc.org/documents/feature_table.html#7.3
-		"""
+        """Parse the features.
+        The list of feature used is extracted from the appendix II of the oficial ref.
+        For more informations: http://www.insdc.org/documents/feature_table.html#7.2
+        The list of qualifier are also extracted from the official documetation, appendix III
+        More informations: http://www.insdc.org/documents/feature_table.html#7.3
+        """
         keyword = line[: line.find(" ")]
 
         # Global features keyword
@@ -535,9 +526,7 @@ class Genbank:
             self.sequence["FEATURES"].append(self.current_feature)
 
         # Qualifier
-        elif (
-            line[1 : line.find("=") if "=" in line else len(line)] in Genbank.qualifiers
-        ):
+        elif line[1 : line.find("=") if "=" in line else len(line)] in Genbank.qualifiers:
             # init values
             qualifier = line[1:]
             value = None

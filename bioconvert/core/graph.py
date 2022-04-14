@@ -31,9 +31,7 @@ _log = colorlog.getLogger(__name__)
 __all__ = ["create_graph", "get_conversions_wrapped", "create_graph_for_cytoscape"]
 
 
-def create_graph(
-    filename, layout="dot", use_singularity=False, color_for_disabled_converter="red"
-):
+def create_graph(filename, layout="dot", use_singularity=False, color_for_disabled_converter="red"):
     """
 
     :param filename: should end in .png or .svg or .dot
@@ -72,9 +70,7 @@ def create_graph(
                     style="filled",
                     url=url.format(b[0].upper()),
                 )
-                dg.add_edge(
-                    a[0], b[0], color="black" if s else color_for_disabled_converter
-                )
+                dg.add_edge(a[0], b[0], color="black" if s else color_for_disabled_converter)
             else:
                 and_node = "_".join(a) + "_and_" + "_".join(b)
 
@@ -136,8 +132,8 @@ strict digraph{
             dot += '"{}" -> "{}";\n'.format(a, b)
         dot += "}\n"
 
-        from easydev import TempFile
         from bioconvert import shell
+        from easydev import TempFile
 
         dotfile = TempFile(suffix=".dot")
         with open(dotfile.name, "w") as fout:
@@ -199,8 +195,13 @@ def create_graph_for_cytoscape(all_converter=False):
     graph_nodes = []
     graph_edges = []
     graph = {
-        "data": {"selected": False,},
-        "elements": {"nodes": graph_nodes, "edges": graph_edges,},
+        "data": {
+            "selected": False,
+        },
+        "elements": {
+            "nodes": graph_nodes,
+            "edges": graph_edges,
+        },
     }
     nodes = {}
 
@@ -208,7 +209,12 @@ def create_graph_for_cytoscape(all_converter=False):
         try:
             return nodes[fmt]
         except:
-            ret = {"data": {"id": "n" + str(len(nodes)), "name": fmt,}}
+            ret = {
+                "data": {
+                    "id": "n" + str(len(nodes)),
+                    "name": fmt,
+                }
+            }
             nodes[fmt] = ret
             graph_nodes.append(ret)
             return ret

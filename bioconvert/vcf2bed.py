@@ -22,9 +22,9 @@
 ###########################################################################
 
 """Convert :term:`VCF`  to :term:`BED3` file"""
-from bioconvert import ConvBase
 import colorlog
 
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 logger = colorlog.getLogger(__name__)

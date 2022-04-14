@@ -7,8 +7,8 @@ except:
     version = __version__
 
 import os
-import colorlog
 
+import colorlog
 # This will create a HOME/.config/bioconvert where files (e.g., executables)
 # can be downloaded
 from easydev import CustomConfig
@@ -66,8 +66,8 @@ def info():
 
 import bioconvert
 from bioconvert.core.base import ConvBase
-from bioconvert.core.registry import Registry
-from bioconvert.core.decorators import requires, compressor
 from bioconvert.core.benchmark import Benchmark
 from bioconvert.core.converter import Bioconvert
+from bioconvert.core.decorators import compressor, requires
+from bioconvert.core.registry import Registry
 from bioconvert.core.shell import shell

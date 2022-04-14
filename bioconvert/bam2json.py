@@ -21,10 +21,9 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`BAM` format to :term:`JSON` format"""
-from bioconvert import ConvBase
-
 import colorlog
 
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 logger = colorlog.getLogger(__name__)
@@ -54,7 +53,5 @@ class BAM2JSON(ConvBase):
 
         `BAMTools documentation <https://hcc.unl.edu/docs/applications/app_specific/bioinformatics_tools/data_manipulation_tools/bamtools/running_bamtools_commands/>`_"""
 
-        cmd = "bamtools convert -format json -in {0} -out {1}".format(
-            self.infile, self.outfile
-        )
+        cmd = "bamtools convert -format json -in {0} -out {1}".format(self.infile, self.outfile)
         self.execute(cmd)

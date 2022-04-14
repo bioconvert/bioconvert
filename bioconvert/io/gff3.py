@@ -58,9 +58,7 @@ class Gff3:
                 if len(split) < 9:
                     # Wrong line format
                     if len(split) > 0:
-                        print(
-                            "Impossible to read the following line regarding the gff3 specifications"
-                        )
+                        print("Impossible to read the following line regarding the gff3 specifications")
                         print(line)
                     continue
 

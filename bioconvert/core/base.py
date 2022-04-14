@@ -21,34 +21,29 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Main factory of Bioconvert"""
-import copy
-import time
 import abc
-import select
-import sys
+import copy
 import inspect
+import itertools
+import select
 import shutil
 import subprocess
-import itertools
-
-from subprocess import Popen, PIPE
-from io import StringIO
+import sys
+import time
 from collections import deque
+from io import StringIO
+from subprocess import PIPE, Popen
 
+import bioconvert
+import colorlog
+from bioconvert import logger
+from bioconvert.core import extensions
+from bioconvert.core.benchmark import Benchmark
+from bioconvert.core.utils import generate_outfile_name
 from easydev import TempFile
 from easydev.multicore import cpu_count
 
-import colorlog
-
-import bioconvert
-
-from bioconvert.core.benchmark import Benchmark
-from bioconvert.core import extensions
-
-from bioconvert.core.utils import generate_outfile_name
-from bioconvert import logger
 from . import BioconvertError
-
 
 _log = colorlog.getLogger(__name__)
 
@@ -67,11 +62,7 @@ class ConvMeta(abc.ABCMeta):
     def split_converter_to_format(cls, converter_name: str):
         converter_name = converter_name.replace("_to_", "2")
         if "2" not in converter_name:
-            raise TypeError(
-                "converter's name '{}' name must follow convention input2output".format(
-                    converter_name
-                )
-            )
+            raise TypeError("converter's name '{}' name must follow convention input2output".format(converter_name))
         # for BZ2 2 GZ
         if "22" in converter_name:
             input_fmt, output_fmt = converter_name.upper().split("22", 1)
@@ -142,7 +133,8 @@ class ConvMeta(abc.ABCMeta):
                 if is_disabled is None:
                     _log.debug(
                         "converter '{}': method {} is not decorated, we expect it to work all time".format(
-                            cls.__name__, conv_meth,
+                            cls.__name__,
+                            conv_meth,
                         )
                     )
                     is_disabled = False
@@ -151,15 +143,12 @@ class ConvMeta(abc.ABCMeta):
                 else:
                     _log.warning(
                         "converter '{}': method {} is not available".format(
-                            cls.__name__, conv_meth,
+                            cls.__name__,
+                            conv_meth,
                         )
                     )
             setattr(cls, "available_methods", available_conv_meth)
-            _log.debug(
-                "class = {}  available_methods = {}".format(
-                    cls.__name__, available_conv_meth
-                )
-            )
+            _log.debug("class = {}  available_methods = {}".format(cls.__name__, available_conv_meth))
 
 
 class ConvArg(object):
@@ -413,12 +402,8 @@ class ConvBase(metaclass=ConvMeta):
         if to_include == "all":
             to_include = []
 
-        self._benchmark = Benchmark(
-            self, N=N, to_exclude=to_exclude, to_include=to_include
-        )
-        data = self._benchmark.plot(
-            rerun=rerun, rot_xticks=rot_xticks, boxplot_args=boxplot_args
-        )
+        self._benchmark = Benchmark(self, N=N, to_exclude=to_exclude, to_include=to_include)
+        data = self._benchmark.plot(rerun=rerun, rot_xticks=rot_xticks, boxplot_args=boxplot_args)
         return data
 
     def _get_default_method(self):
@@ -495,23 +480,34 @@ class ConvBase(metaclass=ConvMeta):
     @staticmethod
     def get_common_arguments():
         yield ConvArg(
-            names=["-f", "--force",],
+            names=[
+                "-f",
+                "--force",
+            ],
             action="store_true",
             help="if outfile exists, it is overwritten with this option",
         )
         yield ConvArg(
-            names=["-v", "--verbosity",],
+            names=[
+                "-v",
+                "--verbosity",
+            ],
             default=bioconvert.logger.level,
             help="Set the outpout verbosity.",
             choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         )
         yield ConvArg(
-            names=["--raise-exception",],
+            names=[
+                "--raise-exception",
+            ],
             action="store_true",
             help="Let exception ending the execution be raised and displayed",
         )
         yield ConvArg(
-            names=["-X", "--batch",],
+            names=[
+                "-X",
+                "--batch",
+            ],
             default=False,
             action="store_true",
             help="Allow conversion of a set of files using wildcards. You "
@@ -519,42 +515,63 @@ class ConvBase(metaclass=ConvMeta):
             "--batch 'test*fastq' ",
         )
         yield ConvArg(
-            names=["-b", "--benchmark",],
+            names=[
+                "-b",
+                "--benchmark",
+            ],
             default=False,
             action="store_true",
             help="Running all available methods",
         )
         yield ConvArg(
-            names=["-N", "--benchmark-N",],
+            names=[
+                "-N",
+                "--benchmark-N",
+            ],
             default=5,
             type=int,
             help="Number of trials for each methods",
         )
         yield ConvArg(
-            names=["-T", "--benchmark-tag",],
+            names=[
+                "-T",
+                "--benchmark-tag",
+            ],
             default="bioconvert",
             help="Save results (json and image) named after this tag",
         )
         yield ConvArg(
-            names=["-I", "--benchmark-save-image",],
+            names=[
+                "-I",
+                "--benchmark-save-image",
+            ],
             action="store_true",
             help="Save results in this image",
         )
         yield ConvArg(
-            names=["-M", "--benchmark-methods",],
+            names=[
+                "-M",
+                "--benchmark-methods",
+            ],
             default="all",
             nargs="+",
             type=str,
             help="Methods to include. Provide list as space-separated method names. Use -s  to get the full list.",
         )
         yield ConvArg(
-            names=["-a", "--allow-indirect-conversion",],
+            names=[
+                "-a",
+                "--allow-indirect-conversion",
+            ],
             default=False,
             action="store_true",
             help="Allow to chain converter when direct conversion is absent",
         )
         yield ConvArg(
-            names=["-e", "--extra-arguments",],
+            names=[
+                "-e",
+                "--extra-arguments",
+            ],
             default="",
             help="Any arguments accepted by the method's tool",
         )
@@ -567,21 +584,23 @@ class ConvBase(metaclass=ConvMeta):
             # Some converters do not have any method and work
             # in __call__, so preventing to crash by searching for them
             yield ConvArg(
-                names=["-m", "--method",],
+                names=[
+                    "-m",
+                    "--method",
+                ],
                 nargs="?",
                 default=cls._get_default_method(cls),
                 help="The method to use to do the conversion.",
                 choices=cls.available_methods,
             )
         except Exception as e:
-            _log.warning(
-                "converter '{}' does not seems to have methods: {}".format(
-                    cls.__name__, e
-                )
-            )
+            _log.warning("converter '{}' does not seems to have methods: {}".format(cls.__name__, e))
             pass
         yield ConvArg(
-            names=["-s", "--show-methods",],
+            names=[
+                "-s",
+                "--show-methods",
+            ],
             default=False,
             action="store_true",
             help="A converter may have several methods",
@@ -625,9 +644,7 @@ def make_chain(converter_map):
 
         # Contains the last temporary output file, if any
         pipe_files = deque()
-        for (step_num, ((_, out_fmt), converter)) in enumerate(
-            self.converter_map, start=1
-        ):
+        for (step_num, ((_, out_fmt), converter)) in enumerate(self.converter_map, start=1):
             if step_num == 1:
                 # May not be necessary:
                 step_infile = None

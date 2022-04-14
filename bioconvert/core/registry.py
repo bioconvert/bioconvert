@@ -21,13 +21,13 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Main bioconvert registry that fetches automatically the relevant converter"""
+import importlib
 import inspect
 import itertools
 import pkgutil
-import importlib
-import colorlog
 
 import bioconvert
+import colorlog
 
 _log = colorlog.getLogger(__name__)
 
@@ -56,9 +56,7 @@ class Registry(object):
         self._fill_registry(bioconvert.__path__)
         self._build_path_dict()
 
-    def _fill_registry(
-        self, path, target=None, including_not_available_converter=False
-    ):
+    def _fill_registry(self, path, target=None, including_not_available_converter=False):
         """
         Explore the directory converters to discover all converter classes
         (a concrete class which inherits from :class:`ConvBase`)
@@ -110,17 +108,10 @@ class Registry(object):
                         combo_input_ext = tuple(itertools.product(*converter.input_ext))
                         # have all the combinaisons between the extensions of output
                         # formats of the convertes
-                        combo_output_ext = tuple(
-                            itertools.product(*converter.output_ext)
-                        )
-                        all_ext_pair = tuple(
-                            itertools.product(combo_input_ext, (combo_output_ext))
-                        )
+                        combo_output_ext = tuple(itertools.product(*converter.output_ext))
+                        all_ext_pair = tuple(itertools.product(combo_input_ext, (combo_output_ext)))
                         for ext_pair in all_ext_pair:
-                            if (
-                                len(converter.available_methods) == 0
-                                and not including_not_available_converter
-                            ):
+                            if len(converter.available_methods) == 0 and not including_not_available_converter:
                                 _log.debug(
                                     "converter '{}' for {} -> {} was not added as no method is available".format(
                                         converter_name, *ext_pair
@@ -146,7 +137,6 @@ class Registry(object):
         # * the first key is the source node
         # * the second key is the destination node
         # * the value is a shortest path between these nodes.
-
         # self._path_dict[in_fmt][out_fmt] = [in_fmt, ..., out_fmt]
         self._path_dict = dict(
             all_pairs_shortest_path(
@@ -339,9 +329,7 @@ class Registry(object):
         )
 
         for i, o in all_converter:
-            yield i, o, (i, o) in self._fmt_registry and len(
-                self._fmt_registry[(i, o)].available_methods
-            ) > 0
+            yield i, o, (i, o) in self._fmt_registry and len(self._fmt_registry[(i, o)].available_methods) > 0
 
     def conversion_exists(self, input_fmt, output_fmt, allow_indirect=False):
         """

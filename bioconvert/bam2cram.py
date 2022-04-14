@@ -22,11 +22,11 @@
 ###########################################################################
 """Convert :term:`BAM` file to :term:`CRAM` format"""
 import os
-from bioconvert import ConvBase
-from bioconvert.core.base import ConvArg
 
 import colorlog
 
+from bioconvert import ConvBase
+from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires
 
 logger = colorlog.getLogger(__name__)
@@ -77,9 +77,7 @@ class BAM2CRAM(ConvBase):
         if reference is None:
             reference = self._get_reference()
 
-        cmd = "samtools view -@ {} -C {} -T {} -o {}".format(
-            self.threads, self.infile, reference, self.outfile
-        )
+        cmd = "samtools view -@ {} -C {} -T {} -o {}".format(self.threads, self.infile, reference, self.outfile)
         self.execute(cmd)
 
     @classmethod

@@ -21,8 +21,9 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`BPLINK` to :term:`VCF` format"""
-import colorlog
 import os
+
+import colorlog
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -43,8 +44,8 @@ class BPLINK2VCF(ConvBase):
             bioconvert bplink2vcf plink_toy plink_toy.vcf
 
         Since there is no extension, you must be explicit by providing the
-        conversion name (bplink2plink). This command will search for 3 input 
-        files plink_toy.bed, plink_toy.bim and plink_toy.fam. It will then 
+        conversion name (bplink2plink). This command will search for 3 input
+        files plink_toy.bed, plink_toy.bim and plink_toy.fam. It will then
         create two output files named plink_toy.ped and plink_toy.map
 
     """
@@ -70,7 +71,5 @@ class BPLINK2VCF(ConvBase):
         outfile = self.outfile
         if os.path.splitext(outfile)[1] == ".vcf":
             outfile = os.path.splitext(outfile)[0]
-        cmd = "plink --bfile {infile} --recode vcf --out {outfile}".format(
-            infile=self.infile, outfile=outfile
-        )
+        cmd = "plink --bfile {infile} --recode vcf --out {outfile}".format(infile=self.infile, outfile=outfile)
         self.execute(cmd)

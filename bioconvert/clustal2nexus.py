@@ -25,8 +25,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 

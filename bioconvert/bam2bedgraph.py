@@ -21,9 +21,9 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`BAM` format to :term:`BEDGRAPH` format"""
-from bioconvert import ConvBase
 import colorlog
 
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
@@ -92,17 +92,13 @@ class BAM2BEDGRAPH(ConvBase):
 
         with tempfile.TemporaryDirectory() as tmpdir:
             try:
-                cmd = "mosdepth {}/.bioconvert -t {}  {}".format(
-                    tmpdir, self.threads, self.infile
-                )
+                cmd = "mosdepth {}/.bioconvert -t {}  {}".format(tmpdir, self.threads, self.infile)
                 self.execute(cmd)
 
                 if self.outfile.endswith(".gz"):
                     pass
                 else:
-                    cmd = "gunzip -c {}/.bioconvert.per-base.bed.gz > {}".format(
-                        tmpdir, self.outfile
-                    )
+                    cmd = "gunzip -c {}/.bioconvert.per-base.bed.gz > {}".format(tmpdir, self.outfile)
                     self.execute(cmd)
             except Exception as err:
                 raise (err)

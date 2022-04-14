@@ -21,15 +21,15 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`SCF` file to :term:`FASTQ` file"""
-import sys
 import struct
-
+import sys
 from collections import defaultdict
-from bioconvert import ConvBase
-from bioconvert.io import scf
+
 import colorlog
 
-from bioconvert.core.decorators import requires_nothing, compressor
+from bioconvert import ConvBase
+from bioconvert.core.decorators import compressor, requires_nothing
+from bioconvert.io import scf
 
 _log = colorlog.getLogger(__name__)
 
@@ -55,13 +55,9 @@ class SCF2FASTQ(ConvBase):
 
         # Wrinting output file
         with open(self.outfile, "w") as output_file:
-            output_file.write(
-                "@" + comments.replace("\n", "-").replace(" ", "_") + "\n"
-            )
+            output_file.write("@" + comments.replace("\n", "-").replace(" ", "_") + "\n")
             output_file.write(sequence + "\n")
-            output_file.write(
-                "+" + comments.replace("\n", "-").replace(" ", "_") + "\n"
-            )
+            output_file.write("+" + comments.replace("\n", "-").replace(" ", "_") + "\n")
             for i in qualities:
                 if i > 92:
                     output_file.write(chr(126))

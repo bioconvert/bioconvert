@@ -26,8 +26,7 @@
 import colorlog
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -64,76 +63,73 @@ class NEXUS2FASTA(ConvBase):
 
         """
         self.install_tool("goalign")
-        cmd = "goalign reformat fasta x -i {infile} -o {outfile} -x".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "goalign reformat fasta x -i {infile} -o {outfile} -x".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
         """Convert :term:`NEXUS` interleaved or sequential file in :term:`FASTA` format using biopython.
-        The FASTA output file will be an aligned FASTA file.
+                The FASTA output file will be an aligned FASTA file.
 
-        `Bio.AlignIO <https://biopython.org/docs/1.76/api/Bio.AlignIO.html>`_
+                `Bio.AlignIO <https://biopython.org/docs/1.76/api/Bio.AlignIO.html>`_
 
-For instance:
+        For instance:
 
-We have a Nexus input file that look like ::
+        We have a Nexus input file that look like ::
 
-    #NEXUS
-    [TITLE: Test file]
+            #NEXUS
+            [TITLE: Test file]
 
-    begin data;
-    dimensions ntax=3 nchar=123;
-    format interleave datatype=DNA missing=N gap=-;
+            begin data;
+            dimensions ntax=3 nchar=123;
+            format interleave datatype=DNA missing=N gap=-;
 
-    matrix
-    read3                -AT--------CCCGCTCGATGGGCCTCATTGCGTCCACTAGTTGATCTT
-    read2                -----------------------GGAAGCCCACGCCACGGTCTTGATACG
-    read4                ---------------------AGGGATGAACGATGCTCGCAGTTGATGCT
+            matrix
+            read3                -AT--------CCCGCTCGATGGGCCTCATTGCGTCCACTAGTTGATCTT
+            read2                -----------------------GGAAGCCCACGCCACGGTCTTGATACG
+            read4                ---------------------AGGGATGAACGATGCTCGCAGTTGATGCT
 
-    read3                CTGGAGTAT---T----TAGGAAAGCAAGTAAACTCCTTGTACAAATAAA
-    read2                AATTTTTCTAATGGCTATCCCTACATAACCTAACCGGGCATGTAATGTGT
-    read4                CAGAAGTGCCATTGCGGTAGAAACAAATGTTCCCAGATTGTTGACTGATA
+            read3                CTGGAGTAT---T----TAGGAAAGCAAGTAAACTCCTTGTACAAATAAA
+            read2                AATTTTTCTAATGGCTATCCCTACATAACCTAACCGGGCATGTAATGTGT
+            read4                CAGAAGTGCCATTGCGGTAGAAACAAATGTTCCCAGATTGTTGACTGATA
 
-    read3                GATCTTA-----GATGGGCAT--
-    read2                CACCGTTGTTTCGACGTAAAGAG
-    read4                AGTAGGACCTCAGTCGTGACT--
-    ;
+            read3                GATCTTA-----GATGGGCAT--
+            read2                CACCGTTGTTTCGACGTAAAGAG
+            read4                AGTAGGACCTCAGTCGTGACT--
+            ;
 
-    end;
-    begin assumptions;
-    options deftype=unord;
-    end;
+            end;
+            begin assumptions;
+            options deftype=unord;
+            end;
 
-the output file will look like ::
+        the output file will look like ::
 
-    >read3
-    -AT--------CCCGCTCGATGGGCCTCATTGCGTCCACTAGTTGATCTTCTGGAGTAT-
-    --T----TAGGAAAGCAAGTAAACTCCTTGTACAAATAAAGATCTTA-----GATGGGCA
-    T--
-    >read2
-    -----------------------GGAAGCCCACGCCACGGTCTTGATACGAATTTTTCTA
-    ATGGCTATCCCTACATAACCTAACCGGGCATGTAATGTGTCACCGTTGTTTCGACGTAAA
-    GAG
-    >read4
-    ---------------------AGGGATGAACGATGCTCGCAGTTGATGCTCAGAAGTGCC
-    ATTGCGGTAGAAACAAATGTTCCCAGATTGTTGACTGATAAGTAGGACCTCAGTCGTGAC
-    T--
+            >read3
+            -AT--------CCCGCTCGATGGGCCTCATTGCGTCCACTAGTTGATCTTCTGGAGTAT-
+            --T----TAGGAAAGCAAGTAAACTCCTTGTACAAATAAAGATCTTA-----GATGGGCA
+            T--
+            >read2
+            -----------------------GGAAGCCCACGCCACGGTCTTGATACGAATTTTTCTA
+            ATGGCTATCCCTACATAACCTAACCGGGCATGTAATGTGTCACCGTTGTTTCGACGTAAA
+            GAG
+            >read4
+            ---------------------AGGGATGAACGATGCTCGCAGTTGATGCTCAGAAGTGCC
+            ATTGCGGTAGAAACAAATGTTCCCAGATTGTTGACTGATAAGTAGGACCTCAGTCGTGAC
+            T--
 
-and not ::
+        and not ::
 
-    >read3
-    ATCCCGCTCGATGGGCCTCATTGCGTCCACTAGTTGATCTTCTGGAGTATTTAGGAAAGC
-    AAGTAAACTCCTTGTACAAATAAAGATCTTAGATGGGCAT
-    >read2
-    GGAAGCCCACGCCACGGTCTTGATACGAATTTTTCTAATGGCTATCCCTACATAACCTAA
-    CCGGGCATGTAATGTGTCACCGTTGTTTCGACGTAAAGAG
-    >read4
-    AGGGATGAACGATGCTCGCAGTTGATGCTCAGAAGTGCCATTGCGGTAGAAACAAATGTT
-    CCCAGATTGTTGACTGATAAGTAGGACCTCAGTCGTGACT
-"""
+            >read3
+            ATCCCGCTCGATGGGCCTCATTGCGTCCACTAGTTGATCTTCTGGAGTATTTAGGAAAGC
+            AAGTAAACTCCTTGTACAAATAAAGATCTTAGATGGGCAT
+            >read2
+            GGAAGCCCACGCCACGGTCTTGATACGAATTTTTCTAATGGCTATCCCTACATAACCTAA
+            CCGGGCATGTAATGTGTCACCGTTGTTTCGACGTAAAGAG
+            >read4
+            AGGGATGAACGATGCTCGCAGTTGATGCTCAGAAGTGCCATTGCGGTAGAAACAAATGTT
+            CCCAGATTGTTGACTGATAAGTAGGACCTCAGTCGTGACT"""
         from Bio import AlignIO
 
         with open(self.outfile, "w") as output_handle:
@@ -149,7 +145,5 @@ and not ::
 
             squizz -c FASTA infile > outfile
         """
-        cmd = "squizz -c FASTA {infile} > {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "squizz -c FASTA {infile} > {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

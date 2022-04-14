@@ -22,13 +22,14 @@
 ###########################################################################
 
 """Convert :term:`SCF` file to :term:`FASTA` file"""
-import sys
 import struct
+import sys
 from collections import defaultdict
 
 import colorlog
+
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires_nothing, compressor
+from bioconvert.core.decorators import compressor, requires_nothing
 from bioconvert.io import scf
 
 _log = colorlog.getLogger(__name__)
@@ -55,9 +56,7 @@ class SCF2FASTA(ConvBase):
 
         # Wrinting output file
         with open(self.outfile, "w") as output_file:
-            output_file.write(
-                ">" + comments.replace("\n", "-").replace(" ", "_") + "\n"
-            )
+            output_file.write(">" + comments.replace("\n", "-").replace(" ", "_") + "\n")
             output_file.write(sequence + "\n")
 
         """

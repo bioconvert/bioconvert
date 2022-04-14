@@ -23,12 +23,10 @@
 """Convert :term:`BAM` file to :term:`BIGWIG` format"""
 
 import colorlog
-from bioconvert import ConvBase
-from bioconvert.core.base import ConvArg
-
-
 from easydev import TempFile
 
+from bioconvert import ConvBase
+from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
@@ -67,16 +65,14 @@ class BAM2BIGWIG(ConvBase):
     @requires("bamCoverage")
     def _method_bamCoverage(self, *args, **kwargs):
         """run bamCoverage package.
-        
+
         `bamCoverage documentation <https://deeptools.readthedocs.io/en/develop/content/tools/bamCoverage.html>`_"""
-        cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {}".format(
-            self.infile, self.outfile
-        )
+        cmd = "bamCoverage --bam {} --outFileFormat bigwig --outFileName {}".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(external_binaries=["bedGraphToBigWig", "bedtools"])
     def _method_ucsc(self, *args, **kwargs):
-        """Run ucsc tool bedGraphToBigWig. 
+        """Run ucsc tool bedGraphToBigWig.
 
         Requires extra argument (chrom_sizes) required by the bioconvert
         stanalone.
@@ -97,6 +93,5 @@ class BAM2BIGWIG(ConvBase):
         yield ConvArg(
             names="--chrom-sizes",
             default=None,
-            help="a two-column file/URL: <chromosome name> <size in bases>. "
-            "Used by the ucsc method only",
+            help="a two-column file/URL: <chromosome name> <size in bases>. " "Used by the ucsc method only",
         )

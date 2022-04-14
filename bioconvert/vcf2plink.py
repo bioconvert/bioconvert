@@ -23,6 +23,7 @@
 """Convert :term:`VCF` format to :term:`PLINK` formats"""
 
 import os
+
 import colorlog
 
 from bioconvert import ConvBase
@@ -45,9 +46,9 @@ class VCF2PLINK(ConvBase):
 
     def __init__(self, infile, outfile=None, *args, **kwargs):
         """For this method, we use the plink tool.
-        
+
         `plink documentation <http://hpc.ilri.cgiar.org/beca/training/data_mgt_2017/BackgroundMaterial/PlinkTutorial.pdf>`_
-        
+
         .. rubric:: constructor
 
         :param str infile: input :term:`PLINK` file.
@@ -62,7 +63,5 @@ class VCF2PLINK(ConvBase):
         """
         Convert using plink executable.
         """
-        cmd = "plink --vcf {infile} --recode --out {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "plink --vcf {infile} --recode --out {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

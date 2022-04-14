@@ -21,10 +21,10 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`FASTA` format to :term:`FASTQ` format"""
-from bioconvert import ConvBase
 import colorlog
-from bioconvert.core.decorators import compressor
-from bioconvert.core.decorators import requires
+
+from bioconvert import ConvBase
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -53,7 +53,7 @@ class FASTA2FASTQ(ConvBase):
     @compressor
     def _method_pysam(self, quality_file=None, *args, **kwargs):
         """This method uses the FastxFile function of the Pysam python module.
-        
+
         `FastxFile documentation <https://pysam.readthedocs.io/en/latest/api.html#pysam.FastxFile.close>`_"""
         from pysam import FastxFile
 
@@ -62,16 +62,12 @@ class FASTA2FASTQ(ConvBase):
             with open(self.outfile, "w") as fastq_out:
                 for seq in FastxFile(self.infile):
                     fastq_out.write(
-                        "@{0} {1}\n{2}\n+\n{3}\n".format(
-                            seq.name, seq.comment, seq.sequence, len(seq.sequence) * "I"
-                        )
+                        "@{0} {1}\n{2}\n+\n{3}\n".format(seq.name, seq.comment, seq.sequence, len(seq.sequence) * "I")
                     )
         else:  # length must be equal and identifiers sorted similarly
             with open(self.outfile, "w") as fastq_out:
                 for seq, qual in zip(FastxFile(self.infile), FastxFile(quality_file)):
                     assert seq.name == qual.name
                     fastq_out.write(
-                        "@{0} {1}\n{2}\n+\n{3}\n".format(
-                            seq.name, seq.comment, seq.sequence, qual.sequence
-                        )
+                        "@{0} {1}\n{2}\n+\n{3}\n".format(seq.name, seq.comment, seq.sequence, qual.sequence)
                     )

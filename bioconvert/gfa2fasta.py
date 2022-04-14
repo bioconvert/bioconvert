@@ -25,8 +25,8 @@
 
 import colorlog
 
-from bioconvert.core.decorators import requires, requires_nothing, compressor
 from bioconvert import ConvBase
+from bioconvert.core.decorators import compressor, requires, requires_nothing
 
 logger = colorlog.getLogger(__name__)
 
@@ -35,7 +35,7 @@ __all__ = ["GFA2FASTA"]
 
 
 class GFA2FASTA(ConvBase):
-    """Convert sorted :term:`GFA` file into :term:`FASTA` file 
+    """Convert sorted :term:`GFA` file into :term:`FASTA` file
 
     Available methods are based on awk or python (default)
 
@@ -80,9 +80,7 @@ class GFA2FASTA(ConvBase):
         """
         # Note1: since we use .format, we need to escape the { and } characters
         # Note2: the \n need to be escaped for Popen to work
-        cmd = """awk '/^S/{{print ">"$2"\\n"$3}}' {} | fold > {}""".format(
-            self.infile, self.outfile
-        )
+        cmd = """awk '/^S/{{print ">"$2"\\n"$3}}' {} | fold > {}""".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires_nothing
@@ -97,12 +95,6 @@ class GFA2FASTA(ConvBase):
                         if len(args) == 3:
                             fout.write(">{}\n{}\n".format(args[1], args[2]))
                         elif len(args) == 4:
-                            fout.write(
-                                ">{}\n{}\n".format(args[1] + " " + args[3], args[2])
-                            )
+                            fout.write(">{}\n{}\n".format(args[1] + " " + args[3], args[2]))
                         else:
-                            raise ValueError(
-                                "Illformed line on line {}. Expected 3 or 4 values".format(
-                                    i
-                                )
-                            )
+                            raise ValueError("Illformed line on line {}. Expected 3 or 4 values".format(i))

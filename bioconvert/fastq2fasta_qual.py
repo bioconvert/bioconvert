@@ -21,14 +21,14 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`FASTQ` to :term:`FASTA` and :term:`QUAL` formats"""
-from bioconvert import ConvBase, bioconvert_script
-from bioconvert.core.base import ConvArg
-from bioconvert.core.decorators import compressor, in_gz
-from bioconvert.core.decorators import requires, requires_nothing
-
-from mappy import fastx_read
 import mmap
 
+from mappy import fastx_read
+
+from bioconvert import ConvBase, bioconvert_script
+from bioconvert.core.base import ConvArg
+from bioconvert.core.decorators import (compressor, in_gz, requires,
+                                        requires_nothing)
 
 __all__ = ["FASTQ2FASTA_QUAL"]
 
@@ -91,9 +91,7 @@ class FASTQ2FASTA_QUAL(ConvBase):
         """This method is inspired by Readfq coded by Heng Li.
 
         `original Readfq method <https://github.com/lh3/readfq>`_"""
-        with open(self.outfile, "w") as fasta, open(
-            self.outfile2, "w"
-        ) as quality, open(self.infile, "r") as fastq:
+        with open(self.outfile, "w") as fasta, open(self.outfile2, "w") as quality, open(self.infile, "r") as fastq:
             for (name, seq, qual) in FASTQ2FASTA_QUAL._readfq(fastq):
                 fasta.write(">{}\n{}\n".format(name, seq))
                 quality.write(">{}\n{}\n".format(name, qual))

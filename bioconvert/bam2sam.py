@@ -22,10 +22,10 @@
 ###########################################################################
 
 """Convert :term:`SAM` file to :term:`BAM` format"""
+import colorlog
+
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
-
-import colorlog
 
 logger = colorlog.getLogger(__name__)
 

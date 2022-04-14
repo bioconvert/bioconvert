@@ -23,9 +23,8 @@
 """Convert :term:`GENBANK` to :term:`EMBL` format"""
 
 from bioconvert import ConvBase
+from bioconvert.core.decorators import compressor, requires, requires_nothing
 from bioconvert.io.genbank import Genbank
-from bioconvert.core.decorators import requires, requires_nothing
-from bioconvert.core.decorators import compressor
 
 __all__ = ["GENBANK2FASTA"]
 
@@ -56,17 +55,15 @@ class GENBANK2FASTA(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """Header is less informative than the one obtained with biopython
-        
-        """
+        """Header is less informative than the one obtained with biopython"""
         cmd = "squizz -f genbank -c fasta {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """For this method we use the biopython package Bio.SeqIO. 
-        
+        """For this method we use the biopython package Bio.SeqIO.
+
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
 
@@ -83,9 +80,7 @@ class GENBANK2FASTA(ConvBase):
                 if "ORIGIN" in entry:
                     writer.write(
                         ">{} {}\n{}\n".format(
-                            entry["VERSION"]["id"]
-                            if "VERSION" in entry
-                            else entry["LOCUS"]["id"],
+                            entry["VERSION"]["id"] if "VERSION" in entry else entry["LOCUS"]["id"],
                             entry["DEFINITION"] if "DEFINITION" in entry else "",
                             entry["ORIGIN"],
                         )

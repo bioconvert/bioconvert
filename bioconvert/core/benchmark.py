@@ -167,14 +167,14 @@ def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png"):
     df = pd.read_json(path_json)
 
     # how many runs per method ?
-    N = len(df['Benchmark']) / len(df['Benchmark'].unique())
-    N = len(df['Benchmark']) / N
+    N = len(df["Benchmark"]) / len(df["Benchmark"].unique())
+    N = len(df["Benchmark"]) / N
 
     # Retrieving method names
     methods = list(df)
 
     # Removed the entry from the list that matches benchmark
-    methods.remove('Benchmark')
+    methods.remove("Benchmark")
 
     # We rotate the JSON object in relation to the benchmark number to be able to group them by methods
     df2 = df.pivot(columns="Benchmark")
@@ -201,8 +201,8 @@ def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png"):
             median_best = median
             best_method = i
         # We plot the median of each method
-        plt.hlines(y=median, xmin=0.5 + sep, xmax=N+0.5 + sep, color="orange")
-        l.append(sep + (N/2+0.5))
+        plt.hlines(y=median, xmin=0.5 + sep, xmax=N + 0.5 + sep, color="orange")
+        l.append(sep + (N / 2 + 0.5))
         sep += N
 
     # The name of each method is displayed on the x-axis
@@ -222,9 +222,7 @@ def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png"):
             # We recover the different times of the method
             value_method = df[i]
             # Application of the t-test between the best method and all the other methods and saving these results in the dictionnary t_test
-            comp = statsmodels.stats.weightstats.CompareMeans.from_data(
-                value_best_method, value_method
-            )
+            comp = statsmodels.stats.weightstats.CompareMeans.from_data(value_best_method, value_method)
             (T_stats, P_value, degrees_f) = comp.ttest_ind()
             T_dict = {"t-stats": T_stats}
             P_dict = {"p-value": P_value}
@@ -248,9 +246,7 @@ def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png"):
         correctedPvalues,
         _,
         _,
-    ) = statsmodels.stats.multitest.multipletests(
-        list_p_value, alpha=0.05, method="bonferroni"
-    )
+    ) = statsmodels.stats.multitest.multipletests(list_p_value, alpha=0.05, method="bonferroni")
 
     for i in range(len(list_method)):
         print(

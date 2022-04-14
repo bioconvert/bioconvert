@@ -22,11 +22,11 @@
 ###########################################################################
 """Convert :term:`CRAM` file to :term:`SAM` format"""
 import os
-from bioconvert import ConvBase
-from bioconvert.core.base import ConvArg
 
 import colorlog
 
+from bioconvert import ConvBase
+from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires
 
 logger = colorlog.getLogger(__name__)
@@ -36,7 +36,7 @@ class CRAM2SAM(ConvBase):
     """Convert :term:`CRAM` file to :term:`SAM` file
 
     The conversion requires the reference corresponding to the input file
-    It can be provided as an argument with the standalone (*-\\-reference*). 
+    It can be provided as an argument with the standalone (*-\\-reference*).
     Otherwise, users are asked to provide it.
 
     Methods available are based on samtools [SAMTOOLS]_.
@@ -76,7 +76,5 @@ class CRAM2SAM(ConvBase):
         if reference is None:
             reference = self._get_reference()
 
-        cmd = "samtools view -@ {} -h -T {} {} > {}".format(
-            self.threads, reference, self.infile, self.outfile
-        )
+        cmd = "samtools view -@ {} -h -T {} {} > {}".format(self.threads, reference, self.infile, self.outfile)
         self.execute(cmd)

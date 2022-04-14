@@ -11,9 +11,9 @@
 #
 ##############################################################################
 """Convert :term:`BAM`  to :term:`WIGGLE` format"""
-from bioconvert import ConvBase
 import colorlog
 
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
@@ -22,7 +22,7 @@ __all__ = ["BAM2WIGGLE"]
 
 
 class BAM2WIGGLE(ConvBase):
-    """Convert sorted :term:`BAM` file into :term:`WIGGLE` file 
+    """Convert sorted :term:`BAM` file into :term:`WIGGLE` file
 
     Methods available are based on wiggletools [WIGGLETOOLS]_.
 

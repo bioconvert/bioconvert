@@ -21,14 +21,14 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`FASTQ` to :term:`FASTA` format"""
-from bioconvert import ConvBase, bioconvert_script
-
-# from bioconvert.core.base import ConvArg
-from bioconvert.core.decorators import compressor, in_gz
-from bioconvert.core.decorators import requires, requires_nothing
+import mmap
 
 from mappy import fastx_read
-import mmap
+
+from bioconvert import ConvBase, bioconvert_script
+# from bioconvert.core.base import ConvArg
+from bioconvert.core.decorators import (compressor, in_gz, requires,
+                                        requires_nothing)
 
 
 class FASTQ2FASTA(ConvBase):
@@ -66,18 +66,16 @@ class FASTQ2FASTA(ConvBase):
         :param str infile: The path to the input FASTA file.
         :param str outfile: The path to the output file.
         """
-        from Bio.SeqIO import FastaIO
         from Bio import SeqIO
+        from Bio.SeqIO import FastaIO
 
         with open(outfile, "w") as fasta_out:
             if strip_comment:
-                FastaIO.FastaWriter(
-                    fasta_out, wrap=None, record2title=FASTQ2FASTA.just_name
-                ).write_file(SeqIO.parse(infile, "fasta"))
-            else:
-                FastaIO.FastaWriter(fasta_out, wrap=None).write_file(
+                FastaIO.FastaWriter(fasta_out, wrap=None, record2title=FASTQ2FASTA.just_name).write_file(
                     SeqIO.parse(infile, "fasta")
                 )
+            else:
+                FastaIO.FastaWriter(fasta_out, wrap=None).write_file(SeqIO.parse(infile, "fasta"))
 
     # Adapted from the readfq code by Heng Li
     # (https://raw.githubusercontent.com/lh3/readfq/master/readfq.py)

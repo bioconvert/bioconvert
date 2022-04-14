@@ -24,8 +24,7 @@
 import colorlog
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -35,7 +34,7 @@ __all__ = ["NEWICK2NEXUS"]
 
 class NEWICK2NEXUS(ConvBase):
     """
-    Converts a tree file from :term:`NEWICK` format to :term:`NEXUS` format. 
+    Converts a tree file from :term:`NEWICK` format to :term:`NEXUS` format.
 
     Methods available are based on gotree  [GOTREE]_.
 

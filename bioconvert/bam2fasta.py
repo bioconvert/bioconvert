@@ -21,12 +21,13 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`BAM` format to :term:`FASTA` format"""
+import itertools
+import os
+import subprocess
+
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 from bioconvert.core.utils import get_extension
-import subprocess
-import os
-import itertools
 
 
 class BAM2FASTA(ConvBase):
@@ -110,9 +111,7 @@ class BAM2FASTA(ConvBase):
 
             # When the input file is not paired and the output file needs to be compressed
             if isPaired == "0":
-                cmd = "samtools fasta {} > {}.{}".format(
-                    self.infile, outbasename, output_ext
-                )
+                cmd = "samtools fasta {} > {}.{}".format(self.infile, outbasename, output_ext)
                 self.execute(cmd)
                 cmd = "{} {}.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)

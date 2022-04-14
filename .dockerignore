@@ -7,5 +7,3 @@ bioconvert.egg-info/
 htmlcov
 .dockerignore
 Dockerfile*
-
-

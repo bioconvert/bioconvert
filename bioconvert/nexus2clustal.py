@@ -24,8 +24,7 @@
 import colorlog
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -35,7 +34,7 @@ __all__ = ["NEXUS2CLUSTAL"]
 
 class NEXUS2CLUSTAL(ConvBase):
     """
-    Converts a sequence alignment from :term:`NEXUS` format to :term:`CLUSTAL` format. 
+    Converts a sequence alignment from :term:`NEXUS` format to :term:`CLUSTAL` format.
 
     Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, and
     goalign [GOALIGN]_.
@@ -70,7 +69,7 @@ class NEXUS2CLUSTAL(ConvBase):
     @compressor
     def _method_biopython(self, *args, **kwargs):
         """For this method we use the biopython package Bio.AlignIO.
-        
+
         `Bio.AlignIO <https://biopython.org/docs/1.76/api/Bio.AlignIO.html>`_"""
         from Bio import AlignIO
 

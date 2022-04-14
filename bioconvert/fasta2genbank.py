@@ -22,13 +22,11 @@
 ###########################################################################
 """Convert :term:`FASTA` to :term:`GENBANK` format"""
 import datetime
-from math import log, floor
+from math import floor, log
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires, requires_nothing
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires, requires_nothing
 from bioconvert.io.fasta import Fasta
-
 
 __all__ = ["FASTA2GENBANK"]
 
@@ -36,7 +34,7 @@ __all__ = ["FASTA2GENBANK"]
 class FASTA2GENBANK(ConvBase):
     """Convert :term:`FASTA` file to :term:`GENBANK` file
 
-    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_ or 
+    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_ or
     Bioconvert pure implementation (default).
 
     """
@@ -58,17 +56,15 @@ class FASTA2GENBANK(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """Header is less informative than the one obtained with biopython
-        
-        """
+        """Header is less informative than the one obtained with biopython"""
         cmd = "squizz -f fasta -c genbank  {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """For this method we use the biopython package Bio.SeqIO. 
-        
+        """For this method we use the biopython package Bio.SeqIO.
+
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         from Bio import SeqIO
 
@@ -117,9 +113,7 @@ class FASTA2GENBANK(ConvBase):
                             break
                         # sequence over during this slice
                         elif end > seq_size:
-                            writer.write(
-                                " {}".format(sequence["value"][begin:seq_size])
-                            )
+                            writer.write(" {}".format(sequence["value"][begin:seq_size]))
                         else:
                             writer.write(" {}".format(sequence["value"][begin:end]))
 

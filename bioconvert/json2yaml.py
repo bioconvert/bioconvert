@@ -21,11 +21,12 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`JSON` to :term:`YAML` format"""
-import yaml
 import json
-from bioconvert import ConvBase
-from bioconvert.core.decorators import requires, requires_nothing, compressor
 
+import yaml
+
+from bioconvert import ConvBase
+from bioconvert.core.decorators import compressor, requires, requires_nothing
 
 __all__ = ["JSON2YAML"]
 
@@ -53,7 +54,7 @@ class JSON2YAML(ConvBase):
         """.. rubric:: constructor
 
         :param str infile: input JSON file
-        :param str outfile: input YAML file. 
+        :param str outfile: input YAML file.
         """
         super(JSON2YAML, self).__init__(infile, outfile, *args, **kargs)
 
@@ -64,7 +65,5 @@ class JSON2YAML(ConvBase):
         with open(self.infile, "r") as infile:
             data = json.load(infile)
         with open(self.outfile, "w") as outfile:
-            yamldata = yaml.dump(
-                data, Dumper=yaml.dumper.Dumper, default_flow_style="", indent=4
-            )
+            yamldata = yaml.dump(data, Dumper=yaml.dumper.Dumper, default_flow_style="", indent=4)
             outfile.write(yamldata)

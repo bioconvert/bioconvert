@@ -20,8 +20,8 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-from itertools import groupby
 import math
+from itertools import groupby
 
 
 class MAFLine(object):
@@ -120,17 +120,13 @@ class MAF(object):
                 if m.mode == "s" and top is True:
                     if m.name not in names:
                         names.add(m.name)
-                        fout.write(
-                            "@SQ\tSN:{}\tLN:{}\n".format(m.name, m.sequence_size)
-                        )
+                        fout.write("@SQ\tSN:{}\tLN:{}\n".format(m.name, m.sequence_size))
                     top = False
 
         from bioconvert import version
 
         fout.write(
-            "@PG\tID:{0}\tPN:{0}\tVN:{1}\tCL:{0} {2} {3}\n".format(
-                "bioconvert", version, self.filename, self.outfile
-            )
+            "@PG\tID:{0}\tPN:{0}\tVN:{1}\tCL:{0} {2} {3}\n".format("bioconvert", version, self.filename, self.outfile)
         )
 
         with open(self.filename, "r") as fin:
@@ -164,9 +160,7 @@ class MAF(object):
                     query = MAFLine(s[1])
 
                     if ref.strand != "+":
-                        raise Exception(
-                            "for SAM, the 1st strand in each alignment must be +"
-                        )
+                        raise Exception("for SAM, the 1st strand in each alignment must be +")
 
                     flag = self.get_flag(ref.alignment, query.strand)
 
@@ -205,9 +199,7 @@ class MAF(object):
 
                     # try: mapq = mapqFromProb(maf.namesAndValues["mismap"])
                     # except KeyError: mapq = mapqMissing
-                    editDistance = sum(
-                        1 for x, y in zip(ref.alignment, query.alignment) if x != y
-                    )
+                    editDistance = sum(1 for x, y in zip(ref.alignment, query.alignment) if x != y)
                     # no special treatment of ambiguous bases: might be a minor bug
                     editDistance = "NM:i:" + str(editDistance)
 
@@ -286,7 +278,5 @@ def cigarParts(beg, alignmentColumns, end):
 
 def get_cigar(m1, m2):
     qRevStart = m2.sequence_size - m2.alignment_start - m2.alignment_size
-    cigar = "".join(
-        cigarParts(m2.alignment_start, zip(m1.alignment, m2.alignment), qRevStart)
-    )
+    cigar = "".join(cigarParts(m2.alignment_start, zip(m1.alignment, m2.alignment), qRevStart))
     return cigar

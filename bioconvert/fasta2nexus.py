@@ -22,9 +22,9 @@
 ###########################################################################
 """Convert :term:`FASTA` to :term:`NEXUS` format"""
 import colorlog
-from bioconvert.core.decorators import compressor
+
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -61,7 +61,5 @@ class FASTA2NEXUS(ConvBase):
         have the same length (with the gap) otherwise an error will be raised.
         """
         self.install_tool("goalign")
-        cmd = "goalign reformat nexus -i {infile} -o {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "goalign reformat nexus -i {infile} -o {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

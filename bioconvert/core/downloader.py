@@ -22,8 +22,8 @@
 ###########################################################################
 """Download singularity image"""
 from os.path import exists
-from easydev import md5
 
+from easydev import md5
 
 __all__ = ["download_singularity_image"]
 

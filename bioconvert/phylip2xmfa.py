@@ -25,8 +25,7 @@ import colorlog
 from Bio import AlignIO
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -36,7 +35,7 @@ __all__ = ["PHYLIP2XMFA"]
 
 class PHYLIP2XMFA(ConvBase):
     """
-    Converts a sequence alignment from :term:`PHYLIP` format to :term:`XMFA` 
+    Converts a sequence alignment from :term:`PHYLIP` format to :term:`XMFA`
 
     Methods available are based on biopython [BIOPYTHON]_.
 

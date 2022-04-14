@@ -24,8 +24,7 @@
 import colorlog
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -60,7 +59,5 @@ class NEXUS2PHYLIP(ConvBase):
 
         `goalign documentation <https://github.com/fredericlemoine/goalign>`_"""
         self.install_tool("goalign")
-        cmd = "goalign reformat phylip -i {infile} -o {outfile} -x".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "goalign reformat phylip -i {infile} -o {outfile} -x".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

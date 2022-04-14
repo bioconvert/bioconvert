@@ -1,5 +1,5 @@
-import struct
 import copy
+import struct
 from collections import defaultdict
 
 import colorlog

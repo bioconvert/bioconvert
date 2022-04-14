@@ -25,8 +25,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -36,7 +35,7 @@ __all__ = ["PHYLIP2NEXUS"]
 
 class PHYLIP2NEXUS(ConvBase):
     """
-    Converts a sequence alignment from :term:`PHYLIP` format to :term:`NEXUS` format. 
+    Converts a sequence alignment from :term:`PHYLIP` format to :term:`NEXUS` format.
 
     Methods available are based on goalign [GOALIGN]_.
 
@@ -60,7 +59,5 @@ class PHYLIP2NEXUS(ConvBase):
 
         `goalign documentation <https://github.com/fredericlemoine/goalign>`_"""
         self.install_tool("goalign")
-        cmd = "goalign reformat nexus -i {infile} -o {outfile} -p".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "goalign reformat nexus -i {infile} -o {outfile} -p".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

@@ -54,7 +54,10 @@ class GZ2BZ2(ConvBase):
         super(GZ2BZ2, self).__init__(infile, outfile, *args, **kargs)
 
     @requires(
-        external_binaries=["pigz", "pbzip2",]
+        external_binaries=[
+            "pigz",
+            "pbzip2",
+        ]
     )
     def _method_pigz_pbzip2(self, *args, **kwargs):
         """Method that uses pigz pbzip2.
@@ -63,12 +66,13 @@ class GZ2BZ2(ConvBase):
         `pbzip2 documentation <https://linux.die.net/man/1/pbzip2>`_"""
         # conversion
         cmd = "pigz -d -c -p {threads} {input} | pbzip2 -p{threads} > {output}"
-        self.execute(
-            cmd.format(threads=self.threads, input=self.infile, output=self.outfile)
-        )
+        self.execute(cmd.format(threads=self.threads, input=self.infile, output=self.outfile))
 
     @requires(
-        external_binaries=["gunzip", "bzip2",]
+        external_binaries=[
+            "gunzip",
+            "bzip2",
+        ]
     )
     def _method_gunzip_bzip2(self, *args, **kwargs):
         """Single theaded conversion. Method that uses gunzip bzip2.

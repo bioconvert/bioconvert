@@ -12,6 +12,7 @@
 ##############################################################################
 """Convert :term:`BEDGRAPH` file to :term:`COV` format"""
 import os
+
 import colorlog
 
 from bioconvert import ConvBase
@@ -30,7 +31,7 @@ class BEDGRAPH2COV(ConvBase):
 
         chr19   49302000    4930205    -1
         chr19   49302005    4930210    1
-    
+
     becomes::
 
         chr19   4930201    -1

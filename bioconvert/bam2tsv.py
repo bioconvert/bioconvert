@@ -22,10 +22,11 @@
 ###########################################################################
 """Convert :term:`BAM` file to :term:`TSV` format"""
 import os
-from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
 
 import colorlog
+
+from bioconvert import ConvBase
+from bioconvert.core.decorators import requires
 
 logger = colorlog.getLogger(__name__)
 
@@ -63,13 +64,8 @@ class BAM2TSV(ConvBase):
 
         `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
         with open(self.outfile, "wt") as out:
-            out.write(
-                "Reference sequence name\tSequence length\t"
-                "Mapped reads\tUnmapped reads{}".format(os.linesep)
-            )
-        cmd = "samtools index {0} && samtools idxstats {0} >> {1}".format(
-            self.infile, self.outfile
-        )
+            out.write("Reference sequence name\tSequence length\t" "Mapped reads\tUnmapped reads{}".format(os.linesep))
+        cmd = "samtools index {0} && samtools idxstats {0} >> {1}".format(self.infile, self.outfile)
         self.execute(cmd)
 
     @requires(python_library="pysam", external_binary="samtools")
@@ -83,9 +79,6 @@ class BAM2TSV(ConvBase):
         pysam.index(self.infile)
         # create count table
         with open(self.outfile, "wt") as out:
-            out.write(
-                "Reference sequence name\tSequence length\t"
-                "Mapped reads\tUnmapped reads{}".format(os.linesep)
-            )
+            out.write("Reference sequence name\tSequence length\t" "Mapped reads\tUnmapped reads{}".format(os.linesep))
             for line in pysam.idxstats(self.infile):
                 out.write(line)

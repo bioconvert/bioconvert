@@ -22,15 +22,14 @@
 ###########################################################################
 
 """"Convert :term:`CRAM` to :term:`BAM` format"""
-import re
 import os
-
-from bioconvert import ConvBase
-from easydev.multicore import cpu_count
+import re
 
 import colorlog
+from easydev.multicore import cpu_count
 
-from bioconvert.core.decorators import requires_nothing, requires
+from bioconvert import ConvBase
+from bioconvert.core.decorators import requires, requires_nothing
 
 logger = colorlog.getLogger(__name__)
 

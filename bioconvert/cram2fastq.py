@@ -21,15 +21,15 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`CRAM` file to :term:`FASTQ` format"""
-from bioconvert import ConvBase
 import os
-from bioconvert.core.utils import get_extension
-from easydev.multicore import cpu_count
 import subprocess
 
 import colorlog
+from easydev.multicore import cpu_count
 
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+from bioconvert.core.utils import get_extension
 
 logger = colorlog.getLogger(__name__)
 
@@ -89,14 +89,10 @@ class CRAM2FASTQ(ConvBase):
 
             # When the input file is not paired and the output file needs to be compressed
             if isPaired == "0":
-                cmd = "samtools fastq -@ {} {} > {}.{}".format(
-                    self.threads, self.infile, outbasename, output_ext
-                )
+                cmd = "samtools fastq -@ {} {} > {}.{}".format(self.threads, self.infile, outbasename, output_ext)
                 self.execute(cmd)
                 if ext == ".dsrc":
-                    cmd = "{} {}.{} {}.{}.dsrc".format(
-                        compresscmd, outbasename, output_ext, outbasename, output_ext
-                    )
+                    cmd = "{} {}.{} {}.{}.dsrc".format(compresscmd, outbasename, output_ext, outbasename, output_ext)
                 else:
                     cmd = "{} {}.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)
@@ -131,9 +127,7 @@ class CRAM2FASTQ(ConvBase):
 
             # When the input file is not paired
             if isPaired == "0":
-                cmd = "samtools fastq -@ {} {} > {}".format(
-                    self.threads, self.infile, self.outfile
-                )
+                cmd = "samtools fastq -@ {} {} > {}".format(self.threads, self.infile, self.outfile)
                 self.execute(cmd)
             # When the input file is paired
             else:

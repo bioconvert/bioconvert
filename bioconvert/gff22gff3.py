@@ -22,11 +22,9 @@
 ###########################################################################
 
 """Convert :term:`GFF2` to :term:`GFF3` format"""
-from bioconvert import ConvBase
+from bioconvert import ConvBase, compressor
 from bioconvert.core.decorators import requires_nothing
-from bioconvert import compressor
 from bioconvert.io.gff2 import Gff2
-
 
 __all__ = ["GFF22GFF3"]
 
@@ -40,7 +38,7 @@ class GFF22GFF3(ConvBase):
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile: 
+        :param str infile:
         :param str outfile:
 
         Method available is pure Python.
@@ -51,7 +49,7 @@ class GFF22GFF3(ConvBase):
     @requires_nothing
     @compressor
     def _method_bioconvert(self, *args, **kwargs):
-        """ This method is a basic mapping of the 9th column of gff2 to gff3.
+        """This method is a basic mapping of the 9th column of gff2 to gff3.
         Other methods with smart translations must be created for specific usages.
         There is no good solution for this translation.
         """
@@ -63,16 +61,12 @@ class GFF22GFF3(ConvBase):
                 gff3_writer.write(
                     "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t".format(
                         annotation["seqid"],
-                        annotation["source"]
-                        if "source" in annotation
-                        else ".",  # optional sourse
+                        annotation["source"] if "source" in annotation else ".",  # optional sourse
                         annotation["type"],  # should be verified for ontology matching
                         annotation["start"],
                         annotation["stop"],
                         annotation["score"] if "score" in annotation else ".",  # Score
-                        annotation["strand"]
-                        if "strand" in annotation
-                        else ".",  # starnd
+                        annotation["strand"] if "strand" in annotation else ".",  # starnd
                         annotation["phase"] if "phase" in annotation else ".",  # phase
                     )
                 )

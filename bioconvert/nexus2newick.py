@@ -24,8 +24,7 @@
 import colorlog
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -35,7 +34,7 @@ __all__ = ["NEXUS2NEWICK"]
 
 class NEXUS2NEWICK(ConvBase):
     """
-    Converts a tree file from :term:`NEXUS` format to :term:`NEWICK` format. 
+    Converts a tree file from :term:`NEXUS` format to :term:`NEWICK` format.
 
     Methods available are based on biopython [BIOPYTHON]_ or
     goalign [GOALIGN]_.
@@ -57,8 +56,8 @@ class NEXUS2NEWICK(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """For this method we use the biopython package Bio.Phylo. 
-        
+        """For this method we use the biopython package Bio.Phylo.
+
         `Bio.Phylo Documentation <https://biopython.org/wiki/Phylo>`_"""
         _log.warning("biopython methods rounds up values (5 digits)")
         from Bio import Phylo

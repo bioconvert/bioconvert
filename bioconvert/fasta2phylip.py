@@ -22,10 +22,10 @@
 ###########################################################################
 """Convert :term:`FASTA` to :term:`PHYLIP` format"""
 import colorlog
-from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
 from Bio import SeqIO
+
+from bioconvert import ConvBase
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -38,8 +38,8 @@ class FASTA2PHYLIP(ConvBase):
 
     Conversion is based on Bio Python modules
 
-    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_ or 
-    goalign [GOALIGN]_. Squizz is the default 
+    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_ or
+    goalign [GOALIGN]_. Squizz is the default
     (https://github.com/bioconvert/bioconvert/issues/149). Phylip created is a
     strict phylip that is with 10 characters on the first column.
 
@@ -59,8 +59,8 @@ class FASTA2PHYLIP(ConvBase):
     @requires(python_library="biopython")
     @compressor
     def _method_biopython(self, *args, **kwargs):
-        """For this method we use the biopython package Bio.SeqIO. 
-        
+        """For this method we use the biopython package Bio.SeqIO.
+
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         sequences = list(SeqIO.parse(self.infile, "fasta"))
         count = SeqIO.write(sequences, self.outfile, "phylip")
@@ -72,9 +72,7 @@ class FASTA2PHYLIP(ConvBase):
         """Convert fasta file in Phylip interleaved format using squizz tool.
         The fasta file must be an alignement file, this means that all sequences must
         have the same length (with the gap) otherwise an error will be raised."""
-        cmd = "squizz -c PHYLIPI {infile} > {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "squizz -c PHYLIPI {infile} > {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)
 
     @requires("go")
@@ -83,12 +81,10 @@ class FASTA2PHYLIP(ConvBase):
         """Convert fasta file in Phylip interleaved format using goalign tool.
 
         `goalign documentation <https://github.com/fredericlemoine/goalign>`_
-        
-        The fasta file must be an alignemnt file, this means that  all sequences 
+
+        The fasta file must be an alignemnt file, this means that  all sequences
         must have the same length (with the gap) otherwise an error will be raised
         """
         self.install_tool("goalign")
-        cmd = "goalign reformat phylip -i {infile} -o {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "goalign reformat phylip -i {infile} -o {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

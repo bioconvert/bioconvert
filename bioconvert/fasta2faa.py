@@ -22,11 +22,11 @@
 ###########################################################################
 """Convert :term:`FASTA` format to :term:`FAA` format"""
 import textwrap
+
 import colorlog
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import compressor
-from bioconvert.core.decorators import requires
+from bioconvert.core.decorators import compressor, requires
 from bioconvert.io.fasta import Fasta
 
 _log = colorlog.getLogger(__name__)
@@ -129,10 +129,5 @@ class FASTA2FAA(ConvBase):
                 seq = line["value"]
 
                 # translate the sequence
-                aa = "".join(
-                    (
-                        self.codons.get(seq[i : i + 3], "X")
-                        for i in range(0, len(seq), 3)
-                    )
-                )
+                aa = "".join((self.codons.get(seq[i : i + 3], "X") for i in range(0, len(seq), 3)))
                 fout.write("\n".join(textwrap.wrap(aa, 60)) + "\n")

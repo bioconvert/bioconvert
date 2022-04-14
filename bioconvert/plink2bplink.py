@@ -56,7 +56,5 @@ class PLINK2BPLINK(ConvBase):
         """Convert plink file in text using plink executable.
 
         `plink documentation <http://hpc.ilri.cgiar.org/beca/training/data_mgt_2017/BackgroundMaterial/PlinkTutorial.pdf>`_"""
-        cmd = "plink --file {infile} --make-bed --out {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "plink --file {infile} --make-bed --out {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

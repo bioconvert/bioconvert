@@ -11,9 +11,9 @@
 #
 ##############################################################################
 """Convert :term:`BED` format to :term:`WIGGLE` format"""
-from bioconvert import ConvBase
 import colorlog
 
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)

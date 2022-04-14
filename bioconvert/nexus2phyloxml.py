@@ -27,8 +27,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -38,7 +37,7 @@ __all__ = ["NEXUS2PHYLOXML"]
 
 class NEXUS2PHYLOXML(ConvBase):
     """
-    Converts a tree file from :term:`NEXUS` format to :term:`PHYLOXML` format. 
+    Converts a tree file from :term:`NEXUS` format to :term:`PHYLOXML` format.
 
     Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, and
     goalign [GOALIGN]_.

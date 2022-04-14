@@ -21,10 +21,10 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Convert :term:`BCF` file to :term:`VCF` format"""
+import colorlog
+
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
-
-import colorlog
 
 logger = colorlog.getLogger(__name__)
 

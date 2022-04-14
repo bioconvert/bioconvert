@@ -24,12 +24,7 @@
 
 
 class GFASim:
-    """Simple GFA simulator
-
-
-
-
-    """
+    """Simple GFA simulator"""
 
     def __init__(self, outfile):
         self.outfile = outfile

@@ -27,11 +27,11 @@ Temporary module that would probably need some checking / simplification
 This is a temporary replacement to the execute() in convbase
 that also uses subprocess.Popen but is slower
 """
-import _io
-import sys
 import os
 import subprocess as sp
+import sys
 
+import _io
 import colorlog
 
 _log = colorlog.getLogger(__name__)

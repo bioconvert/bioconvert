@@ -25,15 +25,14 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
 
 class CLUSTAL2STOCKHOLM(ConvBase):
     """
-    Converts a sequence alignment from :term:`CLUSTAL` format to :term:`STOCKHOLM` format. 
+    Converts a sequence alignment from :term:`CLUSTAL` format to :term:`STOCKHOLM` format.
 
     Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, and
     goalign [GOALIGN]_.
@@ -70,7 +69,5 @@ class CLUSTAL2STOCKHOLM(ConvBase):
         Convert :term:`CLUSTAL` file in :term:`STOCKHOLM` format using squizz tool.
 
         """
-        cmd = "squizz -c STOCKHOLM {infile} > {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "squizz -c STOCKHOLM {infile} > {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)

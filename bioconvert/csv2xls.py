@@ -15,9 +15,9 @@ import csv
 import colorlog
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires, requires_nothing
-from bioconvert.core.decorators import compressor, in_gz
 from bioconvert.core.base import ConvArg
+from bioconvert.core.decorators import (compressor, in_gz, requires,
+                                        requires_nothing)
 
 logger = colorlog.getLogger(__name__)
 
@@ -50,9 +50,7 @@ class CSV2XLS(ConvBase):
 
     @requires(python_libraries=["pyexcel", "pyexcel-xls"])
     @compressor
-    def _method_pyexcel(
-        self, in_sep=DEFAULT_IN_SEP, sheet_name=DEFAULT_SHEET_NAME, *args, **kwargs
-    ):
+    def _method_pyexcel(self, in_sep=DEFAULT_IN_SEP, sheet_name=DEFAULT_SHEET_NAME, *args, **kwargs):
         """Do the conversion :term:`CSV` -> :term:`XLS` using pyexcel modules.
 
         `pyexcel documentation <http://docs.pyexcel.org/en/latest/>`_"""
@@ -62,8 +60,9 @@ class CSV2XLS(ConvBase):
             for row in reader:
                 rows.append(row)
 
-        from pyexcel_xls import save_data
         from collections import OrderedDict
+
+        from pyexcel_xls import save_data
 
         data = OrderedDict()
         data.update({sheet_name: rows})
@@ -71,29 +70,33 @@ class CSV2XLS(ConvBase):
 
     @requires(python_libraries=["pandas"])
     @compressor
-    def _method_pandas(
-        self, in_sep=DEFAULT_IN_SEP, sheet_name=DEFAULT_SHEET_NAME, *args, **kwargs
-    ):
+    def _method_pandas(self, in_sep=DEFAULT_IN_SEP, sheet_name=DEFAULT_SHEET_NAME, *args, **kwargs):
         """Do the conversion :term:`CSV` -> :term:`XLS` using Panda modules.
 
         `pandas documentation <https://pandas.pydata.org/docs/>`_"""
         import pandas as pd
 
-        writer = pd.ExcelWriter(self.outfile, engine='openpyxl')
+        writer = pd.ExcelWriter(self.outfile, engine="openpyxl")
         pd.read_csv(self.infile, sep=in_sep, header="infer",).to_excel(
-            excel_writer=writer, sheet_name=sheet_name, index=False,
+            excel_writer=writer,
+            sheet_name=sheet_name,
+            index=False,
         )
         writer.save()
 
     @classmethod
     def get_additional_arguments(cls):
         yield ConvArg(
-            names=["--sheet-name",],
+            names=[
+                "--sheet-name",
+            ],
             default=cls.DEFAULT_SHEET_NAME,
             help="The name of the sheet to create",
         )
         yield ConvArg(
-            names=["--in-sep",],
+            names=[
+                "--in-sep",
+            ],
             default=cls.DEFAULT_IN_SEP,
             help="The separator used in the input file",
         )

@@ -22,8 +22,7 @@
 ###########################################################################
 """Convert :term:`WIG` to :term:`BED` format"""
 
-from bioconvert import ConvBase
-from bioconvert import requires, compressor
+from bioconvert import ConvBase, compressor, requires
 
 __all__ = ["WIG2BED"]
 
@@ -51,7 +50,7 @@ class WIG2BED(ConvBase):
     @compressor
     def wig2bed(self, *args, **kwargs):
         """For this method, we use the wig2bed tool.
-        
+
         `wig2bed documentation <https://bedops.readthedocs.io/en/latest/content/reference/file-management/conversion/wig2bed.html>`_"""
         cmd = "wig2bed < {} > {}".format(self.infile, self.outfile)
         self.execute(cmd)

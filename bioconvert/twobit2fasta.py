@@ -59,16 +59,14 @@ class TWOBIT2FASTA(ConvBase):
         """Convert twobit file in fasta format using ucsc twobittofa.
 
         `uscsc faToTwoBit Documentation <https://genome.ucsc.edu/goldenPath/help/twoBit.html>`_"""
-        cmd = "twoBitToFa {infile} {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "twoBitToFa {infile} {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)
 
     # py2bit is from deeptols repo
     @requires(python_library="py2bit")
     def _method_py2bit(self, *args, **kwargs):
         """This method uses the py2bit python extension.
-        
+
         `py2bit documentation <https://github.com/deeptools/py2bit>`_"""
         import py2bit
 

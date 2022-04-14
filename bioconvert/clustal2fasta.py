@@ -25,8 +25,7 @@ import colorlog
 from Bio import SeqIO
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
+from bioconvert.core.decorators import compressor, requires
 
 _log = colorlog.getLogger(__name__)
 
@@ -35,7 +34,7 @@ __all__ = ["CLUSTAL2FASTA"]
 
 class CLUSTAL2FASTA(ConvBase):
     """
-    Converts a sequence alignment from :term:`CLUSTAL` to :term:`FASTA` format. 
+    Converts a sequence alignment from :term:`CLUSTAL` to :term:`FASTA` format.
 
     Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, and
     goalign [GOALIGN]_.
@@ -67,12 +66,8 @@ class CLUSTAL2FASTA(ConvBase):
     @requires("squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """Convert :term:`CLUSTAL` file in :term:`FASTA` format.
-
-        """
-        cmd = "squizz -c FASTA {infile} > {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        """Convert :term:`CLUSTAL` file in :term:`FASTA` format."""
+        cmd = "squizz -c FASTA {infile} > {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)
 
     @requires("go")

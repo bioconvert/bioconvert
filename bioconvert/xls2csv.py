@@ -27,11 +27,9 @@ import csv
 
 import colorlog
 
-from bioconvert.core.base import ConvArg
-from bioconvert.core.decorators import requires, requires_nothing
-from bioconvert.core.decorators import compressor
-
 from bioconvert import ConvBase
+from bioconvert.core.base import ConvArg
+from bioconvert.core.decorators import compressor, requires, requires_nothing
 
 logger = colorlog.getLogger(__name__)
 
@@ -68,22 +66,15 @@ class XLS2CSV(ConvBase):
     @requires(python_libraries=["pyexcel", "pyexcel-xls"])
     @compressor
     def _method_pyexcel(
-        self,
-        out_sep=DEFAULT_OUT_SEP,
-        line_terminator=DEFAULT_LINE_TERMINATOR,
-        sheet_name=0,
-        *args,
-        **kwargs
+        self, out_sep=DEFAULT_OUT_SEP, line_terminator=DEFAULT_LINE_TERMINATOR, sheet_name=0, *args, **kwargs
     ):
         """Do the conversion :term:`XLS` -> :term:`CSV` using pyexcel library
-        
+
         `pyexcel documentation <http://docs.pyexcel.org/en/latest/>`_"""
         import pyexcel
 
         with open(self.outfile, "w") as out_stream:
-            writer = csv.writer(
-                out_stream, delimiter=out_sep, lineterminator=line_terminator
-            )
+            writer = csv.writer(out_stream, delimiter=out_sep, lineterminator=line_terminator)
             first_row = True
             for row in pyexcel.get_records(file_name=self.infile):
                 if first_row:
@@ -94,15 +85,10 @@ class XLS2CSV(ConvBase):
     @requires(python_libraries=["pandas", "xlrd"])
     @compressor
     def _method_pandas(
-        self,
-        out_sep=DEFAULT_OUT_SEP,
-        line_terminator=DEFAULT_LINE_TERMINATOR,
-        sheet_name=0,
-        *args,
-        **kwargs
+        self, out_sep=DEFAULT_OUT_SEP, line_terminator=DEFAULT_LINE_TERMINATOR, sheet_name=0, *args, **kwargs
     ):
         """Do the conversion :term:`XLSX` -> :term:`CSV` using Pandas library.
-        
+
         `pandas documentation <https://pandas.pydata.org/docs/>`_"""
         import pandas as pd
 
@@ -118,17 +104,23 @@ class XLS2CSV(ConvBase):
     @classmethod
     def get_additional_arguments(cls):
         yield ConvArg(
-            names=["--sheet-name",],
+            names=[
+                "--sheet-name",
+            ],
             default=0,
             help="The name or id of the sheet to convert",
         )
         yield ConvArg(
-            names=["--out-sep",],
+            names=[
+                "--out-sep",
+            ],
             default=cls.DEFAULT_OUT_SEP,
             help="The separator used in the output file",
         )
         yield ConvArg(
-            names=["--line-terminator",],
+            names=[
+                "--line-terminator",
+            ],
             default=cls.DEFAULT_LINE_TERMINATOR,
             help="The line terminator used in the output file",
         )

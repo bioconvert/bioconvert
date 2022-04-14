@@ -21,9 +21,9 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """ Convert a compressed :term:`FASTQ` from :term:`DSRC` to :term:`FASTQ` format"""
-from bioconvert import ConvBase
 import colorlog
 
+from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
 
 logger = colorlog.getLogger(__name__)
@@ -60,10 +60,8 @@ class DSRC2GZ(ConvBase):
         `pigz documentation <https://linux.die.net/man/1/pigz>`_
         `dsrc documentation <https://github.com/refresh-bio/DSRC>`_
 
-        option threadig does not work with the dsrc version from conda so we 
+        option threadig does not work with the dsrc version from conda so we
         do not add the -t threads option
         """
         cmd = "dsrc d -s  {input} | pigz -c -p {threads} > {output}"
-        self.execute(
-            cmd.format(threads=self.threads, input=self.infile, output=self.outfile)
-        )
+        self.execute(cmd.format(threads=self.threads, input=self.infile, output=self.outfile))

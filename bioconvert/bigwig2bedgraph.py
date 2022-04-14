@@ -60,9 +60,7 @@ class BIGWIG2BEDGRAPH(ConvBase):
         """Convert bigwig file in bedgraph format using ucsc tool.
 
         `ucsc.bedgraph documentation <https://genome.ucsc.edu/goldenPath/help/bedgraph.html>`_"""
-        cmd = "bigWigToBedGraph {infile}  {outfile}".format(
-            infile=self.infile, outfile=self.outfile
-        )
+        cmd = "bigWigToBedGraph {infile}  {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)
 
     @requires(python_library="pyBigWig")

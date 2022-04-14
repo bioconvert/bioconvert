@@ -22,9 +22,7 @@
 ###########################################################################
 """Convert :term:`EMBL` file to :term:`GENBANK` format"""
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
-from bioconvert.core.decorators import compressor
-
+from bioconvert.core.decorators import compressor, requires
 
 __all__ = ["EMBL2GENBANK"]
 
@@ -52,9 +50,7 @@ class EMBL2GENBANK(ConvBase):
     @requires(external_binary="squizz")
     @compressor
     def _method_squizz(self, *args, **kwargs):
-        """Header is less informative than the one obtained with biopython.
-
-        """
+        """Header is less informative than the one obtained with biopython."""
         cmd = "squizz -f embl -c genbank {} > {} ".format(self.infile, self.outfile)
         self.execute(cmd)
 
