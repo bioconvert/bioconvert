@@ -42,7 +42,7 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies conda
       run: |
-        conda install -c conda-forge --quiet mamba python=${{ matrix.python }}
+        conda install -c conda-forge --quiet 'mamba=0.15.3' python=${{ matrix.python }}
         mamba install -c conda-forge -c bioconda --quiet -y samtools bedtools bamtools mosdepth pbzip2 pigz dsrc sambamba squizz
     - name: Install bioconvert with pip
       run: |
