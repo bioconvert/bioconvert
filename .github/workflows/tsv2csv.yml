@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/tsv2csv.py
+      - .github/workflows/tsv2csv.yml
   pull_request:
     branches-ignore: []
     paths:

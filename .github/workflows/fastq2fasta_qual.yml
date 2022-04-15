@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/fastq2fasta_qual.py
+      - .github/workflows/fastq2fasta_qual.yml
   pull_request:
     branches-ignore: []
     paths:

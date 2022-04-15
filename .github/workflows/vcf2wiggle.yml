@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/vcf2wiggle.py
+      - .github/workflows/vcf2wiggle.yml
   pull_request:
     branches-ignore: []
     paths:

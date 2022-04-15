@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/fasta2faa.py
+      - .github/workflows/fasta2faa.yml
   pull_request:
     branches-ignore: []
     paths:

@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/gz2bz2.py
+      - .github/workflows/gz2bz2.yml
   pull_request:
     branches-ignore: []
     paths:

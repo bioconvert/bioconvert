@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/bigwig2wiggle.py
+      - .github/workflows/bigwig2wiggle.yml
   pull_request:
     branches-ignore: []
     paths:

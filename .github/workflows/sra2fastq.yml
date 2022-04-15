@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/sra2fastq.py
+      - .github/workflows/sra2fastq.yml
   pull_request:
     branches-ignore: []
     paths:

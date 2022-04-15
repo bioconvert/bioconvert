@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/vcf2bcf.py
+      - .github/workflows/vcf2bcf.yml
   pull_request:
     branches-ignore: []
     paths:

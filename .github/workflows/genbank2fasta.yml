@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/genbank2fasta.py
+      - .github/workflows/genbank2fasta.yml
   pull_request:
     branches-ignore: []
     paths:

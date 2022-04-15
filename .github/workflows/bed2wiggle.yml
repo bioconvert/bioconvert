@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/bed2wiggle.py
+      - .github/workflows/bed2wiggle.yml
   pull_request:
     branches-ignore: []
     paths:

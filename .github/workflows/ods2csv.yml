@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/ods2csv.py
+      - .github/workflows/ods2csv.yml
   pull_request:
     branches-ignore: []
     paths:

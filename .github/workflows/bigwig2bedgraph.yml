@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/bigwig2bedgraph.py
+      - .github/workflows/bigwig2bedgraph.yml
   pull_request:
     branches-ignore: []
     paths:

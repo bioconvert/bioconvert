@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/abi2fasta.py
+      - .github/workflows/abi2fasta.yml
   pull_request:
     branches-ignore: []
     paths:

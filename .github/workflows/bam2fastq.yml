@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/bam2fastq.py
+      - .github/workflows/bam2fastq.yml
   pull_request:
     branches-ignore: []
     paths:

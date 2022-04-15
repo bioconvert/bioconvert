@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/stockholm2phylip.py
+      - .github/workflows/stockholm2phylip.yml
   pull_request:
     branches-ignore: []
     paths:

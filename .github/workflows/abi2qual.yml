@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/abi2qual.py
+      - .github/workflows/abi2qual.yml
   pull_request:
     branches-ignore: []
     paths:

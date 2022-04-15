@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/wig2bed.py
+      - .github/workflows/wig2bed.yml
   pull_request:
     branches-ignore: []
     paths:

@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/xmfa2phylip.py
+      - .github/workflows/xmfa2phylip.yml
   pull_request:
     branches-ignore: []
     paths:

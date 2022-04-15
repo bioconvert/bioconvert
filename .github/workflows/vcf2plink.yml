@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/vcf2plink.py
+      - .github/workflows/vcf2plink.yml
   pull_request:
     branches-ignore: []
     paths:

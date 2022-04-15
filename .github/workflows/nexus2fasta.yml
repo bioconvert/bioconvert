@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/nexus2fasta.py
+      - .github/workflows/nexus2fasta.yml
   pull_request:
     branches-ignore: []
     paths:

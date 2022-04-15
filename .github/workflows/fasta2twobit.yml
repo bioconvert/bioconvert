@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/fasta2twobit.py
+      - .github/workflows/fasta2twobit.yml
   pull_request:
     branches-ignore: []
     paths:

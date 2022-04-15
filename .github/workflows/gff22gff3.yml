@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/gff22gff3.py
+      - .github/workflows/gff22gff3.yml
   pull_request:
     branches-ignore: []
     paths:

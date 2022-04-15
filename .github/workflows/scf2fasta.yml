@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/scf2fasta.py
+      - .github/workflows/scf2fasta.yml
   pull_request:
     branches-ignore: []
     paths:

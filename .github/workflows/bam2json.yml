@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/bam2json.py
+      - .github/workflows/bam2json.yml
   pull_request:
     branches-ignore: []
     paths:

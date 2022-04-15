@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/bam2sam.py
+      - .github/workflows/bam2sam.yml
   pull_request:
     branches-ignore: []
     paths:

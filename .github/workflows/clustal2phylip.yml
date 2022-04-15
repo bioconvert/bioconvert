@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/clustal2phylip.py
+      - .github/workflows/clustal2phylip.yml
   pull_request:
     branches-ignore: []
     paths:

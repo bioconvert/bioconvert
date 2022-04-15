@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/json2yaml.py
+      - .github/workflows/json2yaml.yml      
   pull_request:
     branches-ignore: []
     paths:

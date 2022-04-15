@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/bedgraph2cov.py
+      - .github/workflows/bedgraph2cov.yml
   pull_request:
     branches-ignore: []
     paths:

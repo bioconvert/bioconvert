@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/cram2sam.py
+      - .github/workflows/cram2sam.yml
   pull_request:
     branches-ignore: []
     paths:

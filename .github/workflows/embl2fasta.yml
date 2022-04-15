@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/embl2fasta.py
+      - .github/workflows/embl2fasta.yml
   pull_request:
     branches-ignore: []
     paths:

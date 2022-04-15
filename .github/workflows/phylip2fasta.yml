@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/phylip2fasta.py
+      - .github/workflows/phylip2fasta.yml
   pull_request:
     branches-ignore: []
     paths:

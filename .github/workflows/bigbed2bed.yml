@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/bigbed2bed.py
+      - .github/workflows/bigbed2bed.yml
   pull_request:
     branches-ignore: []
     paths:

@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/bplink2plink.py
+      - .github/workflows/bplink2plink.yml
   pull_request:
     branches-ignore: []
     paths:

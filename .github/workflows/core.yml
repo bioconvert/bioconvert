@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/core/*py
+      - .github/workflows/core.yml
   pull_request:
     branches-ignore: []
     paths:

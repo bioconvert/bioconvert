@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/stockholm2clustal.py
+      - .github/workflows/stockholm2clustal.yml
   pull_request:
     branches-ignore: []
     paths:

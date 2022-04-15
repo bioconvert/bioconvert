@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/bam2bigwig.py
+      - .github/workflows/bam2bigwig.yml
   pull_request:
     branches-ignore: []
     paths:

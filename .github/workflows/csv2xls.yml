@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/csv2xls.py
+      - .github/workflows/csv2xls.yml
   pull_request:
     branches-ignore: []
     paths:

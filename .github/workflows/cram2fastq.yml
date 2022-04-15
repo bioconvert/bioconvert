@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/cram2fastq.py
+      - .github/workflows/cram2fastq.yml
   pull_request:
     branches-ignore: []
     paths:

@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/nexus2clustal.py
+      - .github/workflows/nexus2clustal.yml
   pull_request:
     branches-ignore: []
     paths:

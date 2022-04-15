@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/nexus2phylip.py
+      - .github/workflows/nexus2phylip.yml
   pull_request:
     branches-ignore: []
     paths:

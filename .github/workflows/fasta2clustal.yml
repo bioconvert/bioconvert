@@ -8,6 +8,7 @@ on:
       - dev
       - refactoring
     paths:
+      - .github/workflows/fasta2clustal.yml
       - bioconvert/fasta2clustal.py
   pull_request:
     branches-ignore: []

@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/bam2tsv.py
+      - .github/workflows/bam2tsv.yml
   pull_request:
     branches-ignore: []
     paths:

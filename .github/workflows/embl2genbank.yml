@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/embl2genbank.py
+      - .github/workflows/embl2genbank.yml
   pull_request:
     branches-ignore: []
     paths:

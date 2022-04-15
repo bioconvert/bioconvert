@@ -9,6 +9,7 @@ on:
       - refactoring
     paths:
       - bioconvert/phyloxml2newick.py
+      - .github/workflows/phyloxml2newick.yml
   pull_request:
     branches-ignore: []
     paths:
