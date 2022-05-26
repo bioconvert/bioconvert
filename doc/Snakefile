@@ -8,22 +8,25 @@
 # on a SLURM framework, :
 #
 #     snakemake -s Snakefile --cluster "-j 8 --mem 4000"
+import glob
 
-inext = "fastq"
-outext = "fasta"
+in_ext = "fastq.gz"
+out_ext = "fasta"
 command = "fastq2fasta"
 
-import glob
-samples = glob.glob("*.{}".format(inext))
-samples = [this.rsplit(".")[0] for this in samples]
+# nothing to change below
+#
+samples = glob.glob(f"*.{in_ext}")
+samples = [x.rsplit(".")[0] for x in samples]
 
 rule all:
-    input: expand("{{dataset}}.{}".format(outext), dataset=samples)
+    input: expand(f"{{dataset}}.{out_ext}", dataset=samples)
 
 rule bioconvert:
-    input: "{{dataset}}.{}".format(inext)
-    output: "{{dataset}}.{}".format(outext)
+    input: f"{{dataset}}.{in_ext}"
+    output: f"{{dataset}}.{out_ext}"
     run:
-        cmd = "bioconvert {} ".format(command) + "{input} {output}"
+        cmd = f"bioconvert {command} "
+        cmd += " {input} {output}"
         shell(cmd)
 

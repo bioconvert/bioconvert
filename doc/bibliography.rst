@@ -6,11 +6,18 @@ Bibliography
 .. [BCFTOOLS] http://www.htslib.org/doc/bcftools.html
 
 .. [BEDTOOLS] BEDTools: a flexible suite of utilities for comparing genomic features
-   Aaron R. quinlan, Ira M. Hall 2010 Bioinformatics 26(6) 
+   Aaron R. quinlan, Ira M. Hall 2010 Bioinformatics 26(6)
    https://doi.org/10.1093/bioinformatics/btq033
 
+.. [BEDOPS] https://bedops.readthedocs.io
+
+.. [BIOCODE] https://github.com/jorvis/biocode/
+
+.. [BIOCONVERT] BioConvert: a comprehensive format converter for life sciences
+   https://bioconvert.readthedocs.io
+
 .. [BIOPYTHON] Biopython: freely available Python tools for computational molecular biology
-    and bioinformatics. Cock et al 2009, Bioinformatics 25(11) 
+    and bioinformatics. Cock et al 2009, Bioinformatics 25(11)
     https://doi.org/10.1093/bioinformatics/btp163
 
 .. [DEEPTOOLS] Ramírez, Fidel, Devon P. Ryan, Björn Grüning, Vivek Bhardwaj,
@@ -25,11 +32,11 @@ Bibliography
 .. [GOTREE] https://github.com/evolbioinfo/gotree
 
 .. [MOSDEPTH] Mosdepth: quick coverage calculation for genomes and exomes
-      Brent S Pedersen, Aaron R Quinlan 2018 Bioinformatics, 34(5) 
+      Brent S Pedersen, Aaron R Quinlan 2018 Bioinformatics, 34(5)
       https://doi.org/10.1093/bioinformatics/btx699
 
 .. [PANDAS] Wes McKinney. Data Structures for Statistical Computing in Python,
-   Proceedings of the 9th Python in Science Conference, 51-56 (2010) 
+   Proceedings of the 9th Python in Science Conference, 51-56 (2010)
 
 .. [PIGZ] https://zlib.net/pigz/
 
@@ -42,6 +49,8 @@ Bibliography
    Genome Project Data Processing Subgroup. Bioinformatics. 2009 Aug
    15;25(16):2078-9. Epub 2009 Jun 8. PMID: 19505943
 
+.. [READFQ] https://github.com/lh3/readfq
+
 .. [SAMBAMBA] https://lomereiter.github.io/sambamba/
 
 .. [SAMTOBAM] Ogasawara T, Cheng Y, Tzeng T-HK (2016) Sam2bam:
@@ -52,6 +61,8 @@ Bibliography
     Abecasis G, Durbin R, and 1000 Genome Project Data Processing Subgroup, The
     Sequence alignment/map (SAM) format and SAMtools, Bioinformatics (2009) 25(16)
     2078-9 [19505943]
+
+.. [FASTQDUMP] NCBI SRA tools https://edwards.flinders.edu.au/fastq-dump/
 
 .. [SQUIZZ] ftp://ftp.pasteur.fr/pub/gensoft/projects/squizz/
 
