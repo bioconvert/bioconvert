@@ -75,7 +75,7 @@ class shell:
             shell=True,
             stdout=stdout,
             close_fds=close_fds,
-            **cls._process_args
+            **cls._process_args,
         )
 
         pp = psutil.Process(proc.pid)

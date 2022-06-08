@@ -380,9 +380,9 @@ class ConvBase(metaclass=ConvMeta):
             if errors:
                 print(errors, file=sys.stderr)
         import psutil
+
         pp = psutil.Process(process.pid)
         print(pp.memory_info())
-
 
         if process_.returncode != 0:
             if not ignore_errors:

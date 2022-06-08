@@ -31,7 +31,7 @@ class Fasta:
         self.filename = filename
 
     def read(self):
-        """ Read fasta sequence by sequence creating a generator """
+        """Read fasta sequence by sequence creating a generator"""
         sequence = {"id": "", "comment": "", "value": ""}
 
         with open(self.filename) as reader:

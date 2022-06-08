@@ -38,7 +38,7 @@ class Gff3:
         self.filename = filename
 
     def read(self):
-        """ Read annotations one by one creating a generator """
+        """Read annotations one by one creating a generator"""
         with open(self.filename) as reader:
             line = None
 

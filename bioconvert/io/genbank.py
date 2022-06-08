@@ -147,7 +147,7 @@ class Genbank:
             self.sequence["DEFINITION"] = "{} {}".format(self.sequence["DEFINITION"], line)
 
     def parse_accession(self, line):
-        """ Parse the text as a uniq accession number"""
+        """Parse the text as a uniq accession number"""
         split = line.split()
 
         # First line of the accession
@@ -330,7 +330,7 @@ class Genbank:
             self.sequence["COMMENT"] = "{} {}".format(self.sequence["COMMENT"], line)
 
     def parse_origin(self, line):
-        """ Parse the origin label and next lines to construct the sequence """
+        """Parse the origin label and next lines to construct the sequence"""
         # Define the sequence on the label ORIGIN
         if line.startswith("ORIGIN"):
             self.sequence["ORIGIN"] = ""

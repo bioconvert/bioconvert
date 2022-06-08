@@ -22,7 +22,7 @@
 ###########################################################################
 """Network tools to manipulate the graph of conversion"""
 from os import environ
-    
+
 from bioconvert.core.registry import Registry
 
 import colorlog
