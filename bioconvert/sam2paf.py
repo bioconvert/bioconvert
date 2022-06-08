@@ -115,8 +115,8 @@ class SAM2PAF(ConvBase):
         :param str infile: input SAM file
         :param str outfile: output PAF filename
 
-        :reference: This function is a direct translation of 
-            https://github.com/lh3/miniasm/blob/master/misc/sam2paf.js (Dec. 
+        :reference: This function is a direct translation of
+            https://github.com/lh3/miniasm/blob/master/misc/sam2paf.js (Dec.
             2017).
 
         """
@@ -147,8 +147,7 @@ class SAM2PAF(ConvBase):
                                 reference_lengths[name] = int(match[0])
                             else:
                                 raise ValueError(
-                                    "Could not parse SQ line to extract the length "
-                                    "(LN: field missing maybe ?)"
+                                    "Could not parse SQ line to extract the length " "(LN: field missing maybe ?)"
                                 )
                         continue
 
@@ -177,17 +176,12 @@ class SAM2PAF(ConvBase):
                     if t[2] in reference_lengths:
                         tlen = reference_lengths[t[2]]
                     else:
-                        raise KeyError(
-                            "can't find the length of contig {}".format(t[2])
-                        )
+                        raise KeyError("can't find the length of contig {}".format(t[2]))
 
                     # The reference is known but the length is not
                     if tlen == -1:
                         raise ValueError(
-                            "ERROR at line "
-                            + str(lineno)
-                            + ": can't find the length of contig "
-                            + str(t[2])
+                            "ERROR at line " + str(lineno) + ": can't find the length of contig " + str(t[2])
                         )
 
                     # TODO explain what are the nn and NM tags
@@ -262,17 +256,10 @@ class SAM2PAF(ConvBase):
                     prefix_msg = "at line {}: ".format(lineno) + "{}"
 
                     if n_cigar > 65535:
-                        logger.warning(
-                            prefix_msg.format(str(n_cigar) + " CIGAR operations")
-                        )
+                        logger.warning(prefix_msg.format(str(n_cigar) + " CIGAR operations"))
 
                     if tl + int(t[3]) - 1 > tlen:
-                        logger.warning(
-                            prefix_msg.format(
-                                "alignment end "
-                                "position larger than ref length; skipped"
-                            )
-                        )
+                        logger.warning(prefix_msg.format("alignment end " "position larger than ref length; skipped"))
                         continue
 
                     if t[9] != "*" and len(t[9]) != ql:
@@ -354,12 +341,7 @@ class SAM2PAF(ConvBase):
                     # What extra fields do we want to add ?
                     # original fields found in the SAM file ?
                     if extra_fields == "SAM" and len(t) > 11:
-                        fout.write(
-                            "\t".join(a)
-                            + "\t"
-                            + "\t".join(t[11:])
-                            + "\tcg:Z:{}\n".format(Zacc)
-                        )
+                        fout.write("\t".join(a) + "\t" + "\t".join(t[11:]) + "\tcg:Z:{}\n".format(Zacc))
                     elif extra_fields == "summary":
                         fout.write("\t".join(a) + "\t" + "\t".join(extra) + "\n")
                     elif extra_fields is None:

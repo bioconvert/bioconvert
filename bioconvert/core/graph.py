@@ -22,6 +22,8 @@
 ###########################################################################
 """Network tools to manipulate the graph of conversion"""
 from os import environ
+    
+from bioconvert.core.registry import Registry
 
 import colorlog
 
@@ -42,13 +44,13 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
     see github.com/cokelaer/graphviz4all
 
     """
-    from bioconvert.core.registry import Registry
 
     rr = Registry()
 
     try:
         if filename.endswith(".dot") or use_singularity is True:
             raise Exception()
+        # local import because optional for bioconvert
         from pygraphviz import AGraph
 
         dg = AGraph(directed=True)
@@ -115,7 +117,6 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
         dg.layout(layout)
         dg.draw(filename)
         dg.write("conversion.dot")
-        print(list(dg.get_node("FASTQ").attr.values()))
 
     except Exception as e:
         _log.error(e)
@@ -124,12 +125,11 @@ strict digraph{
     node [label="\\N"];
 
     """
-        nodes = set([item for items in rr.get_all_conversions() for item in items[0:1]])
-
+        nodes = set([item for items in rr.get_all_conversions() for item in items[0:1][0]])
         for node in nodes:
             dot += '"{}";\n'.format(node)
         for a, b, s in rr.get_all_conversions():
-            dot += '"{}" -> "{}";\n'.format(a, b)
+            dot += '"{}" -> "{}";\n'.format(a[0], b[0])
         dot += "}\n"
 
         from bioconvert import shell
@@ -164,7 +164,6 @@ strict digraph{
 
         ext = filename.rsplit(".", 1)[1]
         cmd = "{}dot -T{} {} -o {}".format(dotpath, ext, dotfile.name, filename)
-        print(dotfile.name)
         try:
             shell(cmd)
         except Exception:

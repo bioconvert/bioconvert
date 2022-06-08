@@ -22,10 +22,10 @@
 ###########################################################################
 
 """Convert :term:`SAM` file to :term:`BAM` format"""
-import colorlog
-
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
+
+import colorlog
 
 logger = colorlog.getLogger(__name__)
 
@@ -80,6 +80,7 @@ class BAM2SAM(ConvBase):
         This is the default method because it is the fastest.
 
         `Sambamba documentation <https://lomereiter.github.io/sambamba/docs/sambamba-view.html>`_"""
-        cmd = "sambamba view --header {} -o {} -t {}"
+        # do not use --header that returns only the header...
+        cmd = "sambamba view  {} -o {} -t {}"
         cmd = cmd.format(self.infile, self.outfile, self.threads)
         self.execute(cmd)

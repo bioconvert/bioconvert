@@ -1,9 +1,7 @@
 CONTRIBUTORS
 ============
 
-This is a list of people who have made contributions.
-
-Feel free to add your name if missing
+This is a list of people who have originally created bioconvert with their contributions.
 
 People are listed alphabetically,
 
@@ -23,3 +21,5 @@ People are listed alphabetically,
 - Amandine Perrin
 - Nicolas Traut
 - Anna Zhukova
+
+Complete list is available on https://github.com/bioconvert/bioconvert

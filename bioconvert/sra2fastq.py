@@ -43,11 +43,14 @@ class SRA2FASTQ(ConvBase):
     """
 
     #: Default value
-    _default_method = "sratoolkit"
+    _default_method = "fastq_dump"
 
     # If test: will take only the first 10 reads from the sra file
     def __init__(self, infile, outfile, test=False):
-        """.. rubric:: constructorhttps://edwards.flinders.edu.au/fastq-dump/
+        """.. rubric:: constructor
+
+
+        https://edwards.flinders.edu.au/fastq-dump/
 
         library used: sra-toolkit
         """
@@ -55,7 +58,7 @@ class SRA2FASTQ(ConvBase):
         self.test = test
 
     @requires("fastq-dump")
-    def _method_sratoolkit(self, *args, **kwargs):
+    def _method_fastq_dump(self, *args, **kwargs):
         """Uses Sratoolkit (fastq-dump) to convert a sra file to fastq
 
         `Fastq-dump documentation <https://edwards.flinders.edu.au/fastq-dump/>`_"""
