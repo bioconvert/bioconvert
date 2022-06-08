@@ -150,32 +150,3 @@ or on a cluster::
     snakemake -s Snakefile --cluster "--mem=1000 -j 10"
 
 
-sequana_bioconvert
-~~~~~~~~~~~~~~~~~~
-
-There is also a pipeline available in sequana. It is called sequana_bioconvert
-and is available on pypi.
-
-::
-
-    sequana_bioconvert --input-directory . --input-pattern "*fastq.gz"
-        --input-ext fastq.gz --output-ext fasta.gz --command fastq2fasta
-    cd bioconvert
-    sh bioconvert.sh
-
-You should see your ouput files in the directory *./output*. Check out the original 
-page for API change (https://github.com/sequana/sequana_bioconvert)
-
-
-
-
-
-
-
-
-
-
-
-
-
-

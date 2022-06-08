@@ -437,10 +437,7 @@ Follow the conventions used in the code. For instance,
 - Add documentation in triple quotes
 
 
-To check PEP8 compliance of a python source code file, you can run ``flake8`` on it.
-For instance::
-
-    $ flake8 bioconvert/fastq2fasta.py
+Since v0.5.2, we apply black on the different Python modules.
 
 Requirements files
 ------------------
@@ -464,7 +461,7 @@ https://bioconda.github.io/contributing.html
 In a nutshell, install bioconda-utils::
 
     git clone YOURFORKED_REPOSITORY
-    cd bioconda-reciepes
+    cd bioconda-recipes
 
 edit bioconvert recipes and update its contents. If a new version pypi exists, you need to change the md5sum in ``recipes/bioconvert/meta.yaml``.
 
