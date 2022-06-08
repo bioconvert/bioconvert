@@ -326,7 +326,8 @@ class ConvBase(metaclass=ConvMeta):
         if shell is True or self._execute_mode == "shell":
             self.shell(cmd)
             return
-        self._execute(cmd, ignore_errors, verbose)
+        else:
+            self._execute(cmd, ignore_errors, verbose)
 
     def _execute(self, cmd, ignore_errors=False, verbose=False):
         """
@@ -378,6 +379,10 @@ class ConvBase(metaclass=ConvMeta):
         if verbose:
             if errors:
                 print(errors, file=sys.stderr)
+        import psutil
+
+        pp = psutil.Process(process.pid)
+        print(pp.memory_info())
 
         if process_.returncode != 0:
             if not ignore_errors:
