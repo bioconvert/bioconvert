@@ -7,7 +7,6 @@ biopython>=1.70
 mappy
 matplotlib
 networkx
-psutil
 pyyaml
 pysam
 pyexcel
