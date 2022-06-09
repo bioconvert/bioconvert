@@ -28,7 +28,6 @@ This is a temporary replacement to the execute() in convbase
 that also uses subprocess.Popen but is slower
 """
 import _io
-import psutil
 import sys
 import os
 import subprocess as sp
@@ -78,8 +77,9 @@ class shell:
             **cls._process_args,
         )
 
-        pp = psutil.Process(proc.pid)
-        logger.info(f"{pp.memory_info()}")
+        #import psutil
+        #pp = psutil.Process(proc.pid)
+        #logger.info(f"{pp.memory_info()}")
 
         ret = None
         if iterable:
