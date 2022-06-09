@@ -71,8 +71,7 @@ Whats' new, what has changed
     - bioconvert --extra-arguments option added
   - CHANGES:
     - rename the ggf3gff2 converter correctly into gff32gff2 and add test
-    - fastq2fasta: (i) remove quality-file option to export qual (ii) remove
-      method python_external (issues #215)
+    - fastq2fasta: (i) remove quality-file option to export qual (ii) remove method python_external (issues #215)
     - bam2bedgraph changes: now also reports 0-coverage bases.
     - bioconvert has now a --level option (same as --verbosity)
     - bioconvert -c/--methods is now set to -m/--methods and 

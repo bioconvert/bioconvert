@@ -3,7 +3,7 @@
 # of life science data from one format to another.                        #
 #                                                                         #
 # Authors: see CONTRIBUTORS.rst                                           #
-# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
+# Copyright © 2018-2022  Institut Pasteur, Paris and CNRS.                     #
 # See the COPYRIGHT file for details                                      #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
@@ -32,7 +32,17 @@ from bioconvert.core.decorators import (compressor, in_gz, requires,
 
 
 class FASTQ2FASTA(ConvBase):
-    """Convert :term:`FASTQ` to :term:`FASTA`"""
+    """Convert :term:`FASTQ` to :term:`FASTA`
+
+    This converter has lots of methods. Some of them have also been
+    removed or commented with time. BioPython for instance is commented
+    due to poo performance compared to others. Does not mean that it is
+    not to be considered. Performances are decrease due to lot of sanity checks.
+
+    Similarly, bioawk and python_external method are commented because
+    redundant with other equivalent method.
+
+    """
 
     # use readfq for now because pure python are fast enough
     # for production, could use seqtk which seems the fastest method
@@ -40,7 +50,8 @@ class FASTQ2FASTA(ConvBase):
     # input_ext = extensions.extensions.fastq
     # output_ext =  extensions.fasta
     #: default value
-    _default_method = "python_internal"
+    _default_method = "bioconvert"
+    _threading = True  # not used but required for the main benchmark
 
     def __init__(self, infile, outfile):
         """
@@ -116,6 +127,7 @@ class FASTQ2FASTA(ConvBase):
     #     SeqIO.write(records, self.outfile, 'fasta')
 
     @requires(external_binary="seqtk")
+    @compressor
     def _method_seqtk(self, *args, **kwargs):
         # support gz files natively
         """We use the Seqtk library.
@@ -125,12 +137,13 @@ class FASTQ2FASTA(ConvBase):
         self.execute(cmd)
 
     @requires(external_binary="seqkit")
+    @compressor
     def _method_seqkit(self, *args, **kwargs):
         # support gz files natively
         """We use the Seqkit library.
 
         `Documentation of the Seqkit method <https://github.com/shenwei356/seqkit>`_"""
-        cmd = "seqkit fq2fa {} > {}".format(self.infile, self.outfile)
+        cmd = "seqkit fq2fa {} -j {} > {}".format(self.infile, self.threads, self.outfile)
         self.execute(cmd)
 
     @requires_nothing
@@ -145,6 +158,7 @@ class FASTQ2FASTA(ConvBase):
 
     # Does not give access to the comment part of the header
     @requires(python_library="mappy")
+    @compressor
     def _method_mappy(self, *args, **kwargs):
         """This method provides a fast and accurate C program to align genomic
         sequences and transcribe nucleotides.
@@ -154,23 +168,8 @@ class FASTQ2FASTA(ConvBase):
             for (name, seq, _) in fastx_read(self.infile):
                 fasta.write(">{}\n{}\n".format(name, seq))
 
-    # @requires(external_binary="bioawk")
-    # @in_gz
-    # def _method_bioawk(self, *args, **kwargs):
-    #    awkcmd = """bioawk -c fastx '{{print ">"$name" "$comment"\\n"$seq}}'"""
-    #    cmd = "{} {} > {}".format(awkcmd, self.infile, self.outfile)
-    #    self.execute(cmd)
-
-    # Somehow this does not work without specifying
-    # the path to the shared libraries
-    # @in_gz
-    # def _method_fqtools(self, *args, **kwargs):
-    #     """This method uses fqtools."""
-    #     fqtoolscmd = """LD_LIBRARY_PATH="/home/bli/lib" fqtools fasta"""
-    #     cmd = "{} {} > {}".format(fqtoolscmd, self.infile, self.outfile)
-    #     self.execute(cmd)
-
     @requires("awk")
+    @compressor
     def _method_awk(self, *args, **kwargs):
         """Here we are using the awk method.
 
@@ -186,6 +185,7 @@ class FASTQ2FASTA(ConvBase):
         self.execute(cmd)
 
     @requires("mawk")
+    @compressor
     def _method_mawk(self, *args, **kwargs):
         """This variant of the awk method uses mawk, a lighter and faster
         implementation of awk.
@@ -203,6 +203,7 @@ class FASTQ2FASTA(ConvBase):
         self.execute(cmd)
 
     @requires("sed")
+    @compressor
     def _method_sed(self, *args, **kwargs):
         """This method uses the UNIX function sed which is a non-interactive editor.
 
@@ -218,6 +219,7 @@ class FASTQ2FASTA(ConvBase):
         self.execute(cmd)
 
     @requires("perl")
+    @compressor
     def _method_perl(self, *args, **kwargs):
         """This method uses the perl command which will call the
         \"fastq2fasta.pl\" script.
@@ -229,7 +231,7 @@ class FASTQ2FASTA(ConvBase):
 
     @requires_nothing
     @compressor
-    def _method_python_internal(self, *args, **kwargs):
+    def _method_bioconvert(self, *args, **kwargs):
         """Bioconvert implementation in pure Python.
         This is the default method because it is the fastest."""
         with open(self.infile, "r+") as inp:

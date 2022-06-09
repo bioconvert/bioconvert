@@ -41,7 +41,7 @@ class FASTQ2FASTA_QUAL(ConvBase):
     """
 
     #: Default value
-    _default_method = "python"
+    _default_method = "bioconvert"
 
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
@@ -87,7 +87,7 @@ class FASTQ2FASTA_QUAL(ConvBase):
 
     @requires_nothing
     @compressor
-    def _method_python(self, *args, **kwargs):
+    def _method_bioconvert(self, *args, **kwargs):
         """This method is inspired by Readfq coded by Heng Li.
 
         `original Readfq method <https://github.com/lh3/readfq>`_"""

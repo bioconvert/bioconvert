@@ -36,6 +36,8 @@ class BCF2VCF(ConvBase):
 
     """
 
+    _default_method = "bcftools"
+
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 

@@ -60,7 +60,7 @@ Now, from fastq files, we can perform an alignment on the reference genome using
     bwa index staphylococcus_aureus.fasta
     bwa mem -M -t 4 staphylococcus_aureus.fasta ERR043367_1.fastq ERR043367_2.fastq > ERR043367.sam
 
-.. admonition:: **Find the reference genome of staphylococcus aureus with the accession FN433596 on** `NCBI <https://www.ncbi.nlm.nih.gov/nuccore/FN433596>`_ :
+.. note:: **Find the reference genome of staphylococcus aureus with the accession FN433596 on** `NCBI <https://www.ncbi.nlm.nih.gov/nuccore/FN433596>`_ :
 
 We get a sam file that we can visualize but if you want to reduce the size of the file.
 

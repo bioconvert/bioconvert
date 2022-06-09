@@ -27,14 +27,14 @@ Temporary module that would probably need some checking / simplification
 This is a temporary replacement to the execute() in convbase
 that also uses subprocess.Popen but is slower
 """
+import _io
+import sys
 import os
 import subprocess as sp
-import sys
 
-import _io
 import colorlog
 
-_log = colorlog.getLogger(__name__)
+logger = colorlog.getLogger(__name__)
 
 
 STDOUT = sys.stdout
@@ -67,15 +67,19 @@ class shell:
 
         close_fds = sys.platform != "win32"
 
-        _log.debug(cmd)
+        logger.debug(cmd)
         proc = sp.Popen(
             "{} {} {}".format(cls._process_prefix, cmd.rstrip(), cls._process_suffix),
             bufsize=-1,
             shell=True,
             stdout=stdout,
             close_fds=close_fds,
-            **cls._process_args
+            **cls._process_args,
         )
+
+        #import psutil
+        #pp = psutil.Process(proc.pid)
+        #logger.info(f"{pp.memory_info()}")
 
         ret = None
         if iterable:
