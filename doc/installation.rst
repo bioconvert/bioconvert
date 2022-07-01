@@ -50,6 +50,10 @@ You should see::
     --add channels 'conda-forge'
     --add channels 'bioconda'   # highest priority
 
+Yu can now use the environment.yaml file provided in the github repository to create a new environment called
+**bioconvert**::
+
+    conda install create -f environment.yml
 
 From source
 -----------
