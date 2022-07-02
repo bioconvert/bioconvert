@@ -519,6 +519,11 @@ Changes
 ========= ==============================================================================
 Version   Description
 ========= ==============================================================================
+0.6.0     * Fix bug in bam2sam (method sambamba)
+          * Fix graph layout
+          * add threading in fastq2fasta (seqkit method)
+          * multibenchmark feature added
+          * stable version used for web interface
 0.5.2     * Update requirements and environment.yml and add a conda spec-file.txt file
 0.5.1     * add genbank2gff3 requirement material in bioconvert.utils.biocode
 0.5.0     * Add CI actions for all converters
