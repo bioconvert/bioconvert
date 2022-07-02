@@ -27,11 +27,10 @@ jobs:
 
     steps:
 
-    - name: install graphviz
+    - name: install graphviz and curl
       run: |
+        sudo apt-get update
         sudo apt-get install -y graphviz-dev
-    - name: curl  # for pybigwig
-      run: |
         sudo apt-get install libcurl4-gnutls-dev
     - name: checkout git repo
       uses: actions/checkout@v2

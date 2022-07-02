@@ -1,4 +1,4 @@
-name: bedgraph2wiggle Testing
+name: bedgraph2bigwig Testing
 
 on:
   workflow_dispatch:
@@ -8,12 +8,14 @@ on:
       - dev
       - refactoring
     paths:
-      - bioconvert/bedgraph2wiggle.py
-      - .github/workflows/bedgraph2wiggle.yml
+      - bioconvert/bedgraph2bigwig.py
+      - .github/workflows/bedgraph2bigwig.yml
   pull_request:
     branches-ignore: []
     paths:
-      - bioconvert/bedgraph2wiggle.py
+      - bioconvert/bedgraph2bigwig.py
+  schedule:
+    - cron: '0 0 * * SUN'
 
 jobs:
   build-linux:
@@ -26,11 +28,10 @@ jobs:
 
     steps:
 
-    - name: install graphviz
-      run: |
+     - name: install graphviz and curl
+       run: |
+        sudo apt-get update
         sudo apt-get install -y graphviz-dev
-    - name: curl  # for pybigwig
-      run: |
         sudo apt-get install libcurl4-gnutls-dev
     - uses: actions/checkout@v2
     - name: Set up Python 3.X
@@ -43,13 +44,12 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies conda
       run: |
-        conda install -c conda-forge --quiet 'mamba=0.15.3' python=${{ matrix.python }}
+        conda install -c conda-forge --quiet 'mamba<0.24' python=${{ matrix.python }}
         mamba install -c conda-forge -c bioconda --quiet -y samtools bedtools bamtools mosdepth pbzip2 pigz dsrc sambamba squizz
     - name: Install bioconvert with pip
       run: |
         pip install -r requirements.txt
-        pip install -r requirements_dev.txt
-        pip install .
+        pip install .[testing]
     - name: Test with pytest
       run: |
-        pytest -n 1  --cov-report term --cov=bioconvert.bedgraph2wiggle test/test_bedgraph2wiggle.py
+        pytest -n 1  --cov-report term --cov=bioconvert.bedgraph2bigwig test/test_bedgraph2bigwig.py
