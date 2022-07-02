@@ -9,6 +9,8 @@ on:
       - refactoring
   pull_request:
     branches-ignore: []
+  schedule:
+    - cron: '0 0 * * SUN'
 
 jobs:
   build-linux:
