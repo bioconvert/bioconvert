@@ -133,7 +133,7 @@ class Benchmark:
         return data
 
 
-def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png"):
+def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png", min_ylim=0):
     """Plotting function for the Snakefile_benchmark to be found in the doc
 
     The json file looks like::
@@ -209,6 +209,8 @@ def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png"):
     plt.xticks(l, methods)
     # Creation of the path variable which will give the title of the output PNG image
     path = path_json.split("/")[1]
+    _, max_ylim = plt.ylim()
+    plt.ylim([min_ylim, max_ylim])
     # Backup of the benchmark of the different conversion in the form of a PNG image
     plt.savefig(output_filename, dpi=200)
 
