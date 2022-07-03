@@ -25,6 +25,9 @@ Bioconvert
 .. image::  https://anaconda.org/bioconda/bioconvert/badges/installer/conda.svg
     :target: https://conda.anaconda.org/bioconda
 
+.. image:: https://zenodo.org/badge/106598809.svg
+   :target: https://zenodo.org/badge/latestdoi/106598809
+
 
 :contributions: Want to add a convertor ? Please join https://github.com/bioconvert/bioconvert/issues/1
 :issues: Please use https://github.com/bioconvert/bioconvert/issues
