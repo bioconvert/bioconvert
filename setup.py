@@ -54,6 +54,7 @@ setup(
     author="The bioconvert Contributors",
     author_email=metainfo["authors"]["Cokelaer"][1],
     long_description=readme,
+    long_description_content_type="text/x-rst",
     keywords=metainfo["keywords"],
     description=metainfo["description"],
     license=metainfo["license"],
