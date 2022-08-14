@@ -55,7 +55,7 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
 
         dg = AGraph(directed=True)
 
-        url = "https://bioconvert.readthedocs.io/en/master/formats.html#{}"
+        url = "https://bioconvert.readthedocs.io/en/main/formats.html#{}"
 
         for a, b, s in rr.get_all_conversions():
             if len(a) == 1 and len(b) == 1:
