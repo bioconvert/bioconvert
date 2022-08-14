@@ -506,7 +506,7 @@ Please feel free to join us at https://github/biokit/bioconvert
             )
         )
         print(
-            "\nPlease see http://bioconvert.readthedocs.io/en/master/"
+            "\nPlease see http://bioconvert.readthedocs.io/en/main/"
             "references.html#{} for details ".format(str(class_converter).split("'")[1])
         )
         if args.raise_exception:

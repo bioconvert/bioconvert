@@ -30,7 +30,7 @@ changes. The **Bioconvert** core developes will then approve and merge the reque
 into the main repository.
 
 The contributed code will be **licensed under Bioconvert's license**,
-https://github.com/biokit/bioconvert/blob/master/LICENSE 
+https://github.com/biokit/bioconvert/blob/main/LICENSE 
 If you did not write the code yourself, please make sure the existing
 license is compatible and include the license information in the
 contributed files, or obtain a permission from the original
