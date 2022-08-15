@@ -33,6 +33,7 @@ import time
 from collections import deque
 from io import StringIO
 from subprocess import PIPE, Popen
+from pathlib import Path
 
 import bioconvert
 import colorlog
@@ -298,6 +299,13 @@ class ConvBase(metaclass=ConvMeta):
 
         t1 = time.time()
 
+        # make sure the output directory exists
+        if isinstance(self.outfile, (tuple, list)):
+            output_file = Path(self.outfile[0])
+        else:
+            output_file = Path(self.outfile)
+        output_file.parent.mkdir(parents=True, exist_ok=True)
+
         method_reference(*args, **kwargs)
         t2 = time.time()
         _log.info("Took {} seconds ".format(t2 - t1))
@@ -543,7 +551,7 @@ class ConvBase(metaclass=ConvMeta):
                 "--benchmark-tag",
             ],
             default="bioconvert",
-            help="Save results (json and image) named after this tag",
+            help="Save results (json and image) named after this tag. You may include sub directories",
         )
         yield ConvArg(
             names=[
@@ -551,7 +559,7 @@ class ConvBase(metaclass=ConvMeta):
                 "--benchmark-save-image",
             ],
             action="store_true",
-            help="Save results in this image",
+            help="Save results as an image (using the same tag as from --benchmark-tag)",
         )
         yield ConvArg(
             names=[

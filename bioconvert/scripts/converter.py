@@ -29,6 +29,7 @@ import sys
 import colorlog
 import textwrap
 import json
+from pathlib import Path
 
 from bioconvert import logger, version
 from bioconvert import ConvBase
@@ -629,13 +630,16 @@ def analysis(args):
         )
         import pylab
 
+        json_file = Path(f"{args.benchmark_tag}.json")
+        json_file.parent.mkdir(parents=True, exist_ok=True)
+
         if args.benchmark_save_image:
             pylab.savefig(f"{args.benchmark_tag}.png", dpi=200)
             logger.info(f"File {args.benchmark_tag}.png created")
 
-        with open(f"{args.benchmark_tag}.json", "w") as fout:
+        with open(json_file, "w") as fout:
             json.dump(results, fout, indent=True, sort_keys=True)
-            logger.info(f"Saved results in {args.benchmark_tag}.json")
+            logger.info(f"Saved results in {json_file}")
     else:
         bioconv(**vars(args))
 

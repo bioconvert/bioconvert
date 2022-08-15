@@ -33,12 +33,13 @@ _log = colorlog.getLogger(__name__)
 __all__ = ["create_graph", "get_conversions_wrapped", "create_graph_for_cytoscape"]
 
 
-def create_graph(filename, layout="dot", use_singularity=False, color_for_disabled_converter="red"):
+def create_graph(filename, layout="dot", use_singularity=False, color_for_disabled_converter="red",
+    include_subgraph=False):
     """
 
     :param filename: should end in .png or .svg or .dot
 
-    If extension is .dot, only the dot file is created.
+    If extension is .dot, only the dot file is created without annotations.
     This is useful if you have issues installing graphviz.
     If so, under Linux you could use our singularity container
     see github.com/cokelaer/graphviz4all
@@ -46,11 +47,11 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
     """
 
     rr = Registry()
-
     try:
         if filename.endswith(".dot") or use_singularity is True:
             raise Exception()
         # local import because optional for bioconvert
+        _log.info("Switching to pygraphviz")
         from pygraphviz import AGraph
 
         dg = AGraph(directed=True)
@@ -72,7 +73,7 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
                     style="filled",
                     url=url.format(b[0].upper()),
                 )
-                dg.add_edge(a[0], b[0], color="black" if s else color_for_disabled_converter)
+                dg.add_edge(a[0], b[0], alpha=0.5, color="black"  if s else color_for_disabled_converter, minlen=1)
             else:
                 and_node = "_".join(a) + "_and_" + "_".join(b)
 
@@ -101,6 +102,7 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
                         color="black" if s else color_for_disabled_converter,
                     )
 
+
         for name in dg.nodes():
             if dg.degree(name) < 5:
                 dg.get_node(name).attr["fillcolor"] = "white"
@@ -114,12 +116,68 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
                 # red
                 dg.get_node(name).attr["fillcolor"] = "red"
 
+
+        if include_subgraph:
+            # sequencing
+            with dg.subgraph(name='cluster_sequencing', shape='circle') as c:
+                c.graph_attr.update(style='filled', color='lightgrey', fillcolor='#A569BD' ,
+                    label='Sequencing')
+                c.add_nodes_from(['FASTQ', 'FASTA', 'SRA', 'FAA', 'AGP', 'TWOBIT', 'ABI', 'QUAL', 
+                    'FASTA_QUAL_and_FASTQ', 'FASTQ_and_FASTA_QUAL', 'FASTA_and_FASTA_AGP'])
+
+            # alignment
+            with dg.subgraph(name='cluster_alignment') as c:
+                c.graph_attr.update(style='filled', color='lightgrey', shape='circle', fillcolor='#D2B4DE' ,
+                    label='Alignment')
+                c.add_nodes_from(['SAM', 'BAM', 'CRAM', 'PAF', 'MAF' ])
+
+            # phylogney
+            with dg.subgraph(name='cluster_phylo') as c:
+                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#BB8FCE' ,
+                    label='Phylogney')
+                c.add_nodes_from(['NEXUS', 'PHYLOXML', 'CLUSTAL', 'NEWICK', 'PHYLIP', 'STOCKHOLM'])
+
+            # variant
+            with dg.subgraph(name='cluster_variant') as c:
+                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#F4ECF7' ,
+                    label='Variant')
+                c.add_nodes_from(['VCF', 'BCF', 'PLINK', 'BPLINK'])
+
+            # annotation
+            with dg.subgraph(name='cluster_annotation') as c:
+                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#D2B4DE' ,
+                    label='Annotation')
+                c.add_nodes_from(['GENBANK', 'EMBL', 'GFF3', 'GFF2'])
+
+            # compression
+            with dg.subgraph(name='cluster_comp') as c:
+                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#E9DAEF' ,
+                    label='Compression')
+                c.add_nodes_from(['GZ', 'DSRC', 'BZ2'])
+
+            # coverage 
+            with dg.subgraph(name='cluster_cov') as c:
+
+                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#E9DAEF' ,
+                    label='Coverage')
+                c.add_nodes_from(['COV', 'BED', 'BEDGRAPH', 'WIG', 'BIGWIG', 'WIGGLE', 'BIGBED'])
+
+            # assembly 
+            with dg.subgraph(name='cluster_ass') as c:
+
+                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#BB8FCE' ,
+                    label='Assembly')
+                c.add_nodes_from(['GFA', 'SCF'])
+
+
         dg.layout(layout)
         dg.draw(filename)
         dg.write("conversion.dot")
+        return dg
 
     except Exception as e:
-        _log.error(e)
+        print(e)
+        _log.info("Switching to local dot and singularity")
         dot = """
 strict digraph{
     node [label="\\N"];
@@ -156,7 +214,6 @@ strict digraph{
                 )
 
             else:
-
                 dotpath = "singularity run {} ".format(singfile)
                 on_rtd = environ.get("READTHEDOCS", None) == "True"
                 if on_rtd:
