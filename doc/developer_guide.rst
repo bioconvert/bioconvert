@@ -391,7 +391,7 @@ How to add you new converter to the main documentation ?
 
 Edit the doc/references.rst and add those lines ::
 
-    .. automodule:: bioconverter.fastq2fasta
+    .. automodule:: bioconvert.fastq2fasta
         :members:
         :synopsis:
         :private-members:

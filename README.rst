@@ -522,6 +522,11 @@ Changes
 ========= ==============================================================================
 Version   Description
 ========= ==============================================================================
+0.6.1     * output file can be in sub-directories allowing syntax such as 
+            'bioconvert fastq2fasta test.fastq outputs/test.fasta
+          * fix all CI actions
+          * add more examples as notebooks in ./examples
+          * add a Snakefile for the paper in ./doc/Snakefile_paper
 0.6.0     * Fix bug in bam2sam (method sambamba)
           * Fix graph layout
           * add threading in fastq2fasta (seqkit method)
