@@ -3,7 +3,7 @@
 # of life science data from one format to another.                        #
 #                                                                         #
 # Authors: see CONTRIBUTORS.rst                                           #
-# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
+# Copyright © 2018-2022  Institut Pasteur, Paris and CNRS.                #
 # See the COPYRIGHT file for details                                      #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
@@ -41,8 +41,8 @@ class GFF32GFF2(ConvBase):
     def __init__(self, infile, outfile, *args, **kargs):
         """.. rubric:: constructor
 
-        :param str infile:
-        :param str outfile:
+        :param str infile: input GFF3 filename
+        :param str outfile: output GFF2 filename
 
         """
         super(GFF32GFF2, self).__init__(infile, outfile, *args, **kargs)

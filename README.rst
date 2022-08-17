@@ -339,6 +339,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff32gff2.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gff32gff2.yml
       - `BIOCONVERT <https://bioconvert.readthedocs.io/en/main/bibliography.html>`_
+    * - `gff32gtf <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.gff32gtf>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gff32gtf.yml/badge.svg
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/gff32gtf.yml
+      - `BIOCONVERT <https://bioconvert.readthedocs.io/en/main/bibliography.html>`_
     * - `gz2bz2 <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.gz2bz2>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml
@@ -522,6 +526,7 @@ Changes
 ========= ==============================================================================
 Version   Description
 ========= ==============================================================================
+0.6.2     * added gff3 to gtf conversion
 0.6.1     * output file can be in sub-directories allowing syntax such as 
             'bioconvert fastq2fasta test.fastq outputs/test.fasta
           * fix all CI actions

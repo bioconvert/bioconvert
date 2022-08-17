@@ -12,6 +12,7 @@ dependencies:
 - biosniff
 - colorlog
 - deeptools
+- gffread
 - pandas
 - biopython>=1.70
 - mappy

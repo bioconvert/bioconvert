@@ -58,6 +58,7 @@ extensions = {
     "gfa": ["gfa"],  # assembly
     "gff2": ["gff"],
     "gff3": ["gff3"],  # annotation
+    "gtf": ["gtf"],  # annotation
     "gz": ["gz"],
     "json": ["json"],  # database
     "maf": ["maf"],  # !! this is MIRA format, not mutation alignment format

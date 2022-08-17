@@ -5,22 +5,35 @@
 Developer guide
 ===============
 
+.. contents::
 
+Quick start
+-----------
 
-It is quite easy to add a new converter in **Bioconvert**
-(see :ref:`add_converter` section) by adding a new Python module (e.g., with the
-executable **bioconvert_init**) or by copying an existing converter. Then, we
-highly recommend developers to add a test file in the ./test directory (see :ref:`add_test`), and  relevant data test files in the ``./bioconvert/data/`` directory (see
-:ref:`add_test_file`). Finally, we expect the **Bioconvert** documentation to
-be updated (``./doc`` directory) as explained in the section :ref:`update_doc`.
+A a developer, assuming you have a valid environment and installed Bioconvert (:ref:`install_dev`), 
+go to bioconvert directory and type the bioconvert init command for the input and output formats you wish to add (here we want to convert format A to B). You may also just copy an existing file::
+
+    cd bioconvert
+    bioconvert_init -i A -o B > A2B.py
+
+see :ref:`add_converter` section for details. Edit the file, update the method that performs the conversion by adding the relevant code (either python or external tools). Once done, please
+
+1. add an input test file in the ./test/data directory (see :ref:`add_test`) 
+2. add the relevant data test files in the ``./bioconvert/test/data/`` directory (see :ref:`add_test_file`)
+3. Update the documentation as explained in :ref:`update_doc` section:
+
+   1. add the module in doc/ref_converters.rst in the autosummary section
+   2. add the A2B in the README.rst
+
+4. add a CI action in .github/workflows named after the conversion (A2B.yml)
 
 Note also that a converter (a Python module, e.g., fastq2fasta) may have several methods included and it is quite straightforward to add a new method (:ref:`add_method`). They can later be compared thanks to our benchmarking framework.
 
 
-.. contents::
+If this is a new formats, you may also update the glossary.rst file in the documentation.
 
-.. _add_converter:
 
+.. _install_dev:
 
 Installation for developers
 ---------------------------
@@ -50,6 +63,8 @@ We need to install some extra requirements to run the tests or build the doc so 
 .. note::
     You may need to install extra tools to run some conversion.
     The requirements_tools.txt file list conda extra tools
+
+.. _add_converter:
 
 How to add a new conversion
 ---------------------------
@@ -389,12 +404,19 @@ you can also use the **bioconvert** standalone with -b option.
 How to add you new converter to the main documentation ?
 --------------------------------------------------------
 
-Edit the doc/references.rst and add those lines ::
+Edit the doc/ref_converters.rst and add this code (replacing A2B by your conversion)::
 
-    .. automodule:: bioconvert.fastq2fasta
+
+    .. automodule:: bioconvert.A2B
         :members:
         :synopsis:
         :private-members:
+
+and update the autosummary section::
+
+    .. autosummary::
+
+        bioconvert.A2B
 
 
 pep8 and conventions
