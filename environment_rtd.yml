@@ -25,6 +25,7 @@ dependencies:
 - pip
 - pyyaml
 - pillow
+- pygraphviz
 - singularity
 - pigz
 - dsrc
