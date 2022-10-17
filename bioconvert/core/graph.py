@@ -2,9 +2,7 @@
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
 #                                                                         #
-# Authors: see CONTRIBUTORS.rst                                           #
-# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
-# See the COPYRIGHT file for details                                      #
+# Copyright © 2018-2022  Institut Pasteur, Paris and CNRS.                #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
 # it under the terms of the GNU General Public License as published by    #
@@ -19,6 +17,9 @@
 # You should have received a copy of the GNU General Public License       #
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
+#                                                                         #
+# Repository: https://github.com/bioconvert/bioconvert                    #
+# Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Network tools to manipulate the graph of conversion"""
 from os import environ
@@ -33,8 +34,9 @@ _log = colorlog.getLogger(__name__)
 __all__ = ["create_graph", "get_conversions_wrapped", "create_graph_for_cytoscape"]
 
 
-def create_graph(filename, layout="dot", use_singularity=False, color_for_disabled_converter="red",
-    include_subgraph=False):
+def create_graph(
+    filename, layout="dot", use_singularity=False, color_for_disabled_converter="red", include_subgraph=False
+):
     """
 
     :param filename: should end in .png or .svg or .dot
@@ -73,7 +75,7 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
                     style="filled",
                     url=url.format(b[0].upper()),
                 )
-                dg.add_edge(a[0], b[0], alpha=0.5, color="black"  if s else color_for_disabled_converter, minlen=1)
+                dg.add_edge(a[0], b[0], alpha=0.5, color="black" if s else color_for_disabled_converter, minlen=1)
             else:
                 and_node = "_".join(a) + "_and_" + "_".join(b)
 
@@ -102,7 +104,6 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
                         color="black" if s else color_for_disabled_converter,
                     )
 
-
         for name in dg.nodes():
             if dg.degree(name) < 5:
                 dg.get_node(name).attr["fillcolor"] = "white"
@@ -116,59 +117,76 @@ def create_graph(filename, layout="dot", use_singularity=False, color_for_disabl
                 # red
                 dg.get_node(name).attr["fillcolor"] = "red"
 
-
         if include_subgraph:
             # sequencing
-            with dg.subgraph(name='cluster_sequencing', shape='circle') as c:
-                c.graph_attr.update(style='filled', color='lightgrey', fillcolor='#A569BD' ,
-                    label='Sequencing')
-                c.add_nodes_from(['FASTQ', 'FASTA', 'SRA', 'FAA', 'AGP', 'TWOBIT', 'ABI', 'QUAL', 
-                    'FASTA_QUAL_and_FASTQ', 'FASTQ_and_FASTA_QUAL', 'FASTA_and_FASTA_AGP'])
+            with dg.subgraph(name="cluster_sequencing", shape="circle") as c:
+                c.graph_attr.update(style="filled", color="lightgrey", fillcolor="#A569BD", label="Sequencing")
+                c.add_nodes_from(
+                    [
+                        "FASTQ",
+                        "FASTA",
+                        "SRA",
+                        "FAA",
+                        "AGP",
+                        "TWOBIT",
+                        "ABI",
+                        "QUAL",
+                        "FASTA_QUAL_and_FASTQ",
+                        "FASTQ_and_FASTA_QUAL",
+                        "FASTA_and_FASTA_AGP",
+                    ]
+                )
 
             # alignment
-            with dg.subgraph(name='cluster_alignment') as c:
-                c.graph_attr.update(style='filled', color='lightgrey', shape='circle', fillcolor='#D2B4DE' ,
-                    label='Alignment')
-                c.add_nodes_from(['SAM', 'BAM', 'CRAM', 'PAF', 'MAF' ])
+            with dg.subgraph(name="cluster_alignment") as c:
+                c.graph_attr.update(
+                    style="filled", color="lightgrey", shape="circle", fillcolor="#D2B4DE", label="Alignment"
+                )
+                c.add_nodes_from(["SAM", "BAM", "CRAM", "PAF", "MAF"])
 
             # phylogney
-            with dg.subgraph(name='cluster_phylo') as c:
-                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#BB8FCE' ,
-                    label='Phylogney')
-                c.add_nodes_from(['NEXUS', 'PHYLOXML', 'CLUSTAL', 'NEWICK', 'PHYLIP', 'STOCKHOLM'])
+            with dg.subgraph(name="cluster_phylo") as c:
+                c.graph_attr.update(
+                    style="filled", color="lightgrey", shape="box", fillcolor="#BB8FCE", label="Phylogney"
+                )
+                c.add_nodes_from(["NEXUS", "PHYLOXML", "CLUSTAL", "NEWICK", "PHYLIP", "STOCKHOLM"])
 
             # variant
-            with dg.subgraph(name='cluster_variant') as c:
-                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#F4ECF7' ,
-                    label='Variant')
-                c.add_nodes_from(['VCF', 'BCF', 'PLINK', 'BPLINK'])
+            with dg.subgraph(name="cluster_variant") as c:
+                c.graph_attr.update(
+                    style="filled", color="lightgrey", shape="box", fillcolor="#F4ECF7", label="Variant"
+                )
+                c.add_nodes_from(["VCF", "BCF", "PLINK", "BPLINK"])
 
             # annotation
-            with dg.subgraph(name='cluster_annotation') as c:
-                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#D2B4DE' ,
-                    label='Annotation')
-                c.add_nodes_from(['GENBANK', 'EMBL', 'GFF3', 'GFF2'])
+            with dg.subgraph(name="cluster_annotation") as c:
+                c.graph_attr.update(
+                    style="filled", color="lightgrey", shape="box", fillcolor="#D2B4DE", label="Annotation"
+                )
+                c.add_nodes_from(["GENBANK", "EMBL", "GFF3", "GFF2"])
 
             # compression
-            with dg.subgraph(name='cluster_comp') as c:
-                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#E9DAEF' ,
-                    label='Compression')
-                c.add_nodes_from(['GZ', 'DSRC', 'BZ2'])
+            with dg.subgraph(name="cluster_comp") as c:
+                c.graph_attr.update(
+                    style="filled", color="lightgrey", shape="box", fillcolor="#E9DAEF", label="Compression"
+                )
+                c.add_nodes_from(["GZ", "DSRC", "BZ2"])
 
-            # coverage 
-            with dg.subgraph(name='cluster_cov') as c:
+            # coverage
+            with dg.subgraph(name="cluster_cov") as c:
 
-                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#E9DAEF' ,
-                    label='Coverage')
-                c.add_nodes_from(['COV', 'BED', 'BEDGRAPH', 'WIG', 'BIGWIG', 'WIGGLE', 'BIGBED'])
+                c.graph_attr.update(
+                    style="filled", color="lightgrey", shape="box", fillcolor="#E9DAEF", label="Coverage"
+                )
+                c.add_nodes_from(["COV", "BED", "BEDGRAPH", "WIG", "BIGWIG", "WIGGLE", "BIGBED"])
 
-            # assembly 
-            with dg.subgraph(name='cluster_ass') as c:
+            # assembly
+            with dg.subgraph(name="cluster_ass") as c:
 
-                c.graph_attr.update(style='filled', color='lightgrey', shape='box', fillcolor='#BB8FCE' ,
-                    label='Assembly')
-                c.add_nodes_from(['GFA', 'SCF'])
-
+                c.graph_attr.update(
+                    style="filled", color="lightgrey", shape="box", fillcolor="#BB8FCE", label="Assembly"
+                )
+                c.add_nodes_from(["GFA", "SCF"])
 
         dg.layout(layout)
         dg.draw(filename)

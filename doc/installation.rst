@@ -31,10 +31,11 @@ Note that you will need to set up the **bioconda** channel (see below for
 details).
 ::
 
-    conda config --add channels r
     conda config --add channels defaults
-    conda config --add channels conda-forge
     conda config --add channels bioconda
+    conda config --add channels conda-forge
+    conda config --set channel_priority strict
+
 
 .. warning:: it is important to add them in this order, as mentionned on bioconda webpage    (https://bioconda.github.io/).
 
@@ -45,61 +46,50 @@ With the following command::
 
 You should see::
 
-    --add channels 'r'   # lowest priority
     --add channels 'defaults'
-    --add channels 'conda-forge'
-    --add channels 'bioconda'   # highest priority
+    --add channels 'bioconda'
+    --add channels 'conda-forge'# highest priority
 
-Yu can now use the environment.yaml file provided in the github repository to create a new environment called
+You can now use the environment.yaml file provided in the github repository to create a new environment called
 **bioconvert**::
 
     conda install create -f environment.yml
 
-From source
------------
+Docker
+------
 
-For developers, if you want to use the latest source files and based on
-**bioconda** to install the dependencies you just need to do::
+A Dockerfile (version 0.6.2 of **BioConvert**) is available on dockerhub::
 
-    git clone https://github.com/bioconvert/bioconvert
-    cd bioconvert
-    conda install --file requirements.txt
-    conda install --file requirements_tools.txt
-    conda install --file requirements_dev.txt
-    python setup.py install
+    docker pull bioconvert/bioconvert:0.6.2
 
+Which can be used as follows::
 
-Singularity
-------------
+    docker run bioconvert -d /home/user:/home/user bioconvert /home/user/test_file.fastq /home/user/test_file.fasta
 
-For production, we would recommend to use the singularity container.
+Singularity/Apptainer
+----------------------
 
-This method will download a file (container) with everything pre-compiled and
-pre-installed with the latest version available on Pypi.
+We provide Singulariry image of **BioConvert** within the https://damona.readthedocs.io project.
 
-First, you will need to install singularity. To install the version 2.4 of
-singularity on a Linux plaform, just download and execute this :download:`install_singularity.sh` bash script, or just type these commands::
+The version 0.6.2 of **BioConvert** is available for downloads.
 
-    VERSION=2.4
-    wget https://github.com/singularityware/singularity/releases/download/$VERSION/singularity-$VERSION.tar.gz
-    tar xvf singularity-$VERSION.tar.gz
-    cd singularity-$VERSION
-    ./configure --prefix=/usr/local
-    make
-    sudo make install
+Using damona::
 
-.. note:: here we need to be sudo, but you can install singularity localy if needed. 
+    pip install damona
 
-For other version, or to install singularity on windows or Mac, please check out the singularity website `<http://singularity.lbl.gov/>`_
+    # create and activate an environment
+    damona env --create test_bioconvert
+    damona activate test_bioconvert
+    damona install bioconvert
+    bioconvert
 
-First, download the container. For the latest version::
+You can also install the singularity image yourself by downloading it::
 
-    singularity pull --name bioconvert.img shub://bioconvert/bioconvert:latest
+    wget https://zenodo.org/record/7034822/files/bioconvert_0.6.1.img
+    singularity exec bioconvert_0.6.1.img bioconvert
 
-or for a specific version::
-
-    singularity pull --name bioconvert.img shub://bioconvert/bioconvert:0_3_0
-
-You can then create an alias::
-
+    # you can also create an alias
     alias bioconvert="singularity run bioconvert.simg bioconvert"
+
+.. warning:: You will need singularity of course. If you have a conda envirnment, you are lucky. singularity is there/ 
+

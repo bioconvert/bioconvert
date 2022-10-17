@@ -23,7 +23,7 @@ Bioconvert
    :target: https://anaconda.org/bioconda/bioconvert
 
 .. image::  https://anaconda.org/bioconda/bioconvert/badges/installer/conda.svg
-    :target: https://conda.anaconda.org/bioconda
+    :target: https://anaconda.org/bioconda/bioconvert/badges/installer/conda.svg
 
 .. image:: https://zenodo.org/badge/106598809.svg
    :target: https://zenodo.org/badge/latestdoi/106598809
@@ -53,15 +53,16 @@ In order to install bioconvert, you can use **pip**::
 
     pip install bioconvert
 
-We also provide releases on bioconda (http://bioconda.github.io/)::
+Many conversions require external tools. To help you , you may also install bioconvert with
+releases on bioconda (http://bioconda.github.io/)::
 
     conda install bioconvert
 
-and Singularity containers are available. See
-http://bioconvert.readthedocs.io/en/main/user_guide.html#installation for
+Other alternatives are containers with Docker and Singularity containers. See
+http://bioconvert.readthedocs.io/en/main/installation.html for
 details.
 
-**bioconvert** is a Python library but depends on many third-party software (e.g., samtools). Therefore, the **bioconda** method is the recommended one for end-users because it installs **bioconvert** and all its dependencies.
+**BioConvert** is a Python library but depends on many third-party software (e.g., samtools). Therefore, the **bioconda** method is the recommended one for end-users because it installs **bioconvert** and all its dependencies.
 If you choose the **pip** method, only the **bioconvert** Python package will be installed.
 
 Usage

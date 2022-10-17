@@ -2,9 +2,7 @@
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
 #                                                                         #
-# Authors: see CONTRIBUTORS.rst                                           #
 # Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
-# See the COPYRIGHT file for details                                      #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
 # it under the terms of the GNU General Public License as published by    #
@@ -242,6 +240,11 @@ class Registry(object):
         :type format_pair: tuple (or list) of 2 items. The items must be a
             string or a tuple/list of strings.
         :return: True if format_pair is in registry otherwise False.
+
+        ::
+
+            r = Registry()
+            ('VCF', 'BCF') in r
         """
 
         # make sure input is tuple of 2 items

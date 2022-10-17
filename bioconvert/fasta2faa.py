@@ -2,9 +2,7 @@
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
 #                                                                         #
-# Authors: see CONTRIBUTORS.rst                                           #
-# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
-# See the COPYRIGHT file for details                                      #
+# Copyright © 2018-2022  Institut Pasteur, Paris and CNRS.                #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
 # it under the terms of the GNU General Public License as published by    #
@@ -16,9 +14,12 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #
 # GNU General Public License for more details.                            #
 #                                                                         #
-# You should have received a copy of the GNT General Public License       #
+# You should have received a copy of the GNU General Public License       #
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
+#                                                                         #
+# Repository: https://github.com/bioconvert/bioconvert                    #
+# Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Convert :term:`FASTA` format to :term:`FAA` format"""
 import textwrap

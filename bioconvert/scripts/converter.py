@@ -2,9 +2,7 @@
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
 #                                                                         #
-# Authors: see CONTRIBUTORS.rst                                           #
-# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
-# See the COPYRIGHT file for details                                      #
+# Copyright © 2018-2022  Institut Pasteur, Paris and CNRS.                #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
 # it under the terms of the GNU General Public License as published by    #
@@ -19,6 +17,9 @@
 # You should have received a copy of the GNU General Public License       #
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
+#                                                                         #
+# Repository: https://github.com/bioconvert/bioconvert                    #
+# Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """.. rubric:: Standalone application dedicated to conversion"""
 import os
@@ -60,17 +61,12 @@ class ParserHelper:
         if len(self.args) == 0:
             error("Please provide at least some arguments. See --help")
 
-        if (
-            args[0].lower() not in list(registry.get_converters_names())
-            and "." in args[0]
-        ):
+        if args[0].lower() not in list(registry.get_converters_names()) and "." in args[0]:
             self.mode = "implicit"
             # we shoule have at least 2 entries in implicit mode and the first
             # input filename must exists (1 to 1 or many to 1)
             if len(args) < 2:
-                error(
-                    "In implicit mode, you must define your input and output file (only 1 provided)"
-                )
+                error("In implicit mode, you must define your input and output file (only 1 provided)")
         else:
             self.mode = "explicit"
         _log.debug("parsing mode {}".format(self.mode))
@@ -144,9 +140,7 @@ def main(args=None):
             # compression, this means we just want to decompress and
             # re-compress in another format.
             if not converter and (exts[0] == exts[1]):
-                exts_with_comp = [
-                    utils.get_extension(x, remove_compression=False) for x in filenames
-                ]
+                exts_with_comp = [utils.get_extension(x, remove_compression=False) for x in filenames]
                 in_ext, out_ext = exts_with_comp[0], exts_with_comp[1]
                 comps = ["gz", "dsrc", "bz2"]
                 if in_ext in comps and out_ext in comps:
@@ -168,12 +162,8 @@ def main(args=None):
                     # (fq2clustal), this is a non official converter name. The
                     # official one is fastq2clustal, so we need some hack here:
                     in_name, int_name, out_name = _path
-                    a = registry._ext_registry[in_name, int_name][0].__name__.split(
-                        "2"
-                    )[0]
-                    b = registry._ext_registry[int_name, out_name][0].__name__.split(
-                        "2"
-                    )[1]
+                    a = registry._ext_registry[in_name, int_name][0].__name__.split("2")[0]
+                    b = registry._ext_registry[int_name, out_name][0].__name__.split("2")[1]
 
                     convname = "2".join([a, b]).lower()
 
@@ -290,11 +280,12 @@ source collaborative project at https://github/bioconvert/bioconvert
 """,
     )
 
-    subparsers = arg_parser.add_subparsers(help="sub-command help", dest="converter",)
-
-    max_converter_width = 2 + max(
-        [len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()]
+    subparsers = arg_parser.add_subparsers(
+        help="sub-command help",
+        dest="converter",
     )
+
+    max_converter_width = 2 + max([len(in_fmt) for in_fmt, _, _, _ in registry.iter_converters()])
 
     def sorting_tuple_string(item):
         if type(item) is tuple:
@@ -317,10 +308,7 @@ source collaborative project at https://github/bioconvert/bioconvert
         if converter:
             link_char = "-"
             if len(converter.available_methods) < 1:
-                help_details = (
-                    " (no available methods please see the doc"
-                    " for install the necessary libraries) "
-                )
+                help_details = " (no available methods please see the doc" " for install the necessary libraries) "
             else:
                 help_details = " (%i methods)" % len(converter.available_methods)
         else:  # if path:
@@ -385,15 +373,16 @@ Please feel free to join us at https://github/biokit/bioconvert
         help="Show all possible indirect conversions " "(labelled as intermediate)",
     )
 
-    arg_parser.add_argument(
-        "--version", action="store_true", default=False, help="Show version"
-    )
+    arg_parser.add_argument("--version", action="store_true", default=False, help="Show version")
 
     arg_parser.add_argument(
         "--conversion-graph",
         nargs="?",
         default=None,
-        choices=["cytoscape", "cytoscape-all",],
+        choices=[
+            "cytoscape",
+            "cytoscape-all",
+        ],
     )
 
     # FIXME why is this a try ?
@@ -426,9 +415,7 @@ Please feel free to join us at https://github/biokit/bioconvert
             raise err
 
         conversions = []
-        for in_fmt, out_fmt, converter, path in registry.iter_converters(
-            allow_indirect_conversion
-        ):
+        for in_fmt, out_fmt, converter, path in registry.iter_converters(allow_indirect_conversion):
             in_fmt = ConvBase.lower_tuple(in_fmt)
             in_fmt = ["_".join(in_fmt)]
             out_fmt = ConvBase.lower_tuple(out_fmt)
@@ -492,10 +479,7 @@ Please feel free to join us at https://github/biokit/bioconvert
         arg_parser.error(msg)
 
     if getattr(args, "show_methods", False) is False and args.input_file is None:
-        arg_parser.error(
-            "Either specify an input_file (<INPUT_FILE>) or "
-            "ask for available methods (--show-methods)"
-        )
+        arg_parser.error("Either specify an input_file (<INPUT_FILE>) or " "ask for available methods (--show-methods)")
 
     # do we want to know the available methods ? If so, print info and quit
     if getattr(args, "show_methods", False) is True:
@@ -514,10 +498,7 @@ Please feel free to join us at https://github/biokit/bioconvert
             return
         sys.exit(0)
 
-    if (
-        not args.allow_indirect_conversion
-        and ConvMeta.split_converter_to_format(args.converter) not in registry
-    ):
+    if not args.allow_indirect_conversion and ConvMeta.split_converter_to_format(args.converter) not in registry:
 
         arg_parser.error(
             "The conversion {} is not available directly, "
@@ -597,9 +578,7 @@ def analysis(args):
         extra_arguments = args.extra_arguments
 
     # Call a generic wrapper of all available conversion
-    bioconv = Bioconvert(
-        infile, outfile, force=args.force, threads=threads, extra=extra_arguments
-    )
+    bioconv = Bioconvert(infile, outfile, force=args.force, threads=threads, extra=extra_arguments)
 
     for k, v in args.__dict__.items():
         if k not in [
@@ -625,9 +604,7 @@ def analysis(args):
             bioconv.converter.others[k] = v
 
     if args.benchmark:
-        results = bioconv.converter.boxplot_benchmark(
-            N=args.benchmark_N, to_include=args.benchmark_methods
-        )
+        results = bioconv.converter.boxplot_benchmark(N=args.benchmark_N, to_include=args.benchmark_methods)
         import pylab
 
         json_file = Path(f"{args.benchmark_tag}.json")
