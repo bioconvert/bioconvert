@@ -2,9 +2,7 @@
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
 #                                                                         #
-# Authors: see CONTRIBUTORS.rst                                           #
-# Copyright © 2018-2019  Institut Pasteur, Paris and CNRS.                #
-# See the COPYRIGHT file for details                                      #
+# Copyright © 2018-2022  Institut Pasteur, Paris and CNRS.                #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
 # it under the terms of the GNU General Public License as published by    #
@@ -19,6 +17,9 @@
 # You should have received a copy of the GNU General Public License       #
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
+#                                                                         #
+# Repository: https://github.com/bioconvert/bioconvert                    #
+# Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Convert :term:`WIG` to :term:`BED` format"""
 
@@ -48,7 +49,7 @@ class WIG2BED(ConvBase):
 
     @requires("wig2bed")
     @compressor
-    def wig2bed(self, *args, **kwargs):
+    def _method_wig2bed(self, *args, **kwargs):
         """For this method, we use the wig2bed tool.
 
         `wig2bed documentation <https://bedops.readthedocs.io/en/latest/content/reference/file-management/conversion/wig2bed.html>`_"""

@@ -10,7 +10,7 @@ Developer guide
 Quick start
 -----------
 
-A a developer, assuming you have a valid environment and installed Bioconvert (:ref:`install_dev`), 
+As a developer, assuming you have a valid environment and installed Bioconvert (:ref:`install_dev`), 
 go to bioconvert directory and type the bioconvert init command for the input and output formats you wish to add (here we want to convert format A to B). You may also just copy an existing file::
 
     cd bioconvert
@@ -54,7 +54,7 @@ And clone the bioconvert project ::
 
 We need to install some extra requirements to run the tests or build the doc so to install these requirements ::
 
-    pip install -e . [dev]
+    pip install -e . [testing]
 
 .. warning::
     The extra requirements try to install `pygraphviz` so you need to install `graphviz` on your computer.
@@ -521,7 +521,7 @@ In order to create the docker file, use this command::
 
     docker build .
 
-The Dockerfile found next to setup.py is self-content and has been tested for v0.5.2 ; it uses the spec-file.txt that was generated in a conda environment using 
+The Dockerfile found next to setup.py is self-content and has been tested for v0.5.2 ; it uses the spec-file.txt that was generated in a conda environment using::
 
     conda list --explicit
 

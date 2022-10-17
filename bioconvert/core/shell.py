@@ -77,9 +77,9 @@ class shell:
             **cls._process_args,
         )
 
-        #import psutil
-        #pp = psutil.Process(proc.pid)
-        #logger.info(f"{pp.memory_info()}")
+        # import psutil
+        # pp = psutil.Process(proc.pid)
+        # logger.info(f"{pp.memory_info()}")
 
         ret = None
         if iterable:

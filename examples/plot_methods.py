@@ -4,9 +4,7 @@
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
 #                                                                         #
-# Authors: see CONTRIBUTORS.rst                                           #
-# Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
-# See the COPYRIGHT file for details                                      #
+# Copyright © 2018-2022  Institut Pasteur, Paris and CNRS.                     #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
 # it under the terms of the GNU General Public License as published by    #
@@ -44,10 +42,9 @@ converters = [x for x in info.items()]
 # the number of methods per converter
 data = [info[k] for k, v in info.items()]
 
-
 # the number of formats
-A1 = [x[0] for x in list(r.get_conversions())]
-A2 = [x[1] for x in list(r.get_conversions())]
+A1 = [y for x in list(r.get_conversions()) for y in x[0]]
+A2 = [y for x in list(r.get_conversions()) for y in x[1]]
 formats = set(A1 + A2)
 
 print("Number of formats: {}".format(len(formats)))

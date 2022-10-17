@@ -3,8 +3,6 @@
 Benchmarking
 ============
 
-:Target audience: developers
-
 Introduction
 ------------
 

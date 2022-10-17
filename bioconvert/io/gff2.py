@@ -4,9 +4,7 @@
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
 #                                                                         #
-# Authors: see CONTRIBUTORS.rst                                           #
 # Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
-# See the COPYRIGHT file for details                                      #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
 # it under the terms of the GNU General Public License as published by    #
@@ -35,7 +33,7 @@ class Gff2:
         self.filename = filename
 
     def read(self):
-        """ Read annotations one by one creating a generator """
+        """Read annotations one by one creating a generator"""
 
         with open(self.filename) as reader:
             line = None

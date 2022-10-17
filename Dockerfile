@@ -35,6 +35,6 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda3-py37_4.11.0-Linux-x86_64
 COPY spec-file.txt spec-file.txt
 
 RUN conda install --yes --file spec-file.txt
+RUN conda install --yes pybigwig
+RUN pip install --upgrade pip && pip install bioconvert==0.6.1
 
-RUN conda install --yes pybigwig 
-RUN pip install --upgrade pip && pip install bioconvert==0.5.2

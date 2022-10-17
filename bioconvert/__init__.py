@@ -9,6 +9,7 @@ except:
 import os
 
 import colorlog
+
 # This will create a HOME/.config/bioconvert where files (e.g., executables)
 # can be downloaded
 from easydev import CustomConfig

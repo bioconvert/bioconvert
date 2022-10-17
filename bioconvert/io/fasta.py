@@ -4,9 +4,7 @@
 # Bioconvert is a project to facilitate the interconversion               #
 # of life science data from one format to another.                        #
 #                                                                         #
-# Authors: see CONTRIBUTORS.rst                                           #
 # Copyright © 2018  Institut Pasteur, Paris and CNRS.                     #
-# See the COPYRIGHT file for details                                      #
 #                                                                         #
 # bioconvert is free software: you can redistribute it and/or modify      #
 # it under the terms of the GNU General Public License as published by    #
@@ -31,7 +29,7 @@ class Fasta:
         self.filename = filename
 
     def read(self):
-        """ Read fasta sequence by sequence creating a generator """
+        """Read fasta sequence by sequence creating a generator"""
         sequence = {"id": "", "comment": "", "value": ""}
 
         with open(self.filename) as reader:
