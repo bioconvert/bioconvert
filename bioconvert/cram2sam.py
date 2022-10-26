@@ -79,3 +79,11 @@ class CRAM2SAM(ConvBase):
 
         cmd = "samtools view -@ {} -h -T {} {} > {}".format(self.threads, reference, self.infile, self.outfile)
         self.execute(cmd)
+
+    @classmethod
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names="--reference",
+            default=None,
+            help="the reference used (FASTA format). If not provided, prompt will appear",
+        )
