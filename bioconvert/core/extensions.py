@@ -52,7 +52,7 @@ extensions = {
     "dsrc": ["dsrc"],  # compression
     "embl": ["embl"],  # annotation/sequence
     "ena": ["ena"],
-    "faa": ["faa", "mpfa"],  # fasta multiple amino acid
+    "faa": ["faa", "mpfa", "aa"],  # fasta multiple amino acid
     "fasta": ["fasta", "fa", "fst"],  # sequence
     "fastq": ["fastq", "fq"],  # sequence
     "genbank": ["genbank", "gbk", "gb"],  # annotation/sequence

@@ -392,6 +392,10 @@ Available Converters
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml
       -
+    * - `pdb2faa <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.pdb2faa>`_
+      - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/pdb2faa.yml/badge.svg
+            :target: https://github.com/bioconvert/bioconvert/actions/workflows/pdb2faa.yml
+      - `BIOCONVERT <https://bioconvert.readthedocs.io/en/main/bibliography.html>`_
     * - `phylip2clustal <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.phylip2clustal>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2clustal.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/phylip2clustal.yml
@@ -527,7 +531,9 @@ Changes
 ========= ==============================================================================
 Version   Description
 ========= ==============================================================================
-0.6.2     * added gff3 to gtf conversion
+0.6.2     * added gff3 to gtf conversion. 
+          * Added pdb to faa conversion
+          * Added missing --reference argument to the cram2sam conversion
 0.6.1     * output file can be in sub-directories allowing syntax such as 
             'bioconvert fastq2fasta test.fastq outputs/test.fasta
           * fix all CI actions

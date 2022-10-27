@@ -70,6 +70,7 @@ Summary
 	bioconvert.nexus2phylip
 	bioconvert.nexus2phyloxml
 	bioconvert.ods2csv
+	bioconvert.pdb2faa
 	bioconvert.phylip2clustal
 	bioconvert.phylip2fasta
 	bioconvert.phylip2nexus
