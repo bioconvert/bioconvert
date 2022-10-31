@@ -22,8 +22,11 @@ Bioconvert
 .. image:: https://anaconda.org/bioconda/bioconvert/badges/platforms.svg
    :target: https://anaconda.org/bioconda/bioconvert
 
-.. image::  https://anaconda.org/bioconda/bioconvert/badges/installer/conda.svg
-    :target: https://anaconda.org/bioconda/bioconvert/badges/installer/conda.svg
+.. image::  https://anaconda.org/bioconda/bioconvert/badges/version.svg
+    :target: https://anaconda.org/bioconda/bioconvert/badges/version.svg
+
+.. image:: https://anaconda.org/bioconda/bioconvert/badges/downloads.svg
+    :target: https://anaconda.org/bioconda/bioconvert/badges/downloads.svg
 
 .. image:: https://zenodo.org/badge/106598809.svg
    :target: https://zenodo.org/badge/latestdoi/106598809
