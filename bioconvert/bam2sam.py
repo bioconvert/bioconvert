@@ -84,3 +84,10 @@ class BAM2SAM(ConvBase):
         cmd = "sambamba view  {} -o {} -t {}"
         cmd = cmd.format(self.infile, self.outfile, self.threads)
         self.execute(cmd)
+
+    @requires("picard")
+    def _method_picard(self, *args, **kwargs):
+        # 2-3 times slower than samtools
+        cmd = f"picard SamFormatConverter I={self.infile} O={self.outfile}"
+        self.execute(cmd)
+
