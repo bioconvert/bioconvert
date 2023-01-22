@@ -100,7 +100,6 @@ jobs:
       shell: bash -l {0}
       run: |
         pip install .[testing]
-        pip install "xlrd>2"
     - name: testing
       shell: bash -l {0}
       run: |

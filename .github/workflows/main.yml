@@ -21,7 +21,6 @@ jobs:
         python: [3.8, 3.9, '3.10']
       fail-fast: false
 
-
     steps:
 
     - name: install graphviz and curl
@@ -96,7 +95,6 @@ jobs:
       shell: bash -l {0}
       run: |
         pip install .[testing]
-        pip install "xlrd>2"
     - name: testing
       shell: bash -l {0}
       run: |

@@ -534,6 +534,10 @@ Changes
 ========= ==============================================================================
 Version   Description
 ========= ==============================================================================
+0.6.3     * add picard method in bam2sam
+          * Fixed all CI workflows to use mamba
+          * drop python3.7 support and add 3.10 support
+          * update bedops test file to fit the latest bedops 2.4.41 version
 0.6.2     * added gff3 to gtf conversion. 
           * Added pdb to faa conversion
           * Added missing --reference argument to the cram2sam conversion
