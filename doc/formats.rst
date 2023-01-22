@@ -1094,6 +1094,28 @@ the next by a single tab.
 
 .. _format_gff:
 
+GTF
+---
+
+:Format: human-readable
+:Status: included
+:Type: Annotation
+
+
+GTF2 (General Feature Format version 2) is a file format used to represent genomic features and their locations in a genome. It is a tab-delimited text file that contains one line for each genomic feature, with each line consisting of nine fields separated by tabs.
+
+The fields in a GTF2 file are as follows:
+
+* Seqid: The identifier of the genomic sequence.
+* Source: The source of the annotation.
+* Feature: The type of feature.
+* Start: The starting position of the feature.
+* End: The ending position of the feature.
+* Score: A score associated with the feature.
+* Strand: The strand on which the feature is located.
+* Phase: The phase of the feature, if applicable.
+* Attributes: A list of attributes associated with the feature, encoded as a semicolon-separated list of key-value pairs.
+
 GFF
 ---
 

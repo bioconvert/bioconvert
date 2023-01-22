@@ -13,7 +13,7 @@ pyexcel
 pyexcel-ods3
 pyexcel-xls
 pyexcel-xlsx
-xlrd
+xlrd>2
 pyBigWig
 py2bit
 statsmodels
