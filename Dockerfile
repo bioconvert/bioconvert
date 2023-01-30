@@ -1,20 +1,14 @@
 FROM ubuntu:21.04
 
-#RUN apt-get update && \
-#    apt-get install -y && \
-#    apt-get install -y wget bzip2 && \
-#    apt-get install -y libglu1-mesa
-
-
 RUN apt-get update -y && apt-get -y install wget libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6 libcurl4-openssl-dev build-essential git zlib1g zlib1g-dev
 
-# gzip is not needed to install bioconvert 
+# gzip is not needed to install bioconvert
 # but we need it to install webapp
 # in webapp Dockerfile we running under bioconvert id
-RUN apt-get install -y unzip \ 
+RUN apt-get install -y unzip \
  && rm -rf /var/lib/apt/lists/*
 
-RUN useradd bioconvert -g users -m 
+RUN useradd bioconvert -g users -m
 USER bioconvert
 
 ENV PATH /home/bioconvert/miniconda3/bin:$PATH
@@ -36,5 +30,5 @@ COPY spec-file.txt spec-file.txt
 
 RUN conda install --yes --file spec-file.txt
 RUN conda install --yes pybigwig
-RUN pip install --upgrade pip && pip install bioconvert==0.6.1
+RUN pip install --upgrade pip && pip install bioconvert==0.6.3
 

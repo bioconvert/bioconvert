@@ -69,7 +69,7 @@ Since **bioconvert** is available on `bioconda <https://bioconda.github.io>`_ on
     mamba install bioconvert
     bioconvert --help
 
-See the :ref:`installation_details` section for more details and alternative solutions (docker, singularity).
+See the Installation section for more details and alternative solutions (docker, singularity).
 
 Quick Start
 ##############
