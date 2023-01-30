@@ -30,16 +30,13 @@ Libraries
 Graphviz related
 ~~~~~~~~~~~~~~~~
 
-When you install the requirement for dev. It is possible to have problems with pygraphviz,
-try to install these libraries: ::
+When you install the requirements for developer mode, you may have problems with pygraphviz (missing lib).
+Try to install these libraries manually ::
 
     sudo apt-get install libcgraph6 libgraphviz-dev
 
-and then you can try again to install pygraphviz by two methods: ::
+and then you can try again to install pygraphviz using ::
 
     pip install pygraphviz
 
-or ::
-
-    pip install -r requirements_dev.txt
 

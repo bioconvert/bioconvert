@@ -190,18 +190,18 @@ automatically; the **bioconvert** executable should show the name of your new me
 
 In order to add your new method, you can add:
 
-- Pure Python code
-- Python code that relies on third-party library. If so, you may use:
+* Pure Python code
+* Python code that relies on third-party library. If so, you may use:
   
-    - Python libraries available on pypi. Pleaes add the library name to the
+    * Python libraries available on pypi. Pleaes add the library name to the
       requirements.txt
-    - if the Python library requires lots of compilation and is available
+    * if the Python library requires lots of compilation and is available
       on bioconda, you may add the library name to the requirements_tools.txt
       instead.
       
-- Third party tools available on **bioconda** (e.g., squizz, seqtk, etc)
+* Third party tools available on **bioconda** (e.g., squizz, seqtk, etc)
   that you can add to the requirements_tools.txt
-- Perl and GO code are also accepted. If so, use the self.install_tool(NAME)
+* Perl and GO code are also accepted. If so, use the self.install_tool(NAME)
   and add a script in ``./misc/install_NAME.sh``
 
 
@@ -368,9 +368,10 @@ How to locally run the tests
 
 Go to the source directory of **Bioconvert**. 
 
-If not already done, install all packages listed in ``requirements_dev.txt``. You can do so by running::
+If not already done, install all packages required for testing::
 
-    pip3 install -r requirements_dev.txt
+    cd bioconvert
+    pip3 install .[testing]
 
 Then, run the tests using::
 
@@ -470,8 +471,6 @@ Requirements files
 - environment_rtd.yml : do not touch. Simple file for readthedocs
 - readthedocs.yml : all conda and pip dependencies to run the example and build
   the doc
-- requirements_dev.txt : packages required for testing or building the doc (not
-  required to run the bioconvert package
 - environment.yml is a conda list of all dependencies
 
 How to update bioconvert on bioconda

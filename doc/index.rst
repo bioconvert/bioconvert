@@ -24,7 +24,6 @@ Complete documentation including User and Developer Guides
     glossary
     faqs
     bibliography
-    ChangeLog.rst
 
 
 
