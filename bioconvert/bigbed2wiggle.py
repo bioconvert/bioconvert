@@ -22,6 +22,8 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Convert :term:`BIGBED` format to :term:`WIGGLE` format"""
+import os
+from tempfile import NamedTemporaryFile
 import colorlog
 
 from bioconvert import ConvBase
@@ -54,14 +56,11 @@ class BIGBED2WIGGLE(ConvBase):
         """Conversion using wiggletools
 
         `wiggletools documentation <https://github.com/Ensembl/WiggleTools>`_"""
-        import os
-
-        from easydev import TempFile
 
         # with need a unique name, that does not exists for the symlink
         # Fixes #233
         fname = None
-        with TempFile(suffix=".bb") as ftemp:
+        with NamedTemporaryFile(suffix=".bb") as ftemp:
             fname = ftemp.name
 
         os.symlink(os.path.abspath(self.infile), ftemp.name)

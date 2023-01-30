@@ -28,7 +28,7 @@ import csv
 import colorlog
 
 from bioconvert.core.base import ConvArg, ConvBase
-from bioconvert.core.decorators import compressor, in_gz, requires, requires_nothing
+from bioconvert.core.decorators import compressor, requires, requires_nothing
 
 logger = colorlog.getLogger(__name__)
 

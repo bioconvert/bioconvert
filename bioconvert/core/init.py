@@ -19,7 +19,6 @@
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
 """Utility used by the script bioconvert_init to initiate a new plugin"""
-import os
 
 __all__ = ["InitConverter"]
 

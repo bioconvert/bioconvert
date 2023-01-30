@@ -30,6 +30,9 @@ from bioconvert.core.decorators import requires
 logger = colorlog.getLogger(__name__)
 
 
+__all__ = ['BAM2JSON']
+
+
 class BAM2JSON(ConvBase):
     """Convert :term:`BAM` format to :term:`JSON` file
 

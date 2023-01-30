@@ -72,3 +72,4 @@ from bioconvert.core.converter import Bioconvert
 from bioconvert.core.decorators import compressor, requires
 from bioconvert.core.registry import Registry
 from bioconvert.core.shell import shell
+from bioconvert.core.utils import TempFile, md5

@@ -23,7 +23,6 @@
 ###########################################################################
 """Converts :term:`PHYLIP` file to :term:`NEXUS` format."""
 import colorlog
-from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import compressor, requires

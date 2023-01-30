@@ -25,6 +25,7 @@
 from os import environ
 
 from bioconvert.core.registry import Registry
+from bioconvert.core.utils import TempFile
 
 import colorlog
 
@@ -209,7 +210,6 @@ strict digraph{
         dot += "}\n"
 
         from bioconvert import shell
-        from easydev import TempFile
 
         dotfile = TempFile(suffix=".dot")
         with open(dotfile.name, "w") as fout:

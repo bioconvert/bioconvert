@@ -22,7 +22,7 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Convert :term:`PDB` to :term:`FAA` format"""
-import sys, re
+import re
 from bioconvert import ConvBase
 
 from bioconvert.core.decorators import requires_nothing
@@ -47,19 +47,37 @@ class PDB2FAA(ConvBase):
     def _method_bioconvert(self, *args, **kwargs):
 
         long2short = {
-            'ALA':'A', 'VAL':'V', 'PHE':'F', 'PRO':'P', 'MET':'M',
-           'ILE':'I', 'LEU':'L', 'ASP':'D', 'GLU':'E', 'LYS':'K',
-           'ARG':'R', 'SER':'S', 'THR':'T', 'TYR':'Y', 'HIS':'H',
-           'CYS':'C', 'ASN':'N', 'GLN':'Q', 'TRP':'W', 'GLY':'G',
-           'MSE':'M',
+            "ALA": "A",
+            "VAL": "V",
+            "PHE": "F",
+            "PRO": "P",
+            "MET": "M",
+            "ILE": "I",
+            "LEU": "L",
+            "ASP": "D",
+            "GLU": "E",
+            "LYS": "K",
+            "ARG": "R",
+            "SER": "S",
+            "THR": "T",
+            "TYR": "Y",
+            "HIS": "H",
+            "CYS": "C",
+            "ASN": "N",
+            "GLN": "Q",
+            "TRP": "W",
+            "GLY": "G",
+            "MSE": "M",
         }
 
-        pattern=re.compile("^ATOM\s{2,6}\d{1,5}\s{2}CA\s[\sA]([A-Z]{3})\s([\s\w])|^HETATM\s{0,4}\d{1,5}\s{2}CA\s[\sA](MSE)\s([\s\w])")
+        pattern = re.compile(
+            "^ATOM\s{2,6}\d{1,5}\s{2}CA\s[\sA]([A-Z]{3})\s([\s\w])|^HETATM\s{0,4}\d{1,5}\s{2}CA\s[\sA](MSE)\s([\s\w])"
+        )
 
-        chain_dict=dict()
-        chain_list=[]
+        chain_dict = dict()
+        chain_list = []
 
-        with open(self.infile, 'r') as fin:
+        with open(self.infile, "r") as fin:
             for line in fin.readlines():
                 if line.startswith("ENDMDL"):
                     break
@@ -73,6 +91,6 @@ class PDB2FAA(ConvBase):
                         chain_dict[chain] = long2short[residue]
                         chain_list.append(chain)
 
-        with open(self.outfile, 'w') as fout:
+        with open(self.outfile, "w") as fout:
             for chain in chain_list:
-                fout.write(f'>{self.infile}:{chain}\n{chain_dict[chain]}\n')
+                fout.write(f">{self.infile}:{chain}\n{chain_dict[chain]}\n")

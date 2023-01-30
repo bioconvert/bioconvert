@@ -22,12 +22,9 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Convert :term:`BEDGRAPH` file to :term:`COV` format"""
-import os
-
 import colorlog
 
 from bioconvert import ConvBase
-from bioconvert.core.decorators import requires
 
 _log = colorlog.getLogger(__name__)
 

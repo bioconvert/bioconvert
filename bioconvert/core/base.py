@@ -22,6 +22,7 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Main factory of Bioconvert"""
+import os
 import abc
 import copy
 import inspect
@@ -41,11 +42,8 @@ import colorlog
 from bioconvert import logger
 from bioconvert.core import extensions
 from bioconvert.core.benchmark import Benchmark
-from bioconvert.core.utils import generate_outfile_name
-from easydev import TempFile
-from easydev.multicore import cpu_count
+from bioconvert.core.utils import TempFile
 
-from . import BioconvertError
 
 _log = colorlog.getLogger(__name__)
 
@@ -128,10 +126,13 @@ class ConvMeta(abc.ABCMeta):
                 setattr(cls, "output_ext", tuple(output_ext))
                 # if the key is not in the dictionary return an error message
             available_conv_meth = []
+            required_binaries = {}
+
             for name in inspect.getmembers(cls, is_conversion_method):
-                # do not use strip() but split()
                 conv_meth = name[0].split("_method_")[1]
                 is_disabled = getattr(name[1], "is_disabled", None)
+                required_binaries[conv_meth] = getattr(name[1], "_required_binaries", None)
+
                 if is_disabled is None:
                     _log.debug(
                         "converter '{}': method {} is not decorated, we expect it to work all time".format(
@@ -150,6 +151,7 @@ class ConvMeta(abc.ABCMeta):
                         )
                     )
             setattr(cls, "available_methods", available_conv_meth)
+            setattr(cls, "required_binaries", required_binaries)
             _log.debug("class = {}  available_methods = {}".format(cls.__name__, available_conv_meth))
 
 
@@ -249,7 +251,7 @@ class ConvBase(metaclass=ConvMeta):
     # threads to be used by default if argument is required in a method
     # this will be overriden if _threading set to True and therefore --threads
     # set by the user. It is feed back into Bioconvert class
-    threads = cpu_count()
+    threads = min([4, os.cpu_count()])
 
     def __init__(self, infile, outfile):
         """.. rubric:: constructor
@@ -287,10 +289,21 @@ class ConvBase(metaclass=ConvMeta):
 
         # If not, we need to check the name
         # execute() method for the benchmark
+        if not self.available_methods: #pragma: no cover
+            msg = "No valid methods found. You must install one or several missing executables. \n"
+            for k, v in self.required_binaries.items():
+                v = ", ".join(v)
+                msg += f"Method {k} requires: {v}\n"
+            raise ValueError(msg)
+
+
         if method_name not in self.available_methods:
             msg = "Methods available are {}".format(self.available_methods)
             _log.error(msg)
             raise ValueError(msg)
+
+
+
 
         _log.info("{}> Executing {} method ".format(self.name, method_name))
         # reference to the method requested
@@ -353,7 +366,7 @@ class ConvBase(metaclass=ConvMeta):
         """
         try:
             process_ = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE, stdin=None)
-        except Exception as err:
+        except Exception as err: #pragma: no cover
             msg = "Failed to execute Command: '{}'. error: '{}'".format(cmd, err)
             raise RuntimeError(msg)
 
@@ -389,10 +402,6 @@ class ConvBase(metaclass=ConvMeta):
             if errors:
                 print(errors, file=sys.stderr)
 
-        # import psutil
-        # pp = psutil.Process(process_.pid)
-        # logger.info(pp.memory_info())
-
         if process_.returncode != 0:
             if not ignore_errors:
                 raise RuntimeError(errors)
@@ -422,8 +431,6 @@ class ConvBase(metaclass=ConvMeta):
 
     def _get_default_method(self):
         if self._default_method is None:
-            return self.available_methods[0]
-        elif self._default_method not in self.available_methods:
             return self.available_methods[0]
         else:
             return self._default_method
@@ -594,9 +601,11 @@ class ConvBase(metaclass=ConvMeta):
     def get_common_arguments_for_converter(cls):
         for a in ConvBase.get_common_arguments():
             yield a
+ 
         try:
-            # Some converters do not have any method and work
+            # Some converters do not have any methods and work
             # in __call__, so preventing to crash by searching for them
+            #print(cls, cls._get_default_method(cls))
             yield ConvArg(
                 names=[
                     "-m",
@@ -607,9 +616,10 @@ class ConvBase(metaclass=ConvMeta):
                 help="The method to use to do the conversion.",
                 choices=cls.available_methods,
             )
-        except Exception as e:
-            _log.warning("converter '{}' does not seems to have methods: {}".format(cls.__name__, e))
-            pass
+        except IndexError:
+            _log.warning(f"converter '{cls.__name__}' does not seem to have any valid methods. ")
+
+
         yield ConvArg(
             names=[
                 "-s",

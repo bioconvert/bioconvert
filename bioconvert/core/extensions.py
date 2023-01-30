@@ -22,7 +22,37 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """List of formats and associated extensions"""
-from easydev import AttrDict
+
+
+class AttrDict(dict):
+    """Copy from easydev package."""
+
+    def __init__(self, **kwargs):
+        dict.__init__(self, kwargs)
+        self.__dict__ = self
+        self.update(kwargs)
+
+    def update(self, content):
+        """See class/constructor documentation for details
+
+        :param dict content: a valid dictionary
+        """
+        # accepts dict and attrdict classes
+        try:
+            from collections import OrderedDict
+        except:
+            OrderedDict = AttrDict
+
+        if content.__class__ not in [dict, OrderedDict, AttrDict]:
+            raise TypeError
+
+        for k, v in content.items():
+            if v.__class__ not in [dict, AttrDict, OrderedDict]:
+                # fixme copy ?
+                self[k] = v
+            else:
+                self[k] = AttrDict(**v)
+
 
 # Formats can be of type
 # - sequence

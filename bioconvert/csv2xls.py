@@ -28,7 +28,7 @@ import colorlog
 
 from bioconvert import ConvBase
 from bioconvert.core.base import ConvArg
-from bioconvert.core.decorators import compressor, in_gz, requires, requires_nothing
+from bioconvert.core.decorators import compressor, requires
 
 logger = colorlog.getLogger(__name__)
 
@@ -72,7 +72,6 @@ class CSV2XLS(ConvBase):
                 rows.append(row)
 
         from collections import OrderedDict
-
         from pyexcel_xls import save_data
 
         data = OrderedDict()

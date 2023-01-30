@@ -40,7 +40,7 @@ class GZ2DSRC(ConvBase):
 
          from bioconvert.gz2dsrc import GZ2DSRC
          from bioconvert import bioconvert_data
-         from easydev import TempFile
+         from bioconvert import TempFile
 
          with TempFile(suffix=".dsrc") as fh:
              infile = bioconvert_data("test_SP1.fq.gz")

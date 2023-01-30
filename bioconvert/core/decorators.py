@@ -28,7 +28,7 @@ from os.path import splitext
 
 import colorlog
 import pkg_resources
-from easydev import TempFile
+from tempfile import NamedTemporaryFile
 
 _log = colorlog.getLogger(__name__)
 
@@ -81,7 +81,7 @@ def compressor(func):
             _log.info("Generating uncompressed version of {} ".format(infile_name))
             (ungz_name, _) = splitext(infile_name)
             (_, base_suffix) = splitext(ungz_name)
-            with TempFile(suffix=base_suffix) as ungz_infile:
+            with NamedTemporaryFile(suffix=base_suffix) as ungz_infile:
                 inst.infile = ungz_infile.name
                 inst.shell("unpigz -c -p {} {} > {}".format(inst.threads, infile_name, inst.infile))
                 # computation
@@ -214,6 +214,7 @@ def requires(
         except Exception as e:
             _log.debug(e)
             wrapped.is_disabled = True
+            wrapped._required_binaries = external_binaries
         return wrapped
 
     return real_decorator

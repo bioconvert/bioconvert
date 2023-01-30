@@ -22,9 +22,10 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Convert :term:`BIGBED` format to :term:`BED` format """
-import os
 
 import colorlog
+ 
+import pyBigWig
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -57,7 +58,6 @@ class BIGBED2BED(ConvBase):
         """In this method we use the python extension written in C, pyBigWig.
 
         `pyBigWig documentation <https://github.com/deeptools/pyBigWig>`_"""
-        import pyBigWig
 
         bw = pyBigWig.open(self.infile)
         assert bw.isBigBed() is True, "Not a valid bigBed file"

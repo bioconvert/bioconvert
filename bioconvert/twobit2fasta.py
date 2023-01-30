@@ -22,10 +22,8 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Conversion from :term:`TWOBIT` to :term:`FASTA` format"""
-import os
 
 import colorlog
-from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires

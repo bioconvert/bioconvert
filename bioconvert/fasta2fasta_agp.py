@@ -24,7 +24,7 @@
 """ Convert :term:`FASTA` (scaffold) to :term:`FASTA` (contig) and :term:`AGP` formats"""
 from math import log10
 
-from bioconvert import ConvBase, requires
+from bioconvert import ConvBase
 from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires, requires_nothing
 
@@ -113,6 +113,7 @@ class FASTA2FASTA_AGP(ConvBase):
         self.outfile_fasta = outfile[0]
         self.outfile_agp = outfile[1]
 
+    #FIXME. not used what is this ?
     def _mask_scatigs(self, x, min_scatigs=10):
         # scaftigs shorter than this length will be masked with "N"s
         # AAAAAAAAAAAAA-NNNNN-GG-NNNNNN-AAAAAAAAAAAAA

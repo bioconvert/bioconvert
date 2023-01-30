@@ -56,14 +56,18 @@ class ParserHelper:
     """
 
     def __init__(self, args):
+        # We do not need boring lengthy warning at that stage.
+        logger.level = "ERROR"
         registry = Registry()
+        logger.level = "WARNING"
+
         self.args = args[:]
         if len(self.args) == 0:
             error("Please provide at least some arguments. See --help")
 
         if args[0].lower() not in list(registry.get_converters_names()) and "." in args[0]:
             self.mode = "implicit"
-            # we shoule have at least 2 entries in implicit mode and the first
+            # we should have at least 2 entries in implicit mode and the first
             # input filename must exists (1 to 1 or many to 1)
             if len(args) < 2:
                 error("In implicit mode, you must define your input and output file (only 1 provided)")
@@ -88,6 +92,7 @@ class ParserHelper:
 
 
 def main(args=None):
+
 
     # used later on
     registry = Registry()
@@ -220,6 +225,7 @@ def main(args=None):
     except:
         pass
 
+
     # if there is the ability to convert from A to B to C, we must set
     # the option -a (--allow_indirect_conversion)
     allow_indirect_conversion = False
@@ -347,7 +353,7 @@ Please feel free to join us at https://github/biokit/bioconvert
         "-v",
         "--verbosity",
         default=logger.level,
-        help="Set the outpout verbosity.",
+        help="Set the outpout verbosity. Same as --level",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
     )
 

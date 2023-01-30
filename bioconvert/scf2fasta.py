@@ -23,9 +23,6 @@
 ###########################################################################
 
 """Convert :term:`SCF` file to :term:`FASTA` file"""
-import struct
-import sys
-from collections import defaultdict
 
 import colorlog
 

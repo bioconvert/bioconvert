@@ -24,6 +24,7 @@
 """Convert :term:`BAM` format to :term:`FASTQ` foarmat"""
 import os
 import subprocess
+from collections import Counter
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -87,14 +88,11 @@ class BAM2FASTQ(ConvBase):
 
         data = []
         with open(self.outfile, "r") as fin:
-            count = 0
             for i in range(40000):
                 x = fin.readline()
                 if len(x) == 0:
                     break
                 data.append(x)
-
-        from collections import Counter
 
         isPaired = 2 in Counter([x for i, x in enumerate(data) if i % 4 == 0]).values()
         if isPaired:

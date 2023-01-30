@@ -43,6 +43,13 @@ class VCF2BCF(ConvBase):
     #: Default value
     _default_method = "bcftools"
 
+    def __init__(self, infile, outfile=None, *args, **kwargs):
+        """
+        :param str infile: The path to the input FASTA file.
+        :param str outfile: The path to the output file.
+        """
+        super(VCF2BCF, self).__init__(infile, outfile, *args, **kwargs)
+
     @requires("bcftools")
     def _method_bcftools(self, *args, **kwargs):
         """For this method, we use the BCFtools tool
