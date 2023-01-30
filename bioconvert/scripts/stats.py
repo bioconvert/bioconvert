@@ -33,7 +33,6 @@ from bioconvert import ConvBase
 from bioconvert.core import graph
 from bioconvert.core.base import ConvMeta
 from bioconvert.core.converter import Bioconvert
-from bioconvert.core.decorators import get_known_dependencies_with_availability
 from bioconvert.core.registry import Registry
 
 

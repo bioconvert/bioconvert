@@ -61,8 +61,7 @@ class PHYLIP2CLUSTAL(ConvBase):
 
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
-        count = SeqIO.write(sequences, self.outfile, "clustal")
-        # _log.info("Converted %d records to clustal" % count)
+        _ = SeqIO.write(sequences, self.outfile, "clustal")
 
     @requires("squizz")
     @compressor

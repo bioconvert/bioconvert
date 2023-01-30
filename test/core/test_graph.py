@@ -1,5 +1,5 @@
 from bioconvert.core.graph import create_graph, create_graph_for_cytoscape
-from easydev import TempFile
+from bioconvert import TempFile
 
 
 def test_create_graph_singularity():

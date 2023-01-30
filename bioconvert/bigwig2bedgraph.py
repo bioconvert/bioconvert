@@ -22,10 +22,10 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Convert :term:`BIGWIG` to :term:`BEDGRAPH` format """
-import os
 
 import colorlog
-from Bio import SeqIO
+
+import pyBigWig
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires
@@ -69,7 +69,6 @@ class BIGWIG2BEDGRAPH(ConvBase):
         """In this method we use the python extension written in C, pyBigWig.
 
         `pyBigWig documentation <https://github.com/deeptools/pyBigWig>`_"""
-        import pyBigWig
 
         bw = pyBigWig.open(self.infile)
         assert bw.isBigWig() is True, "Not a valid bigWig file"

@@ -1,6 +1,6 @@
 import os
 from bioconvert.sam2cram import SAM2CRAM
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 from mock import patch
 

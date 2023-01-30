@@ -26,7 +26,6 @@ import os
 import subprocess
 
 import colorlog
-from easydev.multicore import cpu_count
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import requires

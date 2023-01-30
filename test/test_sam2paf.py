@@ -1,6 +1,6 @@
 import os
 from bioconvert.sam2paf import SAM2PAF
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from . import test_dir
 

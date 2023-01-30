@@ -131,6 +131,10 @@ scheduler, you can use:
 Snakemake option
 ~~~~~~~~~~~~~~~~
 
+If you have lots of files to convert, a snakemake pipeline is available in the `Sequana <https://github.com/sequa    na/sequana>`_ project and can be installed using **pip install sequana_bioconvert**. It also installs bioconvert with an ap    ptainer image that contains all dependencies for you.
+
+
+
 Here is another way of running your jobs in parallel using a 
 simple Snakefile (`snakemake <https://snakemake.readthedocs.io/en/stable/>`_)
 that can be run easily either locally or on a cluster.

@@ -23,6 +23,7 @@
 ###########################################################################
 """.. rubric:: Standalone application dedicated to conversion"""
 import os
+import sys
 
 import colorlog
 from bioconvert.core.base import ConvMeta
@@ -30,14 +31,12 @@ from bioconvert.core.registry import Registry
 
 _log = colorlog.getLogger(__name__)
 
-import sys
 
 from bioconvert.core.base import make_chain
 from bioconvert.core.utils import get_extension as getext
 from bioconvert.core.utils import get_format_from_extension
 
 __all__ = ["Bioconvert"]
-
 
 class Bioconvert(object):
     """Universal converter used by the standalone

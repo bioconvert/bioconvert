@@ -44,7 +44,7 @@ class GFA2FASTA(ConvBase):
 
          from bioconvert.gfa2fasta import GFA2FASTA
          from bioconvert import bioconvert_data
-         from easydev import TempFile
+         from bioconvert import TempFile
 
          with TempFile(suffix=".fasta") as fh:
              infile = bioconvert_data("test_gfa2fasta_v1.gfa")

@@ -1,5 +1,5 @@
 from bioconvert.fasta2fasta_agp import FASTA2FASTA_AGP
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 
 from . import test_dir

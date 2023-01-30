@@ -1,6 +1,6 @@
 import os
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from bioconvert.clustal2stockholm import CLUSTAL2STOCKHOLM
 

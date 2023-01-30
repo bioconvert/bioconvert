@@ -1,5 +1,5 @@
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from bioconvert.phylip2stockholm import PHYLIP2STOCKHOLM
 

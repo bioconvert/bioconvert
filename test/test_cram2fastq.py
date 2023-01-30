@@ -1,5 +1,5 @@
 import pytest
-from easydev import TempFile
+from bioconvert import TempFile
 
 from bioconvert.cram2fastq import CRAM2FASTQ
 

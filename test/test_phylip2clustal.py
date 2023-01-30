@@ -1,6 +1,6 @@
 import os
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from bioconvert.phylip2clustal import PHYLIP2CLUSTAL
 

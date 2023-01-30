@@ -60,8 +60,7 @@ class PHYLIP2FASTA(ConvBase):
 
         `Bio.SeqIO Documentation <https://biopython.org/docs/1.76/api/Bio.SeqIO.html>`_"""
         sequences = list(SeqIO.parse(self.infile, "phylip", alphabet=self.alphabet))
-        count = SeqIO.write(sequences, self.outfile, "fasta")
-        # _log.debug("Converted %d records to fasta" % count)
+        _ = SeqIO.write(sequences, self.outfile, "fasta")
 
     @requires("squizz")
     @compressor

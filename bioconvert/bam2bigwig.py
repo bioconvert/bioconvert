@@ -24,7 +24,7 @@
 """Convert :term:`BAM` file to :term:`BIGWIG` format"""
 
 import colorlog
-from easydev import TempFile
+from tempfile import NamedTemporaryFile
 
 from bioconvert import ConvBase
 from bioconvert.core.base import ConvArg
@@ -83,7 +83,7 @@ class BAM2BIGWIG(ConvBase):
 
         chrom_sizes = kwargs.get("chrom_sizes", None)
 
-        with TempFile(suffix=".bedgraph") as fh:
+        with NamedTemporaryFile(suffix=".bedgraph") as fh:
             convertbam2bed = BAM2BEDGRAPH(self.infile, fh.name)
             convertbam2bed()
             convertbed2bw = BEDGRAPH2BIGWIG(fh.name, self.outfile)

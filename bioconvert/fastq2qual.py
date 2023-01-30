@@ -22,9 +22,8 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Convert :term:`FASTQ` to :term:`QUAL` format"""
-from bioconvert import ConvBase, bioconvert_script, logger
-from bioconvert.core.base import ConvArg
-from bioconvert.core.decorators import compressor, in_gz, out_compressor, requires, requires_nothing
+from bioconvert import ConvBase, logger
+from bioconvert.core.decorators import compressor, requires_nothing
 
 logger.__name__ = "fastq2qual"
 

@@ -4,7 +4,7 @@ import bz2
 import pytest
 
 from bioconvert.gz2bz2 import GZ2BZ2
-from easydev import TempFile
+from bioconvert import TempFile
 
 
 @pytest.mark.parametrize("method", GZ2BZ2.available_methods)

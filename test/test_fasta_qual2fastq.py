@@ -1,6 +1,6 @@
 from bioconvert.fastq2fasta_qual import FASTQ2FASTA_QUAL
 from bioconvert.fasta_qual2fastq import FASTA_QUAL2FASTQ
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from . import test_dir
 

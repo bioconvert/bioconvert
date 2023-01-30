@@ -1,6 +1,6 @@
 from bioconvert import ConvBase
 from bioconvert.bam2cov import BAM2COV
-from easydev import TempFile
+from bioconvert import TempFile
 
 from .. import test_dir
 

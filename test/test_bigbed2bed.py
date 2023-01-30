@@ -1,6 +1,6 @@
 import os
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from bioconvert.bigbed2bed import BIGBED2BED
 import pytest

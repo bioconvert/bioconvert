@@ -23,11 +23,14 @@
 """misc utility functions """
 import os
 import sys
+import tempfile
+import hashlib
+import time
 
 import bioconvert
 from bioconvert.core.extensions import extensions
 
-__all__ = ["get_extension", "get_format_from_extension", "generate_outfile_name"]
+__all__ = ["get_extension", "get_format_from_extension", "generate_outfile_name", "md5", "TempFile", "Timer"]
 
 
 def get_extension(filename, remove_compression=False):
@@ -95,3 +98,72 @@ def compressor(infile, comp_ext, threads=4):
     elif comp_ext == ".dsrc":  # !!! only for FastQ files
         _log.info("Compressing output into .dsrc")
         shell("dsrc c -t{} {} {}.dsrc".format(inst.threads, inst.outfile, inst.infile))
+
+
+def md5(fname, chunk=65536):
+    """Return the MD5 checksums of a file
+
+    """
+    hash_md5 = hashlib.md5()
+    with open(fname, "rb") as f:
+        for this in iter(lambda: f.read(chunk), b""):
+            hash_md5.update(this)
+    return hash_md5.hexdigest()
+
+
+class TempFile(object):
+    """A small wrapper around tempfile.NamedTemporaryFile function
+
+    ::
+
+        f = TempFile(suffix="csv")
+        f.name
+        f.delete() # alias to delete=False and close() calls
+
+
+    Copy from easydev package
+    """
+
+    def __init__(self, suffix="", dir=None):
+        self.temp = tempfile.NamedTemporaryFile(suffix=suffix, delete=False, dir=dir)
+
+    def delete(self):
+        try:
+            self.temp._closer.delete = True
+        except:  # pragma: no cover
+            self.temp.delete = True
+        self.temp.close()
+
+    def _get_name(self):
+        return self.temp.name
+
+    name = property(_get_name)
+
+    def __exit__(self, type, value, traceback):
+        try:
+            self.delete()
+        except AttributeError:  # pragma: no cover
+            pass
+        finally:
+            self.delete()
+
+    def __enter__(self):
+        return self
+
+
+class Timer(object):  # pragma: no cover
+    """Timer working with *with* statement
+
+    Copy from easydev package.
+    """
+
+    def __init__(self, times):
+        self.times = times
+
+    def __enter__(self):
+        self.t1 = time.time()
+
+    def __exit__(self, type, value, traceback):
+        self.t2 = time.time()
+        self.times.append(self.t2 - self.t1)
+

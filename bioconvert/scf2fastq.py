@@ -22,9 +22,6 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Convert :term:`SCF` file to :term:`FASTQ` file"""
-import struct
-import sys
-from collections import defaultdict
 
 import colorlog
 

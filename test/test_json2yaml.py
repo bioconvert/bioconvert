@@ -2,7 +2,7 @@ import pytest
 import os
 
 from bioconvert.json2yaml import JSON2YAML
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from . import test_dir
 

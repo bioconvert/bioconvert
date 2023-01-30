@@ -1,5 +1,5 @@
 from bioconvert.yaml2json import YAML2JSON
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 import os
 

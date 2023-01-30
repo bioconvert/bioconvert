@@ -32,7 +32,7 @@ import pylab
 import statsmodels.api
 import statsmodels.formula.api
 import statsmodels.stats.multitest
-from easydev import Timer
+from bioconvert.core.utils import Timer
 from tqdm import tqdm
 
 _log = colorlog.getLogger(__name__)

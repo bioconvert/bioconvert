@@ -1,7 +1,7 @@
 from tempfile import NamedTemporaryFile
 
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from bioconvert.csv2xls import CSV2XLS
 from bioconvert.xls2csv import XLS2CSV

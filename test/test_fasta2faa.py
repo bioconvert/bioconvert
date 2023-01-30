@@ -1,5 +1,5 @@
 from bioconvert.fasta2faa import FASTA2FAA
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 
 from . import test_dir

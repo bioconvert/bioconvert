@@ -22,7 +22,6 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Convert :term:`BAM` format to :term:`FASTA` format"""
-import itertools
 import os
 import subprocess
 

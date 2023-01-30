@@ -22,10 +22,7 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Converts :term:`NEXUS` file to :term:`PHYLOXML` format."""
-import os
-
 import colorlog
-from Bio import SeqIO
 
 from bioconvert import ConvBase
 from bioconvert.core.decorators import compressor, requires

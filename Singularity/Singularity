@@ -1,79 +1,64 @@
 BootStrap: docker
-From: ubuntu:latest
+From: ubuntu:22.10
 
-###############################################
-# do not change. This is a tagged version 0.4.3
+##############################################
+# do not change. This is a tagged version 0.6.1
 ###############################################
 
 %labels
-  maintainer Bertrand Neron <bneron@pasteur.fr>
+  maintainer Thomas Cokelaer
   package.name bioconvert
-  package.version 0.4.3
-  package.homepage https://pypi.python.org/pypi/bioconvert/0.4.3
+  package.version 0.6.2
+  package.homepage https://pypi.python.org/pypi/bioconvert/0.6.2
   package.source.url https://github.com/bioconvert/bioconvert
   package.license GPLv3
 
+%files
+   environment_0.6.2.yml
+
 %post
   ######### install system #########
-  export BIOCONVERT_VERSION="0.4.3"
+   export BIOCONVERT_VERSION="0.6.2"
 
 
-  apt-get update -y
-  apt-get install -y wget bzip2 build-essential
-  apt-get install -y libgl1-mesa-glx
-  apt-get install -y build-essential
+    apt-get update -y
+    apt-get install -y wget bzip2 build-essential
+    apt-get install -y libgl1-mesa-glx
+    apt-get install -y build-essential
 
-  # install anaconda
-  if [ ! -d /usr/local/anaconda ]; then
-      # wget https://repo.continuum.io/miniconda/Miniconda3-4.3.14-Linux-x86_64.sh\
-      # for now, we use 4.2.12 to have python3.5 by default so no need to
-      # create a new env saving space in the process. The reason for using 3.5
-      # is inherent to the packages used at the moment.
-      wget https://repo.continuum.io/miniconda/Miniconda3-4.2.12-Linux-x86_64.sh\
-           -O anaconda.sh && \
+    # install python3.9
+    wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh \
+       -O anaconda.sh && \
       bash anaconda.sh -b -p /usr/local/anaconda && \
       rm anaconda.sh
-  fi
 
-  # set anaconda path
-  export PATH=${PATH}:/usr/local/anaconda/bin
-  conda update conda
+    # set anaconda path
+    export PATH=${PATH}:/usr/local/anaconda/bin
+    conda update conda
 
-  conda config --add channels r
-  conda config --add channels defaults
-  conda config --add channels conda-forge
-  conda config --add channels bioconda
+    # The main packages for bioconvert:
+    conda env update -f environment_0.6.2.yml --prune
 
-  # The main packages for sequana:
-  conda install --file https://raw.githubusercontent.com/biokit/bioconvert/master/requirements.txt
-  conda install --file https://raw.githubusercontent.com/biokit/bioconvert/master/requirements_tools.txt
-  # linux only:
-  conda install mosdepth --yes
+    ######### install bioconvert #########
+    /usr/local/anaconda/envs/bioconvert/bin/pip3 install biocode
+    /usr/local/anaconda/envs/bioconvert/bin/pip3 install bioconvert==${BIOCONVERT_VERSION}
 
+    # Uses agg as backend instead of qt (less dependencies)
+    echo "backend:tkagg" > matplotlibrc
 
-  #conda install -y graphviz==2.38 pygraphviz
+    ######## clean image ########
+    apt-get autoremove -y
+    apt-get clean -y
+    conda clean -y --all
+    rm -rf /usr/local/anaconda/pkgs
+    export PATH=${PATH}:/usr/local/anaconda/envs/bioconvert/bin
 
-  ######### install bioconvert #########
-  pip install biocode
-  pip install bioconvert==${BIOCONVERT_VERSION}
-
-  if [ ! -d /etc/localtime ]; then
-    mkdir /etc/localtime
-  fi
-
-  # Uses agg as backend instead of qt (less dependencies)
-  echo "backend:tkagg" > matplotlibrc
-
-  ######## clean image ########
-  apt-get autoremove -y
-  apt-get clean -y
-  conda clean -y --all
 
 %environment
-  export PATH=${PATH}:/usr/local/anaconda/bin
+  export PATH=${PATH}:/usr/local/anaconda/envs/bioconvert/bin
 
 
 %runscript
-  exec /usr/local/anaconda/bin/bioconvert "$@"
+  exec /usr/local/anaconda/envs/bioconvert/bin/bioconvert "$@"
 
 

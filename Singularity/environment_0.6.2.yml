@@ -1,0 +1,56 @@
+name: bioconvert
+
+channels:
+- bioconda
+- conda-forge
+- defaults
+- r
+
+dependencies:
+- python=3.7
+- easydev
+- biosniff
+- colorlog
+- deeptools
+- gffread
+- pandas
+- biopython>=1.70
+- mappy
+- matplotlib-base
+- networkx
+- pyyaml
+- pysam
+- pyexcel
+- pyexcel-ods3
+- pyexcel-xls
+- pyexcel-xlsx
+- pyBigWig
+- xlrd
+- py2bit
+- statsmodels
+- tqdm
+- bamtools
+- bcftools
+- bedtools
+- bedops
+- dsrc
+- go==1.10.3
+- mosdepth
+- pbzip2
+- pigz
+- plink
+- sambamba
+- samtools>=1.9
+- seqtk
+- seqkit
+- squizz
+- sra-tools
+- ucsc-wigtobigwig
+- ucsc-twobittofa
+- ucsc-fatotwobit
+- ucsc-bedgraphtobigwig
+- ucsc-bigwigtobedgraph
+- wiggletools
+- sed
+- mawk
+- graphviz   # provides dot for RTD
