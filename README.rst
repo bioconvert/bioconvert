@@ -52,27 +52,33 @@ In March 2022, we had 48 formats, 98 direct conversions (125 different methods).
 Installation
 ###############
 
-In order to install bioconvert, you can use **pip**::
+**BioConvert** is developped in Python. Please use conda or any Python environment manager to install **BioConvert** using the **pip** command::
 
     pip install bioconvert
 
-Many conversions require external tools. To help you , you may also install bioconvert with
-releases on bioconda (http://bioconda.github.io/)::
+50% of the conversions should work out of the box. However, many conversions require external tools. This is why we
+recommend to use a **conda** environment. In particula, most external tools are available on the **bioconda** channel. 
+For instance if you want to convert a SAM file to a BAM file you would need to install **samtools** as follow::
 
-    conda install bioconvert
+    conda install -c bioconda samtools
 
-Other alternatives are containers with Docker and Singularity containers. See
-http://bioconvert.readthedocs.io/en/main/installation.html for
-details.
+Since **bioconvert** is available on `bioconda <https://bioconda.github.io>`_ on solution that installs **BioConvert** and all its dependencies is to use conda/mamba::
 
-**BioConvert** is a Python library but depends on many third-party software (e.g., samtools). Therefore, the **bioconda** method is the recommended one for end-users because it installs **bioconvert** and all its dependencies.
-If you choose the **pip** method, only the **bioconvert** Python package will be installed.
+    conda env create --name bioconvert mamba
+    conda activate bioconvert
+    mamba install bioconvert
+    bioconvert --help
 
-Usage
-##########
+See the :ref:`installation_details` section for more details and alternative solutions (docker, singularity).
 
-From the command line, you can convert a `FastQ` file into
-a `FastA` file as follows (compressed or not)::
+Quick Start
+##############
+There are many conversion available. Type::
+
+    bioconvert --help 
+
+to get a list of valid method of conversions. Taking the example of a conversion from a `FastQ` file into
+a `FastA` file, you could do the conversion as follows::
 
     bioconvert fastq2fasta input.fastq output.fasta
     bioconvert fastq2fasta input.fq    output.fasta
@@ -83,14 +89,20 @@ When there is no ambiguity, you can be implicit::
 
      bioconvert input.fastq output.fasta
 
+The default method of conversion is used but you may use another one. Checkout the available methods with::
 
-For help, just type::
+    bioconvert fastq2fasta --show-methods
 
-    bioconvert --help
+For more help about a conversion, just type::
+
     bioconvert fastq2fasta --help
 
+and more generally::
 
-From a Python shell::
+    bioconvert --help
+
+
+You may also call **BioConvert** from a Python shell::
 
     # import a converter
     from bioconvert.fastq2fasta import FASTQ2FASTA
@@ -98,10 +110,8 @@ From a Python shell::
     # Instanciate with infile/outfile names
     convert = FASTQ2FASTA(infile, outfile)
 
-    # the conversion itself
+    # the conversion itself:
     convert()
-
-
 
 
 Available Converters
@@ -134,7 +144,7 @@ Available Converters
     * - `bam2bigwig <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.bam2bigwig>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bigwig.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2bigwig.yml
-      -
+      - `DEEPTOOLS <https://bioconvert.readthedocs.io/en/main/bibliography.html>`_
     * - `bam2cov <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.bam2cov>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cov.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/bam2cov.yml
@@ -254,15 +264,15 @@ Available Converters
     * - `csv2tsv <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.csv2tsv>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/csv2tsv.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/csv2tsv.yml
-      -
+      - `BIOCONVERT <https://bioconvert.readthedocs.io/en/main/bibliography.html>`_
     * - `csv2xls <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.csv2xls>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/csv2xls.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/csv2xls.yml
-      -
+      - Pandas
     * - `dsrc2gz <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.dsrc2gz>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/dsrc2gz.yml
-      -
+      - DSRC software
     * - `embl2fasta <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.embl2fasta>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/embl2fasta.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/embl2fasta.yml
@@ -350,19 +360,19 @@ Available Converters
     * - `gz2bz2 <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.gz2bz2>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2bz2.yml
-      -
+      - pigz/pbzip2 software
     * - `gz2dsrc <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.gz2dsrc>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/gz2dsrc.yml
-      -
+      - DSRC software
     * - `json2yaml <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.json2yaml>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/json2yaml.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/json2yaml.yml
-      -
+      - Python
     * - `maf2sam <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.maf2sam>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/maf2sam.yml
-      - ?
+      - `BIOCONVERT <https://bioconvert.readthedocs.io/en/main/bibliography.html>`_
     * - `newick2nexus <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.newick2nexus>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/newick2nexus.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/newick2nexus.yml
@@ -394,7 +404,7 @@ Available Converters
     * - `ods2csv <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.ods2csv>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/ods2csv.yml
-      -
+      - pyexcel library
     * - `pdb2faa <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.pdb2faa>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/pdb2faa.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/pdb2faa.yml
@@ -470,7 +480,7 @@ Available Converters
     * - `tsv2csv <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.tsv2csv>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/tsv2csv.yml
-      -
+      - `BIOCONVERT <https://bioconvert.readthedocs.io/en/main/bibliography.html>`_
     * - `twobit2fasta <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.twobit2fasta>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/twobit2fasta.yml
@@ -506,7 +516,7 @@ Available Converters
     * - `xlsx2csv <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.xlsx2csv>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xlsx2csv.yml
-      -
+      - Pandas library
     * - `xmfa2phylip <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.xmfa2phylip>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/xmfa2phylip.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/xmfa2phylip.yml
@@ -514,7 +524,7 @@ Available Converters
     * - `yaml2json <https://bioconvert.readthedocs.io/en/main/ref_converters.html#module-bioconvert.yaml2json>`_
       - .. image:: https://github.com/bioconvert/bioconvert/actions/workflows/yaml2json.yml/badge.svg
             :target: https://github.com/bioconvert/bioconvert/actions/workflows/yaml2json.yml
-      -
+      - Pandas library
 
 
 
@@ -538,6 +548,7 @@ Version   Description
           * Fixed all CI workflows to use mamba
           * drop python3.7 support and add 3.10 support
           * update bedops test file to fit the latest bedops 2.4.41 version
+          * revisit logging system
 0.6.2     * added gff3 to gtf conversion. 
           * Added pdb to faa conversion
           * Added missing --reference argument to the cram2sam conversion
@@ -559,5 +570,10 @@ Version   Description
             `benchmarking`)
           * documentation and tests for all converters
           * removed the validators (we assume intputs are correct)
+0.4.X     * (aug 2019) added nexus2fasta, cram2fasta, fasta2faa ... ; 1-to-many and 
+            many-to-one converters are now part of the API.
+0.3.X       may 2019. new methods abi2qual, bigbed2bed, etc. added --threads option
+0.2.X       aug 2018. abi2fastx, bioconvert_stats tool added
+0.1.X       major refactoring to  have subcommands with implicit/explicit mode
 ========= ==============================================================================
 
