@@ -1,5 +1,5 @@
 import sys
-from easydev import TempFile
+from bioconvert import TempFile
 import subprocess
 
 

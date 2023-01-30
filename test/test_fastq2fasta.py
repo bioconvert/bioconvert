@@ -1,6 +1,6 @@
 from bioconvert.fastq2fasta import FASTQ2FASTA
 from bioconvert.core.decorators import make_in_gz_tester, requires
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 
 from . import test_dir

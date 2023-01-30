@@ -1,6 +1,6 @@
 import os
 from bioconvert.bcf2wiggle import BCF2WIGGLE
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 
 from . import test_dir

@@ -1,5 +1,5 @@
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from bioconvert.fasta2phylip import FASTA2PHYLIP
 

@@ -1,6 +1,6 @@
 import os
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from bioconvert.bigwig2bedgraph import BIGWIG2BEDGRAPH
 import pytest

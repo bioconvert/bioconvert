@@ -2,8 +2,8 @@ import os
 import subprocess
 
 import pytest
-from easydev import TempFile
-from easydev import md5
+from bioconvert import TempFile
+from bioconvert import md5
 
 from bioconvert.gz2dsrc import GZ2DSRC
 

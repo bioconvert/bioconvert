@@ -1,6 +1,6 @@
 import os
 from bioconvert.bigbed2wiggle import BIGBED2WIGGLE
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 
 

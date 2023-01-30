@@ -1,5 +1,5 @@
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import filecmp
 
 from bioconvert.pdb2faa import PDB2FAA

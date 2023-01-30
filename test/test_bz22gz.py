@@ -4,7 +4,7 @@ import gzip
 import pytest
 
 from bioconvert.bz22gz import BZ22GZ
-from easydev import TempFile
+from bioconvert import TempFile
 
 
 @pytest.mark.parametrize("method", BZ22GZ.available_methods)

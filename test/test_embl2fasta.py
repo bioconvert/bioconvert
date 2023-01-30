@@ -1,4 +1,4 @@
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 from bioconvert.embl2fasta import EMBL2FASTA
 

@@ -1,7 +1,7 @@
 import os
 import pytest
 import hashlib
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from bioconvert.nexus2clustal import NEXUS2CLUSTAL
 

@@ -1,5 +1,5 @@
 from bioconvert.vcf2bed import VCF2BED
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from . import test_dir
 

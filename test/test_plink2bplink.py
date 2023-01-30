@@ -2,7 +2,7 @@ import os
 import pytest
 import tempfile
 from bioconvert.plink2bplink import PLINK2BPLINK
-from easydev import md5
+from bioconvert import md5
 
 from . import test_dir
 

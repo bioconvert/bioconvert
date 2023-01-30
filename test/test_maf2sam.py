@@ -1,5 +1,5 @@
 from bioconvert.maf2sam import MAF2SAM
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from . import test_dir
 

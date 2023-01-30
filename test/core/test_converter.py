@@ -1,5 +1,5 @@
 from bioconvert import Bioconvert
-from easydev import TempFile
+from bioconvert import TempFile
 
 import pytest
 

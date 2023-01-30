@@ -1,5 +1,5 @@
 import pytest
-from easydev import TempFile
+from bioconvert import TempFile
 
 from bioconvert.cram2fasta import CRAM2FASTA
 

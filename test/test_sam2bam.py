@@ -1,5 +1,5 @@
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import filecmp
 
 from bioconvert.sam2bam import SAM2BAM

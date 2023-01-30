@@ -3,7 +3,7 @@ import pytest
 import gzip
 import shutil
 
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from bioconvert.sra2fastq import SRA2FASTQ
 

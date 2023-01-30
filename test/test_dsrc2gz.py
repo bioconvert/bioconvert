@@ -2,7 +2,7 @@ import os
 import subprocess
 import hashlib
 import pytest
-from easydev import TempFile
+from bioconvert import TempFile
 
 from bioconvert.dsrc2gz import DSRC2GZ
 

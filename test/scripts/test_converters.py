@@ -2,7 +2,7 @@ import subprocess
 import os
 import shutil
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import sys
 
 from bioconvert.bam2cov import BAM2COV

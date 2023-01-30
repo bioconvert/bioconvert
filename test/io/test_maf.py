@@ -1,6 +1,6 @@
 from bioconvert.io.maf import MAF
 from bioconvert.io import maf
-from easydev import TempFile
+from bioconvert import TempFile
 
 from .. import test_dir
 

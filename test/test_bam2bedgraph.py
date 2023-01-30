@@ -1,5 +1,5 @@
 from bioconvert.bam2bedgraph import BAM2BEDGRAPH
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 import os
 

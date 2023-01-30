@@ -1,5 +1,5 @@
 from bioconvert.fastq2fasta import FASTQ2FASTA
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 from bioconvert.genbank2fasta import GENBANK2FASTA
 

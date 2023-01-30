@@ -1,5 +1,5 @@
 from bioconvert.simulator import gfa
-from easydev import TempFile
+from bioconvert import TempFile
 
 
 def test_gfa():

@@ -1,7 +1,7 @@
 import pytest
 from bioconvert.scf2fasta import SCF2FASTA
 from bioconvert.io.scf import read_from_buffer, delta
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 
 from . import test_dir

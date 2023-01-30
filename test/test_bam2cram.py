@@ -2,7 +2,7 @@ import os
 import bioconvert
 from bioconvert import bam2cram
 from bioconvert.bam2cram import BAM2CRAM
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 from mock import patch
 

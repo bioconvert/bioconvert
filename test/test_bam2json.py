@@ -1,6 +1,6 @@
 import json
 from bioconvert.bam2json import BAM2JSON
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 import pytest
 
 from . import test_dir

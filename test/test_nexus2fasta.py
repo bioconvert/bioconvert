@@ -1,5 +1,5 @@
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from bioconvert.nexus2fasta import NEXUS2FASTA
 

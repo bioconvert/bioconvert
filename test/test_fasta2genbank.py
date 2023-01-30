@@ -1,4 +1,4 @@
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 from bioconvert.io.genbank import Genbank
 from bioconvert.io.fasta import Fasta
 

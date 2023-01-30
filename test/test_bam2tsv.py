@@ -1,7 +1,7 @@
 import pytest
 import sys
 from bioconvert.bam2tsv import BAM2TSV
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from . import test_dir
 

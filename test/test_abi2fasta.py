@@ -1,6 +1,6 @@
 from bioconvert.abi2fasta import ABI2FASTA
 import pytest
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from . import test_dir
 

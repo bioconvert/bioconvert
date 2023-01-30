@@ -1,7 +1,7 @@
 import pytest
 
 from bioconvert.vcf2bcf import VCF2BCF
-from easydev import TempFile, md5
+from bioconvert import TempFile, md5
 
 from . import test_dir
 
