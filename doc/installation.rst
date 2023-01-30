@@ -63,6 +63,10 @@ Which can be used as follows::
 
     docker run bioconvert -d /home/user:/home/user bioconvert /home/user/test_file.fastq /home/user/test_file.fasta
 
+Since **bioconvert** is on bioconda, it is also available on quay.io. For instance, version 0.6.2 is reachable here::
+
+    docker pull quay.io/biocontainers/bioconvert:0.6.2--pyhdfd78af_0
+
 Singularity/Apptainer
 ----------------------
 
