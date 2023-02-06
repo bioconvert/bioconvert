@@ -7,8 +7,9 @@ labels: bug, website
 
 ## Please describe the problem:
 
-Please copy/paste the error message and ideally the ID returned to you.
+## We need to reproduce the error.
 
-- What is the name of the input file : 
-- What conserter did you chose : (e.g. fastq2fasta)
-- Please provide a test example. Best is to provide a link ot the data if the data is large (>1Mb) or yu cannot upload it here 
+* [ ] **ID**. We will need the input data set. If you are filling this issue by clicking on a 'issue' lin kon bioconvert website, the title should already contain the issue. Otherwise, it will be helpful to have the identifier of you run.
+- [ ] **converter**. What conserter did you chose (e.g. fastq2fasta) ?
+- [ ] please copy/paste the error message seen on the website here below
+
