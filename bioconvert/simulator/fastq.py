@@ -20,7 +20,7 @@
 # along with this program (COPYING file).                                 #
 # If not, see <http://www.gnu.org/licenses/>.                             #
 ###########################################################################
-
+import random
 
 class FastqSim:
     def __init__(self, outfile):
@@ -36,6 +36,6 @@ class FastqSim:
         with open(self.outfile, "w") as fout:
             for i in range(self.nreads):
                 fout.write("@identifier whatever it means but long enough\n")
-                fout.write("ACGT" * (RL // 4) + "A" * (RL % 4) + "\n")
+                fout.write("".join(random.choices("ACGT", k=RL)) + "\n")
                 fout.write("+\n")
-                fout.write("C" * RL + "\n")
+                fout.write("".join(random.choices("ABCDEF", k=RL))+"\n")
