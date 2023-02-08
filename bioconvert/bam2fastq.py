@@ -115,8 +115,6 @@ class BAM2FASTQ(ConvBase):
         """Do the conversion :term:`BAM` -> :term:`FASTQ` using samtools
 
         `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
-        cmd = "samtools fastq {} > {}".format(self.infile, self.outfile)
-        self.execute(cmd)
         # Test if input bam file is paired
         p = subprocess.Popen(
             "samtools view -c -f 1 {}".format(self.infile).split(),
