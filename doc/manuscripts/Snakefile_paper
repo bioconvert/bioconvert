@@ -1,0 +1,120 @@
+# this snakemake makes it possible to benchmark the conversions
+# written in the conversions variable by downloading the necessary
+# files from the zenodo site and creating the necessary directories.
+#
+# How to run ? If you have 8 cores:
+#
+#     snakemake -s Snakemake_benchmark --cores 8
+#
+# on a SLURM framework, :
+#
+#     snakemake -s Snakemake_benchmark --cluster "-j 8 --mem 4000"
+import glob
+
+import matplotlib as mpl
+mpl.use('Agg')
+
+
+# For a given benchmark, how many trials ?
+number_of_runs_per_method = 5
+
+
+OUTPUT = "outputs"
+
+rule all:
+    input:
+        f"{OUTPUT}/bioconvert.fastqgz_fasta.png",
+        f"{OUTPUT}/bioconvert.fastqgz_fastagz.png",
+        f"{OUTPUT}/bioconvert.fastq_fastagz.png",
+        f"{OUTPUT}/bioconvert.fastq_fasta.png"
+
+
+rule download:
+    output: "inputs/test.fastq",
+            "inputs/test.fastq.gz"
+    shell:
+        """
+        wget https://zenodo.org/record/6405971/files/SRR10769787.fastq.gz
+        cp  SRR10769787.fastq.gz inputs/test.fastq.gz
+        gunzip SRR10769787.fastq.gz
+        mv SRR10769787.fastq inputs/test.fastq
+        """
+
+rule fastqgz_fasta:
+    """compressed I"""
+    input:
+        "inputs/test.fastq.gz"
+    output:
+        file=temp(f"{OUTPUT}/test.fasta"),
+        png=f"{OUTPUT}/bioconvert.fastqgz_fasta.png"
+    params:
+        N= number_of_runs_per_method,
+        tag=f"{OUTPUT}/bioconvert.fastqgz_fasta"
+    shell :
+        """
+        bioconvert fastq2fasta -b -N {params.N} {input} {output.file} -f -I -T {params.tag}
+        """
+
+
+rule fastqgz_fastagz:
+    """compressed IO"""
+    input:
+        "inputs/test.fastq.gz"
+    output:
+        file=temp(f"{OUTPUT}/test.fasta.gz"), 
+        png=f"{OUTPUT}/bioconvert.fastqgz_fastagz.png" 
+    params:
+        N= number_of_runs_per_method,
+        tag=f"{OUTPUT}/bioconvert.fastqgz_fastagz"
+    shell :
+        """
+        bioconvert fastq2fasta -b -N {params.N} {input} {output.file} -f -I -T {params.tag}
+        """
+
+rule fastq_fastagz:
+    """compressed O"""
+    input:
+        "inputs/test.fastq"
+    output:
+        file=temp(f"{OUTPUT}/test2.fasta.gz"), 
+        png=f"{OUTPUT}/bioconvert.fastq_fastagz.png" 
+    params:
+        N= number_of_runs_per_method,
+        tag=f"{OUTPUT}/bioconvert.fastq_fastagz"
+    shell :
+        """
+        bioconvert fastq2fasta -b -N {params.N} {input} {output.file} -f -I -T {params.tag}
+        """
+
+
+rule fastq_fasta:
+    """no compression """
+    input:
+        "inputs/test.fastq"
+    output:
+        file=temp(f"{OUTPUT}/test2.fasta"), 
+        png=f"{OUTPUT}/bioconvert.fastq_fasta.png" 
+    params:
+        N= number_of_runs_per_method,
+        tag=f"{OUTPUT}/bioconvert.fastq_fasta"
+    shell :
+        """
+        bioconvert fastq2fasta -b -N {params.N} {input} {output.file} -f -I -T {params.tag}
+        """
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
