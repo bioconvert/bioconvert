@@ -31,6 +31,13 @@ Bioconvert
 .. image:: https://zenodo.org/badge/106598809.svg
    :target: https://zenodo.org/badge/latestdoi/106598809
 
+.. image:: https://static.pepy.tech/personalized-badge/bioconvert?period=month&units=international_system&left_color=black&right_color=blue&left_text=Downloads/months
+    :target: https://pepy.tech/project/bioconvert
+
+.. image:: https://raw.githubusercontent.com/bioconvert/bioconvert/main/doc/_static/logo.png
+    :target: https://raw.githubusercontent.com/bioconvert/bioconvert/main/doc/_static/logo.png
+
+
 
 :contributions: Want to add a convertor ? Please join https://github.com/bioconvert/bioconvert/issues/1
 :issues: Please use https://github.com/bioconvert/bioconvert/issues
@@ -544,6 +551,9 @@ Changes
 ========= ==============================================================================
 Version   Description
 ========= ==============================================================================
+1.0.0     * Fix bam2fastq for paired data that computed useless intermediate file
+            https://github.com/bioconvert/bioconvert/issues/325
+          * more realistic fastq simulator
 0.6.3     * add picard method in bam2sam
           * Fixed all CI workflows to use mamba
           * drop python3.7 support and add 3.10 support
