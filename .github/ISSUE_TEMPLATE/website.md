@@ -9,7 +9,7 @@ labels: bug, website
 
 ## We need to reproduce the error.
 
-* [ ] **ID**. We will need the input data set. If you are filling this issue by clicking on a 'issue' lin kon bioconvert website, the title should already contain the issue. Otherwise, it will be helpful to have the identifier of you run.
+* [ ] **ID**. We may need the input data set. If you are filling this issue by clicking on a 'issue' link found on the bioconvert website, the title should already contain the Id of the run. If not, please provide a data set and the name of conversion
 - [ ] **converter**. What conserter did you chose (e.g. fastq2fasta) ?
-- [ ] please copy/paste the error message seen on the website here below
+- [ ] please copy/paste the error message seen on the website here below.
 
