@@ -226,7 +226,7 @@ html_short_title = "Bioconvert"
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-# html_logo = None
+html_logo = "_static/logo.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -253,11 +253,11 @@ smartquotes = False
 # Custom sidebar templates, maps document names to template names.
 html_index = "index.html"
 
-# Custom sidebar templates, maps page names to templates.
-# html_sidebars = {
-#                    'index': [ 'indexsidebar.html'],
-#                    'contents':'indexsidebar.html',
-# }
+#Custom sidebar templates, maps page names to templates.
+html_sidebars = {
+                    'index': [ 'indexsidebar.html'], 
+                    'contents':'indexsidebar.html',
+}
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
 # html_additional_pages = {   'index': 'index.html'}
