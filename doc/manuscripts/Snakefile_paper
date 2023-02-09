@@ -19,15 +19,17 @@ mpl.use('Agg')
 number_of_runs_per_method = 5
 
 
+OUTPUT = "outputs"
+
 rule all:
     input:
-        "outputs/bioconvert.fastqgz_fasta.png",
-        "outputs/bioconvert.fastqgz_fastagz.png", 
-        "outputs/bioconvert.fastq_fastagz.png",
-        "outputs/bioconvert.fastq_fasta.png" 
+        f"{OUTPUT}/bioconvert.fastqgz_fasta.png",
+        f"{OUTPUT}/bioconvert.fastqgz_fastagz.png",
+        f"{OUTPUT}/bioconvert.fastq_fastagz.png",
+        f"{OUTPUT}/bioconvert.fastq_fasta.png"
 
 
-rule download :
+rule download:
     output: "inputs/test.fastq",
             "inputs/test.fastq.gz"
     shell:
@@ -43,11 +45,11 @@ rule fastqgz_fasta:
     input:
         "inputs/test.fastq.gz"
     output:
-        file=temp("outputs/test.fasta"),
-        png="outputs/bioconvert.fastqgz_fasta.png"
+        file=temp(f"{OUTPUT}/test.fasta"),
+        png=f"{OUTPUT}/bioconvert.fastqgz_fasta.png"
     params:
         N= number_of_runs_per_method,
-        tag="outputs/bioconvert.fastqgz_fasta"
+        tag=f"{OUTPUT}/bioconvert.fastqgz_fasta"
     shell :
         """
         bioconvert fastq2fasta -b -N {params.N} {input} {output.file} -f -I -T {params.tag}
@@ -59,27 +61,26 @@ rule fastqgz_fastagz:
     input:
         "inputs/test.fastq.gz"
     output:
-        file=temp("outputs/test.fasta.gz"), 
-        png="outputs/bioconvert.fastqgz_fastagz.png" 
+        file=temp(f"{OUTPUT}/test.fasta.gz"), 
+        png=f"{OUTPUT}/bioconvert.fastqgz_fastagz.png" 
     params:
         N= number_of_runs_per_method,
-        tag="outputs/bioconvert.fastqgz_fastagz"
+        tag=f"{OUTPUT}/bioconvert.fastqgz_fastagz"
     shell :
         """
         bioconvert fastq2fasta -b -N {params.N} {input} {output.file} -f -I -T {params.tag}
         """
-
 
 rule fastq_fastagz:
     """compressed O"""
     input:
         "inputs/test.fastq"
     output:
-        file=temp("outputs/test.fasta.gz"), 
-        png="outputs/bioconvert.fastq_fastagz.png" 
+        file=temp(f"{OUTPUT}/test2.fasta.gz"), 
+        png=f"{OUTPUT}/bioconvert.fastq_fastagz.png" 
     params:
         N= number_of_runs_per_method,
-        tag="outputs/bioconvert.fastq_fastagz"
+        tag=f"{OUTPUT}/bioconvert.fastq_fastagz"
     shell :
         """
         bioconvert fastq2fasta -b -N {params.N} {input} {output.file} -f -I -T {params.tag}
@@ -91,11 +92,11 @@ rule fastq_fasta:
     input:
         "inputs/test.fastq"
     output:
-        file=temp("outputs/test.fasta"), 
-        png="outputs/bioconvert.fastq_fasta.png" 
+        file=temp(f"{OUTPUT}/test2.fasta"), 
+        png=f"{OUTPUT}/bioconvert.fastq_fasta.png" 
     params:
         N= number_of_runs_per_method,
-        tag="outputs/bioconvert.fastq_fasta"
+        tag=f"{OUTPUT}/bioconvert.fastq_fasta"
     shell :
         """
         bioconvert fastq2fasta -b -N {params.N} {input} {output.file} -f -I -T {params.tag}

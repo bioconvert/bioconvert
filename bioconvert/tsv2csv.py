@@ -100,7 +100,7 @@ class TSV2CSV(ConvBase):
         pd.read_csv(self.infile, sep=in_sep,).to_csv(
             self.outfile,
             sep=out_sep,
-            line_terminator=line_terminator,
+            lineterminator=line_terminator,
             index=False,
             header="infer",
         )

@@ -74,7 +74,7 @@ class FunctionalAnnotation:
         if type(dbxref).__name__ == 'Dbxref':
             self.dbxrefs.append(dbxref)
         elif type(dbxref).__name__ == 'str':
-            m = re.match("(.+)\:(.+)", dbxref)
+            m = re.match(r"(.+)\:(.+)", dbxref)
             if m:
                 self.dbxrefs.append(Dbxref(db=m.group(1), identifier=m.group(2)))
             else:
@@ -171,16 +171,16 @@ class FunctionalAnnotation:
         new_product = new_product.replace(' protein-like family protein', '-like family protein')
 
         # takes patterns like this off the end:  {ECO:0000313|EMBL:OOP19401.1}
-        m = re.match('(.+) \{.+\:.+\}', new_product)
+        m = re.match(r'(.+) \{.+\:.+\}', new_product)
         if m:
             new_product = m.group(1)
-        
+
         if new_product.lower().startswith('orf'):
             return default_product
 
         if 'ncharacteri' in new_product.lower():
             return default_product
-            
+
         # process some homolog-specific names
         if 'homolog' in new_product.lower():
             if 'shiA homolog' in new_product:
@@ -220,15 +220,15 @@ class FunctionalAnnotation:
             return default_product
 
         # Correct a class of short bogus names we've often encountered
-        m = re.match('^\w{1,2}\d{1,3}$', new_product)
+        m = re.match(r'^\w{1,2}\d{1,3}$', new_product)
         if m:
             return default_product
 
-        m = re.match('gene \d+ protein', new_product)
+        m = re.match(r'gene \d+ protein', new_product)
         if m:
             return default_product
 
-        m = re.match('(.*)\d*\s*[CN]\-terminus$', new_product)
+        m = re.match(r'(.*)\d*\s*[CN]\-terminus$', new_product)
         if m:
             new_product = m.groups(1)
 
@@ -412,7 +412,7 @@ class ECAnnotation:
         self.class2 = None
         self.class3 = None
 
-        re_pattern = re.compile('(((([0-9\-]+)\.[0-9\-]+)\.[0-9\-]+)\.[a-z0-9\-]+)')
+        re_pattern = re.compile(r'(((([0-9\-]+)\.[0-9\-]+)\.[0-9\-]+)\.[a-z0-9\-]+)')
         m = re_pattern.search(self.number)
 
         if m:

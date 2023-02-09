@@ -9,6 +9,7 @@ matplotlib
 networkx
 pyyaml
 pysam
+openpyxl<=3.0.10
 pyexcel
 pyexcel-ods3
 pyexcel-xls
