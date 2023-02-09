@@ -554,6 +554,7 @@ Version   Description
 1.0.0     * Fix bam2fastq for paired data that computed useless intermediate file
             https://github.com/bioconvert/bioconvert/issues/325
           * more realistic fastq simulator
+          * pin openpyxl to <=3.0.10 to prevent regression error in v3.1.0
 0.6.3     * add picard method in bam2sam
           * Fixed all CI workflows to use mamba
           * drop python3.7 support and add 3.10 support
