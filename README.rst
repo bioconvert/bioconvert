@@ -38,9 +38,7 @@ Bioconvert
     :target: https://raw.githubusercontent.com/bioconvert/bioconvert/main/doc/_static/logo.png
 
 
-
 :contributions: Want to add a convertor ? Please join https://github.com/bioconvert/bioconvert/issues/1
-:issues: Please use https://github.com/bioconvert/bioconvert/issues
 
 Overview
 ########
@@ -50,7 +48,7 @@ Life science uses many different formats. They may be old, or with complex synta
 
 Many conversion tools already exist but they may be dispersed, focused on few specific formats, difficult to install, or not optimised. With Bioconvert, we plan to cover a wide spectrum of format conversions; we will re-use existing tools when possible and provide facilities to compare different conversion tools or methods via benchmarking. New implementations are provided when considered better than existing ones.
 
-In March 2022, we had 48 formats, 98 direct conversions (125 different methods).
+In Jan 2023, we had 50 formats, 100 direct conversions available.
 
 .. image:: https://raw.githubusercontent.com/bioconvert/bioconvert/main/doc/conversion.png
     :width: 80%
@@ -64,7 +62,7 @@ Installation
     pip install bioconvert
 
 50% of the conversions should work out of the box. However, many conversions require external tools. This is why we
-recommend to use a **conda** environment. In particula, most external tools are available on the **bioconda** channel. 
+recommend to use a **conda** environment. In particular, most external tools are available on the **bioconda** channel. 
 For instance if you want to convert a SAM file to a BAM file you would need to install **samtools** as follow::
 
     conda install -c bioconda samtools
@@ -80,7 +78,7 @@ See the Installation section for more details and alternative solutions (docker,
 
 Quick Start
 ##############
-There are many conversion available. Type::
+There are many conversions available. Type::
 
     bioconvert --help 
 
