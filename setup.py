@@ -18,7 +18,7 @@ metainfo = {
     "platforms": ["Linux", "Unix", "MacOsX", "Windows"],
     "keywords": ["NGS", "bam2bed", "fastq2fasta", "bam2sam"],
     "classifiers": [
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -34,7 +34,7 @@ metainfo = {
 }
 
 
-with open("README.rst") as f:
+with open("README.rst", 'r', encoding='utf-8') as f:
     readme = f.read()
 
 requirements = open("requirements.txt").read().split()
