@@ -47,6 +47,7 @@ Summary
 	bioconvert.fasta_qual2fastq
 	bioconvert.fasta2clustal
 	bioconvert.fasta2faa
+	bioconvert.fasta2fasta_agp
 	bioconvert.fasta2fastq
 	bioconvert.fasta2genbank
 	bioconvert.fasta2nexus
