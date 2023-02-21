@@ -1,7 +1,10 @@
+---
+name: bioconvert general issue
+about: please report isues related bioconvert usage
+title:
+labels:
+---
 
-For bug reporting, please fill the form here below and set the label to "bug" in
-the right hand side. Otherwise, just remove this content and fill your issue as
-normal. 
 
 ## Version of bioconvert
 
