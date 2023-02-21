@@ -34,8 +34,8 @@ Bioconvert
 .. image:: https://static.pepy.tech/personalized-badge/bioconvert?period=month&units=international_system&left_color=black&right_color=blue&left_text=Downloads/months
     :target: https://pepy.tech/project/bioconvert
 
-.. image:: https://raw.githubusercontent.com/bioconvert/bioconvert/main/doc/_static/logo.png
-    :target: https://raw.githubusercontent.com/bioconvert/bioconvert/main/doc/_static/logo.png
+.. image:: https://raw.githubusercontent.com/bioconvert/bioconvert/main/doc/_static/logo_300x200.png
+    :target: https://raw.githubusercontent.com/bioconvert/bioconvert/main/doc/_static/logo_300x200.png
 
 
 :contributions: Want to add a convertor ? Please join https://github.com/bioconvert/bioconvert/issues/1
