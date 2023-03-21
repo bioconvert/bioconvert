@@ -20,13 +20,13 @@ Bioconvert
     :target:  https://github.com/bioconvert/bioconvert/issues
 
 .. image:: https://anaconda.org/bioconda/bioconvert/badges/platforms.svg
-   :target: https://anaconda.org/bioconda/bioconvert
+   :target: https://anaconda.org/bioconda/bioconvert/badges/platforms.svg
 
 .. image::  https://anaconda.org/bioconda/bioconvert/badges/version.svg
-    :target: https://anaconda.org/bioconda/bioconvert/badges/version.svg
+    :target: https://anaconda.org/bioconda/bioconvert
 
 .. image:: https://anaconda.org/bioconda/bioconvert/badges/downloads.svg
-    :target: https://anaconda.org/bioconda/bioconvert/badges/downloads.svg
+    :target: https://github.com/bioconvert/bioconvert/releases
 
 .. image:: https://zenodo.org/badge/106598809.svg
    :target: https://zenodo.org/badge/latestdoi/106598809
