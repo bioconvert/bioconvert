@@ -37,7 +37,10 @@ So, you could use the following code to run the benchmark fro Python:
     # Perform the benchmarking
     from bioconvert.fastq2fasta import FASTQ2FASTA
     c = FASTQ2FASTA(infile.name, outfile.name)
-    c.boxplot_benchmark(N=10)
+    c.compute_benchmark(N=10)
+
+    # you may study the memory or CPU usage using mode="CPU" or mode="memory"
+    c.boxplot_benchmark(mode="time")
 
     infile.delete()
     outfile.delete()

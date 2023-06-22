@@ -36,6 +36,7 @@ class FASTQ2QUAL(ConvBase):
     # Make sure that the default handles also the compresssion
     #: Default value
     _default_method = "readfq"
+    _loss = True
 
     # (https://raw.githubusercontent.com/lh3/readfq/master/readfq.py)
     @staticmethod

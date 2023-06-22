@@ -24,6 +24,8 @@
 """Tools for benchmarking"""
 
 import statistics
+import threading
+import time
 
 import colorlog
 import matplotlib.pyplot as plt
@@ -34,6 +36,7 @@ import statsmodels.formula.api
 import statsmodels.stats.multitest
 from bioconvert.core.utils import Timer
 from tqdm import tqdm
+import psutil
 
 _log = colorlog.getLogger(__name__)
 
@@ -80,9 +83,13 @@ class Benchmark:
         else:
             self.to_include = to_include
 
+        # CPU and memory usage
+        self.cpu_percent = []
+        self.memory_usage = []
+
     def run_methods(self):
         """Runs the benchmarks, and stores the timings in *self.results*."""
-        results = {}
+        results = {"time": {}, "CPU": {}, "memory": {}}
         methods = self.converter.available_methods[:]  # a copy !
 
         if self.to_include:
@@ -92,30 +99,72 @@ class Benchmark:
 
         for method in methods:
             times = []
+            CPUs = []
+            MEMs = []
+
             for i in tqdm(range(self.N), desc="Evaluating method {}".format(method)):
                 with Timer(times):
                     # Need to get all extra arguments for specify method e.g Bam2BIGWIG.uscs method
                     kwargs = {"method": method}
                     for k, v in self.converter.others.items():
                         kwargs[k] = v
+
+                    # start monitoring CPU and Memory usage
+                    self.stop_monitoring = False
+
+                    # reset CPU and memory usage before monitoring
+                    self.cpu_percent = []
+                    self.memory_usage = []
+
+                    # start monitoring
+                    monitor_thread = threading.Thread(target=self.monitor_usage)
+                    monitor_thread.start()
+
+                    # the actual computation
                     self.converter(**kwargs)
-            results[method] = times
+
+                    # stop monitoring
+                    self.stop_monitoring = True
+                    monitor_thread.join()
+
+                    # gather information
+                    L = len(self.cpu_percent)
+                    CPUs.append(sum(self.cpu_percent) / L)
+                    MEMs.append(sum(self.memory_usage) / L)
+            results["CPU"][method] = CPUs
+            results["memory"][method] = MEMs
+            results["time"][method] = times
+
         self.results = results
 
-    def plot(self, rerun=False, ylabel="Time (seconds)", rot_xticks=0, boxplot_args={}):
+    def monitor_usage(self):
+        while not self.stop_monitoring:
+            # Retrieve CPU and memory usage
+            cpu_percent = psutil.cpu_percent()
+            memory_usage = psutil.virtual_memory().percent
+
+            # Adjust the sleep time as per your requirement
+            time.sleep(0.05)
+            self.cpu_percent.append(cpu_percent)
+            self.memory_usage.append(memory_usage)
+
+    def plot(self, rerun=False, ylabel="Time (seconds)", rot_xticks=0, boxplot_args={}, mode="time"):
         """Plots the benchmark results, running the benchmarks
         if needed or if *rerun* is True.
 
         :param rot_xlabel: rotation of the xticks function
         :param boxplot_args: dictionary with any of the pylab.boxplot arguments
+        :param mode: either time, CPU or memory
         :return: dataframe with all results
         """
 
         if self.results is None or rerun is True:
             self.run_methods()
 
-        # an alias.
-        data = self.results.copy()
+
+        assert mode in ["time", "CPU", "memory"], f"mode must be time, CPU or memory; {mode} provided"
+        data = self.results[mode].copy()
+
 
         methods = sorted(data, key=lambda x: pylab.mean(data[x]))
         pylab.boxplot([data[x] for x in methods], **boxplot_args)
@@ -127,14 +176,14 @@ class Benchmark:
             pylab.xticks(*zip(*enumerate(methods, start=1)), rotation=rot_xticks)
             pylab.ylabel(ylabel)
             pylab.xlim([0, len(methods) + 1])
-
         pylab.grid(True)
         pylab.tight_layout()
 
-        return data
+        # make sure it does not change with a copy
+        return self.results.copy()
 
 
-def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png", min_ylim=0):
+def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png", min_ylim=0, mode=None):
     """Plotting function for the Snakefile_benchmark to be found in the doc
 
     The json file looks like::
@@ -164,8 +213,17 @@ def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png", m
     Number of benchmark is infered from field 'Benchmark'.
 
     """
-    # open and read JSON file
-    df = pd.read_json(path_json)
+
+
+    # for back compatibility with 1.0.0
+
+    if mode is None:
+        # open and read JSON file
+        df = pd.read_json(path_json)
+    else:
+        with open(path_json, "r") as fin:
+            dd = json.loads(fin.read())
+            df = pd.DataFrame(dd[mode])
 
     # how many runs per method ?
     N = len(df["Benchmark"]) / len(df["Benchmark"].unique())

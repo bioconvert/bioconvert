@@ -245,6 +245,9 @@ class ConvBase(metaclass=ConvMeta):
     _threading = False
     _extra_arguments = ""
 
+    # do we lose information when performing the conversion ? 
+    _loss = False
+
     # Used for the benchmarking only
     others = {}
 
@@ -302,9 +305,6 @@ class ConvBase(metaclass=ConvMeta):
             _log.error(msg)
             raise ValueError(msg)
 
-
-
-
         _log.info("{}> Executing {} method ".format(self.name, method_name))
         # reference to the method requested
         method_reference = getattr(self, "_method_{}".format(method_name))
@@ -321,8 +321,12 @@ class ConvBase(metaclass=ConvMeta):
         output_file.parent.mkdir(parents=True, exist_ok=True)
 
         method_reference(*args, **kwargs)
+
         t2 = time.time()
         _log.info("Took {} seconds ".format(t2 - t1))
+
+        if self._loss:
+            _log.warning(f"There is a loss of information in the conversion {self.name}")
 
     @property
     def name(self):
@@ -408,16 +412,15 @@ class ConvBase(metaclass=ConvMeta):
         else:
             return output
 
-    def boxplot_benchmark(
+    def compute_benchmark(
         self,
         N=5,
-        rerun=True,
         to_exclude=[],
-        to_include=[],
-        rot_xticks=90,
-        boxplot_args={},
+        to_include=[]
     ):
-        """Simple wrapper to call :class:`Benchmark` and plot the results
+        """Simple wrapper to call :class:`Benchmark` 
+
+        This function computes the benchmark
 
         see :class:`~bioconvert.core.benchmark.Benchmark` for details.
 
@@ -426,7 +429,18 @@ class ConvBase(metaclass=ConvMeta):
             to_include = []
 
         self._benchmark = Benchmark(self, N=N, to_exclude=to_exclude, to_include=to_include)
-        data = self._benchmark.plot(rerun=rerun, rot_xticks=rot_xticks, boxplot_args=boxplot_args)
+        self._benchmark.run_methods()
+
+
+    def boxplot_benchmark(self,
+        rot_xticks=90,
+        boxplot_args={},
+        mode="time"):
+        """
+        This function plots the benchmark computed in :meth:`compute_benchmark`
+
+        """
+        data = self._benchmark.plot(rerun=False, rot_xticks=rot_xticks, boxplot_args=boxplot_args, mode=mode)
         return data
 
     def _get_default_method(self):
@@ -568,6 +582,13 @@ class ConvBase(metaclass=ConvMeta):
             ],
             action="store_true",
             help="Save results as an image (using the same tag as from --benchmark-tag)",
+        )
+        yield ConvArg(
+            names=[
+                "--benchmark-mode",
+            ],
+            default="time",
+            help="Set the mode of the benchmark, which can be time, CPU or memory. Defaults to time)",
         )
         yield ConvArg(
             names=[

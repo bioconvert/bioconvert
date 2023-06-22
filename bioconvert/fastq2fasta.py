@@ -52,6 +52,7 @@ class FASTQ2FASTA(ConvBase):
     # output_ext =  extensions.fasta
     #: default value
     _default_method = "bioconvert"
+    _loss = True
     _threading = True  # not used but required for the main benchmark
 
     def __init__(self, infile, outfile):

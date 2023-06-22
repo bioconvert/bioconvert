@@ -16,12 +16,20 @@ mpl.use('Agg')
 
 
 # The number of times we run the benchmark to try to smooth out errors
-I = 5
-# For a given benchmark, how many trials ?
-number_of_runs_per_method = 10
+I = 2
+
+
+config = {
+        # could be time, CPU, memory
+        "mode": "time",
+
+        # For a given benchmark, how many trials ?
+        "number_of_runs_per_method": 3
+    }
+
 
 # The conversions that we want to test and whose name corresponds to the file extensions
-conversions = ["bam2bedgraph", "fastq2fasta", "bam2sam"]
+conversions = ["fastq2fasta"]
 
 
 rule all:
@@ -62,7 +70,7 @@ rule generic_conversions:
         json = "json/test_{conversion}_{i}.json"
     params:
         # For a given method and given run, how many time to we run it ?
-        N= number_of_runs_per_method
+        N= config["number_of_runs_per_method"]
     shell :
         """
         bioconvert {wildcards.conversion} -b -N {params.N} -T json/test_{wildcards.conversion}_{wildcards.i} {input} {output.out} -f
@@ -80,26 +88,36 @@ rule generic_concatenate:
     output:
         json = "json/test_{conversion}.json",
     params:
-        benchmark_num=I
+        benchmark_num=I,
+        mode=config["mode"]
     run:
         import pandas as pd
-        # open and read JSON file
-        df = pd.read_json(input[0])
+
+        # open json data file
+        with open(input[0], "r") as fin:
+            data = json.loads(fin.read())
+
+            # read CPU or time or memory info
+            df = pd.DataFrame(data[params.mode])
 
         # Creation of another column containing the benchmarking number
         df = df.assign(Benchmark=1)
 
         for i in range(2, int(params.benchmark_num) + 1):
             # open and read JSON file
-            df_temp = pd.read_json(input[i-1])
+            with open(input[i-1], "r") as fin:
+                data = json.loads(fin.read())
+                df_temp = pd.DataFrame(data[params.mode])
 
             # Creation of another column containing the benchmarking number
             df_temp = df_temp.assign(Benchmark=i + 1)
 
             # Concatenation of the two JSON objects
             df = pd.concat([df, df_temp], axis=0)
+
         # The index is reset to avoid problems when exporting the final JSON file
         df.reset_index(inplace=True, drop=True)
+
         # Creation of the path variable which will be used to give the name of the output JSON file
         # Exporting the JSON object to a JSON file
         df.to_json(output.json, indent=4)
@@ -108,12 +126,15 @@ rule generic_concatenate:
 rule plot:
     """plotting in form of boxplots"""
     input:
-        json = "json/test_{conversion}.json",
+        json = "json/test_{conversion}.json"
     output:
         png = "multi_benchmark/multi_benchmark_{conversion}.png"
     run:
         from bioconvert.core.benchmark import plot_multi_benchmark_max
-        plot_multi_benchmark_max(input.json, output_filename=output.png) 
+
+        # here mode is None because the rule concatenate already removed the CPU/memory/time mode
+        # in the final json.
+        plot_multi_benchmark_max(input.json, output_filename=output.png , mode=None) 
 
 
 # essential for the pipeline to work

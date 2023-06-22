@@ -605,13 +605,17 @@ def analysis(args):
             "batch",
             "benchmark",
             "benchmark_N",
+            "benchmark_mode",
             "benchmark_methods",
         ]:
             bioconv.converter.others[k] = v
 
     if args.benchmark:
-        results = bioconv.converter.boxplot_benchmark(N=args.benchmark_N, to_include=args.benchmark_methods)
+
+        bioconv.converter.compute_benchmark(N=args.benchmark_N, to_include=args.benchmark_methods)
         import pylab
+
+        results = bioconv.converter.boxplot_benchmark(mode=args.benchmark_mode)
 
         json_file = Path(f"{args.benchmark_tag}.json")
         json_file.parent.mkdir(parents=True, exist_ok=True)

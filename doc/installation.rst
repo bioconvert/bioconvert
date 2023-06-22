@@ -22,11 +22,12 @@ One workable and relatively straightfoward installation is based on conda/mamba:
 
     conda create --name bioconvert python=3.8
     conda activate bioconvert
-    conda  install mamba
+    conda install mamba
 
-Then, use mamba to install the missing executable. For example for **samtools**::
+Then, use mamba to install the missing executable. Dependencies and **BioConvert** are available on the **bioconda**
+channel (see more about channels at the bottom of the page). For example for **samtools**::
 
-    mamba install samtools 
+    mamba install samtools -c bioconda
 
 Third-package executables can be installed with your own method. We recommend and provide solutions for **conda**.
 Indeed, **BioConvert** is available on the `bioconda <https://bioconda.github.io>`_ channel (see :ref:`conda_channels` section for details).
@@ -41,7 +42,7 @@ installation::
 
     conda create -c bioconda --name bioconvert mamba
     conda activate bioconvert
-    mamba install bioconvert
+    mamba install bioconvert -c bioconda
 
 In Jan 2023, this method worked out of box and created an environment with Python3.10 and bioconvert 0.6.2 with all its
 dependencies.
