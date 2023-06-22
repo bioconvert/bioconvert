@@ -551,7 +551,6 @@ Version   Description
 ========= ==============================================================================
 1.1.0     * Implement ability to benchmark the CPU and memory usage (not just time)
             benchmark incorporates CPU/memory usage
-          * add missing cython in requirements (and psutil for benchmarking)
 1.0.0     * Fix bam2fastq for paired data that computed useless intermediate file
             https://github.com/bioconvert/bioconvert/issues/325
           * more realistic fastq simulator
