@@ -1,6 +1,7 @@
 easydev
 biosniff
 colorlog
+cython
 deeptools
 pandas
 biopython>=1.70
@@ -14,6 +15,7 @@ pyexcel
 pyexcel-ods3
 pyexcel-xls
 pyexcel-xlsx
+psutil
 xlrd>2
 pyBigWig
 py2bit

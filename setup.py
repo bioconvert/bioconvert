@@ -3,7 +3,7 @@ import os
 from setuptools import setup, find_packages
 
 _MAJOR = 1
-_MINOR = 0
+_MINOR = 1
 _MICRO = 0
 version = "%d.%d.%d" % (_MAJOR, _MINOR, _MICRO)
 release = "%d.%d" % (_MAJOR, _MINOR)
@@ -16,7 +16,7 @@ metainfo = {
     "url": "https://github.com/bioconvert/bioconvert",
     "description": "convert between bioinformatics formats",
     "platforms": ["Linux", "Unix", "MacOsX", "Windows"],
-    "keywords": ["NGS", "bam2bed", "fastq2fasta", "bam2sam"],
+    "keywords": ["NGS", "bam2bed", "fastq2fasta", "bam2sam", "conversion"],
     "classifiers": [
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
