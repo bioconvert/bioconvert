@@ -70,7 +70,7 @@ class PHYLIP2FASTA(ConvBase):
         cmd = "squizz -c FASTA {infile} > {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)
 
-    @requires("go")
+    @requires("goalign")
     @compressor
     def _method_goalign(self, *args, **kwargs):
         """Convert fasta file in Phylip interleaved format using goalign tool.

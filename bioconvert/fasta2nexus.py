@@ -51,7 +51,7 @@ class FASTA2NEXUS(ConvBase):
         """
         super(FASTA2NEXUS, self).__init__(infile, outfile)
 
-    @requires("go")
+    @requires("goalign")
     @compressor
     def _method_goalign(self, *args, **kwargs):
         """Convert fasta file in Nexus format using goalign tool.

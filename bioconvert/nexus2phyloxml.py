@@ -54,7 +54,7 @@ class NEXUS2PHYLOXML(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("go")
+    @requires("gotree")
     @compressor
     def _method_gotree(self, *args, **kwargs):
         """uses gotree tool:

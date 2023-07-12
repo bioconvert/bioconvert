@@ -68,7 +68,7 @@ class FASTA2CLUSTAL(ConvBase):
         cmd = "squizz -c CLUSTAL {infile} > {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)
 
-    @requires("go")
+    @requires("goalign")
     @compressor
     def _method_goalign(self, *args, **kwargs):
         """Convert :term:`FASTA` file in  :term:`CLUSTAL` format using goalign tool.

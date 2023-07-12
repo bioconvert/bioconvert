@@ -54,7 +54,7 @@ class NEXUS2CLUSTAL(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("go")
+    @requires("goalign")
     @compressor
     def _method_goalign(self, *args, **kwargs):
         """Convert :term:`NEXUS` file in  :term:`CLUSTAL` format using goalign tool.
