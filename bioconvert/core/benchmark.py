@@ -148,7 +148,7 @@ class Benchmark:
             self.cpu_percent.append(cpu_percent)
             self.memory_usage.append(memory_usage)
 
-    def plot(self, rerun=False, ylabel="Time (seconds)", rot_xticks=0, boxplot_args={}, mode="time"):
+    def plot(self, rerun=False, ylabel=None, rot_xticks=0, boxplot_args={}, mode="time"):
         """Plots the benchmark results, running the benchmarks
         if needed or if *rerun* is True.
 
@@ -165,6 +165,12 @@ class Benchmark:
         assert mode in ["time", "CPU", "memory"], f"mode must be time, CPU or memory; {mode} provided"
         data = self.results[mode].copy()
 
+        if mode == "time" and ylabel is None:
+            ylabel = "Time (seconds)"
+        elif mode == "CPU" and ylabel is None:
+            ylabel = "CPU usage (%)"
+        elif mode == "memory" and ylabel is None:
+            ylabel = "Memory usage (%)"
 
         methods = sorted(data, key=lambda x: pylab.mean(data[x]))
         pylab.boxplot([data[x] for x in methods], **boxplot_args)
