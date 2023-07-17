@@ -52,7 +52,7 @@ class PHYLIP2NEXUS(ConvBase):
         """
         super().__init__(infile, outfile)
 
-    @requires("go")
+    @requires("goalign")
     @compressor
     def _method_goalign(self, *args, **kwargs):
         """Convert :term:`PHYLIP` interleaved file in :term:`NEXUS` format using goalign tool.

@@ -65,7 +65,7 @@ class NEXUS2NEWICK(ConvBase):
 
         Phylo.convert(self.infile, "nexus", self.outfile, "newick")
 
-    @requires("go")
+    @requires("gotree")
     @compressor
     def _method_gotree(self, *args, **kwargs):
         """Convert :term:`NEXUS`  file in :term:`NEWICK` format using gotree tool.

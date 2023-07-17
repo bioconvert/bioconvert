@@ -16,6 +16,7 @@ dependencies:
 - numpy
 - matplotlib
 - pandas
+- pod5
 - pyBigWig
 - mawk
 - scipy

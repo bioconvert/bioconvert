@@ -53,7 +53,7 @@ class NEXUS2PHYLIP(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("go")
+    @requires("goalign")
     @compressor
     def _method_goalign(self, *args, **kwargs):
         """Convert :term:`NEXUS` interleaved file in :term:`PHYLIP` format using goalign tool.

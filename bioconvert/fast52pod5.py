@@ -21,47 +21,36 @@
 # Repository: https://github.com/bioconvert/bioconvert                    #
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
-"""Converts :term:`NEXUS` file to :term:`PHYLOXML` format."""
-import colorlog
+"""Convert :term:`FASTQ` to :term:`FASTA` format"""
+from bioconvert import ConvBase, bioconvert_script
 
-from bioconvert import ConvBase
-from bioconvert.core.decorators import compressor, requires
-
-_log = colorlog.getLogger(__name__)
+from bioconvert.core.decorators import requires, requires_nothing
 
 
-__all__ = ["NEXUS2PHYLOXML"]
+class FAST52POD5(ConvBase):
+    """Convert :term:`FAST5` to :term:`POD5`
 
-
-class NEXUS2PHYLOXML(ConvBase):
-    """
-    Converts a tree file from :term:`NEXUS` format to :term:`PHYLOXML` format.
-
-    Methods available are based on squizz [SQUIZZ]_ or biopython [BIOPYTHON]_, and
-    goalign [GOALIGN]_.
 
     """
 
-    #: Default value
-    _default_method = "gotree"
+    _default_method = "pod5"
+    _loss = False
+    _threading = True  # not used but required for the main benchmark
 
-    def __init__(self, infile, outfile=None, alphabet=None, *args, **kwargs):
-        """.. rubric:: constructor
-
-        :param str infile: input :term:`NEXUS` file.
-        :param str outfile: (optional) output :term:`PHYLOXML` file
+    def __init__(self, infile, outfile):
         """
-        super().__init__(infile, outfile)
-        self.alphabet = alphabet
+        :param str infile: The path to the input FAST5 file.
+        :param str outfile: The path to the output POD5 file.
+        """
+        super(FAST52POD5, self).__init__(infile, outfile)
 
-    @requires("gotree")
-    @compressor
-    def _method_gotree(self, *args, **kwargs):
-        """uses gotree tool:
-
-        `gotree documentation <https://github.com/fredericlemoine/gotree>`_"""
-        self.install_tool("gotree")
-        cmd = "gotree reformat phyloxml -i {infile} -o {outfile} -f nexus".format(
-            infile=self.infile, outfile=self.outfile
-        )
+    @requires("pod5")
+    def _method_pod5(self, *args, **kwargs):
+        """
+        """
+        if kwargs.get('force', False) is True:
+            cmd = f"pod5 convert fast5 {self.infile} --output {self.outfile} --force-overwrite "
+        else:
+            cmd = f"pod5 convert fast5 {self.infile} --output {self.outfile}"
         self.execute(cmd)
+

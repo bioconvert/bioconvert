@@ -52,7 +52,7 @@ class PHYLOXML2NEXUS(ConvBase):
         """
         super().__init__(infile, outfile)
 
-    @requires("go")
+    @requires("gotree")
     @compressor
     def _method_gotree(self, *args, **kwargs):
         """Convert :term:`PHYLOXML`  file in :term:`NEXUS` format using gotree tool.

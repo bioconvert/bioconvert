@@ -1,4 +1,4 @@
-name: embl2genbank Testing
+name: fasta52pod5 Testing
 
 on:
   workflow_dispatch:
@@ -8,12 +8,12 @@ on:
       - dev
       - refactoring
     paths:
-      - bioconvert/embl2genbank.py
-      - .github/workflows/embl2genbank.yml
+      - bioconvert/fasta52pod5.py
+      - .github/workflows/fasta52pod5.yml
   pull_request:
     branches-ignore: []
     paths:
-      - bioconvert/embl2genbank.py
+      - bioconvert/fasta52pod5.py
   schedule:
     - cron: '0 0 13 * *'
 
@@ -102,4 +102,4 @@ jobs:
     - name: testing
       shell: bash -l {0}
       run: |
-        pytest -n 1  --cov-report term --cov=bioconvert.embl2genbank test/test_embl2genbank.py
+        pytest -n 1  --cov-report term --cov=bioconvert.fasta52pod5 test/test_fasta52pod5.py

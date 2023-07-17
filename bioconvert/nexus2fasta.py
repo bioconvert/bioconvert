@@ -52,7 +52,7 @@ class NEXUS2FASTA(ConvBase):
         super().__init__(infile, outfile)
         self.alphabet = alphabet
 
-    @requires("go")
+    @requires("goalign")
     @compressor
     def _method_goalign(self, *args, **kwargs):
         """Convert :term:`NEXUS` interleaved file in :term:`FASTA` format using goalign tool.

@@ -52,7 +52,7 @@ class PHYLOXML2NEWICK(ConvBase):
         """
         super(PHYLOXML2NEWICK, self).__init__(infile, outfile)
 
-    @requires("go")
+    @requires("gotree")
     @compressor
     def _method_gotree(self, *args, **kwargs):
         """Convert :term:`PHYLOXML`  file in :term:`NEWICK` format using gotree tool.
