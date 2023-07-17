@@ -19,6 +19,7 @@ dependencies:
 - matplotlib-base
 - networkx
 - picard-slim
+- pod5
 - pyyaml
 - pysam
 - pyexcel

@@ -1,4 +1,4 @@
-name: embl2genbank Testing
+name: sam2bam Testing
 
 on:
   workflow_dispatch:
@@ -8,12 +8,12 @@ on:
       - dev
       - refactoring
     paths:
-      - bioconvert/embl2genbank.py
-      - .github/workflows/embl2genbank.yml
+      - bioconvert/fast52pod5.py
+      - .github/workflows/fast52pod5.yml
   pull_request:
     branches-ignore: []
     paths:
-      - bioconvert/embl2genbank.py
+      - bioconvert/fast52pod5.py
   schedule:
     - cron: '0 0 13 * *'
 
@@ -56,6 +56,7 @@ jobs:
           mappy
           matplotlib-base
           networkx
+          pod5
           pyyaml
           pysam
           pyexcel
@@ -94,6 +95,7 @@ jobs:
           mawk
           xlrd
 
+    #    mamba install -c conda-forge -c bioconda --quiet -y samtools bedtools bamtools mosdepth pbzip2 pigz dsrc sambamba squizz
 
     - name: Install with pip
       shell: bash -l {0}
@@ -102,4 +104,4 @@ jobs:
     - name: testing
       shell: bash -l {0}
       run: |
-        pytest -n 1  --cov-report term --cov=bioconvert.embl2genbank test/test_embl2genbank.py
+        pytest -n 1  --cov-report term --cov=bioconvert.fast52pod5 test/test_fast52pod5.py

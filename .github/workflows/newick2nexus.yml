@@ -94,7 +94,6 @@ jobs:
           mawk
           xlrd
 
-    #    mamba install -c conda-forge -c bioconda --quiet -y samtools bedtools bamtools mosdepth pbzip2 pigz dsrc sambamba squizz
 
     - name: Install with pip
       shell: bash -l {0}

@@ -83,6 +83,7 @@ extensions = {
     "embl": ["embl"],  # annotation/sequence
     "ena": ["ena"],
     "faa": ["faa", "mpfa", "aa"],  # fasta multiple amino acid
+    "fast5": ["fast5"],
     "fasta": ["fasta", "fa", "fst"],  # sequence
     "fastq": ["fastq", "fq"],  # sequence
     "genbank": ["genbank", "gbk", "gb"],  # annotation/sequence
@@ -101,6 +102,7 @@ extensions = {
     "phylip": ["phy", "ph", "phylip"],  # phylo
     "phyloxml": ["phyloxml", "xml"],  # phylo
     "plink": ["plink"],
+    "pod5": ["pod5"],
     "qual": ["qual"],  # seauence
     "sam": ["sam"],  # alignement
     "scf": ["scf"],  # alignement

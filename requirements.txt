@@ -4,6 +4,7 @@ colorlog
 cython
 deeptools
 pandas
+pod5
 biopython>=1.70
 mappy
 matplotlib
