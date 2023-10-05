@@ -39,6 +39,7 @@ Bioconvert
 
 
 :contributions: Want to add a convertor ? Please join https://github.com/bioconvert/bioconvert/issues/1
+:How to cite: Caro et al, BioConvert: a comprehensive format converter for life sciences (2023) NAR Genomics and Bioinformatics (5),3. https://doi.org/10.1093/nargab/lqad074
 
 Overview
 ########
