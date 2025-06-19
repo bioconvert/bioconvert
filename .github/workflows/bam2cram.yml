@@ -37,14 +37,17 @@ jobs:
       uses: actions/checkout@v2
 
     - name: conda/mamba
-      uses: mamba-org/provision-with-micromamba@main
+      uses: mamba-org/setup-micromamba
       with:
         cache-downloads: true
-        environment-file: false
         environment-name: installation
-        channels:
-          conda-forge,bioconda,defaults,r
-        extra-specs: |
+        condarc: |
+          channels:
+            - conda-forge
+            - bioconda
+            - defaults
+            - r
+        create-args: >-
           python=${{ matrix.python }}
           easydev
           biosniff
