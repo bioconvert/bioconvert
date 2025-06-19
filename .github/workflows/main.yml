@@ -32,14 +32,17 @@ jobs:
       uses: actions/checkout@v2
 
     - name: conda/mamba
-      uses: mamba-org/provision-with-micromamba@main
+      uses: mamba-org/setup-micromamba
       with:
         cache-downloads: true
-        environment-file: false
         environment-name: installation
-        channels:
-          conda-forge,bioconda,defaults,r
-        extra-specs: |
+        condarc: |
+          channels:
+            - conda-forge
+            - bioconda
+            - defaults
+            - r
+        create-args: >-
           python=${{ matrix.python }}
           easydev
           biosniff
@@ -88,8 +91,6 @@ jobs:
           sed
           mawk
           xlrd
-
-    #    mamba install -c conda-forge -c bioconda --quiet -y samtools bedtools bamtools mosdepth pbzip2 pigz dsrc sambamba squizz
 
     - name: Install with pip
       shell: bash -l {0}
