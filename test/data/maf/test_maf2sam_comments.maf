@@ -1,0 +1,10 @@
+##maf version=1 scoring=blastz
+# This is a comment line
+a score=100
+s ref    0 10 + 100 ACGTACGTAC
+s contig 0 10 + 10  ACGTACGTAC
+
+# Another comment
+a score=200
+s ref    10 10 + 100 TTTTGGGGCC
+s contig 0  10 + 10  TTTTGGGGCC
