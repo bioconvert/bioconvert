@@ -71,7 +71,7 @@ For instance if you want to convert a SAM file to a BAM file you would need to i
 
 Since **bioconvert** is available on `bioconda <https://bioconda.github.io>`_ on solution that installs **BioConvert** and all its dependencies is to use conda/mamba::
 
-    conda env create --name bioconvert mamba
+    conda create --name bioconvert mamba
     conda activate bioconvert
     mamba install bioconvert
     bioconvert --help
