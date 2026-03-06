@@ -28,6 +28,7 @@ import subprocess
 import colorlog
 
 from bioconvert import ConvBase
+from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires
 from bioconvert.core.utils import get_extension
 
@@ -56,12 +57,13 @@ class CRAM2FASTQ(ConvBase):
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
-        """Do the conversion :term:`BAM` -> :term:`FASTQ` using samtools
+        """Do the conversion :term:`CRAM` -> :term:`FASTQ` using samtools
 
         `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_"""
-        cmd = "samtools fastq {} > {}".format(self.infile, self.outfile)
-        self.execute(cmd)
-        # Test if input bam file is paired
+        reference = kwargs.get("reference", None)
+        ref_arg = "--reference {}".format(reference) if reference else ""
+
+        # Test if input cram file is paired
         p = subprocess.Popen(
             "samtools view -c -f 1 {}".format(self.infile).split(),
             stdout=subprocess.PIPE,
@@ -89,7 +91,9 @@ class CRAM2FASTQ(ConvBase):
 
             # When the input file is not paired and the output file needs to be compressed
             if isPaired == "0":
-                cmd = "samtools fastq -@ {} {} > {}.{}".format(self.threads, self.infile, outbasename, output_ext)
+                cmd = "samtools fastq -@ {} {} {} > {}.{}".format(
+                    self.threads, ref_arg, self.infile, outbasename, output_ext
+                )
                 self.execute(cmd)
                 if ext == ".dsrc":
                     cmd = "{} {}.{} {}.{}.dsrc".format(compresscmd, outbasename, output_ext, outbasename, output_ext)
@@ -99,8 +103,9 @@ class CRAM2FASTQ(ConvBase):
             # When the input file is paired and the output file needs to be compressed
             else:
 
-                cmd = "samtools fastq -@ {} -1 {}_1.{} -2 {}_2.{} -n {} ".format(
+                cmd = "samtools fastq -@ {} {} -1 {}_1.{} -2 {}_2.{} -n {} ".format(
                     self.threads,
+                    ref_arg,
                     outbasename,
                     output_ext,
                     outbasename,
@@ -127,12 +132,13 @@ class CRAM2FASTQ(ConvBase):
 
             # When the input file is not paired
             if isPaired == "0":
-                cmd = "samtools fastq -@ {} {} > {}".format(self.threads, self.infile, self.outfile)
+                cmd = "samtools fastq -@ {} {} {} > {}".format(self.threads, ref_arg, self.infile, self.outfile)
                 self.execute(cmd)
             # When the input file is paired
             else:
-                cmd = "samtools fastq -@ {} -1 {}_1.{} -2 {}_2.{} -n {} ".format(
+                cmd = "samtools fastq -@ {} {} -1 {}_1.{} -2 {}_2.{} -n {} ".format(
                     self.threads,
+                    ref_arg,
                     outbasename,
                     output_ext,
                     outbasename,
@@ -140,3 +146,11 @@ class CRAM2FASTQ(ConvBase):
                     self.infile,
                 )
                 self.execute(cmd)
+
+    @classmethod
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names="--reference",
+            default=None,
+            help="the reference used (FASTA format). Required when converting from CRAM.",
+        )
