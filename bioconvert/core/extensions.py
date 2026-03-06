@@ -94,6 +94,7 @@ extensions = {
     "gz": ["gz"],
     "json": ["json"],  # database
     "maf": ["maf"],  # !! this is MIRA format, not mutation alignment format
+    "mol2": ["mol2"],  # small molecule structure
     "newick": ["newick", "nw", "nhx", "nwk"],  # phylo
     "nexus": ["nexus", "nx", "nex", "nxs"],  # phylo
     "ods": ["ods"],  # database
@@ -106,6 +107,8 @@ extensions = {
     "qual": ["qual"],  # seauence
     "sam": ["sam"],  # alignement
     "scf": ["scf"],  # alignement
+    "sdf": ["sdf"],  # small molecule structure (MDL SDF)
+    "smiles": ["smi", "smiles"],  # small molecule SMILES
     "sra": ["sra"],  # sra format
     "stockholm": ["sto", "sth", "stk", "stockholm"],  # alignment
     "twobit": ["2bit"],  # sequence
