@@ -39,9 +39,9 @@ sys.path.append(".")
 # import create_graph
 
 
-import pkg_resources
+from importlib.metadata import version as _get_version
 
-version = pkg_resources.require(pkg_name)[0].version
+version = _get_version(pkg_name)
 
 import matplotlib
 import matplotlib.sphinxext

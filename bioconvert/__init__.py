@@ -1,9 +1,8 @@
 __version__ = "1.1.1"
-import pkg_resources
-
 try:
-    version = pkg_resources.require("bioconvert")[0].version
-except:
+    from importlib.metadata import version as _get_version, PackageNotFoundError
+    version = _get_version("bioconvert")
+except PackageNotFoundError:
     version = __version__
 
 import os
