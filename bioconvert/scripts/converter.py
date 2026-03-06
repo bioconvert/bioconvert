@@ -153,7 +153,7 @@ def _make_converter_command(cmd_name, converter_cls, path):
 
     epilog = (
         "Bioconvert is an open source collaborative project.\n"
-        "Please feel free to join us at https://github/biokit/bioconvert"
+        "Please feel free to join us at https://github.com/bioconvert/bioconvert"
     )
 
     def callback(**kwargs):
