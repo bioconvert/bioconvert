@@ -22,12 +22,12 @@
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
 """Provides a general tool to perform pre/post compression"""
-from distutils.spawn import find_executable
 from functools import wraps
+from importlib.metadata import distributions
 from os.path import splitext
+from shutil import which
 
 import colorlog
-import pkg_resources
 from tempfile import NamedTemporaryFile
 
 _log = colorlog.getLogger(__name__)
@@ -182,7 +182,7 @@ def requires(
     requires.__missing_libraries = __missing_libraries
     __pip_libraries = getattr(requires, "__pip_libraries", None)
     if __pip_libraries is None:
-        __pip_libraries = [p.project_name for p in pkg_resources.working_set]
+        __pip_libraries = [dist.metadata['Name'] for dist in distributions()]
         requires.__pip_libraries = __pip_libraries
 
     def real_decorator(function):
@@ -198,7 +198,7 @@ def requires(
                 except KeyError:
                     __missing_binaries[bin] = True
                     # shell("which %s" % bin)
-                    if find_executable(bin) is None:
+                    if which(bin) is None:
                         raise Exception("{} was not found in path".format(bin))
                     __missing_binaries[bin] = False
             for lib in python_libraries:
