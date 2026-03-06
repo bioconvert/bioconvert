@@ -28,6 +28,7 @@ import subprocess
 import colorlog
 
 from bioconvert import ConvBase
+from bioconvert.core.base import ConvArg
 from bioconvert.core.decorators import requires
 from bioconvert.core.utils import get_extension
 
@@ -56,13 +57,16 @@ class CRAM2FASTA(ConvBase):
 
     @requires("samtools")
     def _method_samtools(self, *args, **kwargs):
-        """do the conversion :term:`BAM` -> :term:`FASTA` using samtools
+        """do the conversion :term:`CRAM` -> :term:`FASTA` using samtools
 
         `SAMtools documentation <http://www.htslib.org/doc/samtools.html>`_
 
 
         .. note:: fasta are on one line"""
-        # Test if input bam file is paired
+        reference = kwargs.get("reference", None)
+        ref_arg = "--reference {}".format(reference) if reference else ""
+
+        # Test if input cram file is paired
         p = subprocess.Popen(
             "samtools view -c -f 1 {}".format(self.infile).split(),
             stdout=subprocess.PIPE,
@@ -87,14 +91,14 @@ class CRAM2FASTA(ConvBase):
                 compresscmd = "pbzip2 -f"
             # When the input file is not paired and the output file needs to be compressed
             if isPaired == "0":
-                cmd = "samtools fasta {} > {}.{}".format(self.infile, outbasename, output_ext)
+                cmd = "samtools fasta {} {} > {}.{}".format(ref_arg, self.infile, outbasename, output_ext)
                 self.execute(cmd)
                 cmd = "{} {}.{}".format(compresscmd, outbasename, output_ext)
                 self.execute(cmd)
             # When the input file is paired and the output file needs to be compressed
             else:
-                cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(
-                    outbasename, output_ext, outbasename, output_ext, self.infile
+                cmd = "samtools fasta {} -1 {}_1.{} -2 {}_2.{} -n {} ".format(
+                    ref_arg, outbasename, output_ext, outbasename, output_ext, self.infile
                 )
                 self.execute(cmd)
                 cmd = "{} {}_1.{}".format(compresscmd, outbasename, output_ext)
@@ -107,11 +111,19 @@ class CRAM2FASTA(ConvBase):
 
             # When the input file is not paired
             if isPaired == "0":
-                cmd = "samtools fasta {} > {}".format(self.infile, self.outfile)
+                cmd = "samtools fasta {} {} > {}".format(ref_arg, self.infile, self.outfile)
                 self.execute(cmd)
             # When the input file is paired
             else:
-                cmd = "samtools fasta -1 {}_1.{} -2 {}_2.{} -n {} ".format(
-                    outbasename, output_ext, outbasename, output_ext, self.infile
+                cmd = "samtools fasta {} -1 {}_1.{} -2 {}_2.{} -n {} ".format(
+                    ref_arg, outbasename, output_ext, outbasename, output_ext, self.infile
                 )
                 self.execute(cmd)
+
+    @classmethod
+    def get_additional_arguments(cls):
+        yield ConvArg(
+            names="--reference",
+            default=None,
+            help="the reference used (FASTA format). Required when converting from CRAM.",
+        )
