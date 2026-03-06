@@ -37,7 +37,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: conda/mamba
-      uses: mamba-org/setup-micromamba
+      uses: mamba-org/setup-micromamba@v2.0.6
       with:
         cache-downloads: true
         environment-name: installation
