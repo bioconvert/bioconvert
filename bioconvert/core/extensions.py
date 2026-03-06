@@ -105,7 +105,9 @@ extensions = {
     "pod5": ["pod5"],
     "qual": ["qual"],  # seauence
     "sam": ["sam"],  # alignement
+    "sbmlqual": ["sbmlqual", "xml"],  # SBML qualitative model
     "scf": ["scf"],  # alignement
+    "sif": ["sif"],  # Simple Interaction Format (Cytoscape)
     "sra": ["sra"],  # sra format
     "stockholm": ["sto", "sth", "stk", "stockholm"],  # alignment
     "twobit": ["2bit"],  # sequence

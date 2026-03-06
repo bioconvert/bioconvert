@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:qual="http://www.sbml.org/sbml/level3/version1/qual/version1" level="3" version="1" qual:required="false">
+  <model id="test_qualitative_model">
+    <listOfCompartments>
+      <compartment id="default" constant="true"/>
+    </listOfCompartments>
+    <qual:listOfQualitativeSpecies>
+      <qual:qualitativeSpecies qual:id="A" qual:compartment="default" qual:constant="false" qual:name="A" qual:initialLevel="0" qual:maxLevel="1"/>
+      <qual:qualitativeSpecies qual:id="B" qual:compartment="default" qual:constant="false" qual:name="B" qual:initialLevel="0" qual:maxLevel="1"/>
+      <qual:qualitativeSpecies qual:id="C" qual:compartment="default" qual:constant="false" qual:name="C" qual:initialLevel="0" qual:maxLevel="1"/>
+      <qual:qualitativeSpecies qual:id="D" qual:compartment="default" qual:constant="false" qual:name="D" qual:initialLevel="0" qual:maxLevel="1"/>
+    </qual:listOfQualitativeSpecies>
+    <qual:listOfTransitions>
+      <qual:transition qual:id="tr_B">
+        <qual:listOfInputs>
+          <qual:input qual:id="inp_A_tr_B" qual:qualitativeSpecies="A" qual:transitionEffect="none" qual:sign="positive"/>
+        </qual:listOfInputs>
+        <qual:listOfOutputs>
+          <qual:output qual:id="out_B" qual:qualitativeSpecies="B" qual:transitionEffect="assignmentLevel"/>
+        </qual:listOfOutputs>
+      </qual:transition>
+      <qual:transition qual:id="tr_C">
+        <qual:listOfInputs>
+          <qual:input qual:id="inp_A_tr_C" qual:qualitativeSpecies="A" qual:transitionEffect="none" qual:sign="negative"/>
+        </qual:listOfInputs>
+        <qual:listOfOutputs>
+          <qual:output qual:id="out_C" qual:qualitativeSpecies="C" qual:transitionEffect="assignmentLevel"/>
+        </qual:listOfOutputs>
+      </qual:transition>
+      <qual:transition qual:id="tr_C2">
+        <qual:listOfInputs>
+          <qual:input qual:id="inp_B_tr_C2" qual:qualitativeSpecies="B" qual:transitionEffect="none" qual:sign="dual"/>
+        </qual:listOfInputs>
+        <qual:listOfOutputs>
+          <qual:output qual:id="out_C2" qual:qualitativeSpecies="C" qual:transitionEffect="assignmentLevel"/>
+        </qual:listOfOutputs>
+      </qual:transition>
+    </qual:listOfTransitions>
+  </model>
+</sbml>
