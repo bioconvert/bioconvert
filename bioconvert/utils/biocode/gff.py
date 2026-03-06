@@ -202,7 +202,7 @@ def get_gff3_features(gff3_file, assemblies=None):
     for line in open(gff3_file):
         lnum = lnum + 1
 
-        if in_fasta_section == True:
+        if in_fasta_section:
             m = re.search(r'>(\S+)\s*(.*)', line)
             if m:
                 current_fasta_id = m.group(1)
@@ -216,7 +216,7 @@ def get_gff3_features(gff3_file, assemblies=None):
                 if current_fasta_id is None:
                     if (len(str(line.rstrip())) > 0):
                         raise Exception("FASTA parse error - sequence appears without preceding fasta id at line " + str(lnum))
-                if is_assembly_fasta == True:
+                if is_assembly_fasta:
                     # must be a sequence line for an assembly
                     # python 2.6+ makes string concatenation amortized O(n)
                     #  http://stackoverflow.com/a/4435752/1368079
@@ -558,9 +558,9 @@ def print_gff3_from_assemblies(assemblies=None, ofh=None, source=None):
         if current_assembly.length:
             has_fasta = True
 
-            if current_assembly.is_circular == True:
+            if current_assembly.is_circular is True:
                 circ_str = ';Is_circular=true'
-            elif current_assembly.is_circular == False:
+            elif current_assembly.is_circular is False:
                 circ_str = ';Is_circular=false'
             else:
                 circ_str = ''
@@ -859,21 +859,21 @@ def _get_ultimate_parent( p, id ):
 
 def _partiality_string(loc):
     if loc.strand == 1:
-        if loc.fmax_partial == True:
-            if loc.fmin_partial == True:
+        if loc.fmax_partial:
+            if loc.fmin_partial:
                 return '5prime,3prime'
             else:
                 return '3prime'
-        elif loc.fmin_partial == True:
+        elif loc.fmin_partial:
             return '5prime'
 
     elif loc.strand == -1:
-        if loc.fmax_partial == True:
-            if loc.fmin_partial == True:
+        if loc.fmax_partial:
+            if loc.fmin_partial:
                 return '5prime,3prime'
             else:
                 return '5prime'
-        elif loc.fmin_partial == True:
+        elif loc.fmin_partial:
             return '3prime'
 
     return None

@@ -97,7 +97,7 @@ class Genbank:
             pass
 
         # Parse the line
-        if self.parsing_function != None:
+        if self.parsing_function is not None:
             self.parsing_function(line)
         else:
             print("Impossible to parse line\n{}".format(line))
