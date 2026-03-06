@@ -104,7 +104,7 @@ class BAM2FASTQ(ConvBase):
             # Compress the output if required. We do not use compressor
             # since we may have two outputs.
             comp_ext = get_extension(self.outfile, remove_compression=False)
-            if comp_ext in [".gz", ".dsrc", "bz2"]:
+            if comp_ext in [".gz", ".dsrc", ".bz2"]:
                 from bioconvert.core.utils import compressor
 
                 compressor("{}_1.{}".format(outbasename, output_ext), comp_ext)

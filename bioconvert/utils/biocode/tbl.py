@@ -151,7 +151,7 @@ def print_biogene( gene=None, fh=None, on=None, obo_dict=None, lab_name=None ):
         elif len(polypeptides) > 1:
             raise Exception("ERROR: RNAs with multiple polpeptides is currently unsupported: {0}".format(RNA.id))
 
-        if annot is not None and gene_symbol_printed == False:
+        if annot is not None and not gene_symbol_printed:
             if annot.gene_symbol is not None:
                 fh.write("\t\t\tgene\t{0}\n".format(annot.gene_symbol))
                 gene_symbol_printed = True

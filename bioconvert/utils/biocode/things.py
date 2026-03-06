@@ -114,7 +114,7 @@ class LocatableThing:
                         return True
 
                     # for those features with mixed stop codon inclusion
-                    elif stop_tolerant == True:
+                    elif stop_tolerant:
                         if this_loc.strand == 1:
                             # this allows for either to be three base pairs away from the other in either direction
                             if this_loc.fmin == other_loc.fmin and abs(this_loc.fmax - other_loc.fmax) == 3:
@@ -368,7 +368,7 @@ class LocatableThing:
                     if ref_location.fmax <= qry_location.fmin or qry_location.fmax <= ref_location.fmin:
                         return False
 
-        if common_location_found == True:
+        if common_location_found:
             return True
         else:
             return False

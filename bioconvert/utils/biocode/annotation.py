@@ -373,7 +373,7 @@ class GOAnnotation:
         self.with_from    = with_from
 
         ## process any GO ID passed to only contain the numeric portion
-        go_pattern = re.compile('(\d+)')
+        go_pattern = re.compile(r'(\d+)')
         m = go_pattern.search(self.go_id)
 
         if m:

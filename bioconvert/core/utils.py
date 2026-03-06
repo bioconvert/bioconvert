@@ -27,8 +27,11 @@ import tempfile
 import hashlib
 import time
 
+import colorlog
 import bioconvert
 from bioconvert.core.extensions import extensions
+
+logger = colorlog.getLogger(__name__)
 
 __all__ = ["get_extension", "get_format_from_extension", "generate_outfile_name", "md5", "TempFile", "Timer"]
 
@@ -88,16 +91,17 @@ def get_format_from_extension(extension):
 
 def compressor(infile, comp_ext, threads=4):
     # FIXME: could be a method in ConvBase
+    from bioconvert.core.shell import shell
 
     if comp_ext == ".gz":
-        _log.info("Compressing output into .gz")
+        logger.info("Compressing output into .gz")
         shell("pigz -f -p {} {}".format(threads, infile))
     elif comp_ext == ".bz2":
-        _log.info("Compressing output into .bz2")
+        logger.info("Compressing output into .bz2")
         shell("pbzip2 -f -p{} {}".format(threads, infile))
     elif comp_ext == ".dsrc":  # !!! only for FastQ files
-        _log.info("Compressing output into .dsrc")
-        shell("dsrc c -t{} {} {}.dsrc".format(inst.threads, inst.outfile, inst.infile))
+        logger.info("Compressing output into .dsrc")
+        shell("dsrc c -t{} {} {}.dsrc".format(threads, infile, infile))
 
 
 def md5(fname, chunk=65536):
