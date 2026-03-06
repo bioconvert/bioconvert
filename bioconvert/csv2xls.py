@@ -93,11 +93,7 @@ class CSV2XLS(ConvBase):
             index=False,
         )
 
-        # depends on pandas/pyexcel version. need to cope with the two cases
-        try:
-            writer.save()
-        except AttributeError:
-            writer._save()
+        writer.close()
 
     @classmethod
     def get_additional_arguments(cls):
