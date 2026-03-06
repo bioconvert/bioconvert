@@ -1,6 +1,8 @@
 easydev
 biosniff
 colorlog
+click
+rich-click
 cython
 deeptools
 pandas
