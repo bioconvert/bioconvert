@@ -92,6 +92,7 @@ extensions = {
     "gff3": ["gff3"],  # annotation
     "gtf": ["gtf"],  # annotation
     "gz": ["gz"],
+    "jaspar": ["jaspar"],  # motif
     "json": ["json"],  # database
     "maf": ["maf"],  # !! this is MIRA format, not mutation alignment format
     "newick": ["newick", "nw", "nhx", "nwk"],  # phylo
@@ -109,6 +110,7 @@ extensions = {
     "sra": ["sra"],  # sra format
     "stockholm": ["sto", "sth", "stk", "stockholm"],  # alignment
     "twobit": ["2bit"],  # sequence
+    "transfac": ["transfac", "tf"],  # motif
     "tsv": ["tsv"],  # database
     "vcf": ["vcf"],  # variant
     "wiggle": ["wig", "wiggle"],
