@@ -86,7 +86,7 @@ extensions = {
     "fast5": ["fast5"],
     "fasta": ["fasta", "fa", "fst"],  # sequence
     "fastq": ["fastq", "fq"],  # sequence
-    "genbank": ["genbank", "gbk", "gb"],  # annotation/sequence
+    "genbank": ["genbank", "gbk", "gb", "gbff"],  # annotation/sequence
     "gfa": ["gfa"],  # assembly
     "gff2": ["gff"],
     "gff3": ["gff3"],  # annotation
