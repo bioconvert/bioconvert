@@ -446,6 +446,15 @@ class ConvBase(metaclass=ConvMeta):
     def _get_default_method(self):
         if self._default_method is None:
             return self.available_methods[0]
+        elif self._default_method in self.available_methods:
+            return self._default_method
+        elif self.available_methods:
+            _log.warning(
+                "Default method '{}' is not available. Falling back to '{}'.".format(
+                    self._default_method, self.available_methods[0]
+                )
+            )
+            return self.available_methods[0]
         else:
             return self._default_method
 
