@@ -115,6 +115,8 @@ class MAF(object):
                 if len(line.strip()) == 0:
                     top = True
                     continue
+                elif line[0] == "#":
+                    continue
 
                 m = MAFLine(line)
                 if m.mode == "s" and top is True:
@@ -148,8 +150,8 @@ class MAF(object):
                     raise NotImplementedError(msg)
                 elif line[0] == "p":
                     raise NotImplementedError(msg)
-                elif this[0] == "#":
-                    print(this)
+                elif line[0] == "#":
+                    continue
 
                 # now that we have the two lines, save into SAM file
                 if len(s) > 2:
