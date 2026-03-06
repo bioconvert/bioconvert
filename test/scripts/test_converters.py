@@ -345,8 +345,8 @@ def test_close_match():
 
 def test_batch():
     infile = fastq_file
-    with TempFile(suffix=".tt") as tempfile:
-        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile.name, "--force", "-m"]
+    with TempFile(suffix=".fasta") as tempfile:
+        sys.argv = ["bioconvert", "fastq2fasta", infile, tempfile.name, "--force"]
         converter.main()
 
 
