@@ -61,7 +61,7 @@ class PDB2SMILES(ConvBase):
         smiles = Chem.MolToSmiles(mol)
         name = mol.GetProp("_Name") if mol.HasProp("_Name") else ""
         with open(self.outfile, "w") as fout:
-            fout.write(f"{smiles}\t{name}\n".rstrip() + "\n")
+            fout.write(f"{smiles}\t{name}".rstrip() + "\n")
 
     @requires(external_binary="obabel")
     def _method_openbabel(self, *args, **kwargs):
