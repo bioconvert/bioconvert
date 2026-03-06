@@ -87,9 +87,12 @@ extensions = {
     "fasta": ["fasta", "fa", "fst"],  # sequence
     "fastq": ["fastq", "fq"],  # sequence
     "genbank": ["genbank", "gbk", "gb", "gbff"],  # annotation/sequence
+    "gexf": ["gexf"],  # network
     "gfa": ["gfa"],  # assembly
     "gff2": ["gff"],
     "gff3": ["gff3"],  # annotation
+    "gml": ["gml"],  # network
+    "graphml": ["graphml"],  # network
     "gtf": ["gtf"],  # annotation
     "gz": ["gz"],
     "json": ["json"],  # database
@@ -98,6 +101,7 @@ extensions = {
     "nexus": ["nexus", "nx", "nex", "nxs"],  # phylo
     "ods": ["ods"],  # database
     "paf": ["paf"],  # assembly
+    "pajek": ["net"],  # network
     "pdb": ["pdb"],
     "phylip": ["phy", "ph", "phylip"],  # phylo
     "phyloxml": ["phyloxml", "xml"],  # phylo
