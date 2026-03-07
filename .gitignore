@@ -116,3 +116,7 @@ ENV/
 
 #graph of converter for the current machine
 conversion-local.png
+
+# benchmark output files
+bioconvert.json
+*.benchmark.json

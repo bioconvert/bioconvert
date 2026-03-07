@@ -291,11 +291,11 @@ def _do_analysis(converter_name, **kwargs):
 
         if kwargs.get("benchmark_save_image", False):
             pylab.savefig("{}.png".format(benchmark_tag), dpi=200)
-            logger.info("File %s.png created", benchmark_tag)
+            logger.info(f"File {benchmark_tag}.png created")
 
         with open(json_file, "w") as fout:
             json.dump(results, fout, indent=True, sort_keys=True)
-            logger.info("Saved results in %s", json_file)
+            logger.info(f"Saved results in {json_file}")
     else:
         bioconv(**kwargs)
 
