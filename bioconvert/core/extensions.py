@@ -95,6 +95,7 @@ extensions = {
     "graphml": ["graphml"],  # network
     "gtf": ["gtf"],  # annotation
     "gz": ["gz"],
+    "jaspar": ["jaspar"],  # motif
     "json": ["json"],  # database
     "maf": ["maf"],  # !! this is MIRA format, not mutation alignment format
     "mol2": ["mol2"],  # small molecule structure
@@ -116,6 +117,7 @@ extensions = {
     "sra": ["sra"],  # sra format
     "stockholm": ["sto", "sth", "stk", "stockholm"],  # alignment
     "twobit": ["2bit"],  # sequence
+    "transfac": ["transfac", "tf"],  # motif
     "tsv": ["tsv"],  # database
     "vcf": ["vcf"],  # variant
     "wiggle": ["wig", "wiggle"],
