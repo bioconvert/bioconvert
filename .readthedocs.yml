@@ -1,6 +1,10 @@
-
 version: 2
+sphinx:
+    configuration: doc/conf.py
+    builder: html
+    fail_on_warning: false
 
+# Set the version of Python and other tools you might need
 build:
   os: ubuntu-22.04
   tools:
@@ -9,17 +13,9 @@ build:
 conda:
     environment: environment_rtd.yml
 
-formats:
-    - htmlzip
+formats: []
 
 python:
     install:
       - method: pip
         path: .
-
-
-sphinx:
-    builder: html
-    configuration: doc/conf.py
-    fail_on_warning: false
-
