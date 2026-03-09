@@ -84,7 +84,7 @@ class XLSX2CSV(ConvBase):
                     first_row = False
                 writer.writerow([v for k, v in row.items()])
 
-    @requires(python_libraries=["pandas", "xlrd"])
+    @requires(python_libraries=["pandas", "openpyxl"])
     @compressor
     def _method_pandas(
         self, out_sep=DEFAULT_OUT_SEP, line_terminator=DEFAULT_LINE_TERMINATOR, sheet_name=0, *args, **kwargs
@@ -94,7 +94,7 @@ class XLSX2CSV(ConvBase):
         `pandas documentation <https://pandas.pydata.org/docs/>`_"""
         import pandas as pd
 
-        df = pd.read_excel(self.infile, sheet_name=sheet_name)
+        df = pd.read_excel(self.infile, sheet_name=sheet_name, engine="openpyxl")
         df.to_csv(
             self.outfile,
             sep=out_sep,
