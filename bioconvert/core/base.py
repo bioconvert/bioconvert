@@ -41,7 +41,6 @@ import bioconvert
 import colorlog
 from bioconvert import logger
 from bioconvert.core import extensions
-from bioconvert.core.benchmark import Benchmark
 from bioconvert.core.utils import TempFile
 
 
@@ -428,6 +427,7 @@ class ConvBase(metaclass=ConvMeta):
         if to_include == "all":
             to_include = []
 
+        from bioconvert.core.benchmark import Benchmark
         self._benchmark = Benchmark(self, N=N, to_exclude=to_exclude, to_include=to_include)
         self._benchmark.run_methods()
 
