@@ -32,6 +32,10 @@ dependencies:
 - wiggletools
 - graphviz   # provides dot for RTD
 - icu
+- sphinx
+- sphinx-gallery
+- numpydoc
+- sphinx-rtd-theme
 
 
 - pip:
