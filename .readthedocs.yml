@@ -14,8 +14,3 @@ conda:
     environment: environment_rtd.yml
 
 formats: []
-
-python:
-    install:
-      - method: pip
-        path: .
