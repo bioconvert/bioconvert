@@ -21,7 +21,7 @@
 # Repository: https://github.com/bioconvert/bioconvert                    #
 # Documentation: http://bioconvert.readthedocs.io                         #
 ###########################################################################
-"""Convert :term:`SRA` format to :term:`FASTA` format"""
+"""Convert :term:`SRA` format to :term:`FASTQ` format"""
 
 import os
 import shutil
@@ -44,7 +44,7 @@ class SRA2FASTQ(ConvBase):
     """
 
     #: Default value
-    _default_method = "fastq_dump"
+    _default_method = "fasterq_dump"
 
     # If test: will take only the first 10 reads from the sra file
     def __init__(self, infile, outfile, test=False):
@@ -94,6 +94,66 @@ class SRA2FASTQ(ConvBase):
             cmd = "fastq-dump {} {} -O {} {}".format(testcmd, compresscmd, tmpdir, infile)
             self.execute(cmd)
             cmd = "mv {}/{}.fastq{} {}".format(tmpdir, inname, gzext, self.outfile)
+            self.execute(cmd)
+        shutil.rmtree(tmpdir)
+
+    @requires("fasterq-dump")
+    def _method_fasterq_dump(self, *args, **kwargs):
+        """Uses fasterq-dump from SRA toolkit (modern replacement for fastq-dump).
+
+        Handles both paired-end and single-end SRA files automatically by
+        using ``--split-files`` and checking which output files were created.
+
+        `fasterq-dump documentation <https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump>`_"""
+        inname = os.path.split(os.path.splitext(self.infile)[0])[1]
+        outbasename, ext = os.path.splitext(self.outfile)
+        gzext = ""
+        if ext == ".gz":
+            gzext = ".gz"
+            outbasename = os.path.splitext(outbasename)[0]
+
+        infile = self.infile
+        # If the file does not exist locally, we take the basename
+        # it should correspond to a SRA ID
+        if os.path.isfile(infile) is False:
+            infile = inname
+
+        tmpdir = tempfile.mkdtemp()
+        testcmd = ""
+        # If in test mode, we retrieve only 10 reads from sra
+        if self.test:
+            testcmd = "-X 10"
+
+        # fasterq-dump with --split-files handles both paired and single-end;
+        # for paired-end it creates <name>_1.fastq and <name>_2.fastq,
+        # for single-end it creates <name>.fastq
+        cmd = "fasterq-dump {} --split-files -O {} {}".format(testcmd, tmpdir, infile)
+        self.execute(cmd)
+
+        f1 = os.path.join(tmpdir, "{}_1.fastq".format(inname))
+        f2 = os.path.join(tmpdir, "{}_2.fastq".format(inname))
+
+        if os.path.exists(f1) and os.path.exists(f2):
+            # Paired-end output
+            if gzext:
+                self.execute("gzip {}".format(f1))
+                self.execute("gzip {}".format(f2))
+            cmd = "mv {}_1.fastq{} {}_1.fastq{}".format(
+                os.path.join(tmpdir, inname), gzext, outbasename, gzext
+            )
+            self.execute(cmd)
+            cmd = "mv {}_2.fastq{} {}_2.fastq{}".format(
+                os.path.join(tmpdir, inname), gzext, outbasename, gzext
+            )
+            self.execute(cmd)
+        else:
+            # Single-end output
+            f = os.path.join(tmpdir, "{}.fastq".format(inname))
+            if gzext:
+                self.execute("gzip {}".format(f))
+            cmd = "mv {}.fastq{} {}".format(
+                os.path.join(tmpdir, inname), gzext, self.outfile
+            )
             self.execute(cmd)
         shutil.rmtree(tmpdir)
 
