@@ -39,6 +39,7 @@ dependencies:
 
 
 - pip:
+  - .
   - pyexcel
   - pyexcel-ods3
   - pyexcel-xls
