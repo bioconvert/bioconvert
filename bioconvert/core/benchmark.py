@@ -23,20 +23,14 @@
 ###########################################################################
 """Tools for benchmarking"""
 
+import json
 import statistics
 import threading
 import time
 
 import colorlog
-import matplotlib.pyplot as plt
-import pandas as pd
-import pylab
-import statsmodels.api
-import statsmodels.formula.api
-import statsmodels.stats.multitest
 from bioconvert.core.utils import Timer
 from tqdm import tqdm
-import psutil
 
 _log = colorlog.getLogger(__name__)
 
@@ -138,6 +132,7 @@ class Benchmark:
         self.results = results
 
     def monitor_usage(self):
+        import psutil
         while not self.stop_monitoring:
             # Retrieve CPU and memory usage
             cpu_percent = psutil.cpu_percent()
@@ -157,6 +152,7 @@ class Benchmark:
         :param mode: either time, CPU or memory
         :return: dataframe with all results
         """
+        import pylab
 
         if self.results is None or rerun is True:
             self.run_methods()
@@ -219,10 +215,12 @@ def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png", m
     Number of benchmark is infered from field 'Benchmark'.
 
     """
-
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import statsmodels.stats.weightstats
+    import statsmodels.stats.multitest
 
     # for back compatibility with 1.0.0
-
     if mode is None:
         # open and read JSON file
         df = pd.read_json(path_json)
