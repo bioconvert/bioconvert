@@ -7,12 +7,11 @@ channels:
 - r
 
 dependencies:
-- python=3.7
+- python=3.11
 - bedtools
 - biopython
 - bioawk
 - colorlog
-- biopython
 - numpy
 - matplotlib
 - pandas
@@ -24,9 +23,7 @@ dependencies:
 - easydev
 - pip
 - pyyaml
-- pillow
 - pygraphviz
-- singularity
 - pigz
 - dsrc
 - sambamba
@@ -38,7 +35,6 @@ dependencies:
 
 
 - pip:
-  - docutils<0.13.1 # https://github.com/sphinx-doc/sphinx/issues/3212
   - pyexcel
   - pyexcel-ods3
   - pyexcel-xls
