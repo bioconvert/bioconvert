@@ -551,6 +551,11 @@ Changes
 ========= ==============================================================================
 Version   Description
 ========= ==============================================================================
+1.2.0     * Switch to pyproject.toml packaging (PEP 517/518)
+          * Updated CLI using rich-click for an improved user interface
+          * Add support for Python 3.11 and 3.12
+          * Add fast52pod5 conversion (backported from 1.1.x)
+          * Improve benchmark with CPU and memory usage reporting
 1.1.1     * Fix benchmark labels. 
           * NEW: fast52pod5 conversion
           * FIX: set goalign and gotree instead of go requirements
