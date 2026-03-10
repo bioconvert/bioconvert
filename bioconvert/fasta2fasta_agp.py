@@ -73,7 +73,7 @@ class FASTA2FASTA_AGP(ConvBase):
         * columns 6a: component_id
         * columns 6b: gap_length
         * columns 7a: component_beg:
-        * columns 7b: gap_type: if columns 5 in {N,U} specifices gap type:
+        * columns 7b: gap_type: if columns 5 in {N,U} specifies gap type:
             - scaffold
             - contig
             - centromere

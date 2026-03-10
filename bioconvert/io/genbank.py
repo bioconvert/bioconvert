@@ -106,7 +106,7 @@ class Genbank:
 
     def parse_locus(self, line):
         """Parse the LOCUS line.
-        The line is splited into 5 values as follow :
+        The line is split into 5 values as follow :
         - Sequence id
         - Sequence length
         - Molecule type (can be multiple values. Please read the genbank documentation for values)
@@ -115,7 +115,7 @@ class Genbank:
         """
         # split the locus line
         split = line.split()
-        # Add false values for if the number of values is incorect
+        # Add false values for if the number of values is incorrect
         for _ in range(len(split), 7):
             split += ["None"]
 
@@ -207,7 +207,7 @@ class Genbank:
     def parse_organism(self, line):
         """Parse the source organism.
         After the ORGANISM keyword the name of the organism is expected.
-        The folowing lines are dedicated to the lineage description
+        The following lines are dedicated to the lineage description
         """
         if line.startswith("ORGANISM"):
             self.sequence["SOURCE"]["ORGANISM"] = {"name": line[line.find(" ") + 1 :]}
@@ -504,10 +504,10 @@ class Genbank:
 
     def parse_feature(self, line):
         """Parse the features.
-        The list of feature used is extracted from the appendix II of the oficial ref.
-        For more informations: http://www.insdc.org/documents/feature_table.html#7.2
-        The list of qualifier are also extracted from the official documetation, appendix III
-        More informations: http://www.insdc.org/documents/feature_table.html#7.3
+        The list of feature used is extracted from the appendix II of the official ref.
+        For more information: http://www.insdc.org/documents/feature_table.html#7.2
+        The list of qualifier are also extracted from the official documentation, appendix III
+        More information: http://www.insdc.org/documents/feature_table.html#7.3
         """
         keyword = line[: line.find(" ")]
 

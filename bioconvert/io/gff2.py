@@ -81,7 +81,7 @@ class Gff2:
     def process_attributes(self, text):
         attributes = {}
 
-        # split into mutliple attributes
+        # split into multiple attributes
         split = text.rstrip().split(";")
         for attr in split:
             if len(attr) == 0 or attr == ".":

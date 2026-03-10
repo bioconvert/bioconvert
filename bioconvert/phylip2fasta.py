@@ -66,7 +66,7 @@ class PHYLIP2FASTA(ConvBase):
     @compressor
     def _method_squizz(self, *args, **kwargs):
         """Convert Phylip inteleaved file in fasta format using squizz tool.
-        The fasta file is an alignemnt, that means the gap are conserved."""
+        The fasta file is an alignment, that means the gap are conserved."""
         cmd = "squizz -c FASTA {infile} > {outfile}".format(infile=self.infile, outfile=self.outfile)
         self.execute(cmd)
 
@@ -77,7 +77,7 @@ class PHYLIP2FASTA(ConvBase):
 
         `goalign documentation <https://github.com/fredericlemoine/goalign>`_
 
-        The fasta file must be an alignemnt file, yhis mean all the sequences must
+        The fasta file must be an alignment file, this means all the sequences must
         have the same length (with the gap) otherwise an error will be raised"""
         self.install_tool("goalign")
         cmd = "goalign reformat fasta -i {infile} -p -o {outfile}".format(infile=self.infile, outfile=self.outfile)

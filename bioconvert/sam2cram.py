@@ -85,7 +85,7 @@ class SAM2CRAM(ConvBase):
         try:
             self.execute(cmd)
         except:
-            logger.debug("FIXME. The ouput message from samtools is on stderr...")
+            logger.debug("FIXME. The output message from samtools is on stderr...")
 
     @classmethod
     def get_additional_arguments(cls):

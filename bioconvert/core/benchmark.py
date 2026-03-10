@@ -212,7 +212,7 @@ def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png", m
           }
         }
 
-    Number of benchmark is infered from field 'Benchmark'.
+    Number of benchmark is inferred from field 'Benchmark'.
 
     """
     import matplotlib.pyplot as plt
@@ -286,7 +286,7 @@ def plot_multi_benchmark_max(path_json, output_filename="multi_benchmark.png", m
         if i != best_method:
             # We recover the different times of the method
             value_method = df[i]
-            # Application of the t-test between the best method and all the other methods and saving these results in the dictionnary t_test
+            # Application of the t-test between the best method and all the other methods and saving these results in the dictionary t_test
             comp = statsmodels.stats.weightstats.CompareMeans.from_data(value_best_method, value_method)
             (T_stats, P_value, degrees_f) = comp.ttest_ind()
             T_dict = {"t-stats": T_stats}

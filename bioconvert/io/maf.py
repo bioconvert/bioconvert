@@ -155,7 +155,7 @@ class MAF(object):
 
                 # now that we have the two lines, save into SAM file
                 if len(s) > 2:
-                    raise NotImplementedError("mutliple alignment not implemented yet")
+                    raise NotImplementedError("multiple alignment not implemented yet")
 
                 if len(s) == 2:
                     ref = MAFLine(s[0])

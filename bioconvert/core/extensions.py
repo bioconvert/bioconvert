@@ -110,8 +110,8 @@ extensions = {
     "plink": ["plink"],
     "pod5": ["pod5"],
     "qual": ["qual"],  # seauence
-    "sam": ["sam"],  # alignement
-    "scf": ["scf"],  # alignement
+    "sam": ["sam"],  # alignment
+    "scf": ["scf"],  # alignment
     "sdf": ["sdf"],  # small molecule structure (MDL SDF)
     "smiles": ["smi", "smiles"],  # small molecule SMILES
     "sra": ["sra"],  # sra format

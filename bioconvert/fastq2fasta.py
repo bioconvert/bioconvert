@@ -47,7 +47,7 @@ class FASTQ2FASTA(ConvBase):
 
     # use readfq for now because pure python are fast enough
     # for production, could use seqtk which seems the fastest method
-    # though. Make sure that the default handles also the compresssion
+    # though. Make sure that the default handles also the compression
     # input_ext = extensions.extensions.fastq
     # output_ext =  extensions.fasta
     #: default value

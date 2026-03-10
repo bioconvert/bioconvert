@@ -33,7 +33,7 @@ class FASTQ2QUAL(ConvBase):
 
     # use readfq for now because pure python are fast enough
     # for production, could use seqtk which seems the fastest method though
-    # Make sure that the default handles also the compresssion
+    # Make sure that the default handles also the compression
     #: Default value
     _default_method = "readfq"
     _loss = True

@@ -92,7 +92,7 @@ class ConvMeta(abc.ABCMeta):
 
             This method is used to keep methods that starts with _method_.
             It uses inspect.getmembers func to list
-            all conversion methods implemented in a convertor class.
+            all conversion methods implemented in a converter class.
 
             :param item: the object to inspect
             :return: True if method's name starts with '__method_', False otherwise.
@@ -170,7 +170,7 @@ class ConvArg(object):
             yield ConvArg(
                 names="--reference",
                 default=None,
-                help="the referenc"
+                help="the reference"
             )
 
     Then, when calling bioconvert as follows,::
@@ -240,7 +240,7 @@ class ConvBase(metaclass=ConvMeta):
     # default method should be provided
     _default_method = None
     _is_compressor = False
-    # Can be overriden and if True, new argument --thread is added automatically
+    # Can be overridden and if True, new argument --thread is added automatically
     _threading = False
     _extra_arguments = ""
 
@@ -251,7 +251,7 @@ class ConvBase(metaclass=ConvMeta):
     others = {}
 
     # threads to be used by default if argument is required in a method
-    # this will be overriden if _threading set to True and therefore --threads
+    # this will be overridden if _threading set to True and therefore --threads
     # set by the user. It is feed back into Bioconvert class
     threads = min([4, os.cpu_count()])
 
@@ -537,7 +537,7 @@ class ConvBase(metaclass=ConvMeta):
                 "--verbosity",
             ],
             default=bioconvert.logger.level,
-            help="Set the outpout verbosity.",
+            help="Set the output verbosity.",
             choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         )
         yield ConvArg(
@@ -715,7 +715,7 @@ def make_chain(converter_map):
                 step_output = self.outfile
             else:
 
-                # FIXME: for mutiple IO converters
+                # FIXME: for multiple IO converters
                 if len(out_fmt) == 1:
                     step_outfile = TempFile(suffix=out_fmt[0].lower())
                     step_output = step_outfile.name

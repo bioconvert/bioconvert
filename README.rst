@@ -38,7 +38,7 @@ Bioconvert
     :target: https://raw.githubusercontent.com/bioconvert/bioconvert/main/doc/_static/logo_300x200.png
 
 
-:contributions: Want to add a convertor ? Please join https://github.com/bioconvert/bioconvert/issues/1
+:contributions: Want to add a converter ? Please join https://github.com/bioconvert/bioconvert/issues/1
 :How to cite: Caro et al, BioConvert: a comprehensive format converter for life sciences (2023) NAR Genomics and Bioinformatics (5),3. https://doi.org/10.1093/nargab/lqad074
 :On line website: https://bioconvert.pasteur.cloud/
 
@@ -59,7 +59,7 @@ In Jan 2023, we had 50 formats, 100 direct conversions available.
 Installation
 ###############
 
-**BioConvert** is developped in Python. Please use conda or any Python environment manager to install **BioConvert** using the **pip** command::
+**BioConvert** is developed in Python. Please use conda or any Python environment manager to install **BioConvert** using the **pip** command::
 
     pip install bioconvert
 
@@ -114,7 +114,7 @@ You may also call **BioConvert** from a Python shell::
     # import a converter
     from bioconvert.fastq2fasta import FASTQ2FASTA
 
-    # Instanciate with infile/outfile names
+    # Instantiate with infile/outfile names
     convert = FASTQ2FASTA(infile, outfile)
 
     # the conversion itself:
@@ -590,7 +590,7 @@ Version   Description
           * A complete benchmarking suite (see doc/Snakefile_benchmark file and
             `benchmarking`)
           * documentation and tests for all converters
-          * removed the validators (we assume intputs are correct)
+          * removed the validators (we assume inputs are correct)
 0.4.X     * (aug 2019) added nexus2fasta, cram2fasta, fasta2faa ... ; 1-to-many and 
             many-to-one converters are now part of the API.
 0.3.X       may 2019. new methods abi2qual, bigbed2bed, etc. added --threads option
