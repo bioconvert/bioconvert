@@ -10,6 +10,7 @@ from bioconvert.sra2fastq import SRA2FASTQ
 from . import test_dir
 
 
+@pytest.mark.slow
 @pytest.mark.parametrize("method", SRA2FASTQ.available_methods)
 def test_sra2fastq_gz(method):
     """
@@ -41,6 +42,7 @@ def test_sra2fastq_gz(method):
         assert md5(outbasename + "_2.fastq") in ["dab86ad2c83ce7818613b61739bad960","81d42149953502a8efd5c7878dfdd1b9"]
 
 
+@pytest.mark.slow
 @pytest.mark.parametrize("method", SRA2FASTQ.available_methods)
 def test_sra2fastq(method):
     infile = "SRR37522531"
@@ -54,6 +56,7 @@ def test_sra2fastq(method):
         assert md5(outbasename + "_2.fastq") in ["dab86ad2c83ce7818613b61739bad960", "81d42149953502a8efd5c7878dfdd1b9"]
 
 
+@pytest.mark.slow
 @pytest.mark.parametrize("method", SRA2FASTQ.available_methods)
 def test_sra2fastq_gz_single(method):
     infile = "SRR30092023"
@@ -73,6 +76,7 @@ def test_sra2fastq_gz_single(method):
             "8aa18792cfa90a43f4ffaa35cf290a5c",
             "06d0e45af223a0f25d96355a7e12012b"]
 
+@pytest.mark.slow
 @pytest.mark.parametrize("method", SRA2FASTQ.available_methods)
 def test_sra2fastq_single(method):
     infile = "SRR30092023"
