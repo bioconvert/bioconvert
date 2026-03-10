@@ -59,7 +59,7 @@ class SCF2FASTA(ConvBase):
 
         """
         print(sequence)
-        print("INFORMATIONS")
+        print("INFORMATION")
         print("magic_number = " + magic_number.decode("utf-8"))
         print("samples = " + str(samples))
         print("samples_offset = " + str(samples_offset))

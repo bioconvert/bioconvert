@@ -46,7 +46,7 @@ class MAF2SAM(ConvBase):
     - https://github.com/arq5x/nanopore-scripts/master/maf-convert.py
     - http://bioperl.org/formats/alignment_formats/MAF_multiple_alignment_format.html
 
-    Those two codes were in Py2 at the time of this implementation. We re-used
+    Those two codes were in Py2 at the time of this implementation. We reused
     some of the information from maf-convert but the code in
     bioconvert.io.maf can be considered original.
     """

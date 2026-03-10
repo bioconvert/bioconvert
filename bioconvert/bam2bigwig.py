@@ -76,7 +76,7 @@ class BAM2BIGWIG(ConvBase):
         """Run ucsc tool bedGraphToBigWig.
 
         Requires extra argument (chrom_sizes) required by the bioconvert
-        stanalone.
+        standalone.
         """
         from bioconvert.bam2bedgraph import BAM2BEDGRAPH
         from bioconvert.bedgraph2bigwig import BEDGRAPH2BIGWIG

@@ -31,7 +31,7 @@ __all__ = ["WIG2BED"]
 class WIG2BED(ConvBase):
     """Convert :term:`WIG` file to :term:`BED` file
 
-    Method availabe are based on wig2bed tool.
+    Method available are based on wig2bed tool.
 
     """
 

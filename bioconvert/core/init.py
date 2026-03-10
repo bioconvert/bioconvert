@@ -94,7 +94,7 @@ class InitConverter:
         input_ext = ["yourextension"]
         output_ext = ["yourextension"]
 
-    We recommand to use the script bioconvert_init
+    We recommend to use the script bioconvert_init
 
     """
 

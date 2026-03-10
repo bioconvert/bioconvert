@@ -93,7 +93,7 @@ class Gff3:
     def process_attributes(self, text):
         attributes = {}
 
-        # split into mutliple attributes
+        # split into multiple attributes
         split = text.split(";")
         for attr in split:
             # find the separator

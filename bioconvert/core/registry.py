@@ -101,11 +101,11 @@ class Registry(object):
                     if converter is not None:
                         format_pair = (converter.input_fmt, converter.output_fmt)
                         target[(format_pair)] = converter
-                        # have all the combinaisons between the extensions of
-                        # output formats of the convertes
+                        # have all the combinations between the extensions of
+                        # output formats of the converters
                         combo_input_ext = tuple(itertools.product(*converter.input_ext))
-                        # have all the combinaisons between the extensions of output
-                        # formats of the convertes
+                        # have all the combinations between the extensions of output
+                        # formats of the converters
                         combo_output_ext = tuple(itertools.product(*converter.output_ext))
                         all_ext_pair = tuple(itertools.product(combo_input_ext, (combo_output_ext)))
                         for ext_pair in all_ext_pair:
@@ -167,15 +167,15 @@ class Registry(object):
             fmt_steps = []
         return list(zip(fmt_steps, fmt_steps[1:]))
 
-    def __setitem__(self, format_pair, convertor):
+    def __setitem__(self, format_pair, converter):
         """
-        Register new convertor from input format to output format.
+        Register new converter from input format to output format.
 
         :param format_pair: the input format, the output format
         :type format_pair: tuple of 2 strings
-        :param convertor: the convertor which handle the conversion
+        :param converter: the converter which handle the conversion
                           from input_fmt -> output_fmt
-        :type convertor: :class:`ConvBase` object
+        :type converter: :class:`ConvBase` object
         """
         if format_pair in self._fmt_registry:
             raise KeyError(
@@ -183,30 +183,30 @@ class Registry(object):
                     "_".join(format_pair[0]), "_".join(format_pair[1])
                 )
             )
-        self._fmt_registry[format_pair] = convertor
+        self._fmt_registry[format_pair] = converter
 
     def _check_input_ext(self, ext_pair):
         assert len(ext_pair) == 2, "parameter must be a tuple with 2 items"
         assert isinstance(ext_pair[0], tuple), "first item must be a tuple"
         assert isinstance(ext_pair[1], tuple), "second item must be a tuple"
 
-    def set_ext(self, ext_pair, convertor):
+    def set_ext(self, ext_pair, converter):
         """
-        Register new convertor from input extension and output extension
-        in a list. We can have a list of multiple convertors for one
+        Register new converter from input extension and output extension
+        in a list. We can have a list of multiple converters for one
         ext_pair.
 
         :param tuple ext_pair: tuple containing the input extensions and the
             output extensions e.g. ( ("fastq",) , ("fasta") )
-        :param convertor: the convertor which handle the conversion
+        :param converter: the converter which handle the conversion
                           from input_ext -> output_ext
-        :type convertor: list of :class:`ConvBase` object
+        :type converter: list of :class:`ConvBase` object
         """
         self._check_input_ext(ext_pair)
         if ext_pair in self._ext_registry:
-            self._ext_registry[ext_pair].append(convertor)
+            self._ext_registry[ext_pair].append(converter)
         else:
-            self._ext_registry[ext_pair] = [convertor]
+            self._ext_registry[ext_pair] = [converter]
 
     def __getitem__(self, format_pair):
         """

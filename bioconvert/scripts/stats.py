@@ -42,7 +42,7 @@ def main(args=None):
 
     arg_parser = argparse.ArgumentParser(
         prog="bioconvert",
-        description="""Convertor infer the
+        description="""Converter infer the
                                          formats from the first command. We do
                                          not scan the input file. Therefore
                                          users must ensure that their input
@@ -62,7 +62,7 @@ join us at https://github/biokit/bioconvert
         "-v",
         "--verbosity",
         default=bioconvert.logger.level,
-        help="Set the outpout verbosity.",
+        help="Set the output verbosity.",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
     )
     arg_parser.add_argument("--no-plot", action="store_true")

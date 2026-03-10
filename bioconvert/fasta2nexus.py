@@ -58,7 +58,7 @@ class FASTA2NEXUS(ConvBase):
 
         `goalign documentation <https://github.com/fredericlemoine/goalign>`_
 
-        The fasta file must be an alignemnt file, yhis mean all the sequences must
+        The fasta file must be an alignment file, this means all the sequences must
         have the same length (with the gap) otherwise an error will be raised.
         """
         self.install_tool("goalign")
