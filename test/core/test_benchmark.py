@@ -9,6 +9,7 @@ from .. import test_dir
 from . import test_dir as local_test_dir
 
 
+@pytest.mark.flaky
 def test_benchmark():
     input_file = f"{test_dir}/data/bam/test_measles.sorted.bam"
     with TempFile(suffix=".cov") as fout:

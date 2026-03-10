@@ -11,6 +11,7 @@ from . import test_dir
 
 
 @pytest.mark.slow
+@pytest.mark.flaky
 @pytest.mark.parametrize("method", SRA2FASTQ.available_methods)
 def test_sra2fastq_gz(method):
     """
@@ -43,6 +44,7 @@ def test_sra2fastq_gz(method):
 
 
 @pytest.mark.slow
+@pytest.mark.flaky
 @pytest.mark.parametrize("method", SRA2FASTQ.available_methods)
 def test_sra2fastq(method):
     infile = "SRR37522531"
@@ -57,6 +59,7 @@ def test_sra2fastq(method):
 
 
 @pytest.mark.slow
+@pytest.mark.flaky
 @pytest.mark.parametrize("method", SRA2FASTQ.available_methods)
 def test_sra2fastq_gz_single(method):
     infile = "SRR30092023"
@@ -77,6 +80,7 @@ def test_sra2fastq_gz_single(method):
             "06d0e45af223a0f25d96355a7e12012b"]
 
 @pytest.mark.slow
+@pytest.mark.flaky
 @pytest.mark.parametrize("method", SRA2FASTQ.available_methods)
 def test_sra2fastq_single(method):
     infile = "SRR30092023"

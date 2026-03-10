@@ -104,4 +104,5 @@ where = ["."]
 addopts = "--durations=10 --verbose -n 1 --cov bioconvert --cov-report term-missing --maxfail=2"
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "flaky: marks tests as flaky (deselect with '-m \"not flaky\"')",
 ]
