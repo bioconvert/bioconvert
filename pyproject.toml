@@ -1,0 +1,104 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bioconvert"
+version = "1.2.0"
+description = "convert between bioinformatics formats"
+readme = {file = "README.rst", content-type = "text/x-rst"}
+license = {text = "GPLv3"}
+authors = [
+    {name = "The bioconvert Contributors", email = "thomas.cokelaer@pasteur.fr"}
+]
+maintainers = [
+    {name = "Thomas Cokelaer", email = "thomas.cokelaer@pasteur.fr"}
+]
+keywords = ["NGS", "bam2bed", "fastq2fasta", "bam2sam", "conversion"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "easydev",
+    "biosniff",
+    "colorlog",
+    "click",
+    "rich-click",
+    "cython",
+    "deeptools",
+    "pandas",
+    "pod5",
+    "biopython>=1.70",
+    "mappy",
+    "matplotlib",
+    "networkx",
+    "pyyaml",
+    "pysam",
+    "openpyxl>=3.1.5",
+    "pyexcel",
+    "pyexcel-ods3",
+    "pyexcel-xls",
+    "pyexcel-xlsx",
+    "psutil",
+    "xlrd>2",
+    "pyBigWig",
+    "py2bit",
+    "statsmodels",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+testing = [
+    "pytest",
+    "pytest-cov",
+    "pytest-env",
+    "pytest-xdist",
+    "pytest-mock",
+    "pytest-timeout",
+    "pytest-runner",
+    "pytest-rerunfailures",
+    "mock",
+    "coveralls",
+]
+doc = [
+    "pillow",
+    "sphinx",
+    "sphinx_rtd_theme",
+    "sphinx_gallery",
+    "numpydoc",
+    "pygraphviz",
+]
+
+[project.urls]
+Homepage = "https://github.com/bioconvert/bioconvert"
+"Bug Tracker" = "https://github.com/bioconvert/bioconvert/issues"
+Download = "https://github.com/bioconvert/bioconvert"
+
+[project.scripts]
+bioconvert = "bioconvert.scripts.converter:main"
+bioconvert_init = "bioconvert.scripts.init_convert:main"
+bioconvert_stats = "bioconvert.scripts.stats:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+"*" = ["*.csv", "*.sh"]
+"bioconvert.data" = ["*"]
+"bioconvert.misc" = ["*"]
+
+[tool.pytest.ini_options]
+addopts = "--durations=10 --verbose -n 1 --cov bioconvert --cov-report term-missing --maxfail=2"
