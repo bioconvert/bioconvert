@@ -119,15 +119,11 @@ class SRA2FASTQ(ConvBase):
             infile = inname
 
         tmpdir = tempfile.mkdtemp()
-        testcmd = ""
-        # If in test mode, we retrieve only 10 reads from sra
-        if self.test:
-            testcmd = "-X 10"
 
         # fasterq-dump with --split-files handles both paired and single-end;
         # for paired-end it creates <name>_1.fastq and <name>_2.fastq,
         # for single-end it creates <name>.fastq
-        cmd = "fasterq-dump {} --split-files -O {} {}".format(testcmd, tmpdir, infile)
+        cmd = "fasterq-dump --split-files -O {} {}".format(tmpdir, infile)
         self.execute(cmd)
 
         f1 = os.path.join(tmpdir, "{}_1.fastq".format(inname))
