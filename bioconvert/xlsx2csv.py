@@ -65,7 +65,7 @@ class XLSX2CSV(ConvBase):
         """
         super(XLSX2CSV, self).__init__(infile, outfile)
 
-    @requires(python_libraries=["pyexcel", "pyexcel-xls"])
+    @requires(python_libraries=["pyexcel", "pyexcel-xlsx"])
     @compressor
     def _method_pyexcel(
         self, out_sep=DEFAULT_OUT_SEP, line_terminator=DEFAULT_LINE_TERMINATOR, sheet_name=0, *args, **kwargs

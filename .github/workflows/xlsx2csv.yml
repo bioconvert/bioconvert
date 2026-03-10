@@ -63,7 +63,6 @@ jobs:
           pysam
           pyexcel
           pyexcel-ods3
-          pyexcel-xls
           pyexcel-xlsx
           pyBigWig
           py2bit
@@ -95,7 +94,6 @@ jobs:
           wiggletools
           sed
           mawk
-          xlrd
 
 
     - name: Install with pip
