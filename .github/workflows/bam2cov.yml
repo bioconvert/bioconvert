@@ -1,6 +1,7 @@
 name: bam2cov Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:

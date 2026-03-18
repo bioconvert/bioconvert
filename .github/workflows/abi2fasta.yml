@@ -1,6 +1,7 @@
 name: abi2fasta Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:

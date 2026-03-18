@@ -1,6 +1,7 @@
 name: embl2genbank Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:

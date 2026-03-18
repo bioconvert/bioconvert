@@ -1,6 +1,7 @@
 TEMPLATE="""name: __NAME__ Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:

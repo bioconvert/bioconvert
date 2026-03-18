@@ -1,6 +1,7 @@
 name: fastq2fasta_qual Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:
