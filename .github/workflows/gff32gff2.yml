@@ -1,6 +1,7 @@
 name: gff32gff2 Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:

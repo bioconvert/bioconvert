@@ -1,6 +1,7 @@
 name: nexus2phylip Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:

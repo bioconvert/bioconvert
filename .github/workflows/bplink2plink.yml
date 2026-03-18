@@ -1,6 +1,7 @@
 name: bplink2plink Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:

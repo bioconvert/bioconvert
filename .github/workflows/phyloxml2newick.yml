@@ -1,6 +1,7 @@
 name: phyloxml2newick Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:

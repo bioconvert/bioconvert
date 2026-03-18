@@ -1,6 +1,7 @@
 name: csv2xls Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:

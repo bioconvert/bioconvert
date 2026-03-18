@@ -1,6 +1,7 @@
 name: genbank2gff3 Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:

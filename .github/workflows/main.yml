@@ -1,6 +1,7 @@
 name: Main Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:

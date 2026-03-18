@@ -1,6 +1,7 @@
 name: bigwig2wiggle Testing
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:
