@@ -1,0 +1,78 @@
+name: Trigger All Workflows (Batch 2)
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  csv2tsv:
+    uses: ./.github/workflows/csv2tsv.yml
+  csv2xls:
+    uses: ./.github/workflows/csv2xls.yml
+  dsrc2gz:
+    uses: ./.github/workflows/dsrc2gz.yml
+  embl2fasta:
+    uses: ./.github/workflows/embl2fasta.yml
+  embl2genbank:
+    uses: ./.github/workflows/embl2genbank.yml
+  fasta52pod5:
+    uses: ./.github/workflows/fasta52pod5.yml
+  fasta2clustal:
+    uses: ./.github/workflows/fasta2clustal.yml
+  fasta2faa:
+    uses: ./.github/workflows/fasta2faa.yml
+  fasta2fasta_agp:
+    uses: ./.github/workflows/fasta2fasta_agp.yml
+  fasta2fastq:
+    uses: ./.github/workflows/fasta2fastq.yml
+  fasta2genbank:
+    uses: ./.github/workflows/fasta2genbank.yml
+  fasta2nexus:
+    uses: ./.github/workflows/fasta2nexus.yml
+  fasta2phylip:
+    uses: ./.github/workflows/fasta2phylip.yml
+  fasta2twobit:
+    uses: ./.github/workflows/fasta2twobit.yml
+  fasta_qual2fastq:
+    uses: ./.github/workflows/fasta_qual2fastq.yml
+  fastq2fasta_qual:
+    uses: ./.github/workflows/fastq2fasta_qual.yml
+  fastq2fasta:
+    uses: ./.github/workflows/fastq2fasta.yml
+  fastq2qual:
+    uses: ./.github/workflows/fastq2qual.yml
+  genbank2embl:
+    uses: ./.github/workflows/genbank2embl.yml
+  genbank2fasta:
+    uses: ./.github/workflows/genbank2fasta.yml
+  genbank2gff3:
+    uses: ./.github/workflows/genbank2gff3.yml
+  gfa2fasta:
+    uses: ./.github/workflows/gfa2fasta.yml
+  gff22gff3:
+    uses: ./.github/workflows/gff22gff3.yml
+  gff32gff2:
+    uses: ./.github/workflows/gff32gff2.yml
+  gff32gtf:
+    uses: ./.github/workflows/gff32gtf.yml
+  gz2bz2:
+    uses: ./.github/workflows/gz2bz2.yml
+  gz2dsrc:
+    uses: ./.github/workflows/gz2dsrc.yml
+  json2yaml:
+    uses: ./.github/workflows/json2yaml.yml
+  maf2sam:
+    uses: ./.github/workflows/maf2sam.yml
+  newick2nexus:
+    uses: ./.github/workflows/newick2nexus.yml
+  newick2phyloxml:
+    uses: ./.github/workflows/newick2phyloxml.yml
+  nexus2clustal:
+    uses: ./.github/workflows/nexus2clustal.yml
+  nexus2fasta:
+    uses: ./.github/workflows/nexus2fasta.yml
+  nexus2newick:
+    uses: ./.github/workflows/nexus2newick.yml

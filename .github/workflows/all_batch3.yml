@@ -1,0 +1,76 @@
+name: Trigger All Workflows (Batch 3)
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nexus2phylip:
+    uses: ./.github/workflows/nexus2phylip.yml
+  nexus2phyloxml:
+    uses: ./.github/workflows/nexus2phyloxml.yml
+  ods2csv:
+    uses: ./.github/workflows/ods2csv.yml
+  pdb2faa:
+    uses: ./.github/workflows/pdb2faa.yml
+  phylip2clustal:
+    uses: ./.github/workflows/phylip2clustal.yml
+  phylip2fasta:
+    uses: ./.github/workflows/phylip2fasta.yml
+  phylip2nexus:
+    uses: ./.github/workflows/phylip2nexus.yml
+  phylip2stockholm:
+    uses: ./.github/workflows/phylip2stockholm.yml
+  phylip2xmfa:
+    uses: ./.github/workflows/phylip2xmfa.yml
+  phyloxml2newick:
+    uses: ./.github/workflows/phyloxml2newick.yml
+  phyloxml2nexus:
+    uses: ./.github/workflows/phyloxml2nexus.yml
+  plink2bplink:
+    uses: ./.github/workflows/plink2bplink.yml
+  plink2vcf:
+    uses: ./.github/workflows/plink2vcf.yml
+  sam2bam:
+    uses: ./.github/workflows/sam2bam.yml
+  sam2cram:
+    uses: ./.github/workflows/sam2cram.yml
+  sam2paf:
+    uses: ./.github/workflows/sam2paf.yml
+  scf2fasta:
+    uses: ./.github/workflows/scf2fasta.yml
+  scf2fastq:
+    uses: ./.github/workflows/scf2fastq.yml
+  sra2fastq:
+    uses: ./.github/workflows/sra2fastq.yml
+  stockholm2clustal:
+    uses: ./.github/workflows/stockholm2clustal.yml
+  stockholm2phylip:
+    uses: ./.github/workflows/stockholm2phylip.yml
+  tsv2csv:
+    uses: ./.github/workflows/tsv2csv.yml
+  twobit2fasta:
+    uses: ./.github/workflows/twobit2fasta.yml
+  vcf2bcf:
+    uses: ./.github/workflows/vcf2bcf.yml
+  vcf2bed:
+    uses: ./.github/workflows/vcf2bed.yml
+  vcf2bplink:
+    uses: ./.github/workflows/vcf2bplink.yml
+  vcf2plink:
+    uses: ./.github/workflows/vcf2plink.yml
+  vcf2wiggle:
+    uses: ./.github/workflows/vcf2wiggle.yml
+  wig2bed:
+    uses: ./.github/workflows/wig2bed.yml
+  xls2csv:
+    uses: ./.github/workflows/xls2csv.yml
+  xlsx2csv:
+    uses: ./.github/workflows/xlsx2csv.yml
+  xmfa2phylip:
+    uses: ./.github/workflows/xmfa2phylip.yml
+  yaml2json:
+    uses: ./.github/workflows/yaml2json.yml
