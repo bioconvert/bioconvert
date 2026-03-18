@@ -1,0 +1,78 @@
+name: Trigger All Workflows (Batch 1)
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  abi2fasta:
+    uses: ./.github/workflows/abi2fasta.yml
+  abi2fastq:
+    uses: ./.github/workflows/abi2fastq.yml
+  abi2qual:
+    uses: ./.github/workflows/abi2qual.yml
+  bam2bedgraph:
+    uses: ./.github/workflows/bam2bedgraph.yml
+  bam2bigwig:
+    uses: ./.github/workflows/bam2bigwig.yml
+  bam2cov:
+    uses: ./.github/workflows/bam2cov.yml
+  bam2cram:
+    uses: ./.github/workflows/bam2cram.yml
+  bam2fasta:
+    uses: ./.github/workflows/bam2fasta.yml
+  bam2fastq:
+    uses: ./.github/workflows/bam2fastq.yml
+  bam2json:
+    uses: ./.github/workflows/bam2json.yml
+  bam2sam:
+    uses: ./.github/workflows/bam2sam.yml
+  bam2tsv:
+    uses: ./.github/workflows/bam2tsv.yml
+  bam2wiggle:
+    uses: ./.github/workflows/bam2wiggle.yml
+  bcf2vcf:
+    uses: ./.github/workflows/bcf2vcf.yml
+  bcf2wiggle:
+    uses: ./.github/workflows/bcf2wiggle.yml
+  bed2wiggle:
+    uses: ./.github/workflows/bed2wiggle.yml
+  bedgraph2bigwig:
+    uses: ./.github/workflows/bedgraph2bigwig.yml
+  bedgraph2cov:
+    uses: ./.github/workflows/bedgraph2cov.yml
+  bedgraph2wiggle:
+    uses: ./.github/workflows/bedgraph2wiggle.yml
+  bigbed2bed:
+    uses: ./.github/workflows/bigbed2bed.yml
+  bigbed2wiggle:
+    uses: ./.github/workflows/bigbed2wiggle.yml
+  bigwig2bedgraph:
+    uses: ./.github/workflows/bigwig2bedgraph.yml
+  bigwig2wiggle:
+    uses: ./.github/workflows/bigwig2wiggle.yml
+  bplink2plink:
+    uses: ./.github/workflows/bplink2plink.yml
+  bplink2vcf:
+    uses: ./.github/workflows/bplink2vcf.yml
+  bz22gz:
+    uses: ./.github/workflows/bz22gz.yml
+  clustal2fasta:
+    uses: ./.github/workflows/clustal2fasta.yml
+  clustal2nexus:
+    uses: ./.github/workflows/clustal2nexus.yml
+  clustal2phylip:
+    uses: ./.github/workflows/clustal2phylip.yml
+  clustal2stockholm:
+    uses: ./.github/workflows/clustal2stockholm.yml
+  cram2bam:
+    uses: ./.github/workflows/cram2bam.yml
+  cram2fasta:
+    uses: ./.github/workflows/cram2fasta.yml
+  cram2fastq:
+    uses: ./.github/workflows/cram2fastq.yml
+  cram2sam:
+    uses: ./.github/workflows/cram2sam.yml
