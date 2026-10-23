@@ -45,6 +45,7 @@ def gbk2gff3(infile, outfile=None, fasta=False):
     current_assembly = None
     current_gene = None
     current_RNA = None
+    genes_in_order = []
 
     rna_count_by_gene = defaultdict(int)
     exon_count_by_RNA = defaultdict(int)
@@ -72,6 +73,19 @@ def gbk2gff3(infile, outfile=None, fasta=False):
 
         current_assembly = assemblies[mol_id]
 
+        # genes may be listed after their RNA/CDS features, so index them first
+        genes_by_locus_tag = dict()
+        for feat in gb_record.features:
+            if feat.type == 'gene' and 'locus_tag' in feat.qualifiers and feat.location.strand in (1, -1):
+                locus_tag = feat.qualifiers['locus_tag'][0]
+                if locus_tag not in genes_by_locus_tag:
+                    pre_gene = things.Gene(id=locus_tag, locus_tag=locus_tag)
+                    pre_gene.locate_on(target=current_assembly, fmin=int(feat.location.start),
+                                       fmax=int(feat.location.end),
+                                       strand='+' if feat.location.strand == 1 else '-')
+                    genes_by_locus_tag[locus_tag] = pre_gene
+                    genes_in_order.append(pre_gene)
+
         # each feat is a SeqFeature object
         for feat in gb_record.features:
             fmin = int(feat.location.start)
@@ -87,15 +101,21 @@ def gbk2gff3(infile, outfile=None, fasta=False):
             if feat.type == 'source':
                 continue
 
-            if feat.type == 'gene':
-                # print the previous gene (if there is one)
-                if current_gene is not None:
-                    gene.print_as(fh=ofh, source='GenBank', format='gff3')
+            # attach the feature to the gene sharing its locus_tag, wherever it is listed
+            if feat.type != 'gene' and 'locus_tag' in feat.qualifiers:
+                matched = genes_by_locus_tag.get(feat.qualifiers['locus_tag'][0])
+                if matched is not None and matched is not current_gene:
+                    gene = current_gene = matched
+                    current_RNA = None
 
+            if feat.type == 'gene':
                 locus_tag = feat.qualifiers['locus_tag'][0]
-                gene = things.Gene(id=locus_tag, locus_tag=locus_tag)
-                gene.locate_on( target=current_assembly, fmin=fmin, fmax=fmax, strand=strand )
-                current_gene = gene
+                if locus_tag not in genes_by_locus_tag:
+                    gene = things.Gene(id=locus_tag, locus_tag=locus_tag)
+                    gene.locate_on( target=current_assembly, fmin=fmin, fmax=fmax, strand=strand )
+                    genes_by_locus_tag[locus_tag] = gene
+                    genes_in_order.append(gene)
+                gene = current_gene = genes_by_locus_tag[locus_tag]
                 current_RNA = None
 
             elif feat.type == 'mRNA':
@@ -218,8 +238,7 @@ def gbk2gff3(infile, outfile=None, fasta=False):
                 print("WARNING: The following feature was skipped:\n{0}".format(feat))
                 features_skipped_count += 1
 
-    # don't forget to do the last gene, if there were any
-    if current_gene is not None:
+    for gene in genes_in_order:
         gene.print_as(fh=ofh, source='GenBank', format='gff3')
 
     if fasta is True:
